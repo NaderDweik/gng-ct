@@ -1,0 +1,124 @@
+{
+  "meta": {
+    "siteName": "Giving City | روح العطاء",
+    "description": "First and largest fully-serviced chalet city in the region — 367+ private resorts in Jordan"
+  },
+  "common": {
+    "whatsapp": "Chat on WhatsApp",
+    "call": "Call us",
+    "register": "Register interest",
+    "learnMore": "Learn more",
+    "viewGallery": "View gallery",
+    "financing": "Financing plans",
+    "comingSoon": "Coming soon",
+    "jd": "JD",
+    "iso": "ISO 9001:2015",
+    "responseTime": "Our team responds within 2–4 hours on business days"
+  },
+  "home": {
+    "headline": "A city of private resorts — fully owned",
+    "sub": "367+ Spanish-style chalets on 500,000 m² — privacy, investment, and a fully serviced community.",
+    "ctaPrimary": "Register interest",
+    "ctaSecondary": "Explore payment plans",
+    "statsUnits": "private resorts",
+    "statsArea": "square meters",
+    "statsIso": "quality certified",
+    "featuresTitle": "Why Giving City?",
+    "featurePrivacy": "Complete privacy",
+    "featurePrivacyDesc": "3-meter walls around every unit",
+    "featureSpace": "500 m² per chalet",
+    "featureSpaceDesc": "Rooms, pools, pergola, and garage",
+    "featureInvest": "Secure investment",
+    "featureInvestDesc": "Independent deed in your name",
+    "featureQuality": "ISO quality",
+    "featureQualityDesc": "Documented build and finish standards",
+    "galleryTitle": "From the project",
+    "pricingTitle": "Ownership with zero interest",
+    "pricingSub": "From 168,000 JD — or 142,800 cash",
+    "locationTitle": "Location",
+    "locationSub": "39 km from Royal Hotel towards Sahab Al-Hatmiyeh"
+  },
+  "financing": {
+    "title": "Financing & payment plans",
+    "subtitle": "Direct with the company — no bank, zero interest",
+    "cashTitle": "Cash offer",
+    "cashDesc": "15% off — 142,800 JD with immediate move-in",
+    "calculatorTitle": "Down-payment calculator",
+    "calculatorHint": "Pick a plan to see the approximate down payment",
+    "downPayment": "Down payment",
+    "monthly": "Monthly from",
+    "moveIn": "Move-in",
+    "basePrice": "Base price"
+  },
+  "gallery": {
+    "title": "Gallery",
+    "subtitle": "Photos and videos from Giving City",
+    "videos": "Videos",
+    "tour": "Complete resort tour",
+    "isoVideo": "ISO 9001:2015 certificate presentation"
+  },
+  "register": {
+    "title": "Register your interest",
+    "subtitle": "Fill the form and we will reach you on WhatsApp",
+    "name": "Name",
+    "phone": "Phone",
+    "message": "Message (optional)",
+    "preferredTime": "Preferred contact time",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "evening": "Evening",
+    "submit": "Send via WhatsApp",
+    "orCall": "Or call directly"
+  },
+  "location": {
+    "title": "Map & location",
+    "subtitle": "Giving City community near Amman",
+    "directions": "Directions",
+    "hours": "Working hours",
+    "parking": "Free parking available",
+    "highway": "Easy highway access"
+  },
+  "faq": {
+    "title": "FAQ",
+    "subtitle": "Clear answers before you buy"
+  },
+  "about": {
+    "title": "About us",
+    "subtitle": "Al-Ataa for City Development & Financing",
+    "story": "Giving City is Al-Ataa’s flagship: the first and largest fully-serviced chalet city in the region. A gated community where every buyer owns their resort with an independent deed — not a hotel, but a home and an investment.",
+    "founder": "Led by Dr. Tarek Qazan with ISO 9001:2015 commitment."
+  },
+  "services": {
+    "title": "Our services",
+    "subtitle": "What Al-Ataa provides to clients"
+  },
+  "amenities": {
+    "title": "Project amenities",
+    "subtitle": "Infrastructure and facilities inside Giving City"
+  },
+  "news": {
+    "title": "News & articles",
+    "subtitle": "Updates and insights on the project and market",
+    "readMore": "Read more"
+  },
+  "leadership": {
+    "title": "Leadership",
+    "subtitle": "Project leadership",
+    "founderRole": "Founder / Management",
+    "moreSoon": "More leadership team details coming soon."
+  },
+  "masterPlan": {
+    "title": "Master plan",
+    "subtitle": "Community layout and zones",
+    "pending": "A detailed master-plan image is pending from the client. Contact us to review current plans."
+  },
+  "units": {
+    "title": "Available units",
+    "subtitle": "Learn about chalet availability",
+    "cta": "Ask about availability",
+    "statusAvailable": "Available",
+    "statusReserved": "Reserved",
+    "statusSold": "Sold",
+    "note": "Detailed availability is confirmed with sales — WhatsApp us for the latest status."
+  }
+}
