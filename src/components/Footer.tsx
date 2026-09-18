@@ -11,29 +11,31 @@ export function Footer() {
   const isAr = locale === "ar";
 
   return (
-    <footer className="border-t border-sand-deep bg-navy text-sand">
-      <div className="container-gc grid gap-10 py-14 md:grid-cols-3">
+    <footer className="border-t border-white/10 bg-dark text-neutral-300">
+      <div className="container-gc grid gap-12 py-16 md:grid-cols-3">
         <div>
-          <p className="text-2xl font-bold text-cream">
+          <p className="font-display text-2xl font-bold text-white">
             {isAr ? site.nameAr : site.nameEn}
           </p>
-          <p className="mt-2 text-sm text-sand-deep">
+          <p className="mt-3 text-sm leading-relaxed text-neutral-400">
             {isAr ? site.companyAr : site.companyEn}
           </p>
-          <p className="mt-4 text-sm leading-relaxed text-sand-deep">
+          <p className="mt-4 text-sm leading-relaxed text-neutral-400">
             {isAr ? site.taglineAr : site.taglineEn}
           </p>
-          <p className="mt-3 text-xs text-gold">{site.iso}</p>
+          <p className="mt-4 text-xs tracking-[0.18em] uppercase text-accent">
+            {site.iso}
+          </p>
         </div>
 
         <div>
-          <p className="mb-3 text-sm font-semibold text-gold">
-            {isAr ? "روابط" : "Links"}
+          <p className="mb-4 text-xs font-bold tracking-[0.2em] uppercase text-accent">
+            {isAr ? "تنقل" : "Navigation"}
           </p>
-          <ul className="space-y-2 text-sm">
+          <ul className="space-y-2.5 text-sm">
             {footerNav.map((item) => (
               <li key={item.href}>
-                <Link href={item.href} className="hover:text-cream">
+                <Link href={item.href} className="hover:text-white transition">
                   {isAr ? item.labelAr : item.labelEn}
                 </Link>
               </li>
@@ -42,12 +44,12 @@ export function Footer() {
         </div>
 
         <div>
-          <p className="mb-3 text-sm font-semibold text-gold">
-            {isAr ? "تواصل" : "Contact"}
+          <p className="mb-4 text-xs font-bold tracking-[0.2em] uppercase text-accent">
+            {isAr ? "تواصل" : "Office"}
           </p>
-          <ul className="space-y-2 text-sm text-sand-deep">
+          <ul className="space-y-2.5 text-sm text-neutral-400">
             <li>
-              <a href={`tel:${site.phone}`} className="hover:text-cream">
+              <a href={`tel:${site.phoneAction}`} className="hover:text-white">
                 {site.phone}
               </a>
             </li>
@@ -56,7 +58,7 @@ export function Footer() {
                 href={site.whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-cream"
+                className="hover:text-white"
               >
                 {t("whatsapp")}
               </a>
@@ -68,7 +70,7 @@ export function Footer() {
                 href={site.social.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="me-3 hover:text-cream"
+                className="me-4 hover:text-white"
               >
                 Instagram
               </a>
@@ -76,7 +78,7 @@ export function Footer() {
                 href={site.social.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-cream"
+                className="hover:text-white"
               >
                 Facebook
               </a>
@@ -84,7 +86,7 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-white/10 py-4 text-center text-xs text-sand-deep">
+      <div className="border-t border-white/10 py-5 text-center text-xs text-neutral-500">
         © {new Date().getFullYear()} {isAr ? site.companyAr : site.companyEn}
       </div>
     </footer>

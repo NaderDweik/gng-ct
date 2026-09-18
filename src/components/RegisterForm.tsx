@@ -39,32 +39,32 @@ export function RegisterForm() {
   return (
     <form onSubmit={onSubmit} className="mx-auto max-w-xl space-y-5">
       <label className="block">
-        <span className="mb-1.5 block text-sm font-medium text-navy">{t("name")}</span>
+        <span className="mb-1.5 block text-sm font-medium text-brand">{t("name")}</span>
         <input
           required
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full border border-sand-deep bg-surface px-3 py-2.5 outline-none focus:border-terracotta"
+          className="w-full border border-line bg-surface px-3 py-2.5 outline-none focus:border-brand"
         />
       </label>
       <label className="block">
-        <span className="mb-1.5 block text-sm font-medium text-navy">{t("phone")}</span>
+        <span className="mb-1.5 block text-sm font-medium text-brand">{t("phone")}</span>
         <input
           required
           type="tel"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          className="w-full border border-sand-deep bg-surface px-3 py-2.5 outline-none focus:border-terracotta"
+          className="w-full border border-line bg-surface px-3 py-2.5 outline-none focus:border-brand"
         />
       </label>
       <label className="block">
-        <span className="mb-1.5 block text-sm font-medium text-navy">
+        <span className="mb-1.5 block text-sm font-medium text-brand">
           {t("preferredTime")}
         </span>
         <select
           value={time}
           onChange={(e) => setTime(e.target.value)}
-          className="w-full border border-sand-deep bg-surface px-3 py-2.5 outline-none focus:border-terracotta"
+          className="w-full border border-line bg-surface px-3 py-2.5 outline-none focus:border-brand"
         >
           <option value="morning">{t("morning")}</option>
           <option value="afternoon">{t("afternoon")}</option>
@@ -72,19 +72,19 @@ export function RegisterForm() {
         </select>
       </label>
       <label className="block">
-        <span className="mb-1.5 block text-sm font-medium text-navy">{t("message")}</span>
+        <span className="mb-1.5 block text-sm font-medium text-brand">{t("message")}</span>
         <textarea
           rows={4}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="w-full border border-sand-deep bg-surface px-3 py-2.5 outline-none focus:border-terracotta"
+          className="w-full border border-line bg-surface px-3 py-2.5 outline-none focus:border-brand"
         />
       </label>
       <p className="text-sm text-muted">{tc("responseTime")}</p>
       <button type="submit" className="btn btn-primary w-full">
         {t("submit")}
       </button>
-      <a href={`tel:${site.phone}`} className="btn btn-secondary w-full">
+      <a href={`tel:${site.phoneAction}`} className="btn btn-secondary w-full">
         {t("orCall")} — {site.phone}
       </a>
     </form>

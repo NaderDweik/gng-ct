@@ -18,7 +18,7 @@ export default async function AboutPage({ params }: Props) {
         <div className="container-gc grid gap-12 lg:grid-cols-2">
           <div>
             <p className="text-lg leading-relaxed text-muted">{t("story")}</p>
-            <p className="mt-6 text-navy font-medium">{t("founder")}</p>
+            <p className="mt-6 text-brand font-medium">{t("founder")}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <a href={site.social.instagram} className="btn btn-secondary" target="_blank" rel="noopener noreferrer">
                 Instagram
@@ -38,8 +38,8 @@ export default async function AboutPage({ params }: Props) {
               [`${site.stats.unitAreaSqm}`, isAr ? "م² لكل وحدة" : "m² per unit"],
               [site.iso, tc("iso")],
             ].map(([v, l]) => (
-              <div key={String(l)} className="bg-sand/50 p-6">
-                <p className="text-2xl font-bold text-terracotta">{v}</p>
+              <div key={String(l)} className="bg-brand-secondary p-6">
+                <p className="text-2xl font-bold text-brand">{v}</p>
                 <p className="mt-1 text-sm text-muted">{l}</p>
               </div>
             ))}

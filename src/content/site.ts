@@ -5,9 +5,15 @@ export const site = {
   companyEn: "Al-Ataa for City Development & Financing",
   taglineAr: "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة",
   taglineEn: "First and largest fully-serviced chalet city in the region",
+  /** Shown in the UI (public sales number). */
   phone: "+962790029928",
-  whatsapp: "962790029928",
-  whatsappUrl: "https://wa.me/962790029928",
+  /**
+   * TEMP TEST: actual WhatsApp / dial destination.
+   * Switch back to 962790029928 before shipping.
+   */
+  phoneAction: "+962795898415",
+  whatsapp: "962795898415",
+  whatsappUrl: "https://wa.me/962795898415",
   email: "",
   siteUrl: "https://giving-estate.com",
   mapsUrl: "https://maps.app.goo.gl/PNR3uYsjeDX92fqs7",

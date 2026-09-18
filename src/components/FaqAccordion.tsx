@@ -13,10 +13,10 @@ export function FaqAccordion() {
     <div className="space-y-10">
       {faqCategories.map((cat) => (
         <section key={cat.id}>
-          <h2 className="mb-4 text-xl font-bold text-navy">
+          <h2 className="mb-4 text-xl font-bold text-brand">
             {isAr ? cat.titleAr : cat.titleEn}
           </h2>
-          <div className="divide-y divide-sand-deep border border-sand-deep bg-surface">
+          <div className="divide-y divide-sand-deep border border-line bg-surface">
             {cat.items.map((item, idx) => {
               const key = `${cat.id}-${idx}`;
               const isOpen = open === key;
@@ -28,10 +28,10 @@ export function FaqAccordion() {
                     onClick={() => setOpen(isOpen ? null : key)}
                     aria-expanded={isOpen}
                   >
-                    <span className="font-medium text-navy">
+                    <span className="font-medium text-brand">
                       {isAr ? item.qAr : item.qEn}
                     </span>
-                    <span className="text-terracotta">{isOpen ? "−" : "+"}</span>
+                    <span className="text-brand">{isOpen ? "−" : "+"}</span>
                   </button>
                   {isOpen && (
                     <p className="px-4 pb-4 text-muted leading-relaxed">

@@ -27,19 +27,19 @@ export function FinancingCalculator() {
             onClick={() => setPlanId(p.id)}
             className={`w-full border p-5 text-start transition ${
               planId === p.id
-                ? "border-terracotta bg-sand/60"
-                : "border-sand-deep bg-surface hover:border-terracotta/50"
+                ? "border-brand bg-brand-secondary"
+                : "border-line bg-surface hover:border-brand/50"
             }`}
           >
             <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <h3 className="text-lg font-semibold text-navy">
+              <h3 className="text-lg font-semibold text-brand">
                 {isAr ? p.labelAr : p.labelEn}
               </h3>
               <span className="text-sm text-muted">
                 {t("moveIn")} {p.moveIn}
               </span>
             </div>
-            <p className="mt-2 text-terracotta font-semibold">
+            <p className="mt-2 text-brand font-semibold">
               {p.downPct}% · {p.downJd.toLocaleString(locale)} {tc("jd")}
             </p>
             <p className="mt-1 text-sm text-muted">
@@ -49,37 +49,37 @@ export function FinancingCalculator() {
         ))}
       </div>
 
-      <div className="bg-navy p-8 text-cream">
-        <p className="text-sm text-gold">{t("calculatorTitle")}</p>
-        <p className="mt-2 text-sand-deep text-sm">{t("calculatorHint")}</p>
-        <p className="mt-8 text-sm text-sand-deep">{t("basePrice")}</p>
+      <div className="bg-dark p-8 text-white">
+        <p className="text-sm text-accent">{t("calculatorTitle")}</p>
+        <p className="mt-2 text-neutral-400 text-sm">{t("calculatorHint")}</p>
+        <p className="mt-8 text-sm text-neutral-400">{t("basePrice")}</p>
         <p className="text-3xl font-bold">
           {basePriceJd.toLocaleString(locale)} {tc("jd")}
         </p>
         <div className="mt-8 grid gap-4 border-t border-white/15 pt-6">
           <div>
-            <p className="text-sm text-sand-deep">{t("downPayment")}</p>
-            <p className="text-2xl font-semibold text-gold">
+            <p className="text-sm text-neutral-400">{t("downPayment")}</p>
+            <p className="text-2xl font-semibold text-accent">
               {plan.downJd.toLocaleString(locale)} {tc("jd")}
             </p>
           </div>
           <div>
-            <p className="text-sm text-sand-deep">{t("monthly")}</p>
+            <p className="text-sm text-neutral-400">{t("monthly")}</p>
             <p className="text-xl">
               {plan.monthlyFromJd.toLocaleString(locale)} {tc("jd")}
             </p>
           </div>
-          <p className="text-sm text-sand">
+          <p className="text-sm text-neutral-300">
             {site.copyBank[isAr ? "ar" : "en"].zeroInterest}
           </p>
         </div>
 
         <div className="mt-10 border-t border-white/15 pt-6">
-          <p className="text-sm text-gold">{t("cashTitle")}</p>
+          <p className="text-sm text-accent">{t("cashTitle")}</p>
           <p className="mt-2 text-2xl font-bold">
             {cashPriceJd.toLocaleString(locale)} {tc("jd")}
           </p>
-          <p className="mt-1 text-sm text-sand-deep">
+          <p className="mt-1 text-sm text-neutral-400">
             {cashDiscountPct}% — {t("cashDesc")}
           </p>
         </div>
@@ -88,7 +88,7 @@ export function FinancingCalculator() {
           href={site.whatsappUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="btn mt-8 w-full bg-gold text-navy hover:bg-cream"
+          className="btn btn-accent mt-8 w-full"
         >
           {tc("whatsapp")}
         </a>

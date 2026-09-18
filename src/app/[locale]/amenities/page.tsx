@@ -16,8 +16,8 @@ export default async function AmenitiesPage({ params }: Props) {
       <section className="section">
         <div className="container-gc grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {projectAmenities.map((a) => (
-            <article key={a.id} className="bg-sand/40 p-6">
-              <h2 className="text-lg font-semibold text-navy">
+            <article key={a.id} className="bg-brand-secondary p-6">
+              <h2 className="text-lg font-semibold text-brand">
                 {isAr ? a.titleAr : a.titleEn}
               </h2>
               <p className="mt-2 text-sm text-muted">{isAr ? a.descAr : a.descEn}</p>

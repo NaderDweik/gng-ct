@@ -17,15 +17,15 @@ export default async function NewsPage({ params }: Props) {
       <section className="section">
         <div className="container-gc grid gap-8 md:grid-cols-2">
           {articles.map((a) => (
-            <article key={a.slug} className="border border-sand-deep bg-surface p-6">
+            <article key={a.slug} className="border border-line bg-surface p-6">
               <time className="text-xs text-muted">{a.date}</time>
-              <h2 className="mt-2 text-xl font-semibold text-navy">
+              <h2 className="mt-2 text-xl font-semibold text-brand">
                 {isAr ? a.titleAr : a.titleEn}
               </h2>
               <p className="mt-3 text-muted">{isAr ? a.excerptAr : a.excerptEn}</p>
               <Link
                 href={`/news/${a.slug}`}
-                className="mt-4 inline-block text-sm font-semibold text-terracotta hover:underline"
+                className="mt-4 inline-block text-sm font-semibold text-brand hover:underline"
               >
                 {t("readMore")}
               </Link>

@@ -15,7 +15,7 @@ export default async function MasterPlanPage({ params }: Props) {
       <PageHero title={t("title")} subtitle={t("subtitle")} />
       <section className="section">
         <div className="container-gc">
-          <div className="flex min-h-72 items-center justify-center border border-dashed border-sand-deep bg-sand/20 p-10 text-center">
+          <div className="flex min-h-72 items-center justify-center border border-dashed border-line bg-brand-secondary p-10 text-center">
             <div>
               <p className="text-muted max-w-lg">{t("pending")}</p>
               <a

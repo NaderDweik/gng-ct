@@ -16,7 +16,7 @@ export default async function LocationPage({ params }: Props) {
       <section className="section">
         <div className="container-gc grid gap-10 lg:grid-cols-2">
           <div>
-            <h2 className="text-xl font-semibold text-navy">{t("directions")}</h2>
+            <h2 className="text-xl font-semibold text-brand">{t("directions")}</h2>
             <p className="mt-3 text-muted leading-relaxed">
               {isAr ? site.locationAr : site.locationEn}
             </p>
@@ -24,7 +24,7 @@ export default async function LocationPage({ params }: Props) {
               <li>{t("parking")}</li>
               <li>{t("highway")}</li>
             </ul>
-            <h2 className="mt-10 text-xl font-semibold text-navy">{t("hours")}</h2>
+            <h2 className="mt-10 text-xl font-semibold text-brand">{t("hours")}</h2>
             <ul className="mt-3 space-y-2 text-muted">
               <li>{isAr ? site.hoursAr.weekdays : site.hoursEn.weekdays}</li>
               <li>{isAr ? site.hoursAr.saturday : site.hoursEn.saturday}</li>
@@ -38,7 +38,7 @@ export default async function LocationPage({ params }: Props) {
               Google Maps
             </a>
           </div>
-          <div className="overflow-hidden border border-sand-deep">
+          <div className="overflow-hidden border border-line">
             <iframe
               title="Giving City map"
               src={`https://maps.google.com/maps?q=${site.coordinates.lat},${site.coordinates.lng}&z=13&output=embed`}

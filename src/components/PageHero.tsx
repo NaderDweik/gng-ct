@@ -5,12 +5,12 @@ type PageHeroProps = {
 
 export function PageHero({ title, subtitle }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden border-b border-sand-deep bg-[linear-gradient(135deg,var(--sand)_0%,var(--cream)_45%,color-mix(in_srgb,var(--olive)_12%,white)_100%)]">
+    <section className="relative overflow-hidden border-b border-line bg-brand-secondary pt-24 md:pt-28">
       <div
-        className="pointer-events-none absolute inset-0 opacity-40"
+        className="pointer-events-none absolute inset-0 opacity-70"
         style={{
           backgroundImage:
-            "radial-gradient(circle at 20% 20%, color-mix(in srgb, var(--gold) 25%, transparent), transparent 40%), radial-gradient(circle at 80% 0%, color-mix(in srgb, var(--terracotta) 18%, transparent), transparent 35%)",
+            "radial-gradient(circle at 15% 20%, color-mix(in srgb, var(--brand-accent) 28%, transparent), transparent 42%), radial-gradient(circle at 85% 0%, color-mix(in srgb, var(--brand-primary) 12%, transparent), transparent 40%)",
         }}
       />
       <div className="container-gc relative py-16 md:py-20">

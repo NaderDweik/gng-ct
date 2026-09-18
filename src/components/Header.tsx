@@ -1,63 +1,105 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
-import { mainNav } from "@/content/nav";
 import { site } from "@/content/site";
+
+const primaryNav = [
+  { href: "/about", labelAr: "من نحن", labelEn: "About" },
+  { href: "/gallery", labelAr: "المعرض", labelEn: "Gallery" },
+  { href: "/units", labelAr: "الوحدات المتاحة", labelEn: "Units" },
+  { href: "/amenities", labelAr: "المرافق", labelEn: "Amenities" },
+  { href: "/financing", labelAr: "التمويل", labelEn: "Financing" },
+] as const;
 
 export function Header() {
   const t = useTranslations("common");
   const locale = useLocale();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const isAr = locale === "ar";
+  const isHome = pathname === "/";
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const solid = scrolled || !isHome || open;
+  const ink = solid ? "text-brand" : "text-white";
+  const muted = solid ? "text-muted" : "text-white/80";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-sand-deep/60 bg-cream/90 backdrop-blur-md">
+    <header
+      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+        solid
+          ? "border-b border-line bg-white/95 backdrop-blur-md shadow-[0_10px_40px_rgba(0,0,0,0.06)]"
+          : "bg-transparent"
+      }`}
+    >
       <div className="container-gc flex h-16 items-center justify-between gap-4 md:h-20">
         <Link href="/" className="group flex flex-col leading-tight">
-          <span className="text-lg font-bold tracking-wide text-navy md:text-xl">
+          <span className={`font-display text-lg font-bold tracking-wide md:text-xl ${ink}`}>
             {isAr ? site.nameAr : site.nameEn}
           </span>
-          <span className="text-[0.7rem] text-muted transition group-hover:text-terracotta">
-            {isAr ? site.nameEn : site.nameAr}
+          <span className={`text-[0.65rem] tracking-[0.18em] uppercase transition ${muted}`}>
+            {isAr ? site.nameEn : "Resorts"}
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 lg:flex">
-          {mainNav.slice(0, 8).map((item) => {
+        <nav className="hidden items-center gap-7 min-[1100px]:flex">
+          {primaryNav.map((item) => {
             const active = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`rounded px-2.5 py-1.5 text-sm transition ${
-                  active
-                    ? "bg-sand text-navy font-semibold"
-                    : "text-muted hover:text-navy"
-                }`}
+                className={`group relative py-1 text-sm font-medium transition ${
+                  active ? ink : muted
+                } hover:opacity-100`}
               >
                 {isAr ? item.labelAr : item.labelEn}
+                <span
+                  className={`absolute bottom-0 inset-x-0 h-[1.5px] rounded-full transition-transform duration-300 origin-center ${
+                    solid ? "bg-brand" : "bg-white"
+                  } ${active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                />
               </Link>
             );
           })}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 sm:gap-3">
           <Link
             href={pathname}
             locale={isAr ? "en" : "ar"}
-            className="hidden rounded border border-sand-deep px-2.5 py-1 text-xs font-semibold text-navy sm:inline-flex"
+            className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition sm:text-xs ${
+              solid
+                ? "bg-brand-secondary text-brand"
+                : "bg-white/10 text-white hover:bg-white/20"
+            }`}
           >
             {isAr ? "EN" : "عربي"}
           </Link>
-          <Link href="/register" className="btn btn-primary !py-2 !px-3 text-sm">
+          <Link
+            href="/register"
+            className={`relative hidden isolate overflow-hidden px-5 py-2.5 text-sm font-semibold tracking-[0.18em] uppercase transition min-[1100px]:inline-flex ${
+              solid
+                ? "border border-brand/25 bg-brand text-white hover:bg-brand/90"
+                : "border border-white/25 bg-transparent text-white hover:bg-white/10"
+            }`}
+          >
             {t("register")}
           </Link>
           <button
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded border border-sand-deep text-navy lg:hidden"
+            className={`inline-flex h-10 w-10 items-center justify-center border min-[1100px]:hidden ${
+              solid ? "border-line text-brand" : "border-white/30 text-white"
+            }`}
             aria-label="Menu"
             onClick={() => setOpen((v) => !v)}
           >
@@ -67,23 +109,30 @@ export function Header() {
       </div>
 
       {open && (
-        <div className="border-t border-sand-deep bg-cream lg:hidden">
-          <div className="container-gc flex max-h-[70vh] flex-col gap-1 overflow-y-auto py-3">
-            {mainNav.map((item) => (
+        <div className="border-t border-line bg-white min-[1100px]:hidden">
+          <div className="container-gc flex max-h-[70vh] flex-col gap-1 overflow-y-auto py-4">
+            {primaryNav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="rounded px-3 py-2 text-navy hover:bg-sand"
+                className="px-1 py-2.5 text-brand hover:text-accent-hover"
               >
                 {isAr ? item.labelAr : item.labelEn}
               </Link>
             ))}
             <Link
+              href="/register"
+              onClick={() => setOpen(false)}
+              className="btn btn-primary mt-2"
+            >
+              {t("register")}
+            </Link>
+            <Link
               href={pathname}
               locale={isAr ? "en" : "ar"}
               onClick={() => setOpen(false)}
-              className="rounded px-3 py-2 text-sm font-semibold text-terracotta"
+              className="px-1 py-2 text-sm font-semibold text-muted"
             >
               {isAr ? "English" : "العربية"}
             </Link>
