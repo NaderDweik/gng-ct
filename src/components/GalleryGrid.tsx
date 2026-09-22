@@ -124,13 +124,13 @@ export function GalleryGrid() {
                 onClick={() => setTab(t.id)}
                 className={`relative cursor-pointer px-4 py-3 text-xs font-bold tracking-widest uppercase transition-all duration-300 active:scale-95 md:px-6 ${
                   on
-                    ? "text-[#465461]"
+                    ? "text-secondary"
                     : "text-neutral-600 hover:text-neutral-900"
                 }`}
               >
                 {t.title}
                 {on && (
-                  <span className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-[#465461]" />
+                  <span className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-secondary" />
                 )}
               </button>
             );
@@ -156,7 +156,7 @@ export function GalleryGrid() {
               key={item.id}
               type="button"
               onClick={() => setActive(item)}
-              className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-none border border-neutral-200/60 bg-white/70 text-start shadow-sm backdrop-blur-md transition-all duration-300 hover:border-[#465461]/50 hover:shadow-xl active:scale-[0.98]"
+              className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-none border border-neutral-200/60 bg-white/70 text-start shadow-sm backdrop-blur-md transition-all duration-300 hover:border-secondary/50 hover:shadow-xl active:scale-[0.98]"
             >
               <Image
                 src={item.src}

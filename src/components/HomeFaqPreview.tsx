@@ -87,14 +87,14 @@ export function HomeFaqPreview({ items }: Props) {
                 >
                   <span
                     className={`shrink-0 font-display text-[clamp(18px,1.6vw,22px)] font-semibold leading-none transition-colors duration-300 ${
-                      isOpen ? "text-brand" : "text-[#646c73]"
+                      isOpen ? "text-brand" : "text-muted"
                     }`}
                   >
                     {num}
                   </span>
                   <span
                     className={`flex-1 text-[clamp(17px,1.5vw,20px)] transition-colors duration-300 ${
-                      isOpen ? "text-brand" : "text-[#222]"
+                      isOpen ? "text-brand" : "text-ink"
                     }`}
                   >
                     {isAr ? item.qAr : item.qEn}
@@ -107,7 +107,7 @@ export function HomeFaqPreview({ items }: Props) {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="pb-[clamp(22px,2.4vw,30px)] ps-[clamp(34px,3.6vw,50px)] text-[15.5px] leading-[1.75] text-[#5b6472] md:ps-0 lg:ps-[clamp(34px,3.6vw,50px)]">
+                    <p className="pb-[clamp(22px,2.4vw,30px)] ps-[clamp(34px,3.6vw,50px)] text-[15.5px] leading-[1.75] text-muted md:ps-0 lg:ps-[clamp(34px,3.6vw,50px)]">
                       {isAr ? item.aAr : item.aEn}
                     </p>
                   </div>
@@ -120,7 +120,7 @@ export function HomeFaqPreview({ items }: Props) {
         <div className="mt-6 flex justify-start lg:justify-end">
           <Link
             href="/faq"
-            className="inline-flex min-h-12 items-center justify-center gap-2 bg-brand px-6 py-3 text-sm font-bold text-white transition hover:bg-[#33414b]"
+            className="inline-flex min-h-12 items-center justify-center gap-2 bg-brand px-6 py-3 text-sm font-bold text-white transition hover:bg-primary-hover"
           >
             {isAr ? "اقرأ جميع الأسئلة الشائعة" : "Read all FAQs"}
             <ArrowUpRight className={isAr ? "-rotate-90" : "rotate-45"} />

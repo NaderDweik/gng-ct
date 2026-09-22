@@ -110,3 +110,21 @@ function buildImages(): GalleryImage[] {
 }
 
 export const galleryImages = buildImages();
+
+/** Curated home-page mosaic — order maps to the tile slots (a…g). */
+export type HomeGalleryPick = {
+  src: string;
+  categoryId: GalleryImage["categoryId"];
+  captionAr: string;
+  captionEn: string;
+};
+
+export const homeGalleryPicks: HomeGalleryPick[] = [
+  { src: "/gallery/img_2.jpg", categoryId: "amenities", captionAr: "مسبح خاص لكل منتجع", captionEn: "A private pool in every resort" },
+  { src: "/gallery/img_15.jpg", categoryId: "interiors", captionAr: "جناح بمسبح داخلي", captionEn: "Suite with an indoor pool" },
+  { src: "/gallery/img_3.jpg", categoryId: "exteriors", captionAr: "واجهات عصرية", captionEn: "Modern facades" },
+  { src: "/gallery/img_26.jpg", categoryId: "amenities", captionAr: "ميني غولف", captionEn: "Mini golf" },
+  { src: "/gallery/img_7.jpg", categoryId: "interiors", captionAr: "صالات بإطلالة", captionEn: "Lounges with a view" },
+  { src: "/gallery/img_25.jpg", categoryId: "exteriors", captionAr: "غروب سحاب", captionEn: "Sunset over Sahab" },
+  { src: "/gallery/img_30.jpg", categoryId: "exteriors", captionAr: "مدخل المجتمع", captionEn: "Community entrance" },
+];

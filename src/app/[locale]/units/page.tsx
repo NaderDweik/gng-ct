@@ -13,7 +13,7 @@ export default async function UnitsPage({ params }: Props) {
   return (
     <>
       {/* JG-style slate title band */}
-      <section className="relative overflow-hidden border-b border-[#5b6b77] bg-[#465461] pt-32 pb-6 md:pt-44 md:pb-8 xl:pt-[11.5rem] xl:pb-10">
+      <section className="relative overflow-hidden border-b border-secondary-light bg-secondary pt-32 pb-6 md:pt-44 md:pb-8 xl:pt-[11.5rem] xl:pb-10">
         <div className="mx-auto w-[min(92rem,calc(100%-3rem))] px-6 text-center">
           <span className="mb-3 block text-[10px] font-bold tracking-[0.24em] text-white/72 uppercase">
             {copy.eyebrow}

@@ -21,7 +21,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const isAr = locale === "ar";
-  const isHome = pathname === "/";
+  const isHome = pathname === "/" || pathname === "/about" || pathname === "/register";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -38,7 +38,7 @@ export function Header() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         solid
-          ? "border-b border-line bg-white/95 backdrop-blur-md shadow-[0_10px_40px_rgba(0,0,0,0.06)]"
+          ? "border-b border-line bg-white/95 backdrop-blur-md shadow-header"
           : "bg-transparent"
       }`}
     >
@@ -78,7 +78,7 @@ export function Header() {
             locale={isAr ? "en" : "ar"}
             className={`rounded-full px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition sm:text-xs ${
               solid
-                ? "bg-brand-secondary text-brand"
+                ? "bg-surface-alt text-brand"
                 : "bg-white/10 text-white hover:bg-white/20"
             }`}
           >

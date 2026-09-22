@@ -107,7 +107,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="relative overflow-hidden border-t border-white/10 bg-[#465461] pb-12 pt-24 text-white">
+    <footer className="relative overflow-hidden border-t border-white/10 bg-secondary pb-12 pt-24 text-white">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[250px] w-[600px] -translate-x-1/2 rounded-full bg-white/[0.03] blur-[100px]" />
 

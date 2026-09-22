@@ -92,13 +92,13 @@ export function LocationShowcase() {
   return (
     <div className="grid gap-4 lg:grid-cols-[minmax(0,1.08fr)_minmax(400px,0.92fr)] lg:grid-rows-[auto_1fr] lg:items-stretch xl:min-h-[560px]">
       {/* Map */}
-      <div className="relative order-2 h-[420px] overflow-hidden rounded-none border border-white/70 bg-[#dfe5e5] shadow-[0_24px_60px_rgba(66,85,99,0.14)] sm:h-[420px] lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:h-full lg:min-h-[540px] xl:min-h-[560px]">
+      <div className="relative order-2 h-[420px] overflow-hidden rounded-none border border-white/70 bg-surface-tint shadow-card-lg sm:h-[420px] lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:h-full lg:min-h-[540px] xl:min-h-[560px]">
         <LocationLeafletMap
           active={active}
           isAr={isAr}
           projectLabel={isAr ? c.projectPinAr : c.projectPinEn}
         />
-        <div className="pointer-events-none absolute inset-0 z-10 bg-[linear-gradient(180deg,rgba(242,244,243,0.04),rgba(66,85,99,0.08))]" />
+        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-surface-tint/5 to-primary/10" />
         <div className="absolute inset-x-4 bottom-4 z-30 rounded-none border border-white/70 bg-white/95 p-3 shadow-2xl backdrop-blur md:inset-x-5 md:bottom-5 md:p-4">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
@@ -118,7 +118,7 @@ export function LocationShowcase() {
               href={site.mapsUrl || mapsSearchUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-none bg-brand px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#33414b]"
+              className="inline-flex items-center justify-center gap-2 rounded-none bg-brand px-4 py-2.5 text-sm font-bold text-white transition hover:bg-primary-hover"
             >
               {isAr ? c.openMapAr : c.openMapEn}
               <ExternalArrow />
@@ -128,12 +128,12 @@ export function LocationShowcase() {
       </div>
 
       {/* Info card */}
-      <div className="order-1 rounded-none border border-white/75 bg-white p-6 shadow-[0_20px_48px_rgba(66,85,99,0.1)] md:p-7 lg:col-start-2 lg:row-start-1 lg:shrink-0">
-        <span className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-[#465461]">
+      <div className="order-1 rounded-none border border-white/75 bg-white p-6 shadow-card md:p-7 lg:col-start-2 lg:row-start-1 lg:shrink-0">
+        <span className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-secondary">
           <MapPinIcon />
           {isAr ? c.eyebrowAr : c.eyebrowEn}
         </span>
-        <h2 className="font-display mb-4 text-4xl font-extrabold leading-tight text-[#465461] md:text-5xl">
+        <h2 className="font-display mb-4 text-4xl font-extrabold leading-tight text-secondary md:text-5xl">
           {isAr ? c.titleAr : c.titleEn}
         </h2>
         <p className="mb-6 text-base font-light leading-relaxed text-neutral-600 md:text-lg">
@@ -173,7 +173,7 @@ export function LocationShowcase() {
       </div>
 
       {/* Nearby list */}
-      <div className="order-3 flex flex-col rounded-none bg-brand p-5 text-white shadow-[0_20px_48px_rgba(66,85,99,0.16)] md:p-6 lg:col-start-2 lg:row-start-2 lg:flex-1">
+      <div className="order-3 flex flex-col rounded-none bg-brand p-5 text-white shadow-card-lg md:p-6 lg:col-start-2 lg:row-start-2 lg:flex-1">
         <h3 className="font-display mb-4 whitespace-nowrap text-sm font-semibold leading-tight tracking-tight sm:text-lg xl:text-xl">
           {isAr ? c.nearbyTitleAr : c.nearbyTitleEn}
         </h3>

@@ -3,8 +3,7 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
-import { galleryCategories, galleryImages } from "@/content/gallery";
-import { cashPriceJd, basePriceJd } from "@/content/pricing";
+import { galleryImages } from "@/content/gallery";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { heroSlides } from "@/content/heroSlides";
 import { homeFaqPreview } from "@/content/faq";
@@ -13,6 +12,9 @@ import { formatNumber } from "@/lib/format";
 import { AmenitiesHoverGrid } from "@/components/AmenitiesHoverGrid";
 import { HomeFaqPreview } from "@/components/HomeFaqPreview";
 import { LocationShowcase } from "@/components/LocationShowcase";
+import { PricingShowcase } from "@/components/PricingShowcase";
+import { GalleryMosaic } from "@/components/GalleryMosaic";
+import { RegisterCta } from "@/components/RegisterCta";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -38,17 +40,6 @@ export default async function HomePage({ params }: Props) {
   const t = await getTranslations("home");
   const tc = await getTranslations("common");
   const isAr = locale === "ar";
-
-  const galleryFeature = galleryCategories.map((cat) => {
-    const inCat = galleryImages.filter((g) => g.categoryId === cat.id);
-    const img = inCat[Math.min(2, inCat.length - 1)] ?? inCat[0] ?? galleryImages[0];
-    return {
-      id: cat.id,
-      titleAr: cat.titleAr,
-      titleEn: cat.titleEn,
-      src: img?.src ?? "/hero/hero.jpg",
-    };
-  });
 
   const destinations = [
     {
@@ -106,7 +97,7 @@ export default async function HomePage({ params }: Props) {
               {isAr ? "استكشف المشروع" : "Explore the project"}
             </Link>
           </div>
-          <div className="relative min-h-80 overflow-hidden bg-brand-secondary lg:min-h-[28rem]">
+          <div className="relative min-h-80 overflow-hidden bg-surface-alt lg:min-h-[28rem]">
             <Image
               src={galleryImages[12]?.src ?? "/hero/hero.jpg"}
               alt=""
@@ -119,7 +110,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* Destinations / projects overview — expanding cards */}
-      <section className="section overflow-hidden border-b border-line bg-[#f4f5f4]">
+      <section className="section overflow-hidden border-b border-line bg-surface-tint">
         <div className="container-gc">
           <div className="sec-head">
             <div>
@@ -166,46 +157,15 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* Gallery feature mosaic */}
+      {/* Gallery mosaic */}
       <section className="section bg-white">
         <div className="container-gc">
-          <div className="sec-head">
-            <div>
-              <p className="section-eyebrow">
-                {isAr ? "المساحات ونمط الحياة." : "Spaces & lifestyle."}
-              </p>
-              <h2 className="section-title mb-0">{t("galleryTitle")}</h2>
-            </div>
-          </div>
-
-          <div className="gallery-feature">
-            {galleryFeature.map((cell, i) => (
-              <Link
-                key={cell.id}
-                href={`/gallery?tab=${cell.id}`}
-                className={`gallery-feature-cell f${i}`}
-              >
-                <Image
-                  src={cell.src}
-                  alt={isAr ? cell.titleAr : cell.titleEn}
-                  fill
-                  className="select-none"
-                  sizes="(max-width:700px) 50vw, 40vw"
-                  priority={i === 0}
-                />
-                <span className="gallery-cell-tag">
-                  {isAr ? cell.titleAr : cell.titleEn}
-                </span>
-              </Link>
-            ))}
-          </div>
-
-          <div className="gallery-feature-cta">
-            <Link href="/gallery" className="gallery-outline-btn">
-              {tc("viewGallery")}
-              <span className="arrow" aria-hidden />
-            </Link>
-          </div>
+          <GalleryMosaic
+            locale={locale}
+            eyebrow={isAr ? "المساحات ونمط الحياة." : "Spaces & lifestyle."}
+            title={t("galleryTitle")}
+            ctaLabel={tc("viewGallery")}
+          />
         </div>
       </section>
 
@@ -257,85 +217,29 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* Pricing teaser */}
-      <section className="section">
-        <div className="container-gc grid items-center gap-10 lg:grid-cols-2">
-          <div>
-            <p className="section-eyebrow">{tc("financing")}</p>
-            <h2 className="section-title">{t("pricingTitle")}</h2>
-            <p className="section-sub">{t("pricingSub")}</p>
-            <p className="mt-8 font-display text-5xl font-bold text-brand">
-              {formatNumber(basePriceJd, locale)}{" "}
-              <span className="text-lg font-medium text-muted">{tc("jd")}</span>
-            </p>
-            <p className="mt-2 text-accent-hover font-semibold">
-              {formatNumber(cashPriceJd, locale)} {tc("jd")} — {site.stats.cashDiscountPct}% cash
-            </p>
-            <Link href="/financing" className="btn btn-primary mt-8">
-              {tc("financing")}
-            </Link>
-          </div>
-          <div className="bg-dark p-8 text-white md:p-10">
-            <p className="text-xs font-bold tracking-[0.2em] uppercase text-accent">
-              {site.copyBank[isAr ? "ar" : "en"].zeroInterest}
-            </p>
-            <ul className="mt-8 space-y-4 text-neutral-300">
-              <li>{site.copyBank[isAr ? "ar" : "en"].deed}</li>
-              <li>{site.copyBank[isAr ? "ar" : "en"].spanish}</li>
-              <li>{site.copyBank[isAr ? "ar" : "en"].privacy}</li>
-              <li>{site.copyBank[isAr ? "ar" : "en"].iso}</li>
-            </ul>
-          </div>
+      {/* Pricing showcase */}
+      <section className="section bg-surface-alt">
+        <div className="container-gc">
+          <PricingShowcase />
         </div>
       </section>
 
       {/* FAQ preview — JG two-column numbered accordion */}
-      <section className="section border-b border-line bg-[#f7f7f7]">
+      <section className="section border-b border-line bg-surface-alt">
         <div className="container-gc">
           <HomeFaqPreview items={homeFaqPreview} />
         </div>
       </section>
 
       {/* Location showcase */}
-      <section className="section bg-[#f2f4f3]">
+      <section className="section bg-surface-tint">
         <div className="container-gc">
           <LocationShowcase />
         </div>
       </section>
 
       {/* Register CTA */}
-      <section className="register-cta">
-        <div
-          className="register-cta-bg"
-          aria-hidden
-          style={{ backgroundImage: `url(${galleryImages[1]?.src ?? "/hero/hero.jpg"})` }}
-        />
-        <div className="container-gc">
-          <div className="register-cta-inner">
-            <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-white/80">
-              {tc("register")}
-            </p>
-            <h2>{isAr ? "سجّل اهتمامك." : "Register your interest."}</h2>
-            <p className="-mt-2 mb-8 max-w-md text-sm text-white/75 md:text-base">
-              {tc("responseTime")}
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-3">
-              <Link href="/register" className="register-cta-btn">
-                {tc("register")}
-                <span className="arrow" aria-hidden />
-              </Link>
-              <a
-                href={site.whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="register-cta-btn register-cta-btn--ghost"
-              >
-                {tc("whatsapp")}
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      <RegisterCta locale={locale} image={galleryImages[1]?.src ?? "/hero/hero.jpg"} />
     </>
   );
 }

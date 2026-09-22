@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { NearbyPlace } from "@/content/location";
 import { projectCoords } from "@/content/location";
 import { GIVING_MARK_SVG } from "@/components/givingMark";
+import { palette } from "@/theme/tokens";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -195,7 +196,9 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
     const url = `https://router.project-osrm.org/route/v1/driving/${projectCoords.lng},${projectCoords.lat};${active.coords.lng},${active.coords.lat}?overview=full&geometries=geojson`;
 
     const lineStyle = {
-      color: "#425563",
+      color:
+        getComputedStyle(document.documentElement).getPropertyValue("--brand-primary").trim() ||
+        palette.primary,
       weight: 4,
       opacity: 0.9,
       lineCap: "round",

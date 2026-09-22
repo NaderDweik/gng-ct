@@ -5,7 +5,7 @@ type PageHeroProps = {
 
 export function PageHero({ title, subtitle }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden border-b border-line bg-brand-secondary pt-24 md:pt-28">
+    <section className="relative overflow-hidden border-b border-line bg-surface-alt pt-24 md:pt-28">
       <div
         className="pointer-events-none absolute inset-0 opacity-70"
         style={{

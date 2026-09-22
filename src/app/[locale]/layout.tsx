@@ -7,6 +7,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppFloat } from "@/components/WhatsAppFloat";
 import { RealEstateJsonLd } from "@/components/RealEstateJsonLd";
+import { themeCss } from "@/theme/tokens";
 import "../globals.css";
 
 const cairo = Cairo({
@@ -37,6 +38,9 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale} dir={dir} className={cairo.variable}>
+      <head>
+        <style id="theme-tokens" dangerouslySetInnerHTML={{ __html: themeCss }} />
+      </head>
       <body className="min-h-screen bg-background font-sans antialiased">
         <NextIntlClientProvider messages={messages}>
           <RealEstateJsonLd />

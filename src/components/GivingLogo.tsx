@@ -102,7 +102,7 @@ const MARK = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="74 312 812 336" r
 -88 212 -165 364 -45 87 -90 182 -101 210 -11 28 -35 83 -54 121 -19 39 -63
 131 -98 205 -100 208 -156 301 -197 325 -33 19 -52 20 -405 22 -236 2 -379 -1
 -395 -8z"/></g>
-<g transform="translate(0.000000,3840.000000) scale(0.100000,-0.100000)" fill="__TEXT_FILL__"><path d="M20523 24250 c-217 -66 -316 -178 -317 -360 -2 -189 92 -280 418
+<g transform="translate(0.000000,3840.000000) scale(0.100000,-0.100000)" style="fill:__TEXT_FILL__"><path d="M20523 24250 c-217 -66 -316 -178 -317 -360 -2 -189 92 -280 418
 -405 225 -86 284 -131 317 -243 19 -63 -8 -140 -69 -201 -79 -78 -103 -86
 -282 -86 -150 0 -158 1 -254 34 -113 39 -122 37 -142 -29 -24 -80 -7 -97 141
 -136 128 -33 395 -31 500 4 159 52 253 139 301 280 30 86 29 104 -2 202 -43
@@ -264,7 +264,7 @@ M16857 16052 c-25 -28 -26 -1852 -1 -1876 14 -14 70 -16 474 -16 524 0 490 -6
  * No background — only the wordmark text color changes by variant.
  */
 export function GivingLogo({ variant = "light", className }: GivingLogoProps) {
-  const textFill = variant === "light" ? "#FFFFFF" : "#111111";
+  const textFill = variant === "light" ? "var(--white)" : "var(--ink)";
   const safeClass = (className ?? "").replace(/"/g, "");
   const svg = MARK.replaceAll("__TEXT_FILL__", textFill).replace(
     "<svg ",

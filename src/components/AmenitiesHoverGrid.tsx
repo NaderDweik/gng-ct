@@ -110,17 +110,17 @@ export function AmenitiesHoverGrid({ items, isAr }: Props) {
               sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
             />
           </div>
-          <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-br from-[#465461]/95 via-[#465461]/80 to-[#465461]/55 transition-opacity duration-500 max-sm:opacity-100 sm:opacity-0 sm:group-hover:opacity-100" />
+          <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-br from-secondary/95 via-secondary/80 to-secondary/55 transition-opacity duration-500 max-sm:opacity-100 sm:opacity-0 sm:group-hover:opacity-100" />
 
           <div className="relative z-10 flex h-full w-full flex-col justify-between items-start">
             <div className="w-full">
               <div className="mb-5">
                 <AmenityIcon
                   name={item.icon}
-                  className="h-9 w-9 text-[#465461] transition-colors duration-300 group-hover:text-white max-sm:text-white"
+                  className="h-9 w-9 text-secondary transition-colors duration-300 group-hover:text-white max-sm:text-white"
                 />
               </div>
-              <h3 className="font-display mb-3 text-xl font-semibold leading-tight text-[#465461] transition-colors duration-300 group-hover:text-white max-sm:text-white md:text-2xl">
+              <h3 className="font-display mb-3 text-xl font-semibold leading-tight text-secondary transition-colors duration-300 group-hover:text-white max-sm:text-white md:text-2xl">
                 {isAr ? item.titleAr : item.titleEn}
               </h3>
               {(isAr ? item.tagsAr : item.tagsEn).length > 0 && (
@@ -128,7 +128,7 @@ export function AmenitiesHoverGrid({ items, isAr }: Props) {
                   {(isAr ? item.tagsAr : item.tagsEn).map((tag) => (
                     <span
                       key={tag}
-                      className="inline-block rounded bg-neutral-100 px-2.5 py-0.5 text-[11px] font-semibold tracking-wide text-[#465461] transition-colors duration-300 group-hover:bg-white/20 group-hover:text-white max-sm:bg-white/20 max-sm:text-white"
+                      className="inline-block rounded bg-neutral-100 px-2.5 py-0.5 text-[11px] font-semibold tracking-wide text-secondary transition-colors duration-300 group-hover:bg-white/20 group-hover:text-white max-sm:bg-white/20 max-sm:text-white"
                     >
                       {tag}
                     </span>

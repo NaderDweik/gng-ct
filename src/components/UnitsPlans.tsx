@@ -154,16 +154,16 @@ export function UnitsPlans() {
                 className="object-cover"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#121a21]/85 via-[#121a21]/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-overlay/85 via-overlay/20 to-transparent" />
               <p className="absolute inset-x-0 bottom-0 p-6 font-display text-base font-bold text-white md:p-8 md:text-lg">
                 {copy.introCaption}
               </p>
             </div>
             <div className="flex flex-col justify-center p-6 md:p-10 lg:p-12">
-              <p className="mb-3 text-xs font-bold tracking-[0.2em] text-[#465461] uppercase">
+              <p className="mb-3 text-xs font-bold tracking-[0.2em] text-secondary uppercase">
                 {copy.introEyebrow}
               </p>
-              <h2 className="font-display mb-6 text-2xl font-bold text-[#425563] md:text-3xl">
+              <h2 className="font-display mb-6 text-2xl font-bold text-primary md:text-3xl">
                 {copy.introHeading}
               </h2>
               <div className="space-y-5 text-sm text-neutral-600 md:text-base">
@@ -176,12 +176,12 @@ export function UnitsPlans() {
 
           {/* Sticky filter */}
           <div className="relative z-30 mb-8 px-0 sm:sticky sm:top-24 sm:mb-12 sm:px-4">
-            <div className="mx-auto max-w-4xl border border-neutral-200/80 bg-white/92 p-2 shadow-[0_18px_48px_rgba(66,85,99,0.12)] backdrop-blur-md sm:p-3">
+            <div className="mx-auto max-w-4xl border border-neutral-200/80 bg-white/92 p-2 shadow-card backdrop-blur-md sm:p-3">
               <div className="mb-2 flex items-center justify-between px-1 sm:mb-3">
-                <span className="text-[10px] font-bold tracking-[0.22em] text-[#425563]/55 uppercase sm:text-[11px]">
+                <span className="text-[10px] font-bold tracking-[0.22em] text-primary/55 uppercase sm:text-[11px]">
                   {copy.filterLabel}
                 </span>
-                <span className="text-[10px] font-bold tracking-[0.18em] text-[#425563]/55 uppercase sm:text-[11px]">
+                <span className="text-[10px] font-bold tracking-[0.18em] text-primary/55 uppercase sm:text-[11px]">
                   {copy.filterMeta}
                 </span>
               </div>
@@ -195,8 +195,8 @@ export function UnitsPlans() {
                       onClick={() => setTab(f.id)}
                       className={`min-h-[42px] border px-1 text-[10px] font-bold tracking-[0.12em] uppercase transition sm:min-h-[56px] sm:text-xs lg:text-sm ${
                         active
-                          ? "border-[#425563] bg-[#425563] text-white shadow-[0_16px_30px_rgba(66,85,99,0.18)]"
-                          : "border-neutral-200 bg-[#f7f8f7] text-neutral-500 hover:border-[#425563]/40 hover:bg-white hover:text-[#425563]"
+                          ? "border-primary bg-primary text-white shadow-card-lg"
+                          : "border-neutral-200 bg-surface-alt text-neutral-500 hover:border-primary/40 hover:bg-white hover:text-primary"
                       }`}
                     >
                       {isAr ? f.labelAr : f.labelEn}
@@ -228,7 +228,7 @@ export function UnitsPlans() {
               return (
                 <article
                   key={plan.id}
-                  className="group overflow-hidden border border-[#d7dde2] bg-[#eef1f2] transition duration-500 hover:border-[#425563]/25 hover:shadow-2xl"
+                  className="group overflow-hidden border border-line bg-surface-tint transition duration-500 hover:border-primary/25 hover:shadow-2xl"
                 >
                   <div className="md:grid md:grid-cols-5">
                     {/* Desktop floor-plan image */}
@@ -246,8 +246,8 @@ export function UnitsPlans() {
                           sizes="(max-width: 1024px) 40vw, 28vw"
                         />
                       </div>
-                      <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-[#425563]/0 opacity-0 transition group-hover:bg-[#425563]/10 group-hover:opacity-100">
-                        <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs font-bold tracking-wider text-[#425563] uppercase shadow-md backdrop-blur">
+                      <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-primary/0 opacity-0 transition group-hover:bg-primary/10 group-hover:opacity-100">
+                        <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs font-bold tracking-wider text-primary uppercase shadow-md backdrop-blur">
                           <IconMaximize className="animate-pulse" />
                           {copy.quickView}
                         </span>
@@ -255,7 +255,7 @@ export function UnitsPlans() {
                     </button>
 
                     {/* Content */}
-                    <div className="bg-[#fdfdfc] p-6 md:col-span-3 md:p-8">
+                    <div className="bg-surface p-6 md:col-span-3 md:p-8">
                       {/* Mobile thumb */}
                       <button
                         type="button"
@@ -265,27 +265,27 @@ export function UnitsPlans() {
                         <span className="relative h-24 w-24 shrink-0 overflow-hidden border border-white bg-white shadow-sm">
                           <Image src={plan.image} alt={title} fill className="object-cover" sizes="96px" />
                         </span>
-                        <span className="pt-1 text-left text-[10px] font-bold tracking-wider text-[#425563] uppercase">
+                        <span className="pt-1 text-left text-[10px] font-bold tracking-wider text-primary uppercase">
                           {copy.quickView}
                         </span>
                       </button>
 
-                      <h3 className="font-display text-2xl font-bold text-neutral-900 transition hover:text-[#425563]">
+                      <h3 className="font-display text-2xl font-bold text-neutral-900 transition hover:text-primary">
                         {title}
                       </h3>
-                      <p className="mt-1 text-xs font-bold tracking-widest text-[#425563] uppercase">
+                      <p className="mt-1 text-xs font-bold tracking-widest text-primary uppercase">
                         {category}
                       </p>
 
-                      <div className="mt-6 mb-8 grid grid-cols-2 gap-x-3 gap-y-5 border border-[#d7dde2] bg-[#f1f4f4] p-[1.125rem]">
+                      <div className="mt-6 mb-8 grid grid-cols-2 gap-x-3 gap-y-5 border border-line bg-surface-tint p-[1.125rem]">
                         {stats.map((s) => (
                           <div key={s.label} className="flex items-start gap-2.5">
-                            <s.icon className="mt-0.5 shrink-0 text-[#425563]" />
+                            <s.icon className="mt-0.5 shrink-0 text-primary" />
                             <div>
                               <p className="text-[11px] font-semibold tracking-wide text-neutral-500 uppercase">
                                 {s.label}
                               </p>
-                              <p className="text-sm font-bold text-[#425563]">{s.value}</p>
+                              <p className="text-sm font-bold text-primary">{s.value}</p>
                             </div>
                           </div>
                         ))}
@@ -296,7 +296,7 @@ export function UnitsPlans() {
                           href={wa}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex flex-1 items-center justify-center gap-2 bg-[#425563] px-4 py-3.5 text-xs font-bold tracking-widest text-white uppercase transition hover:bg-[#33414b]"
+                          className="inline-flex flex-1 items-center justify-center gap-2 bg-primary px-4 py-3.5 text-xs font-bold tracking-widest text-white uppercase transition hover:bg-primary-hover"
                         >
                           {copy.viewDetails}
                           <IconArrow rtl={isAr} />
@@ -306,7 +306,7 @@ export function UnitsPlans() {
                           download
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex flex-1 items-center justify-center gap-2 border border-[#425563] bg-transparent px-4 py-3.5 text-xs font-bold tracking-widest text-[#425563] uppercase transition hover:bg-[#425563] hover:text-white"
+                          className="inline-flex flex-1 items-center justify-center gap-2 border border-primary bg-transparent px-4 py-3.5 text-xs font-bold tracking-widest text-primary uppercase transition hover:bg-primary hover:text-white"
                         >
                           <IconDownload />
                           {copy.download}
@@ -351,7 +351,7 @@ export function UnitsPlans() {
                 priority
               />
             </div>
-            <p className="mt-4 text-center font-display text-lg font-bold text-[#425563]">
+            <p className="mt-4 text-center font-display text-lg font-bold text-primary">
               {isAr ? lightbox.titleAr : lightbox.titleEn}
             </p>
           </div>

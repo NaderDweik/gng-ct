@@ -16,7 +16,7 @@ export function FaqAccordion() {
           <h2 className="mb-4 text-xl font-bold text-brand">
             {isAr ? cat.titleAr : cat.titleEn}
           </h2>
-          <div className="divide-y divide-sand-deep border border-line bg-surface">
+          <div className="divide-y divide-line border border-line bg-surface">
             {cat.items.map((item, idx) => {
               const key = `${cat.id}-${idx}`;
               const isOpen = open === key;

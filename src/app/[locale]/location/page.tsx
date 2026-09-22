@@ -12,7 +12,7 @@ export default async function LocationPage({ params }: Props) {
   return (
     <>
       <PageHero title={t("title")} subtitle={t("subtitle")} />
-      <section className="section bg-[#f2f4f3]">
+      <section className="section bg-surface-tint">
         <div className="container-gc">
           <LocationShowcase />
         </div>

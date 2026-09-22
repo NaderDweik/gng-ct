@@ -15,7 +15,7 @@ export default async function LeadershipPage({ params }: Props) {
       <PageHero title={t("title")} subtitle={t("subtitle")} />
       <section className="section">
         <div className="container-gc max-w-2xl">
-          <div className="border border-line bg-brand-secondary p-8">
+          <div className="border border-line bg-surface-alt p-8">
             <p className="text-sm font-semibold text-accent">{t("founderRole")}</p>
             <h2 className="mt-2 text-2xl font-bold text-brand">
               {isAr ? site.contact : site.contactEn}

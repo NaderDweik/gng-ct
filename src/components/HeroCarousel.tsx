@@ -111,7 +111,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
           <p className="mb-5 text-xs font-semibold tracking-[0.22em] text-accent uppercase sm:text-sm">
             {isAr ? slide.badgeAr : slide.badgeEn}
           </p>
-          <h1 className="font-display max-w-4xl text-4xl font-bold leading-[1.12] tracking-tight text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.35)] sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="font-display max-w-4xl text-4xl font-bold leading-[1.12] tracking-tight text-white drop-shadow-[0_4px_12px_color-mix(in_srgb,var(--black)_35%,transparent)] sm:text-5xl md:text-6xl lg:text-7xl">
             {isAr ? slide.titleAr : slide.titleEn}
           </h1>
           <p className="mt-6 max-w-2xl text-base font-light leading-relaxed text-neutral-200 sm:text-lg md:text-xl">
@@ -136,7 +136,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
               onClick={() => goTo(i)}
               className={`h-1.5 rounded-full transition-all duration-350 cursor-pointer ${
                 i === index
-                  ? "w-8 bg-[#465461]"
+                  ? "w-8 bg-secondary"
                   : "w-1.5 bg-white/35 hover:bg-white/75"
               }`}
               aria-label={`Go to slide ${i + 1}`}
@@ -152,7 +152,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
           {isAr ? "اسحب لأسفل" : "Scroll"}
         </span>
         <div className="flex h-9 w-5 justify-center rounded-full border border-white/25 p-1 backdrop-blur-[1px]">
-          <span className="scroll-dot mt-0.5 block h-1.5 w-1.5 rounded-full bg-[#465461] shadow-[0_0_8px_#465461]" />
+          <span className="scroll-dot mt-0.5 block h-1.5 w-1.5 rounded-full bg-secondary shadow-[0_0_8px_var(--brand-secondary)]" />
         </div>
       </div>
     </section>
