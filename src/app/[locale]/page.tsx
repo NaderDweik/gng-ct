@@ -8,6 +8,7 @@ import { cashPriceJd, basePriceJd } from "@/content/pricing";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { heroSlides } from "@/content/heroSlides";
 import { faqCategories } from "@/content/faq";
+import { formatNumber } from "@/lib/format";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -184,7 +185,7 @@ export default async function HomePage({ params }: Props) {
           {[
             { v: `${site.stats.units}+`, l: t("statsUnits") },
             {
-              v: site.stats.areaSqm.toLocaleString(locale),
+              v: formatNumber(site.stats.areaSqm, locale),
               l: t("statsArea"),
             },
             { v: `${site.stats.unitAreaSqm}`, l: isAr ? "م² لكل وحدة" : "m² per unit" },
@@ -208,11 +209,11 @@ export default async function HomePage({ params }: Props) {
             <h2 className="section-title">{t("pricingTitle")}</h2>
             <p className="section-sub">{t("pricingSub")}</p>
             <p className="mt-8 font-display text-5xl font-bold text-brand">
-              {basePriceJd.toLocaleString(locale)}{" "}
+              {formatNumber(basePriceJd, locale)}{" "}
               <span className="text-lg font-medium text-muted">{tc("jd")}</span>
             </p>
             <p className="mt-2 text-accent-hover font-semibold">
-              {cashPriceJd.toLocaleString(locale)} {tc("jd")} — {site.stats.cashDiscountPct}% cash
+              {formatNumber(cashPriceJd, locale)} {tc("jd")} — {site.stats.cashDiscountPct}% cash
             </p>
             <Link href="/financing" className="btn btn-primary mt-8">
               {tc("financing")}

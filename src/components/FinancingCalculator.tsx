@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { pricingPlans, basePriceJd, cashPriceJd, cashDiscountPct } from "@/content/pricing";
 import { site } from "@/content/site";
+import { formatNumber } from "@/lib/format";
 
 export function FinancingCalculator() {
   const t = useTranslations("financing");
@@ -40,10 +41,10 @@ export function FinancingCalculator() {
               </span>
             </div>
             <p className="mt-2 text-brand font-semibold">
-              {p.downPct}% · {p.downJd.toLocaleString(locale)} {tc("jd")}
+              {p.downPct}% · {formatNumber(p.downJd, locale)} {tc("jd")}
             </p>
             <p className="mt-1 text-sm text-muted">
-              {t("monthly")} {p.monthlyFromJd.toLocaleString(locale)} {tc("jd")}
+              {t("monthly")} {formatNumber(p.monthlyFromJd, locale)} {tc("jd")}
             </p>
           </button>
         ))}
@@ -54,19 +55,19 @@ export function FinancingCalculator() {
         <p className="mt-2 text-neutral-400 text-sm">{t("calculatorHint")}</p>
         <p className="mt-8 text-sm text-neutral-400">{t("basePrice")}</p>
         <p className="text-3xl font-bold">
-          {basePriceJd.toLocaleString(locale)} {tc("jd")}
+          {formatNumber(basePriceJd, locale)} {tc("jd")}
         </p>
         <div className="mt-8 grid gap-4 border-t border-white/15 pt-6">
           <div>
             <p className="text-sm text-neutral-400">{t("downPayment")}</p>
             <p className="text-2xl font-semibold text-accent">
-              {plan.downJd.toLocaleString(locale)} {tc("jd")}
+              {formatNumber(plan.downJd, locale)} {tc("jd")}
             </p>
           </div>
           <div>
             <p className="text-sm text-neutral-400">{t("monthly")}</p>
             <p className="text-xl">
-              {plan.monthlyFromJd.toLocaleString(locale)} {tc("jd")}
+              {formatNumber(plan.monthlyFromJd, locale)} {tc("jd")}
             </p>
           </div>
           <p className="text-sm text-neutral-300">
@@ -77,7 +78,7 @@ export function FinancingCalculator() {
         <div className="mt-10 border-t border-white/15 pt-6">
           <p className="text-sm text-accent">{t("cashTitle")}</p>
           <p className="mt-2 text-2xl font-bold">
-            {cashPriceJd.toLocaleString(locale)} {tc("jd")}
+            {formatNumber(cashPriceJd, locale)} {tc("jd")}
           </p>
           <p className="mt-1 text-sm text-neutral-400">
             {cashDiscountPct}% — {t("cashDesc")}

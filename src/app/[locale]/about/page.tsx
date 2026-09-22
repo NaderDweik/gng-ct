@@ -1,6 +1,7 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageHero } from "@/components/PageHero";
 import { site } from "@/content/site";
+import { formatNumber } from "@/lib/format";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -34,7 +35,7 @@ export default async function AboutPage({ params }: Props) {
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               [`${site.stats.units}+`, isAr ? "منتجع خاص" : "private resorts"],
-              [site.stats.areaSqm.toLocaleString(locale), isAr ? "م²" : "m²"],
+              [formatNumber(site.stats.areaSqm, locale), isAr ? "م²" : "m²"],
               [`${site.stats.unitAreaSqm}`, isAr ? "م² لكل وحدة" : "m² per unit"],
               [site.iso, tc("iso")],
             ].map(([v, l]) => (
