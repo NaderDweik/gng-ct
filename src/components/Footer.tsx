@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { footerNav } from "@/content/nav";
 import { site } from "@/content/site";
+import { GivingLogo } from "@/components/GivingLogo";
 
 export function Footer() {
   const t = useTranslations("common");
@@ -14,10 +15,8 @@ export function Footer() {
     <footer className="border-t border-white/10 bg-dark text-neutral-300">
       <div className="container-gc grid gap-12 py-16 md:grid-cols-3">
         <div>
-          <p className="font-display text-2xl font-bold text-white">
-            {isAr ? site.nameAr : site.nameEn}
-          </p>
-          <p className="mt-3 text-sm leading-relaxed text-neutral-400">
+          <GivingLogo variant="light" className="h-14 w-auto max-w-[240px] object-contain object-left" />
+          <p className="mt-5 text-sm leading-relaxed text-neutral-400">
             {isAr ? site.companyAr : site.companyEn}
           </p>
           <p className="mt-4 text-sm leading-relaxed text-neutral-400">

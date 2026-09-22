@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { site } from "@/content/site";
+import { GivingLogo } from "@/components/GivingLogo";
 
 const primaryNav = [
   { href: "/about", labelAr: "من نحن", labelEn: "About" },
@@ -42,13 +43,11 @@ export function Header() {
       }`}
     >
       <div className="container-gc flex h-16 items-center justify-between gap-4 md:h-20">
-        <Link href="/" className="group flex flex-col leading-tight">
-          <span className={`font-display text-lg font-bold tracking-wide md:text-xl ${ink}`}>
-            {isAr ? site.nameAr : site.nameEn}
-          </span>
-          <span className={`text-[0.65rem] tracking-[0.18em] uppercase transition ${muted}`}>
-            {isAr ? site.nameEn : "Resorts"}
-          </span>
+        <Link href="/" className="group flex shrink-0 items-center" aria-label={site.nameEn}>
+          <GivingLogo
+            variant={solid ? "dark" : "light"}
+            className="h-10 w-auto max-w-[160px] object-contain object-left md:h-12 md:max-w-[200px]"
+          />
         </Link>
 
         <nav className="hidden items-center gap-7 min-[1100px]:flex">
