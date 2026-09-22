@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import {
   galleryCategories,
@@ -47,10 +48,19 @@ export function GalleryGrid() {
   const locale = useLocale();
   const isAr = locale === "ar";
   const copy = isAr ? galleryCopy.ar : galleryCopy.en;
+  const searchParams = useSearchParams();
   const [tab, setTab] = useState<GalleryCategoryId>("all");
   const [active, setActive] = useState<GalleryImage | null>(null);
   const touchX = useRef<number | null>(null);
   const touchDelta = useRef(0);
+
+  useEffect(() => {
+    const q = searchParams.get("tab");
+    if (!q) return;
+    const valid =
+      q === "all" || galleryCategories.some((c) => c.id === q);
+    if (valid) setTab(q as GalleryCategoryId);
+  }, [searchParams]);
 
   const filtered = useMemo(
     () =>

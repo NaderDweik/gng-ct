@@ -1,4 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Suspense } from "react";
 import { GalleryGrid } from "@/components/GalleryGrid";
 import { galleryCopy } from "@/content/gallery";
 import { site } from "@/content/site";
@@ -26,7 +27,9 @@ export default async function GalleryPage({ params }: Props) {
         </div>
       </section>
 
-      <GalleryGrid />
+      <Suspense fallback={null}>
+        <GalleryGrid />
+      </Suspense>
 
       {/* Videos — keep below, JG gallery itself is photos-only */}
       <section className="border-t border-neutral-200 bg-white py-16 md:py-20">

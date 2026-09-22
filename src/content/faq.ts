@@ -114,3 +114,12 @@ export const faqCategories: FaqCategory[] = [
     ],
   },
 ];
+
+/** Curated home FAQ preview — JG-style numbered accordion (5 items). */
+export const homeFaqPreview: FaqItem[] = [
+  faqCategories[2].items[0], // where
+  faqCategories[0].items[0], // price
+  faqCategories[0].items[1], // deed
+  faqCategories[0].items[2], // interest
+  faqCategories[0].items[3], // payment plans
+];

@@ -3,12 +3,16 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
-import { galleryImages } from "@/content/gallery";
+import { galleryCategories, galleryImages } from "@/content/gallery";
 import { cashPriceJd, basePriceJd } from "@/content/pricing";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { heroSlides } from "@/content/heroSlides";
-import { faqCategories } from "@/content/faq";
+import { homeFaqPreview } from "@/content/faq";
+import { amenityFeatures, amenitiesIntro } from "@/content/amenities";
 import { formatNumber } from "@/lib/format";
+import { AmenitiesHoverGrid } from "@/components/AmenitiesHoverGrid";
+import { HomeFaqPreview } from "@/components/HomeFaqPreview";
+import { LocationShowcase } from "@/components/LocationShowcase";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -34,34 +38,46 @@ export default async function HomePage({ params }: Props) {
   const t = await getTranslations("home");
   const tc = await getTranslations("common");
   const isAr = locale === "ar";
-  const teaser = galleryImages.slice(0, 5);
-  const faqPreview = faqCategories[0]?.items.slice(0, 3) ?? [];
+
+  const galleryFeature = galleryCategories.map((cat) => {
+    const inCat = galleryImages.filter((g) => g.categoryId === cat.id);
+    const img = inCat[Math.min(2, inCat.length - 1)] ?? inCat[0] ?? galleryImages[0];
+    return {
+      id: cat.id,
+      titleAr: cat.titleAr,
+      titleEn: cat.titleEn,
+      src: img?.src ?? "/hero/hero.jpg",
+    };
+  });
 
   const destinations = [
     {
       href: "/units",
       title: isAr ? "المنتجعات الخاصة" : "Private Resorts",
+      headline: isAr ? "قمة الخصوصية المعاصرة" : "Contemporary privacy, elevated",
       desc: isAr
-        ? "٥٠٠ م² بسند ملكية مستقل — غرف، مسابح، وخصوصية كاملة."
-        : "500 m² with an independent deed — rooms, pools, and full privacy.",
+        ? "٥٠٠ م² بسند ملكية مستقل — غرف، مسابح، وخصوصية كاملة داخل مجتمع مسوّر."
+        : "500 m² with an independent deed — rooms, pools, and full privacy inside a gated community.",
       img: galleryImages[0]?.src ?? "/hero/hero.jpg",
       cta: isAr ? "استكشف الوحدات" : "Explore units",
     },
     {
       href: "/amenities",
       title: isAr ? "مرافق المجتمع" : "Community amenities",
+      headline: isAr ? "مركز كل شيء" : "Everything within reach",
       desc: isAr
-        ? "أمن على مدار الساعة، بنية تحتية، ومساحات خضراء مخدومة."
-        : "24/7 security, infrastructure, and serviced green spaces.",
+        ? "أمن على مدار الساعة، بنية تحتية، ومساحات خضراء مخدومة لأسلوب حياة متكامل."
+        : "24/7 security, infrastructure, and serviced green spaces for a complete lifestyle.",
       img: galleryImages[20]?.src ?? "/hero/hero.jpg",
       cta: isAr ? "اكتشف المرافق" : "Discover amenities",
     },
     {
       href: "/financing",
       title: isAr ? "التمويل المرن" : "Flexible financing",
+      headline: isAr ? "بدون فوائد، مباشرة مع الشركة" : "Zero interest, direct with us",
       desc: isAr
-        ? "بدون فوائد ومباشرة مع الشركة — خطط استلام ٢٠٢٥–٢٠٢٧."
-        : "Zero interest, direct with the company — 2025–2027 move-in plans.",
+        ? "خطط دفع مرنة وخطط استلام ٢٠٢٥–٢٠٢٧ — تمويل مباشر بدون فوائد بنكية."
+        : "Flexible payment plans and 2025–2027 move-in windows — direct financing with zero bank interest.",
       img: galleryImages[40]?.src ?? "/hero/hero.jpg",
       cta: isAr ? "خطط الدفع" : "Payment plans",
     },
@@ -102,42 +118,46 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* Destinations / projects overview */}
-      <section className="section bg-brand-secondary">
+      {/* Destinations / projects overview — expanding cards */}
+      <section className="section overflow-hidden border-b border-line bg-[#f4f5f4]">
         <div className="container-gc">
-          <p className="section-eyebrow">
-            {isAr ? "نظرة عامة" : "Projects overview"}
-          </p>
-          <h2 className="section-title max-w-3xl">
-            {isAr
-              ? "منتجع خاص، مجتمع مخدوم، وتمويل مرن."
-              : "Private resort, serviced community, flexible financing."}
-          </h2>
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
+          <div className="sec-head">
+            <div>
+              <p className="section-eyebrow">
+                {isAr ? "المشاريع الرئيسية" : "Flagship destinations"}
+              </p>
+              <h2 className="section-title mb-0">
+                {isAr
+                  ? "منتجع خاص، مجتمع مخدوم، وتمويل مرن."
+                  : "Private resort, serviced community, flexible financing."}
+              </h2>
+            </div>
+            <p className="sub">
+              {isAr
+                ? "مخطط واحد، ثلاث وجهات — الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في مجتمع Giving City."
+                : "One master plan, three destinations — privacy, lifestyle, and flexible financing meet in Giving City."}
+            </p>
+          </div>
+
+          <div className="brands">
             {destinations.map((d) => (
-              <Link
-                key={d.href}
-                href={d.href}
-                className="group flex flex-col overflow-hidden bg-white transition shadow-[0_18px_44px_rgba(66,85,99,0.08)] hover:-translate-y-1"
-              >
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src={d.img}
-                    alt=""
-                    fill
-                    className="object-cover transition duration-700 group-hover:scale-105"
-                    sizes="(max-width:1024px) 100vw, 33vw"
-                  />
-                </div>
-                <div className="flex flex-1 flex-col p-6">
-                  <h3 className="font-display text-xl font-bold text-ink">
-                    {d.title}
-                  </h3>
-                  <p className="mt-3 flex-1 text-sm text-muted leading-relaxed">
-                    {d.desc}
-                  </p>
-                  <span className="mt-5 text-sm font-semibold tracking-wide text-brand">
-                    {d.cta} →
+              <Link key={d.href} href={d.href} className="brand-card group">
+                <Image
+                  src={d.img}
+                  alt={d.title}
+                  fill
+                  className="select-none"
+                  sizes="(max-width:1024px) 100vw, 40vw"
+                />
+                <div className="body text-start">
+                  <div className="kicker">{d.title}</div>
+                  <h3>{d.headline}</h3>
+                  <p>{d.desc}</p>
+                  <span className="btn-ghost-light">
+                    {d.cta}
+                    <span className="arrow" aria-hidden>
+                      →
+                    </span>
                   </span>
                 </div>
               </Link>
@@ -146,35 +166,71 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* Gallery */}
-      <section className="section">
+      {/* Gallery feature mosaic */}
+      <section className="section bg-white">
         <div className="container-gc">
-          <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="sec-head">
             <div>
-              <p className="section-eyebrow">{isAr ? "مساحات وأسلوب حياة" : "Spaces & lifestyle"}</p>
+              <p className="section-eyebrow">
+                {isAr ? "المساحات ونمط الحياة." : "Spaces & lifestyle."}
+              </p>
               <h2 className="section-title mb-0">{t("galleryTitle")}</h2>
             </div>
-            <Link href="/gallery" className="btn btn-ghost-dark">
-              {tc("viewGallery")}
-            </Link>
           </div>
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:grid-rows-2">
-            {teaser.map((img, i) => (
-              <div
-                key={img.id}
-                className={`relative overflow-hidden ${
-                  i === 0 ? "col-span-2 row-span-2 min-h-72 md:min-h-full" : "min-h-40 md:min-h-52"
-                }`}
+
+          <div className="gallery-feature">
+            {galleryFeature.map((cell, i) => (
+              <Link
+                key={cell.id}
+                href={`/gallery?tab=${cell.id}`}
+                className={`gallery-feature-cell f${i}`}
               >
                 <Image
-                  src={img.src}
-                  alt={isAr ? img.nameAr : img.nameEn}
+                  src={cell.src}
+                  alt={isAr ? cell.titleAr : cell.titleEn}
                   fill
-                  className="object-cover transition duration-700 hover:scale-105"
-                  sizes="(max-width:768px) 50vw, 40vw"
+                  className="select-none"
+                  sizes="(max-width:700px) 50vw, 40vw"
+                  priority={i === 0}
                 />
-              </div>
+                <span className="gallery-cell-tag">
+                  {isAr ? cell.titleAr : cell.titleEn}
+                </span>
+              </Link>
             ))}
+          </div>
+
+          <div className="gallery-feature-cta">
+            <Link href="/gallery" className="gallery-outline-btn">
+              {tc("viewGallery")}
+              <span className="arrow" aria-hidden />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Amenities hover grid */}
+      <section className="section overflow-hidden border-b border-line bg-white">
+        <div className="container-gc space-y-12">
+          <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+            <div className="space-y-5 text-start">
+              <p className="section-eyebrow mb-0">
+                {isAr ? amenitiesIntro.eyebrowAr : amenitiesIntro.eyebrowEn}
+              </p>
+              <h2 className="section-title mb-0 max-w-3xl">
+                {isAr ? amenitiesIntro.titleAr : amenitiesIntro.titleEn}
+              </h2>
+            </div>
+            <p className="text-start text-base font-light leading-relaxed text-neutral-600 md:text-lg lg:max-w-2xl lg:justify-self-end">
+              {isAr ? amenitiesIntro.subAr : amenitiesIntro.subEn}
+            </p>
+          </div>
+          <AmenitiesHoverGrid items={amenityFeatures} isAr={isAr} />
+          <div>
+            <Link href="/amenities" className="gallery-outline-btn">
+              {isAr ? "استكشف كل المرافق" : "Explore all amenities"}
+              <span className="arrow" aria-hidden />
+            </Link>
           </div>
         </div>
       </section>
@@ -233,67 +289,51 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* FAQ preview */}
-      <section className="section bg-brand-secondary">
-        <div className="container-gc max-w-3xl">
-          <p className="section-eyebrow">FAQ</p>
-          <h2 className="section-title">
-            {isAr ? "أسئلة شائعة." : "Good to know."}
-          </h2>
-          <div className="mt-8 divide-y divide-line border border-line bg-white">
-            {faqPreview.map((item, i) => (
-              <details key={i} className="group px-5 py-4">
-                <summary className="cursor-pointer list-none font-medium text-ink marker:content-none flex justify-between gap-4">
-                  <span>{isAr ? item.qAr : item.qEn}</span>
-                  <span className="text-brand group-open:rotate-45 transition">+</span>
-                </summary>
-                <p className="mt-3 text-muted leading-relaxed">
-                  {isAr ? item.aAr : item.aEn}
-                </p>
-              </details>
-            ))}
-          </div>
-          <Link href="/faq" className="btn btn-ghost-dark mt-8">
-            {isAr ? "كل الأسئلة" : "Read all FAQs"}
-          </Link>
+      {/* FAQ preview — JG two-column numbered accordion */}
+      <section className="section border-b border-line bg-[#f7f7f7]">
+        <div className="container-gc">
+          <HomeFaqPreview items={homeFaqPreview} />
+        </div>
+      </section>
+
+      {/* Location showcase */}
+      <section className="section bg-[#f2f4f3]">
+        <div className="container-gc">
+          <LocationShowcase />
         </div>
       </section>
 
       {/* Register CTA */}
-      <section className="section bg-dark text-white">
-        <div className="container-gc text-center">
-          <p className="text-xs font-bold tracking-[0.22em] uppercase text-accent">
-            {tc("register")}
-          </p>
-          <h2 className="font-display mx-auto mt-4 max-w-2xl text-3xl font-bold md:text-5xl">
-            {isAr ? "سجّل اهتمامك." : "Register your interest."}
-          </h2>
-          <p className="mx-auto mt-4 max-w-xl text-neutral-400">
-            {tc("responseTime")}
-          </p>
-          <Link href="/register" className="btn btn-accent mt-8">
-            {tc("register")}
-          </Link>
-        </div>
-      </section>
-
-      {/* Location */}
-      <section className="section">
+      <section className="register-cta">
+        <div
+          className="register-cta-bg"
+          aria-hidden
+          style={{ backgroundImage: `url(${galleryImages[1]?.src ?? "/hero/hero.jpg"})` }}
+        />
         <div className="container-gc">
-          <p className="section-eyebrow">{t("locationTitle")}</p>
-          <h2 className="section-title">{t("locationSub")}</h2>
-          <div className="mt-8 overflow-hidden border border-line">
-            <iframe
-              title="Giving City map"
-              src={`https://maps.google.com/maps?q=${site.coordinates.lat},${site.coordinates.lng}&z=13&output=embed`}
-              className="h-72 w-full border-0 md:h-96"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+          <div className="register-cta-inner">
+            <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-white/80">
+              {tc("register")}
+            </p>
+            <h2>{isAr ? "سجّل اهتمامك." : "Register your interest."}</h2>
+            <p className="-mt-2 mb-8 max-w-md text-sm text-white/75 md:text-base">
+              {tc("responseTime")}
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <Link href="/register" className="register-cta-btn">
+                {tc("register")}
+                <span className="arrow" aria-hidden />
+              </Link>
+              <a
+                href={site.whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="register-cta-btn register-cta-btn--ghost"
+              >
+                {tc("whatsapp")}
+              </a>
+            </div>
           </div>
-          <Link href="/location" className="btn btn-ghost-dark mt-6">
-            {tc("learnMore")}
-          </Link>
         </div>
       </section>
     </>
