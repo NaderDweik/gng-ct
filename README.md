@@ -27,21 +27,8 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ## Deploy
 
-Production deploys run via **GitHub Actions** on every push to `main` (workflow: `.github/workflows/deploy.yml`). Hosting is **Vercel**.
+Hosting is **Vercel**. The GitHub repo `NaderDweik/gng-ct` is connected in Vercel → Project → **Settings → Git**.
 
-### One-time setup
+Every push to **`main`** creates a Production deployment automatically. Pull requests get Preview deployments.
 
-1. Create / open the project on [Vercel](https://vercel.com) (framework: Next.js).
-2. Create a Vercel token: [Account → Tokens](https://vercel.com/account/tokens).
-3. From a linked machine (or Vercel dashboard → Project Settings → General), get:
-   - **Org ID** → `.vercel/project.json` → `orgId`
-   - **Project ID** → `.vercel/project.json` → `projectId`  
-   Or run locally: `npx vercel link` then open `.vercel/project.json`.
-4. In GitHub → **NaderDweik/gng-ct** → Settings → Secrets and variables → Actions, add:
-   - `VERCEL_TOKEN`
-   - `VERCEL_ORG_ID`
-   - `VERCEL_PROJECT_ID`
-5. In Vercel → Project → **Settings → Git**, turn **off** automatic deployments (or set “Ignored Build Step” to `exit 0`) so only GitHub Actions deploys — avoids double builds.
-6. Attach custom domain `giving-estate.com` in Vercel → Domains.
-
-After secrets are set, any push to `main` deploys production. You can also run the workflow manually under Actions → **Deploy Production**.
+Custom domain: attach `giving-estate.com` in Vercel → Project → **Domains**.
