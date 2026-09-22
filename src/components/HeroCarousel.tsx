@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
@@ -36,6 +36,9 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
   const isAr = locale === "ar";
   const [index, setIndex] = useState(0);
   const [reduceMotion, setReduceMotion] = useState(false);
+  /** Bumps when user picks a dot so the 7s timer restarts from that slide. */
+  const [timerKey, setTimerKey] = useState(0);
+  const visibleRef = useRef(true);
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -46,19 +49,36 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
   }, []);
 
   useEffect(() => {
-    if (reduceMotion || slides.length < 2) return;
+    if (slides.length < 2) return;
+
+    const onVisibility = () => {
+      visibleRef.current = document.visibilityState === "visible";
+      if (visibleRef.current) setTimerKey((k) => k + 1);
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
     const id = window.setInterval(() => {
+      if (!visibleRef.current) return;
       setIndex((i) => (i + 1) % slides.length);
     }, INTERVAL_MS);
-    return () => window.clearInterval(id);
-  }, [reduceMotion, slides.length, index]);
+
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener("visibilitychange", onVisibility);
+    };
+  }, [slides.length, timerKey]);
+
+  function goTo(i: number) {
+    setIndex(i);
+    setTimerKey((k) => k + 1);
+  }
 
   const slide = slides[index] ?? slides[0];
   if (!slide) return null;
 
   return (
     <section className="relative flex min-h-[100svh] items-end overflow-hidden bg-dark">
-      {/* Crossfading stills */}
+      {/* Crossfading stills — all eager so mobile doesn't defer opacity-0 slides */}
       <div className="absolute inset-0">
         {slides.map((s, i) => (
           <div
@@ -72,7 +92,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
               src={s.src}
               alt=""
               fill
-              priority={i === 0}
+              priority
               quality={90}
               className={`object-cover ${
                 i === index && !reduceMotion ? "hero-kenburns" : ""
@@ -113,7 +133,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
             <button
               key={i}
               type="button"
-              onClick={() => setIndex(i)}
+              onClick={() => goTo(i)}
               className={`h-1.5 rounded-full transition-all duration-350 cursor-pointer ${
                 i === index
                   ? "w-8 bg-[#465461]"
