@@ -1,10 +1,5 @@
-# Giving City / روح العطاء
 
-Arabic-first Next.js website for **Giving City** (Al-Ataa for City Development & Financing).
 
-- Domain: [giving-estate.com](https://giving-estate.com)
-- Source of truth: `SOURCE_OF_TRUTH.md` · `SOURCE_OF_TRUTH_SUMMARY.md`
-- Repo: https://github.com/NaderDweik/gng-ct
 
 ## Stack
 
@@ -25,10 +20,3 @@ Open [http://localhost:3000](http://localhost:3000).
 - `npm run build` — production build
 - `npm start` — serve production build
 
-## Deploy
-
-Hosting is **Vercel**. The GitHub repo `NaderDweik/gng-ct` is connected in Vercel → Project → **Settings → Git**.
-
-Every push to **`main`** creates a Production deployment automatically. Pull requests get Preview deployments.
-
-Custom domain: attach `giving-estate.com` in Vercel → Project → **Domains**.
