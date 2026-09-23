@@ -21,7 +21,11 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const isAr = locale === "ar";
-  const isHome = pathname === "/" || pathname === "/about" || pathname === "/register";
+  const isHome =
+    pathname === "/" ||
+    pathname === "/about" ||
+    pathname === "/register" ||
+    pathname === "/gallery";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);

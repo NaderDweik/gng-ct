@@ -65,20 +65,37 @@ export const galleryCategories: GalleryCategory[] = [
 
 export const galleryCopy = {
   en: {
-    eyebrow: "Visual Experience",
-    title: "Project Gallery",
+    eyebrow: "Giving City",
+    title: "Gallery",
+    lead: "From facade to skyline — every angle of the community.",
     allTitle: "All",
-    allDescription:
-      "Browse the complete Giving City gallery across exteriors, interiors, amenities, construction and aerials.",
+    allDescription: "Exteriors, interiors, amenities, construction, and aerials.",
+    videosEyebrow: "On camera",
+    videosTitle: "See the place before you visit.",
+    open: "Open",
+    of: "of",
+    close: "Close",
+    prev: "Previous",
+    next: "Next",
   },
   ar: {
-    eyebrow: "التجربة المرئية الفاخرة",
+    eyebrow: "روح العطاء",
     title: "المعرض",
+    lead: "من الواجهة إلى الأفق — كل زاوية في مدينة العطاء.",
     allTitle: "الكل",
-    allDescription:
-      "تصفح معرض Giving City الكامل عبر الواجهات الخارجية، والداخل، والمرافق، ومراحل الإنشاء، والإطلالات الجوية.",
+    allDescription: "واجهات، داخل، مرافق، مراحل إنشاء، وإطلالات جوية.",
+    videosEyebrow: "على الكاميرا",
+    videosTitle: "شاهد المكان قبل الزيارة.",
+    open: "فتح",
+    of: "من",
+    close: "إغلاق",
+    prev: "السابق",
+    next: "التالي",
   },
 } as const;
+
+/** Full-bleed hero still for the gallery page. */
+export const galleryHeroSrc = "/gallery/img_25.jpg";
 
 const ranges: Record<Exclude<GalleryCategoryId, "all">, [number, number]> = {
   exteriors: [1, 12],

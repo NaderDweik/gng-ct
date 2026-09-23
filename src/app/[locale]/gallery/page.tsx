@@ -1,7 +1,8 @@
+import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { GalleryGrid } from "@/components/GalleryGrid";
-import { galleryCopy } from "@/content/gallery";
+import { galleryCopy, galleryHeroSrc } from "@/content/gallery";
 import { site } from "@/content/site";
 
 type Props = { params: Promise<{ locale: string }> };
@@ -15,15 +16,24 @@ export default async function GalleryPage({ params }: Props) {
 
   return (
     <>
-      {/* JG-style page intro */}
-      <section className="border-b border-neutral-200 bg-neutral-50 pt-24 md:pt-28">
-        <div className="container-gc py-14 text-center md:py-16">
-          <p className="mb-3 text-xs font-bold tracking-[0.22em] text-secondary uppercase">
-            {copy.eyebrow}
-          </p>
-          <h1 className="font-display text-4xl font-bold tracking-tight text-neutral-900 md:text-5xl lg:text-6xl">
+      <section className="gal-hero on-dark">
+        <Image
+          src={galleryHeroSrc}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="gal-hero-img"
+        />
+        <div className="gal-hero-shade" aria-hidden />
+        <div className="container-gc relative z-[1] flex min-h-[min(62svh,560px)] flex-col justify-end pb-12 pt-28 md:pb-16 md:pt-32">
+          <p className="section-eyebrow reveal">{copy.eyebrow}</p>
+          <h1 className="gal-hero-title reveal" style={{ animationDelay: "80ms" }}>
             {copy.title}
           </h1>
+          <p className="gal-hero-lead reveal" style={{ animationDelay: "160ms" }}>
+            {copy.lead}
+          </p>
         </div>
       </section>
 
@@ -31,23 +41,16 @@ export default async function GalleryPage({ params }: Props) {
         <GalleryGrid />
       </Suspense>
 
-      {/* Videos — keep below, JG gallery itself is photos-only */}
-      <section className="border-t border-neutral-200 bg-white py-16 md:py-20">
+      <section className="gal-videos">
         <div className="container-gc">
-          <p className="mb-2 text-center text-xs font-bold tracking-[0.22em] text-secondary uppercase">
-            {t("videos")}
-          </p>
-          <h2 className="font-display mb-10 text-center text-3xl font-bold text-neutral-900">
-            {isAr ? "جولات مرئية" : "Video tours"}
-          </h2>
-          <div className="mx-auto grid max-w-6xl gap-8 md:grid-cols-2">
+          <p className="section-eyebrow">{copy.videosEyebrow}</p>
+          <h2 className="gal-videos-title">{copy.videosTitle}</h2>
+
+          <div className="gal-videos-grid">
             <div>
-              <p className="mb-3 text-sm font-semibold tracking-wide text-secondary">
-                {t("tour")}
-              </p>
-              <div className="aspect-video overflow-hidden border border-neutral-200 bg-neutral-950">
+              <p className="gal-videos-label">{t("tour")}</p>
+              <div className="gal-videos-frame">
                 <iframe
-                  className="h-full w-full"
                   src={site.videos.tour}
                   title={t("tour")}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -56,12 +59,9 @@ export default async function GalleryPage({ params }: Props) {
               </div>
             </div>
             <div>
-              <p className="mb-3 text-sm font-semibold tracking-wide text-secondary">
-                {t("isoVideo")}
-              </p>
-              <div className="aspect-video overflow-hidden border border-neutral-200 bg-neutral-950">
+              <p className="gal-videos-label">{t("isoVideo")}</p>
+              <div className="gal-videos-frame">
                 <iframe
-                  className="h-full w-full"
                   src={site.videos.iso}
                   title={t("isoVideo")}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

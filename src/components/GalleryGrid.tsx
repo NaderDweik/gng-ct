@@ -12,37 +12,17 @@ import {
   type GalleryImage,
 } from "@/content/gallery";
 
-function ZoomIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      width="32"
-      height="32"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.75"
-      aria-hidden
-    >
-      <circle cx="11" cy="11" r="7" />
-      <path d="M21 21l-4.3-4.3" />
-      <path d="M11 8v6M8 11h6" />
-    </svg>
-  );
-}
-
 function CloseIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" aria-hidden>
       <path d="M18 6L6 18M6 6l12 12" />
     </svg>
   );
 }
 
 /**
- * Jordan Gate gallery UX:
- * centered uppercase tabs + underline, 3-col grid, hover overlay,
- * lightbox with swipe + arrow keys.
+ * Clean photo studio — flush mosaic, quiet tabs, minimal lightbox.
+ * Same visual language as the home `.gm` tiles.
  */
 export function GalleryGrid() {
   const locale = useLocale();
@@ -57,8 +37,7 @@ export function GalleryGrid() {
   useEffect(() => {
     const q = searchParams.get("tab");
     if (!q) return;
-    const valid =
-      q === "all" || galleryCategories.some((c) => c.id === q);
+    const valid = q === "all" || galleryCategories.some((c) => c.id === q);
     if (valid) setTab(q as GalleryCategoryId);
   }, [searchParams]);
 
@@ -70,16 +49,7 @@ export function GalleryGrid() {
     [tab],
   );
 
-  const activeIndex = active
-    ? filtered.findIndex((g) => g.id === active.id)
-    : -1;
-
-  const activeCategory = tab === "all" ? null : galleryCategories.find((c) => c.id === tab);
-  const sectionTitle = activeCategory
-    ? isAr
-      ? activeCategory.titleAr
-      : activeCategory.titleEn
-    : copy.allTitle;
+  const activeIndex = active ? filtered.findIndex((g) => g.id === active.id) : -1;
 
   function go(dir: "next" | "prev") {
     if (!active || filtered.length === 0 || activeIndex < 0) return;
@@ -92,13 +62,18 @@ export function GalleryGrid() {
 
   useEffect(() => {
     if (!active) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setActive(null);
       if (e.key === "ArrowRight") go(isAr ? "prev" : "next");
       if (e.key === "ArrowLeft") go(isAr ? "next" : "prev");
     }
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener("keydown", onKey);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [active, activeIndex, filtered, isAr]);
 
@@ -110,96 +85,73 @@ export function GalleryGrid() {
     })),
   ];
 
+  const catLabel = (item: GalleryImage) =>
+    isAr ? item.categoryTitleAr : item.categoryTitleEn;
+
   return (
-    <div className="relative overflow-hidden bg-neutral-50 pb-20 pt-4" dir={isAr ? "rtl" : "ltr"}>
-      <div className="container-gc relative z-10">
-        {/* Tabs — JG style */}
-        <div className="mb-10 flex flex-wrap justify-center gap-3 border-b border-neutral-200 pb-2 md:gap-6">
+    <div className="gal" dir={isAr ? "rtl" : "ltr"}>
+      <div className="container-gc">
+        <div className="gal-tabs" role="tablist" aria-label={copy.title}>
           {tabs.map((t) => {
             const on = tab === t.id;
             return (
               <button
                 key={t.id}
                 type="button"
+                role="tab"
+                aria-selected={on}
                 onClick={() => setTab(t.id)}
-                className={`relative cursor-pointer px-4 py-3 text-xs font-bold tracking-widest uppercase transition-all duration-300 active:scale-95 md:px-6 ${
-                  on
-                    ? "text-secondary"
-                    : "text-neutral-600 hover:text-neutral-900"
-                }`}
+                className={`gal-tab${on ? " is-active" : ""}`}
               >
                 {t.title}
-                {on && (
-                  <span className="absolute bottom-0 left-4 right-4 h-[2px] rounded-full bg-secondary" />
-                )}
               </button>
             );
           })}
         </div>
 
-        {/* Optional category description */}
-        <p className="mx-auto mb-8 max-w-2xl text-center text-sm text-neutral-500">
-          {activeCategory
-            ? isAr
-              ? activeCategory.descriptionAr
-              : activeCategory.descriptionEn
-            : copy.allDescription}
-        </p>
-
-        {/* Grid */}
-        <div
-          key={tab}
-          className="mx-auto grid max-w-6xl gap-5 sm:grid-cols-2 md:grid-cols-3 md:gap-6"
-        >
+        <div key={tab} className="gal-grid">
           {filtered.map((item, i) => (
             <button
               key={item.id}
               type="button"
               onClick={() => setActive(item)}
-              className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-none border border-neutral-200/60 bg-white/70 text-start shadow-sm backdrop-blur-md transition-all duration-300 hover:border-secondary/50 hover:shadow-xl active:scale-[0.98]"
+              className="gal-tile"
+              style={{ animationDelay: `${Math.min(i, 12) * 40}ms` }}
+              aria-label={catLabel(item)}
             >
               <Image
                 src={item.src}
-                alt={isAr ? item.nameAr : item.nameEn}
+                alt=""
                 fill
-                quality={90}
-                priority={i < 3 && tab === "all"}
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                quality={88}
+                priority={i < 6 && tab === "all"}
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                className="gal-tile-img"
               />
-              <div className="absolute inset-0 flex flex-col items-center justify-center bg-neutral-950/80 p-6 text-white opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100">
-                <ZoomIcon className="mb-4 h-8 w-8 scale-90 text-white/90 transition-transform duration-300 group-hover:scale-100" />
-                <span className="mb-2 text-[10px] font-bold tracking-[0.2em] text-white/70 uppercase">
-                  {isAr ? item.categoryTitleAr : item.categoryTitleEn}
-                </span>
-                <h2 className="text-center text-lg font-bold leading-tight text-white">
-                  {isAr ? item.nameAr : item.nameEn}
-                </h2>
-              </div>
+              <span className="gal-tile-label">{catLabel(item)}</span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* Lightbox */}
       {active && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 p-6 backdrop-blur-md"
-          onClick={() => setActive(null)}
+          className="gal-lb"
           role="dialog"
           aria-modal
+          onClick={() => setActive(null)}
         >
           <button
             type="button"
+            className="gal-lb-x"
             onClick={() => setActive(null)}
-            className="absolute top-6 end-6 cursor-pointer rounded-full bg-white/10 p-3 text-white/80 transition-all hover:bg-white/20 hover:text-white active:scale-90"
-            aria-label="Close lightbox"
+            aria-label={copy.close}
           >
             <CloseIcon />
           </button>
 
           <div
-            className="relative flex w-full max-w-5xl max-h-[82vh] flex-col items-center gap-4"
+            className="gal-lb-body"
             onClick={(e) => e.stopPropagation()}
             onTouchStart={(e) => {
               touchX.current = e.touches[0]?.clientX ?? null;
@@ -211,50 +163,39 @@ export function GalleryGrid() {
             }}
             onTouchEnd={() => {
               if (Math.abs(touchDelta.current) > 50) {
-                go(touchDelta.current < 0 ? "next" : "prev");
+                const swipeNext = touchDelta.current < 0;
+                go(isAr ? (swipeNext ? "prev" : "next") : swipeNext ? "next" : "prev");
               }
               touchX.current = null;
               touchDelta.current = 0;
             }}
           >
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-none border border-white/10 shadow-2xl md:aspect-[16/9]">
+            <div className="gal-lb-shot">
               <Image
                 src={active.src}
-                alt={isAr ? active.nameAr : active.nameEn}
+                alt={catLabel(active)}
                 fill
                 priority
-                quality={100}
-                sizes="(max-width: 1024px) 100vw, 1024px"
-                className="bg-black object-contain"
+                quality={95}
+                sizes="(max-width: 1100px) 100vw, 1100px"
+                className="object-contain"
               />
             </div>
-            <div className="mt-2 text-center text-white">
-              <span className="mb-1 block text-[10px] font-bold tracking-[0.3em] text-neutral-300 uppercase">
-                {isAr ? active.categoryTitleAr : active.categoryTitleEn}
+
+            <div className="gal-lb-bar">
+              <span>{catLabel(active)}</span>
+              <span className="gal-lb-n">
+                {activeIndex + 1} {copy.of} {filtered.length}
               </span>
-              <h2 className="text-xl font-bold">
-                {isAr ? active.nameAr : active.nameEn}
-              </h2>
-              <p className="mt-1 text-xs text-white/50">
-                {activeIndex + 1} / {filtered.length} · {sectionTitle}
-              </p>
             </div>
 
             {filtered.length > 1 && (
-              <div className="mt-2 flex gap-3">
-                <button
-                  type="button"
-                  className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold tracking-widest text-white/80 uppercase hover:bg-white/10"
-                  onClick={() => go("prev")}
-                >
-                  {isAr ? "السابق" : "Prev"}
+              <div className="gal-lb-controls">
+                <button type="button" onClick={() => go("prev")}>
+                  {copy.prev}
                 </button>
-                <button
-                  type="button"
-                  className="rounded-full border border-white/20 px-4 py-2 text-xs font-semibold tracking-widest text-white/80 uppercase hover:bg-white/10"
-                  onClick={() => go("next")}
-                >
-                  {isAr ? "التالي" : "Next"}
+                <button type="button" onClick={() => go("next")}>
+                  {copy.next}
                 </button>
               </div>
             )}
