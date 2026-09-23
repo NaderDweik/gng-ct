@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { site } from "@/content/site";
 import { galleryImages } from "@/content/gallery";
 import { HeroCarousel } from "@/features/home/HeroCarousel";
@@ -159,7 +160,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* Gallery mosaic */}
-      <section className="section bg-white">
+      <section className="section bg-surface">
         <div className="container-gc">
           <GalleryMosaic
             locale={locale}
@@ -171,7 +172,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* Amenities hover grid */}
-      <section className="section overflow-hidden border-b border-line bg-white">
+      <section className="section overflow-hidden border-b border-line bg-surface">
         <div className="container-gc space-y-12">
           <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
             <div className="space-y-5 text-start">
@@ -182,7 +183,7 @@ export default async function HomePage({ params }: Props) {
                 {isAr ? amenitiesIntro.titleAr : amenitiesIntro.titleEn}
               </h2>
             </div>
-            <p className="text-start text-base font-light leading-relaxed text-neutral-600 md:text-lg lg:max-w-2xl lg:justify-self-end">
+            <p className="text-start text-base font-light leading-relaxed text-muted md:text-lg lg:max-w-2xl lg:justify-self-end">
               {isAr ? amenitiesIntro.subAr : amenitiesIntro.subEn}
             </p>
           </div>
@@ -190,14 +191,14 @@ export default async function HomePage({ params }: Props) {
           <div>
             <Link href="/amenities" className="gallery-outline-btn">
               {isAr ? "استكشف كل المرافق" : "Explore all amenities"}
-              <span className="arrow" aria-hidden />
+              <ArrowIcon className="arrow" />
             </Link>
           </div>
         </div>
       </section>
 
       {/* Stats */}
-      <section className="border-y border-line bg-brand text-white">
+      <section className="border-y border-line bg-primary text-on-dark">
         <div className="container-gc grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { v: `${site.stats.units}+`, l: t("statsUnits") },
@@ -212,7 +213,7 @@ export default async function HomePage({ params }: Props) {
               <p className="font-display text-4xl font-bold tracking-tight md:text-5xl">
                 {s.v}
               </p>
-              <p className="mt-2 text-sm text-white/70">{s.l}</p>
+              <p className="mt-2 text-sm text-on-dark-muted">{s.l}</p>
             </div>
           ))}
         </div>

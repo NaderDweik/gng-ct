@@ -126,10 +126,10 @@ export function FaqExplorer() {
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
             {isAr ? "لم تجد إجابتك؟" : "Didn't find it?"}
           </p>
-          <p className="font-display mt-2 text-xl font-bold text-white">
+          <p className="font-display mt-2 text-xl font-bold text-on-dark">
             {isAr ? "تحدّث مع فريق المبيعات." : "Talk to our sales team."}
           </p>
-          <p className="mt-2 text-sm text-white/65">{tc("responseTime")}</p>
+          <p className="mt-2 text-sm text-on-dark-muted">{tc("responseTime")}</p>
           <div className="mt-5 space-y-2">
             <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer" className="faq-help-btn faq-help-btn--solid">
               {tc("whatsapp")}
@@ -174,7 +174,7 @@ export function FaqExplorer() {
             {groups.map((cat, ci) => (
               <section key={cat.id} id={`faq-${cat.id}`} className="scroll-mt-28">
                 <div className="mb-4 flex items-baseline gap-4">
-                  <span className="font-display text-sm font-bold text-accent tabular-nums">{pad(ci + 1)}</span>
+                  <span className="font-display text-sm font-bold text-accent-ink tabular-nums">{pad(ci + 1)}</span>
                   <h2 className="font-display text-2xl font-bold text-ink md:text-3xl">
                     {isAr ? cat.titleAr : cat.titleEn}
                   </h2>
@@ -213,7 +213,7 @@ export function FaqExplorer() {
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
             {isAr ? "لم تجد إجابتك؟" : "Didn't find it?"}
           </p>
-          <p className="font-display mt-2 text-xl font-bold text-white">
+          <p className="font-display mt-2 text-xl font-bold text-on-dark">
             {isAr ? "تحدّث مع فريق المبيعات." : "Talk to our sales team."}
           </p>
           <div className="mt-5 flex flex-wrap gap-2">

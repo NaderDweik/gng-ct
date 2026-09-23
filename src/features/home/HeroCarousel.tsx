@@ -86,8 +86,8 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
             />
           </div>
         ))}
-        <div className="absolute inset-0 z-[2] bg-gradient-to-t from-black/85 via-black/40 to-black/25" />
-        <div className="absolute inset-0 z-[2] bg-brand/15" />
+        <div className="absolute inset-0 z-[2] bg-gradient-to-t from-overlay/85 via-overlay/40 to-overlay/25" />
+        <div className="absolute inset-0 z-[2] bg-primary/15" />
       </div>
 
       {/* Copy — Jordan Gate layout */}
@@ -96,10 +96,10 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
           <p className="mb-5 text-xs font-semibold tracking-[0.22em] text-accent uppercase sm:text-sm">
             {isAr ? slide.badgeAr : slide.badgeEn}
           </p>
-          <h1 className="font-display max-w-4xl text-4xl font-bold leading-[1.12] tracking-tight text-white drop-shadow-[0_4px_12px_color-mix(in_srgb,var(--black)_35%,transparent)] sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="font-display max-w-4xl text-4xl font-bold leading-[1.12] tracking-tight text-on-dark drop-shadow-[0_4px_12px_color-mix(in_srgb,var(--black)_35%,transparent)] sm:text-5xl md:text-6xl lg:text-7xl">
             {isAr ? slide.titleAr : slide.titleEn}
           </h1>
-          <p className="mt-6 max-w-2xl text-base font-light leading-relaxed text-neutral-200 sm:text-lg md:text-xl">
+          <p className="mt-6 max-w-2xl text-base font-light leading-relaxed text-on-dark sm:text-lg md:text-xl">
             {isAr ? slide.descAr : slide.descEn}
           </p>
           <div className="mt-10 flex w-full flex-col items-stretch gap-4 sm:w-auto sm:flex-row sm:items-center sm:gap-5">
@@ -133,7 +133,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
 
       {/* Scroll cue — matches JG mouse indicator */}
       <div className="absolute bottom-8 left-1/2 z-10 hidden -translate-x-1/2 flex-col items-center gap-2 md:flex">
-        <span className="text-[9px] font-semibold tracking-[0.25em] text-white/50 uppercase">
+        <span className="text-[9px] font-semibold tracking-[0.25em] text-on-dark-subtle uppercase">
           {isAr ? "اسحب لأسفل" : "Scroll"}
         </span>
         <div className="flex h-9 w-5 justify-center rounded-full border border-white/25 p-1 backdrop-blur-[1px]">

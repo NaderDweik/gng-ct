@@ -117,17 +117,17 @@ export default async function AboutPage({ params }: Props) {
           <h1 className="about-hero-title reveal" style={{ animationDelay: "80ms" }}>
             {isAr ? "ليس فندقًا، بل استثمار وحياة." : "Not a hotel — an investment, and a way of life."}
           </h1>
-          <p className="reveal mt-5 max-w-xl text-base text-white/75 md:text-lg" style={{ animationDelay: "160ms" }}>
+          <p className="reveal mt-5 max-w-xl text-base text-on-dark-muted md:text-lg" style={{ animationDelay: "160ms" }}>
             {t("subtitle")}
           </p>
 
           <dl className="about-hero-stats reveal" style={{ animationDelay: "240ms" }}>
             {stats.map((s, i) => (
               <div key={s.label} className="flex flex-col">
-                <dt className="order-2 mt-1 text-xs text-white/65">{s.label}</dt>
-                <dd className="font-display text-3xl font-bold leading-none text-white tabular-nums md:text-4xl">
+                <dt className="order-2 mt-1 text-xs text-on-dark-muted">{s.label}</dt>
+                <dd className="font-display text-3xl font-bold leading-none text-on-dark tabular-nums md:text-4xl">
                   <CountUp value={s.value} from={s.from} suffix={s.suffix} locale={locale} delay={500 + i * 150} />
-                  {s.unit && <span className="ms-1 text-sm font-medium text-white/60">{s.unit}</span>}
+                  {s.unit && <span className="ms-1 text-sm font-medium text-on-dark-muted">{s.unit}</span>}
                 </dd>
               </div>
             ))}
@@ -145,7 +145,7 @@ export default async function AboutPage({ params }: Props) {
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-muted">{t("story")}</p>
             <div className="mt-10 flex items-center gap-4 border-t border-line pt-8">
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-on-dark">
                 {isAr ? "ط.ق" : "TQ"}
               </span>
               <div>
@@ -166,7 +166,7 @@ export default async function AboutPage({ params }: Props) {
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
                 {isAr ? "معتمد" : "Certified"}
               </span>
-              <span className="font-display mt-1 text-lg font-bold leading-tight text-white">{site.iso}</span>
+              <span className="font-display mt-1 text-lg font-bold leading-tight text-on-dark">{site.iso}</span>
             </div>
           </div>
         </div>
@@ -194,10 +194,10 @@ export default async function AboutPage({ params }: Props) {
                     {n(i + 1).padStart(2, isAr ? "٠" : "0")}
                   </span>
                 </div>
-                <h3 className="font-display mt-10 text-xl font-bold text-ink transition-colors duration-300 group-hover:text-white">
+                <h3 className="font-display mt-10 text-xl font-bold text-ink transition-colors duration-300 group-hover:text-on-dark">
                   {isAr ? p.titleAr : p.titleEn}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted transition-colors duration-300 group-hover:text-white/75">
+                <p className="mt-3 text-sm leading-relaxed text-muted transition-colors duration-300 group-hover:text-on-dark-muted">
                   {isAr ? p.bodyAr : p.bodyEn}
                 </p>
               </article>
@@ -207,15 +207,15 @@ export default async function AboutPage({ params }: Props) {
       </section>
 
       {/* Leadership + ISO */}
-      <section className="section on-dark bg-secondary text-white">
+      <section className="section on-dark bg-secondary text-on-dark">
         <div className="container-gc grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
           <div>
             <p className="section-eyebrow">{isAr ? "القيادة والجودة" : "Leadership & quality"}</p>
             <h2 className="section-title">
               {isAr ? "رؤية واضحة، ومعايير عالمية." : "A clear vision, global standards."}
             </h2>
-            <p className="mt-6 text-lg leading-relaxed text-white/70">{t("founder")}</p>
-            <ul className="mt-8 space-y-3 text-sm text-white/80">
+            <p className="mt-6 text-lg leading-relaxed text-on-dark-muted">{t("founder")}</p>
+            <ul className="mt-8 space-y-3 text-sm text-on-dark-muted">
               {[
                 isAr ? "إدارة ومتابعة مباشرة من الشركة المطوّرة" : "Managed directly by the developer",
                 isAr ? "عمليات موثّقة وفق نظام إدارة الجودة ISO 9001:2015" : "Processes documented under ISO 9001:2015 quality management",
@@ -235,7 +235,7 @@ export default async function AboutPage({ params }: Props) {
             </div>
           </div>
           <div>
-            <div className="relative aspect-video overflow-hidden border border-white/10 bg-overlay shadow-card-lg">
+            <div className="relative aspect-video overflow-hidden border border-line-on-dark bg-overlay shadow-card-lg">
               <iframe
                 src={site.videos.iso}
                 title={isAr ? "تقديم شهادة ISO 9001:2015" : "ISO 9001:2015 certification"}
@@ -245,7 +245,7 @@ export default async function AboutPage({ params }: Props) {
                 allowFullScreen
               />
             </div>
-            <p className="mt-3 text-xs text-white/50">
+            <p className="mt-3 text-xs text-on-dark-subtle">
               {isAr ? "تقديم شهادة ISO 9001:2015 لشركة العطاء" : "Al-Ataa receiving the ISO 9001:2015 certification"}
             </p>
           </div>

@@ -25,7 +25,7 @@
 
 .btn-primary {
   background: var(--brand-primary);
-  color: var(--white);
+  color: var(--on-dark);
 }
 
 .btn-primary:hover {
@@ -43,23 +43,23 @@
 
 .btn-ghost-light {
   background: transparent;
-  color: var(--white);
+  color: var(--on-dark);
   border: 1px solid color-mix(in srgb, var(--white) 35%, transparent);
 }
 
 .btn-ghost-light:hover {
-  background: color-mix(in srgb, var(--white) 10%, transparent);
+  background: var(--fill-on-dark);
 }
 
 .btn-ghost-dark {
   background: transparent;
-  color: var(--brand-primary);
-  border: 1px solid color-mix(in srgb, var(--brand-primary) 35%, transparent);
+  color: var(--primary-ink);
+  border: 1px solid color-mix(in srgb, var(--primary-ink) 35%, transparent);
 }
 
 .btn-ghost-dark:hover {
   background: var(--brand-primary);
-  color: var(--white);
+  color: var(--on-dark);
 }
 
 .section {
@@ -71,7 +71,7 @@
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--brand-primary);
+  color: var(--primary-ink);
   margin: 0 0 1rem;
 }
 

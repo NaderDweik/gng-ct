@@ -8,9 +8,9 @@ import type { FaqItem } from "@/content/faq";
 function PlusMinus({ open }: { open: boolean }) {
   return (
     <span className="relative h-[18px] w-[18px] shrink-0" aria-hidden>
-      <span className="absolute inset-x-0 top-1/2 h-[1.5px] -translate-y-1/2 bg-brand" />
+      <span className="absolute inset-x-0 top-1/2 h-[1.5px] -translate-y-1/2 bg-primary" />
       <span
-        className={`absolute inset-y-0 left-1/2 w-[1.5px] -translate-x-1/2 bg-brand transition-all duration-300 ${
+        className={`absolute inset-y-0 left-1/2 w-[1.5px] -translate-x-1/2 bg-primary transition-all duration-300 ${
           open ? "scale-y-0 opacity-0" : "scale-y-100 opacity-100"
         }`}
       />
@@ -58,14 +58,14 @@ export function HomeFaqPreview({ items }: Props) {
         <h2 className="section-title mb-4">
           {isAr ? "معلوماتٌ مفيدة." : "Good to know."}
         </h2>
-        <p className="max-w-[34ch] text-base font-light leading-relaxed text-neutral-600 md:text-lg">
+        <p className="max-w-[34ch] text-base font-light leading-relaxed text-muted md:text-lg">
           {isAr
             ? "إجابات عن أكثر الأسئلة التي نسمعها حول الحياة في Giving City."
             : "Answers to the questions we hear most about life at Giving City."}
         </p>
         <Link
           href="/register"
-          className="mt-7 inline-flex items-center gap-[9px] border-b border-brand pb-1 text-[13px] font-medium text-brand transition-all duration-300 hover:gap-[14px] hover:opacity-80"
+          className="mt-7 inline-flex items-center gap-[9px] border-b border-primary-ink pb-1 text-[13px] font-medium text-primary-ink transition-all duration-300 hover:gap-[14px] hover:opacity-80"
         >
           {isAr ? "لا يزال لديك سؤال؟ تحدّث إلى فريقنا" : "Still have a question? Talk to our team"}
           <ArrowUpRight className={isAr ? "rotate-180" : ""} />
@@ -73,28 +73,28 @@ export function HomeFaqPreview({ items }: Props) {
       </div>
 
       <div className="w-full lg:order-1">
-        <div className="border-t border-black/10">
+        <div className="border-t border-line">
           {items.map((item, i) => {
             const isOpen = open === i;
             const num = String(i + 1).padStart(2, "0");
             return (
-              <div key={i} className="border-b border-black/10">
+              <div key={i} className="border-b border-line">
                 <button
                   type="button"
                   aria-expanded={isOpen}
                   onClick={() => setOpen(isOpen ? -1 : i)}
-                  className="flex w-full items-center gap-[clamp(16px,2vw,28px)] bg-transparent py-[clamp(22px,2.4vw,30px)] text-start transition-colors duration-300 hover:text-brand focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand"
+                  className="flex w-full items-center gap-[clamp(16px,2vw,28px)] bg-transparent py-[clamp(22px,2.4vw,30px)] text-start transition-colors duration-300 hover:text-primary-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
                 >
                   <span
                     className={`shrink-0 font-display text-[clamp(18px,1.6vw,22px)] font-semibold leading-none transition-colors duration-300 ${
-                      isOpen ? "text-brand" : "text-muted"
+                      isOpen ? "text-primary-ink" : "text-muted"
                     }`}
                   >
                     {num}
                   </span>
                   <span
                     className={`flex-1 text-[clamp(17px,1.5vw,20px)] transition-colors duration-300 ${
-                      isOpen ? "text-brand" : "text-ink"
+                      isOpen ? "text-primary-ink" : "text-ink"
                     }`}
                   >
                     {isAr ? item.qAr : item.qEn}
@@ -120,7 +120,7 @@ export function HomeFaqPreview({ items }: Props) {
         <div className="mt-6 flex justify-start lg:justify-end">
           <Link
             href="/faq"
-            className="inline-flex min-h-12 items-center justify-center gap-2 bg-brand px-6 py-3 text-sm font-bold text-white transition hover:bg-primary-hover"
+            className="inline-flex min-h-12 items-center justify-center gap-2 bg-primary px-6 py-3 text-sm font-bold text-on-dark transition hover:bg-primary-hover"
           >
             {isAr ? "اقرأ جميع الأسئلة الشائعة" : "Read all FAQs"}
             <ArrowUpRight className={isAr ? "-rotate-90" : "rotate-45"} />

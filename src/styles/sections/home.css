@@ -34,7 +34,7 @@
   flex: 1 1 0;
   min-width: 0;
   height: clamp(460px, 44vw, 540px);
-  color: var(--white);
+  color: var(--on-dark);
   border-radius: 0;
   will-change: flex-grow;
   text-decoration: none;
@@ -98,7 +98,7 @@
 
 .brand-card h3 {
   font-family: var(--font-display);
-  color: var(--white);
+  color: var(--on-dark);
   margin: 0 0 14px;
   font-size: clamp(24px, 2.4vw, 32px);
   font-weight: 600;
@@ -126,14 +126,14 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--white);
+  color: var(--on-dark);
   border: 1px solid color-mix(in srgb, var(--white) 40%, transparent);
   transition: background 0.3s ease, color 0.3s ease;
 }
 
 .brand-card:hover .btn-ghost-light {
-  background: var(--white);
-  color: var(--ink);
+  background: var(--fill-light);
+  color: var(--ink-on-light);
 }
 
 .brand-card .arrow {

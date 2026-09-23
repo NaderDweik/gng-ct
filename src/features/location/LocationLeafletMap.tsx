@@ -1,53 +1,35 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import type { FitBoundsOptions, Map as LeafletMap, Marker, Polyline, PolylineOptions, TileLayer } from "leaflet";
 import type { NearbyPlace } from "@/content/location";
 import { projectCoords } from "@/content/location";
 import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
 import { palette } from "@/theme/tokens";
+import { useTheme } from "@/theme/useTheme";
+import "leaflet/dist/leaflet.css";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
+const tileUrl = (style: "Light" | "Dark", layer: "Base" | "Reference") =>
+  `https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_${style}_Gray_${layer}/MapServer/tile/{z}/{y}/{x}`;
 
-const LEAFLET_CSS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-const LEAFLET_JS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
-const TILE_BASE =
-  "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}";
-const TILE_LABELS =
-  "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}";
+type LeafletModule = typeof import("leaflet");
+type MapTheme = "light" | "dark";
 
-function loadCss(): Promise<void> {
-  const existing = document.querySelector<HTMLLinkElement>(`link[href="${LEAFLET_CSS}"]`);
-  if (existing?.sheet) return Promise.resolve();
-  return new Promise((resolve) => {
-    const link = existing ?? document.createElement("link");
-    link.addEventListener("load", () => resolve(), { once: true });
-    link.addEventListener("error", () => resolve(), { once: true });
-    if (!existing) {
-      link.rel = "stylesheet";
-      link.href = LEAFLET_CSS;
-      document.head.appendChild(link);
-    }
-  });
-}
+const tileUrls = (theme: MapTheme) => {
+  const style = theme === "dark" ? "Dark" : "Light";
+  return [tileUrl(style, "Base"), tileUrl(style, "Reference")];
+};
 
-function loadJs(): Promise<any> {
-  const w = window as any;
-  if (w.L) return Promise.resolve(w.L);
-  return new Promise((resolve, reject) => {
-    const existing = document.querySelector<HTMLScriptElement>(`script[src="${LEAFLET_JS}"]`);
-    const script = existing ?? document.createElement("script");
-    script.addEventListener("load", () => resolve(w.L), { once: true });
-    script.addEventListener("error", reject, { once: true });
-    if (!existing) {
-      script.src = LEAFLET_JS;
-      script.async = true;
-      document.body.appendChild(script);
-    }
-  });
-}
+/** Route color follows the theme's `--primary-ink`. */
+const routeColor = () =>
+  getComputedStyle(document.documentElement).getPropertyValue("--primary-ink").trim() || palette.primary;
 
-function loadLeaflet(): Promise<any> {
-  return Promise.all([loadCss(), loadJs()]).then(([, L]) => L);
+let leafletPromise: Promise<LeafletModule> | null = null;
+
+/** Leaflet touches `window` on import, so it's loaded on the client only, once. */
+function loadLeaflet(): Promise<LeafletModule> {
+  leafletPromise ??= import("leaflet").then((m) => m.default);
+  return leafletPromise;
 }
 
 function escapeHtml(s: string) {
@@ -55,7 +37,7 @@ function escapeHtml(s: string) {
 }
 
 /** Zero-size anchor at the exact coordinate; label and pin are positioned around it with CSS. */
-function projectIcon(L: any, label: string, dir: "rtl" | "ltr") {
+function projectIcon(L: LeafletModule, label: string, dir: "rtl" | "ltr") {
   return L.divIcon({
     className: "gc-marker",
     iconSize: [0, 0],
@@ -71,7 +53,7 @@ function projectIcon(L: any, label: string, dir: "rtl" | "ltr") {
   });
 }
 
-function destIcon(L: any, name: string, time: string, dir: "rtl" | "ltr") {
+function destIcon(L: LeafletModule, name: string, time: string, dir: "rtl" | "ltr") {
   return L.divIcon({
     className: "gc-marker",
     iconSize: [0, 0],
@@ -87,7 +69,7 @@ function destIcon(L: any, name: string, time: string, dir: "rtl" | "ltr") {
   });
 }
 
-const FIT_OPTIONS = {
+const FIT_OPTIONS: FitBoundsOptions = {
   paddingTopLeft: [70, 90],
   paddingBottomRight: [70, 130],
   animate: true,
@@ -102,14 +84,19 @@ type Props = {
 
 export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<any>(null);
-  const routeRef = useRef<any>(null);
-  const destRef = useRef<any>(null);
+  const leafletRef = useRef<LeafletModule | null>(null);
+  const mapRef = useRef<LeafletMap | null>(null);
+  const routeRef = useRef<Polyline | null>(null);
+  const destRef = useRef<Marker | null>(null);
+  const tilesRef = useRef<TileLayer[]>([]);
   const abortRef = useRef<AbortController | null>(null);
   const rafRef = useRef<number | null>(null);
   const alive = useRef(true);
   const [mapReady, setMapReady] = useState(false);
   const dir = isAr ? "rtl" : "ltr";
+  const theme = useTheme();
+  const themeRef = useRef(theme);
+  themeRef.current = theme;
 
   useEffect(() => {
     alive.current = true;
@@ -124,8 +111,9 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
         scrollWheelZoom: false,
       }).setView([projectCoords.lat, projectCoords.lng], 11);
 
-      L.tileLayer(TILE_BASE, { maxZoom: 16 }).addTo(map);
-      L.tileLayer(TILE_LABELS, { maxZoom: 16 }).addTo(map);
+      tilesRef.current = tileUrls(themeRef.current).map((url) =>
+        L.tileLayer(url, { maxZoom: 16 }).addTo(map),
+      );
       L.control
         .attribution({ position: "topright", prefix: false })
         .addAttribution("Tiles &copy; Esri")
@@ -138,6 +126,7 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
         zIndexOffset: 1000,
       }).addTo(map);
 
+      leafletRef.current = L;
       mapRef.current = map;
       setMapReady(true);
     });
@@ -151,14 +140,22 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
       mapRef.current = null;
       routeRef.current = null;
       destRef.current = null;
+      tilesRef.current = [];
       setMapReady(false);
     };
   }, [projectLabel, dir]);
 
+  // Theme switch: swap tile styles and recolor the route in place (no map rebuild).
+  useEffect(() => {
+    if (!mapReady) return;
+    tileUrls(theme).forEach((url, i) => tilesRef.current[i]?.setUrl(url));
+    routeRef.current?.setStyle({ color: routeColor() });
+  }, [theme, mapReady]);
+
   useEffect(() => {
     if (!mapReady) return;
     const map = mapRef.current;
-    const L = (window as any).L;
+    const L = leafletRef.current;
     if (!map || !L) return;
 
     abortRef.current?.abort();
@@ -195,10 +192,8 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
     abortRef.current = ctrl;
     const url = `https://router.project-osrm.org/route/v1/driving/${projectCoords.lng},${projectCoords.lat};${active.coords.lng},${active.coords.lat}?overview=full&geometries=geojson`;
 
-    const lineStyle = {
-      color:
-        getComputedStyle(document.documentElement).getPropertyValue("--brand-primary").trim() ||
-        palette.primary,
+    const lineStyle: PolylineOptions = {
+      color: routeColor(),
       weight: 4,
       opacity: 0.9,
       lineCap: "round",

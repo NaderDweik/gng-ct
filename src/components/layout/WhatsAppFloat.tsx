@@ -11,7 +11,7 @@ export function WhatsAppFloat() {
       href={site.whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="fixed bottom-5 z-50 inline-flex items-center gap-2 rounded-full bg-whatsapp px-4 py-3 text-sm font-semibold text-white shadow-lg transition hover:scale-[1.03] end-5"
+      className="fixed bottom-5 z-50 inline-flex items-center gap-2 rounded-full bg-whatsapp px-4 py-3 text-sm font-semibold text-on-dark shadow-lg transition hover:scale-[1.03] end-5"
       aria-label={t("whatsapp")}
     >
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>

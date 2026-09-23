@@ -178,7 +178,7 @@ export function RegisterForm() {
       </div>
 
       {sent && (
-        <p className="text-center text-sm font-medium text-primary" role="status">
+        <p className="text-center text-sm font-medium text-primary-ink" role="status">
           {isAr
             ? "تم فتح واتساب — أكمل الإرسال من هناك."
             : "WhatsApp opened — finish sending from there."}

@@ -77,6 +77,8 @@ export const galleryCopy = {
     close: "Close",
     prev: "Previous",
     next: "Next",
+    view: "View",
+    seeAll: "See all",
   },
   ar: {
     eyebrow: "روح العطاء",
@@ -91,6 +93,8 @@ export const galleryCopy = {
     close: "إغلاق",
     prev: "السابق",
     next: "التالي",
+    view: "عرض",
+    seeAll: "شاهد كل صور",
   },
 } as const;
 

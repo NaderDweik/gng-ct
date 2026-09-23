@@ -5,7 +5,7 @@
   grid-template-columns: 1fr 1fr;
   padding: 4px;
   border: 1px solid var(--line);
-  background: var(--white);
+  background: var(--surface);
   border-radius: 999px;
   width: fit-content;
 }
@@ -43,7 +43,7 @@
 }
 
 .pricing-toggle-btn[aria-selected="true"] {
-  color: var(--white);
+  color: var(--on-dark);
 }
 
 .pricing-chip {
@@ -53,8 +53,8 @@
   border-radius: 999px;
   font-size: 12px;
   font-weight: 700;
-  background: color-mix(in srgb, var(--brand-primary) 8%, transparent);
-  color: var(--brand-primary);
+  background: color-mix(in srgb, var(--primary-ink) 8%, transparent);
+  color: var(--primary-ink);
 }
 
 .pricing-chip--accent {
@@ -74,7 +74,7 @@
   overflow: hidden;
   isolation: isolate;
   padding: clamp(1.75rem, 3.5vw, 2.75rem);
-  color: var(--white);
+  color: var(--on-dark);
   background:
     radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--brand-accent) 14%, transparent), transparent 55%),
     linear-gradient(160deg, var(--brand-secondary-light) 0%, var(--brand-secondary-deep) 100%);
@@ -97,7 +97,7 @@
 .pricing-plan-tab {
   padding: 14px 10px;
   text-align: center;
-  color: color-mix(in srgb, var(--white) 70%, transparent);
+  color: var(--on-dark-muted);
   border: 1px solid color-mix(in srgb, var(--white) 14%, transparent);
   background: color-mix(in srgb, var(--white) 3%, transparent);
   cursor: pointer;
@@ -105,14 +105,14 @@
 }
 
 .pricing-plan-tab:hover {
-  color: var(--white);
+  color: var(--on-dark);
   border-color: color-mix(in srgb, var(--white) 35%, transparent);
 }
 
 .pricing-plan-tab.is-active {
-  background: var(--white);
+  background: var(--fill-light);
   color: var(--brand-primary);
-  border-color: var(--white);
+  border-color: var(--fill-light);
   transform: translateY(-2px);
 }
 

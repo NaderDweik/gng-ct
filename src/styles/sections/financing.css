@@ -4,7 +4,7 @@
 }
 
 .on-dark .section-title {
-  color: var(--white);
+  color: var(--on-dark);
 }
 
 .plan-card {
@@ -21,12 +21,12 @@
 
 .plan-card:hover {
   transform: translateY(-6px);
-  border-color: color-mix(in srgb, var(--brand-primary) 35%, transparent);
+  border-color: color-mix(in srgb, var(--primary-ink) 35%, transparent);
   box-shadow: var(--shadow-card-lg);
 }
 
 .plan-card--cash {
-  color: var(--white);
+  color: var(--on-dark);
   border-color: transparent;
   background:
     radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--brand-accent) 14%, transparent), transparent 55%),
@@ -60,11 +60,11 @@
   font-weight: 800;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--brand-primary);
+  color: var(--primary-ink);
 }
 
 .plan-card-cta--light {
-  color: var(--white);
+  color: var(--on-dark);
 }
 
 .plan-card-cta .arrow {

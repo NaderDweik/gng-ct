@@ -52,7 +52,7 @@ export default async function RegisterPage({ params }: Props) {
             {isAr ? "خطوة واحدة تفصلك عن شاليهك." : "One step away from your chalet."}
           </h1>
           <p
-            className="reveal mt-3 max-w-xl text-sm text-white/75 md:text-base"
+            className="reveal mt-3 max-w-xl text-sm text-on-dark-muted md:text-base"
             style={{ animationDelay: "160ms" }}
           >
             {t("subtitle")}
@@ -76,18 +76,18 @@ export default async function RegisterPage({ params }: Props) {
               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
                 {isAr ? "الأسعار تبدأ من" : "Prices from"}
               </p>
-              <p className="font-display mt-2 text-4xl font-bold leading-none text-white tabular-nums">
+              <p className="font-display mt-2 text-4xl font-bold leading-none text-on-dark tabular-nums">
                 {n(basePriceJd)}
-                <span className="ms-2 text-sm font-medium text-white/55">{tc("jd")}</span>
+                <span className="ms-2 text-sm font-medium text-on-dark-muted">{tc("jd")}</span>
               </p>
-              <p className="mt-2 text-sm text-white/65">
+              <p className="mt-2 text-sm text-on-dark-muted">
                 {isAr
                   ? `أو ${n(cashPriceJd)} د.أ نقدًا — خصم ${n(cashDiscountPct)}٪`
                   : `or ${n(cashPriceJd)} JD cash — ${cashDiscountPct}% off`}
               </p>
-              <ul className="mt-5 space-y-2 border-t border-white/10 pt-4">
+              <ul className="mt-5 space-y-2 border-t border-line-on-dark pt-4">
                 {promises.map((line) => (
-                  <li key={line} className="flex items-start gap-3 text-sm text-white/80">
+                  <li key={line} className="flex items-start gap-3 text-sm text-on-dark-muted">
                     <span className="mt-2 h-px w-4 shrink-0 bg-accent" aria-hidden />
                     {line}
                   </li>
@@ -110,7 +110,7 @@ export default async function RegisterPage({ params }: Props) {
                 <a
                   href={`tel:${site.phoneAction}`}
                   dir="ltr"
-                  className="font-bold text-primary transition hover:opacity-80"
+                  className="font-bold text-primary-ink transition hover:opacity-80"
                 >
                   {formatPhone(site.phone)}
                 </a>
@@ -118,7 +118,7 @@ export default async function RegisterPage({ params }: Props) {
                   href={site.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="font-bold text-ink transition hover:text-primary"
+                  className="font-bold text-ink transition hover:text-primary-ink"
                 >
                   {tc("whatsapp")}
                 </a>

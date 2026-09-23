@@ -1,24 +1,32 @@
 :root {
-  /* Raw palette (--brand-*, --neutral-*, --overlay, --white, --black, --whatsapp)
-     is injected from src/theme/tokens.ts. Below are derived semantic tokens. */
+  /* Injected from src/theme/tokens.ts: the raw palette (--brand-*, --neutral-*,
+     --overlay, --white, --black, --whatsapp) and the per-theme semantic roles
+     (--surface*, --ink, --muted, --subtle, --line*, --*-ink, --shadow-color).
+     Below are mixes derived from those — they follow the theme automatically. */
   --brand-primary-hover: color-mix(in srgb, var(--brand-primary) 78%, var(--black));
-  --brand-primary-soft: color-mix(in srgb, var(--brand-primary) 8%, var(--white));
+  --brand-primary-soft: color-mix(in srgb, var(--primary-ink) 8%, var(--surface));
   --brand-secondary-deep: color-mix(in srgb, var(--brand-secondary) 80%, var(--black));
   --brand-secondary-light: color-mix(in srgb, var(--brand-secondary) 90%, var(--white));
   --brand-accent-hover: color-mix(in srgb, var(--brand-accent) 88%, var(--black));
   --brand-accent-soft: color-mix(in srgb, var(--brand-accent) 50%, var(--white));
   --on-accent: color-mix(in srgb, var(--brand-accent) 15%, var(--black));
 
-  --ink: var(--neutral-900);
-  --muted: var(--neutral-600);
-  --line: var(--neutral-200);
-  --surface: var(--white);
-  --surface-alt: var(--neutral-50);
-  --surface-tint: var(--neutral-100);
   --dark: var(--neutral-950);
-  --dark-soft: var(--neutral-900);
 
-  --shadow-color: var(--brand-primary);
+  /* Always-light fills (white buttons on dark bands) — identical in both themes. */
+  --fill-light: var(--white);
+  --fill-light-hover: var(--neutral-50);
+  --ink-on-light: var(--neutral-900);
+
+  /* Content on dark surfaces (brand bands, image scrims, dark cards). */
+  --on-dark: var(--white);
+  --on-dark-muted: color-mix(in srgb, var(--white) 70%, transparent);
+  --on-dark-subtle: color-mix(in srgb, var(--white) 50%, transparent);
+  --line-on-dark: color-mix(in srgb, var(--white) 10%, transparent);
+  --fill-on-dark: color-mix(in srgb, var(--white) 10%, transparent);
+
+  --focus-ring: var(--primary-ink);
+
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   --background: var(--surface);
@@ -34,24 +42,35 @@
   --color-primary: var(--brand-primary);
   --color-primary-hover: var(--brand-primary-hover);
   --color-primary-soft: var(--brand-primary-soft);
-  --color-brand: var(--brand-primary);
-  --color-brand-hover: var(--brand-primary-hover);
+  --color-primary-ink: var(--primary-ink);
+  --color-secondary-ink: var(--secondary-ink);
   --color-secondary: var(--brand-secondary);
   --color-secondary-deep: var(--brand-secondary-deep);
   --color-secondary-light: var(--brand-secondary-light);
   --color-accent: var(--brand-accent);
   --color-accent-hover: var(--brand-accent-hover);
   --color-accent-soft: var(--brand-accent-soft);
+  --color-accent-ink: var(--accent-ink);
 
   --color-ink: var(--ink);
   --color-muted: var(--muted);
   --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
   --color-surface: var(--surface);
   --color-surface-alt: var(--surface-alt);
   --color-surface-tint: var(--surface-tint);
   --color-overlay: var(--overlay);
+  --color-subtle: var(--subtle);
   --color-dark: var(--dark);
-  --color-dark-soft: var(--dark-soft);
+  --color-fill-light: var(--fill-light);
+  --color-fill-light-hover: var(--fill-light-hover);
+  --color-ink-on-light: var(--ink-on-light);
+  --color-on-dark: var(--on-dark);
+  --color-on-dark-muted: var(--on-dark-muted);
+  --color-on-dark-subtle: var(--on-dark-subtle);
+  --color-line-on-dark: var(--line-on-dark);
+  --color-fill-on-dark: var(--fill-on-dark);
+  --color-focus-ring: var(--focus-ring);
   --color-whatsapp: var(--whatsapp);
 
   --color-white: var(--white);

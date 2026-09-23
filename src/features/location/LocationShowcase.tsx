@@ -92,24 +92,24 @@ export function LocationShowcase() {
   return (
     <div className="grid gap-4 lg:grid-cols-[minmax(0,1.08fr)_minmax(400px,0.92fr)] lg:grid-rows-[auto_1fr] lg:items-stretch xl:min-h-[560px]">
       {/* Map */}
-      <div className="relative order-2 h-[420px] overflow-hidden rounded-none border border-white/70 bg-surface-tint shadow-card-lg sm:h-[420px] lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:h-full lg:min-h-[540px] xl:min-h-[560px]">
+      <div className="relative order-2 h-[420px] overflow-hidden rounded-none border border-surface/70 bg-surface-tint shadow-card-lg sm:h-[420px] lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:h-full lg:min-h-[540px] xl:min-h-[560px]">
         <LocationLeafletMap
           active={active}
           isAr={isAr}
           projectLabel={isAr ? c.projectPinAr : c.projectPinEn}
         />
         <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-surface-tint/5 to-primary/10" />
-        <div className="absolute inset-x-4 bottom-4 z-30 rounded-none border border-white/70 bg-white/95 p-3 shadow-2xl backdrop-blur md:inset-x-5 md:bottom-5 md:p-4">
+        <div className="absolute inset-x-4 bottom-4 z-30 rounded-none border border-surface/70 bg-surface/95 p-3 shadow-2xl backdrop-blur md:inset-x-5 md:bottom-5 md:p-4">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-none bg-brand text-white">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-none bg-primary text-on-dark">
                 <NavIcon />
               </span>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-brand/55">
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary-ink/55">
                   {site.nameEn}
                 </p>
-                <p className="font-semibold text-brand">
+                <p className="font-semibold text-primary-ink">
                   {isAr ? c.mapShortAr : c.mapShortEn}
                 </p>
               </div>
@@ -118,7 +118,7 @@ export function LocationShowcase() {
               href={site.mapsUrl || mapsSearchUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-none bg-brand px-4 py-2.5 text-sm font-bold text-white transition hover:bg-primary-hover"
+              className="inline-flex items-center justify-center gap-2 rounded-none bg-primary px-4 py-2.5 text-sm font-bold text-on-dark transition hover:bg-primary-hover"
             >
               {isAr ? c.openMapAr : c.openMapEn}
               <ExternalArrow />
@@ -128,44 +128,44 @@ export function LocationShowcase() {
       </div>
 
       {/* Info card */}
-      <div className="order-1 rounded-none border border-white/75 bg-white p-6 shadow-card md:p-7 lg:col-start-2 lg:row-start-1 lg:shrink-0">
-        <span className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-secondary">
+      <div className="order-1 rounded-none border border-surface/75 bg-surface p-6 shadow-card md:p-7 lg:col-start-2 lg:row-start-1 lg:shrink-0">
+        <span className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-secondary-ink">
           <MapPinIcon />
           {isAr ? c.eyebrowAr : c.eyebrowEn}
         </span>
-        <h2 className="font-display mb-4 text-4xl font-extrabold leading-tight text-secondary md:text-5xl">
+        <h2 className="font-display mb-4 text-4xl font-extrabold leading-tight text-secondary-ink md:text-5xl">
           {isAr ? c.titleAr : c.titleEn}
         </h2>
-        <p className="mb-6 text-base font-light leading-relaxed text-neutral-600 md:text-lg">
+        <p className="mb-6 text-base font-light leading-relaxed text-muted md:text-lg">
           {isAr ? c.subAr : c.subEn}
         </p>
-        <div className="border-t border-brand/10">
-          <div className="grid gap-2 border-b border-brand/10 py-4 sm:grid-cols-[120px_minmax(0,1fr)] sm:items-start sm:gap-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand/45 xl:text-[11px] xl:tracking-[0.22em]">
+        <div className="border-t border-primary-ink/10">
+          <div className="grid gap-2 border-b border-primary-ink/10 py-4 sm:grid-cols-[120px_minmax(0,1fr)] sm:items-start sm:gap-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary-ink/45 xl:text-[11px] xl:tracking-[0.22em]">
               {isAr ? c.addressLabelAr : c.addressLabelEn}
             </p>
-            <p className="whitespace-pre-line text-[13px] font-semibold leading-relaxed text-brand md:text-sm xl:text-base">
+            <p className="whitespace-pre-line text-[13px] font-semibold leading-relaxed text-primary-ink md:text-sm xl:text-base">
               {isAr ? c.addressAr : c.addressEn}
             </p>
           </div>
-          <div className="grid gap-2 border-b border-brand/10 py-4 sm:grid-cols-[120px_minmax(0,1fr)] sm:items-start sm:gap-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand/45 xl:text-[11px] xl:tracking-[0.22em]">
+          <div className="grid gap-2 border-b border-primary-ink/10 py-4 sm:grid-cols-[120px_minmax(0,1fr)] sm:items-start sm:gap-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary-ink/45 xl:text-[11px] xl:tracking-[0.22em]">
               {isAr ? c.phoneLabelAr : c.phoneLabelEn}
             </p>
             <a
               href={telHref}
-              className="text-start text-[13px] font-semibold leading-relaxed text-brand transition-colors hover:underline hover:opacity-75 md:text-sm xl:text-base"
+              className="text-start text-[13px] font-semibold leading-relaxed text-primary-ink transition-colors hover:underline hover:opacity-75 md:text-sm xl:text-base"
             >
               <span dir="ltr" className="inline-block [direction:ltr]">
                 {phoneDisplay}
               </span>
             </a>
           </div>
-          <div className="grid gap-2 border-b border-brand/10 py-4 sm:grid-cols-[120px_minmax(0,1fr)] sm:items-start sm:gap-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-brand/45 xl:text-[11px] xl:tracking-[0.22em]">
+          <div className="grid gap-2 border-b border-primary-ink/10 py-4 sm:grid-cols-[120px_minmax(0,1fr)] sm:items-start sm:gap-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary-ink/45 xl:text-[11px] xl:tracking-[0.22em]">
               {isAr ? c.deliveryLabelAr : c.deliveryLabelEn}
             </p>
-            <p className="whitespace-pre-line text-[13px] font-semibold leading-relaxed text-brand md:text-sm xl:text-base">
+            <p className="whitespace-pre-line text-[13px] font-semibold leading-relaxed text-primary-ink md:text-sm xl:text-base">
               {isAr ? c.deliveryAr : c.deliveryEn}
             </p>
           </div>
@@ -173,7 +173,7 @@ export function LocationShowcase() {
       </div>
 
       {/* Nearby list */}
-      <div className="order-3 flex flex-col rounded-none bg-brand p-5 text-white shadow-card-lg md:p-6 lg:col-start-2 lg:row-start-2 lg:flex-1">
+      <div className="order-3 flex flex-col rounded-none bg-primary p-5 text-on-dark shadow-card-lg md:p-6 lg:col-start-2 lg:row-start-2 lg:flex-1">
         <h3 className="font-display mb-4 whitespace-nowrap text-sm font-semibold leading-tight tracking-tight sm:text-lg xl:text-xl">
           {isAr ? c.nearbyTitleAr : c.nearbyTitleEn}
         </h3>
@@ -186,25 +186,25 @@ export function LocationShowcase() {
                   type="button"
                   aria-pressed={on}
                   onClick={() => setActiveId(place.id)}
-                  className={`group flex min-h-10 w-full cursor-pointer items-center gap-2 rounded-none px-3 py-2 text-start transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/80 hover:bg-white/10 ${
-                    on ? "bg-white/10" : ""
+                  className={`group flex min-h-10 w-full cursor-pointer items-center gap-2 rounded-none px-3 py-2 text-start transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/80 hover:bg-fill-on-dark ${
+                    on ? "bg-fill-on-dark" : ""
                   }`}
                 >
                   <span
                     className={`h-2 w-2 shrink-0 rounded-full transition ${
-                      on ? "bg-white" : "bg-white/35"
+                      on ? "bg-on-dark" : "bg-white/35"
                     }`}
                     aria-hidden
                   />
                   <span
                     className={`text-[13px] font-medium leading-snug xl:text-sm ${
-                      on ? "text-white" : "text-white/88"
+                      on ? "text-on-dark" : "text-on-dark"
                     }`}
                   >
                     {isAr ? place.nameAr : place.nameEn}
                   </span>
                   <span className="h-px flex-1 bg-white/18 transition group-hover:bg-white/30" />
-                  <span className="shrink-0 rounded-none bg-white px-2.5 py-1 text-xs font-bold text-brand">
+                  <span className="shrink-0 rounded-none bg-fill-light px-2.5 py-1 text-xs font-bold text-primary">
                     {isAr ? place.timeAr : place.timeEn}
                   </span>
                 </button>

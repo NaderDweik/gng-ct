@@ -24,11 +24,11 @@ export default async function ArticlePage({ params }: Props) {
   return (
     <article className="section">
       <div className="container-gc max-w-3xl">
-        <Link href="/news" className="text-sm text-brand hover:underline">
+        <Link href="/news" className="text-sm text-primary-ink hover:underline">
           ← {isAr ? "الأخبار" : "News"}
         </Link>
         <time className="mt-6 block text-sm text-muted">{article.date}</time>
-        <h1 className="mt-2 text-3xl font-bold leading-snug text-brand md:text-4xl">
+        <h1 className="mt-2 text-3xl font-bold leading-snug text-primary-ink md:text-4xl">
           {isAr ? article.titleAr : article.titleEn}
         </h1>
         <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted">

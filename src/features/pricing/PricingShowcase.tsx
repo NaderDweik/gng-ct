@@ -139,7 +139,7 @@ export function PricingShowcase() {
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted">
             {isAr ? "سعر الشاليه يبدأ من" : "Chalets from"}
           </p>
-          <p className="font-display mt-3 flex items-baseline gap-3 text-6xl font-bold leading-none tracking-tight text-brand md:text-7xl">
+          <p className="font-display mt-3 flex items-baseline gap-3 text-6xl font-bold leading-none tracking-tight text-primary-ink md:text-7xl">
             <AnimatedNumber value={headline} locale={locale} enabled={inView} />
             <span className="text-lg font-medium tracking-normal text-muted">{jd}</span>
           </p>
@@ -168,7 +168,7 @@ export function PricingShowcase() {
         <ul className="mt-10 grid gap-x-6 gap-y-4 border-t border-line pt-8 sm:grid-cols-2">
           {benefits.map((b) => (
             <li key={b} className="flex items-start gap-3 text-sm text-ink">
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand text-white">
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-on-dark">
                 <Check />
               </span>
               {b}
@@ -180,7 +180,7 @@ export function PricingShowcase() {
           <Link href="/financing" className="btn btn-primary">
             {isAr ? "استكشف خطط التمويل" : "Explore financing"}
           </Link>
-          <Link href="/register" className="btn border border-brand/30 text-brand hover:bg-brand hover:text-white">
+          <Link href="/register" className="btn border border-primary-ink/30 text-primary-ink hover:bg-primary hover:text-on-dark">
             {tc("register")}
           </Link>
         </div>
@@ -191,7 +191,7 @@ export function PricingShowcase() {
         <div className="relative z-10 flex h-full flex-col">
           <div className="flex items-center justify-between gap-4">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">{copy.zeroInterest}</p>
-            <span className="rounded-full border border-white/20 px-3 py-1 text-[11px] text-white/70">
+            <span className="rounded-full border border-white/20 px-3 py-1 text-[11px] text-on-dark-muted">
               {isAr ? "مباشرة مع الشركة" : "Direct with developer"}
             </span>
           </div>
@@ -222,10 +222,10 @@ export function PricingShowcase() {
               </div>
 
               <div className="mt-10">
-                <p className="text-sm text-white/60">{isAr ? "الدفعة الأولى" : "Down payment"}</p>
-                <p className="font-display mt-2 flex items-baseline gap-3 text-5xl font-bold leading-none text-white">
+                <p className="text-sm text-on-dark-muted">{isAr ? "الدفعة الأولى" : "Down payment"}</p>
+                <p className="font-display mt-2 flex items-baseline gap-3 text-5xl font-bold leading-none text-on-dark">
                   <AnimatedNumber value={plan.downJd} locale={locale} enabled={inView} />
-                  <span className="text-base font-medium text-white/60">{jd}</span>
+                  <span className="text-base font-medium text-on-dark-muted">{jd}</span>
                   <span className="pricing-chip pricing-chip--dark ms-auto">
                     {formatNumber(plan.downPct, locale)}{isAr ? "٪" : "%"}
                   </span>
@@ -235,37 +235,37 @@ export function PricingShowcase() {
                   <div className="pricing-bar">
                     <span className="pricing-bar-fill" style={{ width: inView ? `${plan.downPct}%` : "0%" }} />
                   </div>
-                  <div className="mt-2 flex justify-between text-[11px] text-white/50">
+                  <div className="mt-2 flex justify-between text-[11px] text-on-dark-subtle">
                     <span>{isAr ? "الدفعة الأولى" : "Down"}</span>
                     <span>{isAr ? "أقساط شهرية بدون فوائد" : "Zero-interest monthly"}</span>
                   </div>
                 </div>
               </div>
 
-              <dl className="mt-auto grid grid-cols-2 gap-px overflow-hidden border border-white/10 bg-white/10 pt-0 [&>div]:bg-secondary-deep">
+              <dl className="mt-auto grid grid-cols-2 gap-px overflow-hidden border border-line-on-dark bg-fill-on-dark pt-0 [&>div]:bg-secondary-deep">
                 <div className="p-5">
-                  <dt className="text-[11px] uppercase tracking-[0.14em] text-white/50">{isAr ? "القسط الشهري من" : "Monthly from"}</dt>
+                  <dt className="text-[11px] uppercase tracking-[0.14em] text-on-dark-subtle">{isAr ? "القسط الشهري من" : "Monthly from"}</dt>
                   <dd className="font-display mt-2 text-2xl font-bold">
                     <AnimatedNumber value={plan.monthlyFromJd} locale={locale} enabled={inView} />{" "}
-                    <span className="text-sm font-medium text-white/60">{jd}</span>
+                    <span className="text-sm font-medium text-on-dark-muted">{jd}</span>
                   </dd>
                 </div>
                 <div className="p-5">
-                  <dt className="text-[11px] uppercase tracking-[0.14em] text-white/50">{isAr ? "المدة حتى" : "Up to"}</dt>
+                  <dt className="text-[11px] uppercase tracking-[0.14em] text-on-dark-subtle">{isAr ? "المدة حتى" : "Up to"}</dt>
                   <dd className="font-display mt-2 text-2xl font-bold">
                     <AnimatedNumber value={months} locale={locale} enabled={inView} />{" "}
-                    <span className="text-sm font-medium text-white/60">{isAr ? "شهرًا" : "months"}</span>
+                    <span className="text-sm font-medium text-on-dark-muted">{isAr ? "شهرًا" : "months"}</span>
                   </dd>
                 </div>
                 <div className="p-5">
-                  <dt className="text-[11px] uppercase tracking-[0.14em] text-white/50">{isAr ? "المتبقي" : "Balance"}</dt>
+                  <dt className="text-[11px] uppercase tracking-[0.14em] text-on-dark-subtle">{isAr ? "المتبقي" : "Balance"}</dt>
                   <dd className="font-display mt-2 text-2xl font-bold">
                     <AnimatedNumber value={remaining} locale={locale} enabled={inView} />{" "}
-                    <span className="text-sm font-medium text-white/60">{jd}</span>
+                    <span className="text-sm font-medium text-on-dark-muted">{jd}</span>
                   </dd>
                 </div>
                 <div className="p-5">
-                  <dt className="text-[11px] uppercase tracking-[0.14em] text-white/50">{isAr ? "الفوائد" : "Interest"}</dt>
+                  <dt className="text-[11px] uppercase tracking-[0.14em] text-on-dark-subtle">{isAr ? "الفوائد" : "Interest"}</dt>
                   <dd className="font-display mt-2 text-2xl font-bold text-accent">
                     {inView ? (
                       <CountUp value={0} from={100} locale={locale} duration={1600} delay={150} suffix={isAr ? "٪" : "%"} />
@@ -278,35 +278,35 @@ export function PricingShowcase() {
             </div>
           ) : (
             <div key="cash" className="pricing-fade mt-8 flex flex-1 flex-col">
-              <p className="font-display text-3xl font-bold leading-tight text-white md:text-4xl">
+              <p className="font-display text-3xl font-bold leading-tight text-on-dark md:text-4xl">
                 {isAr ? "ادفع نقدًا ووفّر مباشرة." : "Pay cash, save instantly."}
               </p>
-              <p className="mt-3 max-w-sm text-sm text-white/65">
+              <p className="mt-3 max-w-sm text-sm text-on-dark-muted">
                 {isAr
                   ? `خصم ${formatNumber(cashDiscountPct, locale)}٪ على السعر الأساسي عند الدفع الكامل، مع سند ملكية مستقل باسمك.`
                   : `${cashDiscountPct}% off the list price for full payment, with an independent deed in your name.`}
               </p>
 
-              <dl className="mt-auto space-y-4 border-t border-white/10 pt-8 text-sm">
+              <dl className="mt-auto space-y-4 border-t border-line-on-dark pt-8 text-sm">
                 <div className="flex items-center justify-between">
-                  <dt className="text-white/60">{isAr ? "السعر الأساسي" : "List price"}</dt>
-                  <dd className="tabular-nums text-white/80">
+                  <dt className="text-on-dark-muted">{isAr ? "السعر الأساسي" : "List price"}</dt>
+                  <dd className="tabular-nums text-on-dark-muted">
                     <AnimatedNumber value={basePriceJd} locale={locale} enabled={inView} /> {jd}
                   </dd>
                 </div>
                 <div className="flex items-center justify-between">
-                  <dt className="text-white/60">
+                  <dt className="text-on-dark-muted">
                     {isAr ? `خصم نقدي ${formatNumber(cashDiscountPct, locale)}٪` : `Cash discount ${cashDiscountPct}%`}
                   </dt>
                   <dd className="tabular-nums text-accent">
                     − <AnimatedNumber value={savings} locale={locale} enabled={inView} /> {jd}
                   </dd>
                 </div>
-                <div className="flex items-center justify-between border-t border-white/10 pt-4">
-                  <dt className="font-bold text-white">{isAr ? "تدفع" : "You pay"}</dt>
-                  <dd className="font-display text-3xl font-bold tabular-nums text-white">
+                <div className="flex items-center justify-between border-t border-line-on-dark pt-4">
+                  <dt className="font-bold text-on-dark">{isAr ? "تدفع" : "You pay"}</dt>
+                  <dd className="font-display text-3xl font-bold tabular-nums text-on-dark">
                     <AnimatedNumber value={cashPriceJd} locale={locale} enabled={inView} />{" "}
-                    <span className="text-sm font-medium text-white/60">{jd}</span>
+                    <span className="text-sm font-medium text-on-dark-muted">{jd}</span>
                   </dd>
                 </div>
               </dl>

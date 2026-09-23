@@ -75,22 +75,22 @@ export default async function FinancingPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="section on-dark bg-secondary text-white">
+      <section className="section on-dark bg-secondary text-on-dark">
         <div className="container-gc">
           <p className="section-eyebrow">{isAr ? "كيف يعمل" : "How it works"}</p>
           <h2 className="section-title max-w-2xl">
             {isAr ? "أربع خطوات نحو شاليهك." : "Four steps to your chalet."}
           </h2>
-          <ol className="mt-12 grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2 lg:grid-cols-4">
+          <ol className="mt-12 grid gap-px overflow-hidden border border-line-on-dark bg-fill-on-dark md:grid-cols-2 lg:grid-cols-4">
             {steps.map((s, i) => (
               <li key={s.titleEn} className="step-card">
                 <span className="font-display text-5xl font-bold leading-none text-accent/80 tabular-nums">
                   {formatNumber(i + 1, locale).padStart(2, isAr ? "٠" : "0")}
                 </span>
-                <h3 className="font-display mt-8 text-xl font-bold text-white">
+                <h3 className="font-display mt-8 text-xl font-bold text-on-dark">
                   {isAr ? s.titleAr : s.titleEn}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-white/65">
+                <p className="mt-3 text-sm leading-relaxed text-on-dark-muted">
                   {isAr ? s.bodyAr : s.bodyEn}
                 </p>
               </li>

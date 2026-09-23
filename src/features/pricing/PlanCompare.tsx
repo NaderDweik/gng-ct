@@ -21,7 +21,7 @@ export function PlanCompare({ locale, jd }: Props) {
                 <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted">
                   {isAr ? "الاستلام" : "Move-in"}
                 </p>
-                <p className="font-display mt-1 text-4xl font-bold leading-none text-primary tabular-nums">
+                <p className="font-display mt-1 text-4xl font-bold leading-none text-primary-ink tabular-nums">
                   {year(p.moveIn)}
                 </p>
               </div>
@@ -33,7 +33,7 @@ export function PlanCompare({ locale, jd }: Props) {
               <p className="font-display mt-1 flex items-baseline gap-2 text-3xl font-bold text-ink">
                 <span className="tabular-nums">{formatNumber(p.downJd, locale)}</span>
                 <span className="text-sm font-medium text-muted">{jd}</span>
-                <span className="ms-auto text-base font-bold text-primary">{pct(p.downPct)}</span>
+                <span className="ms-auto text-base font-bold text-primary-ink">{pct(p.downPct)}</span>
               </p>
               <div className="plan-bar mt-4" aria-hidden>
                 <span style={{ width: `${p.downPct}%` }} />
@@ -57,7 +57,7 @@ export function PlanCompare({ locale, jd }: Props) {
               </div>
               <div className="flex justify-between gap-4">
                 <dt className="text-muted">{isAr ? "الفوائد" : "Interest"}</dt>
-                <dd className="font-bold text-primary">{pct(0)}</dd>
+                <dd className="font-bold text-primary-ink">{pct(0)}</dd>
               </div>
             </dl>
 
@@ -74,7 +74,7 @@ export function PlanCompare({ locale, jd }: Props) {
         <div className="relative z-10 flex h-full flex-col">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/60">
+              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-on-dark-muted">
                 {isAr ? "الدفع النقدي" : "Cash"}
               </p>
               <p className="font-display mt-1 text-4xl font-bold leading-none text-accent">
@@ -85,30 +85,30 @@ export function PlanCompare({ locale, jd }: Props) {
           </div>
 
           <div className="mt-8">
-            <p className="text-sm text-white/60">{isAr ? "تدفع" : "You pay"}</p>
-            <p className="font-display mt-1 flex items-baseline gap-2 text-3xl font-bold text-white">
+            <p className="text-sm text-on-dark-muted">{isAr ? "تدفع" : "You pay"}</p>
+            <p className="font-display mt-1 flex items-baseline gap-2 text-3xl font-bold text-on-dark">
               <span className="tabular-nums">{formatNumber(cashPriceJd, locale)}</span>
-              <span className="text-sm font-medium text-white/60">{jd}</span>
+              <span className="text-sm font-medium text-on-dark-muted">{jd}</span>
             </p>
-            <p className="mt-3 text-sm text-white/50 line-through tabular-nums">
+            <p className="mt-3 text-sm text-on-dark-subtle line-through tabular-nums">
               {formatNumber(basePriceJd, locale)} {jd}
             </p>
           </div>
 
-          <dl className="mt-8 space-y-3 border-t border-white/10 pt-6 text-sm">
+          <dl className="mt-8 space-y-3 border-t border-line-on-dark pt-6 text-sm">
             <div className="flex justify-between gap-4">
-              <dt className="text-white/60">{isAr ? "التوفير" : "You save"}</dt>
+              <dt className="text-on-dark-muted">{isAr ? "التوفير" : "You save"}</dt>
               <dd className="font-bold text-accent tabular-nums">
                 {formatNumber(basePriceJd - cashPriceJd, locale)} {jd}
               </dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-white/60">{isAr ? "الأقساط" : "Installments"}</dt>
-              <dd className="font-bold text-white">{isAr ? "لا يوجد" : "None"}</dd>
+              <dt className="text-on-dark-muted">{isAr ? "الأقساط" : "Installments"}</dt>
+              <dd className="font-bold text-on-dark">{isAr ? "لا يوجد" : "None"}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-white/60">{isAr ? "سند الملكية" : "Title deed"}</dt>
-              <dd className="font-bold text-white">{isAr ? "مستقل باسمك" : "Independent"}</dd>
+              <dt className="text-on-dark-muted">{isAr ? "سند الملكية" : "Title deed"}</dt>
+              <dd className="font-bold text-on-dark">{isAr ? "مستقل باسمك" : "Independent"}</dd>
             </div>
           </dl>
 

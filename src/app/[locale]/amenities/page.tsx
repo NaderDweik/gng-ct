@@ -15,7 +15,7 @@ export default async function AmenitiesPage({ params }: Props) {
   return (
     <>
       <PageHero title={t("title")} subtitle={t("subtitle")} />
-      <section className="section overflow-hidden border-b border-line bg-white">
+      <section className="section overflow-hidden border-b border-line bg-surface">
         <div className="container-gc space-y-12">
           <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
             <div className="space-y-5 text-start">
@@ -26,7 +26,7 @@ export default async function AmenitiesPage({ params }: Props) {
                 {isAr ? amenitiesIntro.titleAr : amenitiesIntro.titleEn}
               </h2>
             </div>
-            <p className="text-start text-base font-light leading-relaxed text-neutral-600 md:text-lg lg:max-w-2xl lg:justify-self-end">
+            <p className="text-start text-base font-light leading-relaxed text-muted md:text-lg lg:max-w-2xl lg:justify-self-end">
               {isAr ? amenitiesIntro.subAr : amenitiesIntro.subEn}
             </p>
           </div>

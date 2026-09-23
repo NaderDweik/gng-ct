@@ -95,11 +95,11 @@ type Props = {
 
 export function AmenitiesHoverGrid({ items, isAr }: Props) {
   return (
-    <div className="grid grid-cols-1 gap-px overflow-hidden border border-neutral-200/60 bg-neutral-200/60 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-1 gap-px overflow-hidden border border-line/60 bg-line/60 sm:grid-cols-2 lg:grid-cols-4">
       {items.map((item) => (
         <article
           key={item.id}
-          className="group relative flex h-full min-h-[340px] cursor-default select-none flex-col justify-between overflow-hidden bg-white p-7 transition-colors duration-500 md:min-h-[360px] md:p-8"
+          className="group relative flex h-full min-h-[340px] cursor-default select-none flex-col justify-between overflow-hidden bg-surface p-7 transition-colors duration-500 md:min-h-[360px] md:p-8"
         >
           <div className="pointer-events-none absolute inset-0 z-0 max-sm:scale-100 max-sm:opacity-100 sm:scale-[1.05] sm:opacity-0 sm:transition-all sm:duration-700 sm:ease-[cubic-bezier(0.16,1,0.3,1)] sm:group-hover:scale-100 sm:group-hover:opacity-100">
             <Image
@@ -117,10 +117,10 @@ export function AmenitiesHoverGrid({ items, isAr }: Props) {
               <div className="mb-5">
                 <AmenityIcon
                   name={item.icon}
-                  className="h-9 w-9 text-secondary transition-colors duration-300 group-hover:text-white max-sm:text-white"
+                  className="h-9 w-9 text-secondary-ink transition-colors duration-300 group-hover:text-on-dark max-sm:text-on-dark"
                 />
               </div>
-              <h3 className="font-display mb-3 text-xl font-semibold leading-tight text-secondary transition-colors duration-300 group-hover:text-white max-sm:text-white md:text-2xl">
+              <h3 className="font-display mb-3 text-xl font-semibold leading-tight text-secondary-ink transition-colors duration-300 group-hover:text-on-dark max-sm:text-on-dark md:text-2xl">
                 {isAr ? item.titleAr : item.titleEn}
               </h3>
               {(isAr ? item.tagsAr : item.tagsEn).length > 0 && (
@@ -128,7 +128,7 @@ export function AmenitiesHoverGrid({ items, isAr }: Props) {
                   {(isAr ? item.tagsAr : item.tagsEn).map((tag) => (
                     <span
                       key={tag}
-                      className="inline-block rounded bg-neutral-100 px-2.5 py-0.5 text-[11px] font-semibold tracking-wide text-secondary transition-colors duration-300 group-hover:bg-white/20 group-hover:text-white max-sm:bg-white/20 max-sm:text-white"
+                      className="inline-block rounded bg-surface-tint px-2.5 py-0.5 text-[11px] font-semibold tracking-wide text-secondary-ink transition-colors duration-300 group-hover:bg-white/20 group-hover:text-on-dark max-sm:bg-white/20 max-sm:text-on-dark"
                     >
                       {tag}
                     </span>
@@ -136,7 +136,7 @@ export function AmenitiesHoverGrid({ items, isAr }: Props) {
                 </div>
               )}
             </div>
-            <p className="mt-auto w-full text-sm leading-relaxed text-neutral-600 transition-colors duration-300 group-hover:text-white/90 max-sm:text-white/90">
+            <p className="mt-auto w-full text-sm leading-relaxed text-muted transition-colors duration-300 group-hover:text-on-dark max-sm:text-on-dark">
               {isAr ? item.descAr : item.descEn}
             </p>
           </div>

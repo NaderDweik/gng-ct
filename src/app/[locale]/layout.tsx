@@ -7,7 +7,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { RealEstateJsonLd } from "@/components/seo/RealEstateJsonLd";
-import { themeCss } from "@/theme/tokens";
+import { themeCss, themeInitScript } from "@/theme/tokens";
 import "@/styles/globals.css";
 
 const cairo = Cairo({
@@ -37,8 +37,10 @@ export default async function LocaleLayout({ children, params }: Props) {
   const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    <html lang={locale} dir={dir} className={cairo.variable}>
+    // `data-theme` is set on <html> by `themeInitScript` before hydration.
+    <html lang={locale} dir={dir} className={cairo.variable} suppressHydrationWarning>
       <head>
+        <script id="theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <style id="theme-tokens" dangerouslySetInnerHTML={{ __html: themeCss }} />
       </head>
       <body className="min-h-screen bg-background font-sans antialiased">

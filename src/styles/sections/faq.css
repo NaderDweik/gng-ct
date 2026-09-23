@@ -37,8 +37,8 @@
 }
 
 .faq-search:focus-within {
-  border-color: var(--brand-primary);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 12%, transparent);
+  border-color: var(--primary-ink);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-ink) 12%, transparent);
 }
 
 .faq-search input {
@@ -104,15 +104,15 @@
 }
 
 .faq-nav-item.is-active {
-  color: var(--brand-primary);
-  border-color: var(--brand-primary);
+  color: var(--primary-ink);
+  border-color: var(--primary-ink);
   background: var(--brand-primary-soft);
 }
 
 @media (min-width: 1024px) {
   .faq-nav-item.is-active {
     background: transparent;
-    border-inline-start-color: var(--brand-primary);
+    border-inline-start-color: var(--primary-ink);
   }
 }
 
@@ -133,12 +133,12 @@
 
 .faq-nav-item.is-active .faq-nav-count {
   background: var(--brand-primary);
-  color: var(--white);
+  color: var(--on-dark);
 }
 
 .faq-help {
   padding: 1.5rem;
-  color: var(--white);
+  color: var(--on-dark);
   background:
     radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--brand-accent) 16%, transparent), transparent 55%),
     linear-gradient(160deg, var(--brand-secondary-light), var(--brand-secondary-deep));
@@ -152,7 +152,7 @@
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: var(--white);
+  color: var(--on-dark);
   border: 1px solid color-mix(in srgb, var(--white) 30%, transparent);
   transition: background 0.25s ease, color 0.25s ease;
 }
@@ -162,13 +162,13 @@
 }
 
 .faq-help-btn--solid {
-  background: var(--white);
+  background: var(--fill-light);
   color: var(--brand-primary);
-  border-color: var(--white);
+  border-color: var(--fill-light);
 }
 
 .faq-help-btn--solid:hover {
-  background: var(--surface-alt);
+  background: var(--fill-light-hover);
 }
 
 .faq-row {
@@ -199,11 +199,11 @@
 
 .faq-q:hover,
 .faq-row.is-open .faq-q {
-  color: var(--brand-primary);
+  color: var(--primary-ink);
 }
 
 .faq-q:focus-visible {
-  outline: 2px solid var(--brand-primary);
+  outline: 2px solid var(--focus-ring);
   outline-offset: -2px;
 }
 
@@ -218,7 +218,7 @@
 }
 
 .faq-row.is-open .faq-num {
-  color: var(--brand-accent);
+  color: var(--accent-ink);
 }
 
 .faq-toggle {
@@ -249,7 +249,7 @@
 .faq-toggle[data-open="true"] {
   background: var(--brand-primary);
   border-color: var(--brand-primary);
-  color: var(--white);
+  color: var(--on-dark);
   transform: rotate(180deg);
 }
 

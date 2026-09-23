@@ -20,13 +20,13 @@ export default async function NewsPage({ params }: Props) {
           {articles.map((a) => (
             <article key={a.slug} className="border border-line bg-surface p-6">
               <time className="text-xs text-muted">{a.date}</time>
-              <h2 className="mt-2 text-xl font-semibold text-brand">
+              <h2 className="mt-2 text-xl font-semibold text-primary-ink">
                 {isAr ? a.titleAr : a.titleEn}
               </h2>
               <p className="mt-3 text-muted">{isAr ? a.excerptAr : a.excerptEn}</p>
               <Link
                 href={`/news/${a.slug}`}
-                className="mt-4 inline-block text-sm font-semibold text-brand hover:underline"
+                className="mt-4 inline-block text-sm font-semibold text-primary-ink hover:underline"
               >
                 {t("readMore")}
               </Link>

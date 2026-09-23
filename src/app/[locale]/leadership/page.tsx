@@ -71,7 +71,7 @@ export default async function LeadershipPage({ params }: Props) {
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
                 {t("founderRole")}
               </span>
-              <span className="font-display mt-1 text-lg font-bold text-white">{name}</span>
+              <span className="font-display mt-1 text-lg font-bold text-on-dark">{name}</span>
             </div>
           </div>
 
@@ -80,7 +80,7 @@ export default async function LeadershipPage({ params }: Props) {
             <h1 className="leader-title reveal" style={{ animationDelay: "80ms" }}>
               {name}
             </h1>
-            <p className="reveal mt-3 text-lg font-medium text-primary" style={{ animationDelay: "120ms" }}>
+            <p className="reveal mt-3 text-lg font-medium text-primary-ink" style={{ animationDelay: "120ms" }}>
               {isAr ? site.companyAr : site.companyEn}
             </p>
 

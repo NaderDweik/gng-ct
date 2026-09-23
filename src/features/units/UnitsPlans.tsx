@@ -142,9 +142,9 @@ export function UnitsPlans() {
   return (
     <>
       {/* Intro — JG two-column block */}
-      <section className="bg-white pt-12 pb-4 md:pt-16">
+      <section className="bg-surface pt-12 pb-4 md:pt-16">
         <div className="mx-auto w-[min(92rem,calc(100%-2rem))] px-2 sm:px-4">
-          <div className="mb-14 grid overflow-hidden bg-neutral-50/70 lg:grid-cols-2">
+          <div className="mb-14 grid overflow-hidden bg-surface-alt/70 lg:grid-cols-2">
             <div className="relative min-h-[320px]">
               <Image
                 src="/gallery/img_2.jpg"
@@ -155,18 +155,18 @@ export function UnitsPlans() {
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-overlay/85 via-overlay/20 to-transparent" />
-              <p className="absolute inset-x-0 bottom-0 p-6 font-display text-base font-bold text-white md:p-8 md:text-lg">
+              <p className="absolute inset-x-0 bottom-0 p-6 font-display text-base font-bold text-on-dark md:p-8 md:text-lg">
                 {copy.introCaption}
               </p>
             </div>
             <div className="flex flex-col justify-center p-6 md:p-10 lg:p-12">
-              <p className="mb-3 text-xs font-bold tracking-[0.2em] text-secondary uppercase">
+              <p className="mb-3 text-xs font-bold tracking-[0.2em] text-secondary-ink uppercase">
                 {copy.introEyebrow}
               </p>
-              <h2 className="font-display mb-6 text-2xl font-bold text-primary md:text-3xl">
+              <h2 className="font-display mb-6 text-2xl font-bold text-primary-ink md:text-3xl">
                 {copy.introHeading}
               </h2>
-              <div className="space-y-5 text-sm text-neutral-600 md:text-base">
+              <div className="space-y-5 text-sm text-muted md:text-base">
                 <p>{copy.p1}</p>
                 <p>{copy.p2}</p>
                 <p>{copy.p3}</p>
@@ -176,12 +176,12 @@ export function UnitsPlans() {
 
           {/* Sticky filter */}
           <div className="relative z-30 mb-8 px-0 sm:sticky sm:top-24 sm:mb-12 sm:px-4">
-            <div className="mx-auto max-w-4xl border border-neutral-200/80 bg-white/92 p-2 shadow-card backdrop-blur-md sm:p-3">
+            <div className="mx-auto max-w-4xl border border-line/80 bg-surface/92 p-2 shadow-card backdrop-blur-md sm:p-3">
               <div className="mb-2 flex items-center justify-between px-1 sm:mb-3">
-                <span className="text-[10px] font-bold tracking-[0.22em] text-primary/55 uppercase sm:text-[11px]">
+                <span className="text-[10px] font-bold tracking-[0.22em] text-primary-ink/55 uppercase sm:text-[11px]">
                   {copy.filterLabel}
                 </span>
-                <span className="text-[10px] font-bold tracking-[0.18em] text-primary/55 uppercase sm:text-[11px]">
+                <span className="text-[10px] font-bold tracking-[0.18em] text-primary-ink/55 uppercase sm:text-[11px]">
                   {copy.filterMeta}
                 </span>
               </div>
@@ -195,8 +195,8 @@ export function UnitsPlans() {
                       onClick={() => setTab(f.id)}
                       className={`min-h-[42px] border px-1 text-[10px] font-bold tracking-[0.12em] uppercase transition sm:min-h-[56px] sm:text-xs lg:text-sm ${
                         active
-                          ? "border-primary bg-primary text-white shadow-card-lg"
-                          : "border-neutral-200 bg-surface-alt text-neutral-500 hover:border-primary/40 hover:bg-white hover:text-primary"
+                          ? "border-primary bg-primary text-on-dark shadow-card-lg"
+                          : "border-line bg-surface-alt text-subtle hover:border-primary-ink/40 hover:bg-surface hover:text-primary-ink"
                       }`}
                     >
                       {isAr ? f.labelAr : f.labelEn}
@@ -228,14 +228,14 @@ export function UnitsPlans() {
               return (
                 <article
                   key={plan.id}
-                  className="group overflow-hidden border border-line bg-surface-tint transition duration-500 hover:border-primary/25 hover:shadow-2xl"
+                  className="group overflow-hidden border border-line bg-surface-tint transition duration-500 hover:border-primary-ink/25 hover:shadow-2xl"
                 >
                   <div className="md:grid md:grid-cols-5">
                     {/* Desktop floor-plan image */}
                     <button
                       type="button"
                       onClick={() => setLightbox(plan)}
-                      className="relative hidden min-h-[300px] cursor-zoom-in bg-white p-5 md:col-span-2 md:block md:p-6"
+                      className="relative hidden min-h-[300px] cursor-zoom-in bg-surface p-5 md:col-span-2 md:block md:p-6"
                     >
                       <div className="relative mx-auto h-full max-h-[260px] min-h-[220px] w-full">
                         <Image
@@ -247,7 +247,7 @@ export function UnitsPlans() {
                         />
                       </div>
                       <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-primary/0 opacity-0 transition group-hover:bg-primary/10 group-hover:opacity-100">
-                        <span className="inline-flex items-center gap-2 rounded-full bg-white/95 px-4 py-2 text-xs font-bold tracking-wider text-primary uppercase shadow-md backdrop-blur">
+                        <span className="inline-flex items-center gap-2 rounded-full bg-surface/95 px-4 py-2 text-xs font-bold tracking-wider text-primary-ink uppercase shadow-md backdrop-blur">
                           <IconMaximize className="animate-pulse" />
                           {copy.quickView}
                         </span>
@@ -262,30 +262,30 @@ export function UnitsPlans() {
                         onClick={() => setLightbox(plan)}
                         className="mb-5 flex w-full cursor-zoom-in items-start gap-4 md:hidden"
                       >
-                        <span className="relative h-24 w-24 shrink-0 overflow-hidden border border-white bg-white shadow-sm">
+                        <span className="relative h-24 w-24 shrink-0 overflow-hidden border border-surface bg-surface shadow-sm">
                           <Image src={plan.image} alt={title} fill className="object-cover" sizes="96px" />
                         </span>
-                        <span className="pt-1 text-left text-[10px] font-bold tracking-wider text-primary uppercase">
+                        <span className="pt-1 text-left text-[10px] font-bold tracking-wider text-primary-ink uppercase">
                           {copy.quickView}
                         </span>
                       </button>
 
-                      <h3 className="font-display text-2xl font-bold text-neutral-900 transition hover:text-primary">
+                      <h3 className="font-display text-2xl font-bold text-ink transition hover:text-primary-ink">
                         {title}
                       </h3>
-                      <p className="mt-1 text-xs font-bold tracking-widest text-primary uppercase">
+                      <p className="mt-1 text-xs font-bold tracking-widest text-primary-ink uppercase">
                         {category}
                       </p>
 
                       <div className="mt-6 mb-8 grid grid-cols-2 gap-x-3 gap-y-5 border border-line bg-surface-tint p-[1.125rem]">
                         {stats.map((s) => (
                           <div key={s.label} className="flex items-start gap-2.5">
-                            <s.icon className="mt-0.5 shrink-0 text-primary" />
+                            <s.icon className="mt-0.5 shrink-0 text-primary-ink" />
                             <div>
-                              <p className="text-[11px] font-semibold tracking-wide text-neutral-500 uppercase">
+                              <p className="text-[11px] font-semibold tracking-wide text-subtle uppercase">
                                 {s.label}
                               </p>
-                              <p className="text-sm font-bold text-primary">{s.value}</p>
+                              <p className="text-sm font-bold text-primary-ink">{s.value}</p>
                             </div>
                           </div>
                         ))}
@@ -296,7 +296,7 @@ export function UnitsPlans() {
                           href={wa}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex flex-1 items-center justify-center gap-2 bg-primary px-4 py-3.5 text-xs font-bold tracking-widest text-white uppercase transition hover:bg-primary-hover"
+                          className="inline-flex flex-1 items-center justify-center gap-2 bg-primary px-4 py-3.5 text-xs font-bold tracking-widest text-on-dark uppercase transition hover:bg-primary-hover"
                         >
                           {copy.viewDetails}
                           <IconArrow rtl={isAr} />
@@ -306,7 +306,7 @@ export function UnitsPlans() {
                           download
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex flex-1 items-center justify-center gap-2 border border-primary bg-transparent px-4 py-3.5 text-xs font-bold tracking-widest text-primary uppercase transition hover:bg-primary hover:text-white"
+                          className="inline-flex flex-1 items-center justify-center gap-2 border border-primary-ink bg-transparent px-4 py-3.5 text-xs font-bold tracking-widest text-primary-ink uppercase transition hover:bg-primary hover:text-on-dark"
                         >
                           <IconDownload />
                           {copy.download}
@@ -324,21 +324,21 @@ export function UnitsPlans() {
       {/* Quick View lightbox */}
       {lightbox && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-4"
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-overlay/80 p-4"
           role="dialog"
           aria-modal="true"
           onClick={() => setLightbox(null)}
         >
           <button
             type="button"
-            className="absolute top-4 end-4 flex h-10 w-10 items-center justify-center bg-white/10 text-2xl text-white hover:bg-white/20"
+            className="absolute top-4 end-4 flex h-10 w-10 items-center justify-center bg-fill-on-dark text-2xl text-on-dark hover:bg-white/20"
             aria-label="Close"
             onClick={() => setLightbox(null)}
           >
             ×
           </button>
           <div
-            className="relative max-h-[85vh] w-full max-w-4xl bg-white p-4 md:p-8"
+            className="relative max-h-[85vh] w-full max-w-4xl bg-surface p-4 md:p-8"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="relative mx-auto aspect-[4/3] w-full">
@@ -351,7 +351,7 @@ export function UnitsPlans() {
                 priority
               />
             </div>
-            <p className="mt-4 text-center font-display text-lg font-bold text-primary">
+            <p className="mt-4 text-center font-display text-lg font-bold text-primary-ink">
               {isAr ? lightbox.titleAr : lightbox.titleEn}
             </p>
           </div>
