@@ -27,3 +27,5 @@
 @import "./sections/location-map.css";
 @import "./sections/gallery.css";
 @import "./base/theme-switch.css";
+@import "./sections/hero-layered.css";
+@import "./sections/gallery-preview.css";

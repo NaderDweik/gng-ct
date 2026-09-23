@@ -71,7 +71,7 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 
 | Path | AR | Status | Notes |
 |------|----|--------|-------|
-| `/` | الرئيسية | **Polished** | Hero carousel, destinations, "golden hour" gallery mosaic (shutter reveal · cursor sunlight · scroll depth · tile⇄viewer morph — `features/gallery/MosaicGrid`), pricing, map, FAQ preview, RegisterCta |
+| `/` | الرئيسية | **Polished** | Cinematic layered hero (`features/home/HeroLayered`, GSAP): 3 auto-advancing slides from `content/hero.ts` (V sculpture · pavilion · dusk sign), fixed wordmark with per-slide cut-outs in front (`public/hero/*-cutout.webp`, regenerate with `scripts/hero-cutout.mjs`); pins & recedes on scroll, destinations, gallery hover-preview (`features/gallery/GalleryPreview` — checkerboard thumbs → wipe preview, picks `homePreviewPicks`), pricing, map, FAQ preview, RegisterCta |
 | `/about` | من نحن | **Polished** | Full-bleed hero + CountUp stats, pillars, collage, ISO video, socials, leadership link, RegisterCta |
 | `/gallery` | المعرض | **Polished** | Cinematic short hero · flush mosaic tabs · lightbox · 2 YT videos · **no** bottom RegisterCta |
 | `/units` | الوحدات المتاحة | **Built** | `UnitsPlans` + gallery placeholders until real floor plans |

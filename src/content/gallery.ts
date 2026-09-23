@@ -149,3 +149,17 @@ export const homeGalleryPicks: HomeGalleryPick[] = [
   { src: "/gallery/img_25.jpg", categoryId: "exteriors", captionAr: "غروب سحاب", captionEn: "Sunset over Sahab" },
   { src: "/gallery/img_30.jpg", categoryId: "exteriors", captionAr: "مدخل المجتمع", captionEn: "Community entrance" },
 ];
+
+/** Home gallery hover-preview — first entry is the default preview. */
+export type HomePreviewPick = { src: string; captionAr: string; captionEn: string };
+
+export const homePreviewPicks: HomePreviewPick[] = [
+  { src: "/gallery/img_52.jpg", captionAr: "النافورة وقت الغروب", captionEn: "The fountain at golden hour" },
+  { src: "/gallery/img_10.jpg", captionAr: "معيشة وطعام بمساحة مفتوحة", captionEn: "Open-plan living & dining" },
+  { src: "/gallery/img_55.jpg", captionAr: "أراجيح بجانب المسبح", captionEn: "Poolside swing chairs" },
+  { src: "/gallery/img_22.jpg", captionAr: "الاستقبال والحدائق", captionEn: "Reception & gardens" },
+  { src: "/gallery/img_17.jpg", captionAr: "غرفة النوم الرئيسية", captionEn: "The master bedroom" },
+  { src: "/gallery/img_63.jpg", captionAr: "نخيل بجانب المسبح", captionEn: "Palms by the pool" },
+  { src: "/gallery/img_20.jpg", captionAr: "جلسة مظللة بجانب المسبح", captionEn: "A shaded pool lounge" },
+  { src: "/gallery/img_62.jpg", captionAr: "استرخاء بجانب المسبح", captionEn: "Loungers by the pool" },
+];

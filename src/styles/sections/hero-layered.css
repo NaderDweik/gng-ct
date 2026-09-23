@@ -1,0 +1,358 @@
+/* ── Home hero — layered wordmark. Behaviour: features/home/HeroLayered.tsx ── */
+.hl {
+  position: relative;
+  height: 100svh;
+  min-height: 640px;
+  overflow: hidden;
+  color: var(--on-dark);
+}
+
+/* Photo, wordmark and cut-out share one stage so they scale/clip together. */
+.hl-stage {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(0% 0% 0% 0%);
+  background: var(--overlay);
+  transform-origin: 50% 30%;
+  will-change: transform, clip-path;
+}
+
+/* Both photo layers get the identical treatment so the cut-out stays invisible. */
+.hl-photo {
+  object-fit: cover;
+  filter: brightness(0.8) saturate(1.06);
+}
+
+.hl-cutout {
+  z-index: 2;
+}
+
+/* Slides stack in place; only the first shows until GSAP takes over. */
+.hl-layer:not(.is-first),
+.hl-set:not(.is-first) {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.hl-word {
+  position: absolute;
+  z-index: 1;
+  inset-inline: 0;
+  top: clamp(4.5rem, 11vh, 8rem);
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  color: var(--on-dark);
+  font-family: var(--font-display);
+  font-size: clamp(5.5rem, 22vw, 21rem);
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.035em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  direction: ltr;
+}
+
+[dir="rtl"] .hl-word {
+  font-family: var(--font-body);
+  font-size: clamp(5rem, 21vw, 19rem);
+  font-weight: 800;
+  letter-spacing: 0;
+  line-height: 1.05;
+  direction: rtl;
+}
+
+.hl-glyph-mask {
+  display: inline-block;
+  overflow: hidden;
+  padding-bottom: 0.04em;
+}
+
+.hl-glyph {
+  display: inline-block;
+}
+
+/* Legibility: short top fade for the header, deeper fade under the copy. */
+.hl-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--overlay) 45%, transparent) 0%, transparent 16%),
+    linear-gradient(0deg, color-mix(in srgb, var(--overlay) 88%, transparent) 0%, color-mix(in srgb, var(--overlay) 35%, transparent) 38%, transparent 62%);
+  pointer-events: none;
+}
+
+.hl-content {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-top: clamp(5.5rem, 12vh, 7.5rem);
+  padding-bottom: clamp(2rem, 6vh, 3.5rem);
+}
+
+.hl-eyebrow {
+  margin: 0 0 1.25rem;
+  color: var(--brand-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .hl-eyebrow {
+  letter-spacing: 0.04em;
+}
+
+.hl-bottom {
+  display: grid;
+  gap: 2rem;
+  align-items: end;
+}
+
+@media (min-width: 1024px) {
+  .hl-bottom {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    gap: 4rem;
+  }
+}
+
+.hl-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 5.2vw, 5rem);
+  font-weight: 700;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .hl-title {
+  font-family: var(--font-body);
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: 0;
+}
+
+.hl-title,
+.hl-descs {
+  display: grid;
+}
+
+.hl-title > .hl-set,
+.hl-descs > .hl-desc {
+  grid-area: 1 / 1;
+}
+
+.hl-title > .hl-set {
+  display: block;
+}
+
+.hl-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+
+.hl-line > span {
+  display: inline-block;
+}
+
+@media (min-width: 768px) {
+  .hl-line {
+    white-space: nowrap;
+  }
+}
+
+.hl-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.75rem;
+  margin-top: 2rem;
+}
+
+.hl-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--on-dark);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .hl-link {
+  letter-spacing: 0;
+  font-size: 0.9rem;
+}
+
+.hl-link:hover .lux-arrow-shaft {
+  width: 40px;
+  background: var(--brand-accent);
+}
+
+.hl-link:hover .lux-arrow-head {
+  color: var(--brand-accent);
+}
+
+.hl-aside {
+  display: grid;
+  gap: 1.75rem;
+}
+
+@media (min-width: 1024px) {
+  .hl-aside {
+    justify-items: end;
+    text-align: end;
+  }
+}
+
+.hl-desc {
+  max-width: 26rem;
+  margin: 0;
+  color: var(--on-dark-muted);
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.hl-stats {
+  display: flex;
+  gap: clamp(1.5rem, 3vw, 2.75rem);
+  margin: 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line-on-dark);
+}
+
+.hl-stats > div {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.35rem;
+}
+
+.hl-stats dt {
+  color: var(--on-dark-subtle);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .hl-stats dt {
+  letter-spacing: 0;
+  font-size: 0.75rem;
+}
+
+.hl-stats dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Slide nav: numbered hairlines; the active one fills over the interval. */
+.hl-nav {
+  display: flex;
+  gap: 1.1rem;
+}
+
+.hl-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0;
+  color: var(--on-dark-subtle);
+  cursor: pointer;
+  transition: color 0.4s var(--ease);
+}
+
+.hl-bar:hover,
+.hl-bar.is-active {
+  color: var(--on-dark);
+}
+
+.hl-bar:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 4px;
+}
+
+.hl-bar-num {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.hl-bar-track {
+  position: relative;
+  display: block;
+  width: clamp(2.5rem, 4vw, 3.5rem);
+  height: 1px;
+  overflow: hidden;
+  background: var(--line-on-dark);
+}
+
+.hl-bar-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--brand-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+[dir="rtl"] .hl-bar-fill {
+  transform-origin: right center;
+}
+
+/* Scroll cue: a hairline with a light running down it. */
+.hl-cue {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  z-index: 4;
+  width: 1px;
+  height: clamp(2.5rem, 7vh, 4rem);
+  overflow: hidden;
+  background: var(--line-on-dark);
+}
+
+.hl-cue > span {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 40%;
+  background: var(--brand-accent);
+  animation: hl-cue 2.2s var(--ease) infinite;
+}
+
+@keyframes hl-cue {
+  from { translate: 0 -100%; }
+  to { translate: 0 260%; }
+}
+
+/* Before GSAP takes over: hide what will animate in. Failsafe after 4s. */
+.hl--pre .hl-glyph,
+.hl--pre .hl-line > span,
+.hl--pre .hl-fade {
+  opacity: 0;
+  animation: hl-failsafe 0.6s ease 4s forwards;
+}
+
+@keyframes hl-failsafe {
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hl-cue > span {
+    animation: none;
+  }
+}

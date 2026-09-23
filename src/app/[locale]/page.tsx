@@ -5,8 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { site } from "@/content/site";
 import { galleryImages } from "@/content/gallery";
-import { HeroCarousel } from "@/features/home/HeroCarousel";
-import { heroSlides } from "@/content/heroSlides";
+import { HeroLayered } from "@/features/home/HeroLayered";
 import { homeFaqPreview } from "@/content/faq";
 import { amenityFeatures, amenitiesIntro } from "@/content/amenities";
 import { formatNumber } from "@/lib/format";
@@ -14,7 +13,7 @@ import { AmenitiesHoverGrid } from "@/features/amenities/AmenitiesHoverGrid";
 import { HomeFaqPreview } from "@/features/faq/HomeFaqPreview";
 import { LocationShowcase } from "@/features/location/LocationShowcase";
 import { PricingShowcase } from "@/features/pricing/PricingShowcase";
-import { GalleryMosaic } from "@/features/gallery/GalleryMosaic";
+import { GalleryPreview } from "@/features/gallery/GalleryPreview";
 import { RegisterCta } from "@/features/register/RegisterCta";
 import type { LocalePageProps } from "@/i18n/types";
 
@@ -78,7 +77,7 @@ export default async function HomePage({ params }: Props) {
 
   return (
     <>
-      <HeroCarousel slides={heroSlides} />
+      <HeroLayered />
 
       {/* About teaser */}
       <section className="section">
@@ -159,17 +158,14 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* Gallery mosaic */}
-      <section className="section bg-surface">
-        <div className="container-gc">
-          <GalleryMosaic
-            locale={locale}
-            eyebrow={isAr ? "المساحات ونمط الحياة." : "Spaces & lifestyle."}
-            title={t("galleryTitle")}
-            ctaLabel={tc("viewGallery")}
-          />
-        </div>
-      </section>
+      {/* Gallery — hover preview */}
+      <GalleryPreview
+        locale={locale}
+        eyebrow={isAr ? "المساحات ونمط الحياة." : "Spaces & lifestyle."}
+        title={t("galleryTitle")}
+        ctaLabel={tc("viewGallery")}
+        ctaHref="/gallery"
+      />
 
       {/* Amenities hover grid */}
       <section className="section overflow-hidden border-b border-line bg-surface">
