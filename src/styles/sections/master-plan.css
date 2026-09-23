@@ -1,0 +1,415 @@
+/* ── Master plan page. Behaviour: features/master-plan/PlanExplorer.tsx ── */
+
+/* Page shell: compact heading, the explorer takes the stage. */
+.mp-page {
+  padding-top: clamp(6.5rem, 12vh, 8rem);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+}
+
+.mp-page-head {
+  margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.mp-page-title {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+[dir="rtl"] .mp-page-title {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+}
+
+/* ── Explorer ── */
+.mp-explorer {
+  --mp-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --mp-move: 0.65s;
+  display: grid;
+  gap: 2rem;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .mp-explorer {
+    grid-template-columns: auto minmax(18rem, 1fr);
+    gap: clamp(2.5rem, 4vw, 4rem);
+  }
+
+  /* The whole plan fits on screen: height-led, width follows the aspect ratio. */
+  .mp-map-inner {
+    height: min(calc(100svh - 15.5rem), 60rem);
+    width: auto;
+    max-width: 62vw;
+  }
+}
+
+.mp-map {
+  margin: 0;
+}
+
+.mp-map-inner {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-tint);
+  box-shadow: var(--shadow-card-lg);
+}
+
+.mp-map-img {
+  object-fit: cover;
+  transition: filter 0.6s var(--mp-ease);
+}
+
+.is-focused .mp-map-img {
+  filter: saturate(0.85);
+}
+
+/* The spaces themselves are hover targets. */
+.mp-hit {
+  position: absolute;
+  z-index: 1;
+  cursor: pointer;
+}
+
+/* Dim layer with exact rectangular cut-outs; clip-path morphs between areas. */
+.mp-dim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: color-mix(in srgb, var(--overlay) 66%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 0.4s var(--mp-ease),
+    clip-path var(--mp-move) var(--mp-move-ease, var(--mp-ease));
+}
+
+.mp-dim.is-on {
+  opacity: 1;
+}
+
+/* Gold frame on the area's exact edges, with architectural corner ticks. */
+.mp-frame {
+  --tick: 14px;
+  --tw: 2px;
+  --c: var(--brand-accent);
+  position: absolute;
+  z-index: 3;
+  border: 1.5px solid var(--c);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--white) 22%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--black) 25%, transparent),
+    0 0 28px color-mix(in srgb, var(--brand-accent) 35%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    left var(--mp-move) var(--mp-ease),
+    top var(--mp-move) var(--mp-ease),
+    width var(--mp-move) var(--mp-ease),
+    height var(--mp-move) var(--mp-ease),
+    opacity 0.35s var(--mp-ease);
+}
+
+.mp-frame.is-on {
+  opacity: 1;
+}
+
+.mp-frame::before {
+  content: "";
+  position: absolute;
+  inset: -7px;
+  background:
+    linear-gradient(var(--c), var(--c)) left top / var(--tick) var(--tw) no-repeat,
+    linear-gradient(var(--c), var(--c)) left top / var(--tw) var(--tick) no-repeat,
+    linear-gradient(var(--c), var(--c)) right top / var(--tick) var(--tw) no-repeat,
+    linear-gradient(var(--c), var(--c)) right top / var(--tw) var(--tick) no-repeat,
+    linear-gradient(var(--c), var(--c)) left bottom / var(--tick) var(--tw) no-repeat,
+    linear-gradient(var(--c), var(--c)) left bottom / var(--tw) var(--tick) no-repeat,
+    linear-gradient(var(--c), var(--c)) right bottom / var(--tick) var(--tw) no-repeat,
+    linear-gradient(var(--c), var(--c)) right bottom / var(--tw) var(--tick) no-repeat;
+  transition: inset 0.5s var(--mp-ease);
+}
+
+.mp-frame.is-on::before {
+  inset: -5px;
+}
+
+/* Name tag riding on the frame's top edge (or below it near the map top). */
+.mp-tag {
+  position: absolute;
+  bottom: calc(100% + 9px);
+  inset-inline-start: -1.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.3rem 0.6rem;
+  background: var(--brand-accent);
+  color: var(--on-accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--black) 30%, transparent);
+  animation: mp-tag-in 0.45s var(--mp-ease) 0.12s both;
+}
+
+[dir="rtl"] .mp-tag {
+  letter-spacing: 0;
+  font-size: 12px;
+}
+
+.mp-tag b {
+  font-family: var(--font-display);
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+.mp-tag.is-below {
+  top: calc(100% + 9px);
+  bottom: auto;
+}
+
+.mp-tag.is-end {
+  inset-inline-start: auto;
+  inset-inline-end: -1.5px;
+}
+
+@keyframes mp-tag-in {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+}
+
+/* Pins — centred on their area. */
+.mp-pin {
+  position: absolute;
+  z-index: 4;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--white) 70%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--overlay) 72%, transparent);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color: var(--on-dark);
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition:
+    scale 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 0.3s var(--mp-ease),
+    color 0.3s var(--mp-ease),
+    opacity 0.3s var(--mp-ease);
+}
+
+.mp-pin:hover,
+.mp-pin.is-active {
+  scale: 1.15;
+  background: var(--brand-accent);
+  color: var(--on-accent);
+}
+
+/* While something is highlighted, other pins step back. */
+.is-focused .mp-pin:not(.is-active) {
+  opacity: 0.35;
+}
+
+.mp-pin:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 3px;
+}
+
+.mp-caption {
+  margin-top: 1rem;
+  color: var(--subtle);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .mp-caption {
+  letter-spacing: 0;
+  font-size: 0.85rem;
+}
+
+/* Panel */
+@media (min-width: 1024px) {
+  .mp-panel {
+    position: sticky;
+    top: 7rem;
+  }
+}
+
+.mp-detail {
+  min-height: 9.5rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.mp-detail-inner {
+  animation: mp-detail-in 0.5s var(--ease) both;
+}
+
+@keyframes mp-detail-in {
+  from { opacity: 0; translate: 0 10px; }
+}
+
+.mp-detail-num {
+  color: var(--accent-ink);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.mp-detail-title {
+  margin: 0.35rem 0 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.4vw, 2rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+[dir="rtl"] .mp-detail-title {
+  font-family: var(--font-body);
+}
+
+.mp-detail-body {
+  margin: 0.6rem 0 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.mp-detail-hint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  font-weight: 300;
+  line-height: 1.6;
+}
+
+.mp-zone + .mp-zone {
+  margin-top: 1.5rem;
+}
+
+.mp-zone-title {
+  margin: 0 0 0.5rem;
+  color: var(--primary-ink);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .mp-zone-title {
+  letter-spacing: 0;
+  font-size: 0.85rem;
+}
+
+.mp-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mp-item {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 1.05rem;
+  text-align: start;
+  cursor: pointer;
+  transition: color 0.25s var(--ease);
+}
+
+.mp-item-num {
+  color: var(--subtle);
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.25s var(--ease);
+}
+
+.mp-item:hover,
+.mp-item.is-active {
+  color: var(--primary-ink);
+}
+
+/* The name of the space highlighted on the plan grows and takes the primary colour. */
+/* Never wraps: the highlight grows sideways (scale doesn't reflow), so rows keep their height. */
+.mp-item-title {
+  display: inline-block;
+  white-space: nowrap;
+  transform-origin: left center;
+  transition:
+    scale 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+    color 0.25s var(--ease);
+}
+
+[dir="rtl"] .mp-item-title {
+  transform-origin: right center;
+}
+
+.mp-item.is-active .mp-item-title {
+  color: var(--primary-ink);
+  font-weight: 700;
+  scale: 1.18;
+}
+
+.mp-item:hover .mp-item-num,
+.mp-item.is-active .mp-item-num {
+  color: var(--accent-ink);
+}
+
+.mp-item:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.mp-reset {
+  margin-top: 1.25rem;
+  color: var(--primary-ink);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-detail-inner,
+  .mp-tag {
+    animation: none;
+  }
+
+  .mp-dim,
+  .mp-frame {
+    transition: opacity 0.2s linear;
+  }
+
+  .mp-item-title {
+    transition: none;
+  }
+}

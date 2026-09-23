@@ -4,7 +4,7 @@
 >
 > **Refresh rule:** After any meaningful product/design/content change, update this file before ending the turn so the next AI session starts current.
 >
-> *Last refreshed: 2026-09-23 · mirrors live codebase under `jordangate-redesign-main/`*
+> *Last refreshed: 2026-09-23 (evening) · mirrors live codebase under `jordangate-redesign-main/`*
 
 ---
 
@@ -79,10 +79,10 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 | `/financing` | التمويل | **Polished** | Plans + showcase + RegisterCta |
 | `/faq` | الأسئلة الشائعة | **Polished** | `FaqExplorer` (search + sticky cats + accordion) · **no** RegisterCta |
 | `/register` | سجل اهتمامك | **Polished** | Compact form → WhatsApp · visit/financing chips |
-| `/leadership` | الإدارة | **Built** | Founder focus · photo `/leadership/tarek-qazan.jpg` (monogram fallback) · principles · no ISO/CTA band |
+| `/leadership` | الإدارة | **Built** | Founder focus · real portrait at `/leadership/tarek-qazan.jpg` · principles · no ISO/CTA band |
 | `/location` | الخريطة | **Built** | Leaflet + OSRM · `LocationShowcase` / `LocationLeafletMap` |
 | `/services` | خدماتنا | Thin | Simple list from `content/services.ts` — **≠ amenities** |
-| `/master-plan` | المخطط العام | Stub | Pending asset + WA CTA |
+| `/master-plan` | المخطط العام | **Built** | Property map hero · unit zones · stats · WA/units CTA |
 | `/news` | الأخبار | Thin | Seed articles from `content/news.ts` + `[slug]` |
 | `/news/[slug]` | مقال | Thin | Article template |
 
@@ -99,7 +99,8 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 | Gallery | `public/gallery/img_1.jpg` … `img_72.jpg` · categories in `content/gallery.ts` |
 | Hero slides | `public/hero/` · `content/heroSlides.tsx` |
 | Logo | `GivingLogo` component · `public/logo.svg` · `public/logo-dark-text.svg` |
-| Founder | `public/leadership/tarek-qazan.jpg` |
+| Founder | `public/leadership/tarek-qazan.jpg` (Dr. Tarek Qazan portrait — live) |
+| Unit property map | `public/plans/property-map.png` — home about teaser + `/master-plan` |
 | YouTube | Tour `8D8-mb6opx4` · ISO `3Lr4a5EHaRI` (`site.videos`) |
 
 Gallery categories: exteriors · interiors · amenities · construction · aerials (+ All).
@@ -192,14 +193,14 @@ Also in `site.copyBank`.
 ## Pending
 
 - [ ] Revert TEMP WhatsApp/dial (`phoneAction` / `whatsapp`) → production `962790029928`
-- [ ] Master plan image / interactive plan (`/master-plan`)
+- [ ] Community-wide aerial/master layout (current map is the **single-resort** unit plan)
 - [ ] Real unit availability + floor-plan assets (`/units` still gallery placeholders)
 - [ ] Deeper services & news presentation (content exists, UI thin)
 - [ ] Team bios beyond founder (leadership)
 - [ ] Analytics / final SEO pass
 - [ ] Confirm production DNS/email if needed
 
-**Resolved since original brief:** domain `giving-estate.com` · logo in product · 72 gallery images in repo · FAQ explorer · about/financing/register/gallery/leadership polish · tokenized theme · Leaflet map · Vercel deploy path.
+**Resolved since original brief:** domain `giving-estate.com` · logo in product · 72 gallery images · FAQ explorer · about/financing/register/gallery/leadership polish · tokenized theme · Leaflet map · Vercel · founder portrait · unit property map on home + master-plan page.
 
 ---
 

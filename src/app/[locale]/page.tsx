@@ -98,12 +98,12 @@ export default async function HomePage({ params }: Props) {
               {isAr ? "استكشف المشروع" : "Explore the project"}
             </Link>
           </div>
-          <div className="relative min-h-80 overflow-hidden bg-surface-alt lg:min-h-[28rem]">
+          <div className="relative min-h-[28rem] overflow-hidden sm:min-h-[32rem] lg:min-h-[36rem]">
             <Image
-              src={galleryImages[12]?.src ?? "/hero/hero.jpg"}
-              alt=""
+              src="/plans/property-map.png"
+              alt={isAr ? "مخطط المنتجع الخاص" : "Private resort property map"}
               fill
-              className="object-cover"
+              className="object-contain"
               sizes="(max-width:1024px) 100vw, 50vw"
             />
           </div>

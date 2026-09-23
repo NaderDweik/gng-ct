@@ -39,7 +39,9 @@ export default async function LeadershipPage({ params }: Props) {
   const isAr = locale === "ar";
   const n = (v: number) => formatNumber(v, locale);
 
-  const hasPhoto = existsSync(path.join(process.cwd(), "public", FOUNDER_PHOTO));
+  const hasPhoto = existsSync(
+    path.join(process.cwd(), "public", FOUNDER_PHOTO.replace(/^\//, "")),
+  );
   const name = isAr ? site.contact : site.contactEn;
 
   const facts = [

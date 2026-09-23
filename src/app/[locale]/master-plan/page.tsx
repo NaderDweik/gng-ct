@@ -1,6 +1,7 @@
-import { getTranslations, setRequestLocale } from "next-intl/server";
-import { PageHero } from "@/components/ui/PageHero";
-import { site } from "@/content/site";
+import { setRequestLocale } from "next-intl/server";
+import { masterPlanCopy } from "@/content/master-plan";
+import { PlanExplorer } from "@/features/master-plan/PlanExplorer";
+import { RegisterCta } from "@/features/register/RegisterCta";
 import type { LocalePageProps } from "@/i18n/types";
 
 type Props = LocalePageProps;
@@ -8,29 +9,22 @@ type Props = LocalePageProps;
 export default async function MasterPlanPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const t = await getTranslations("masterPlan");
-  const tc = await getTranslations("common");
+  const copy = masterPlanCopy[locale === "ar" ? "ar" : "en"];
 
   return (
     <>
-      <PageHero title={t("title")} subtitle={t("subtitle")} />
-      <section className="section">
+      {/* The plan is the page: a compact heading, then the explorer. */}
+      <section className="mp-page bg-surface">
         <div className="container-gc">
-          <div className="flex min-h-72 items-center justify-center border border-dashed border-line bg-surface-alt p-10 text-center">
-            <div>
-              <p className="text-muted max-w-lg">{t("pending")}</p>
-              <a
-                href={site.whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-primary mt-6"
-              >
-                {tc("whatsapp")}
-              </a>
-            </div>
-          </div>
+          <header className="mp-page-head">
+            <p className="section-eyebrow mb-2">{copy.eyebrow}</p>
+            <h1 className="mp-page-title">{copy.explorerTitle}</h1>
+          </header>
+          <PlanExplorer locale={locale} />
         </div>
       </section>
+
+      <RegisterCta locale={locale} image="/gallery/img_62.jpg" />
     </>
   );
 }
