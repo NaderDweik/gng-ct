@@ -1,8 +1,9 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { PageHero } from "@/components/PageHero";
+import { PageHero } from "@/components/ui/PageHero";
 import { site } from "@/content/site";
+import type { LocalePageProps } from "@/i18n/types";
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = LocalePageProps;
 
 export default async function MasterPlanPage({ params }: Props) {
   const { locale } = await params;

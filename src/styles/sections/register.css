@@ -1,0 +1,178 @@
+/* Register page */
+.register-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: min(48svh, 420px);
+  color: var(--white);
+  background: var(--overlay);
+}
+
+.register-hero-img {
+  object-fit: cover;
+  animation: about-zoom 9s ease-out both;
+}
+
+.register-hero-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--overlay) 55%, transparent) 0%, transparent 32%),
+    linear-gradient(0deg, color-mix(in srgb, var(--overlay) 90%, transparent) 0%, color-mix(in srgb, var(--overlay) 30%, transparent) 55%, transparent 100%);
+}
+
+.register-hero-title {
+  margin-top: 0.65rem;
+  max-width: 14ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 4.2vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+}
+
+[dir="rtl"] .register-hero-title {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+.register-panel {
+  padding: clamp(1.15rem, 2.2vw, 1.75rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+
+.register-body {
+  padding-block: clamp(2rem, 4vw, 3.25rem);
+}
+
+.register-side {
+  padding: clamp(1rem, 2vw, 1.35rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.register-side--dark {
+  color: var(--white);
+  border-color: transparent;
+  background:
+    radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--brand-accent) 14%, transparent), transparent 55%),
+    linear-gradient(160deg, var(--brand-secondary-light) 0%, var(--brand-secondary-deep) 100%);
+}
+
+.register-field span {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+}
+
+.register-field input,
+.register-field textarea,
+.register-field select {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.register-field input:focus,
+.register-field textarea:focus,
+.register-field select:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand-primary) 12%, transparent);
+}
+
+.register-field input::placeholder,
+.register-field textarea::placeholder {
+  color: var(--neutral-400);
+}
+
+.register-choice {
+  padding: 0.75rem 0.9rem;
+  text-align: start;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.register-choice:hover {
+  border-color: color-mix(in srgb, var(--brand-primary) 35%, transparent);
+}
+
+.register-choice.is-active {
+  border-color: var(--brand-primary);
+  background: var(--brand-primary-soft);
+  box-shadow: inset 0 0 0 1px var(--brand-primary);
+}
+
+.register-time {
+  padding: 0.65rem 1.1rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.register-time:hover {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--brand-primary) 35%, transparent);
+}
+
+.register-time.is-active {
+  background: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: var(--white);
+}
+
+.register-submit {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.35rem;
+  background: var(--brand-primary);
+  color: var(--white);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.register-submit:hover {
+  background: var(--brand-primary-hover);
+  transform: translateY(-1px);
+}
+
+.register-call {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 0.9rem 1.25rem;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.register-call:hover {
+  border-color: var(--brand-primary);
+  background: var(--brand-primary-soft);
+}

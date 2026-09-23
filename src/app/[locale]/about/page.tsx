@@ -3,10 +3,11 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
 import { formatNumber } from "@/lib/format";
-import { RegisterCta } from "@/components/RegisterCta";
-import { CountUp } from "@/components/CountUp";
+import { RegisterCta } from "@/features/register/RegisterCta";
+import { CountUp } from "@/components/ui/CountUp";
+import type { LocalePageProps } from "@/i18n/types";
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = LocalePageProps;
 
 type PillarIcon = "deed" | "privacy" | "design" | "finance";
 

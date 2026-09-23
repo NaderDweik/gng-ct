@@ -1,0 +1,77 @@
+:root {
+  /* Raw palette (--brand-*, --neutral-*, --overlay, --white, --black, --whatsapp)
+     is injected from src/theme/tokens.ts. Below are derived semantic tokens. */
+  --brand-primary-hover: color-mix(in srgb, var(--brand-primary) 78%, var(--black));
+  --brand-primary-soft: color-mix(in srgb, var(--brand-primary) 8%, var(--white));
+  --brand-secondary-deep: color-mix(in srgb, var(--brand-secondary) 80%, var(--black));
+  --brand-secondary-light: color-mix(in srgb, var(--brand-secondary) 90%, var(--white));
+  --brand-accent-hover: color-mix(in srgb, var(--brand-accent) 88%, var(--black));
+  --brand-accent-soft: color-mix(in srgb, var(--brand-accent) 50%, var(--white));
+  --on-accent: color-mix(in srgb, var(--brand-accent) 15%, var(--black));
+
+  --ink: var(--neutral-900);
+  --muted: var(--neutral-600);
+  --line: var(--neutral-200);
+  --surface: var(--white);
+  --surface-alt: var(--neutral-50);
+  --surface-tint: var(--neutral-100);
+  --dark: var(--neutral-950);
+  --dark-soft: var(--neutral-900);
+
+  --shadow-color: var(--brand-primary);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --background: var(--surface);
+  --foreground: var(--ink);
+  --font-display: Optima, "Optima Nova", ui-serif, Georgia, serif;
+  --font-body: var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--brand-primary);
+  --color-primary-hover: var(--brand-primary-hover);
+  --color-primary-soft: var(--brand-primary-soft);
+  --color-brand: var(--brand-primary);
+  --color-brand-hover: var(--brand-primary-hover);
+  --color-secondary: var(--brand-secondary);
+  --color-secondary-deep: var(--brand-secondary-deep);
+  --color-secondary-light: var(--brand-secondary-light);
+  --color-accent: var(--brand-accent);
+  --color-accent-hover: var(--brand-accent-hover);
+  --color-accent-soft: var(--brand-accent-soft);
+
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-surface-tint: var(--surface-tint);
+  --color-overlay: var(--overlay);
+  --color-dark: var(--dark);
+  --color-dark-soft: var(--dark-soft);
+  --color-whatsapp: var(--whatsapp);
+
+  --color-white: var(--white);
+  --color-black: var(--black);
+  --color-neutral-50: var(--neutral-50);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-800: var(--neutral-800);
+  --color-neutral-900: var(--neutral-900);
+  --color-neutral-950: var(--neutral-950);
+
+  --shadow-card: 0 20px 48px color-mix(in srgb, var(--shadow-color) 12%, transparent);
+  --shadow-card-lg: 0 24px 60px color-mix(in srgb, var(--shadow-color) 16%, transparent);
+  --shadow-header: 0 10px 40px color-mix(in srgb, var(--black) 6%, transparent);
+
+  --font-sans: var(--font-cairo);
+  --font-display: Optima, "Optima Nova", ui-serif, Georgia, serif;
+}

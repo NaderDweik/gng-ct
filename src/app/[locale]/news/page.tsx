@@ -1,9 +1,10 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { PageHero } from "@/components/PageHero";
+import { PageHero } from "@/components/ui/PageHero";
 import { articles } from "@/content/news";
+import type { LocalePageProps } from "@/i18n/types";
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = LocalePageProps;
 
 export default async function NewsPage({ params }: Props) {
   const { locale } = await params;

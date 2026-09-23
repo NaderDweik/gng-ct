@@ -4,7 +4,8 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { site } from "@/content/site";
 import { formatNumber } from "@/lib/format";
-type Props = { params: Promise<{ locale: string }> };
+import type { LocalePageProps } from "@/i18n/types";
+type Props = LocalePageProps;
 
 /** Drop the founder portrait here (portrait orientation, ~1200×1500). */
 const FOUNDER_PHOTO = "/leadership/tarek-qazan.jpg";

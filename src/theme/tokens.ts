@@ -44,6 +44,14 @@ export const palette = {
 
   /** Third-party brand colors that must not follow the theme. */
   whatsapp: "#25d366",
+
+  /** Official logo-mark artwork (GivingLogo, map pin). Fixed — does not follow the theme. */
+  logo: {
+    deep: "#076533",
+    mid: "#058945",
+    light: "#40B97E",
+    teal: "#25BDAD",
+  },
 } as const;
 
 type Neutral = keyof typeof palette.neutral;

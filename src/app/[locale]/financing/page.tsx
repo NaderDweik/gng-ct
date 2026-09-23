@@ -1,13 +1,14 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { PageHero } from "@/components/PageHero";
-import { PricingShowcase } from "@/components/PricingShowcase";
-import { PlanCompare } from "@/components/PlanCompare";
-import { HomeFaqPreview } from "@/components/HomeFaqPreview";
-import { RegisterCta } from "@/components/RegisterCta";
+import { PageHero } from "@/components/ui/PageHero";
+import { PricingShowcase } from "@/features/pricing/PricingShowcase";
+import { PlanCompare } from "@/features/pricing/PlanCompare";
+import { HomeFaqPreview } from "@/features/faq/HomeFaqPreview";
+import { RegisterCta } from "@/features/register/RegisterCta";
 import { faqCategories } from "@/content/faq";
 import { formatNumber } from "@/lib/format";
+import type { LocalePageProps } from "@/i18n/types";
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = LocalePageProps;
 
 const steps = [
   {

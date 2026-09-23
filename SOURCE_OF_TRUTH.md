@@ -1,8 +1,10 @@
 # 🏗️ Giving City — Source of Truth & Project Brief
 
-> **Purpose of this document:** This is the single source of truth for the Giving City website rebuild project. Any AI agent, developer, or designer working on this project MUST read this file first. It contains every known fact about the company, the project specifications, the 13-page sitemap, content inventory, brand assets, and technical requirements. When building or modifying any page, refer back to this document as the authoritative reference.
-
-> **Your first task as an agent:** After reading this file, generate a condensed `SOURCE_OF_TRUTH_SUMMARY.md` that you will reference throughout development. This summary should contain the key facts, page list, brand guidelines, and content map in a format optimized for quick lookups during coding.
+> **Purpose of this document:** Authoritative **business / content** brief (company facts, unit specs, pricing, long FAQ/blog seeds). Any AI agent or developer should read this — then use **`SOURCE_OF_TRUTH_SUMMARY.md` for the live product state** (tokens, routes maturity, TEMP WhatsApp, what is polished vs stub).
+>
+> **Keep in sync:** After meaningful site changes, refresh `SOURCE_OF_TRUTH_SUMMARY.md` (not necessarily this full brief unless business facts change).
+>
+> **Your first task as an agent:** Open `SOURCE_OF_TRUTH_SUMMARY.md` for coding context. Escalate here for FAQ copy, blog seeds, and edge-case specs.
 
 ---
 

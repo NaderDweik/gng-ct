@@ -1,0 +1,28 @@
+/*
+ * Global stylesheet entry — imported once by `app/[locale]/layout.tsx`.
+ *
+ * Colors: the raw palette lives in `src/theme/tokens.ts` and is injected as CSS
+ * custom properties; `base/theme.css` derives semantic tokens + Tailwind
+ * utilities from it. Partials must only reference those vars, never hex.
+ *
+ * Import order is the cascade order — append new partials, don't reshuffle.
+ */
+@import "tailwindcss";
+
+@import "./base/fonts.css";
+@import "./base/theme.css";
+@import "./base/elements.css";
+@import "./base/primitives.css";
+@import "./base/motion.css";
+
+@import "./sections/home.css";
+@import "./sections/gallery-mosaic.css";
+@import "./sections/pricing.css";
+@import "./sections/faq.css";
+@import "./sections/leadership.css";
+@import "./sections/register.css";
+@import "./sections/about.css";
+@import "./sections/financing.css";
+@import "./sections/register-cta.css";
+@import "./sections/location-map.css";
+@import "./sections/gallery.css";

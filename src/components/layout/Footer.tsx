@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
-import { GivingLogo } from "@/components/GivingLogo";
+import { GivingLogo } from "@/components/brand/GivingLogo";
 
 type FooterLink = { href: string; labelAr: string; labelEn: string };
 

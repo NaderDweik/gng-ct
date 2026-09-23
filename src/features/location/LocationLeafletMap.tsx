@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { NearbyPlace } from "@/content/location";
 import { projectCoords } from "@/content/location";
-import { GIVING_MARK_SVG } from "@/components/givingMark";
+import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
 import { palette } from "@/theme/tokens";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */

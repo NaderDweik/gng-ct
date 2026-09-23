@@ -4,19 +4,20 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
 import { galleryImages } from "@/content/gallery";
-import { HeroCarousel } from "@/components/HeroCarousel";
+import { HeroCarousel } from "@/features/home/HeroCarousel";
 import { heroSlides } from "@/content/heroSlides";
 import { homeFaqPreview } from "@/content/faq";
 import { amenityFeatures, amenitiesIntro } from "@/content/amenities";
 import { formatNumber } from "@/lib/format";
-import { AmenitiesHoverGrid } from "@/components/AmenitiesHoverGrid";
-import { HomeFaqPreview } from "@/components/HomeFaqPreview";
-import { LocationShowcase } from "@/components/LocationShowcase";
-import { PricingShowcase } from "@/components/PricingShowcase";
-import { GalleryMosaic } from "@/components/GalleryMosaic";
-import { RegisterCta } from "@/components/RegisterCta";
+import { AmenitiesHoverGrid } from "@/features/amenities/AmenitiesHoverGrid";
+import { HomeFaqPreview } from "@/features/faq/HomeFaqPreview";
+import { LocationShowcase } from "@/features/location/LocationShowcase";
+import { PricingShowcase } from "@/features/pricing/PricingShowcase";
+import { GalleryMosaic } from "@/features/gallery/GalleryMosaic";
+import { RegisterCta } from "@/features/register/RegisterCta";
+import type { LocalePageProps } from "@/i18n/types";
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = LocalePageProps;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;

@@ -6,7 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { basePriceJd, cashDiscountPct, cashPriceJd, pricingPlans } from "@/content/pricing";
 import { site } from "@/content/site";
 import { formatNumber } from "@/lib/format";
-import { CountUp } from "@/components/CountUp";
+import { CountUp } from "@/components/ui/CountUp";
 
 type Mode = "installments" | "cash";
 

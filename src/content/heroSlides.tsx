@@ -1,4 +1,20 @@
-import type { HeroSlide } from "@/components/HeroCarousel";
+import type { ReactNode } from "react";
+
+export type HeroSlide = {
+  src: string;
+  badgeAr: string;
+  badgeEn: string;
+  titleAr: ReactNode;
+  titleEn: ReactNode;
+  descAr: string;
+  descEn: string;
+  ctaPrimaryAr: string;
+  ctaPrimaryEn: string;
+  ctaSecondaryAr: string;
+  ctaSecondaryEn: string;
+  primaryHref: string;
+  secondaryHref: string;
+};
 
 /** Top-tier Giving City stills — aerial, exterior, amenity — JG-style 3-slide hero. */
 export const heroSlides: HeroSlide[] = [

@@ -2,8 +2,9 @@ import { notFound } from "next/navigation";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { articles, getArticle } from "@/content/news";
+import type { LocalePageProps } from "@/i18n/types";
 
-type Props = { params: Promise<{ locale: string; slug: string }> };
+type Props = LocalePageProps<{ slug: string }>;
 
 export function generateStaticParams() {
   return articles.flatMap((a) => [

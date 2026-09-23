@@ -1,8 +1,9 @@
 import { setRequestLocale } from "next-intl/server";
-import { UnitsPlans } from "@/components/UnitsPlans";
+import { UnitsPlans } from "@/features/units/UnitsPlans";
 import { unitsCopy } from "@/content/units";
+import type { LocalePageProps } from "@/i18n/types";
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = LocalePageProps;
 
 export default async function UnitsPage({ params }: Props) {
   const { locale } = await params;

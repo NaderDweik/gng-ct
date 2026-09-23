@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { site } from "@/content/site";
-import { GivingLogo } from "@/components/GivingLogo";
+import { GivingLogo } from "@/components/brand/GivingLogo";
 
 const primaryNav = [
   { href: "/about", labelAr: "من نحن", labelEn: "About" },

@@ -1,6 +1,10 @@
 # Giving City — Source of Truth Summary
 
-> Quick-lookup companion to `SOURCE_OF_TRUTH.md`. Prefer this during coding; escalate to the full doc for FAQ copy, blog seeds, and edge cases.
+> Quick-lookup for AI / builders. Prefer this mid-session; escalate to `SOURCE_OF_TRUTH.md` for long FAQ/blog seed copy.
+>
+> **Refresh rule:** After any meaningful product/design/content change, update this file before ending the turn so the next AI session starts current.
+>
+> *Last refreshed: 2026-09-23 · mirrors live codebase under `jordangate-redesign-main/`*
 
 ---
 
@@ -10,19 +14,22 @@
 |-------|-------|
 | AR company | شركة العطاء للتطوير والتمويل العمراني |
 | EN company | Al-Ataa for City Development & Financing |
-| Brand | Giving City / Giving City Resorts / روح العطاء للتطوير العقاري |
+| Brand | Giving City / روح العطاء |
 | Contact | د. طارق قازان (Dr. Tarek Qazan) |
-| Phone / WA | +962790029928 → `https://wa.me/962790029928` |
+| Phone (display) | `+962790029928` |
+| Phone / WA (actions) | **TEMP test** `+962795898415` → `https://wa.me/962795898415` — switch back to `962790029928` before shipping |
 | Hours | Sun–Thu 9–7 · Sat 10–4 |
 | Cert | ISO 9001:2015 |
 | Old site | https://giving-city.com/ |
-| **New domain** | **giving-estate.com** |
+| Live domain | https://giving-estate.com |
 | IG | [@giving.city](https://www.instagram.com/giving.city/) · [@alataa_development](https://www.instagram.com/alataa_development/) |
 | FB | [alataa.giving](https://www.facebook.com/alataa.giving/) |
-| Maps | https://maps.app.goo.gl/PNR3uYsjeDX92fqs7 · ~31°56'59.0"N 35°55'48.4"E |
-| Location | 39 km from Royal Hotel → Sahab Al-Hatmiyeh (سحاب الحطمية), Greater Amman |
+| Maps | https://maps.app.goo.gl/PNR3uYsjeDX92fqs7 · ~31.949722, 35.930111 |
+| Location | 39 km from Royal Hotel → Sahab Al-Hatmiyeh (سحاب الحطمية) |
 
-**What it is:** First & largest fully-serviced chalet/resort city in the ME. Gated residential ownership (NOT a hotel). 367+ private resorts · 500,000 m² · Spanish style · independent deed (سند ملكية مستقل).
+**What it is:** First & largest fully-serviced chalet/resort city in the region. Gated residential ownership (NOT a hotel). **367+** private resorts · **500,000 m²** · Spanish style · independent deed (سند ملكية مستقل).
+
+Canonical runtime values: `src/content/site.ts`.
 
 ---
 
@@ -38,6 +45,8 @@
 
 ## Pricing
 
+Canonical: `src/content/pricing.ts` (+ mirrored in `site.stats`).
+
 | | |
 |--|--|
 | Base | **168,000 JD** |
@@ -50,58 +59,102 @@
 | Mid-term | 2026 | 25% | 42,000 | from 1,000 JD |
 | Future | 2027 | 15% | 25,000 | from 1,000 JD |
 
+UI: `PricingShowcase` (home/financing) · `PlanCompare`.
+
 ---
 
-## 13-Page Sitemap (routes)
+## Routes & build maturity
 
-Arabic-first labels. Suggested path slugs for Next.js:
+Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/app/[locale]/`.
 
-| # | AR | EN | Path | Job |
-|---|----|----|------|-----|
-| 12 | الصفحة الرئيسية | Home | `/` | Hero, stats, features, gallery teaser, pricing CTA, map, WA float |
-| 1 | من نحن | About | `/about` | Story, stats, ISO, socials, Dr. Tarek |
-| 2 | المعرض | Gallery | `/gallery` | Filterable 72+ imgs + lightbox + 2 YT embeds |
-| 3 | خدماتنا | Services | `/services` | **Company** services (dev, finish, PM, finance, after-sale, legal) |
-| 4 | المخطط العام | Master Plan | `/master-plan` | Layout / zoning / phases (asset pending) |
-| 5 | التمويل | Financing | `/financing` | 3 plans + cash + calculator + WA CTA |
-| 6 | الإدارة | Leadership | `/leadership` | Dr. Tarek + team (details pending) |
-| 7 | مرافق المشروع | Amenities | `/amenities` | **On-site** utilities & community facilities |
-| 8 | الخريطة | Map | `/location` | Embed + directions + landmarks |
-| 9 | الأخبار والمقالات | News | `/news` | Listing + article pages (7 seed topics) |
-| 10 | الأسئلة الشائعة | FAQ | `/faq` | Accordion by category (full copy in SoT §13) |
-| 11 | سجل اهتمامك | Register | `/register` | Form + WA + preferred time |
-| 13 | شقق متاحة | Units | `/units` | Available / reserved / sold + filters (data pending) |
+**Header primary nav:** About · Gallery · Units · Amenities · Financing (+ Register CTA, locale switch). Full list in `src/content/nav.ts`.
 
-⚠️ **Page 3 ≠ Page 7:** خدماتنا = company offerings · مرافق المشروع = physical community amenities.
+| Path | AR | Status | Notes |
+|------|----|--------|-------|
+| `/` | الرئيسية | **Polished** | Hero carousel, destinations, gallery mosaic, pricing, map, FAQ preview, RegisterCta |
+| `/about` | من نحن | **Polished** | Full-bleed hero + CountUp stats, pillars, collage, ISO video, socials, leadership link, RegisterCta |
+| `/gallery` | المعرض | **Polished** | Cinematic short hero · flush mosaic tabs · lightbox · 2 YT videos · **no** bottom RegisterCta |
+| `/units` | الوحدات المتاحة | **Built** | `UnitsPlans` + gallery placeholders until real floor plans |
+| `/amenities` | المرافق | **Built** | `AmenitiesHoverGrid` |
+| `/financing` | التمويل | **Polished** | Plans + showcase + RegisterCta |
+| `/faq` | الأسئلة الشائعة | **Polished** | `FaqExplorer` (search + sticky cats + accordion) · **no** RegisterCta |
+| `/register` | سجل اهتمامك | **Polished** | Compact form → WhatsApp · visit/financing chips |
+| `/leadership` | الإدارة | **Built** | Founder focus · photo `/leadership/tarek-qazan.jpg` (monogram fallback) · principles · no ISO/CTA band |
+| `/location` | الخريطة | **Built** | Leaflet + OSRM · `LocationShowcase` / `LocationLeafletMap` |
+| `/services` | خدماتنا | Thin | Simple list from `content/services.ts` — **≠ amenities** |
+| `/master-plan` | المخطط العام | Stub | Pending asset + WA CTA |
+| `/news` | الأخبار | Thin | Seed articles from `content/news.ts` + `[slug]` |
+| `/news/[slug]` | مقال | Thin | Article template |
+
+⚠️ **Services ≠ Amenities:** company offerings vs on-site facilities.
+
+**Transparent header** (scroll → solid): `/`, `/about`, `/register`, `/gallery`.
 
 ---
 
 ## Media
 
-- Gallery migrate: `giving-city.com/images/img_1.jpg` … `img_72.jpg` + hero `giving-city.com/img/public/1.jpg`
-- YouTube: tour `8D8-mb6opx4` · ISO `3Lr4a5EHaRI`
-- Logo: **pending** → text placeholder until client delivers
+| Asset | Location / value |
+|-------|------------------|
+| Gallery | `public/gallery/img_1.jpg` … `img_72.jpg` · categories in `content/gallery.ts` |
+| Hero slides | `public/hero/` · `content/heroSlides.tsx` |
+| Logo | `GivingLogo` component · `public/logo.svg` · `public/logo-dark-text.svg` |
+| Founder | `public/leadership/tarek-qazan.jpg` |
+| YouTube | Tour `8D8-mb6opx4` · ISO `3Lr4a5EHaRI` (`site.videos`) |
+
+Gallery categories: exteriors · interiors · amenities · construction · aerials (+ All).
 
 ---
 
-## Tech stack (required)
+## Tech stack (as built)
 
-- **Next.js** + React · **Tailwind** · **Arabic-first RTL** (EN later via next-intl)
-- SEO: AR meta/OG · `RealEstateListing` schema · sitemap · CWV · WebP/AVIF · lazy gallery
-- Integrations: `wa.me/962790029928` · Maps · YouTube · contact form · analytics TBD
-- Target: mobile-first · Lighthouse 90+
+- **Next.js 15.5.x** · React · **Tailwind v4** · App Router
+- **next-intl** · Arabic default RTL · EN
+- Theme: `src/theme/tokens.ts` → CSS vars injected in locale layout
+- Maps: Leaflet + OSRM (not Google embed as primary)
+- Deploy: **Vercel** · domain `giving-estate.com`
+- SEO: `RealEstateJsonLd` · `sitemap.ts` · `robots.ts`
+- i18n strings: `messages/ar.json` · `messages/en.json`
+- Content modules: `src/content/*` (site, gallery, faq, pricing, units, amenities, …)
+
+Key components: `Header` · `Footer` · `WhatsAppFloat` · `HeroCarousel` · `GalleryMosaic` · `GalleryGrid` · `PricingShowcase` · `FaqExplorer` · `RegisterCta` · `RegisterForm` · `CountUp` · `LocationLeafletMap` · `GivingLogo`.
+
+### Code layout (`src/`)
+
+| Folder | Holds | Rule |
+|--------|-------|------|
+| `app/` | Routes only (`[locale]/…/page.tsx`, layout, sitemap, robots) | Compose features; no reusable UI here |
+| `features/<domain>/` | Domain UI: `home` · `gallery` · `pricing` · `faq` · `location` · `amenities` · `units` · `register` | Import files directly (no barrels — mixes server/client components) |
+| `components/` | Cross-cutting UI: `layout/` (Header, Footer, WhatsAppFloat) · `brand/` (GivingLogo, map mark) · `ui/` (PageHero, CountUp) · `seo/` (RealEstateJsonLd) | Must not import from `features/` |
+| `content/` | Typed bilingual data + content types (e.g. `HeroSlide`) | Pure data; never imports components |
+| `styles/` | `globals.css` → ordered `base/*` then `sections/*` partials | Import order = cascade; append, don't reshuffle |
+| `theme/tokens.ts` | The only place hex colors live (incl. fixed `logo` + `whatsapp`) | CSS uses `var(--…)` only |
+| `i18n/` | Routing (`Locale`, `isLocale`), navigation, `LocalePageProps` | |
+| `lib/` | Framework-free helpers (`formatNumber`) | |
 
 ---
 
-## Brand (design)
+## Brand (design — live tokens)
+
+Re-brand by editing `src/theme/tokens.ts` `palette` only (`palette.logo` = fixed logo-artwork greens, not themeable).
+
+| Token | Hex | Role |
+|-------|-----|------|
+| primary | `#425563` | Buttons, links, active |
+| secondary | `#465461` | Deep bands, footer, pricing card |
+| accent | `#d6c3a3` | Eyebrows on dark, chips, gold detail |
+| overlay | `#12181e` | Image scrims |
+| neutrals | `#f7f7f7`…`#0a0a0a` | Surfaces / ink |
 
 | | |
 |--|--|
-| Feel | Warm · generous · Mediterranean luxury · premium RE (not corporate blue) |
-| Palette | Terracotta / sand / olive + navy / gold accents |
-| Type | Arabic-first (IBM Plex Arabic / Noto Sans Arabic) |
-| Photo | Golden hour · lifestyle · aerials |
-| Avoid | Blue-corporate templates · stock clutter · busy cards in hero |
+| Feel | Calm luxury RE · slate + sand gold · photo-led · not corporate blue |
+| Body type | **Cairo** (next/font) · Arabic + Latin |
+| Display | Optima / Georgia stack (LTR) · Cairo for RTL display |
+| Photo | Project gallery · golden-hour preference |
+| Avoid | Purple AI defaults · cream+terracotta cliché · broadsheet hairlines · card clutter in heroes · pill/stat spam in first viewport |
+
+Design rules of thumb (from build): one composition per first viewport · brand as hero signal · full-bleed heroes on promotional pages · cards only when interactive · 2–3 intentional motions.
 
 ---
 
@@ -119,36 +172,39 @@ Arabic-first labels. Suggested path slugs for Next.js:
 | خصوصية تامة — جدران بارتفاع ٣ أمتار | Complete privacy — 3-meter walls |
 | استثمار عقاري مضمون | Guaranteed real estate investment |
 
----
-
-## Content seeds (lookup)
-
-**Blog (7):** uniqueness · 2026 investment · unit walkthrough · ISO explained · payment plans · Spanish design · community life — titles/keywords in SoT §12.
-
-**FAQ categories:** الشراء والتملك · المواصفات والجودة · الموقع والمرافق · التواصل — full Q&A in SoT §13.
+Also in `site.copyBank`.
 
 ---
 
-## Pending (blockers)
+## Content seeds
 
-- [ ] Logo / brand assets
-- [ ] Hi-res photography
-- [ ] Master plan image (p4)
-- [ ] Team bios/photos (p6)
-- [ ] Unit availability data (p13)
-- [ ] Hosting / analytics
+**FAQ categories** (`content/faq.ts`): الشراء والتملك · المواصفات والجودة · الموقع والمرافق · التواصل — full Q&A in SoT §13 / `faq.ts`.
 
-**Resolved:** p3/p7 separate · blog seeds · FAQ · domain `giving-estate.com`
+**Blog seeds:** uniqueness · 2026 investment · unit walkthrough · ISO · payment plans · Spanish design · community life — see SoT §12 / `content/news.ts`.
+
+---
+
+## Pending
+
+- [ ] Revert TEMP WhatsApp/dial (`phoneAction` / `whatsapp`) → production `962790029928`
+- [ ] Master plan image / interactive plan (`/master-plan`)
+- [ ] Real unit availability + floor-plan assets (`/units` still gallery placeholders)
+- [ ] Deeper services & news presentation (content exists, UI thin)
+- [ ] Team bios beyond founder (leadership)
+- [ ] Analytics / final SEO pass
+- [ ] Confirm production DNS/email if needed
+
+**Resolved since original brief:** domain `giving-estate.com` · logo in product · 72 gallery images in repo · FAQ explorer · about/financing/register/gallery/leadership polish · tokenized theme · Leaflet map · Vercel deploy path.
 
 ---
 
 ## Agent rules
 
-1. Read `SOURCE_OF_TRUTH.md` for authoritative detail; use **this file** mid-build.
-2. Never merge company services (p3) with amenities (p7).
-3. Arabic/RTL default; keep all UI strings i18n-ready.
-4. Lead CTA default = WhatsApp `+962790029928`.
-5. Placeholder text logo until assets arrive.
-6. Current codebase may still be Jordan Gate scaffolding — rebuild toward this brief (Next.js), not preserve JG branding.
-
-*Summary generated: 2026-09-17 · from SOURCE_OF_TRUTH.md*
+1. Read this summary first; use `SOURCE_OF_TRUTH.md` for long-form copy only.
+2. **After shipping a meaningful change, refresh this file** (identity, routes maturity, tokens, pending, WA number).
+3. Never merge company services (`/services`) with amenities (`/amenities`).
+4. Arabic/RTL default; keep strings in `messages/*` + `content/*`.
+5. Display phone can stay public sales number; **action links** currently use TEMP test number — don't "fix" that without explicit ask.
+6. Theme changes go through `src/theme/tokens.ts`, not scattered hex.
+7. Codebase **is** Giving City (not Jordan Gate scaffolding). JG was reference UX only.
+8. Prefer matching existing page language (about / home mosaic / FAQ) over inventing a new visual system per page.

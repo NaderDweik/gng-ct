@@ -1,0 +1,189 @@
+/* About page */
+.about-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: min(92svh, 860px);
+  color: var(--white);
+  background: var(--overlay);
+}
+
+.about-hero-img {
+  object-fit: cover;
+  animation: about-zoom 9s ease-out both;
+}
+
+@keyframes about-zoom {
+  from { transform: scale(1.1); }
+  to { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-hero-img { animation: none; }
+}
+
+.about-hero-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--overlay) 55%, transparent) 0%, transparent 30%),
+    linear-gradient(0deg, color-mix(in srgb, var(--overlay) 92%, transparent) 0%, color-mix(in srgb, var(--overlay) 35%, transparent) 55%, transparent 100%);
+}
+
+.about-hero-title {
+  margin-top: 1rem;
+  max-width: 16ch;
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 6.2vw, 5.25rem);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+[dir="rtl"] .about-hero-title {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+  line-height: 1.2;
+}
+
+.about-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem 2rem;
+  margin-top: clamp(2.5rem, 6vw, 4.5rem);
+  padding-top: 1.75rem;
+  border-top: 1px solid color-mix(in srgb, var(--white) 18%, transparent);
+}
+
+@media (min-width: 768px) {
+  .about-hero-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.about-collage {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  max-width: 560px;
+  width: 100%;
+  margin-inline: auto;
+}
+
+.about-collage-main,
+.about-collage-side {
+  position: absolute;
+  overflow: hidden;
+  box-shadow: var(--shadow-card-lg);
+}
+
+.about-collage-main {
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  width: 82%;
+  height: 68%;
+}
+
+.about-collage-side {
+  inset-block-end: 0;
+  inset-inline-start: 0;
+  width: 44%;
+  height: 58%;
+  border: 6px solid var(--surface);
+}
+
+.about-collage-main img,
+.about-collage-side img {
+  transition: transform 1.2s var(--ease);
+}
+
+.about-collage:hover .about-collage-main img,
+.about-collage:hover .about-collage-side img {
+  transform: scale(1.05);
+}
+
+.about-collage-badge {
+  position: absolute;
+  inset-block-end: 12%;
+  inset-inline-end: 4%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 1.25rem;
+  background: var(--brand-secondary);
+  box-shadow: var(--shadow-card-lg);
+}
+
+.pillar-card {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(1.75rem, 2.6vw, 2.25rem);
+  min-height: 300px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.pillar-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--brand-primary);
+  transform: translateY(101%);
+  transition: transform 0.6s var(--ease);
+}
+
+.pillar-card:hover::before {
+  transform: translateY(0);
+}
+
+.pillar-icon {
+  display: inline-flex;
+  width: 56px;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: var(--brand-primary);
+  background: var(--brand-primary-soft);
+  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.pillar-card:hover .pillar-icon {
+  color: var(--brand-primary);
+  background: var(--brand-accent);
+}
+
+.social-card {
+  position: relative;
+  display: block;
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  transition: border-color 0.35s var(--ease), transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+}
+
+.social-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--brand-primary) 35%, transparent);
+  box-shadow: var(--shadow-card);
+}
+
+.social-card-arrow {
+  position: absolute;
+  top: 1.25rem;
+  inset-inline-end: 1.25rem;
+  color: var(--brand-primary);
+  transition: transform 0.35s var(--ease);
+}
+
+[dir="rtl"] .social-card-arrow {
+  transform: scaleX(-1);
+}
+
+.social-card:hover .social-card-arrow {
+  transform: translate(3px, -3px);
+}
+
+[dir="rtl"] .social-card:hover .social-card-arrow {
+  transform: scaleX(-1) translate(3px, -3px);
+}

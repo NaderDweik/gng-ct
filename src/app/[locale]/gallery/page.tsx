@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
-import { GalleryGrid } from "@/components/GalleryGrid";
+import { GalleryGrid } from "@/features/gallery/GalleryGrid";
 import { galleryCopy, galleryHeroSrc } from "@/content/gallery";
 import { site } from "@/content/site";
+import type { LocalePageProps } from "@/i18n/types";
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = LocalePageProps;
 
 export default async function GalleryPage({ params }: Props) {
   const { locale } = await params;

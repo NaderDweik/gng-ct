@@ -3,9 +3,10 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { site } from "@/content/site";
 import { basePriceJd, cashPriceJd, cashDiscountPct } from "@/content/pricing";
 import { formatNumber } from "@/lib/format";
-import { RegisterForm } from "@/components/RegisterForm";
+import { RegisterForm } from "@/features/register/RegisterForm";
+import type { LocalePageProps } from "@/i18n/types";
 
-type Props = { params: Promise<{ locale: string }> };
+type Props = LocalePageProps;
 
 function formatPhone(phone: string) {
   const d = phone.replace(/\D/g, "");

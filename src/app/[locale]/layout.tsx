@@ -2,13 +2,13 @@ import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Cairo } from "next/font/google";
-import { routing } from "@/i18n/routing";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
-import { WhatsAppFloat } from "@/components/WhatsAppFloat";
-import { RealEstateJsonLd } from "@/components/RealEstateJsonLd";
+import { isLocale, routing } from "@/i18n/routing";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
+import { RealEstateJsonLd } from "@/components/seo/RealEstateJsonLd";
 import { themeCss } from "@/theme/tokens";
-import "../globals.css";
+import "@/styles/globals.css";
 
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
@@ -28,7 +28,7 @@ type Props = {
 
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
-  if (!routing.locales.includes(locale as "ar" | "en")) {
+  if (!isLocale(locale)) {
     notFound();
   }
 

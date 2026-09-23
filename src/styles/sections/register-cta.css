@@ -1,0 +1,126 @@
+/* Register CTA (Jordan Gate .register-cta) */
+.register-cta {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding-block: clamp(4rem, 8vw, 6rem);
+}
+
+.register-cta-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-position: 50%;
+  background-size: cover;
+}
+
+.register-cta-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(color-mix(in srgb, var(--overlay) 28%, transparent) 0%, color-mix(in srgb, var(--overlay) 58%, transparent) 100%),
+    linear-gradient(90deg, color-mix(in srgb, var(--overlay) 72%, transparent) 0%, color-mix(in srgb, var(--overlay) 28%, transparent) 100%);
+}
+
+.register-cta-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 42rem;
+  min-height: clamp(240px, 30vw, 320px);
+  margin: 0 auto;
+  color: var(--white);
+  text-align: center;
+}
+
+.register-cta-inner h2 {
+  font-family: var(--font-display);
+  color: var(--white);
+  letter-spacing: -0.03em;
+  margin: 0 0 clamp(22px, 3vw, 32px);
+  font-size: clamp(1.75rem, 3.4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+[dir="rtl"] .register-cta-inner h2 {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+}
+
+.register-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 24px;
+  background: var(--white);
+  color: var(--brand-primary);
+  border: 1px solid var(--white);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.register-cta-btn:hover {
+  transform: translateY(-1px);
+  background: var(--surface-alt);
+}
+
+.register-cta-btn--ghost {
+  background: transparent;
+  color: var(--white);
+  border-color: color-mix(in srgb, var(--white) 45%, transparent);
+}
+
+.register-cta-btn--ghost:hover {
+  background: color-mix(in srgb, var(--white) 12%, transparent);
+}
+
+.register-cta-btn .arrow {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+  transition: transform 0.25s ease;
+}
+
+.register-cta-btn .arrow::before,
+.register-cta-btn .arrow::after {
+  content: "";
+  position: absolute;
+}
+
+.register-cta-btn .arrow::before {
+  top: 4px;
+  left: 0;
+  width: 14px;
+  height: 1px;
+  background: currentColor;
+}
+
+.register-cta-btn .arrow::after {
+  top: 1px;
+  right: 0;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid;
+  border-right: 1px solid;
+  transform: rotate(45deg);
+}
+
+.register-cta-btn:hover .arrow {
+  transform: translateX(4px);
+}
+
+[dir="rtl"] .register-cta-btn .arrow {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .register-cta-btn:hover .arrow {
+  transform: scaleX(-1) translateX(4px);
+}

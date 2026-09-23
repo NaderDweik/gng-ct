@@ -1,0 +1,122 @@
+/* Financing page */
+.on-dark .section-eyebrow {
+  color: var(--brand-accent);
+}
+
+.on-dark .section-title {
+  color: var(--white);
+}
+
+.plan-card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.5rem, 2.4vw, 2rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease), border-color 0.45s var(--ease);
+}
+
+.plan-card:hover {
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--brand-primary) 35%, transparent);
+  box-shadow: var(--shadow-card-lg);
+}
+
+.plan-card--cash {
+  color: var(--white);
+  border-color: transparent;
+  background:
+    radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--brand-accent) 14%, transparent), transparent 55%),
+    linear-gradient(160deg, var(--brand-secondary-light) 0%, var(--brand-secondary-deep) 100%);
+}
+
+.plan-bar {
+  position: relative;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface-tint);
+  overflow: hidden;
+}
+
+.plan-bar > span {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent));
+  transition: width 0.7s var(--ease);
+}
+
+.plan-card-cta {
+  margin-top: auto;
+  padding-top: 2rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brand-primary);
+}
+
+.plan-card-cta--light {
+  color: var(--white);
+}
+
+.plan-card-cta .arrow {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+  transition: transform 0.3s var(--ease);
+}
+
+.plan-card-cta .arrow::before,
+.plan-card-cta .arrow::after {
+  content: "";
+  position: absolute;
+}
+
+.plan-card-cta .arrow::before {
+  top: 4px;
+  left: 0;
+  width: 14px;
+  height: 1px;
+  background: currentColor;
+}
+
+.plan-card-cta .arrow::after {
+  top: 1px;
+  right: 0;
+  width: 7px;
+  height: 7px;
+  border-top: 1px solid;
+  border-right: 1px solid;
+  transform: rotate(45deg);
+}
+
+.plan-card:hover .plan-card-cta .arrow {
+  transform: translateX(5px);
+}
+
+[dir="rtl"] .plan-card-cta .arrow {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .plan-card:hover .plan-card-cta .arrow {
+  transform: scaleX(-1) translateX(5px);
+}
+
+.step-card {
+  padding: clamp(1.75rem, 2.8vw, 2.5rem);
+  background: var(--brand-secondary);
+  transition: background 0.4s var(--ease);
+}
+
+.step-card:hover {
+  background: var(--brand-secondary-light);
+}

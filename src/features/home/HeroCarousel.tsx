@@ -1,25 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
-
-export type HeroSlide = {
-  src: string;
-  badgeAr: string;
-  badgeEn: string;
-  titleAr: ReactNode;
-  titleEn: ReactNode;
-  descAr: string;
-  descEn: string;
-  ctaPrimaryAr: string;
-  ctaPrimaryEn: string;
-  ctaSecondaryAr: string;
-  ctaSecondaryEn: string;
-  primaryHref: string;
-  secondaryHref: string;
-};
+import type { HeroSlide } from "@/content/heroSlides";
 
 const INTERVAL_MS = 7000;
 

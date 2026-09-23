@@ -9,7 +9,7 @@ import {
   nearbyPlaces,
   type NearbyPlace,
 } from "@/content/location";
-import { LocationLeafletMap } from "@/components/LocationLeafletMap";
+import { LocationLeafletMap } from "@/features/location/LocationLeafletMap";
 
 function MapPinIcon() {
   return (
