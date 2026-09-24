@@ -13,7 +13,7 @@ export type HeroSlide = {
   titleAr: readonly string[];
   titleEn: readonly string[];
   descAr: string;
-  descEn: string;
+  descEn: string; // test
 };
 
 export const heroLayered = {
