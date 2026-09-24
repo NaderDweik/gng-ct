@@ -87,6 +87,7 @@ export function GalleryGrid() {
 
   const catLabel = (item: GalleryImage) =>
     isAr ? item.categoryTitleAr : item.categoryTitleEn;
+  const nameLabel = (item: GalleryImage) => (isAr ? item.nameAr : item.nameEn);
 
   return (
     <div className="gal" dir={isAr ? "rtl" : "ltr"}>
@@ -117,7 +118,7 @@ export function GalleryGrid() {
               onClick={() => setActive(item)}
               className="gal-tile"
               style={{ animationDelay: `${Math.min(i, 12) * 40}ms` }}
-              aria-label={catLabel(item)}
+              aria-label={nameLabel(item)}
             >
               <Image
                 src={item.src}
@@ -128,7 +129,7 @@ export function GalleryGrid() {
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="gal-tile-img"
               />
-              <span className="gal-tile-label">{catLabel(item)}</span>
+              <span className="gal-tile-label">{nameLabel(item)}</span>
             </button>
           ))}
         </div>
@@ -173,7 +174,7 @@ export function GalleryGrid() {
             <div className="gal-lb-shot">
               <Image
                 src={active.src}
-                alt={catLabel(active)}
+                alt={nameLabel(active)}
                 fill
                 priority
                 quality={95}
@@ -183,7 +184,9 @@ export function GalleryGrid() {
             </div>
 
             <div className="gal-lb-bar">
-              <span>{catLabel(active)}</span>
+              <span>
+                {nameLabel(active)} · {catLabel(active)}
+              </span>
               <span className="gal-lb-n">
                 {activeIndex + 1} {copy.of} {filtered.length}
               </span>

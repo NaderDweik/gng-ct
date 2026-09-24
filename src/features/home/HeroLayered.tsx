@@ -39,10 +39,10 @@ export function HeroLayered() {
   const goRef = useRef<(i: number) => void>(() => {});
 
   const word = isAr ? hero.wordmarkAr : hero.wordmarkEn;
-  const n = (v: number) => formatNumber(v, locale).padStart(2, isAr ? "٠" : "0");
+  const n = (v: number) => formatNumber(v, locale).padStart(isAr ? 0 : 2, "0");
   const stats = [
     { value: `${formatNumber(site.stats.units, locale)}+`, label: isAr ? "منتجع خاص" : "Private resorts" },
-    { value: formatNumber(site.stats.areaSqm, locale), label: isAr ? "متر مربع" : "Square meters" },
+    { value: formatNumber(site.stats.areaSqm, "en"), label: isAr ? "متر مربع" : "Square meters" }, // Latin digits in both languages
     { value: isAr ? "٠٪" : "0%", label: isAr ? "فوائد" : "Interest" },
   ];
 

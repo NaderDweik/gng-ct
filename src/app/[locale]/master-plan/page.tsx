@@ -24,7 +24,7 @@ export default async function MasterPlanPage({ params }: Props) {
         </div>
       </section>
 
-      <RegisterCta locale={locale} image="/gallery/img_62.jpg" />
+      <RegisterCta locale={locale} image="/gallery/compoundPics/entrance-fountain-and-gatehouse.png" />
     </>
   );
 }

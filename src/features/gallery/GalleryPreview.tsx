@@ -37,7 +37,7 @@ export function GalleryPreview({ locale, eyebrow, title, sub, ctaLabel, ctaHref 
   const [prev, setPrev] = useState<number | null>(null);
   const [armed, setArmed] = useState<"static" | "armed" | "in">("static");
 
-  const n = (v: number) => formatNumber(v, locale).padStart(2, isAr ? "٠" : "0");
+  const n = (v: number) => formatNumber(v, locale).padStart(isAr ? 0 : 2, "0");
 
   // Entrance — armed only when starting below the fold (never hide what's visible).
   useEffect(() => {

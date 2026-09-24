@@ -1,0 +1,444 @@
+/* ── Home "A day at Giving City". Behaviour: features/gallery/GalleryDay.tsx ── */
+.gd {
+  --gd-ink: var(--ink);
+  --gd-muted: var(--muted);
+  --gd-line: var(--line-strong);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--surface-alt);
+  color: var(--gd-ink);
+  border-bottom: 1px solid var(--line);
+}
+
+.gd.is-night {
+  --gd-ink: var(--on-dark);
+  --gd-muted: var(--on-dark-muted);
+  --gd-line: color-mix(in srgb, var(--white) 22%, transparent);
+}
+
+/* Sky layers — opacity driven per frame. */
+.gd-sky,
+.gd-sky > span {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.gd-sky {
+  z-index: -1;
+}
+
+.gd-sky > span {
+  opacity: 0;
+}
+
+.gd-gold {
+  background:
+    radial-gradient(120% 90% at 78% 8%, color-mix(in srgb, var(--brand-accent) 42%, transparent), transparent 62%),
+    linear-gradient(180deg, color-mix(in srgb, var(--brand-accent) 14%, transparent), transparent 70%);
+}
+
+/* Deep blue night; its first half passes through a dusky blue, never flat grey. */
+.gd-night {
+  background:
+    radial-gradient(90% 70% at 22% 0%, color-mix(in srgb, #3a4f7a 70%, transparent), transparent 70%),
+    linear-gradient(180deg, #111b2e 0%, #0b1220 100%);
+}
+
+.gd-stars {
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, var(--white), transparent 60%),
+    radial-gradient(1px 1px at 27% 9%, var(--white), transparent 60%),
+    radial-gradient(1.5px 1.5px at 41% 22%, var(--white), transparent 60%),
+    radial-gradient(1px 1px at 58% 12%, var(--white), transparent 60%),
+    radial-gradient(1px 1px at 66% 28%, var(--white), transparent 60%),
+    radial-gradient(1.5px 1.5px at 81% 7%, var(--white), transparent 60%),
+    radial-gradient(1px 1px at 92% 20%, var(--white), transparent 60%),
+    radial-gradient(1px 1px at 6% 34%, var(--white), transparent 60%),
+    radial-gradient(1px 1px at 35% 38%, var(--white), transparent 60%),
+    radial-gradient(1px 1px at 74% 40%, var(--white), transparent 60%);
+  mask-image: linear-gradient(180deg, #000 0%, transparent 55%);
+}
+
+/* ── Header ── */
+.gd-head {
+  display: grid;
+  gap: 2rem;
+  align-items: end;
+}
+
+@media (min-width: 768px) {
+  .gd-head {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+}
+
+.gd-mask {
+  overflow: hidden;
+  margin: 0;
+  padding-bottom: 0.08em;
+}
+
+.gd .section-eyebrow {
+  color: var(--primary-ink);
+  transition: color 0.8s var(--ease);
+}
+
+.gd.is-night .section-eyebrow {
+  color: var(--brand-accent);
+}
+
+.gd-title {
+  margin-top: 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 4.4vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--gd-ink);
+  transition: color 0.8s var(--ease);
+}
+
+[dir="rtl"] .gd-title {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+  line-height: 1.3;
+}
+
+.gd-lead {
+  margin-top: 0.9rem;
+  max-width: 34rem;
+  font-size: 1rem;
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--gd-muted);
+  transition: color 0.8s var(--ease);
+}
+
+/* Sun dial */
+.gd-dial {
+  display: flex;
+  align-items: flex-end;
+  gap: 1.25rem;
+}
+
+.gd-arc {
+  width: clamp(150px, 15vw, 210px);
+  height: auto;
+  overflow: visible;
+}
+
+.gd-arc-path {
+  fill: none;
+  stroke: var(--gd-line);
+  stroke-width: 1;
+  stroke-dasharray: 2 5;
+  transition: stroke 0.8s var(--ease);
+}
+
+.gd-horizon {
+  stroke: var(--gd-line);
+  stroke-width: 1;
+  transition: stroke 0.8s var(--ease);
+}
+
+.gd-arc-trail {
+  fill: none;
+  stroke: #f2a93b;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+
+.gd-rays line {
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.gd-moon-core {
+  fill: color-mix(in srgb, var(--white) 92%, var(--brand-accent));
+}
+
+.gd-readout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 9ch;
+}
+
+.gd-clock {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  direction: ltr;
+}
+
+[dir="rtl"] .gd-clock {
+  direction: rtl;
+  justify-content: flex-end;
+}
+
+.gd-mer {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--gd-muted);
+  transition: color 0.8s var(--ease);
+}
+
+[dir="rtl"] .gd-mer {
+  letter-spacing: 0;
+  font-size: 1rem;
+}
+
+.gd-time {
+  direction: ltr;
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 3.6vw, 3rem);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  color: var(--gd-ink);
+  transition: color 0.8s var(--ease);
+}
+
+[dir="rtl"] .gd-time {
+  text-align: right;
+}
+
+.gd-phase {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gd-muted);
+  transition: color 0.8s var(--ease);
+}
+
+[dir="rtl"] .gd-phase {
+  letter-spacing: 0;
+  font-size: 0.8rem;
+}
+
+/* ── Film strip (default: native swipe strip) ── */
+.gd {
+  padding-block: clamp(4rem, 8vw, 6rem) clamp(3rem, 6vw, 4rem);
+}
+
+.gd-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding-inline: max(1rem, calc((100vw - 1200px) / 2));
+  padding-block: 0.5rem 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.gd-track::-webkit-scrollbar {
+  display: none;
+}
+
+.gd-card {
+  flex: none;
+  margin: 0;
+  width: min(78vw, 420px);
+  scroll-snap-align: center;
+}
+
+.gd-media {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: color-mix(in srgb, var(--gd-ink) 8%, transparent);
+}
+
+.gd-card--tall .gd-media {
+  aspect-ratio: 4 / 5;
+}
+
+.gd-card--square .gd-media {
+  aspect-ratio: 1;
+}
+
+.gd-img {
+  position: absolute;
+  inset: 0 -6%;
+  will-change: transform;
+}
+
+.gd-chip {
+  position: absolute;
+  inset-block-start: 0.85rem;
+  inset-inline-start: 0.85rem;
+  direction: ltr;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  font-variant-numeric: tabular-nums;
+  color: var(--white);
+  background: color-mix(in srgb, var(--black) 34%, transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.gd-cap {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+  font-size: 0.95rem;
+  color: var(--gd-muted);
+  transition: color 0.6s var(--ease);
+}
+
+.gd-cap-n {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--brand-accent);
+}
+
+.gd-cap-rule {
+  width: 1.5rem;
+  height: 1px;
+  background: var(--gd-line);
+  transform-origin: inline-start;
+  transition: width 0.6s var(--ease), background 0.6s var(--ease);
+}
+
+.gd-card.is-active .gd-cap {
+  color: var(--gd-ink);
+}
+
+.gd-card.is-active .gd-cap-rule {
+  width: 2.75rem;
+  background: var(--brand-accent);
+}
+
+.gd-end {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 1.75rem;
+  width: min(78vw, 420px);
+  scroll-snap-align: center;
+}
+
+.gd-end-title {
+  margin: 0;
+  max-width: 14ch;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--gd-ink);
+  transition: color 0.8s var(--ease);
+}
+
+[dir="rtl"] .gd-end-title {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+.gd.is-night .gd-cta {
+  color: var(--on-dark);
+  border-color: color-mix(in srgb, var(--white) 40%, transparent);
+}
+
+.gd.is-night .gd-cta:hover {
+  background: var(--white);
+  color: var(--ink-on-light);
+  border-color: var(--white);
+}
+
+.gd-bar {
+  position: relative;
+  height: 1px;
+  margin-top: 1.5rem;
+  background: var(--gd-line);
+  transition: background 0.8s var(--ease);
+}
+
+.gd-bar-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--brand-accent);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+[dir="rtl"] .gd-bar-fill {
+  transform-origin: right;
+}
+
+/* ── Desktop: pinned stage, strip driven by scroll ── */
+.gd--pinned {
+  padding: 0;
+}
+
+.gd--pinned .gd-stage {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-columns: 100%;
+  height: 100svh;
+  padding-top: clamp(5.5rem, 12svh, 8rem);
+  padding-bottom: clamp(1.25rem, 4svh, 2.5rem);
+}
+
+.gd--pinned .gd-track {
+  justify-self: start;
+  width: max-content;
+  height: 100%;
+  margin-top: clamp(1rem, 3svh, 2rem);
+  padding-block: 0;
+  gap: clamp(3rem, 5vw, 5.5rem);
+  overflow: visible;
+  scroll-snap-type: none;
+  will-change: transform;
+}
+
+.gd--pinned .gd-card {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+}
+
+.gd--pinned .gd-card--start { align-self: flex-start; }
+.gd--pinned .gd-card--center { align-self: center; }
+.gd--pinned .gd-card--end { align-self: flex-end; }
+
+.gd--pinned .gd-media {
+  aspect-ratio: auto;
+}
+
+.gd--pinned .gd-card--wide .gd-media { width: 62svh; height: 40svh; }
+.gd--pinned .gd-card--tall .gd-media { width: 34svh; height: 50svh; }
+.gd--pinned .gd-card--square .gd-media { width: 40svh; height: 40svh; }
+
+.gd--pinned .gd-end {
+  width: 46svh;
+  padding-inline-end: 8vw;
+}
+
+.gd--pinned .gd-bar {
+  margin-top: clamp(1rem, 3svh, 2rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gd *,
+  .gd *::before {
+    transition: none !important;
+  }
+}

@@ -6,6 +6,11 @@
   padding-bottom: clamp(3rem, 6vw, 5rem);
 }
 
+/* On the home page it follows the hero, so no fixed-header offset. */
+.mp-page--home {
+  padding-top: clamp(4rem, 8vw, 6rem);
+}
+
 .mp-page-head {
   margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
 }
@@ -27,6 +32,7 @@
 
 /* ── Explorer ── */
 .mp-explorer {
+  position: relative;
   --mp-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --mp-move: 0.65s;
   display: grid;
@@ -92,18 +98,10 @@
   opacity: 1;
 }
 
-/* Gold frame on the area's exact edges, with architectural corner ticks. */
+/* Invisible box on the area's edges — carries the name tag and glides between spaces. */
 .mp-frame {
-  --tick: 14px;
-  --tw: 2px;
-  --c: var(--brand-accent);
   position: absolute;
-  z-index: 3;
-  border: 1.5px solid var(--c);
-  box-shadow:
-    inset 0 0 0 1px color-mix(in srgb, var(--white) 22%, transparent),
-    0 0 0 1px color-mix(in srgb, var(--black) 25%, transparent),
-    0 0 28px color-mix(in srgb, var(--brand-accent) 35%, transparent);
+  z-index: 4;
   opacity: 0;
   pointer-events: none;
   transition:
@@ -116,26 +114,6 @@
 
 .mp-frame.is-on {
   opacity: 1;
-}
-
-.mp-frame::before {
-  content: "";
-  position: absolute;
-  inset: -7px;
-  background:
-    linear-gradient(var(--c), var(--c)) left top / var(--tick) var(--tw) no-repeat,
-    linear-gradient(var(--c), var(--c)) left top / var(--tw) var(--tick) no-repeat,
-    linear-gradient(var(--c), var(--c)) right top / var(--tick) var(--tw) no-repeat,
-    linear-gradient(var(--c), var(--c)) right top / var(--tw) var(--tick) no-repeat,
-    linear-gradient(var(--c), var(--c)) left bottom / var(--tick) var(--tw) no-repeat,
-    linear-gradient(var(--c), var(--c)) left bottom / var(--tw) var(--tick) no-repeat,
-    linear-gradient(var(--c), var(--c)) right bottom / var(--tick) var(--tw) no-repeat,
-    linear-gradient(var(--c), var(--c)) right bottom / var(--tw) var(--tick) no-repeat;
-  transition: inset 0.5s var(--mp-ease);
-}
-
-.mp-frame.is-on::before {
-  inset: -5px;
 }
 
 /* Name tag riding on the frame's top edge (or below it near the map top). */
@@ -163,12 +141,6 @@
   font-size: 12px;
 }
 
-.mp-tag b {
-  font-family: var(--font-display);
-  font-weight: 700;
-  opacity: 0.7;
-}
-
 .mp-tag.is-below {
   top: calc(100% + 9px);
   bottom: auto;
@@ -184,50 +156,6 @@
     opacity: 0;
     translate: 0 6px;
   }
-}
-
-/* Pins — centred on their area. */
-.mp-pin {
-  position: absolute;
-  z-index: 4;
-  display: grid;
-  width: 30px;
-  height: 30px;
-  margin: -15px 0 0 -15px;
-  place-items: center;
-  border: 1px solid color-mix(in srgb, var(--white) 70%, transparent);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--overlay) 72%, transparent);
-  -webkit-backdrop-filter: blur(6px);
-  backdrop-filter: blur(6px);
-  color: var(--on-dark);
-  font-family: var(--font-display);
-  font-size: 11px;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  cursor: pointer;
-  transition:
-    scale 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
-    background-color 0.3s var(--mp-ease),
-    color 0.3s var(--mp-ease),
-    opacity 0.3s var(--mp-ease);
-}
-
-.mp-pin:hover,
-.mp-pin.is-active {
-  scale: 1.15;
-  background: var(--brand-accent);
-  color: var(--on-accent);
-}
-
-/* While something is highlighted, other pins step back. */
-.is-focused .mp-pin:not(.is-active) {
-  opacity: 0.35;
-}
-
-.mp-pin:focus-visible {
-  outline: 2px solid var(--brand-accent);
-  outline-offset: 3px;
 }
 
 .mp-caption {
@@ -398,7 +326,405 @@
   cursor: pointer;
 }
 
+/* ── Motion layer (GSAP) ── */
+
+/* Dimension line above the plan. */
+.mp-dims {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.4rem;
+  margin-bottom: 0.75rem;
+}
+
+.mp-dims-line {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.mp-dims-line::before,
+.mp-dims-line::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  width: 1px;
+  height: 11px;
+  background: var(--line-strong);
+}
+
+.mp-dims-line::before { left: 0; }
+.mp-dims-line::after { right: 0; }
+
+.mp-dims-label {
+  position: relative;
+  padding-inline: 0.85rem;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .mp-dims-label {
+  letter-spacing: 0;
+  font-size: 0.85rem;
+}
+
+/* Blueprint the plan arrives as (entrance only). */
+.mp-blueprint {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: #0d2747;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.mp-blueprint-img {
+  object-fit: cover;
+  filter: grayscale(1) invert(1) brightness(0.6) contrast(3.2);
+  mix-blend-mode: screen;
+  opacity: 0.7;
+}
+
+.mp-blueprint-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--white) 14%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--white) 14%, transparent) 1px, transparent 1px),
+    linear-gradient(color-mix(in srgb, var(--white) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--white) 6%, transparent) 1px, transparent 1px);
+  background-size: 120px 120px, 120px 120px, 24px 24px, 24px 24px;
+}
+
+.mp-scan {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 4;
+  width: 2px;
+  margin-inline-start: -1px;
+  background: var(--brand-accent);
+  box-shadow:
+    0 0 14px 3px color-mix(in srgb, var(--brand-accent) 70%, transparent),
+    0 0 70px 16px color-mix(in srgb, var(--brand-accent) 28%, transparent);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Soft light that follows the mouse. */
+.mp-spot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 380px;
+  height: 380px;
+  margin: -190px 0 0 -190px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--white) 34%, transparent), transparent 62%);
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@keyframes mp-breathe {
+  from { opacity: 0.9; scale: 1; }
+  to { opacity: 0; scale: 1.9; }
+}
+
+/* ── Light trace around the highlighted space ── */
+.mp-trace {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s var(--mp-ease);
+}
+
+.mp-trace.is-on {
+  opacity: 1;
+}
+
+.mp-trace rect {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+}
+
+/* 1 — a hairline draws itself around the edge… */
+.mp-trace-line {
+  stroke: color-mix(in srgb, var(--brand-accent) 55%, #f2b544);
+  stroke-width: 1.25;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  opacity: 0.9;
+  animation: mp-draw 0.9s var(--mp-ease) forwards;
+}
+
+/* 2 — …then a spark of light keeps running along it, flickering like a filament. */
+.mp-trace-spark,
+.mp-trace-head {
+  stroke-linecap: round;
+  visibility: hidden;
+}
+
+.mp-trace-spark {
+  stroke: #ffd27a;
+  stroke-width: 2.4;
+  stroke-dasharray: 0.16 0.84;
+  animation:
+    mp-show 0.01s linear 0.75s forwards,
+    mp-run 2.6s linear 0.75s infinite,
+    mp-flicker 1.9s steps(1) 0.75s infinite;
+}
+
+.mp-trace-head {
+  stroke: #fffaf0;
+  stroke-width: 3.2;
+  stroke-dasharray: 0.012 0.988;
+  stroke-dashoffset: -0.148;
+  animation:
+    mp-show 0.01s linear 0.75s forwards,
+    mp-run-head 2.6s linear 0.75s infinite;
+}
+
+@keyframes mp-draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes mp-show {
+  to { visibility: visible; }
+}
+
+@keyframes mp-run {
+  from { stroke-dashoffset: 0; }
+  to { stroke-dashoffset: -1; }
+}
+
+@keyframes mp-run-head {
+  from { stroke-dashoffset: -0.148; }
+  to { stroke-dashoffset: -1.148; }
+}
+
+@keyframes mp-flicker {
+  0% { opacity: 1; }
+  11% { opacity: 0.62; }
+  13% { opacity: 1; }
+  47% { opacity: 0.8; }
+  49% { opacity: 1; }
+  78% { opacity: 0.55; }
+  80% { opacity: 1; }
+}
+
+/* While the light wanders on its own, the plan stays brighter. */
+.is-auto .mp-dim.is-on {
+  opacity: 0.55;
+}
+
+.mp-hit {
+  cursor: pointer;
+}
+
+/* ── "Your turn" — after the tutorial, until the visitor explores. ── */
+.mp-turn {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  pointer-events: none;
+  background: radial-gradient(60% 45% at 50% 50%, color-mix(in srgb, var(--overlay) 45%, transparent), transparent 75%);
+  opacity: 0;
+  transition: opacity 0.6s var(--mp-ease);
+}
+
+.is-your-turn .mp-turn {
+  opacity: 1;
+  transition-delay: 0.35s;
+}
+
+.mp-turn > * {
+  translate: 0 12px;
+  scale: 0.94;
+  transition:
+    translate 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+    scale 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.is-your-turn .mp-turn > * {
+  translate: 0 0;
+  scale: 1;
+  transition-delay: 0.35s;
+}
+
+.mp-turn-art {
+  position: relative;
+  display: block;
+  width: 132px;
+  height: 64px;
+}
+
+.mp-turn-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  max-width: 22rem;
+  margin-top: 0.9rem;
+  padding: 0.8rem 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--brand-accent) 55%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--overlay) 78%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--on-dark);
+  text-align: center;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand-accent) 40%, transparent);
+  animation: mp-turn-glow 2.4s ease-out 1s infinite;
+}
+
+.mp-turn-copy b {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.mp-turn-copy > span {
+  color: var(--on-dark-muted);
+  font-size: 0.78rem;
+}
+
+@keyframes mp-turn-glow {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--brand-accent) 45%, transparent); }
+  70%, 100% { box-shadow: 0 0 0 14px color-mix(in srgb, var(--brand-accent) 0%, transparent); }
+}
+
+/* The mouse… */
+.mp-turn-mouse {
+  position: absolute;
+  left: 18px;
+  top: 6px;
+  width: 30px;
+  height: 45px;
+  fill: color-mix(in srgb, var(--overlay) 55%, transparent);
+  stroke: var(--white);
+  stroke-width: 1.4;
+  stroke-linecap: round;
+}
+
+.mp-turn-wheel {
+  stroke: var(--brand-accent);
+  stroke-width: 2.4;
+  animation: mp-wheel 1.6s var(--mp-ease) infinite;
+}
+
+@keyframes mp-wheel {
+  0% { translate: 0 0; opacity: 1; }
+  70% { translate: 0 5px; opacity: 0; }
+  100% { translate: 0 0; opacity: 0; }
+}
+
+/* …and its cursor, gliding between spaces and pausing to "hover" each one. */
+.mp-turn-cursor {
+  position: absolute;
+  left: 70px;
+  top: 14px;
+  width: 26px;
+  height: 26px;
+  fill: var(--white);
+  stroke: #141414;
+  stroke-width: 1.3;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 6px 10px color-mix(in srgb, var(--black) 45%, transparent)) drop-shadow(0 0 10px color-mix(in srgb, var(--brand-accent) 55%, transparent));
+  animation: mp-glide 3.6s var(--mp-ease) infinite;
+}
+
+@keyframes mp-glide {
+  0% { translate: 0 0; }
+  22%, 34% { translate: 34px -8px; }
+  56%, 68% { translate: 18px 22px; }
+  90%, 100% { translate: 0 0; }
+}
+
+.mp-turn-tap {
+  display: none;
+  position: absolute;
+  left: 48px;
+  top: 10px;
+  width: 44px;
+  height: 44px;
+  fill: color-mix(in srgb, var(--white) 70%, transparent);
+  stroke: var(--white);
+  stroke-width: 1.5;
+}
+
+.mp-turn-tap-ring {
+  fill: none;
+  stroke: var(--brand-accent);
+  transform-origin: 18px 18px;
+  animation: mp-breathe 1.6s ease-out infinite;
+}
+
+.mp-turn-touch {
+  display: none;
+}
+
+@media (pointer: coarse) {
+  .mp-turn-mouse,
+  .mp-turn-cursor,
+  .mp-turn-hover {
+    display: none;
+  }
+
+  .mp-turn-tap {
+    display: block;
+  }
+
+  .mp-turn-touch {
+    display: inline;
+  }
+}
+
+/* The running spark belongs to the tutorial only — hovering just draws the line. */
+.mp-explorer:not(.is-auto) .mp-trace-spark,
+.mp-explorer:not(.is-auto) .mp-trace-head {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .mp-trace-spark,
+  .mp-trace-head {
+    display: none;
+  }
+
+  .mp-trace-line {
+    animation: none !important;
+    stroke-dashoffset: 0;
+  }
+
+  .mp-turn-wheel,
+  .mp-turn-cursor,
+  .mp-turn-tap-ring,
+  .mp-turn-copy {
+    animation: none;
+  }
+
   .mp-detail-inner,
   .mp-tag {
     animation: none;
@@ -412,4 +738,13 @@
   .mp-item-title {
     transition: none;
   }
+}
+
+/* Arabic figures (Amiri) read best a touch larger. */
+[dir="rtl"] .mp-detail-num {
+  font-size: 1.35rem;
+}
+
+[dir="rtl"] .mp-item-num {
+  font-size: 1rem;
 }

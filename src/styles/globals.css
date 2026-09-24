@@ -29,4 +29,5 @@
 @import "./base/theme-switch.css";
 @import "./sections/hero-layered.css";
 @import "./sections/gallery-preview.css";
+@import "./sections/gallery-day.css";
 @import "./sections/master-plan.css";

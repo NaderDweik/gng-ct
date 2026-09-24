@@ -1,7 +1,16 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { FitBoundsOptions, Map as LeafletMap, Marker, Polyline, PolylineOptions, TileLayer } from "leaflet";
+import type {
+  CircleMarker,
+  FitBoundsOptions,
+  LatLngTuple,
+  Map as LeafletMap,
+  Marker,
+  Polyline,
+  PolylineOptions,
+  TileLayer,
+} from "leaflet";
 import type { NearbyPlace } from "@/content/location";
 import { projectCoords } from "@/content/location";
 import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
@@ -69,6 +78,11 @@ function destIcon(L: LeafletModule, name: string, time: string, dir: "rtl" | "lt
   });
 }
 
+/** One run of the glowing "car" along the route, then a short rest. */
+const CAR_RUN_MS = 3400;
+const CAR_REST_MS = 1100;
+const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
+
 const FIT_OPTIONS: FitBoundsOptions = {
   paddingTopLeft: [70, 90],
   paddingBottomRight: [70, 130],
@@ -88,6 +102,7 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
   const mapRef = useRef<LeafletMap | null>(null);
   const routeRef = useRef<Polyline | null>(null);
   const destRef = useRef<Marker | null>(null);
+  const carRef = useRef<CircleMarker | null>(null);
   const tilesRef = useRef<TileLayer[]>([]);
   const abortRef = useRef<AbortController | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -140,6 +155,7 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
       mapRef.current = null;
       routeRef.current = null;
       destRef.current = null;
+      carRef.current = null;
       tilesRef.current = [];
       setMapReady(false);
     };
@@ -164,6 +180,8 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
     routeRef.current = null;
     destRef.current?.remove();
     destRef.current = null;
+    carRef.current?.remove();
+    carRef.current = null;
 
     if (!active) {
       map.setView([projectCoords.lat, projectCoords.lng], 11, { animate: true });
@@ -227,8 +245,50 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
           i = Math.min(latlngs.length, i + step);
           routeRef.current.setLatLngs(latlngs.slice(0, i));
           if (i < latlngs.length) rafRef.current = requestAnimationFrame(draw);
+          else if (!matchMedia("(prefers-reduced-motion: reduce)").matches) drive(latlngs);
         };
         rafRef.current = requestAnimationFrame(draw);
+
+        // Once drawn, a glowing car keeps driving the route: ease out of the
+        // project, ease into the destination, fade, rest, again.
+        const drive = (pts: LatLngTuple[]) => {
+          const cum = [0];
+          for (let k = 1; k < pts.length; k++) cum.push(cum[k - 1]! + map.distance(pts[k - 1]!, pts[k]!));
+          const total = cum[cum.length - 1]!;
+          const car = L.circleMarker(pts[0]!, {
+            radius: 6,
+            color: "#ffffff",
+            weight: 2.5,
+            fillColor: routeColor(),
+            fillOpacity: 1,
+            className: "gc-car",
+            interactive: false,
+          }).addTo(map);
+          carRef.current = car;
+          let t0 = performance.now();
+          let seg = 1;
+          const tick = (now: number) => {
+            if (!alive.current || carRef.current !== car) return;
+            let t = now - t0;
+            if (t > CAR_RUN_MS + CAR_REST_MS) {
+              t0 = now;
+              t = 0;
+              seg = 1;
+            }
+            const p = Math.min(1, t / CAR_RUN_MS);
+            const d = easeInOut(p) * total;
+            while (seg < cum.length - 1 && cum[seg]! < d) seg++;
+            const a = pts[seg - 1]!;
+            const b = pts[seg]!;
+            const span = cum[seg]! - cum[seg - 1]! || 1;
+            const f = Math.min(1, Math.max(0, (d - cum[seg - 1]!) / span));
+            car.setLatLng([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]);
+            const fade = p < 0.06 ? p / 0.06 : p > 0.94 ? (1 - p) / 0.06 : 1;
+            car.setStyle({ opacity: fade, fillOpacity: fade });
+            rafRef.current = requestAnimationFrame(tick);
+          };
+          rafRef.current = requestAnimationFrame(tick);
+        };
       })
       .catch(() => {
         if (ctrl.signal.aborted || !mapRef.current) return;

@@ -53,7 +53,7 @@ export function MosaicLightbox({ picks, ratios, index, locale, onIndex, onClose 
   const caption = isAr ? pick.captionAr : pick.captionEn;
   const category = galleryCategories.find((c) => c.id === pick.categoryId);
   const categoryTitle = category ? (isAr ? category.titleAr : category.titleEn) : "";
-  const n = (v: number) => formatNumber(v, locale).padStart(2, isAr ? "٠" : "0");
+  const n = (v: number) => formatNumber(v, locale).padStart(isAr ? 0 : 2, "0");
 
   return (
     <div className="gal-lb gm-lb" role="dialog" aria-modal aria-label={caption} onClick={onClose}>

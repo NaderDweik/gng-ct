@@ -31,8 +31,8 @@
 
   --background: var(--surface);
   --foreground: var(--ink);
-  --font-display: Optima, "Optima Nova", ui-serif, Georgia, serif;
-  --font-body: var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
+  --font-display: "GC Digits", Optima, "Optima Nova", ui-serif, Georgia, serif;
+  --font-body: "GC Digits", var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
 }
 
 @theme inline {
@@ -91,6 +91,6 @@
   --shadow-card-lg: 0 24px 60px color-mix(in srgb, var(--shadow-color) 16%, transparent);
   --shadow-header: 0 10px 40px color-mix(in srgb, var(--black) 6%, transparent);
 
-  --font-sans: var(--font-cairo);
-  --font-display: Optima, "Optima Nova", ui-serif, Georgia, serif;
+  --font-sans: "GC Digits", var(--font-cairo);
+  --font-display: "GC Digits", Optima, "Optima Nova", ui-serif, Georgia, serif;
 }

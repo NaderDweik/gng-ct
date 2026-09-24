@@ -35,13 +35,12 @@ function AmenityIcon({
           <path d="m9 12 2 2 4-4" />
         </svg>
       );
-    case "fiber":
+    case "interior":
       return (
         <svg {...common}>
-          <path d="M5 12a7 7 0 0 1 14 0" />
-          <path d="M8.5 12a3.5 3.5 0 0 1 7 0" />
-          <circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none" />
-          <path d="M12 13v7" />
+          <path d="M5 11V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3" />
+          <path d="M3 13a2 2 0 0 1 4 0v2h10v-2a2 2 0 0 1 4 0v4H3z" />
+          <path d="M5 17v2M19 17v2" />
         </svg>
       );
     case "kids":

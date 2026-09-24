@@ -48,7 +48,7 @@ export default async function FinancingPage({ params }: Props) {
 
   return (
     <>
-      <PageHero title={t("title")} subtitle={t("subtitle")} />
+      <PageHero title={t("title")} subtitle={t("subtitle")} image="/gallery/resortsPics/pool-and-tent-pavilion-hd.jpg" focus="50% 55%" />
 
       <section className="section bg-surface-alt">
         <div className="container-gc">
@@ -85,7 +85,7 @@ export default async function FinancingPage({ params }: Props) {
             {steps.map((s, i) => (
               <li key={s.titleEn} className="step-card">
                 <span className="font-display text-5xl font-bold leading-none text-accent/80 tabular-nums">
-                  {formatNumber(i + 1, locale).padStart(2, isAr ? "٠" : "0")}
+                  {formatNumber(i + 1, locale).padStart(isAr ? 0 : 2, "0")}
                 </span>
                 <h3 className="font-display mt-8 text-xl font-bold text-on-dark">
                   {isAr ? s.titleAr : s.titleEn}
@@ -107,7 +107,7 @@ export default async function FinancingPage({ params }: Props) {
         </section>
       )}
 
-      <RegisterCta locale={locale} image="/gallery/img_2.jpg" />
+      <RegisterCta locale={locale} image="/gallery/resortsPics/family-breakfast-poolside-table.png" />
     </>
   );
 }

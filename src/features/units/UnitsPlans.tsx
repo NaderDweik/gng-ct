@@ -147,7 +147,7 @@ export function UnitsPlans() {
           <div className="mb-14 grid overflow-hidden bg-surface-alt/70 lg:grid-cols-2">
             <div className="relative min-h-[320px]">
               <Image
-                src="/gallery/img_2.jpg"
+                src="/gallery/resortsPics/swimmer-pool-waterfall.png"
                 alt={copy.introImageAlt}
                 fill
                 priority

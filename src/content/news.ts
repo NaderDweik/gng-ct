@@ -8,11 +8,14 @@ export type Article = {
   bodyEn: string[];
   keywords: string[];
   date: string;
+  /** Cover photo for the card and article header. */
+  image: string;
 };
 
 export const articles: Article[] = [
   {
     slug: "first-chalet-city-middle-east",
+    image: "/gallery/compoundPics/entrance-fountain-and-gatehouse.png",
     titleAr: "لماذا Giving City هي أول مدينة شاليهات متكاملة في الشرق الأوسط؟",
     titleEn: "Why Giving City is the first integrated chalet city in the Middle East",
     excerptAr: "٣٦٧+ منتجع خاص على ٥٠٠,٠٠٠ م² بتصميم إسباني وشهادة ISO.",
@@ -32,6 +35,7 @@ export const articles: Article[] = [
   },
   {
     slug: "chalet-investment-2026",
+    image: "/gallery/resortsPics/swimmer-pool-waterfall.png",
     titleAr: "٥ أسباب تجعل الاستثمار العقاري في الشاليهات خيارًا ذكيًا في ٢٠٢٦",
     titleEn: "5 reasons chalet investment is smart in 2026",
     excerptAr: "عائد الإجازات، ندرة المنتجعات الخاصة، وخطط دفع بدون فوائد.",
@@ -51,6 +55,7 @@ export const articles: Article[] = [
   },
   {
     slug: "inside-500sqm-chalet",
+    image: "/gallery/resortsPics/family-living-room.png",
     titleAr: "جولة داخل شاليه Giving City — ٥٠٠ م² من الخصوصية والرفاهية",
     titleEn: "Inside a Giving City chalet — 500 m² of privacy and luxury",
     excerptAr: "٣ غرف، مسبحان، جاكوزي، برجولا، وكراج لسيارتين.",
@@ -70,6 +75,7 @@ export const articles: Article[] = [
   },
   {
     slug: "iso-9001-quality",
+    image: "/gallery/resortsPics/bathroom-jacuzzi-tub.png",
     titleAr: "شهادة ISO 9001:2015 — ماذا تعني لجودة بيتك؟",
     titleEn: "ISO 9001:2015 — what it means for your home’s quality",
     excerptAr: "نظام إدارة جودة دولي يغطي البناء والتشطيب ورضا العميل.",
@@ -89,6 +95,7 @@ export const articles: Article[] = [
   },
   {
     slug: "flexible-payment-plans",
+    image: "/gallery/resortsPics/family-breakfast-poolside-table.png",
     titleAr: "خطط الدفع المرنة — كيف تملك شاليهك بدون فوائد",
     titleEn: "Flexible payment plans — own your chalet with zero interest",
     excerptAr: "٣ خطط استلام وخصم نقدي ١٥٪ مباشرة مع الشركة.",
@@ -108,6 +115,7 @@ export const articles: Article[] = [
   },
   {
     slug: "spanish-design",
+    image: "/gallery/compoundPics/reception-building.png",
     titleAr: "التصميم الإسباني في Giving City — لماذا هذا الطراز؟",
     titleEn: "Spanish design at Giving City — why this style?",
     excerptAr: "طابع متوسطي دافئ وعزل واجهات يناسب مناخ الأردن.",
@@ -127,6 +135,7 @@ export const articles: Article[] = [
   },
   {
     slug: "life-in-community",
+    image: "/gallery/compoundPics/kids-cycling-community-street.png",
     titleAr: "الحياة داخل مجتمع Giving City — أمن، مرافق، وجيران",
     titleEn: "Life inside Giving City — security, amenities, neighbors",
     excerptAr: "مجتمع مسوّر بمرافق مخدومة وخصوصية لكل عائلة.",

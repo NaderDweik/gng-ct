@@ -38,7 +38,7 @@ export function FaqExplorer() {
   const isAr = locale === "ar";
   const tc = useTranslations("common");
   const n = (v: number) => formatNumber(v, locale);
-  const pad = (v: number) => n(v).padStart(2, isAr ? "٠" : "0");
+  const pad = (v: number) => n(v).padStart(isAr ? 0 : 2, "0");
 
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState<string | null>(`${faqCategories[0]?.id}-0`);

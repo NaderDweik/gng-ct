@@ -19,6 +19,10 @@
   color: var(--ink);
 }
 
+.faq-hero.gal-hero .faq-hero-title {
+  color: var(--on-dark);
+}
+
 [dir="rtl"] .faq-hero-title {
   font-family: var(--font-body);
   letter-spacing: 0;

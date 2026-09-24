@@ -16,12 +16,13 @@ export const site = {
   whatsappUrl: "https://wa.me/962795898415",
   email: "",
   siteUrl: "https://giving-estate.com",
-  mapsUrl: "https://maps.app.goo.gl/PNR3uYsjeDX92fqs7",
+  mapsUrl: "https://maps.app.goo.gl/SBg2mNzHCV7xffLR8",
   mapsEmbed:
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3385.5!2d35.9301!3d31.9497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDU2JzU5LjAiTiAzNcKwNTUnNDguNCJF!5e0!3m2!1sen!2sjo!4v1",
-  locationAr: "٣٩ كم من فندق الرويال باتجاه سحاب الحطمية",
-  locationEn: "39 km from Royal Hotel towards Sahab Al-Hatmiyeh",
-  coordinates: { lat: 31.949722, lng: 35.930111 },
+  locationAr: "٣٦ كم من فندق الرويال باتجاه سحاب الحطمية",
+  locationEn: "36 km from Le Royal Hotel towards Sahab Al-Hatmiyeh",
+  /** Project pin — Al Matabba (Google Maps link above). */
+  coordinates: { lat: 31.796929, lng: 36.1855906 },
   hoursAr: {
     weekdays: "الأحد – الخميس: ٩ صباحًا – ٧ مساءً",
     saturday: "السبت: ١٠ صباحًا – ٤ مساءً",

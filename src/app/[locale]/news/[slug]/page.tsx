@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { articles, getArticle } from "@/content/news";
@@ -31,6 +32,16 @@ export default async function ArticlePage({ params }: Props) {
         <h1 className="mt-2 text-3xl font-bold leading-snug text-primary-ink md:text-4xl">
           {isAr ? article.titleAr : article.titleEn}
         </h1>
+        <div className="relative mt-8 aspect-[16/9] overflow-hidden bg-surface-alt">
+          <Image
+            src={article.image}
+            alt={isAr ? article.titleAr : article.titleEn}
+            fill
+            priority
+            sizes="(max-width: 768px) 100vw, 768px"
+            className="object-cover"
+          />
+        </div>
         <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted">
           {body.map((p) => (
             <p key={p.slice(0, 24)}>{p}</p>

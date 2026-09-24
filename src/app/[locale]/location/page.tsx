@@ -12,7 +12,7 @@ export default async function LocationPage({ params }: Props) {
 
   return (
     <>
-      <PageHero title={t("title")} subtitle={t("subtitle")} />
+      <PageHero title={t("title")} subtitle={t("subtitle")} image="/gallery/compoundPics/palm-roundabout-flower-bed-hd.jpg" />
       <section className="section bg-surface-tint">
         <div className="container-gc">
           <LocationShowcase />

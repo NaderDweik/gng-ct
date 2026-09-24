@@ -108,7 +108,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 4,
     areaSqm: 520,
-    image: "/gallery/img_3.jpg",
+    image: "/gallery/resortsPics/pool-and-tent-pavilion.png",
   },
   {
     id: "2br-type-06",
@@ -124,7 +124,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "no",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/img_5.jpg",
+    image: "/gallery/resortsPics/giant-chess-poolside-royal.png",
   },
   {
     id: "3br-type-03",
@@ -140,7 +140,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/img_7.jpg",
+    image: "/gallery/resortsPics/family-lounge-under-pergola.png",
   },
   {
     id: "villa-01",
@@ -156,7 +156,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 3,
     areaSqm: 510,
-    image: "/gallery/img_1.jpg",
+    image: "/gallery/resortsPics/swimmer-pool-waterfall.png",
   },
   {
     id: "4br-type-01",
@@ -172,7 +172,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 3,
     areaSqm: 505,
-    image: "/gallery/img_9.jpg",
+    image: "/gallery/resortsPics/family-breakfast-poolside-table.png",
   },
   {
     id: "3br-type-02",
@@ -188,7 +188,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/img_11.jpg",
+    image: "/gallery/resortsPics/foosball-kids-pool.png",
   },
   {
     id: "3br-type-01-w",
@@ -204,7 +204,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/img_13.jpg",
+    image: "/gallery/resortsPics/garden-lounge-kids-swing.png",
   },
   {
     id: "3br-type-01-e",
@@ -220,7 +220,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/img_15.jpg",
+    image: "/gallery/resortsPics/family-arriving-resort-a9-garage.png",
   },
   {
     id: "2br-type-05",
@@ -236,7 +236,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/img_17.jpg",
+    image: "/gallery/resortsPics/family-entering-resort-front-door.png",
   },
   {
     id: "2br-type-04",
@@ -252,7 +252,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "dash",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/img_19.jpg",
+    image: "/gallery/resortsPics/quad-bike-royal-clubhouse.png",
   },
   {
     id: "2br-type-03",
@@ -268,7 +268,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/img_21.jpg",
+    image: "/gallery/resortsPics/father-son-bbq-grill.png",
   },
   {
     id: "2br-type-02",
@@ -284,7 +284,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/img_23.jpg",
+    image: "/gallery/resortsPics/family-living-room.png",
   },
   {
     id: "2br-type-01",
@@ -300,7 +300,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/img_25.jpg",
+    image: "/gallery/resortsPics/master-bedroom-pool-view.png",
   },
   {
     id: "1br-type-02",
@@ -316,7 +316,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "no",
     parking: 1,
     areaSqm: 500,
-    image: "/gallery/img_29.jpg",
+    image: "/gallery/resortsPics/twin-bedroom-pool-view.png",
   },
   {
     id: "1br-type-01",
@@ -332,6 +332,6 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "no",
     parking: 1,
     areaSqm: 500,
-    image: "/gallery/img_31.jpg",
+    image: "/gallery/resortsPics/fireplace-horse-sculpture.png",
   },
 ];

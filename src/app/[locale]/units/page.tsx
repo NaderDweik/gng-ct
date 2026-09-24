@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { setRequestLocale } from "next-intl/server";
 import { UnitsPlans } from "@/features/units/UnitsPlans";
 import { unitsCopy } from "@/content/units";
@@ -15,7 +16,15 @@ export default async function UnitsPage({ params }: Props) {
     <>
       {/* JG-style slate title band */}
       <section className="relative overflow-hidden border-b border-secondary-light bg-secondary pt-32 pb-6 md:pt-44 md:pb-8 xl:pt-[11.5rem] xl:pb-10">
-        <div className="mx-auto w-[min(92rem,calc(100%-3rem))] px-6 text-center">
+        <Image
+          src="/gallery/resortsPics/pool-and-tent-pavilion.png"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover opacity-35"
+        />
+        <div className="relative mx-auto w-[min(92rem,calc(100%-3rem))] px-6 text-center">
           <span className="mb-3 block text-[10px] font-bold tracking-[0.24em] text-on-dark-muted uppercase">
             {copy.eyebrow}
           </span>

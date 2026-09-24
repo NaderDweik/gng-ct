@@ -33,7 +33,7 @@ export default async function RegisterPage({ params }: Props) {
     <>
       <section className="register-hero">
         <Image
-          src="/gallery/img_2.jpg"
+          src="/gallery/resortsPics/pool-and-tent-pavilion.png"
           alt=""
           fill
           priority
@@ -128,7 +128,7 @@ export default async function RegisterPage({ params }: Props) {
             <div className="register-side flex items-center gap-4">
               <div className="relative h-14 w-16 shrink-0 overflow-hidden">
                 <Image
-                  src="/gallery/img_3.jpg"
+                  src="/gallery/compoundPics/reception-building.png"
                   alt=""
                   fill
                   sizes="64px"

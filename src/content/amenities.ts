@@ -2,7 +2,7 @@
 
 export type AmenityFeature = {
   id: string;
-  icon: "pool" | "security" | "fiber" | "kids" | "bbq" | "walls" | "parking" | "green";
+  icon: "pool" | "security" | "interior" | "kids" | "bbq" | "walls" | "parking" | "green";
   titleAr: string;
   titleEn: string;
   tagsAr: string[];
@@ -36,7 +36,7 @@ export const amenityFeatures: AmenityFeature[] = [
       "كل منتجع يتضمن مسبحاً خاصاً ومسبح أطفال — خصوصية كاملة داخل وحدتك، لا مشاركة مع الجيران.",
     descEn:
       "Every resort includes a private main pool and kids’ pool — full privacy inside your unit, never shared with neighbors.",
-    image: "/gallery/img_29.jpg",
+    image: "/gallery/resortsPics/swimmer-pool-waterfall.png",
   },
   {
     id: "security",
@@ -49,20 +49,20 @@ export const amenityFeatures: AmenityFeature[] = [
       "حراسة أمنية وكاميرات مراقبة على مدار الساعة — مجتمع مغلق يمنحك راحة البال لعائلتك واستثمارك.",
     descEn:
       "Round-the-clock guards and CCTV — a gated community that protects your family and your investment.",
-    image: "/gallery/img_3.jpg",
+    image: "/gallery/compoundPics/security-guards-patrol-compound-o.png",
   },
   {
-    id: "fiber",
-    icon: "fiber",
-    titleAr: "إنترنت ألياف ضوئية",
-    titleEn: "Fiber internet",
-    tagsAr: ["ألياف ضوئية", "ستلايت وتكييف"],
-    tagsEn: ["Fiber optic", "Satellite & AC"],
+    id: "interior",
+    icon: "interior",
+    titleAr: "تصميم داخلي فاخر",
+    titleEn: "Refined interiors",
+    tagsAr: ["تشطيبات فاخرة", "مدفأة ومطبخ مجهز"],
+    tagsEn: ["Premium finishes", "Fireplace & fitted kitchen"],
     descAr:
-      "بنية تحتية رقمية مكتملة — إنترنت ألياف، أنظمة ستلايت، وتكييف جاهز لكل وحدة.",
+      "غرف معيشة دافئة بمدفأة، مطبخ مجهز بالكامل، وغرف نوم تطل على المسبح — تشطيبات فاخرة وضوء طبيعي في كل زاوية.",
     descEn:
-      "Complete digital infrastructure — fiber internet, satellite systems, and AC ready in every unit.",
-    image: "/gallery/img_31.jpg",
+      "Warm living rooms with a fireplace, a fully fitted kitchen, and bedrooms that open onto the pool — premium finishes and natural light throughout.",
+    image: "/gallery/resortsPics/family-living-room.png",
   },
   {
     id: "kids",
@@ -75,7 +75,7 @@ export const amenityFeatures: AmenityFeature[] = [
       "مساحات لعب آمنة قريبة من المنازل — راحة للعائلات دون الابتعاد عن خصوصية الوحدة.",
     descEn:
       "Safe play spaces close to home — family comfort without leaving unit privacy behind.",
-    image: "/gallery/img_33.jpg",
+    image: "/gallery/compoundPics/kids-cycling-community-street.png",
   },
   {
     id: "bbq",
@@ -88,7 +88,7 @@ export const amenityFeatures: AmenityFeature[] = [
       "برجولات ومناطق شواء لكل وحدة — أسلوب حياة خارجي فاخر بجانب المسبح والحديقة الخاصة.",
     descEn:
       "Pergolas and BBQ for every unit — outdoor living beside your private pool and garden.",
-    image: "/gallery/img_35.jpg",
+    image: "/gallery/resortsPics/father-son-bbq-grill.png",
   },
   {
     id: "walls",
@@ -101,7 +101,7 @@ export const amenityFeatures: AmenityFeature[] = [
       "جدران بارتفاع ٣ أمتار حول كل وحدة — خصوصية بصرية وصوتية تجعل منتجعك عالماً خاصاً بك.",
     descEn:
       "Three-meter walls around every unit — visual and acoustic privacy that makes your resort truly yours.",
-    image: "/gallery/img_5.jpg",
+    image: "/gallery/resortsPics/garden-lounge-kids-swing.png",
   },
   {
     id: "parking",
@@ -114,7 +114,7 @@ export const amenityFeatures: AmenityFeature[] = [
       "كراج لسيارتين ضمن كل وحدة، مع مواقف مخصصة للزوار داخل المجتمع المسوّر.",
     descEn:
       "A two-car garage in every unit, plus dedicated visitor parking inside the gated community.",
-    image: "/gallery/img_7.jpg",
+    image: "/gallery/resortsPics/family-arriving-resort-a9-garage.png",
   },
   {
     id: "green",
@@ -127,6 +127,6 @@ export const amenityFeatures: AmenityFeature[] = [
       "حدائق ومساحات خضراء مخدومة عبر المشروع — بيئة خارجية هادئة لجميع الأعمار.",
     descEn:
       "Serviced gardens and green spaces across the project — a calm outdoor setting for every age.",
-    image: "/gallery/img_37.jpg",
+    image: "/gallery/compoundPics/community-park-families.png",
   },
 ];

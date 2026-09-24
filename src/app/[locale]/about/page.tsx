@@ -106,11 +106,18 @@ export default async function AboutPage({ params }: Props) {
     { href: site.whatsappUrl, label: "WhatsApp", handle: tc("whatsapp") },
   ];
 
+  const progress = [
+    { src: "/gallery/compoundPics/compound-l-under-construction.png", en: "Compound L taking shape", ar: "كمباوند L يتشكّل" },
+    { src: "/gallery/compoundPics/compound-b-gate-gardener-landscaping.png", en: "Landscaping Compound B", ar: "تنسيق كمباوند B" },
+    { src: "/gallery/compoundPics/solar-farm-building-store.png", en: "Solar farm & building store", ar: "محطة الطاقة الشمسية ومتجر البناء" },
+    { src: "/gallery/compoundPics/compound-a-gate-motorbikes.png", en: "Compound A, open and lived in", ar: "كمباوند A مأهول" },
+  ];
+
   return (
     <>
       {/* Hero */}
       <section className="about-hero">
-        <Image src="/gallery/img_68.jpg" alt="" fill priority sizes="100vw" className="about-hero-img" />
+        <Image src="/gallery/compoundPics/main-entrance-gate-sunset.png" alt="" fill priority sizes="100vw" className="about-hero-img" />
         <div className="about-hero-shade" aria-hidden />
         <div className="container-gc relative z-10 flex min-h-[inherit] flex-col justify-end pb-10 pt-32 md:pb-14">
           <p className="reveal text-xs font-bold uppercase tracking-[0.24em] text-accent">{t("title")}</p>
@@ -157,10 +164,10 @@ export default async function AboutPage({ params }: Props) {
 
           <div className="about-collage">
             <div className="about-collage-main">
-              <Image src="/gallery/img_15.jpg" alt={isAr ? "جناح بمسبح داخلي" : "Suite with an indoor pool"} fill sizes="(max-width: 1024px) 90vw, 40vw" className="object-cover" />
+              <Image src="/gallery/resortsPics/master-bedroom-pool-view.png" alt={isAr ? "غرفة نوم بإطلالة على المسبح" : "Bedroom with a pool view"} fill sizes="(max-width: 1024px) 90vw, 40vw" className="object-cover" />
             </div>
             <div className="about-collage-side">
-              <Image src="/gallery/img_3.jpg" alt={isAr ? "واجهة منتجع" : "Resort facade"} fill sizes="(max-width: 1024px) 45vw, 20vw" className="object-cover" />
+              <Image src="/gallery/resortsPics/family-entering-resort-front-door.png" alt={isAr ? "واجهة منتجع" : "Resort facade"} fill sizes="(max-width: 1024px) 45vw, 20vw" className="object-cover" />
             </div>
             <div className="about-collage-badge">
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
@@ -191,7 +198,7 @@ export default async function AboutPage({ params }: Props) {
                     <Icon name={p.icon} />
                   </span>
                   <span className="font-display text-sm font-bold text-muted/60 tabular-nums">
-                    {n(i + 1).padStart(2, isAr ? "٠" : "0")}
+                    {n(i + 1).padStart(isAr ? 0 : 2, "0")}
                   </span>
                 </div>
                 <h3 className="font-display mt-10 text-xl font-bold text-ink transition-colors duration-300 group-hover:text-on-dark">
@@ -263,6 +270,22 @@ export default async function AboutPage({ params }: Props) {
               </h2>
             </div>
           </div>
+          <div className="mb-10 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {progress.map((p) => (
+              <figure key={p.src} className="group">
+                <div className="relative aspect-[4/3] overflow-hidden bg-surface-alt">
+                  <Image
+                    src={p.src}
+                    alt={isAr ? p.ar : p.en}
+                    fill
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  />
+                </div>
+                <figcaption className="mt-3 text-sm text-muted">{isAr ? p.ar : p.en}</figcaption>
+              </figure>
+            ))}
+          </div>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {socials.map((s) => (
               <a key={s.handle} href={s.href} target="_blank" rel="noopener noreferrer" className="social-card group">
@@ -281,7 +304,7 @@ export default async function AboutPage({ params }: Props) {
         </div>
       </section>
 
-      <RegisterCta locale={locale} image="/gallery/img_2.jpg" />
+      <RegisterCta locale={locale} image="/gallery/resortsPics/giant-chess-poolside-royal.png" />
     </>
   );
 }

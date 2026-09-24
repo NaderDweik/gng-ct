@@ -54,7 +54,7 @@ export function MosaicGrid({ picks, locale }: Props) {
   const [phase, setPhase] = useState<Phase>("static");
   const [open, setOpen] = useState<number | null>(null);
 
-  const n = (v: number) => formatNumber(v, locale).padStart(2, isAr ? "٠" : "0");
+  const n = (v: number) => formatNumber(v, locale).padStart(isAr ? 0 : 2, "0");
   const categoryTitle = (id: HomeGalleryPick["categoryId"]) => {
     const c = galleryCategories.find((x) => x.id === id);
     return c ? (isAr ? c.titleAr : c.titleEn) : "";

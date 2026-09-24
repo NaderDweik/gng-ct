@@ -14,7 +14,7 @@ export default async function AmenitiesPage({ params }: Props) {
 
   return (
     <>
-      <PageHero title={t("title")} subtitle={t("subtitle")} />
+      <PageHero title={t("title")} subtitle={t("subtitle")} image="/gallery/compoundPics/mini-golf-putting-green.png" />
       <section className="section overflow-hidden border-b border-line bg-surface">
         <div className="container-gc space-y-12">
           <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">

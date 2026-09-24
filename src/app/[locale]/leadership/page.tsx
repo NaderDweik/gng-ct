@@ -10,6 +10,12 @@ type Props = LocalePageProps;
 /** Drop the founder portrait here (portrait orientation, ~1200×1500). */
 const FOUNDER_PHOTO = "/leadership/tarek-qazan.jpg";
 
+const onTheGround = [
+  { src: "/gallery/compoundPics/engineers-site-office.png", en: "Engineering on site", ar: "الهندسة في الموقع" },
+  { src: "/gallery/compoundPics/security-guards-patrol-compound-o.png", en: "Security around the clock", ar: "أمن على مدار الساعة" },
+  { src: "/gallery/compoundPics/housekeeping-team.png", en: "Our service team", ar: "فريق الخدمات" },
+];
+
 const principles = [
   {
     titleAr: "تعامل مباشر",
@@ -123,13 +129,30 @@ export default async function LeadershipPage({ params }: Props) {
             {principles.map((p, i) => (
               <li key={p.titleEn} className="principle-card">
                 <span className="font-display text-4xl font-bold leading-none text-accent tabular-nums">
-                  {n(i + 1).padStart(2, isAr ? "٠" : "0")}
+                  {n(i + 1).padStart(isAr ? 0 : 2, "0")}
                 </span>
                 <h3 className="font-display mt-6 text-xl font-bold text-ink">{isAr ? p.titleAr : p.titleEn}</h3>
                 <p className="mt-3 text-sm leading-relaxed text-muted">{isAr ? p.bodyAr : p.bodyEn}</p>
               </li>
             ))}
           </ol>
+
+          <div className="mt-14 grid gap-4 md:grid-cols-3">
+            {onTheGround.map((p) => (
+              <figure key={p.src} className="group">
+                <div className="relative aspect-[4/3] overflow-hidden bg-surface-alt">
+                  <Image
+                    src={p.src}
+                    alt={isAr ? p.ar : p.en}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  />
+                </div>
+                <figcaption className="mt-3 text-sm text-muted">{isAr ? p.ar : p.en}</figcaption>
+              </figure>
+            ))}
+          </div>
         </div>
       </section>
     </>

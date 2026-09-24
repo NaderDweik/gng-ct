@@ -76,9 +76,9 @@ export const faqCategories: FaqCategory[] = [
     items: [
       {
         qAr: "أين يقع مشروع Giving City؟",
-        aAr: "يبعد ٣٩ كم من فندق الرويال باتجاه سحاب الحطمية، بالقرب من عمّان.",
+        aAr: "يبعد ٣٦ كم من فندق الرويال باتجاه سحاب الحطمية، بالقرب من عمّان.",
         qEn: "Where is Giving City located?",
-        aEn: "39 km from the Royal Hotel towards Sahab Al-Hatmiyeh, near Amman.",
+        aEn: "36 km from Le Royal Hotel towards Sahab Al-Hatmiyeh, near Amman.",
       },
       {
         qAr: "ما هي المرافق المتوفرة داخل المشروع؟",

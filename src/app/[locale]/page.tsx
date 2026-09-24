@@ -4,7 +4,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { site } from "@/content/site";
-import { galleryImages } from "@/content/gallery";
 import { HeroLayered } from "@/features/home/HeroLayered";
 import { homeFaqPreview } from "@/content/faq";
 import { amenityFeatures, amenitiesIntro } from "@/content/amenities";
@@ -13,7 +12,9 @@ import { AmenitiesHoverGrid } from "@/features/amenities/AmenitiesHoverGrid";
 import { HomeFaqPreview } from "@/features/faq/HomeFaqPreview";
 import { LocationShowcase } from "@/features/location/LocationShowcase";
 import { PricingShowcase } from "@/features/pricing/PricingShowcase";
-import { GalleryPreview } from "@/features/gallery/GalleryPreview";
+import { masterPlanCopy } from "@/content/master-plan";
+import { PlanExplorer } from "@/features/master-plan/PlanExplorer";
+import { GalleryDay } from "@/features/gallery/GalleryDay";
 import { RegisterCta } from "@/features/register/RegisterCta";
 import type { LocalePageProps } from "@/i18n/types";
 
@@ -39,8 +40,8 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("home");
-  const tc = await getTranslations("common");
   const isAr = locale === "ar";
+  const mpCopy = masterPlanCopy[isAr ? "ar" : "en"];
 
   const destinations = [
     {
@@ -50,7 +51,7 @@ export default async function HomePage({ params }: Props) {
       desc: isAr
         ? "٥٠٠ م² بسند ملكية مستقل — غرف، مسابح، وخصوصية كاملة داخل مجتمع مسوّر."
         : "500 m² with an independent deed — rooms, pools, and full privacy inside a gated community.",
-      img: galleryImages[0]?.src ?? "/hero/hero.jpg",
+      img: "/gallery/resortsPics/pool-and-tent-pavilion.png",
       cta: isAr ? "استكشف الوحدات" : "Explore units",
     },
     {
@@ -60,7 +61,7 @@ export default async function HomePage({ params }: Props) {
       desc: isAr
         ? "أمن على مدار الساعة، بنية تحتية، ومساحات خضراء مخدومة لأسلوب حياة متكامل."
         : "24/7 security, infrastructure, and serviced green spaces for a complete lifestyle.",
-      img: galleryImages[20]?.src ?? "/hero/hero.jpg",
+      img: "/gallery/compoundPics/kids-cycling-community-street.png",
       cta: isAr ? "اكتشف المرافق" : "Discover amenities",
     },
     {
@@ -70,7 +71,7 @@ export default async function HomePage({ params }: Props) {
       desc: isAr
         ? "خطط دفع مرنة وخطط استلام ٢٠٢٥–٢٠٢٧ — تمويل مباشر بدون فوائد بنكية."
         : "Flexible payment plans and 2025–2027 move-in windows — direct financing with zero bank interest.",
-      img: galleryImages[40]?.src ?? "/hero/hero.jpg",
+      img: "/gallery/resortsPics/family-entering-resort-front-door.png",
       cta: isAr ? "خطط الدفع" : "Payment plans",
     },
   ];
@@ -79,34 +80,14 @@ export default async function HomePage({ params }: Props) {
     <>
       <HeroLayered />
 
-      {/* About teaser */}
-      <section className="section">
-        <div className="container-gc grid items-center gap-12 lg:grid-cols-2">
-          <div>
-            <p className="section-eyebrow">
-              {isAr ? "عن Giving City" : "About Giving City"}
-            </p>
-            <h2 className="section-title">
-              {isAr ? "عنوان واحد. حياة متكاملة." : "One address. A complete life."}
-            </h2>
-            <p className="section-sub">
-              {isAr
-                ? "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة — مجتمع مسوّر يمتلك فيه كل مشترٍ منتجه الخاص بسند مستقل."
-                : "The first and largest fully-serviced chalet city in the region — a gated community where every buyer owns their resort with an independent deed."}
-            </p>
-            <Link href="/about" className="btn btn-primary mt-8">
-              {isAr ? "استكشف المشروع" : "Explore the project"}
-            </Link>
-          </div>
-          <div className="relative min-h-[28rem] overflow-hidden sm:min-h-[32rem] lg:min-h-[36rem]">
-            <Image
-              src="/plans/property-map.png"
-              alt={isAr ? "مخطط المنتجع الخاص" : "Private resort property map"}
-              fill
-              className="object-contain"
-              sizes="(max-width:1024px) 100vw, 50vw"
-            />
-          </div>
+      {/* Master plan — same explorer as /master-plan */}
+      <section className="mp-page mp-page--home bg-surface">
+        <div className="container-gc">
+          <header className="mp-page-head">
+            <p className="section-eyebrow mb-2">{mpCopy.eyebrow}</p>
+            <h2 className="mp-page-title">{mpCopy.explorerTitle}</h2>
+          </header>
+          <PlanExplorer locale={locale} />
         </div>
       </section>
 
@@ -158,14 +139,8 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* Gallery — hover preview */}
-      <GalleryPreview
-        locale={locale}
-        eyebrow={isAr ? "المساحات ونمط الحياة." : "Spaces & lifestyle."}
-        title={t("galleryTitle")}
-        ctaLabel={tc("viewGallery")}
-        ctaHref="/gallery"
-      />
+      {/* Gallery — a day at Giving City */}
+      <GalleryDay locale={locale} ctaHref="/gallery" />
 
       {/* Amenities hover grid */}
       <section className="section overflow-hidden border-b border-line bg-surface">
@@ -199,7 +174,7 @@ export default async function HomePage({ params }: Props) {
           {[
             { v: `${site.stats.units}+`, l: t("statsUnits") },
             {
-              v: formatNumber(site.stats.areaSqm, locale),
+              v: formatNumber(site.stats.areaSqm, "en"), // Latin digits on the home page, both languages
               l: t("statsArea"),
             },
             { v: `${site.stats.unitAreaSqm}`, l: isAr ? "م² لكل وحدة" : "m² per unit" },
@@ -237,7 +212,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* Register CTA */}
-      <RegisterCta locale={locale} image={galleryImages[1]?.src ?? "/hero/hero.jpg"} />
+      <RegisterCta locale={locale} image="/gallery/resortsPics/foosball-kids-pool.png" />
     </>
   );
 }

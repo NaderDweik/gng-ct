@@ -11,3 +11,28 @@
   font-weight: 700;
   font-display: swap;
 }
+
+/*
+ * Arabic-Indic digits only (٠–٩ + separators), from Amiri — calligraphic numerals
+ * instead of the body font's boxy ones. unicode-range keeps Latin text/digits on
+ * their own fonts; it sits first in every stack (base/theme.css).
+ */
+@font-face {
+  font-family: "GC Digits";
+  src: url("/fonts/amiri-digits-regular.woff2") format("woff2");
+  font-weight: 100 500;
+  font-display: swap;
+  unicode-range: U+0660-0669, U+066B-066C;
+  /* Amiri's figures sit small beside Cairo — bring them up to the text. */
+  size-adjust: 128%;
+}
+
+@font-face {
+  font-family: "GC Digits";
+  src: url("/fonts/amiri-digits-bold.woff2") format("woff2");
+  font-weight: 600 900;
+  font-display: swap;
+  unicode-range: U+0660-0669, U+066B-066C;
+  /* Amiri's figures sit small beside Cairo — bring them up to the text. */
+  size-adjust: 128%;
+}

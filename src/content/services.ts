@@ -1,6 +1,7 @@
 export const companyServices = [
   {
     id: "development",
+    image: "/gallery/compoundPics/engineers-site-office.png",
     titleAr: "التطوير العقاري",
     titleEn: "Real estate development",
     descAr: "تخطيط وتطوير مشاريع سكنية متكاملة بمعايير عالمية.",
@@ -8,6 +9,7 @@ export const companyServices = [
   },
   {
     id: "construction",
+    image: "/gallery/compoundPics/construction-crew-building-walls.png",
     titleAr: "البناء والتشطيب",
     titleEn: "Construction & finishing",
     descAr: "تنفيذ وإنهاء الوحدات بمواد فاخرة وعزل حراري عالي.",
@@ -15,6 +17,7 @@ export const companyServices = [
   },
   {
     id: "management",
+    image: "/gallery/compoundPics/housekeeping-team.png",
     titleAr: "إدارة الممتلكات",
     titleEn: "Property management",
     descAr: "متابعة الصيانة والخدمات المشتركة داخل المجتمع.",
@@ -22,6 +25,7 @@ export const companyServices = [
   },
   {
     id: "investment",
+    image: "/gallery/resortsPics/giant-chess-poolside-royal.png",
     titleAr: "الاستشارات الاستثمارية",
     titleEn: "Investment consulting",
     descAr: "إرشاد المشترين حول العائد والقيمة طويلة الأمد.",
@@ -29,6 +33,7 @@ export const companyServices = [
   },
   {
     id: "financing",
+    image: "/gallery/resortsPics/family-lounge-under-pergola.png",
     titleAr: "حلول التمويل",
     titleEn: "Financing solutions",
     descAr: "تقسيط مباشر مع الشركة بدون فوائد وبدون بنك.",
@@ -36,6 +41,7 @@ export const companyServices = [
   },
   {
     id: "aftersale",
+    image: "/gallery/compoundPics/gardeners-landscaping-park.png",
     titleAr: "ما بعد البيع والضمان",
     titleEn: "After-sale & warranty",
     descAr: "دعم مستمر وفق نظام جودة ISO 9001:2015.",
@@ -43,6 +49,7 @@ export const companyServices = [
   },
   {
     id: "legal",
+    image: "/gallery/resortsPics/family-entering-resort-front-door.png",
     titleAr: "الدعم القانوني",
     titleEn: "Legal support",
     descAr: "تيسير إجراءات سند الملكية (الطابو) باسم المشتري.",

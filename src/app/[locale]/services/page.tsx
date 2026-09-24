@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageHero } from "@/components/ui/PageHero";
 import { companyServices } from "@/content/services";
@@ -13,12 +14,21 @@ export default async function ServicesPage({ params }: Props) {
 
   return (
     <>
-      <PageHero title={t("title")} subtitle={t("subtitle")} />
+      <PageHero title={t("title")} subtitle={t("subtitle")} image="/gallery/compoundPics/reception-building.png" />
       <section className="section">
-        <div className="container-gc grid gap-6 md:grid-cols-2">
+        <div className="container-gc grid gap-x-6 gap-y-12 md:grid-cols-2 lg:grid-cols-3">
           {companyServices.map((s) => (
-            <article key={s.id} className="border-b border-line pb-6">
-              <h2 className="text-xl font-semibold text-primary-ink">
+            <article key={s.id} className="group">
+              <div className="relative aspect-[16/10] overflow-hidden bg-surface-alt">
+                <Image
+                  src={s.image}
+                  alt={isAr ? s.titleAr : s.titleEn}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                />
+              </div>
+              <h2 className="mt-5 text-xl font-semibold text-primary-ink">
                 {isAr ? s.titleAr : s.titleEn}
               </h2>
               <p className="mt-2 text-muted">{isAr ? s.descAr : s.descEn}</p>

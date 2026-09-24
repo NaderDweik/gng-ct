@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
@@ -10,7 +11,9 @@ export async function RegisterCta({ locale, image }: Props) {
 
   return (
     <section className="register-cta">
-      <div className="register-cta-bg" aria-hidden style={{ backgroundImage: `url(${image})` }} />
+      <div className="register-cta-bg" aria-hidden>
+        <Image src={image} alt="" fill sizes="100vw" className="object-cover" />
+      </div>
       <div className="container-gc">
         <div className="register-cta-inner">
           <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-on-dark-muted">
