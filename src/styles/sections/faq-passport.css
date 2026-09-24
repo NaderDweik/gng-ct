@@ -1,0 +1,549 @@
+/* ── Home FAQ passport. Behaviour: features/faq/HomeFaqPassport.tsx ── */
+.pp {
+  /* The booklet is a physical object: paper and ink stay the same in both themes. */
+  --pp-paper: #f7f2e8;
+  --pp-paper-deep: #efe6d4;
+  --pp-text: #1f2a33;
+  --pp-muted: #6f675a;
+  --pp-faint: #a39a88;
+  --pp-cover: #22313f;
+  display: grid;
+  gap: clamp(2rem, 4vw, 3rem);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .pp {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(3rem, 5vw, 5rem);
+  }
+}
+
+.pp-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+/* Inks */
+.ink-slate { --ink: #2c4a63; }
+.ink-gold { --ink: #b0842f; }
+.ink-teal { --ink: #1c6b66; }
+.ink-rust { --ink: #b1462a; }
+
+/* ── Intro + questions ── */
+.pp-lead {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.pp-progress {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 1.9rem 0 0.9rem;
+  color: var(--primary-ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .pp-progress {
+  letter-spacing: 0;
+  font-size: 0.85rem;
+}
+
+.pp-progress-bars {
+  display: inline-flex;
+  gap: 4px;
+}
+
+.pp-progress-bars i {
+  width: 16px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--line-strong);
+  transition: background-color 0.5s var(--ease);
+}
+
+.pp-progress-bars i.is-on {
+  background: var(--brand-accent);
+}
+
+.pp-qs {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.pp-q {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.9rem;
+  width: 100%;
+  padding: 1rem 0.25rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.45;
+  text-align: start;
+  cursor: pointer;
+  transition: color 0.3s var(--ease), padding 0.45s var(--ease);
+}
+
+.pp-q:hover,
+.pp-q.is-open {
+  color: var(--primary-ink);
+  padding-inline-start: 0.75rem;
+}
+
+.pp-q:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.pp-q-n {
+  color: var(--subtle);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.3s var(--ease);
+}
+
+.pp-q.is-open .pp-q-n {
+  color: var(--accent-ink);
+}
+
+.pp-q.is-open .pp-q-text {
+  font-weight: 700;
+}
+
+/* Empty stamp slot → a mini stamp once answered. */
+.pp-q-slot {
+  position: relative;
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 1.5px dashed var(--line-strong);
+  border-radius: 50%;
+}
+
+.pp-q-slot i {
+  display: grid;
+  position: absolute;
+  inset: -1.5px;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 10%, transparent);
+  opacity: 0;
+  rotate: -12deg;
+}
+
+.pp-q.is-stamped .pp-q-slot {
+  border-color: transparent;
+}
+
+.pp-q.is-stamped .pp-q-slot i {
+  opacity: 1;
+}
+
+.pp-q-slot svg {
+  width: 15px;
+  height: 15px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pp-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid var(--primary-ink);
+  color: var(--primary-ink);
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: gap 0.3s var(--ease);
+}
+
+.pp-all:hover {
+  gap: 1rem;
+}
+
+/* ── The booklet ── */
+.pp-stage {
+  perspective: 1800px;
+}
+
+.pp-book {
+  position: relative;
+  display: grid;
+  gap: 0;
+  padding: 10px;
+  border-radius: 16px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--white) 8%, transparent), transparent 40%),
+    var(--pp-cover);
+  box-shadow:
+    0 40px 80px -30px color-mix(in srgb, var(--black) 55%, transparent),
+    0 12px 28px -12px color-mix(in srgb, var(--black) 35%, transparent);
+  transform-style: preserve-3d;
+}
+
+@media (min-width: 768px) {
+  .pp-book {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.pp-page {
+  position: relative;
+  min-height: 460px;
+  overflow: hidden;
+  background: var(--pp-paper);
+  color: var(--pp-text);
+}
+
+.pp-page--text {
+  border-radius: 8px 8px 0 0;
+  perspective: 1400px;
+}
+
+.pp-page--visa {
+  border-radius: 0 0 8px 8px;
+  background:
+    repeating-radial-gradient(circle at 115% -15%, transparent 0 13px, color-mix(in srgb, #b0842f 13%, transparent) 13px 14px),
+    repeating-radial-gradient(circle at -15% 115%, transparent 0 17px, color-mix(in srgb, #1c6b66 9%, transparent) 17px 18px),
+    var(--pp-paper);
+}
+
+@media (min-width: 768px) {
+  .pp-page--text {
+    border-radius: 8px 0 0 8px;
+  }
+
+  .pp-page--visa {
+    border-radius: 0 8px 8px 0;
+  }
+
+  [dir="rtl"] .pp-page--text {
+    border-radius: 0 8px 8px 0;
+  }
+
+  [dir="rtl"] .pp-page--visa {
+    border-radius: 8px 0 0 8px;
+  }
+
+  /* Spine shading on the inner edges. */
+  .pp-page--text::after,
+  .pp-page--visa::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 38px;
+    pointer-events: none;
+  }
+
+  .pp-page--text::after {
+    inset-inline-end: 0;
+    background: linear-gradient(to left, color-mix(in srgb, var(--black) 14%, transparent), transparent);
+  }
+
+  .pp-page--visa::after {
+    inset-inline-start: 0;
+    background: linear-gradient(to right, color-mix(in srgb, var(--black) 12%, transparent), transparent);
+  }
+
+  [dir="rtl"] .pp-page--text::after {
+    background: linear-gradient(to right, color-mix(in srgb, var(--black) 14%, transparent), transparent);
+  }
+
+  [dir="rtl"] .pp-page--visa::after {
+    background: linear-gradient(to left, color-mix(in srgb, var(--black) 12%, transparent), transparent);
+  }
+}
+
+/* The turning leaf (answer page). */
+.pp-leaf {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: inherit;
+  padding: 1.5rem 1.7rem 1.3rem;
+  transform-origin: right center;
+  backface-visibility: hidden;
+}
+
+[dir="rtl"] .pp-leaf {
+  transform-origin: left center;
+}
+
+.pp-page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px dashed color-mix(in srgb, var(--pp-faint) 70%, transparent);
+  color: var(--pp-muted);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .pp-page-head {
+  letter-spacing: 0;
+  font-size: 0.8rem;
+}
+
+.pp-page--visa .pp-page-head {
+  position: relative;
+  z-index: 1;
+  margin: 1.5rem 1.7rem 0;
+}
+
+.pp-page-mark svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  opacity: 0.4;
+}
+
+.pp-question {
+  margin: 1.6rem 0 0;
+  color: var(--pp-text);
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+[dir="rtl"] .pp-question {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+  line-height: 1.45;
+}
+
+.pp-answer {
+  margin: 1rem 0 0;
+  color: color-mix(in srgb, var(--pp-text) 78%, var(--pp-paper));
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+.pp-waiting {
+  margin-top: auto;
+  margin-bottom: auto;
+  color: var(--pp-faint);
+  text-align: center;
+}
+
+.pp-page-foot {
+  display: grid;
+  gap: 0.4rem;
+  margin-top: auto;
+  padding-top: 1.2rem;
+  color: var(--pp-faint);
+  font-size: 0.68rem;
+}
+
+/* Machine-readable zone, like the foot of a real passport page. */
+.pp-mrz {
+  direction: ltr;
+  overflow: hidden;
+  color: color-mix(in srgb, var(--pp-muted) 70%, transparent);
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+}
+
+/* Visa page contents */
+.pp-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  margin: 0;
+  padding: 1.1rem 1.4rem;
+  border: 1.5px dashed color-mix(in srgb, var(--pp-faint) 80%, transparent);
+  border-radius: 12px;
+  color: var(--pp-faint);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.pp-stamp,
+.pp-approved {
+  position: absolute;
+  z-index: 2;
+  translate: -50% -50%;
+  color: var(--ink);
+  mix-blend-mode: multiply;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.6s var(--ease), filter 0.6s var(--ease);
+}
+
+.pp-stamp.is-on {
+  visibility: visible;
+}
+
+/* Earlier visas fade back so the newest one reads. */
+.pp-stamp.is-on:not(.is-current) {
+  opacity: 0.4;
+  filter: saturate(0.7);
+}
+
+.is-approved .pp-stamp.is-on {
+  opacity: 0.3;
+}
+
+.pp-approved {
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  rotate: -16deg;
+  scale: 1.45;
+}
+
+.is-approved .pp-approved {
+  visibility: visible;
+}
+
+.pp-press {
+  position: relative;
+  display: block;
+}
+
+.pp-stamp-art {
+  display: block;
+  overflow: visible;
+}
+
+@media (max-width: 1279px) {
+  .pp-stamp { scale: 0.84; }
+  .pp-approved { scale: 1.25; }
+}
+
+@media (max-width: 640px) {
+  .pp-stamp { scale: 0.66; }
+  .pp-approved { scale: 1.05; }
+}
+
+.pp-ink-stroke {
+  fill: none;
+  stroke: currentColor;
+}
+
+.pp-ink-fill {
+  fill: currentColor;
+}
+
+.pp-ring-text {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+[dir="rtl"] .pp-ring-text {
+  letter-spacing: 0;
+  font-size: 12px;
+}
+
+.pp-big {
+  font-family: var(--font-display);
+  font-size: 27px;
+  font-weight: 700;
+}
+
+.pp-big--xl {
+  font-size: 44px;
+}
+
+.pp-top,
+.pp-sub {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+}
+
+[dir="rtl"] .pp-top,
+[dir="rtl"] .pp-sub {
+  letter-spacing: 0;
+  font-size: 12.5px;
+}
+
+.pp-splash {
+  position: absolute;
+  inset: 6%;
+  border: 3px solid currentColor;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── After all five ── */
+.pp-done {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.pp-done-title {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+[dir="rtl"] .pp-done-title {
+  font-family: var(--font-body);
+}
+
+.pp-done-body {
+  margin: 0;
+  color: var(--muted);
+}
+
+.pp-done-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-inline-start: auto;
+  padding: 0.85rem 1.4rem;
+  background: var(--brand-primary);
+  color: var(--on-dark);
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: background-color 0.3s var(--ease), gap 0.3s var(--ease);
+}
+
+.pp-done-cta:hover {
+  gap: 1rem;
+  background: var(--brand-primary-hover);
+}

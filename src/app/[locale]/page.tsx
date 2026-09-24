@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { site } from "@/content/site";
 import { HeroLayered } from "@/features/home/HeroLayered";
 import { homeFaqPreview } from "@/content/faq";
 import { amenityFeatures, amenitiesIntro } from "@/content/amenities";
 import { formatNumber } from "@/lib/format";
 import { AmenitiesHoverGrid } from "@/features/amenities/AmenitiesHoverGrid";
-import { HomeFaqPreview } from "@/features/faq/HomeFaqPreview";
+import { HomeFaqPassport } from "@/features/faq/HomeFaqPassport";
 import { LocationShowcase } from "@/features/location/LocationShowcase";
 import { PricingShowcase } from "@/features/pricing/PricingShowcase";
 import { masterPlanCopy } from "@/content/master-plan";
@@ -200,7 +200,7 @@ export default async function HomePage({ params }: Props) {
       {/* FAQ preview — JG two-column numbered accordion */}
       <section className="section border-b border-line bg-surface-alt">
         <div className="container-gc">
-          <HomeFaqPreview items={homeFaqPreview} />
+          <HomeFaqPassport items={homeFaqPreview} />
         </div>
       </section>
 

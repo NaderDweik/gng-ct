@@ -19,6 +19,8 @@
 @import "./sections/gallery-mosaic.css";
 @import "./sections/pricing.css";
 @import "./sections/faq.css";
+@import "./sections/faq-passport.css";
+@import "./sections/amenities-grid.css";
 @import "./sections/leadership.css";
 @import "./sections/register.css";
 @import "./sections/about.css";

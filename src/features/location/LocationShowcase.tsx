@@ -17,7 +17,7 @@ import { LocationLeafletMap } from "@/features/location/LocationLeafletMap";
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /** Seconds each destination stays up while the section tours on its own. */
-const TOUR_SECONDS = 10;
+const TOUR_SECONDS = 5;
 
 function MapPinIcon() {
   return (

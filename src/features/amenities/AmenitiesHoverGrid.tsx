@@ -1,7 +1,13 @@
+"use client";
+
 import Image from "next/image";
+import { useRef, type PointerEvent } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import type { AmenityFeature } from "@/content/amenities";
 
-function AmenityIcon({
+export function AmenityIcon({
   name,
   className,
 }: {
@@ -87,60 +93,134 @@ function AmenityIcon({
   }
 }
 
+gsap.registerPlugin(useGSAP, ScrollTrigger);
+
 type Props = {
   items: AmenityFeature[];
   isAr: boolean;
 };
 
-export function AmenitiesHoverGrid({ items, isAr }: Props) {
-  return (
-    <div className="grid grid-cols-1 gap-px overflow-hidden border border-line/60 bg-line/60 sm:grid-cols-2 lg:grid-cols-4">
-      {items.map((item) => (
-        <article
-          key={item.id}
-          className="group relative flex h-full min-h-[340px] cursor-default select-none flex-col justify-between overflow-hidden bg-surface p-7 transition-colors duration-500 md:min-h-[360px] md:p-8"
-        >
-          <div className="pointer-events-none absolute inset-0 z-0 max-sm:scale-100 max-sm:opacity-100 sm:scale-[1.05] sm:opacity-0 sm:transition-all sm:duration-700 sm:ease-[cubic-bezier(0.16,1,0.3,1)] sm:group-hover:scale-100 sm:group-hover:opacity-100">
-            <Image
-              src={item.image}
-              alt=""
-              fill
-              className="object-cover object-center"
-              sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
-            />
-          </div>
-          <div className="pointer-events-none absolute inset-0 z-0 bg-gradient-to-br from-secondary/95 via-secondary/80 to-secondary/55 transition-opacity duration-500 max-sm:opacity-100 sm:opacity-0 sm:group-hover:opacity-100" />
+const reduced = () => typeof window !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-          <div className="relative z-10 flex h-full w-full flex-col justify-between items-start">
-            <div className="w-full">
-              <div className="mb-5">
-                <AmenityIcon
-                  name={item.icon}
-                  className="h-9 w-9 text-secondary-ink transition-colors duration-300 group-hover:text-on-dark max-sm:text-on-dark"
-                />
-              </div>
-              <h3 className="font-display mb-3 text-xl font-semibold leading-tight text-secondary-ink transition-colors duration-300 group-hover:text-on-dark max-sm:text-on-dark md:text-2xl">
-                {isAr ? item.titleAr : item.titleEn}
-              </h3>
-              {(isAr ? item.tagsAr : item.tagsEn).length > 0 && (
-                <div className="mb-4 flex flex-wrap items-center gap-1.5">
-                  {(isAr ? item.tagsAr : item.tagsEn).map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-block rounded bg-surface-tint px-2.5 py-0.5 text-[11px] font-semibold tracking-wide text-secondary-ink transition-colors duration-300 group-hover:bg-white/20 group-hover:text-on-dark max-sm:bg-white/20 max-sm:text-on-dark"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
+/** Line icons draw themselves: every stroke runs from nothing to whole. */
+function drawIcon(card: Element | null, delay = 0) {
+  if (!card || reduced()) return;
+  card.querySelectorAll<SVGGeometryElement>(".am-icon path, .am-icon circle").forEach((el) => {
+    const len = el.getTotalLength();
+    gsap.fromTo(
+      el,
+      { strokeDasharray: len, strokeDashoffset: len },
+      { strokeDashoffset: 0, duration: 0.9, delay, ease: "power2.inOut", overwrite: true },
+    );
+  });
+}
+
+/*
+ * Amenity cards (styles: .am-* in styles/sections/amenities-grid.css).
+ *   - The hairlines between cards carry a soft gold light that follows the
+ *     cursor across the grid.
+ *   - Hover: the photo opens as a circle from where the pointer came in (and
+ *     closes toward where it leaves); the icon redraws, tags step in.
+ *   - First view: cards rise in a stagger and their icons draw once.
+ * Phones keep the photo showing, as before. Reduced motion: plain fades.
+ */
+export function AmenitiesHoverGrid({ items, isAr }: Props) {
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const grid = gridRef.current;
+      if (!grid || reduced()) return;
+      const cards = gsap.utils.toArray<HTMLElement>(".am-card", grid);
+      gsap.from(cards, {
+        y: 40,
+        autoAlpha: 0,
+        duration: 0.9,
+        ease: "power3.out",
+        stagger: { each: 0.08, grid: "auto", from: "start" },
+        scrollTrigger: { trigger: grid, start: "top 80%", once: true },
+        onStart: () => cards.forEach((c, i) => drawIcon(c, 0.25 + i * 0.08)),
+      });
+    },
+    { scope: gridRef },
+  );
+
+  /** Where the pointer crossed the card's edge, in % of the card. */
+  const edge = (e: PointerEvent<HTMLElement>) => {
+    const el = e.currentTarget;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty("--mx", `${((e.clientX - r.left) / r.width) * 100}%`);
+    el.style.setProperty("--my", `${((e.clientY - r.top) / r.height) * 100}%`);
+  };
+
+  const glow = (e: PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType !== "mouse") return;
+    const el = e.currentTarget;
+    const r = el.getBoundingClientRect();
+    el.style.setProperty("--gx", `${e.clientX - r.left}px`);
+    el.style.setProperty("--gy", `${e.clientY - r.top}px`);
+  };
+
+  const num = (i: number) => (i + 1).toLocaleString(isAr ? "ar-JO" : "en-US").padStart(isAr ? 0 : 2, "0");
+
+  return (
+    <div
+      ref={gridRef}
+      className="am-grid grid grid-cols-1 gap-px overflow-hidden sm:grid-cols-2 lg:grid-cols-4"
+      onPointerMove={glow}
+      onPointerLeave={(e) => e.currentTarget.style.setProperty("--gx", "-999px")}
+    >
+      {items.map((item, i) => {
+        const tags = isAr ? item.tagsAr : item.tagsEn;
+        return (
+          <article
+            key={item.id}
+            className="am-card group relative flex h-full min-h-[340px] cursor-default select-none flex-col justify-between overflow-hidden bg-surface p-7 md:min-h-[360px] md:p-8"
+            onPointerEnter={(e) => {
+              if (e.pointerType !== "mouse") return;
+              edge(e);
+              drawIcon(e.currentTarget);
+            }}
+            onPointerLeave={(e) => e.pointerType === "mouse" && edge(e)}
+          >
+            <div className="am-media pointer-events-none absolute inset-0 z-0">
+              <Image
+                src={item.image}
+                alt=""
+                fill
+                className="am-img object-cover object-center"
+                sizes="(max-width:640px) 100vw, (max-width:1024px) 50vw, 25vw"
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-secondary/95 via-secondary/80 to-secondary/55" />
             </div>
-            <p className="mt-auto w-full text-sm leading-relaxed text-muted transition-colors duration-300 group-hover:text-on-dark max-sm:text-on-dark">
-              {isAr ? item.descAr : item.descEn}
-            </p>
-          </div>
-        </article>
-      ))}
+
+            <span className="am-num" aria-hidden>
+              {num(i)}
+            </span>
+
+            <div className="relative z-10 flex h-full w-full flex-col items-start justify-between">
+              <div className="w-full">
+                <div className="mb-5">
+                  <AmenityIcon name={item.icon} className="am-icon h-9 w-9" />
+                </div>
+                <h3 className="am-title font-display mb-3 text-xl font-semibold leading-tight md:text-2xl">
+                  {isAr ? item.titleAr : item.titleEn}
+                </h3>
+                {tags.length > 0 && (
+                  <div className="mb-4 flex flex-wrap items-center gap-1.5">
+                    {tags.map((tag, k) => (
+                      <span key={tag} className="am-tag" style={{ transitionDelay: `${80 + k * 70}ms` }}>
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <p className="am-desc mt-auto w-full text-sm leading-relaxed">{isAr ? item.descAr : item.descEn}</p>
+            </div>
+          </article>
+        );
+      })}
     </div>
   );
 }

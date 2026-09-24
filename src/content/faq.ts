@@ -1,4 +1,5 @@
-export type FaqItem = { qAr: string; aAr: string; qEn: string; aEn: string };
+/** `id` names the home concierge's visual answer (features/faq/HomeFaqChat.tsx). */
+export type FaqItem = { id?: string; qAr: string; aAr: string; qEn: string; aEn: string };
 export type FaqCategory = {
   id: string;
   titleAr: string;
@@ -13,24 +14,28 @@ export const faqCategories: FaqCategory[] = [
     titleEn: "Purchase & Ownership",
     items: [
       {
+        id: "price",
         qAr: "ما هو سعر الشاليه في Giving City؟",
         aAr: "سعر الوحدة الواحدة ١٦٨,٠٠٠ دينار أردني. يتوفر خصم ١٥٪ عند الدفع نقدًا (١٤٢,٨٠٠ دينار).",
         qEn: "What is the chalet price at Giving City?",
         aEn: "One unit is 168,000 JD. A 15% cash discount brings it to 142,800 JD.",
       },
       {
+        id: "deed",
         qAr: "هل أحصل على سند ملكية مستقل؟",
         aAr: "نعم، كل وحدة لها سند ملكية مستقل (طابو) بمساحة ٥٠٠ م² باسم المشتري.",
         qEn: "Do I get an independent ownership deed?",
         aEn: "Yes. Every unit has an independent deed (tabou) for 500 m² in the buyer’s name.",
       },
       {
+        id: "interest",
         qAr: "هل يوجد فوائد على التقسيط؟",
         aAr: "لا، جميع خطط الدفع بدون فوائد ومباشرة مع الشركة بدون تدخل بنكي.",
         qEn: "Is there interest on installments?",
         aEn: "No. All plans are zero-interest and direct with the company — no bank.",
       },
       {
+        id: "plans",
         qAr: "ما هي خطط الدفع المتاحة؟",
         aAr: "ثلاث خطط: دفعة أولى ٣٥٪ مع استلام فوري (٢٠٢٥)، أو ٢٥٪ مع استلام ٢٠٢٦، أو ١٥٪ مع استلام ٢٠٢٧. الأقساط الشهرية تبدأ من ١,٠٠٠ دينار.",
         qEn: "What payment plans are available?",
@@ -75,6 +80,7 @@ export const faqCategories: FaqCategory[] = [
     titleEn: "Location & Amenities",
     items: [
       {
+        id: "where",
         qAr: "أين يقع مشروع Giving City؟",
         aAr: "يبعد ٣٦ كم من فندق الرويال باتجاه سحاب الحطمية، بالقرب من عمّان.",
         qEn: "Where is Giving City located?",

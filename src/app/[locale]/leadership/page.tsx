@@ -16,25 +16,11 @@ const onTheGround = [
   { src: "/gallery/compoundPics/housekeeping-team.png", en: "Our service team", ar: "فريق الخدمات" },
 ];
 
+/** The founder's own three principles, in his words. */
 const principles = [
-  {
-    titleAr: "تعامل مباشر",
-    titleEn: "Direct dealing",
-    bodyAr: "البيع والتمويل مباشرة مع الشركة المطوّرة — بدون بنوك وبدون وسطاء.",
-    bodyEn: "Sales and financing directly with the developer — no banks, no brokers.",
-  },
-  {
-    titleAr: "جودة موثّقة",
-    titleEn: "Certified quality",
-    bodyAr: "عمليات تعمل وفق نظام إدارة الجودة ISO 9001:2015.",
-    bodyEn: "Operations run under the ISO 9001:2015 quality management system.",
-  },
-  {
-    titleAr: "ملكية واضحة",
-    titleEn: "Clear ownership",
-    bodyAr: "سند ملكية مستقل لكل مشترٍ — ليس فندقًا، بل استثمار وحياة.",
-    bodyEn: "An independent deed for every buyer — not a hotel, an investment and a life.",
-  },
+  { titleAr: "لا أعد إلا بما أستطيع الوفاء به.", titleEn: "I only promise what I can deliver." },
+  { titleAr: "أبني لكم كما أبني لنفسي.", titleEn: "I build for you as I build for myself." },
+  { titleAr: "مسؤوليتي لا تنتهي عند البيع.", titleEn: "My responsibility doesn’t end at the sale." },
 ];
 
 export default async function LeadershipPage({ params }: Props) {
@@ -123,7 +109,7 @@ export default async function LeadershipPage({ params }: Props) {
         <div className="container-gc">
           <p className="section-eyebrow">{isAr ? "مبادئ الإدارة" : "How we lead"}</p>
           <h2 className="section-title max-w-2xl">
-            {isAr ? "ثلاثة مبادئ تقود كل قرار." : "Three principles behind every decision."}
+            {isAr ? "مبادئي الثلاثة." : "My three principles."}
           </h2>
           <ol className="mt-10 grid gap-4 md:grid-cols-3">
             {principles.map((p, i) => (
@@ -132,7 +118,6 @@ export default async function LeadershipPage({ params }: Props) {
                   {n(i + 1).padStart(isAr ? 0 : 2, "0")}
                 </span>
                 <h3 className="font-display mt-6 text-xl font-bold text-ink">{isAr ? p.titleAr : p.titleEn}</h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted">{isAr ? p.bodyAr : p.bodyEn}</p>
               </li>
             ))}
           </ol>
