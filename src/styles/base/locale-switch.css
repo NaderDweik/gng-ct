@@ -1,0 +1,62 @@
+/* ── Language switch transition. Behaviour: src/i18n/useSwitchLocale.ts ──
+   Scoped by view-transition *types* (to-rtl / to-ltr), so other transitions on
+   the site are untouched. The new language arrives on a soft, feathered edge
+   from its own reading side (right for Arabic, left for English) while the old
+   page gently recedes. ~1.1s, eased in and out. */
+
+:root:active-view-transition-type(to-rtl, to-ltr)::view-transition-old(root) {
+  animation: locale-out 1s cubic-bezier(0.45, 0, 0.25, 1) both;
+}
+
+/* A wide gradient mask (3× the page) slides across: the ~20% soft band between
+   hidden and shown is the feathered edge. */
+:root:active-view-transition-type(to-rtl, to-ltr)::view-transition-new(root) {
+  -webkit-mask-size: 300% 100%;
+  mask-size: 300% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: locale-in 1.1s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+
+/* Arabic: revealed from the right edge. */
+:root:active-view-transition-type(to-rtl)::view-transition-new(root) {
+  -webkit-mask-image: linear-gradient(to right, transparent 0 40%, var(--black) 60% 100%);
+  mask-image: linear-gradient(to right, transparent 0 40%, var(--black) 60% 100%);
+  --from: 0%;
+  --to: 100%;
+}
+
+/* English: revealed from the left edge. */
+:root:active-view-transition-type(to-ltr)::view-transition-new(root) {
+  -webkit-mask-image: linear-gradient(to left, transparent 0 40%, var(--black) 60% 100%);
+  mask-image: linear-gradient(to left, transparent 0 40%, var(--black) 60% 100%);
+  --from: 100%;
+  --to: 0%;
+}
+
+@keyframes locale-in {
+  from {
+    -webkit-mask-position: var(--from) 0;
+    mask-position: var(--from) 0;
+  }
+  to {
+    -webkit-mask-position: var(--to) 0;
+    mask-position: var(--to) 0;
+  }
+}
+
+@keyframes locale-out {
+  to {
+    opacity: 0.4;
+    filter: saturate(0.7);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root:active-view-transition-type(to-rtl, to-ltr)::view-transition-old(root),
+  :root:active-view-transition-type(to-rtl, to-ltr)::view-transition-new(root) {
+    animation: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+}

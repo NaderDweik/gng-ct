@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { site } from "@/content/site";
+import { displayPhone } from "@/lib/format";
 import {
   locationCopy,
   mapsSearchUrl,
@@ -76,14 +77,6 @@ function ExternalArrow() {
       <path d="M7 17 17 7" />
     </svg>
   );
-}
-
-function displayPhone(phone: string) {
-  const digits = phone.replace(/\D/g, "");
-  if (digits.startsWith("962") && digits.length >= 12) {
-    return `+${digits.slice(0, 3)} ${digits.slice(3, 5)} ${digits.slice(5, 8)} ${digits.slice(8)}`;
-  }
-  return phone;
 }
 
 /*

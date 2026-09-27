@@ -25,7 +25,8 @@
 
 .btn-primary {
   background: var(--brand-primary);
-  color: var(--on-dark);
+  /* Token rule: labels on the primary fill use --on-primary (white is ~2.4:1). */
+  color: var(--on-primary);
 }
 
 .btn-primary:hover {

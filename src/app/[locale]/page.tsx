@@ -8,10 +8,10 @@ import { HeroLayered } from "@/features/home/HeroLayered";
 import { homeFaqPreview } from "@/content/faq";
 import { amenityFeatures, amenitiesIntro } from "@/content/amenities";
 import { formatNumber } from "@/lib/format";
-import { AmenitiesHoverGrid } from "@/features/amenities/AmenitiesHoverGrid";
-import { HomeFaqPassport } from "@/features/faq/HomeFaqPassport";
+import { AmenitiesGrid } from "@/features/amenities/AmenitiesGrid";
+import { HomeFaq } from "@/features/faq/HomeFaq";
 import { LocationShowcase } from "@/features/location/LocationShowcase";
-import { PricingShowcase } from "@/features/pricing/PricingShowcase";
+import { PlanCompare } from "@/features/pricing/PlanCompare";
 import { masterPlanCopy } from "@/content/master-plan";
 import { PlanExplorer } from "@/features/master-plan/PlanExplorer";
 import { GalleryDay } from "@/features/gallery/GalleryDay";
@@ -40,6 +40,7 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("home");
+  const tc = await getTranslations("common");
   const isAr = locale === "ar";
   const mpCopy = masterPlanCopy[isAr ? "ar" : "en"];
 
@@ -142,7 +143,7 @@ export default async function HomePage({ params }: Props) {
       {/* Gallery — a day at Giving City */}
       <GalleryDay locale={locale} ctaHref="/gallery" />
 
-      {/* Amenities hover grid */}
+      {/* Amenities — all visible, no hover */}
       <section className="section overflow-hidden border-b border-line bg-surface">
         <div className="container-gc space-y-12">
           <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
@@ -158,8 +159,8 @@ export default async function HomePage({ params }: Props) {
               {isAr ? amenitiesIntro.subAr : amenitiesIntro.subEn}
             </p>
           </div>
-          <AmenitiesHoverGrid items={amenityFeatures} isAr={isAr} />
-          <div>
+          <AmenitiesGrid items={amenityFeatures} isAr={isAr} />
+          <div className="pt-4 md:pt-6">
             <Link href="/amenities" className="gallery-outline-btn">
               {isAr ? "استكشف كل المرافق" : "Explore all amenities"}
               <ArrowIcon className="arrow" />
@@ -190,17 +191,36 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* Pricing showcase */}
+      {/* Compare plans — same cards as the financing page */}
       <section className="section bg-surface-alt">
         <div className="container-gc">
-          <PricingShowcase />
+          <div className="sec-head items-end">
+            <div>
+              <p className="section-eyebrow">{isAr ? "قارن الخطط" : "Compare plans"}</p>
+              <h2 className="section-title mb-0">
+                {isAr ? "خطة لكل موعد استلام." : "A plan for every move-in date."}
+              </h2>
+            </div>
+            <div className="flex max-w-md flex-col items-start gap-7">
+              <p className="section-sub">
+                {isAr
+                  ? "جميع الخطط مباشرة مع الشركة، بدون بنك وبدون فوائد — والفرق فقط في الدفعة الأولى وموعد الاستلام."
+                  : "Every plan is direct with the developer, no bank and no interest — only the down payment and move-in date differ."}
+              </p>
+              <Link href="/financing#plans" className="gallery-outline-btn">
+                {isAr ? "استكشف التمويل" : "Explore financing"}
+                <ArrowIcon className="arrow" />
+              </Link>
+            </div>
+          </div>
+          <PlanCompare locale={locale} jd={tc("jd")} />
         </div>
       </section>
 
-      {/* FAQ preview — JG two-column numbered accordion */}
-      <section className="section border-b border-line bg-surface-alt">
+      {/* FAQ — plain questions + a person to call */}
+      <section className="section border-y border-line bg-surface">
         <div className="container-gc">
-          <HomeFaqPassport items={homeFaqPreview} />
+          <HomeFaq items={homeFaqPreview} locale={locale} />
         </div>
       </section>
 

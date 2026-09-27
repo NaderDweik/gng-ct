@@ -23,6 +23,11 @@
 *.pem
 .Claude/worktrees/
 
+# AI-assistant local setup (skills, their data files, settings) — not part of the site
+.claude/skills/
+.claude/settings.local.json
+.claude/worktrees/
+
 # debug
 npm-debug.log*
 yarn-debug.log*

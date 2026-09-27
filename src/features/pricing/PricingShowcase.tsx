@@ -7,6 +7,7 @@ import { basePriceJd, cashDiscountPct, cashPriceJd, pricingPlans } from "@/conte
 import { site } from "@/content/site";
 import { formatNumber } from "@/lib/format";
 import { CountUp } from "@/components/ui/CountUp";
+import { isSwitchingLocale } from "@/i18n/useSwitchLocale";
 
 type Mode = "installments" | "cash";
 
@@ -18,7 +19,8 @@ function useAnimatedNumber(target: number, enabled: boolean, duration = 1400) {
   useEffect(() => {
     if (!enabled) return;
 
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // Reduced motion, or arriving via a language switch: show the number, don't count.
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches || isSwitchingLocale();
     if (reduce) {
       fromRef.current = target;
       setValue(target);
@@ -86,6 +88,16 @@ export function PricingShowcase() {
   const [mode, setMode] = useState<Mode>("installments");
   const [planId, setPlanId] = useState<(typeof pricingPlans)[number]["id"]>(pricingPlans[0].id);
   const plan = pricingPlans.find((p) => p.id === planId) ?? pricingPlans[0];
+
+  // Deep link from the home plan chooser: /financing?plan=midterm (or plan=cash).
+  useEffect(() => {
+    const wanted = new URLSearchParams(window.location.search).get("plan");
+    if (wanted === "cash") setMode("cash");
+    else if (pricingPlans.some((p) => p.id === wanted)) {
+      setMode("installments");
+      setPlanId(wanted as (typeof pricingPlans)[number]["id"]);
+    }
+  }, []);
 
   const remaining = basePriceJd - plan.downJd;
   const months = Math.ceil(remaining / plan.monthlyFromJd);
@@ -176,11 +188,9 @@ export function PricingShowcase() {
           ))}
         </ul>
 
-        <div className="mt-10 flex flex-wrap gap-3">
-          <Link href="/financing" className="btn btn-primary">
-            {isAr ? "استكشف خطط التمويل" : "Explore financing"}
-          </Link>
-          <Link href="/register" className="btn border border-primary-ink/30 text-primary-ink hover:bg-primary hover:text-on-primary">
+        {/* One clear next step: register with the plan shown on the card. */}
+        <div className="mt-10">
+          <Link href={`/register?plan=${mode === "cash" ? "cash" : planId}`} className="btn btn-primary">
             {tc("register")}
           </Link>
         </div>

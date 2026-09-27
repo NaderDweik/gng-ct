@@ -41,14 +41,22 @@
   overflow: hidden;
 }
 
+/* Fill = down-payment share, drawn with a transform (no layout work). */
 .plan-bar > span {
   position: absolute;
-  inset-block: 0;
-  inset-inline-start: 0;
+  inset: 0;
   border-radius: 999px;
   background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent));
-  transition: width 0.7s var(--ease);
+  transform: scaleX(var(--p, 0));
+  transform-origin: left center;
+  transition: transform 0.7s var(--ease);
 }
+
+[dir="rtl"] .plan-bar > span {
+  background: linear-gradient(270deg, var(--brand-primary), var(--brand-accent));
+  transform-origin: right center;
+}
+
 
 .plan-card-cta {
   margin-top: auto;

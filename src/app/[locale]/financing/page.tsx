@@ -2,7 +2,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { PricingShowcase } from "@/features/pricing/PricingShowcase";
 import { PlanCompare } from "@/features/pricing/PlanCompare";
-import { HomeFaqPreview } from "@/features/faq/HomeFaqPreview";
+import { HomeFaq } from "@/features/faq/HomeFaq";
 import { faqCategories } from "@/content/faq";
 import { formatNumber } from "@/lib/format";
 import type { LocalePageProps } from "@/i18n/types";
@@ -49,7 +49,7 @@ export default async function FinancingPage({ params }: Props) {
     <>
       <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
 
-      <section className="section bg-surface-alt">
+      <section id="plans" className="section scroll-mt-20 bg-surface-alt">
         <div className="container-gc">
           <PricingShowcase />
         </div>
@@ -99,9 +99,9 @@ export default async function FinancingPage({ params }: Props) {
       </section>
 
       {financingFaq.length > 0 && (
-        <section className="section border-b border-line bg-surface-alt">
+        <section className="section border-y border-line bg-surface">
           <div className="container-gc">
-            <HomeFaqPreview items={financingFaq} />
+            <HomeFaq items={financingFaq} locale={locale} />
           </div>
         </section>
       )}

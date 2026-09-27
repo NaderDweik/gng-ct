@@ -36,7 +36,7 @@ export function PlanCompare({ locale, jd }: Props) {
                 <span className="ms-auto text-base font-bold text-primary-ink">{pct(p.downPct)}</span>
               </p>
               <div className="plan-bar mt-4" aria-hidden>
-                <span style={{ width: `${p.downPct}%` }} />
+                <span style={{ "--p": p.downPct / 100 } as React.CSSProperties} />
               </div>
             </div>
 
@@ -61,7 +61,7 @@ export function PlanCompare({ locale, jd }: Props) {
               </div>
             </dl>
 
-            <Link href="/register" className="plan-card-cta">
+            <Link href={`/register?plan=${p.id}`} className="plan-card-cta">
               {isAr ? "اختر هذه الخطة" : "Choose this plan"}
               <span className="arrow" aria-hidden />
             </Link>
@@ -112,7 +112,7 @@ export function PlanCompare({ locale, jd }: Props) {
             </div>
           </dl>
 
-          <Link href="/register" className="plan-card-cta plan-card-cta--light">
+          <Link href="/register?plan=cash" className="plan-card-cta plan-card-cta--light">
             {isAr ? "احجز نقدًا" : "Reserve with cash"}
             <span className="arrow" aria-hidden />
           </Link>

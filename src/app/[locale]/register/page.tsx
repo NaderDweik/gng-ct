@@ -2,9 +2,8 @@ import Image from "next/image";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { site } from "@/content/site";
-import { basePriceJd, cashPriceJd, cashDiscountPct } from "@/content/pricing";
-import { formatNumber } from "@/lib/format";
 import { RegisterForm } from "@/features/register/RegisterForm";
+import { ChosenPlanCard } from "@/features/register/ChosenPlanCard";
 import type { LocalePageProps } from "@/i18n/types";
 
 type Props = LocalePageProps;
@@ -22,7 +21,6 @@ export default async function RegisterPage({ params }: Props) {
   const t = await getTranslations("register");
   const tc = await getTranslations("common");
   const isAr = locale === "ar";
-  const n = (v: number) => formatNumber(v, locale);
 
   const promises = [
     site.copyBank[isAr ? "ar" : "en"].deed,
@@ -35,7 +33,7 @@ export default async function RegisterPage({ params }: Props) {
       <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
 
       <section className="register-body bg-surface-alt">
-        <div className="container-gc grid items-start gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:gap-8">
+        <div className="container-gc grid items-stretch gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:gap-8">
           <div className="register-panel">
             <div className="mb-5 border-b border-line pb-4">
               <h2 className="font-display text-xl font-bold text-ink md:text-2xl">
@@ -45,42 +43,21 @@ export default async function RegisterPage({ params }: Props) {
             <RegisterForm />
           </div>
 
-          <aside className="space-y-4 lg:sticky lg:top-24">
-            <div className="register-side register-side--dark">
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
-                {isAr ? "الأسعار تبدأ من" : "Prices from"}
-              </p>
-              <p className="font-display mt-2 text-4xl font-bold leading-none text-on-dark tabular-nums">
-                {n(basePriceJd)}
-                <span className="ms-2 text-sm font-medium text-on-dark-muted">{tc("jd")}</span>
-              </p>
-              <p className="mt-2 text-sm text-on-dark-muted">
-                {isAr
-                  ? `أو ${n(cashPriceJd)} د.أ نقدًا — خصم ${n(cashDiscountPct)}٪`
-                  : `or ${n(cashPriceJd)} JD cash — ${cashDiscountPct}% off`}
-              </p>
-              <ul className="mt-5 space-y-2 border-t border-line-on-dark pt-4">
-                {promises.map((line) => (
-                  <li key={line} className="flex items-start gap-3 text-sm text-on-dark-muted">
-                    <span className="mt-2 h-px w-4 shrink-0 bg-accent" aria-hidden />
-                    {line}
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <aside className="flex flex-col gap-4">
+            <ChosenPlanCard locale={locale} jd={tc("jd")} promises={promises} />
 
-            <div className="register-side">
+            <div className="register-side flex flex-1 flex-col">
               <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted">
                 {isAr ? "مكتب المبيعات" : "Sales office"}
               </p>
               <p className="mt-3 text-sm leading-relaxed text-ink">
                 {isAr ? site.locationAr : site.locationEn}
               </p>
-              <div className="mt-3 space-y-1 text-sm text-muted">
+              <div className="mt-3 mb-4 space-y-1 text-sm text-muted">
                 <p>{isAr ? site.hoursAr.weekdays : site.hoursEn.weekdays}</p>
                 <p>{isAr ? site.hoursAr.saturday : site.hoursEn.saturday}</p>
               </div>
-              <div className="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-4">
+              <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-4">
                 <a
                   href={`tel:${site.phoneAction}`}
                   dir="ltr"

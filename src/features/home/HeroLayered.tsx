@@ -11,6 +11,7 @@ import { heroLayered as hero, type HeroSlide } from "@/content/hero";
 import { site } from "@/content/site";
 import { formatNumber } from "@/lib/format";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
+import { isSwitchingLocale } from "@/i18n/useSwitchLocale";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -132,6 +133,9 @@ export function HeroLayered() {
       el.classList.remove("hl--pre");
       if (reduced) return cleanup;
 
+      // Arriving via a language switch: the page should feel the same, not reload.
+      const switching = isSwitchingLocale();
+
       const intro = gsap.timeline({
         defaults: { ease: "expo.out" },
         paused: true,
@@ -148,11 +152,15 @@ export function HeroLayered() {
         .from(titleLines(0), { yPercent: 110, duration: 1.1, stagger: 0.12 }, 0.95)
         .from(q(".hl-fade"), { y: 18, autoAlpha: 0, duration: 0.9, stagger: 0.08 }, 1.25);
 
-      // Start once slide 1's photo layers are decoded — never wait longer than 1.5s.
-      Promise.race([
-        Promise.all((layers(0) as HTMLImageElement[]).map((img) => img.decode().catch(() => undefined))),
-        new Promise((r) => setTimeout(r, 1500)),
-      ]).then(() => intro.play());
+      if (switching) {
+        intro.progress(1);
+      } else {
+        // Start once slide 1's photo layers are decoded — never wait longer than 1.5s.
+        Promise.race([
+          Promise.all((layers(0) as HTMLImageElement[]).map((img) => img.decode().catch(() => undefined))),
+          new Promise((r) => setTimeout(r, 1500)),
+        ]).then(() => intro.play());
+      }
 
       // Scroll: pin + recede on larger screens; gentle drift on phones.
       const mm = gsap.matchMedia();

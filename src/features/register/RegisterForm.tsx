@@ -3,6 +3,9 @@
 import { FormEvent, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { site } from "@/content/site";
+import { usePlanChoice } from "@/features/register/usePlanChoice";
+import { cashDiscountPct, cashPriceJd, pricingPlans } from "@/content/pricing";
+import { formatNumber } from "@/lib/format";
 
 type Interest = "financing" | "visit";
 type TimeSlot = "morning" | "afternoon" | "evening";
@@ -46,6 +49,21 @@ export function RegisterForm() {
     { id: "evening", label: t("evening") },
   ];
 
+  // Plan picked on a plan card (?plan=…) — sent along so sales knows the choice.
+  const chosen = usePlanChoice();
+  const planText = (() => {
+    if (!chosen) return "";
+    if (chosen === "cash")
+      return isAr
+        ? `الدفع النقدي — ${formatNumber(cashPriceJd, locale)} د.أ (خصم ${formatNumber(cashDiscountPct, locale)}٪)`
+        : `Cash — ${formatNumber(cashPriceJd, locale)} JD (${cashDiscountPct}% off)`;
+    const p = pricingPlans.find((x) => x.id === chosen);
+    if (!p) return "";
+    return isAr
+      ? `استلام ${formatNumber(p.moveIn, locale).replace(/[٬,]/g, "")} (${p.labelAr}) — دفعة أولى ${formatNumber(p.downJd, locale)} د.أ (${formatNumber(p.downPct, locale)}٪)`
+      : `Move-in ${p.moveIn} (${p.labelEn}) — ${formatNumber(p.downJd, locale)} JD down (${p.downPct}%)`;
+  })();
+
   function onSubmit(e: FormEvent) {
     e.preventDefault();
     const timeLabel = times.find((x) => x.id === time)?.label ?? time;
@@ -61,6 +79,7 @@ export function RegisterForm() {
       `${isAr ? "الاسم" : "Name"}: ${name}`,
       `${isAr ? "الهاتف" : "Phone"}: ${phone}`,
       `${isAr ? "الاهتمام" : "Interest"}: ${interestText}`,
+      planText ? `${isAr ? "الخطة المختارة" : "Chosen plan"}: ${planText}` : "",
       `${isAr ? "الوقت المفضل" : "Preferred time"}: ${timeLabel}`,
       message ? `${isAr ? "الرسالة" : "Message"}: ${message}` : "",
     ]

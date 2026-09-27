@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { isSwitchingLocale } from "@/i18n/useSwitchLocale";
 import { formatNumber } from "@/lib/format";
 
 type Props = {
@@ -22,7 +23,8 @@ export function CountUp({ value, from = 0, locale, duration = 2000, delay = 0, p
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    // Reduced motion, or arriving via a language switch: show the number, don't count.
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || isSwitchingLocale()) {
       setCurrent(value);
       return;
     }

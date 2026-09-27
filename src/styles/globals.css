@@ -37,3 +37,5 @@
 @import "./sections/gallery-preview.css";
 @import "./sections/gallery-day.css";
 @import "./sections/master-plan.css";
+@import "./sections/home-faq.css";
+@import "./base/locale-switch.css";

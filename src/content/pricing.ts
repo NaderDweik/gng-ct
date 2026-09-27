@@ -34,3 +34,9 @@ export const pricingPlans = [
 export const basePriceJd = 168000;
 export const cashPriceJd = 142800;
 export const cashDiscountPct = 15;
+
+/** A plan choice carried to /register as ?plan=… ("cash" = the cash offer). */
+export type PlanChoice = (typeof pricingPlans)[number]["id"] | "cash";
+
+export const isPlanChoice = (v: string | null | undefined): v is PlanChoice =>
+  v === "cash" || pricingPlans.some((p) => p.id === v);

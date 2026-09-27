@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { site } from "@/content/site";
 import { GivingLogo } from "@/components/brand/GivingLogo";
+import { LocaleSwitch } from "@/components/layout/LocaleSwitch";
 // Light/dark mode disabled: import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const primaryNav = [
@@ -81,13 +82,7 @@ export function Header() {
           {/* Light/dark mode disabled:
           <ThemeToggle className="bg-fill-on-dark text-on-dark hover:bg-white/20" />
           */}
-          <Link
-            href={pathname}
-            locale={isAr ? "en" : "ar"}
-            className="rounded-full bg-fill-on-dark px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-on-dark transition hover:bg-white/20 sm:text-xs"
-          >
-            {isAr ? "EN" : "عربي"}
-          </Link>
+          <LocaleSwitch className="rounded-full bg-fill-on-dark px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-on-dark transition hover:bg-white/20 sm:text-xs" />
           <Link
             href="/register"
             className={`relative hidden isolate overflow-hidden px-5 py-2.5 text-sm font-semibold tracking-[0.18em] uppercase transition min-[1100px]:inline-flex ${
@@ -129,14 +124,12 @@ export function Header() {
             >
               {t("register")}
             </Link>
-            <Link
-              href={pathname}
-              locale={isAr ? "en" : "ar"}
-              onClick={() => setOpen(false)}
+            <LocaleSwitch
+              onSwitch={() => setOpen(false)}
               className="px-1 py-2 text-sm font-semibold text-on-dark-subtle hover:text-on-dark"
             >
-              {isAr ? "English" : "العربية"}
-            </Link>
+              {(target) => (target === "en" ? "English" : "العربية")}
+            </LocaleSwitch>
           </div>
         </div>
       )}

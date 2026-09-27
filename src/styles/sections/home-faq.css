@@ -1,0 +1,214 @@
+/* ── Home FAQ — plain and readable. Markup: features/faq/HomeFaq.tsx ── */
+.hfaq {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4rem);
+}
+
+@media (min-width: 1024px) {
+  .hfaq {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    align-items: start;
+  }
+}
+
+.hfaq-lead {
+  max-width: 34ch;
+  margin: 1rem 0 0;
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+/* A person to call — large, obvious, tappable. */
+.hfaq-person {
+  margin-top: 2.25rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--line);
+}
+
+.hfaq-person-title {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.hfaq-phone {
+  display: inline-block;
+  margin-top: 0.6rem;
+  color: var(--primary-ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-color: color-mix(in srgb, currentColor 30%, transparent);
+  text-underline-offset: 6px;
+}
+
+.hfaq-phone:hover {
+  text-decoration-color: currentColor;
+}
+
+.hfaq-hours {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.hfaq-whatsapp {
+  display: inline-block;
+  margin-top: 1rem;
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 30%, transparent);
+  text-underline-offset: 5px;
+}
+
+.hfaq-whatsapp:hover {
+  color: var(--primary-ink);
+}
+
+/* Questions: large rows, whole row is the target, clear + / − sign. */
+.hfaq-list {
+  border-top: 1px solid var(--line-strong);
+}
+
+.hfaq-item {
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.hfaq-q {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1.25rem;
+  min-height: 4.5rem;
+  padding: 1.25rem 0.25rem;
+  color: var(--ink);
+  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  font-weight: 600;
+  line-height: 1.4;
+  width: 100%;
+  text-align: start;
+  cursor: pointer;
+}
+
+.hfaq-q:hover .hfaq-q-text {
+  color: var(--primary-ink);
+}
+
+.hfaq-q:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.hfaq-num {
+  color: var(--subtle);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Plus that becomes a minus. */
+.hfaq-sign {
+  position: relative;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+}
+
+.hfaq-sign::before,
+.hfaq-sign::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 14px;
+  height: 2px;
+  margin: -1px 0 0 -7px;
+  background: var(--ink);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hfaq-sign::after {
+  transform: rotate(90deg);
+}
+
+.hfaq-item.is-open .hfaq-sign {
+  border-color: var(--primary-ink);
+}
+
+.hfaq-item.is-open .hfaq-sign::after {
+  transform: rotate(0deg);
+}
+
+.hfaq-item.is-open .hfaq-q-text {
+  color: var(--primary-ink);
+}
+
+.hfaq-a {
+  max-width: 62ch;
+  margin: 0;
+  padding: 0 3.5rem 1.6rem;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+/* Smooth open / close in every browser: the panel's row grows from 0fr to 1fr.
+   The answer fades and settles as it opens. */
+.hfaq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hfaq-item.is-open .hfaq-panel {
+  grid-template-rows: 1fr;
+}
+
+.hfaq-panel-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.hfaq-a {
+  opacity: 0;
+  translate: 0 -6px;
+  transition:
+    opacity 0.25s ease,
+    translate 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hfaq-item.is-open .hfaq-a {
+  opacity: 1;
+  translate: 0 0;
+  transition:
+    opacity 0.35s ease 0.1s,
+    translate 0.45s cubic-bezier(0.22, 1, 0.36, 1) 0.05s;
+}
+
+.hfaq-all {
+  margin-top: 2rem;
+}
+
+@media (max-width: 640px) {
+  .hfaq-a {
+    padding-inline: 0.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hfaq-sign::before,
+  .hfaq-sign::after,
+  .hfaq-panel,
+  .hfaq-a,
+  .hfaq-item.is-open .hfaq-a {
+    transition: none;
+  }
+}
