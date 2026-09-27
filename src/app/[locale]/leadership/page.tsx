@@ -3,6 +3,7 @@ import path from "node:path";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { site } from "@/content/site";
+import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { formatNumber } from "@/lib/format";
 import type { LocalePageProps } from "@/i18n/types";
 type Props = LocalePageProps;
@@ -10,11 +11,6 @@ type Props = LocalePageProps;
 /** Drop the founder portrait here (portrait orientation, ~1200×1500). */
 const FOUNDER_PHOTO = "/leadership/tarek-qazan.jpg";
 
-const onTheGround = [
-  { src: "/gallery/compoundPics/engineers-site-office.png", en: "Engineering on site", ar: "الهندسة في الموقع" },
-  { src: "/gallery/compoundPics/security-guards-patrol-compound-o.png", en: "Security around the clock", ar: "أمن على مدار الساعة" },
-  { src: "/gallery/compoundPics/housekeeping-team.png", en: "Our service team", ar: "فريق الخدمات" },
-];
 
 /** The founder's own three principles, in his words. */
 const principles = [
@@ -44,8 +40,10 @@ export default async function LeadershipPage({ params }: Props) {
 
   return (
     <>
+      <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
+
       <section className="leader-hero">
-        <div className="container-gc grid items-center gap-10 pb-16 pt-28 md:pt-32 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:pb-20">
+        <div className="container-gc grid items-center gap-10 pb-16 pt-12 md:pt-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:pb-20">
           <div className="leader-portrait reveal">
             {hasPhoto ? (
               <Image
@@ -70,10 +68,9 @@ export default async function LeadershipPage({ params }: Props) {
           </div>
 
           <div>
-            <p className="section-eyebrow reveal">{t("title")}</p>
-            <h1 className="leader-title reveal" style={{ animationDelay: "80ms" }}>
+            <h2 className="leader-title reveal" style={{ animationDelay: "80ms" }}>
               {name}
-            </h1>
+            </h2>
             <p className="reveal mt-3 text-lg font-medium text-primary-ink" style={{ animationDelay: "120ms" }}>
               {isAr ? site.companyAr : site.companyEn}
             </p>
@@ -121,23 +118,6 @@ export default async function LeadershipPage({ params }: Props) {
               </li>
             ))}
           </ol>
-
-          <div className="mt-14 grid gap-4 md:grid-cols-3">
-            {onTheGround.map((p) => (
-              <figure key={p.src} className="group">
-                <div className="relative aspect-[4/3] overflow-hidden bg-surface-alt">
-                  <Image
-                    src={p.src}
-                    alt={isAr ? p.ar : p.en}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                  />
-                </div>
-                <figcaption className="mt-3 text-sm text-muted">{isAr ? p.ar : p.en}</figcaption>
-              </figure>
-            ))}
-          </div>
         </div>
       </section>
     </>

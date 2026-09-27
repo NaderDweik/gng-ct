@@ -1,0 +1,475 @@
+/* ── Amenities page. Behaviour: features/amenities/AmenitiesPage.tsx ── */
+
+.ap-section {
+  padding-block: clamp(4.5rem, 9vw, 7.5rem);
+  scroll-margin-top: 8rem;
+}
+
+.ap-head {
+  display: grid;
+  gap: 1rem;
+  max-width: 44rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+.ap-head--split {
+  max-width: none;
+}
+
+@media (min-width: 1024px) {
+  .ap-head--split {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    align-items: end;
+    gap: 3rem;
+  }
+}
+
+.ap-lead {
+  max-width: 38rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+/* ── Inside your resort ── */
+.ap-resort {
+  display: grid;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .ap-resort {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: clamp(3rem, 6vw, 6rem);
+    align-items: start;
+  }
+}
+
+.ap-chapters {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ap-chapter {
+  display: grid;
+  align-content: center;
+  gap: 0.9rem;
+  padding-block: 2.5rem;
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 1024px) {
+  .ap-chapter {
+    min-height: 68svh;
+    padding-block: 3rem;
+    opacity: 0.32;
+    transition: opacity 0.6s var(--ease);
+  }
+
+  .ap-chapter.is-active {
+    opacity: 1;
+  }
+
+  /* The first chapter starts right under the intro instead of floating
+     mid-block — the others stay centred to pace the scroll. */
+  .ap-chapter:first-child {
+    align-content: start;
+    padding-top: 0.5rem;
+    border-top: 0;
+  }
+}
+
+.ap-chapter-photo {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+@media (min-width: 1024px) {
+  .ap-chapter-photo {
+    display: none;
+  }
+}
+
+.ap-chapter-num {
+  color: var(--accent-ink);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.ap-chapter-icon {
+  width: 34px;
+  height: 34px;
+  color: var(--secondary-ink);
+}
+
+.ap-chapter-title {
+  margin: 0.25rem 0 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+}
+
+[dir="rtl"] .ap-chapter-title {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+.ap-chapter-body {
+  max-width: 32rem;
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.02rem;
+  line-height: 1.75;
+}
+
+.ap-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ap-specs li {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--line-strong);
+  color: var(--secondary-ink);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+/* The pinned frame: each chapter's photo wipes up over the last. */
+.ap-frame {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .ap-frame {
+    display: block;
+    position: sticky;
+    top: calc(80px + 4.5rem);
+    height: min(calc(100svh - 80px - 7rem), 44rem);
+  }
+}
+
+.ap-frame-inner {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  background: var(--surface-tint);
+  box-shadow: var(--shadow-card-lg);
+}
+
+.ap-frame-photo {
+  position: absolute;
+  inset: 0;
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.1s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.ap-frame-photo img {
+  scale: 1.12;
+  transition: scale 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ap-frame-photo.is-on {
+  clip-path: inset(0 0 0 0);
+}
+
+.ap-frame-photo.is-on img {
+  scale: 1;
+}
+
+.ap-frame-shade {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--overlay) 70%, transparent), transparent 42%);
+  pointer-events: none;
+}
+
+.ap-frame-cap {
+  position: absolute;
+  inset-inline: 1.75rem;
+  bottom: 1.5rem;
+  z-index: 21;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--on-dark);
+}
+
+.ap-frame-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2vw, 1.75rem);
+  font-weight: 700;
+  animation: ap-cap-in 0.7s var(--ease) both;
+}
+
+[dir="rtl"] .ap-frame-title {
+  font-family: var(--font-body);
+}
+
+@keyframes ap-cap-in {
+  from { opacity: 0; transform: translateY(10px); }
+}
+
+.ap-frame-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--on-dark-muted);
+}
+
+.ap-frame-count i {
+  width: 1.75rem;
+  height: 1px;
+  background: currentColor;
+}
+
+/* Thin progress rail along the frame's edge. */
+.ap-frame-progress {
+  position: absolute;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  inset-inline-end: 1.1rem;
+  z-index: 21;
+  width: 2px;
+  background: color-mix(in srgb, var(--white) 25%, transparent);
+}
+
+.ap-frame-progress i {
+  position: absolute;
+  inset: 0;
+  background: var(--brand-accent);
+  transform-origin: top;
+  transition: transform 0.8s var(--ease);
+}
+
+/* ── Across the community: mosaic ── */
+.ap-mosaic {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .ap-mosaic {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 260px;
+    grid-auto-flow: dense;
+  }
+
+  .ap-tile--wide { grid-column: span 2; }
+  .ap-tile--tall { grid-row: span 2; }
+}
+
+@media (min-width: 1280px) {
+  .ap-mosaic {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: 280px;
+  }
+}
+
+.ap-tile {
+  position: relative;
+  min-height: 280px;
+  margin: 0;
+  overflow: hidden;
+  background: var(--surface-tint);
+}
+
+@media (min-width: 768px) {
+  .ap-tile {
+    min-height: 0;
+  }
+}
+
+.ap-tile-img {
+  transition: scale 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ap-tile:hover .ap-tile-img {
+  scale: 1.05;
+}
+
+.ap-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--overlay) 78%, transparent) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+.ap-tile-cap {
+  position: absolute;
+  inset-inline: 1.4rem;
+  bottom: 1.25rem;
+  z-index: 1;
+  display: grid;
+  gap: 0.3rem;
+  color: var(--on-dark);
+}
+
+.ap-tile-cap b {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+[dir="rtl"] .ap-tile-cap b {
+  font-family: var(--font-body);
+}
+
+/* The line under the title reveals on hover (always shown on touch). */
+.ap-tile-cap span {
+  max-width: 28rem;
+  color: var(--on-dark-muted);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+@media (hover: hover) {
+  .ap-tile-cap span {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease), translate 0.5s var(--ease);
+    translate: 0 6px;
+  }
+
+  .ap-tile:hover .ap-tile-cap span {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* ── Serviced daily ── */
+.ap-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0 0 clamp(3rem, 6vw, 4.5rem);
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+@media (min-width: 1024px) {
+  .ap-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.ap-stat {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.5rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  background: var(--surface);
+}
+
+.ap-stat dt {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.ap-stat dd {
+  margin: 0;
+  color: var(--primary-ink);
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.ap-services {
+  display: grid;
+  gap: 0 clamp(2rem, 5vw, 4.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 768px) {
+  .ap-services {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.ap-service {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  gap: 1rem;
+  padding-block: 1.6rem;
+}
+
+.ap-service-rule {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 1px;
+  background: var(--line-strong);
+  transform-origin: left center;
+}
+
+[dir="rtl"] .ap-service-rule {
+  transform-origin: right center;
+}
+
+.ap-service-num {
+  padding-top: 0.25rem;
+  color: var(--accent-ink);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.ap-service-title {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+[dir="rtl"] .ap-service-title {
+  font-family: var(--font-body);
+}
+
+.ap-service-body {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ap-frame-photo,
+  .ap-frame-photo img,
+  .ap-tile-img,
+  .ap-chapter {
+    transition: none;
+  }
+
+  .ap-frame-title {
+    animation: none;
+  }
+}

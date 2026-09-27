@@ -3,8 +3,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
 import { formatNumber } from "@/lib/format";
-import { RegisterCta } from "@/features/register/RegisterCta";
 import { CountUp } from "@/components/ui/CountUp";
+import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import type { LocalePageProps } from "@/i18n/types";
 
 type Props = LocalePageProps;
@@ -115,31 +115,25 @@ export default async function AboutPage({ params }: Props) {
 
   return (
     <>
-      {/* Hero */}
-      <section className="about-hero">
-        <Image src="/gallery/compoundPics/main-entrance-gate-sunset.png" alt="" fill priority sizes="100vw" className="about-hero-img" />
-        <div className="about-hero-shade" aria-hidden />
-        <div className="container-gc relative z-10 flex min-h-[inherit] flex-col justify-end pb-10 pt-32 md:pb-14">
-          <p className="reveal text-xs font-bold uppercase tracking-[0.24em] text-accent">{t("title")}</p>
-          <h1 className="about-hero-title reveal" style={{ animationDelay: "80ms" }}>
-            {isAr ? "ليس فندقًا، بل استثمار وحياة." : "Not a hotel — an investment, and a way of life."}
-          </h1>
-          <p className="reveal mt-5 max-w-xl text-base text-on-dark-muted md:text-lg" style={{ animationDelay: "160ms" }}>
-            {t("subtitle")}
-          </p>
+      <SubpageHeader
+        eyebrow="Giving City"
+        title={t("title")}
+        subtitle={isAr ? "ليس فندقًا، بل استثمار وحياة." : "Not a hotel — an investment, and a way of life."}
+      />
 
-          <dl className="about-hero-stats reveal" style={{ animationDelay: "240ms" }}>
-            {stats.map((s, i) => (
-              <div key={s.label} className="flex flex-col">
-                <dt className="order-2 mt-1 text-xs text-on-dark-muted">{s.label}</dt>
-                <dd className="font-display text-3xl font-bold leading-none text-on-dark tabular-nums md:text-4xl">
-                  <CountUp value={s.value} from={s.from} suffix={s.suffix} locale={locale} delay={500 + i * 150} />
-                  {s.unit && <span className="ms-1 text-sm font-medium text-on-dark-muted">{s.unit}</span>}
-                </dd>
-              </div>
-            ))}
-          </dl>
-        </div>
+      {/* Key figures — a slate band continuing the header (Jordan Gate pattern). */}
+      <section className="sh-stats">
+        <dl className="sh-stats-grid container-gc">
+          {stats.map((s, i) => (
+            <div key={s.label}>
+              <dt>{s.label}</dt>
+              <dd>
+                <CountUp value={s.value} from={s.from} suffix={s.suffix} locale={locale} delay={300 + i * 150} />
+                {s.unit && <span className="sh-stats-unit">{s.unit}</span>}
+              </dd>
+            </div>
+          ))}
+        </dl>
       </section>
 
       {/* Story */}
@@ -304,7 +298,6 @@ export default async function AboutPage({ params }: Props) {
         </div>
       </section>
 
-      <RegisterCta locale={locale} image="/gallery/resortsPics/giant-chess-poolside-royal.png" />
     </>
   );
 }

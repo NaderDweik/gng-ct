@@ -1,9 +1,8 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { PageHero } from "@/components/ui/PageHero";
+import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { PricingShowcase } from "@/features/pricing/PricingShowcase";
 import { PlanCompare } from "@/features/pricing/PlanCompare";
 import { HomeFaqPreview } from "@/features/faq/HomeFaqPreview";
-import { RegisterCta } from "@/features/register/RegisterCta";
 import { faqCategories } from "@/content/faq";
 import { formatNumber } from "@/lib/format";
 import type { LocalePageProps } from "@/i18n/types";
@@ -48,7 +47,7 @@ export default async function FinancingPage({ params }: Props) {
 
   return (
     <>
-      <PageHero title={t("title")} subtitle={t("subtitle")} image="/gallery/resortsPics/pool-and-tent-pavilion-hd.jpg" focus="50% 55%" />
+      <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
 
       <section className="section bg-surface-alt">
         <div className="container-gc">
@@ -107,7 +106,6 @@ export default async function FinancingPage({ params }: Props) {
         </section>
       )}
 
-      <RegisterCta locale={locale} image="/gallery/resortsPics/family-breakfast-poolside-table.png" />
     </>
   );
 }

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { site } from "@/content/site";
 import { basePriceJd, cashPriceJd, cashDiscountPct } from "@/content/pricing";
@@ -31,34 +32,7 @@ export default async function RegisterPage({ params }: Props) {
 
   return (
     <>
-      <section className="register-hero">
-        <Image
-          src="/gallery/resortsPics/pool-and-tent-pavilion.png"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="register-hero-img"
-        />
-        <div className="register-hero-shade" aria-hidden />
-        <div className="container-gc relative z-10 flex min-h-[inherit] flex-col justify-end pb-8 pt-28 md:pb-10">
-          <p className="reveal text-xs font-bold uppercase tracking-[0.24em] text-accent">
-            {t("title")}
-          </p>
-          <h1
-            className="register-hero-title reveal"
-            style={{ animationDelay: "80ms" }}
-          >
-            {isAr ? "خطوة واحدة تفصلك عن شاليهك." : "One step away from your chalet."}
-          </h1>
-          <p
-            className="reveal mt-3 max-w-xl text-sm text-on-dark-muted md:text-base"
-            style={{ animationDelay: "160ms" }}
-          >
-            {t("subtitle")}
-          </p>
-        </div>
-      </section>
+      <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
 
       <section className="register-body bg-surface-alt">
         <div className="container-gc grid items-start gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:gap-8">

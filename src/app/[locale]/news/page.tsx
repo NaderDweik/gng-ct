@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { PageHero } from "@/components/ui/PageHero";
+import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { articles } from "@/content/news";
 import type { LocalePageProps } from "@/i18n/types";
 
@@ -15,7 +15,7 @@ export default async function NewsPage({ params }: Props) {
 
   return (
     <>
-      <PageHero title={t("title")} subtitle={t("subtitle")} image="/gallery/compoundPics/family-walk-compound-t.png" focus="70% 60%" />
+      <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
       <section className="section">
         <div className="container-gc grid gap-8 md:grid-cols-2">
           {articles.map((a) => (

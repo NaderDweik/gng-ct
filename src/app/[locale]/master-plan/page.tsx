@@ -1,7 +1,6 @@
 import { setRequestLocale } from "next-intl/server";
 import { masterPlanCopy } from "@/content/master-plan";
 import { PlanExplorer } from "@/features/master-plan/PlanExplorer";
-import { RegisterCta } from "@/features/register/RegisterCta";
 import type { LocalePageProps } from "@/i18n/types";
 
 type Props = LocalePageProps;
@@ -24,7 +23,6 @@ export default async function MasterPlanPage({ params }: Props) {
         </div>
       </section>
 
-      <RegisterCta locale={locale} image="/gallery/compoundPics/entrance-fountain-and-gatehouse.png" />
     </>
   );
 }

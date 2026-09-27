@@ -1,5 +1,5 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { PageHero } from "@/components/ui/PageHero";
+import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { LocationShowcase } from "@/features/location/LocationShowcase";
 import type { LocalePageProps } from "@/i18n/types";
 
@@ -12,7 +12,7 @@ export default async function LocationPage({ params }: Props) {
 
   return (
     <>
-      <PageHero title={t("title")} subtitle={t("subtitle")} image="/gallery/compoundPics/palm-roundabout-flower-bed-hd.jpg" />
+      <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
       <section className="section bg-surface-tint">
         <div className="container-gc">
           <LocationShowcase />

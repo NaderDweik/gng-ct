@@ -1,8 +1,8 @@
-import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Suspense } from "react";
 import { GalleryGrid } from "@/features/gallery/GalleryGrid";
-import { galleryCopy, galleryHeroSrc } from "@/content/gallery";
+import { galleryCopy } from "@/content/gallery";
+import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { site } from "@/content/site";
 import type { LocalePageProps } from "@/i18n/types";
 
@@ -17,26 +17,7 @@ export default async function GalleryPage({ params }: Props) {
 
   return (
     <>
-      <section className="gal-hero on-dark">
-        <Image
-          src={galleryHeroSrc}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="gal-hero-img"
-        />
-        <div className="gal-hero-shade" aria-hidden />
-        <div className="container-gc relative z-[1] flex min-h-[min(62svh,560px)] flex-col justify-end pb-12 pt-28 md:pb-16 md:pt-32">
-          <p className="section-eyebrow reveal">{copy.eyebrow}</p>
-          <h1 className="gal-hero-title reveal" style={{ animationDelay: "80ms" }}>
-            {copy.title}
-          </h1>
-          <p className="gal-hero-lead reveal" style={{ animationDelay: "160ms" }}>
-            {copy.lead}
-          </p>
-        </div>
-      </section>
+      <SubpageHeader eyebrow="Giving City" title={copy.title} subtitle={copy.lead} />
 
       <Suspense fallback={null}>
         <GalleryGrid />

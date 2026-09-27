@@ -25,11 +25,12 @@ export default async function UnitsPage({ params }: Props) {
           className="object-cover opacity-35"
         />
         <div className="relative mx-auto w-[min(92rem,calc(100%-3rem))] px-6 text-center">
-          <span className="mb-3 block text-[10px] font-bold tracking-[0.24em] text-on-dark-muted uppercase">
+          {/* Same entrance as the standard subpage header (subpage-header.css). */}
+          <span className="sh-a-fade mb-3 block text-[10px] font-bold tracking-[0.24em] text-on-dark-muted uppercase">
             {copy.eyebrow}
           </span>
-          <h1 className="font-display text-4xl font-extrabold tracking-tight text-on-dark md:text-6xl">
-            {copy.title}
+          <h1 className="overflow-hidden font-display text-4xl font-extrabold tracking-tight text-on-dark md:text-6xl">
+            <span className="sh-a-rise">{copy.title}</span>
           </h1>
         </div>
       </section>
