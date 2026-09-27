@@ -143,7 +143,7 @@
 .amg {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1.25rem, 2.5vw, 2rem) clamp(1rem, 2vw, 1.5rem);
+  gap: clamp(2rem, 3.5vw, 3rem) clamp(1rem, 2vw, 1.5rem);
   padding: 0;
   list-style: none;
 }
@@ -157,7 +157,6 @@
 .amg-item {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 }
 
 .amg-photo {
@@ -171,19 +170,113 @@
   object-fit: cover;
 }
 
+/* Caption sits on a hairline, so every card's text starts on the same line. */
+.amg-text {
+  position: relative;
+  margin-top: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line-strong);
+}
+
+/* ── Hover / focus: quiet cues that the card opens its amenity ── */
+.amg-item {
+  color: inherit;
+  text-decoration: none;
+}
+
+.amg-item:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 6px;
+}
+
+.amg-img {
+  transition: scale 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* The hairline draws across in the primary colour, from the reading side. */
+.amg-text::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: -1px;
+  height: 2px;
+  background: var(--primary-ink);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[dir="rtl"] .amg-text::before {
+  transform-origin: right center;
+}
+
+.amg-title {
+  transition: color 0.3s ease;
+}
+
+.amg-arrow {
+  margin-inline-start: 0.6rem;
+  vertical-align: middle;
+  opacity: 0;
+  translate: -6px 0;
+  transition:
+    opacity 0.3s ease,
+    translate 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+[dir="rtl"] .amg-arrow {
+  translate: 6px 0;
+}
+
+@media (hover: hover) {
+  .amg-item:hover .amg-img {
+    scale: 1.04;
+  }
+}
+
+.amg-item:hover .amg-text::before,
+.amg-item:focus-visible .amg-text::before {
+  transform: scaleX(1);
+}
+
+.amg-item:hover .amg-title,
+.amg-item:focus-visible .amg-title {
+  color: var(--primary-ink);
+}
+
+.amg-item:hover .amg-arrow,
+.amg-item:focus-visible .amg-arrow {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .amg-img,
+  .amg-text::before,
+  .amg-arrow {
+    transition: none;
+  }
+
+  .amg-item:hover .amg-img {
+    scale: 1;
+  }
+}
+
 .amg-title {
   margin: 0;
   color: var(--ink);
-  font-size: 1.15rem;
+  font-size: 1.2rem;
   font-weight: 700;
   line-height: 1.3;
+  text-wrap: balance;
 }
 
 .amg-desc {
-  margin: 0.4rem 0 0;
+  margin: 0.35rem 0 0;
   color: var(--muted);
   font-size: 1rem;
-  line-height: 1.65;
+  line-height: 1.6;
+  text-wrap: pretty;
 }
 
 /* Phones: one clear row per amenity — small photo beside the text. */
@@ -201,13 +294,19 @@
     border-bottom: 1px solid var(--line);
   }
 
-  .amg-item:first-child {
+  .amg > li:first-child .amg-item {
     border-top: 1px solid var(--line);
   }
 
   .amg-photo {
     flex: 0 0 112px;
     aspect-ratio: 1;
+  }
+
+  .amg-text {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: 0;
   }
 
   .amg-title {

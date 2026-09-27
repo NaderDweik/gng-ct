@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { type ReactNode, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -13,10 +13,11 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /*
  * Amenities page pieces (styles: styles/sections/amenities-page.css).
- *   ResortChapters   — private amenities as chapters beside a pinned frame;
- *                      each chapter wipes its photo up over the last.
+ *   ResortChapters   — private amenities as cards beside a pinned frame; the
+ *                      card you are reading is highlighted and its photo
+ *                      wipes up over the last.
  *   CommunityMosaic  — shared places; tiles rise in as they arrive.
- *   ServiceList      — infrastructure lines; hairlines draw in.
+ *   ServiceList      — infrastructure tiles with icons; static.
  * Reduced motion: no rises or wipes — the content is simply there.
  */
 
@@ -41,15 +42,6 @@ export function ResortChapters({ items, isAr }: { items: AmenityFeature[]; isAr:
           end: "bottom 55%",
           onToggle: (self) => self.isActive && setActive(i),
         });
-        if (reduced()) return;
-        gsap.from(ch.querySelectorAll(".ap-rise"), {
-          y: 26,
-          autoAlpha: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          stagger: 0.08,
-          scrollTrigger: { trigger: ch, start: "top 78%", once: true },
-        });
       });
     },
     { scope: ref },
@@ -61,20 +53,35 @@ export function ResortChapters({ items, isAr }: { items: AmenityFeature[]; isAr:
     <div ref={ref} className="ap-resort">
       <ol className="ap-chapters">
         {items.map((it, i) => (
-          <li key={it.id} className={`ap-chapter${i === active ? " is-active" : ""}`}>
-            {/* Phones: each chapter carries its own photo. */}
-            <div className="ap-chapter-photo">
-              <Image src={it.image} alt="" fill sizes="100vw" className="object-cover" />
-            </div>
-            <span className="ap-chapter-num ap-rise">{num(i, isAr)}</span>
-            <AmenityIcon name={it.icon} className="ap-chapter-icon ap-rise" />
-            <h3 className="ap-chapter-title ap-rise">{isAr ? it.titleAr : it.titleEn}</h3>
-            <p className="ap-chapter-body ap-rise">{isAr ? it.descAr : it.descEn}</p>
-            <ul className="ap-specs ap-rise">
-              {(isAr ? it.tagsAr : it.tagsEn).map((t) => (
-                <li key={t}>{t}</li>
-              ))}
-            </ul>
+          <li key={it.id} id={`amenity-${it.id}`} className={`ap-chapter scroll-mt-28${i === active ? " is-active" : ""}`}>
+            <article className="ap-card">
+              {/* Phones: each chapter carries its own photo. */}
+              <div className="ap-chapter-photo">
+                <Image src={it.image} alt="" fill sizes="100vw" className="object-cover" />
+              </div>
+              <div className="ap-card-top">
+                <span className="ap-card-icon" aria-hidden>
+                  <AmenityIcon name={it.icon} className="ap-chapter-icon" />
+                </span>
+                <span className="ap-chapter-num">
+                  {num(i, isAr)}
+                  <i>/</i>
+                  {num(items.length - 1, isAr)}
+                </span>
+              </div>
+              <h3 className="ap-chapter-title">{isAr ? it.titleAr : it.titleEn}</h3>
+              <p className="ap-chapter-body">{isAr ? it.descAr : it.descEn}</p>
+              <ul className="ap-specs">
+                {(isAr ? it.tagsAr : it.tagsEn).map((t) => (
+                  <li key={t}>
+                    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M3 8.5 6.5 12 13 4.5" />
+                    </svg>
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </article>
           </li>
         ))}
       </ol>
@@ -150,48 +157,42 @@ export function CommunityMosaic({ places, isAr }: { places: CommunityPlace[]; is
   );
 }
 
-// ── Serviced daily: infrastructure lines ──────────────────────────
+// ── Serviced daily: infrastructure tiles ──────────────────────────
+// Parallel services, not steps — so icons, not numbers. Static (no entrance motion).
+
+const SERVICE_ICONS: Record<string, ReactNode> = {
+  water: <path d="M12 3c3.6 4.3 6 7.5 6 10.6a6 6 0 0 1-12 0C6 10.5 8.4 7.3 12 3z" />,
+  pools: (
+    <>
+      <path d="M8 3.5v9M16 3.5v9M8 7h8" />
+      <path d="M3 16c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0M3 20c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0" />
+    </>
+  ),
+  fiber: (
+    <>
+      <path d="M3.5 9.5a12 12 0 0 1 17 0M6.8 13a7.3 7.3 0 0 1 10.4 0M10 16.4a2.8 2.8 0 0 1 4 0" />
+      <circle cx="12" cy="19.4" r="0.9" fill="currentColor" />
+    </>
+  ),
+  power: <path d="M13 2.5 5 13.5h6l-1 8 8-11h-6z" />,
+  roads: <path d="M8.5 3 5 21M15.5 3 19 21M12 4v2.5M12 10.5v3M12 17.5v3" />,
+  gardens: <path d="M5 19c0-8.3 5.2-14 14-14 0 8.8-5.7 14-14 14zM5 19l7.5-7.5" />,
+};
 
 export function ServiceList({ lines, isAr }: { lines: ServiceLine[]; isAr: boolean }) {
-  const ref = useRef<HTMLOListElement>(null);
-
-  useGSAP(
-    () => {
-      const root = ref.current;
-      if (!root || reduced()) return;
-      const rows = root.querySelectorAll(".ap-service");
-      gsap.from(root.querySelectorAll(".ap-service-rule"), {
-        scaleX: 0,
-        duration: 1.1,
-        ease: "expo.out",
-        stagger: 0.08,
-        scrollTrigger: { trigger: root, start: "top 80%", once: true },
-      });
-      gsap.from(rows, {
-        y: 18,
-        autoAlpha: 0,
-        duration: 0.7,
-        ease: "power3.out",
-        stagger: 0.08,
-        delay: 0.15,
-        scrollTrigger: { trigger: root, start: "top 80%", once: true },
-      });
-    },
-    { scope: ref },
-  );
-
   return (
-    <ol ref={ref} className="ap-services">
-      {lines.map((l, i) => (
+    <ul className="ap-services">
+      {lines.map((l) => (
         <li key={l.id} className="ap-service">
-          <span className="ap-service-rule" aria-hidden />
-          <span className="ap-service-num">{num(i, isAr)}</span>
-          <div>
-            <h3 className="ap-service-title">{isAr ? l.titleAr : l.titleEn}</h3>
-            <p className="ap-service-body">{isAr ? l.bodyAr : l.bodyEn}</p>
-          </div>
+          <span className="ap-service-icon" aria-hidden>
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+              {SERVICE_ICONS[l.id]}
+            </svg>
+          </span>
+          <h3 className="ap-service-title">{isAr ? l.titleAr : l.titleEn}</h3>
+          <p className="ap-service-body">{isAr ? l.bodyAr : l.bodyEn}</p>
         </li>
       ))}
-    </ol>
+    </ul>
   );
 }

@@ -155,22 +155,23 @@ export default async function HomePage({ params }: Props) {
                 {isAr ? amenitiesIntro.titleAr : amenitiesIntro.titleEn}
               </h2>
             </div>
-            <p className="text-start text-base font-light leading-relaxed text-muted md:text-lg lg:max-w-2xl lg:justify-self-end">
-              {isAr ? amenitiesIntro.subAr : amenitiesIntro.subEn}
-            </p>
+            {/* Intro + the way in, together — visible as soon as the section is. */}
+            <div className="flex flex-col items-start gap-6 lg:max-w-2xl lg:justify-self-end">
+              <p className="text-start text-base font-light leading-relaxed text-muted md:text-lg">
+                {isAr ? amenitiesIntro.subAr : amenitiesIntro.subEn}
+              </p>
+              <Link href="/amenities" className="gallery-outline-btn">
+                {isAr ? "استكشف كل المرافق" : "Explore all amenities"}
+                <ArrowIcon className="arrow" />
+              </Link>
+            </div>
           </div>
           <AmenitiesGrid items={amenityFeatures} isAr={isAr} />
-          <div className="pt-4 md:pt-6">
-            <Link href="/amenities" className="gallery-outline-btn">
-              {isAr ? "استكشف كل المرافق" : "Explore all amenities"}
-              <ArrowIcon className="arrow" />
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="border-y border-line bg-primary text-on-primary">
+      {/* Stats — white on the primary teal (by choice; contrast is ~2.4:1) */}
+      <section className="border-y border-line bg-primary text-on-dark">
         <div className="container-gc grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { v: `${site.stats.units}+`, l: t("statsUnits") },
@@ -185,7 +186,7 @@ export default async function HomePage({ params }: Props) {
               <p className="font-display text-4xl font-bold tracking-tight md:text-5xl">
                 {s.v}
               </p>
-              <p className="mt-2 text-sm text-on-primary/75">{s.l}</p>
+              <p className="mt-2 text-sm text-on-dark-muted">{s.l}</p>
             </div>
           ))}
         </div>

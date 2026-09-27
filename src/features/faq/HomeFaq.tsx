@@ -29,6 +29,10 @@ export function HomeFaq({ items, locale }: Props) {
             ? "أكثر ما يسألنا عنه المشترون، بإجابات مختصرة وواضحة."
             : "What buyers ask us most, answered simply."}
         </p>
+        <Link href="/faq" className="gallery-outline-btn hfaq-all">
+          {isAr ? "كل الأسئلة" : "See all questions"}
+          <ArrowIcon className="arrow" />
+        </Link>
 
         <div className="hfaq-person">
           <p className="hfaq-person-title">{isAr ? "تفضّل التحدث مع شخص؟" : "Prefer to ask a person?"}</p>
@@ -46,13 +50,7 @@ export function HomeFaq({ items, locale }: Props) {
         </div>
       </div>
 
-      <div>
-        <FaqAccordion items={items} locale={locale} />
-        <Link href="/faq" className="gallery-outline-btn hfaq-all">
-          {isAr ? "كل الأسئلة" : "See all questions"}
-          <ArrowIcon className="arrow" />
-        </Link>
-      </div>
+      <FaqAccordion items={items} locale={locale} />
     </div>
   );
 }

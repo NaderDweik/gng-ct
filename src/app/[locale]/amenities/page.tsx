@@ -33,7 +33,7 @@ export default async function AmenitiesPage({ params }: Props) {
     .filter((a): a is (typeof amenityFeatures)[number] => Boolean(a));
 
   const stats = [
-    { value: 24, suffix: "/7", label: c.stats.security },
+    { value: 24, suffix: isAr ? "/٧" : "/7", label: c.stats.security },
     { value: 3, suffix: isAr ? " م" : " m", label: c.stats.walls },
     { value: site.stats.unitAreaSqm, suffix: isAr ? " م²" : " m²", label: c.stats.area },
     { value: site.stats.units, suffix: "+", label: c.stats.units },
@@ -46,8 +46,11 @@ export default async function AmenitiesPage({ params }: Props) {
       {/* 1 · Inside your resort */}
       <section id="resort" className="ap-section bg-surface">
         <div className="container-gc">
-          <header className="ap-head">
-            <h2 className="section-title mb-0">{c.resortTitle}</h2>
+          <header className="ap-head ap-head--split">
+            <div>
+              <p className="section-eyebrow">{c.resortEyebrow}</p>
+              <h2 className="section-title mb-0">{c.resortTitle}</h2>
+            </div>
             <p className="ap-lead">{c.resortLead}</p>
           </header>
           <ResortChapters items={chapters} isAr={isAr} />

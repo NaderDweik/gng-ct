@@ -229,13 +229,13 @@ export type DayChapter = {
 
 export const dayChapters: DayChapter[] = [
   { src: `${R}/family-breakfast-poolside-table.png`, time: 480, titleEn: "Breakfast by the pool", titleAr: "فطور بجانب المسبح", shape: "wide", align: "end" },
-  { src: `${C}/boys-walking-with-football.png`, time: 630, titleEn: "Out to play", titleAr: "إلى الملعب", shape: "tall", align: "start" },
+  { src: `${C}/boys-walking-with-football.png`, time: 630, titleEn: "Out to play", titleAr: "إلى الملعب", shape: "wide", align: "start" },
   { src: `${R}/family-lounge-under-pergola.png`, time: 990, titleEn: "Afternoon under the pergola", titleAr: "عصرية تحت البرجولة", shape: "wide", align: "center" },
-  { src: `${C}/mini-golf-putting-green.png`, time: 1050, titleEn: "A round on the green", titleAr: "جولة على العشب", shape: "square", align: "end" },
+  { src: `${C}/mini-golf-putting-green.png`, time: 1050, titleEn: "A round on the green", titleAr: "جولة على العشب", shape: "wide", align: "end" },
   { src: `${R}/giant-chess-poolside-royal.png`, time: 1095, titleEn: "Chess by the water", titleAr: "شطرنج بجانب الماء", shape: "wide", align: "start" },
-  { src: `${C}/mosque-at-sunset.png`, time: 1125, titleEn: "Maghrib at the mosque", titleAr: "المغرب في المسجد", shape: "tall", align: "center" },
+  { src: `${C}/mosque-at-sunset.png`, time: 1125, titleEn: "Maghrib at the mosque", titleAr: "المغرب في المسجد", shape: "wide", align: "center" },
   { src: `${R}/fireplace-horse-sculpture.png`, time: 1260, titleEn: "Evenings by the fire", titleAr: "سهرة بجانب المدفأة", shape: "wide", align: "end" },
-  { src: `${R}/bathroom-jacuzzi-tub.png`, time: 1350, titleEn: "A slow soak before bed", titleAr: "استرخاء قبل النوم", shape: "square", align: "start" },
+  { src: `${R}/bathroom-jacuzzi-tub.png`, time: 1350, titleEn: "A slow soak before bed", titleAr: "استرخاء قبل النوم", shape: "wide", align: "start" },
 ];
 
 export const dayCopy = {

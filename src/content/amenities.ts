@@ -7,8 +7,12 @@ export type AmenityFeature = {
   titleEn: string;
   tagsAr: string[];
   tagsEn: string[];
+  /** Full description — the /amenities page. */
   descAr: string;
   descEn: string;
+  /** One short, scannable line — the home page cards. */
+  shortAr: string;
+  shortEn: string;
   /** Gallery still used as hover / mobile background */
   image: string;
 };
@@ -18,16 +22,16 @@ export const amenitiesIntro = {
   eyebrowEn: "Amenities",
   titleAr: "عالم خاص، داخل مجتمعك.",
   titleEn: "A private world, inside your community.",
-  subAr:
-    "من المسبح الخاص في كل وحدة إلى الحراسة على مدار الساعة — صُممت كل مرفق في Giving City بنفس العناية الموجهة للمنازل نفسها.",
-  subEn:
-    "From the private pool in every unit to 24/7 security — every amenity at Giving City is designed with the same care as the homes themselves.",
+  subAr: "كل ما تحتاجه العائلة، داخل مجتمع خاص ومسوّر.",
+  subEn: "Everything a family needs, inside a private, gated community.",
 } as const;
 
 export const amenityFeatures: AmenityFeature[] = [
   {
     id: "pool",
     icon: "pool",
+    shortAr: "مسبح رئيسي ومسبح أطفال في كل وحدة.",
+    shortEn: "A main pool and kids’ pool in every unit.",
     titleAr: "مسبح خاص لكل وحدة",
     titleEn: "Private pool per unit",
     tagsAr: ["مساحة الوحدة: ٥٠٠ م²", "مسبح كبير + مسبح أطفال"],
@@ -41,6 +45,8 @@ export const amenityFeatures: AmenityFeature[] = [
   {
     id: "security",
     icon: "security",
+    shortAr: "مجتمع مسوّر بحراسة وكاميرات ليلًا ونهارًا.",
+    shortEn: "Gated, with guards and cameras day and night.",
     titleAr: "أمن على مدار الساعة",
     titleEn: "24/7 security",
     tagsAr: ["مجتمع مسوّر", "حراسة وكاميرات"],
@@ -54,6 +60,8 @@ export const amenityFeatures: AmenityFeature[] = [
   {
     id: "interior",
     icon: "interior",
+    shortAr: "مدفأة ومطبخ مجهّز وغرف تطل على المسبح.",
+    shortEn: "A fireplace, fitted kitchen, rooms onto the pool.",
     titleAr: "تصميم داخلي فاخر",
     titleEn: "Refined interiors",
     tagsAr: ["تشطيبات فاخرة", "مدفأة ومطبخ مجهز"],
@@ -67,6 +75,8 @@ export const amenityFeatures: AmenityFeature[] = [
   {
     id: "kids",
     icon: "kids",
+    shortAr: "أماكن لعب آمنة قريبة من البيت.",
+    shortEn: "Safe places to play, close to home.",
     titleAr: "مناطق الأطفال",
     titleEn: "Children’s areas",
     tagsAr: ["مساحات لعب آمنة"],
@@ -80,6 +90,8 @@ export const amenityFeatures: AmenityFeature[] = [
   {
     id: "bbq",
     icon: "bbq",
+    shortAr: "برجولا وشواء خاص بجانب مسبحك.",
+    shortEn: "Your own pergola and grill, by the pool.",
     titleAr: "برجولات ومناطق BBQ",
     titleEn: "Pergolas & BBQ",
     tagsAr: ["جلسات خارجية", "شواء خاص"],
@@ -93,6 +105,8 @@ export const amenityFeatures: AmenityFeature[] = [
   {
     id: "walls",
     icon: "walls",
+    shortAr: "جدران بارتفاع ٣ أمتار حول كل وحدة.",
+    shortEn: "3-metre walls around every unit.",
     titleAr: "خصوصية تامة",
     titleEn: "Complete privacy",
     tagsAr: ["جدران بارتفاع ٣ أمتار"],
@@ -106,6 +120,8 @@ export const amenityFeatures: AmenityFeature[] = [
   {
     id: "parking",
     icon: "parking",
+    shortAr: "كراج لسيارتين، ومواقف للزوار.",
+    shortEn: "A 2-car garage, plus visitor parking.",
     titleAr: "مواقف السيارات",
     titleEn: "Parking",
     tagsAr: ["كراج لسيارتين", "مواقف زوار"],
@@ -119,6 +135,8 @@ export const amenityFeatures: AmenityFeature[] = [
   {
     id: "green",
     icon: "green",
+    shortAr: "حدائق مخدومة في أنحاء المشروع.",
+    shortEn: "Serviced gardens across the whole site.",
     titleAr: "مساحات خضراء وحدائق",
     titleEn: "Green spaces & gardens",
     tagsAr: ["٥٠٠,٠٠٠ م² إجمالي المشروع", "حدائق منسقة"],

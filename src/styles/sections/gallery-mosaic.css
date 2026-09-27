@@ -116,7 +116,7 @@
   border-color: var(--brand-primary);
 }
 
-/* Hairline arrow — shaft extends and turns gold on hover. */
+/* Hairline arrow — on hover the shaft extends and the arrow turns white. */
 .lux-arrow {
   direction: ltr; /* shaft → head; RTL mirrors the whole arrow below */
   display: inline-flex;
@@ -139,11 +139,11 @@
 
 .gallery-outline-btn:hover .lux-arrow-shaft {
   width: 40px;
-  background: var(--brand-accent);
+  background: var(--white);
 }
 
 .gallery-outline-btn:hover .lux-arrow-head {
-  color: var(--brand-accent);
+  color: var(--white);
 }
 
 [dir="rtl"] .lux-arrow {
