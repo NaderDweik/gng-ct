@@ -4,7 +4,7 @@
 >
 > **Refresh rule:** After any meaningful product/design/content change, update this file before ending the turn so the next AI session starts current.
 >
-> *Last refreshed: 2026-09-23 (evening) · mirrors live codebase under `jordangate-redesign-main/`*
+> *Last refreshed: 2026-09-27 (recolor to Giving Spirit palette) · mirrors live codebase under `jordangate-redesign-main/`*
 
 ---
 
@@ -141,20 +141,22 @@ Re-brand by editing `src/theme/tokens.ts` `palette` only (`palette.logo` = fixed
 
 | Token | Hex | Role |
 |-------|-----|------|
-| primary | `#425563` | Buttons, links, active |
-| secondary | `#2f3d48` | Deep bands, footer, pricing card (deeper than primary) |
-| accent | `#d6c3a3` | Eyebrows on dark, chips, gold detail |
-| accent-ink | accent 58% + black | Gold **text on light** surfaces (raw accent is 1.7:1 on white — dark bg only) |
-| overlay | `#12181e` | Image scrims |
-| neutrals | `#f7f7f7`…`#0a0a0a` | Surfaces / ink |
+| primary | `#2ABBA3` | Giving Spirit green: buttons, active states, bands. Labels on it = `on-primary` (#181818), never white (2.4:1) |
+| secondary | `#181818` | Base dark: footer, deep bands, pricing card, dark-theme page background |
+| accent | `#05AB7D` | Supporting green: eyebrows on dark, chips, progress |
+| primary-deep | `#018860` | Brand text/links on light surfaces (`primary-ink` in light theme), teal text on white buttons |
+| primary-darkest | `#035F46` | `accent-ink` on light, deepest logo tone |
+| white | `#FFFFFF` | Surfaces, text on dark |
+| overlay | `#181818` | Image scrims |
+| logo | `#035F46` · `#018860` · `#05AB7D` · `#2ABBA3` | Layered V in the mark (fixed, not themeable) |
 
-**Light / dark theme:** `tokens.ts` → `themes.light` / `themes.dark` (semantic roles) → CSS vars under `[data-theme]` on `<html>`. Default = OS preference; explicit choice saved in `localStorage["gc-theme"]`; `themeInitScript` sets it pre-paint (no flash). Toggle: `components/ui/ThemeToggle` in header (sun⇄moon morph + circular View-Transition reveal, cross-fade fallback, instant for reduced motion). Map swaps to Esri Dark Gray tiles. **Rule:** brand color as *fill* → `bg-primary`; as *text/line on a themed surface* → `*-primary-ink` / `*-secondary-ink` / `*-accent-ink`; white buttons on dark bands → `fill-light` + `ink-on-light`.
+**Theme:** light-only since 2026-09-27. White page; header (solid state), page headers (`SubpageHeader`) and footer use `secondary` #181818 with white text. Dark mode + `ThemeToggle` are commented out, not deleted: restore steps at the bottom of `src/theme/tokens.ts`. **Rule:** brand color as *fill* → `bg-primary` + `text-on-primary`; as *text/line on white* → `*-primary-ink` / `*-accent-ink`; white buttons on dark bands → `fill-light` + `ink-on-light`.
 
 Semantic utilities (use these, not raw `white`/`black`/`neutral-*`): `surface`/`surface-alt`/`surface-tint` · `ink`/`muted`/`subtle`/`line` · on dark: `on-dark` (100%) / `on-dark-muted` (70%) / `on-dark-subtle` (50%) / `line-on-dark` / `fill-on-dark` · `overlay` for all scrims · `focus-ring`. No `brand` alias — use `primary`.
 
 | | |
 |--|--|
-| Feel | Calm luxury RE · slate + sand gold · photo-led · not corporate blue |
+| Feel | Calm luxury RE · Giving Spirit greens on #181818 · photo-led |
 | Body type | **Cairo** (next/font) · Arabic + Latin |
 | Display | Optima / Georgia stack (LTR) · Cairo for RTL display |
 | Photo | Project gallery · golden-hour preference |

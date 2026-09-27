@@ -120,7 +120,7 @@ export function HomeFaqPreview({ items }: Props) {
         <div className="mt-6 flex justify-start lg:justify-end">
           <Link
             href="/faq"
-            className="inline-flex min-h-12 items-center justify-center gap-2 bg-primary px-6 py-3 text-sm font-bold text-on-dark transition hover:bg-primary-hover"
+            className="inline-flex min-h-12 items-center justify-center gap-2 bg-primary px-6 py-3 text-sm font-bold text-on-primary transition hover:bg-primary-hover"
           >
             {isAr ? "اقرأ جميع الأسئلة الشائعة" : "Read all FAQs"}
             <ArrowUpRight className={isAr ? "-rotate-90" : "rotate-45"} />

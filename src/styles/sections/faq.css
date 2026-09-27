@@ -137,7 +137,7 @@
 
 .faq-nav-item.is-active .faq-nav-count {
   background: var(--brand-primary);
-  color: var(--on-dark);
+  color: var(--on-primary);
 }
 
 .faq-help {
@@ -167,7 +167,7 @@
 
 .faq-help-btn--solid {
   background: var(--fill-light);
-  color: var(--brand-primary);
+  color: var(--brand-primary-deep);
   border-color: var(--fill-light);
 }
 
@@ -253,7 +253,7 @@
 .faq-toggle[data-open="true"] {
   background: var(--brand-primary);
   border-color: var(--brand-primary);
-  color: var(--on-dark);
+  color: var(--on-primary);
   transform: rotate(180deg);
 }
 

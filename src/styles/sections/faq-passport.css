@@ -1,12 +1,12 @@
 /* ── Home FAQ passport. Behaviour: features/faq/HomeFaqPassport.tsx ── */
 .pp {
-  /* The booklet is a physical object: paper and ink stay the same in both themes. */
+  /* The booklet is a physical object: fixed paper and ink colours. */
   --pp-paper: #f7f2e8;
   --pp-paper-deep: #efe6d4;
   --pp-text: #1f2a33;
   --pp-muted: #6f675a;
   --pp-faint: #a39a88;
-  --pp-cover: #22313f;
+  --pp-cover: #181818;
   display: grid;
   gap: clamp(2rem, 4vw, 3rem);
   align-items: center;
@@ -26,9 +26,9 @@
 }
 
 /* Inks */
-.ink-slate { --ink: #2c4a63; }
-.ink-gold { --ink: #b0842f; }
-.ink-teal { --ink: #1c6b66; }
+.ink-slate { --ink: #035f46; }
+.ink-gold { --ink: #05ab7d; }
+.ink-teal { --ink: #018860; }
 .ink-rust { --ink: #b1462a; }
 
 /* ── Intro + questions ── */
@@ -228,8 +228,8 @@
 .pp-page--visa {
   border-radius: 0 0 8px 8px;
   background:
-    repeating-radial-gradient(circle at 115% -15%, transparent 0 13px, color-mix(in srgb, #b0842f 13%, transparent) 13px 14px),
-    repeating-radial-gradient(circle at -15% 115%, transparent 0 17px, color-mix(in srgb, #1c6b66 9%, transparent) 17px 18px),
+    repeating-radial-gradient(circle at 115% -15%, transparent 0 13px, color-mix(in srgb, #05ab7d 13%, transparent) 13px 14px),
+    repeating-radial-gradient(circle at -15% 115%, transparent 0 17px, color-mix(in srgb, #018860 9%, transparent) 17px 18px),
     var(--pp-paper);
 }
 
@@ -537,7 +537,7 @@
   margin-inline-start: auto;
   padding: 0.85rem 1.4rem;
   background: var(--brand-primary);
-  color: var(--on-dark);
+  color: var(--on-primary);
   font-size: 0.85rem;
   font-weight: 700;
   transition: background-color 0.3s var(--ease), gap 0.3s var(--ease);

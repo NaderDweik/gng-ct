@@ -228,7 +228,7 @@ export function LocationShowcase() {
         <div className="absolute inset-x-4 bottom-4 z-30 rounded-none border border-surface/70 bg-surface/95 p-3 shadow-2xl backdrop-blur md:inset-x-5 md:bottom-5 md:p-4">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-none bg-primary text-on-dark">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-none bg-primary text-on-primary">
                 <NavIcon />
               </span>
               <div>
@@ -244,7 +244,7 @@ export function LocationShowcase() {
               href={site.mapsUrl || mapsSearchUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-none bg-primary px-4 py-2.5 text-sm font-bold text-on-dark transition hover:bg-primary-hover"
+              className="inline-flex items-center justify-center gap-2 rounded-none bg-primary px-4 py-2.5 text-sm font-bold text-on-primary transition hover:bg-primary-hover"
             >
               {isAr ? c.openMapAr : c.openMapEn}
               <ExternalArrow />
@@ -299,7 +299,7 @@ export function LocationShowcase() {
       </div>
 
       {/* Nearby list */}
-      <div className="order-3 flex flex-col rounded-none bg-primary p-5 text-on-dark shadow-card-lg md:p-6 lg:col-start-2 lg:row-start-2 lg:flex-1">
+      <div className="order-3 flex flex-col rounded-none bg-secondary p-5 text-on-dark shadow-card-lg md:p-6 lg:col-start-2 lg:row-start-2 lg:flex-1">
         <h3 className="font-display mb-4 whitespace-nowrap text-sm font-semibold leading-tight tracking-tight sm:text-lg xl:text-xl">
           {isAr ? c.nearbyTitleAr : c.nearbyTitleEn}
         </h3>
@@ -330,7 +330,7 @@ export function LocationShowcase() {
                     {isAr ? place.nameAr : place.nameEn}
                   </span>
                   <span className="h-px flex-1 bg-white/18 transition group-hover:bg-white/30" />
-                  <span className="shrink-0 rounded-none bg-fill-light px-2.5 py-1 text-xs font-bold text-primary">
+                  <span className="shrink-0 rounded-none bg-fill-light px-2.5 py-1 text-xs font-bold text-primary-deep">
                     {isAr ? place.timeAr : place.timeEn}
                   </span>
                 </button>

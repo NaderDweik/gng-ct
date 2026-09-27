@@ -11,6 +11,8 @@
 
 @import "./base/fonts.css";
 @import "./base/theme.css";
+/* Light/dark toggle disabled — site is light-only. Uncomment to restore (see tokens.ts). */
+/* @import "./base/theme-switch.css"; */
 @import "./base/elements.css";
 @import "./base/primitives.css";
 @import "./base/motion.css";
@@ -31,7 +33,6 @@
 @import "./sections/register-cta.css";
 @import "./sections/location-map.css";
 @import "./sections/gallery.css";
-@import "./base/theme-switch.css";
 @import "./sections/hero-layered.css";
 @import "./sections/gallery-preview.css";
 @import "./sections/gallery-day.css";

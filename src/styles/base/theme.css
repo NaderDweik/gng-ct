@@ -9,11 +9,13 @@
   --brand-secondary-light: color-mix(in srgb, var(--brand-secondary) 90%, var(--white));
   --brand-accent-hover: color-mix(in srgb, var(--brand-accent) 88%, var(--black));
   --brand-accent-soft: color-mix(in srgb, var(--brand-accent) 50%, var(--white));
-  --on-accent: color-mix(in srgb, var(--brand-accent) 15%, var(--black));
+  --on-accent: var(--brand-secondary);
+  /* Labels on the light Giving Spirit green (white would be 2.2:1). */
+  --on-primary: var(--brand-secondary);
 
   --dark: var(--neutral-950);
 
-  /* Always-light fills (white buttons on dark bands) — identical in both themes. */
+  /* Always-light fills (white buttons on dark bands). */
   --fill-light: var(--white);
   --fill-light-hover: var(--neutral-50);
   --ink-on-light: var(--neutral-900);
@@ -43,6 +45,9 @@
   --color-primary-hover: var(--brand-primary-hover);
   --color-primary-soft: var(--brand-primary-soft);
   --color-primary-ink: var(--primary-ink);
+  --color-primary-deep: var(--brand-primary-deep);
+  --color-primary-darkest: var(--brand-primary-darkest);
+  --color-on-primary: var(--on-primary);
   --color-secondary-ink: var(--secondary-ink);
   --color-secondary: var(--brand-secondary);
   --color-secondary-deep: var(--brand-secondary-deep);

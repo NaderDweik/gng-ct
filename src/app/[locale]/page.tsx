@@ -169,7 +169,7 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* Stats */}
-      <section className="border-y border-line bg-primary text-on-dark">
+      <section className="border-y border-line bg-primary text-on-primary">
         <div className="container-gc grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { v: `${site.stats.units}+`, l: t("statsUnits") },
@@ -184,7 +184,7 @@ export default async function HomePage({ params }: Props) {
               <p className="font-display text-4xl font-bold tracking-tight md:text-5xl">
                 {s.v}
               </p>
-              <p className="mt-2 text-sm text-on-dark-muted">{s.l}</p>
+              <p className="mt-2 text-sm text-on-primary/75">{s.l}</p>
             </div>
           ))}
         </div>

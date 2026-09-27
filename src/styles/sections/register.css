@@ -134,7 +134,7 @@
 .register-time.is-active {
   background: var(--brand-primary);
   border-color: var(--brand-primary);
-  color: var(--on-dark);
+  color: var(--on-primary);
 }
 
 .register-submit {
@@ -145,7 +145,7 @@
   gap: 0.65rem;
   padding: 0.85rem 1.35rem;
   background: var(--brand-primary);
-  color: var(--on-dark);
+  color: var(--on-primary);
   font-size: 0.8rem;
   font-weight: 800;
   letter-spacing: 0.14em;

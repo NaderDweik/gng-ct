@@ -146,7 +146,7 @@ export default async function AboutPage({ params }: Props) {
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-muted">{t("story")}</p>
             <div className="mt-10 flex items-center gap-4 border-t border-line pt-8">
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-on-dark">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary">
                 {isAr ? "ط.ق" : "TQ"}
               </span>
               <div>
