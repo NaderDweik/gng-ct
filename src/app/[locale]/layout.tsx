@@ -6,6 +6,7 @@ import { isLocale, routing } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
+import { ScrollMemory } from "@/components/layout/ScrollMemory";
 import { RealEstateJsonLd } from "@/components/seo/RealEstateJsonLd";
 import { themeCss } from "@/theme/tokens";
 // Light/dark mode disabled: import { themeCss, themeInitScript } from "@/theme/tokens";
@@ -48,6 +49,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       <body className="min-h-screen bg-background font-sans antialiased">
         <NextIntlClientProvider messages={messages}>
           <RealEstateJsonLd />
+          <ScrollMemory />
           <Header />
           <main>{children}</main>
           <Footer />
