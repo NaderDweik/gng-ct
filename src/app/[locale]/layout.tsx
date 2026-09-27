@@ -7,7 +7,8 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { RealEstateJsonLd } from "@/components/seo/RealEstateJsonLd";
-import { themeCss, themeInitScript } from "@/theme/tokens";
+import { themeCss } from "@/theme/tokens";
+// Light/dark mode disabled: import { themeCss, themeInitScript } from "@/theme/tokens";
 import "@/styles/globals.css";
 
 const cairo = Cairo({
@@ -37,10 +38,11 @@ export default async function LocaleLayout({ children, params }: Props) {
   const dir = locale === "ar" ? "rtl" : "ltr";
 
   return (
-    // `data-theme` is set on <html> by `themeInitScript` before hydration.
-    <html lang={locale} dir={dir} className={cairo.variable} suppressHydrationWarning>
+    // Light/dark mode disabled. To restore: add suppressHydrationWarning to <html>
+    // (data-theme is set by themeInitScript before hydration) and uncomment the script.
+    <html lang={locale} dir={dir} className={cairo.variable}>
       <head>
-        <script id="theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        {/* <script id="theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript }} /> */}
         <style id="theme-tokens" dangerouslySetInnerHTML={{ __html: themeCss }} />
       </head>
       <body className="min-h-screen bg-background font-sans antialiased">

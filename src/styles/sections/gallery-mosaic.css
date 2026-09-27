@@ -112,7 +112,7 @@
 
 .gallery-outline-btn:hover {
   background: var(--brand-primary);
-  color: var(--on-dark);
+  color: var(--on-primary);
   border-color: var(--brand-primary);
 }
 

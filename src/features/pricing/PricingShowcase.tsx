@@ -168,7 +168,7 @@ export function PricingShowcase() {
         <ul className="mt-10 grid gap-x-6 gap-y-4 border-t border-line pt-8 sm:grid-cols-2">
           {benefits.map((b) => (
             <li key={b} className="flex items-start gap-3 text-sm text-ink">
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-on-dark">
+              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary">
                 <Check />
               </span>
               {b}
@@ -180,7 +180,7 @@ export function PricingShowcase() {
           <Link href="/financing" className="btn btn-primary">
             {isAr ? "استكشف خطط التمويل" : "Explore financing"}
           </Link>
-          <Link href="/register" className="btn border border-primary-ink/30 text-primary-ink hover:bg-primary hover:text-on-dark">
+          <Link href="/register" className="btn border border-primary-ink/30 text-primary-ink hover:bg-primary hover:text-on-primary">
             {tc("register")}
           </Link>
         </div>

@@ -127,7 +127,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: var(--brand-primary);
+  background: var(--brand-secondary);
   transform: translateY(101%);
   transition: transform 0.6s var(--ease);
 }
@@ -149,7 +149,7 @@
 }
 
 .pillar-card:hover .pillar-icon {
-  color: var(--brand-primary);
+  color: var(--on-accent);
   background: var(--brand-accent);
 }
 

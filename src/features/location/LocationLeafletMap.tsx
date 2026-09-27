@@ -15,21 +15,27 @@ import type { NearbyPlace } from "@/content/location";
 import { projectCoords } from "@/content/location";
 import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
 import { palette } from "@/theme/tokens";
-import { useTheme } from "@/theme/useTheme";
 import "leaflet/dist/leaflet.css";
 
 const tileUrl = (style: "Light" | "Dark", layer: "Base" | "Reference") =>
   `https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_${style}_Gray_${layer}/MapServer/tile/{z}/{y}/{x}`;
 
 type LeafletModule = typeof import("leaflet");
-type MapTheme = "light" | "dark";
+const tileUrls = () => [tileUrl("Light", "Base"), tileUrl("Light", "Reference")];
+// Light/dark mode disabled. With it on, tiles followed the theme:
+// const tileUrls = (theme: "light" | "dark") => {
+//   const style = theme === "dark" ? "Dark" : "Light";
+//   return [tileUrl(style, "Base"), tileUrl(style, "Reference")];
+// };
+// ...and inside the component:
+// const theme = useTheme(); // from "@/theme/useTheme"
+// useEffect(() => {
+//   if (!mapReady) return;
+//   tileUrls(theme).forEach((url, i) => tilesRef.current[i]?.setUrl(url));
+//   routeRef.current?.setStyle({ color: routeColor() });
+// }, [theme, mapReady]);
 
-const tileUrls = (theme: MapTheme) => {
-  const style = theme === "dark" ? "Dark" : "Light";
-  return [tileUrl(style, "Base"), tileUrl(style, "Reference")];
-};
-
-/** Route color follows the theme's `--primary-ink`. */
+/** Route color = `--primary-ink`. */
 const routeColor = () =>
   getComputedStyle(document.documentElement).getPropertyValue("--primary-ink").trim() || palette.primary;
 
@@ -109,9 +115,6 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
   const alive = useRef(true);
   const [mapReady, setMapReady] = useState(false);
   const dir = isAr ? "rtl" : "ltr";
-  const theme = useTheme();
-  const themeRef = useRef(theme);
-  themeRef.current = theme;
 
   useEffect(() => {
     alive.current = true;
@@ -126,7 +129,7 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
         scrollWheelZoom: false,
       }).setView([projectCoords.lat, projectCoords.lng], 11);
 
-      tilesRef.current = tileUrls(themeRef.current).map((url) =>
+      tilesRef.current = tileUrls().map((url) =>
         L.tileLayer(url, { maxZoom: 16 }).addTo(map),
       );
       L.control
@@ -160,13 +163,6 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
       setMapReady(false);
     };
   }, [projectLabel, dir]);
-
-  // Theme switch: swap tile styles and recolor the route in place (no map rebuild).
-  useEffect(() => {
-    if (!mapReady) return;
-    tileUrls(theme).forEach((url, i) => tilesRef.current[i]?.setUrl(url));
-    routeRef.current?.setStyle({ color: routeColor() });
-  }, [theme, mapReady]);
 
   useEffect(() => {
     if (!mapReady) return;

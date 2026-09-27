@@ -2,6 +2,14 @@
   box-sizing: border-box;
 }
 
+/* Nothing may widen the page: full-bleed art (hero stage, day track) can poke past
+   the edge mid-animation, and Safari then lets a sideways swipe reveal a blank strip.
+   `clip` (not `hidden`) keeps sticky and GSAP pins working. */
+html,
+body {
+  overflow-x: clip;
+}
+
 html {
   scroll-behavior: smooth;
 }

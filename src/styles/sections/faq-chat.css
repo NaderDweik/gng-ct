@@ -88,7 +88,7 @@
 .fq-chip.is-active {
   border-color: var(--brand-primary);
   background: var(--brand-primary);
-  color: var(--on-dark);
+  color: var(--on-primary);
 }
 
 .fq-chip-icon {
@@ -265,7 +265,7 @@
 .fq-msg--me {
   align-self: flex-end;
   background: var(--brand-primary);
-  color: var(--on-dark);
+  color: var(--on-primary);
   border-end-end-radius: 4px;
 }
 

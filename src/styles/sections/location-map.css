@@ -101,7 +101,7 @@
 .gc-marker-label--project {
   bottom: 38px;
   background: var(--brand-primary);
-  color: var(--on-dark);
+  color: var(--on-primary);
 }
 
 .gc-marker-label--project::after {
@@ -121,7 +121,7 @@
 .gc-marker-label-time {
   padding: 2px 7px;
   background: var(--brand-primary);
-  color: var(--on-dark);
+  color: var(--on-primary);
   font-size: 11px;
 }
 

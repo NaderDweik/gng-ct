@@ -86,7 +86,7 @@
 }
 
 .gd.is-night .section-eyebrow {
-  color: var(--brand-accent);
+  color: var(--brand-primary);
 }
 
 .gd-title {

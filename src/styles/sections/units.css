@@ -60,7 +60,7 @@
   margin-top: 1.6rem;
   padding: 0.85rem 1.4rem;
   background: var(--brand-primary);
-  color: var(--on-dark);
+  color: var(--on-primary);
   font-size: 0.85rem;
   font-weight: 700;
   transition: background-color 0.3s var(--ease), gap 0.3s var(--ease);
