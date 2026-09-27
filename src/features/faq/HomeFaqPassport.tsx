@@ -50,13 +50,13 @@ type Fmt = (v: number) => string;
 
 function stampsFor(isAr: boolean, fmt: Fmt): Record<string, Stamp> {
   const royal = nearbyPlaces.find((p) => p.id === "royal");
-  const km = Math.round(royal?.km ?? 36);
-  const min = royal?.minutes ?? 30;
+  const km = fmt(royal?.km ?? 41);
+  const min = fmt(royal?.minutes ?? 55);
   const pct = pricingPlans.map((p) => fmt(p.downPct)).join(" · ");
   const years = `${fmt(pricingPlans[0].moveIn).replace(/[٬,]/g, "")}–${fmt(pricingPlans[pricingPlans.length - 1]!.moveIn).replace(/[٬,]/g, "")}`;
   return isAr
     ? {
-        where: { shape: "circle", ink: "slate", ring: "من فندق الرويال · إلى Giving City ·", big: `${fmt(km)} كم`, sub: `${fmt(min)} دقيقة`, at: { x: 27, y: 25, r: -9 } },
+        where: { shape: "circle", ink: "slate", ring: "من فندق الرويال · إلى Giving City ·", big: `${km} كم`, sub: `${min} دقيقة`, at: { x: 27, y: 25, r: -9 } },
         price: { shape: "rect", ink: "gold", top: "سعر المنتجع", big: `${fmt(basePriceJd)} د.أ`, sub: `نقدًا −${fmt(cashDiscountPct)}٪ · ${fmt(cashPriceJd)}`, at: { x: 61, y: 22, r: 6 } },
         deed: { shape: "circle", ink: "gold", ring: "سند ملكية مستقل · ٥٠٠ م² · باسمك ·", mark: true, sub: "طابو", at: { x: 33, y: 62, r: -5 } },
         interest: { shape: "oval", ink: "rust", top: "فوائد", big: `${fmt(0)}٪`, sub: "بدون بنك", at: { x: 72, y: 55, r: 11 } },

@@ -118,8 +118,8 @@ function countTo(el: Element | null, from: number, to: number, fmt: Fmt, delay: 
 function WhereVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const royal = nearbyPlaces.find((p) => p.id === "royal");
-  const km = Math.round(royal?.km ?? 36);
-  const min = royal?.minutes ?? 30;
+  const km = royal?.km ?? 41;
+  const min = royal?.minutes ?? 55;
   useGSAP(
     () => {
       const q = gsap.utils.selector(ref);

@@ -165,7 +165,7 @@ export function LocationShowcase() {
     if (!active || !minEl || !kmEl) return;
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
       minEl.textContent = num(active.minutes);
-      kmEl.textContent = num(active.km, 1);
+      kmEl.textContent = num(active.km);
       return;
     }
     const v = { m: 0, k: 0 };
@@ -176,7 +176,7 @@ export function LocationShowcase() {
       ease: "power3.out",
       onUpdate: () => {
         minEl.textContent = num(Math.round(v.m));
-        kmEl.textContent = num(v.k, 1);
+        kmEl.textContent = num(Math.round(v.k));
       },
     });
     gsap.fromTo(root!.querySelector(".loc-trip-to"), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.5, ease: "power2.out" });
@@ -219,7 +219,7 @@ export function LocationShowcase() {
               </span>
               <span className="loc-trip-sep" aria-hidden />
               <span className="loc-trip-small">
-                <span className="loc-trip-km">{num(active.km, 1)}</span>
+                <span className="loc-trip-km">{num(active.km)}</span>
                 <small>{isAr ? "كم" : "km"}</small>
               </span>
             </p>

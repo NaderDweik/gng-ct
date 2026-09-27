@@ -6,13 +6,13 @@ export const locationCopy = {
   titleAr: "باتجاه سحاب الحطمية.",
   titleEn: "Towards Sahab Al-Hatmiyeh.",
   subAr:
-    "يقع Giving City في المطبّة، على بُعد ٣٦ كم من فندق الرويال باتجاه سحاب الحطمية — مجتمع مسوّر بهواء أنظف ومساحة أوسع، مع وصول سهل إلى عمّان والمطار.",
+    "يقع Giving City في المطبّة، على بُعد ٤١ كم من فندق الرويال باتجاه سحاب الحطمية — مجتمع مسوّر بهواء أنظف ومساحة أوسع، مع وصول سهل إلى عمّان والمطار.",
   subEn:
-    "Giving City sits in Al Matabba, 36 km from Le Royal Hotel towards Sahab Al-Hatmiyeh — a gated community with cleaner air and more space, with easy access to Amman and the airport.",
+    "Giving City sits in Al Matabba, 41 km from Le Royal Hotel towards Sahab Al-Hatmiyeh — a gated community with cleaner air and more space, with easy access to Amman and the airport.",
   addressLabelAr: "العنوان",
   addressLabelEn: "Address",
-  addressAr: "المطبّة — ٣٦ كم من فندق الرويال\nباتجاه سحاب الحطمية، الأردن",
-  addressEn: "Al Matabba — 36 km from Le Royal Hotel\ntowards Sahab Al-Hatmiyeh, Jordan",
+  addressAr: "المطبّة — ٤١ كم من فندق الرويال\nباتجاه سحاب الحطمية، الأردن",
+  addressEn: "Al Matabba — 41 km from Le Royal Hotel\ntowards Sahab Al-Hatmiyeh, Jordan",
   phoneLabelAr: "الهاتف",
   phoneLabelEn: "Phone",
   deliveryLabelAr: "الاستلام",
@@ -33,7 +33,7 @@ export type NearbyPlace = {
   id: string;
   nameAr: string;
   nameEn: string;
-  /** Road distance and free-flow drive time from the project pin (OSRM, 2026-09). */
+  /** Road distance (km) and typical drive time (min) from Giving City — the midpoint of the company's range. */
   km: number;
   minutes: number;
   timeAr: string;
@@ -48,20 +48,19 @@ const place = (p: Omit<NearbyPlace, "timeAr" | "timeEn">): NearbyPlace => ({
 });
 
 /**
- * Drive-time destinations from the project pin (OSRM draws the live route).
- * Distances/times were measured on OSRM's road network from the pin below;
- * they're free-flow, so rush hour in Amman adds a few minutes.
+ * Drive-time destinations (OSRM draws the live route on the map). Distances
+ * and times are the midpoints of the company's figures for typical traffic
+ * (e.g. Sahab 22–25 km / 25–30 min → 24 km / 28 min), nearest first.
  */
 export const nearbyPlaces: NearbyPlace[] = [
-  place({ id: "sahab", nameAr: "سحاب", nameEn: "Sahab", km: 21.3, minutes: 16, coords: { lat: 31.8787, lng: 36.0043 } }),
-  place({ id: "downtown", nameAr: "وسط البلد", nameEn: "Downtown Amman", km: 34.9, minutes: 29, coords: { lat: 31.9516, lng: 35.9393 } }),
-  place({ id: "royal", nameAr: "فندق الرويال", nameEn: "Le Royal Hotel", km: 35.9, minutes: 30, coords: { lat: 31.9533, lng: 35.9088 } }),
-  place({ id: "abdali", nameAr: "بوليفارد العبدلي", nameEn: "Abdali Boulevard", km: 40.1, minutes: 31, coords: { lat: 31.9642, lng: 35.9067 } }),
-  place({ id: "marka", nameAr: "ماركا", nameEn: "Marka", km: 41, minutes: 32, coords: { lat: 31.9808, lng: 35.9853 } }),
-  place({ id: "citymall", nameAr: "سيتي مول", nameEn: "City Mall", km: 46, minutes: 37, coords: { lat: 31.9805, lng: 35.838 } }),
-  place({ id: "airport", nameAr: "مطار الملكة علياء الدولي", nameEn: "Queen Alia International Airport", km: 42.3, minutes: 38, coords: { lat: 31.7226, lng: 35.9929 } }),
-  place({ id: "madaba", nameAr: "مادبا", nameEn: "Madaba", km: 48.6, minutes: 41, coords: { lat: 31.7166, lng: 35.7944 } }),
-  place({ id: "deadsea", nameAr: "البحر الميت", nameEn: "Dead Sea", km: 79.5, minutes: 63, coords: { lat: 31.7196, lng: 35.5897 } }),
+  place({ id: "sahab", nameAr: "سحاب", nameEn: "Sahab", km: 24, minutes: 28, coords: { lat: 31.8787, lng: 36.0043 } }),
+  place({ id: "airport", nameAr: "مطار الملكة علياء الدولي", nameEn: "Queen Alia International Airport", km: 28, minutes: 30, coords: { lat: 31.7226, lng: 35.9929 } }),
+  place({ id: "marka", nameAr: "ماركا", nameEn: "Marka", km: 36, minutes: 45, coords: { lat: 31.9808, lng: 35.9853 } }),
+  place({ id: "downtown", nameAr: "وسط البلد", nameEn: "Downtown Amman", km: 38, minutes: 50, coords: { lat: 31.9516, lng: 35.9393 } }),
+  place({ id: "abdali", nameAr: "بوليفارد العبدلي", nameEn: "Abdali Boulevard", km: 41, minutes: 55, coords: { lat: 31.9642, lng: 35.9067 } }),
+  place({ id: "royal", nameAr: "فندق الرويال", nameEn: "Le Royal Hotel", km: 41, minutes: 55, coords: { lat: 31.9533, lng: 35.9088 } }),
+  place({ id: "madaba", nameAr: "مادبا", nameEn: "Madaba", km: 50, minutes: 58, coords: { lat: 31.7166, lng: 35.7944 } }),
+  place({ id: "citymall", nameAr: "سيتي مول", nameEn: "City Mall", km: 48, minutes: 63, coords: { lat: 31.9805, lng: 35.838 } }),
 ];
 
 export const projectCoords = site.coordinates;
