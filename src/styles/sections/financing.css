@@ -7,56 +7,153 @@
   color: var(--on-dark);
 }
 
-.plan-card {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
+/* The offer (features/pricing/PriceOffer.tsx): price · installments · cash,
+   in one hairline-divided block, with the down-payment note beneath. */
+.po {
+  display: grid;
+  gap: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+@media (min-width: 768px) {
+  .po {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .po-price,
+  .po-note {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1100px) {
+  .po {
+    grid-template-columns: minmax(0, 1.15fr) repeat(2, minmax(0, 1fr));
+  }
+
+  .po-price {
+    grid-column: auto;
+  }
+}
+
+.po-price,
+.po-way {
   display: flex;
   flex-direction: column;
-  padding: clamp(1.5rem, 2.4vw, 2rem);
+  padding: clamp(1.75rem, 3vw, 2.75rem);
   background: var(--surface);
-  border: 1px solid var(--line);
-  transition: transform 0.45s var(--ease), box-shadow 0.45s var(--ease), border-color 0.45s var(--ease);
 }
 
-.plan-card:hover {
-  transform: translateY(-6px);
-  border-color: color-mix(in srgb, var(--primary-ink) 35%, transparent);
-  box-shadow: var(--shadow-card-lg);
+.po-price {
+  justify-content: center;
+  background: var(--brand-primary-soft);
 }
 
-.plan-card--cash {
+.po-kicker {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.po-price .po-kicker {
+  color: var(--ink);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.po-price-value {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 0.75rem 0 0;
+  color: var(--primary-ink);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 6vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.po-unit {
+  color: var(--muted);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.po-big {
+  margin: 0.6rem 0 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.po-big span {
+  font-size: 0.5em;
+  font-weight: 600;
+}
+
+.po-line {
+  margin: 0.9rem 0 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.po-line b {
+  color: var(--ink);
+}
+
+.po-line s {
+  color: var(--muted);
+}
+
+.po-way--cash {
   color: var(--on-dark);
-  border-color: transparent;
-  background:
-    radial-gradient(120% 80% at 100% 0%, color-mix(in srgb, var(--brand-accent) 14%, transparent), transparent 55%),
-    linear-gradient(160deg, var(--brand-secondary-light) 0%, var(--brand-secondary-deep) 100%);
+  background: var(--brand-secondary);
 }
 
-.plan-bar {
-  position: relative;
-  height: 6px;
-  border-radius: 999px;
-  background: var(--surface-tint);
-  overflow: hidden;
+.po-way--cash .po-kicker,
+.po-way--cash .po-line,
+.po-way--cash .po-line s {
+  color: var(--on-dark-muted);
 }
 
-/* Fill = down-payment share, drawn with a transform (no layout work). */
-.plan-bar > span {
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--brand-primary), var(--brand-accent));
-  transform: scaleX(var(--p, 0));
-  transform-origin: left center;
-  transition: transform 0.7s var(--ease);
+.po-way--cash .po-big {
+  color: var(--brand-accent);
 }
 
-[dir="rtl"] .plan-bar > span {
-  background: linear-gradient(270deg, var(--brand-primary), var(--brand-accent));
-  transform-origin: right center;
+.po-way--cash .po-line b {
+  color: var(--on-dark);
 }
 
+.po-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  margin: 0;
+  padding: clamp(1.25rem, 2.4vw, 1.75rem) clamp(1.75rem, 3vw, 2.75rem);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
+@media (min-width: 1100px) {
+  .po-note {
+    grid-column: 1 / -1;
+  }
+}
+
+.po-note svg {
+  flex: none;
+  margin-top: 0.15rem;
+  color: var(--primary-ink);
+}
 
 .plan-card-cta {
   margin-top: auto;
@@ -107,7 +204,7 @@
   transform: rotate(45deg);
 }
 
-.plan-card:hover .plan-card-cta .arrow {
+.plan-card-cta:hover .arrow {
   transform: translateX(5px);
 }
 
@@ -115,7 +212,7 @@
   transform: scaleX(-1);
 }
 
-[dir="rtl"] .plan-card:hover .plan-card-cta .arrow {
+[dir="rtl"] .plan-card-cta:hover .arrow {
   transform: scaleX(-1) translateX(5px);
 }
 

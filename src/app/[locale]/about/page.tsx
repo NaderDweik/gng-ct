@@ -37,8 +37,8 @@ const pillars: { icon: PillarIcon; titleAr: string; titleEn: string; bodyAr: str
     icon: "finance",
     titleAr: "تمويل بدون فوائد",
     titleEn: "Zero-interest financing",
-    bodyAr: "خطط دفع مباشرة مع الشركة بدون بنك وبدون فوائد، أو خصم ١٥٪ عند الدفع نقدًا.",
-    bodyEn: "Payment plans directly with the developer — no bank, no interest — or 15% off for cash.",
+    bodyAr: "خطط دفع مباشرة مع الشركة بدون بنك وبدون فوائد، أو خصم ٢٤٪ عند الدفع كاش.",
+    bodyEn: "Payment plans directly with the developer — no bank, no interest — or 24% off for cash.",
   },
 ];
 

@@ -38,7 +38,6 @@
 }
 
 [dir="rtl"] .gal-hero-title {
-  font-family: var(--font-body);
   letter-spacing: 0;
   line-height: 1.2;
 }
@@ -311,7 +310,6 @@
 }
 
 [dir="rtl"] .gal-videos-title {
-  font-family: var(--font-body);
   letter-spacing: 0;
   line-height: 1.3;
 }

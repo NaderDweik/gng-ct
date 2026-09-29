@@ -120,6 +120,28 @@ export const theme: SemanticTheme = {
   shadowColor: "var(--brand-secondary)",
 };
 
+/*
+ * ── Typography ──────────────────────────────────────────────────────────────
+ * Four font tokens: a heading and a body font per language. Everything on the
+ * site uses the role variables `--font-display` (headings, big numbers) and
+ * `--font-body` (text), which point at the current language's pair — chosen by
+ * the nearest `lang` attribute (see `themeCss`). Never name a font elsewhere.
+ *   - Cairo is loaded by next/font in app/[locale]/layout.tsx (→ --font-cairo).
+ *   - Optima and "GC Digits" are self-hosted (styles/base/fonts.css).
+ *   - "GC Digits" covers only the Arabic-Indic numerals (٠–٩), so Arabic
+ *     numbers get calligraphic figures while the letters stay Cairo.
+ */
+export const fonts = {
+  en: {
+    heading: `Optima, "Optima Nova", ui-serif, Georgia, serif`,
+    body: `var(--font-cairo), ui-sans-serif, system-ui, sans-serif`,
+  },
+  ar: {
+    heading: `"GC Digits", var(--font-cairo), ui-sans-serif, system-ui, sans-serif`,
+    body: `"GC Digits", var(--font-cairo), ui-sans-serif, system-ui, sans-serif`,
+  },
+} as const;
+
 type Neutral = keyof typeof palette.neutral;
 
 const neutralVars = (Object.keys(palette.neutral) as unknown as Neutral[])
@@ -134,7 +156,7 @@ function semanticVars(t: SemanticTheme): string {
     .join("\n  ");
 }
 
-/** Palette + semantic roles as CSS, injected into <head> by the locale layout. */
+/** Palette, semantic roles and font tokens as CSS, injected into <head> by the locale layout. */
 export const themeCss = `:root {
   color-scheme: light;
   --brand-primary: ${palette.primary};
@@ -148,6 +170,18 @@ export const themeCss = `:root {
   --whatsapp: ${palette.whatsapp};
   ${neutralVars}
   ${semanticVars(theme)}
+  --font-en-heading: ${fonts.en.heading};
+  --font-en-body: ${fonts.en.body};
+  --font-ar-heading: ${fonts.ar.heading};
+  --font-ar-body: ${fonts.ar.body};
+}
+[lang|="en"] {
+  --font-display: var(--font-en-heading);
+  --font-body: var(--font-en-body);
+}
+[lang|="ar"] {
+  --font-display: var(--font-ar-heading);
+  --font-body: var(--font-ar-body);
 }`;
 
 /*

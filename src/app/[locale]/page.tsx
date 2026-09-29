@@ -11,7 +11,7 @@ import { formatNumber } from "@/lib/format";
 import { AmenitiesGrid } from "@/features/amenities/AmenitiesGrid";
 import { HomeFaq } from "@/features/faq/HomeFaq";
 import { LocationShowcase } from "@/features/location/LocationShowcase";
-import { PlanCompare } from "@/features/pricing/PlanCompare";
+import { PriceOffer } from "@/features/pricing/PriceOffer";
 import { masterPlanCopy } from "@/content/master-plan";
 import { PlanExplorer } from "@/features/master-plan/PlanExplorer";
 import { GalleryDay } from "@/features/gallery/GalleryDay";
@@ -70,8 +70,8 @@ export default async function HomePage({ params }: Props) {
       title: isAr ? "التمويل المرن" : "Flexible financing",
       headline: isAr ? "بدون فوائد، مباشرة مع الشركة" : "Zero interest, direct with us",
       desc: isAr
-        ? "خطط دفع مرنة وخطط استلام ٢٠٢٥–٢٠٢٧ — تمويل مباشر بدون فوائد بنكية."
-        : "Flexible payment plans and 2025–2027 move-in windows — direct financing with zero bank interest.",
+        ? "تقسيط ١٪ شهريًا، أو خصم ٢٤٪ كاش — مباشرة مع الشركة."
+        : "1% a month in installments, or 24% off in cash — directly with the developer.",
       img: "/gallery/resortsPics/family-entering-resort-front-door.png",
       cta: isAr ? "خطط الدفع" : "Payment plans",
     },
@@ -192,21 +192,21 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* Compare plans — same cards as the financing page */}
+      {/* The offer — same block as the financing page */}
       <section className="section bg-surface-alt">
         <div className="container-gc">
           <div className="sec-head items-end">
             <div>
-              <p className="section-eyebrow">{isAr ? "قارن الخطط" : "Compare plans"}</p>
+              <p className="section-eyebrow">{isAr ? "الأسعار" : "Prices"}</p>
               <h2 className="section-title mb-0">
-                {isAr ? "خطة لكل موعد استلام." : "A plan for every move-in date."}
+                {isAr ? "سعر واحد، وطريقتان للدفع." : "One price, two ways to pay."}
               </h2>
             </div>
             <div className="flex max-w-md flex-col items-start gap-7">
               <p className="section-sub">
                 {isAr
-                  ? "جميع الخطط مباشرة مع الشركة، بدون بنك وبدون فوائد — والفرق فقط في الدفعة الأولى وموعد الاستلام."
-                  : "Every plan is direct with the developer, no bank and no interest — only the down payment and move-in date differ."}
+                  ? "بالتقسيط الشهري، أو كاش بخصم — مباشرة مع الشركة."
+                  : "Monthly installments, or cash at a discount — directly with the developer."}
               </p>
               <Link href="/financing#plans" className="gallery-outline-btn">
                 {isAr ? "استكشف التمويل" : "Explore financing"}
@@ -214,7 +214,7 @@ export default async function HomePage({ params }: Props) {
               </Link>
             </div>
           </div>
-          <PlanCompare locale={locale} jd={tc("jd")} />
+          <PriceOffer locale={locale} jd={tc("jd")} />
         </div>
       </section>
 

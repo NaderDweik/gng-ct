@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { site } from "@/content/site";
 import { usePlanChoice } from "@/features/register/usePlanChoice";
-import { cashDiscountPct, cashPriceJd, pricingPlans } from "@/content/pricing";
+import { cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct } from "@/content/pricing";
 import { formatNumber } from "@/lib/format";
 
 type Interest = "financing" | "visit";
@@ -55,13 +55,11 @@ export function RegisterForm() {
     if (!chosen) return "";
     if (chosen === "cash")
       return isAr
-        ? `الدفع النقدي — ${formatNumber(cashPriceJd, locale)} د.أ (خصم ${formatNumber(cashDiscountPct, locale)}٪)`
+        ? `كاش — ${formatNumber(cashPriceJd, locale)} د.أ (خصم ${formatNumber(cashDiscountPct, locale)}٪)`
         : `Cash — ${formatNumber(cashPriceJd, locale)} JD (${cashDiscountPct}% off)`;
-    const p = pricingPlans.find((x) => x.id === chosen);
-    if (!p) return "";
     return isAr
-      ? `استلام ${formatNumber(p.moveIn, locale).replace(/[٬,]/g, "")} (${p.labelAr}) — دفعة أولى ${formatNumber(p.downJd, locale)} د.أ (${formatNumber(p.downPct, locale)}٪)`
-      : `Move-in ${p.moveIn} (${p.labelEn}) — ${formatNumber(p.downJd, locale)} JD down (${p.downPct}%)`;
+      ? `بالتقسيط — ${formatNumber(monthlyPct, locale)}٪ شهريًا (${formatNumber(monthlyJd, locale)} د.أ)`
+      : `Installments — ${monthlyPct}% a month (${formatNumber(monthlyJd, locale)} JD)`;
   })();
 
   function onSubmit(e: FormEvent) {

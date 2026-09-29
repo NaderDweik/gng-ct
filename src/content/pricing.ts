@@ -1,42 +1,17 @@
-export const pricingPlans = [
-  {
-    id: "immediate",
-    moveIn: 2025,
-    downPct: 35,
-    downJd: 59000,
-    monthlyFromJd: 1000,
-    interest: false,
-    labelAr: "استلام فوري",
-    labelEn: "Immediate",
-  },
-  {
-    id: "midterm",
-    moveIn: 2026,
-    downPct: 25,
-    downJd: 42000,
-    monthlyFromJd: 1000,
-    interest: false,
-    labelAr: "متوسط الأجل",
-    labelEn: "Mid-term",
-  },
-  {
-    id: "future",
-    moveIn: 2027,
-    downPct: 15,
-    downJd: 25000,
-    monthlyFromJd: 1000,
-    interest: false,
-    labelAr: "مستقبلي",
-    labelEn: "Future",
-  },
-] as const;
+/**
+ * The offer, as the sales office states it: every chalet is one price, paid
+ * either in monthly installments of 1% of the price, or in cash at a discount.
+ * Whether there is a down payment (and how much) depends on the chalet chosen.
+ */
 
 export const basePriceJd = 168000;
-export const cashPriceJd = 142800;
-export const cashDiscountPct = 15;
+export const monthlyPct = 1;
+export const monthlyJd = (basePriceJd * monthlyPct) / 100; // 1,680
+export const cashDiscountPct = 24;
+export const cashPriceJd = (basePriceJd * (100 - cashDiscountPct)) / 100; // 127,680
 
-/** A plan choice carried to /register as ?plan=… ("cash" = the cash offer). */
-export type PlanChoice = (typeof pricingPlans)[number]["id"] | "cash";
+/** A payment choice carried to /register as ?plan=… */
+export type PlanChoice = "installments" | "cash";
 
 export const isPlanChoice = (v: string | null | undefined): v is PlanChoice =>
-  v === "cash" || pricingPlans.some((p) => p.id === v);
+  v === "installments" || v === "cash";

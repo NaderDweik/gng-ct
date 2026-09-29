@@ -33,8 +33,7 @@
 
   --background: var(--surface);
   --foreground: var(--ink);
-  --font-display: "GC Digits", Optima, "Optima Nova", ui-serif, Georgia, serif;
-  --font-body: "GC Digits", var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
+  /* Fonts: --font-display / --font-body come from theme/tokens.ts, per language. */
 }
 
 @theme inline {
@@ -96,6 +95,6 @@
   --shadow-card-lg: 0 24px 60px color-mix(in srgb, var(--shadow-color) 16%, transparent);
   --shadow-header: 0 10px 40px color-mix(in srgb, var(--black) 6%, transparent);
 
-  --font-sans: "GC Digits", var(--font-cairo);
-  --font-display: "GC Digits", Optima, "Optima Nova", ui-serif, Georgia, serif;
+  /* Tailwind's `font-sans` → the current language's body font (theme/tokens.ts). */
+  --font-sans: var(--font-body);
 }
