@@ -172,7 +172,7 @@ export default async function HomePage({ params }: Props) {
 
       {/* Stats — white on the primary teal (by choice; contrast is ~2.4:1) */}
       <section className="border-y border-line bg-primary text-on-dark">
-        <div className="container-gc grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="container-gc grid grid-cols-2 gap-x-6 gap-y-8 py-10 md:py-14 lg:grid-cols-4 lg:gap-10">
           {[
             { v: `${site.stats.units}+`, l: t("statsUnits") },
             {
@@ -183,7 +183,7 @@ export default async function HomePage({ params }: Props) {
             { v: site.iso.split(" ")[1] ?? "ISO", l: t("statsIso") },
           ].map((s) => (
             <div key={s.l}>
-              <p className="font-display text-4xl font-bold tracking-tight md:text-5xl">
+              <p className="font-display text-3xl font-bold tracking-tight md:text-5xl">
                 {s.v}
               </p>
               <p className="mt-2 text-sm text-on-dark-muted">{s.l}</p>

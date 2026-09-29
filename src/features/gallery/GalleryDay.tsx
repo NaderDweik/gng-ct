@@ -96,13 +96,16 @@ export function GalleryDay({ locale, ctaHref }: Props) {
       };
 
       /** One frame: clock, sky, sun/moon, active card, and (optionally) window reveals. */
-      const frame = (progress: number, fx: boolean) => {
-        const vw = window.innerWidth;
-        const focal = vw * (isAr ? 0.56 : 0.44);
-        // Signed distance past the focal line, in reading direction.
+      const frame = (progress: number, fx: boolean, axis: "x" | "y" = "x") => {
+        const vertical = axis === "y";
+        // `vw` is the span the clock measures against: screen width for the
+        // strip, screen height for the phone timeline.
+        const vw = vertical ? window.innerHeight : window.innerWidth;
+        const focal = vertical ? vw * 0.55 : vw * (isAr ? 0.56 : 0.44);
+        // Signed distance past the focal line, in reading (or scrolling) direction.
         const s = cards.map((c, i) => {
           const r = c.getBoundingClientRect();
-          const center = r.left + r.width / 2;
+          const center = vertical ? r.top + r.height / 2 : r.left + r.width / 2;
 
           if (fx) {
             // Window reveal from the leading edge + slow parallax inside.
@@ -113,6 +116,7 @@ export function GalleryDay({ locale, ctaHref }: Props) {
             const drift = (center - vw / 2) / vw;
             imgs[i]!.style.transform = `translate3d(${drift * -9}%,0,0) scale(${1.14 - open * 0.08})`;
           }
+          if (vertical) return focal - center;
           return isAr ? center - focal : focal - center;
         });
 
@@ -228,27 +232,28 @@ export function GalleryDay({ locale, ctaHref }: Props) {
             };
           }
 
-          // Swipe strip: clock and sky follow the strip's own scroll.
+          // Phones & tablets: a vertical timeline. The clock bar stays pinned
+          // under the site header; whichever moment crosses mid-screen sets it.
+          el.classList.add("gd--timeline");
           const onScroll = () => {
-            const max = track.scrollWidth - track.clientWidth;
-            frame(max > 0 ? Math.abs(track.scrollLeft) / max : 0, false);
+            const r = track.getBoundingClientRect();
+            frame(clamp01((window.innerHeight * 0.55 - r.top) / r.height), false, "y");
           };
-          track.addEventListener("scroll", onScroll, { passive: true });
+          window.addEventListener("scroll", onScroll, { passive: true });
           window.addEventListener("resize", onScroll);
           onScroll();
 
           if (!still) {
-            gsap.from(cards, {
-              autoAlpha: 0,
-              y: 36,
-              duration: 1,
-              ease: "power3.out",
-              stagger: 0.07,
-              scrollTrigger: { trigger: track, start: "top 85%", once: true },
+            ScrollTrigger.batch(cards, {
+              start: "top 88%",
+              once: true,
+              onEnter: (batch) =>
+                gsap.fromTo(batch, { autoAlpha: 0, y: 40 }, { autoAlpha: 1, y: 0, duration: 0.9, ease: "power3.out", stagger: 0.08 }),
             });
           }
           return () => {
-            track.removeEventListener("scroll", onScroll);
+            el.classList.remove("gd--timeline");
+            window.removeEventListener("scroll", onScroll);
             window.removeEventListener("resize", onScroll);
           };
         },

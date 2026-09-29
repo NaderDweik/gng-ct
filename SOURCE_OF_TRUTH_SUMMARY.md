@@ -97,7 +97,7 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 | Asset | Location / value |
 |-------|------------------|
 | Gallery | `public/gallery/img_1.jpg` … `img_72.jpg` · categories in `content/gallery.ts` |
-| Hero slides | `public/hero/` · `content/heroSlides.tsx` |
+| Hero slides | `src/content/hero.ts` — slide 3 is entrance fountain/gatehouse (`public/gallery/compoundPics/entrance-fountain-and-gatehouse.png`). Slides 1–2 unchanged. |
 | Logo | `GivingLogo` component · `public/logo.svg` · `public/logo-dark-text.svg` |
 | Founder | `public/leadership/tarek-qazan.jpg` (Dr. Tarek Qazan portrait — live) |
 | Unit property map | `public/plans/property-map.png` — home about teaser + `/master-plan` |

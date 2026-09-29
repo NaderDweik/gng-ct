@@ -126,6 +126,7 @@ export const theme: SemanticTheme = {
  * site uses the role variables `--font-display` (headings, big numbers) and
  * `--font-body` (text), which point at the current language's pair — chosen by
  * the nearest `lang` attribute (see `themeCss`). Never name a font elsewhere.
+ *   - Arabic: Cairo for headings and text. English: Optima (headings), Cairo (text).
  *   - Cairo is loaded by next/font in app/[locale]/layout.tsx (→ --font-cairo).
  *   - Optima and "GC Digits" are self-hosted (styles/base/fonts.css).
  *   - "GC Digits" covers only the Arabic-Indic numerals (٠–٩), so Arabic

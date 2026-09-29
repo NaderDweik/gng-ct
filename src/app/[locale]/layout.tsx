@@ -12,6 +12,7 @@ import { themeCss } from "@/theme/tokens";
 // Light/dark mode disabled: import { themeCss, themeInitScript } from "@/theme/tokens";
 import "@/styles/globals.css";
 
+// Font files for the tokens in theme/tokens.ts (`fonts`).
 const cairo = Cairo({
   subsets: ["arabic", "latin"],
   weight: ["300", "400", "500", "600", "700"],
