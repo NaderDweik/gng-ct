@@ -1,11 +1,13 @@
 import { Link } from "@/i18n/navigation";
 import { basePriceJd, cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct } from "@/content/pricing";
 import { formatNumber } from "@/lib/format";
+import { CountUp } from "@/components/ui/CountUp";
 
 /*
  * The offer, plainly (styles: styles/sections/financing.css → .po-*).
  * One price for every chalet · two ways to pay · the down-payment note.
- * Static on purpose: no toggles, no counters, no dates.
+ * No toggles, no dates — the figures count up once as the block comes into
+ * view (CountUp reserves their final width, so nothing shifts).
  */
 
 type Props = { locale: string; jd: string };
@@ -13,14 +15,14 @@ type Props = { locale: string; jd: string };
 export function PriceOffer({ locale, jd }: Props) {
   const isAr = locale === "ar";
   const n = (v: number) => formatNumber(v, locale);
-  const pct = (v: number) => (isAr ? `${n(v)}٪` : `${v}%`);
+  const pctSign = isAr ? "٪" : "%";
 
   return (
     <div className="po">
       <div className="po-price">
         <p className="po-kicker">{isAr ? "كافة الشاليهات بسعر واحد" : "Every chalet, one price"}</p>
         <p className="po-price-value">
-          <span className="tabular-nums">{n(basePriceJd)}</span>
+          <CountUp value={basePriceJd} locale={locale} duration={1800} />
           <span className="po-unit">{jd}</span>
         </p>
       </div>
@@ -28,12 +30,13 @@ export function PriceOffer({ locale, jd }: Props) {
       <article className="po-way">
         <p className="po-kicker">{isAr ? "بالتقسيط" : "In installments"}</p>
         <p className="po-big">
-          {pct(monthlyPct)} <span>{isAr ? "شهريًا" : "a month"}</span>
+          <CountUp value={monthlyPct} locale={locale} suffix={pctSign} delay={250} duration={1200} />{" "}
+          <span className="po-big-word">{isAr ? "شهريًا" : "a month"}</span>
         </p>
         <p className="po-line">
           {isAr ? "أي " : "That is "}
-          <b className="tabular-nums">
-            {n(monthlyJd)} {jd}
+          <b>
+            <CountUp value={monthlyJd} locale={locale} delay={400} duration={1600} /> {jd}
           </b>
           {isAr ? " في الشهر" : " per month"}
         </p>
@@ -48,18 +51,18 @@ export function PriceOffer({ locale, jd }: Props) {
         <p className="po-big">
           {isAr ? (
             <>
-              <span>خصم</span> {pct(cashDiscountPct)}
+              <span className="po-big-word">خصم</span> <CountUp value={cashDiscountPct} locale={locale} suffix={pctSign} delay={550} duration={1400} />
             </>
           ) : (
             <>
-              {pct(cashDiscountPct)} <span>off</span>
+              <CountUp value={cashDiscountPct} locale={locale} suffix={pctSign} delay={550} duration={1400} /> <span className="po-big-word">off</span>
             </>
           )}
         </p>
         <p className="po-line">
           {isAr ? "تدفع " : "You pay "}
-          <b className="tabular-nums">
-            {n(cashPriceJd)} {jd}
+          <b>
+            <CountUp value={cashPriceJd} locale={locale} delay={700} duration={1800} /> {jd}
           </b>
           {isAr ? " بدلًا من " : " instead of "}
           <s className="tabular-nums">{n(basePriceJd)}</s>

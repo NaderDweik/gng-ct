@@ -92,7 +92,8 @@
   line-height: 1.1;
 }
 
-.po-big span {
+/* The word beside the figure ("a month", "off") — not the counting figure itself. */
+.po-big-word {
   font-size: 0.5em;
   font-weight: 600;
 }
