@@ -12,11 +12,7 @@
 }
 
 .hfaq-lead {
-  max-width: 34ch;
-  margin: 1rem 0 0;
-  color: var(--muted);
-  font-size: 1.1rem;
-  line-height: 1.7;
+  margin-top: 1rem;
 }
 
 /* A person to call — large, obvious, tappable. */

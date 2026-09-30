@@ -1,12 +1,4 @@
 /* Financing page */
-.on-dark .section-eyebrow {
-  color: var(--brand-accent);
-}
-
-.on-dark .section-title {
-  color: var(--on-dark);
-}
-
 .plan-card {
   position: relative;
   overflow: hidden;

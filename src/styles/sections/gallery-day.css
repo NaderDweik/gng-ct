@@ -1,355 +1,261 @@
-/* ── Home "A day at Giving City". Behaviour: features/gallery/GalleryDay.tsx ── */
+/* ── Home "A day at Giving City": Day / Night bento. Markup: features/gallery/GalleryDay.tsx ── */
 .gd {
-  --gd-ink: var(--ink);
-  --gd-muted: var(--muted);
-  --gd-line: var(--line-strong);
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
+  padding-block: clamp(3rem, 6vh, 4.5rem);
   background: var(--surface-alt);
-  color: var(--gd-ink);
-  border-bottom: 1px solid var(--line);
+  transition: background-color 0.8s var(--ease);
 }
 
 .gd.is-night {
-  --gd-ink: var(--on-dark);
-  --gd-muted: var(--on-dark-muted);
-  --gd-line: color-mix(in srgb, var(--white) 22%, transparent);
+  background: var(--brand-secondary);
 }
 
-/* Sky layers — opacity driven per frame. */
-.gd-sky,
-.gd-sky > span {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+.gd .section-eyebrow,
+.gd .section-title,
+.gd .section-sub {
+  transition: color 0.8s var(--ease);
 }
 
-.gd-sky {
-  z-index: -1;
+.gd .sec-head {
+  margin-bottom: clamp(1.25rem, 3vh, 2rem);
 }
 
-.gd-sky > span {
-  opacity: 0;
+.gd-aside {
+  display: flex;
 }
 
-.gd-gold {
-  background:
-    radial-gradient(120% 90% at 78% 8%, color-mix(in srgb, var(--brand-accent) 42%, transparent), transparent 62%),
-    linear-gradient(180deg, color-mix(in srgb, var(--brand-accent) 14%, transparent), transparent 70%);
-}
-
-/* Deep blue night; its first half passes through a dusky blue, never flat grey. */
-.gd-night {
-  background:
-    radial-gradient(90% 70% at 22% 0%, color-mix(in srgb, #3a4f7a 70%, transparent), transparent 70%),
-    linear-gradient(180deg, #111b2e 0%, #0b1220 100%);
-}
-
-.gd-stars {
-  background-image:
-    radial-gradient(1px 1px at 12% 18%, var(--white), transparent 60%),
-    radial-gradient(1px 1px at 27% 9%, var(--white), transparent 60%),
-    radial-gradient(1.5px 1.5px at 41% 22%, var(--white), transparent 60%),
-    radial-gradient(1px 1px at 58% 12%, var(--white), transparent 60%),
-    radial-gradient(1px 1px at 66% 28%, var(--white), transparent 60%),
-    radial-gradient(1.5px 1.5px at 81% 7%, var(--white), transparent 60%),
-    radial-gradient(1px 1px at 92% 20%, var(--white), transparent 60%),
-    radial-gradient(1px 1px at 6% 34%, var(--white), transparent 60%),
-    radial-gradient(1px 1px at 35% 38%, var(--white), transparent 60%),
-    radial-gradient(1px 1px at 74% 40%, var(--white), transparent 60%);
-  mask-image: linear-gradient(180deg, #000 0%, transparent 55%);
-}
-
-/* ── Header ── */
-.gd-head {
-  display: grid;
-  gap: 2rem;
-  align-items: end;
-}
-
-@media (min-width: 768px) {
-  .gd-head {
-    grid-template-columns: minmax(0, 1fr) auto;
+@media (min-width: 1024px) {
+  .gd-aside {
+    justify-content: flex-end;
   }
 }
 
-.gd-mask {
-  overflow: hidden;
-  margin: 0;
-  padding-bottom: 0.08em;
-}
-
-.gd .section-eyebrow {
-  color: var(--primary-ink);
-  transition: color 0.8s var(--ease);
-}
-
-.gd.is-night .section-eyebrow {
-  color: var(--brand-primary);
-}
-
-.gd-title {
-  margin-top: 0.75rem;
-  font-family: var(--font-display);
-  font-size: clamp(2.1rem, 4.4vw, 3.6rem);
-  font-weight: 700;
-  line-height: 1.08;
-  letter-spacing: -0.025em;
-  color: var(--gd-ink);
-  transition: color 0.8s var(--ease);
-}
-
-[dir="rtl"] .gd-title {
-  font-family: var(--font-body);
-  letter-spacing: 0;
-  line-height: 1.3;
-}
-
-.gd-lead {
-  margin-top: 0.9rem;
-  max-width: 34rem;
-  font-size: 1rem;
-  font-weight: 300;
-  line-height: 1.7;
-  color: var(--gd-muted);
-  transition: color 0.8s var(--ease);
-}
-
-/* Sun dial */
-.gd-dial {
-  display: flex;
-  align-items: flex-end;
-  gap: 1.25rem;
-}
-
-.gd-arc {
-  width: clamp(150px, 15vw, 210px);
-  height: auto;
-  overflow: visible;
-}
-
-.gd-arc-path {
-  fill: none;
-  stroke: var(--gd-line);
-  stroke-width: 1;
-  stroke-dasharray: 2 5;
-  transition: stroke 0.8s var(--ease);
-}
-
-.gd-horizon {
-  stroke: var(--gd-line);
-  stroke-width: 1;
-  transition: stroke 0.8s var(--ease);
-}
-
-.gd-arc-trail {
-  fill: none;
-  stroke: #f2a93b;
-  stroke-width: 1.5;
-  stroke-linecap: round;
-}
-
-.gd-rays line {
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-}
-
-.gd-moon-core {
-  fill: color-mix(in srgb, var(--white) 92%, var(--brand-accent));
-}
-
-.gd-readout {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  min-width: 9ch;
-}
-
-.gd-clock {
+/* ── Sky switch: the track is a sky, the knob a sun that becomes the moon ── */
+.gd-switch-wrap {
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.4rem;
-  direction: ltr;
+  align-items: center;
+  gap: 0.85rem;
 }
 
-[dir="rtl"] .gd-clock {
-  direction: rtl;
-  justify-content: flex-end;
-}
-
-.gd-mer {
-  font-size: 0.8rem;
+.gd-switch-label {
+  color: var(--subtle);
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--gd-muted);
-  transition: color 0.8s var(--ease);
-}
-
-[dir="rtl"] .gd-mer {
-  letter-spacing: 0;
-  font-size: 1rem;
-}
-
-.gd-time {
-  direction: ltr;
-  font-family: var(--font-display);
-  font-size: clamp(2.2rem, 3.6vw, 3rem);
-  font-weight: 700;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-  letter-spacing: -0.02em;
-  color: var(--gd-ink);
-  transition: color 0.8s var(--ease);
-}
-
-[dir="rtl"] .gd-time {
-  text-align: right;
-}
-
-.gd-phase {
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--gd-muted);
-  transition: color 0.8s var(--ease);
+  cursor: pointer;
+  transition: color 0.5s var(--ease);
 }
 
-[dir="rtl"] .gd-phase {
+[dir="rtl"] .gd-switch-label {
   letter-spacing: 0;
-  font-size: 0.8rem;
-}
-
-/* ── Film strip (default: native swipe strip) ── */
-.gd {
-  padding-block: clamp(4rem, 8vw, 6rem) clamp(3rem, 6vw, 4rem);
-}
-
-.gd-track {
-  display: flex;
-  align-items: center;
-  gap: clamp(1rem, 3vw, 2rem);
-  margin-top: clamp(2rem, 4vw, 3rem);
-  padding-inline: max(1rem, calc((100vw - 1200px) / 2));
-  padding-block: 0.5rem 1rem;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-  overscroll-behavior-x: contain;
-}
-
-.gd-track::-webkit-scrollbar {
-  display: none;
-}
-
-.gd-card {
-  flex: none;
-  margin: 0;
-  width: min(78vw, 420px);
-  scroll-snap-align: center;
-}
-
-.gd-media {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 4 / 3;
-  background: color-mix(in srgb, var(--gd-ink) 8%, transparent);
-}
-
-.gd-card--tall .gd-media {
-  aspect-ratio: 4 / 5;
-}
-
-.gd-card--square .gd-media {
-  aspect-ratio: 1;
-}
-
-.gd-img {
-  position: absolute;
-  inset: 0 -6%;
-  will-change: transform;
-}
-
-.gd-chip {
-  position: absolute;
-  inset-block-start: 0.85rem;
-  inset-inline-start: 0.85rem;
-  direction: ltr;
-  padding: 0.3rem 0.6rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  font-variant-numeric: tabular-nums;
-  color: var(--white);
-  background: color-mix(in srgb, var(--black) 34%, transparent);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.gd-cap {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-top: 0.9rem;
   font-size: 0.95rem;
-  color: var(--gd-muted);
-  transition: color 0.6s var(--ease);
 }
 
-.gd-cap-n {
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  color: var(--brand-accent);
+.gd:not(.is-night) .gd-switch-label:first-child,
+.gd.is-night .gd-switch-label:last-child {
+  color: var(--ink);
 }
 
-.gd-cap-rule {
-  width: 1.5rem;
-  height: 1px;
-  background: var(--gd-line);
-  transform-origin: inline-start;
-  transition: width 0.6s var(--ease), background 0.6s var(--ease);
+.gd.is-night .gd-switch-label {
+  color: var(--on-dark-subtle);
 }
 
-.gd-card.is-active .gd-cap {
-  color: var(--gd-ink);
+.gd.is-night .gd-switch-label:last-child {
+  color: var(--on-dark);
 }
 
-.gd-card.is-active .gd-cap-rule {
-  width: 2.75rem;
-  background: var(--brand-accent);
+.gd-switch {
+  --track-w: 6.5rem;
+  --track-h: 3rem;
+  --knob: 2.4rem;
+  --pad: calc((var(--track-h) - var(--knob)) / 2);
+  position: relative;
+  flex-shrink: 0;
+  width: var(--track-w);
+  height: var(--track-h);
+  padding: 0;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow:
+    inset 0 2px 6px color-mix(in srgb, var(--black) 25%, transparent),
+    0 6px 18px color-mix(in srgb, var(--sky-day-deep) 35%, transparent);
+  transition: box-shadow 0.8s var(--ease), transform 0.2s var(--ease);
 }
 
-.gd-end {
-  flex: none;
+.gd-switch:active {
+  transform: scale(0.97);
+}
+
+.gd-switch:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
+.gd.is-night .gd-switch {
+  box-shadow:
+    inset 0 2px 6px color-mix(in srgb, var(--black) 45%, transparent),
+    0 6px 22px color-mix(in srgb, var(--sky-night) 70%, transparent);
+}
+
+/* Two skies stacked; night fades in over day. */
+.gd-switch-sky {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  background: linear-gradient(160deg, var(--sky-day), var(--sky-day-deep));
+}
+
+.gd-switch-sky::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, var(--sky-night), var(--sky-night-deep));
+  opacity: 0;
+  transition: opacity 0.7s var(--ease);
+}
+
+.gd.is-night .gd-switch-sky::before {
+  opacity: 1;
+}
+
+/* Clouds drift off the bottom at night. */
+.gd-cloud {
+  position: absolute;
+  z-index: 1;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: var(--white);
+  opacity: 0.95;
+  transition: transform 0.7s var(--ease), opacity 0.5s var(--ease);
+}
+
+.gd-cloud::before {
+  content: "";
+  position: absolute;
+  bottom: 40%;
+  left: 22%;
+  width: 55%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.gd-cloud--a {
+  width: 2.1rem;
+  bottom: 0.55rem;
+  inset-inline-end: 0.55rem;
+}
+
+.gd-cloud--b {
+  width: 1.4rem;
+  bottom: 1.45rem;
+  inset-inline-end: 2.2rem;
+  opacity: 0.7;
+}
+
+.gd.is-night .gd-cloud {
+  opacity: 0;
+  transform: translateY(1.6rem);
+}
+
+/* Stars twinkle in on the day side of the track. */
+.gd-star {
+  position: absolute;
+  z-index: 1;
+  width: 3px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--white);
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+
+.gd-star--0 { top: 22%; inset-inline-start: 18%; }
+.gd-star--1 { top: 58%; inset-inline-start: 12%; width: 2px; }
+.gd-star--2 { top: 30%; inset-inline-start: 38%; width: 2px; }
+.gd-star--3 { top: 66%; inset-inline-start: 32%; }
+.gd-star--4 { top: 18%; inset-inline-start: 52%; width: 2px; }
+
+.gd.is-night .gd-star {
+  opacity: 1;
+  transform: scale(1);
+  animation: gd-twinkle 2.4s ease-in-out infinite;
+}
+
+.gd.is-night .gd-star--0 { transition-delay: 0.25s; animation-delay: 0.2s; }
+.gd.is-night .gd-star--1 { transition-delay: 0.35s; animation-delay: 1.1s; }
+.gd.is-night .gd-star--2 { transition-delay: 0.3s; animation-delay: 0.6s; }
+.gd.is-night .gd-star--3 { transition-delay: 0.4s; animation-delay: 1.6s; }
+.gd.is-night .gd-star--4 { transition-delay: 0.45s; animation-delay: 0.9s; }
+
+@keyframes gd-twinkle {
+  50% { opacity: 0.35; }
+}
+
+/* Knob: a glowing sun; at night it rolls across and becomes the moon. */
+.gd-knob {
+  position: absolute;
+  z-index: 2;
+  top: var(--pad);
+  inset-inline-start: var(--pad);
+  width: var(--knob);
+  height: var(--knob);
+  overflow: hidden;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--sky-sun), var(--sky-sun-edge));
+  box-shadow:
+    0 0 0 5px color-mix(in srgb, var(--white) 38%, transparent),
+    0 0 0 10px color-mix(in srgb, var(--white) 16%, transparent),
+    0 0 16px color-mix(in srgb, var(--sky-sun) 60%, transparent),
+    0 2px 6px color-mix(in srgb, var(--black) 25%, transparent);
+  transition:
+    transform 0.7s cubic-bezier(0.34, 1.4, 0.5, 1),
+    background 0.7s var(--ease),
+    box-shadow 0.7s var(--ease);
+}
+
+.gd.is-night .gd-knob {
+  transform: translateX(calc(var(--track-w) - var(--knob) - var(--pad) * 2)) rotate(300deg);
+  background: radial-gradient(circle at 35% 35%, var(--white), var(--sky-moon));
+  box-shadow:
+    0 0 0 5px color-mix(in srgb, var(--sky-moon) 12%, transparent),
+    0 0 14px color-mix(in srgb, var(--sky-moon) 45%, transparent),
+    0 2px 6px color-mix(in srgb, var(--black) 35%, transparent);
+}
+
+[dir="rtl"] .gd.is-night .gd-knob {
+  transform: translateX(calc((var(--track-w) - var(--knob) - var(--pad) * 2) * -1)) rotate(-300deg);
+}
+
+.gd-crater {
+  position: absolute;
+  border-radius: 50%;
+  background: var(--sky-crater);
+  opacity: 0;
+  transform: scale(0.4);
+  transition: opacity 0.5s var(--ease) 0.2s, transform 0.5s var(--ease) 0.2s;
+}
+
+.gd-crater--a { width: 32%; aspect-ratio: 1; top: 20%; left: 45%; }
+.gd-crater--b { width: 20%; aspect-ratio: 1; top: 58%; left: 22%; }
+.gd-crater--c { width: 14%; aspect-ratio: 1; top: 66%; left: 62%; }
+
+.gd.is-night .gd-crater {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* ── CTA: ghost bordered button under the grid, start-aligned ── */
+.gd-foot {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 1.75rem;
-  width: min(78vw, 420px);
-  scroll-snap-align: center;
+  justify-content: flex-start;
+  margin-top: clamp(1.25rem, 3vh, 2rem);
 }
 
-.gd-end-title {
-  margin: 0;
-  max-width: 14ch;
-  font-family: var(--font-display);
-  font-size: clamp(1.8rem, 3.2vw, 2.8rem);
-  font-weight: 700;
-  line-height: 1.12;
-  letter-spacing: -0.02em;
-  color: var(--gd-ink);
-  transition: color 0.8s var(--ease);
-}
-
-[dir="rtl"] .gd-end-title {
-  font-family: var(--font-body);
-  letter-spacing: 0;
-  line-height: 1.35;
+.gd-cta {
+  transition: background 0.25s ease, color 0.5s var(--ease), border-color 0.5s var(--ease);
 }
 
 .gd.is-night .gd-cta {
@@ -363,82 +269,222 @@
   border-color: var(--white);
 }
 
-.gd-bar {
-  position: relative;
-  height: 1px;
-  margin-top: 1.5rem;
-  background: var(--gd-line);
-  transition: background 0.8s var(--ease);
+/* ── Bento ── */
+.gd-bento {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: clamp(150px, 42vw, 240px);
+  gap: clamp(8px, 1vw, 14px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.gd-bar-fill {
+.gd-tile:first-child {
+  grid-column: span 2;
+}
+
+@media (min-width: 900px) {
+  .gd-bento {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-areas:
+      "a a b c"
+      "a a d c"
+      "e f f g";
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    /* Viewport minus nav, padding and heading: the whole section fits one screen. */
+    height: clamp(400px, calc(100svh - 25rem), 620px);
+  }
+
+  .gd-tile:first-child {
+    grid-column: auto;
+  }
+
+  .gd-tile:nth-child(1) { grid-area: a; }
+  .gd-tile:nth-child(2) { grid-area: b; }
+  .gd-tile:nth-child(3) { grid-area: c; }
+  .gd-tile:nth-child(4) { grid-area: d; }
+  .gd-tile:nth-child(5) { grid-area: e; }
+  .gd-tile:nth-child(6) { grid-area: f; }
+  .gd-tile:nth-child(7) { grid-area: g; }
+}
+
+.gd-tile {
+  position: relative;
+  overflow: hidden;
+  background: var(--neutral-200);
+  outline: none;
+  transition: background-color 0.8s var(--ease);
+}
+
+.gd.is-night .gd-tile {
+  background: var(--brand-secondary-deep);
+}
+
+.gd-tile:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+/* Both sets live in every tile; the shown one fades in, staggered by slot. */
+.gd-scene {
   position: absolute;
   inset: 0;
-  background: var(--brand-accent);
-  transform: scaleX(0);
-  transform-origin: left;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.7s var(--ease) calc(var(--i) * 60ms);
 }
 
-[dir="rtl"] .gd-bar-fill {
-  transform-origin: right;
+.gd-scene.is-shown {
+  opacity: 1;
 }
 
-/* ── Desktop: pinned stage, strip driven by scroll ── */
-.gd--pinned {
-  padding: 0;
+.gd-frame {
+  position: absolute;
+  inset: 0;
+  transform: scale(1.06);
+  transition: transform 1.1s var(--ease) calc(var(--i) * 60ms);
 }
 
-.gd--pinned .gd-stage {
-  display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
-  grid-template-columns: 100%;
-  height: 100svh;
-  padding-top: clamp(5.5rem, 12svh, 8rem);
-  padding-bottom: clamp(1.25rem, 4svh, 2.5rem);
+.gd-scene.is-shown .gd-frame {
+  transform: scale(1);
 }
 
-.gd--pinned .gd-track {
-  justify-self: start;
-  width: max-content;
-  height: 100%;
-  margin-top: clamp(1rem, 3svh, 2rem);
-  padding-block: 0;
-  gap: clamp(3rem, 5vw, 5.5rem);
-  overflow: visible;
-  scroll-snap-type: none;
-  will-change: transform;
+.gd-img {
+  object-fit: cover;
 }
 
-.gd--pinned .gd-card {
+@media (hover: hover) {
+  .gd-tile:hover .gd-scene.is-shown .gd-frame {
+    transform: scale(1.05);
+    transition-delay: 0s;
+  }
+}
+
+/* Lede, inside the big tile's bottom-end corner over its own darker scrim. */
+.gd-lede {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
   display: flex;
-  flex-direction: column;
-  width: auto;
+  align-items: flex-end;
+  justify-content: flex-end;
+  margin: 0;
+  padding: clamp(0.9rem, 1.8vw, 1.5rem);
+  background: radial-gradient(
+    ellipse 75% 70% at 100% 100%,
+    color-mix(in srgb, var(--overlay) 85%, transparent) 0%,
+    color-mix(in srgb, var(--overlay) 50%, transparent) 50%,
+    transparent 80%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s var(--ease) 0.3s;
 }
 
-.gd--pinned .gd-card--start { align-self: flex-start; }
-.gd--pinned .gd-card--center { align-self: center; }
-.gd--pinned .gd-card--end { align-self: flex-end; }
-
-.gd--pinned .gd-media {
-  aspect-ratio: auto;
+[dir="rtl"] .gd-lede {
+  background: radial-gradient(
+    ellipse 75% 70% at 0% 100%,
+    color-mix(in srgb, var(--overlay) 85%, transparent) 0%,
+    color-mix(in srgb, var(--overlay) 50%, transparent) 50%,
+    transparent 80%
+  );
 }
 
-.gd--pinned .gd-card--wide .gd-media { width: 62svh; height: 40svh; }
-.gd--pinned .gd-card--tall .gd-media { width: 34svh; height: 50svh; }
-.gd--pinned .gd-card--square .gd-media { width: 40svh; height: 40svh; }
-
-.gd--pinned .gd-end {
-  width: 46svh;
-  padding-inline-end: 8vw;
+.gd-lede > span {
+  max-width: min(21rem, 58%);
+  color: var(--on-dark);
+  font-size: clamp(0.85rem, 1.15vw, 1.05rem);
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: end;
+  text-shadow: 0 1px 12px color-mix(in srgb, var(--black) 45%, transparent);
+  transform: translateY(12px);
+  transition: transform 1s var(--ease) 0.3s;
 }
 
-.gd--pinned .gd-bar {
-  margin-top: clamp(1rem, 3svh, 2rem);
+.gd-lede.is-in {
+  opacity: 1;
+}
+
+.gd-lede.is-in > span {
+  transform: none;
+}
+
+/* Phones: the tile is too small for it, so the lede sits under the title. */
+.gd-lede-phone {
+  display: none;
+}
+
+@media (max-width: 599px) {
+  .gd-lede {
+    display: none;
+  }
+
+  .gd-lede-phone {
+    display: block;
+    margin-top: 0.75rem;
+  }
+}
+
+/* Caption: time always; the title rises in on hover / focus (always on touch). */
+.gd-cap {
+  position: absolute;
+  inset: auto 0 0;
+  display: grid;
+  justify-items: start;
+  gap: 0.5rem;
+  padding: clamp(0.75rem, 1.4vw, 1.1rem);
+  background: linear-gradient(0deg, color-mix(in srgb, var(--overlay) 70%, transparent), transparent);
+  color: var(--on-dark);
+}
+
+.gd-time {
+  padding: 0.3rem 0.55rem;
+  background: color-mix(in srgb, var(--overlay) 55%, transparent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  font-variant-numeric: tabular-nums;
+  backdrop-filter: blur(6px);
+}
+
+[dir="rtl"] .gd-time {
+  letter-spacing: 0;
+  font-size: 0.8rem;
+}
+
+.gd-cap-title {
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+[dir="rtl"] .gd-cap-title {
+  font-family: var(--font-body);
+}
+
+@media (hover: hover) {
+  .gd-cap-title {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+  }
+
+  .gd-tile:hover .gd-cap-title,
+  .gd-tile:focus-visible .gd-cap-title {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .gd,
   .gd *,
   .gd *::before {
-    transition: none !important;
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
   }
 }

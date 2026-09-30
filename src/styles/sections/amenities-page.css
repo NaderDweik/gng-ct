@@ -5,34 +5,6 @@
   scroll-margin-top: 8rem;
 }
 
-.ap-head {
-  display: grid;
-  gap: 1rem;
-  max-width: 44rem;
-  margin-bottom: clamp(2rem, 4vw, 3rem);
-}
-
-.ap-head--split {
-  max-width: none;
-}
-
-@media (min-width: 1024px) {
-  .ap-head--split {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
-    align-items: end;
-    gap: 3rem;
-  }
-}
-
-.ap-lead {
-  max-width: 38rem;
-  margin: 0;
-  color: var(--muted);
-  font-size: clamp(1rem, 1.3vw, 1.125rem);
-  font-weight: 300;
-  line-height: 1.75;
-}
-
 /* ── Inside your resort ── */
 
 .ap-resort {

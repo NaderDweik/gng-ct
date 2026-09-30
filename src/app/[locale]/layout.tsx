@@ -1,7 +1,7 @@
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { Cairo } from "next/font/google";
+import { Cairo, DM_Sans } from "next/font/google";
 import { isLocale, routing } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
@@ -16,6 +16,13 @@ const cairo = Cairo({
   subsets: ["arabic", "latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-cairo",
+  display: "swap",
+});
+
+// English copy font; pairs with the Kumbh Sans headlines (base/fonts.css).
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-dm-sans",
   display: "swap",
 });
 
@@ -41,7 +48,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     // Light/dark mode disabled. To restore: add suppressHydrationWarning to <html>
     // (data-theme is set by themeInitScript before hydration) and uncomment the script.
-    <html lang={locale} dir={dir} className={cairo.variable}>
+    <html lang={locale} dir={dir} className={`${cairo.variable} ${dmSans.variable}`}>
       <head>
         {/* <script id="theme-init" dangerouslySetInnerHTML={{ __html: themeInitScript }} /> */}
         <style id="theme-tokens" dangerouslySetInnerHTML={{ __html: themeCss }} />

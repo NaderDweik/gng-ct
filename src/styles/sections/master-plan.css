@@ -2,34 +2,11 @@
 
 /* Page shell: compact heading, the explorer takes the stage. */
 .mp-page {
-  padding-top: clamp(6.5rem, 12vh, 8rem);
+  padding-top: clamp(4rem, 8vw, 6rem);
   padding-bottom: clamp(3rem, 6vw, 5rem);
 }
 
 /* On the home page it follows the hero, so no fixed-header offset. */
-.mp-page--home {
-  padding-top: clamp(4rem, 8vw, 6rem);
-}
-
-.mp-page-head {
-  margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
-}
-
-.mp-page-title {
-  margin: 0;
-  color: var(--ink);
-  font-family: var(--font-display);
-  font-size: clamp(1.9rem, 3.2vw, 2.8rem);
-  font-weight: 700;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-
-[dir="rtl"] .mp-page-title {
-  font-family: var(--font-body);
-  letter-spacing: 0;
-}
-
 /* ── Explorer ── */
 .mp-explorer {
   position: relative;

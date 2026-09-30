@@ -155,6 +155,9 @@ export const articles: Article[] = [
   },
 ];
 
+/** Home "News & articles" preview. Covers chosen so none repeat another home-page photo. */
+export const homeNewsSlugs = ["spanish-design", "first-chalet-city-middle-east", "iso-9001-quality"];
+
 export function getArticle(slug: string) {
   return articles.find((a) => a.slug === slug);
 }

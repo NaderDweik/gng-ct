@@ -248,14 +248,14 @@ export function LocationShowcase() {
 
       {/* Info card */}
       <div className="order-1 rounded-none border border-surface/75 bg-surface p-6 shadow-card md:p-7 lg:col-start-2 lg:row-start-1 lg:shrink-0">
-        <span className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-secondary-ink">
+        <span className="section-eyebrow flex items-center gap-2">
           <MapPinIcon />
           {isAr ? c.eyebrowAr : c.eyebrowEn}
         </span>
-        <h2 className="font-display mb-4 text-4xl font-extrabold leading-tight text-secondary-ink md:text-5xl">
+        <h2 className="section-title">
           {isAr ? c.titleAr : c.titleEn}
         </h2>
-        <p className="mb-6 text-base font-light leading-relaxed text-muted md:text-lg">
+        <p className="section-sub loc-card-sub">
           {isAr ? c.subAr : c.subEn}
         </p>
         <div className="border-t border-primary-ink/10">

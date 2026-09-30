@@ -214,45 +214,58 @@ export const homePreviewPicks: HomePreviewPick[] = [
 ];
 
 /**
- * Home "A day at Giving City" strip — chronological. `time` is minutes after
- * midnight (drives the clock, sun and sky); `shape` / `align` set the film-strip
- * rhythm. Keep these photos distinct from the rest of the home page.
+ * Home "A day at Giving City" bento — a Day and a Night set, toggled in place.
+ * Seven scenes each; slot 0 is the large tile, slot 2 the tall one. `time` is minutes
+ * after midnight. Keep these photos distinct from the rest of the home page.
+ * There are no true night photos yet: the Night set is dusk + lit interiors.
  */
-export type DayChapter = {
+export type DayScene = {
   src: string;
   time: number;
   titleEn: string;
   titleAr: string;
-  shape: "tall" | "wide" | "square";
-  align: "start" | "center" | "end";
+  /** object-position for the crop (the tall slot 2 needs a narrow subject). */
+  focus?: string;
 };
 
-export const dayChapters: DayChapter[] = [
-  { src: `${R}/family-breakfast-poolside-table.png`, time: 480, titleEn: "Breakfast by the pool", titleAr: "فطور بجانب المسبح", shape: "wide", align: "end" },
-  { src: `${C}/boys-walking-with-football.png`, time: 630, titleEn: "Out to play", titleAr: "إلى الملعب", shape: "wide", align: "start" },
-  { src: `${R}/family-lounge-under-pergola.png`, time: 990, titleEn: "Afternoon under the pergola", titleAr: "عصرية تحت البرجولة", shape: "wide", align: "center" },
-  { src: `${C}/mini-golf-putting-green.png`, time: 1050, titleEn: "A round on the green", titleAr: "جولة على العشب", shape: "wide", align: "end" },
-  { src: `${R}/giant-chess-poolside-royal.png`, time: 1095, titleEn: "Chess by the water", titleAr: "شطرنج بجانب الماء", shape: "wide", align: "start" },
-  { src: `${C}/mosque-at-sunset.png`, time: 1125, titleEn: "Maghrib at the mosque", titleAr: "المغرب في المسجد", shape: "wide", align: "center" },
-  { src: `${R}/fireplace-horse-sculpture.png`, time: 1260, titleEn: "Evenings by the fire", titleAr: "سهرة بجانب المدفأة", shape: "wide", align: "end" },
-  { src: `${R}/bathroom-jacuzzi-tub.png`, time: 1350, titleEn: "A slow soak before bed", titleAr: "استرخاء قبل النوم", shape: "wide", align: "start" },
-];
+export type DayMode = "day" | "night";
+
+export const dayScenes: Record<DayMode, DayScene[]> = {
+  day: [
+    { src: `${R}/family-breakfast-poolside-table.png`, time: 480, titleEn: "Breakfast by the pool", titleAr: "فطور بجانب المسبح" },
+    { src: `${C}/boys-walking-with-football.png`, time: 630, titleEn: "Out to play", titleAr: "إلى الملعب" },
+    { src: `${C}/elderly-couple-stroll-compound-e.png`, time: 600, titleEn: "A slow stroll", titleAr: "تمشية هادئة", focus: "30% 60%" },
+    { src: `${R}/giant-chess-poolside-royal.png`, time: 900, titleEn: "Chess by the water", titleAr: "شطرنج بجانب الماء" },
+    { src: `${R}/family-lounge-under-pergola.png`, time: 990, titleEn: "Afternoon under the pergola", titleAr: "عصرية تحت البرجولة" },
+    { src: `${C}/family-walk-compound-t.png`, time: 1020, titleEn: "A family walk", titleAr: "نزهة عائلية", focus: "60% 60%" },
+    { src: `${C}/compound-m-gate-kids-cycling.png`, time: 1050, titleEn: "Bikes out", titleAr: "جولة بالدراجات", focus: "30% 60%" },
+  ],
+  night: [
+    { src: `${C}/mini-golf-putting-green.png`, time: 1110, titleEn: "A round at sunset", titleAr: "جولة غولف عند الغروب" },
+    { src: `${C}/golf-cart-shuttle-street.png`, time: 1140, titleEn: "The shuttle home", titleAr: "العودة بالعربة", focus: "75% 60%" },
+    { src: `${C}/mosque-at-sunset.png`, time: 1125, titleEn: "Maghrib at the mosque", titleAr: "المغرب في المسجد", focus: "38% 50%" },
+    { src: `${C}/main-entrance-gate-sunset.png`, time: 1155, titleEn: "Back through the main gate", titleAr: "العودة عبر البوابة الرئيسية" },
+    { src: `${C}/fast-shop-mini-market.png`, time: 1170, titleEn: "A last stop at the market", titleAr: "مشوار أخير إلى الماركت" },
+    { src: `${R}/fireplace-horse-sculpture.png`, time: 1260, titleEn: "Evenings by the fire", titleAr: "سهرة بجانب المدفأة" },
+    { src: `${R}/bathroom-jacuzzi-tub.png`, time: 1350, titleEn: "A slow soak before bed", titleAr: "استرخاء قبل النوم" },
+  ],
+};
 
 export const dayCopy = {
   en: {
     eyebrow: "Spaces & lifestyle.",
     title: "A day at Giving City.",
-    lead: "From breakfast by the pool to evenings by the fire — scroll through one day inside the community.",
-    endTitle: "And tomorrow, it starts again.",
+    lead: "From breakfast by the pool to evenings by the fire. Switch between day and night inside the community.",
+    toggleLabel: "Time of day",
+    modes: { day: "Day", night: "Night" },
     cta: "View the full gallery",
-    phases: ["Morning", "Midday", "Afternoon", "Golden hour", "Sunset", "Evening", "Night"],
   },
   ar: {
     eyebrow: "المساحات ونمط الحياة.",
     title: "يوم في Giving City.",
-    lead: "من فطور بجانب المسبح إلى سهرة بجانب المدفأة — مرّر لتعيش يومًا كاملًا داخل المجتمع.",
-    endTitle: "وغدًا، يبدأ اليوم من جديد.",
+    lead: "من فطور بجانب المسبح إلى سهرة بجانب المدفأة. بدّل بين النهار والليل داخل المجتمع.",
+    toggleLabel: "وقت اليوم",
+    modes: { day: "نهار", night: "ليل" },
     cta: "شاهد المعرض كاملًا",
-    phases: ["الصباح", "الظهيرة", "العصر", "الساعة الذهبية", "الغروب", "المساء", "الليل"],
   },
 } as const;

@@ -46,12 +46,12 @@ export default async function AmenitiesPage({ params }: Props) {
       {/* 1 · Inside your resort */}
       <section id="resort" className="ap-section bg-surface">
         <div className="container-gc">
-          <header className="ap-head ap-head--split">
+          <header className="sec-head">
             <div>
               <p className="section-eyebrow">{c.resortEyebrow}</p>
               <h2 className="section-title mb-0">{c.resortTitle}</h2>
             </div>
-            <p className="ap-lead">{c.resortLead}</p>
+            <p className="section-sub">{c.resortLead}</p>
           </header>
           <ResortChapters items={chapters} isAr={isAr} />
         </div>
@@ -60,12 +60,12 @@ export default async function AmenitiesPage({ params }: Props) {
       {/* 2 · Across the community */}
       <section id="community" className="ap-section bg-surface-alt">
         <div className="container-gc">
-          <header className="ap-head ap-head--split">
+          <header className="sec-head">
             <div>
               <p className="section-eyebrow">{c.communityEyebrow}</p>
               <h2 className="section-title mb-0">{c.communityTitle}</h2>
             </div>
-            <p className="ap-lead">{c.communityLead}</p>
+            <p className="section-sub">{c.communityLead}</p>
           </header>
           <CommunityMosaic places={communityPlaces} isAr={isAr} />
         </div>
@@ -74,12 +74,12 @@ export default async function AmenitiesPage({ params }: Props) {
       {/* 3 · Serviced daily */}
       <section id="services" className="ap-section bg-surface">
         <div className="container-gc">
-          <header className="ap-head ap-head--split">
+          <header className="sec-head">
             <div>
               <p className="section-eyebrow">{c.servicesEyebrow}</p>
               <h2 className="section-title mb-0">{c.servicesTitle}</h2>
             </div>
-            <p className="ap-lead">{c.servicesLead}</p>
+            <p className="section-sub">{c.servicesLead}</p>
           </header>
 
           <dl className="ap-stats">

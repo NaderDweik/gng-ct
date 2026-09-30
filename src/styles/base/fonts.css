@@ -12,6 +12,14 @@
   font-display: swap;
 }
 
+/* English headlines only (see base/theme.css). Latin subset of the variable font, 100–900. */
+@font-face {
+  font-family: "Kumbh Sans";
+  src: url("/fonts/kumbh-sans-latin.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 /*
  * Arabic-Indic digits only (٠–٩ + separators), from Amiri — calligraphic numerals
  * instead of the body font's boxy ones. unicode-range keeps Latin text/digits on
