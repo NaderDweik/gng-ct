@@ -79,7 +79,6 @@
 }
 
 [dir="rtl"] .section-title {
-  font-family: var(--font-body);
   letter-spacing: 0;
 }
 

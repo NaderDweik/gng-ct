@@ -44,8 +44,8 @@ export const site = {
     areaSqm: 500000,
     unitAreaSqm: 500,
     basePriceJd: 168000,
-    cashPriceJd: 142800,
-    cashDiscountPct: 15,
+    cashPriceJd: 127680,
+    cashDiscountPct: 24,
   },
   videos: {
     tour: "https://www.youtube.com/embed/8D8-mb6opx4",

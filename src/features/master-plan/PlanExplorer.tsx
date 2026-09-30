@@ -100,6 +100,7 @@ export function PlanExplorer({ locale }: Props) {
   const pauseRef = useRef<() => void>(() => {});
 
   const activeId = hovered ?? selected ?? wander;
+  const chipsRef = useRef<HTMLDivElement>(null);
   const active = items.find((it) => it.id === activeId) ?? null;
 
   // Keep the last geometry while fading out, so the tag/cut-outs don't collapse.
@@ -112,6 +113,18 @@ export function PlanExplorer({ locale }: Props) {
     selectedRef.current = selected;
     if (selected) pauseRef.current();
   }, [selected]);
+
+  // Keep the active chip in view inside its row (scrolls the row, not the page).
+  useEffect(() => {
+    const row = chipsRef.current;
+    const chip = row?.querySelector<HTMLElement>(`[data-id="${activeId}"]`);
+    if (!row || !chip || row.scrollWidth <= row.clientWidth) return;
+    // Measured on screen, so it works the same in RTL (negative scrollLeft).
+    const c = chip.getBoundingClientRect();
+    const r = row.getBoundingClientRect();
+    const delta = c.left + c.width / 2 - (r.left + r.width / 2);
+    row.scrollBy({ left: delta, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+  }, [activeId]);
 
   const n = (v: number) => formatNumber(v, locale).padStart(isAr ? 0 : 2, "0");
   const title = (it: PlanItem) => (isAr ? it.titleAr : it.titleEn);
@@ -369,6 +382,33 @@ export function PlanExplorer({ locale }: Props) {
             )}
           </div>
         </div>
+
+        {/* Phones: what you tapped, right under the plan — then every space as a chip. */}
+        <div className="mp-sheet" aria-live="polite">
+          {active ? (
+            <div key={active.id} className="mp-sheet-inner">
+              <b>{title(active)}</b>
+              <span>{isAr ? active.bodyAr : active.bodyEn}</span>
+            </div>
+          ) : (
+            <span className="mp-sheet-hint">{copy.explorerHintTouch}</span>
+          )}
+        </div>
+        <div ref={chipsRef} className="mp-chips" role="group" aria-label={copy.mapAlt}>
+          {items.map((it) => (
+            <button
+              key={it.id}
+              type="button"
+              data-id={it.id}
+              className={`mp-chip${it.id === activeId ? " is-active" : ""}`}
+              aria-pressed={it.id === selected}
+              onClick={() => toggle(it.id)}
+            >
+              {title(it)}
+            </button>
+          ))}
+        </div>
+
         <figcaption className="mp-caption">{copy.caption}</figcaption>
       </figure>
 

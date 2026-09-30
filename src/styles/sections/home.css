@@ -82,10 +82,6 @@
   line-height: 1.12;
 }
 
-[dir="rtl"] .brand-card h3 {
-  font-family: var(--font-body);
-}
-
 .brand-card p {
   color: color-mix(in srgb, var(--white) 88%, transparent);
   margin: 0 0 22px;

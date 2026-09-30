@@ -22,12 +22,8 @@ body {
   min-height: 100vh;
 }
 
-[dir="rtl"] body,
-[dir="rtl"] .font-display {
-  font-family: var(--font-body);
-}
-
-[dir="ltr"] .font-display {
+/* Heading font for the current language (theme/tokens.ts). */
+.font-display {
   font-family: var(--font-display);
 }
 

@@ -24,7 +24,6 @@
 }
 
 [dir="rtl"] .faq-hero-title {
-  font-family: var(--font-body);
   letter-spacing: 0;
   line-height: 1.25;
 }
