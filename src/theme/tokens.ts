@@ -73,6 +73,18 @@ export const palette = {
   //   secondaryInk: "#e6e6e6",
   // },
 
+  /** Day / Night sky switch (home "A day at Giving City"). Illustrative, fixed. */
+  sky: {
+    day: "#7cc8f2",
+    dayDeep: "#3f97d6",
+    night: "#1d2b57",
+    nightDeep: "#0b1330",
+    sun: "#ffd23f",
+    sunEdge: "#f5a623",
+    moon: "#eef1f6",
+    crater: "#c9ced9",
+  },
+
   /** Third-party brand colors that must not follow the theme. */
   whatsapp: "#25d366",
 
@@ -169,6 +181,7 @@ export const themeCss = `:root {
   --white: ${palette.white};
   --black: ${palette.black};
   --whatsapp: ${palette.whatsapp};
+  ${Object.entries(palette.sky).map(([k, v]) => `--sky-${kebab(k)}: ${v};`).join("\n  ")}
   ${neutralVars}
   ${semanticVars(theme)}
   --font-en-heading: ${fonts.en.heading};

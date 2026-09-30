@@ -144,7 +144,7 @@ export default async function AboutPage({ params }: Props) {
             <h2 className="section-title">
               {isAr ? site.taglineAr + "." : site.taglineEn + "."}
             </h2>
-            <p className="mt-6 text-lg leading-relaxed text-muted">{t("story")}</p>
+            <p className="section-sub">{t("story")}</p>
             <div className="mt-10 flex items-center gap-4 border-t border-line pt-8">
               <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary">
                 {isAr ? "ط.ق" : "TQ"}
@@ -176,7 +176,7 @@ export default async function AboutPage({ params }: Props) {
       {/* Pillars */}
       <section className="section border-y border-line bg-surface-alt">
         <div className="container-gc">
-          <div className="sec-head items-end">
+          <div className="sec-head">
             <div>
               <p className="section-eyebrow">{isAr ? "لماذا Giving City" : "Why Giving City"}</p>
               <h2 className="section-title mb-0">
@@ -215,7 +215,7 @@ export default async function AboutPage({ params }: Props) {
             <h2 className="section-title">
               {isAr ? "رؤية واضحة، ومعايير عالمية." : "A clear vision, global standards."}
             </h2>
-            <p className="mt-6 text-lg leading-relaxed text-on-dark-muted">{t("founder")}</p>
+            <p className="section-sub">{t("founder")}</p>
             <ul className="mt-8 space-y-3 text-sm text-on-dark-muted">
               {[
                 isAr ? "إدارة ومتابعة مباشرة من الشركة المطوّرة" : "Managed directly by the developer",
@@ -256,7 +256,7 @@ export default async function AboutPage({ params }: Props) {
       {/* Follow */}
       <section className="section bg-surface">
         <div className="container-gc">
-          <div className="sec-head items-end">
+          <div className="sec-head">
             <div>
               <p className="section-eyebrow">{isAr ? "تابعنا" : "Follow along"}</p>
               <h2 className="section-title mb-0">

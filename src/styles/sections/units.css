@@ -69,3 +69,7 @@
   gap: 1rem;
   background: var(--brand-primary-hover);
 }
+
+.units-intro-title {
+  margin-bottom: 1.5rem;
+}

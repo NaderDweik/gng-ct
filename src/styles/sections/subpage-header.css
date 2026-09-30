@@ -8,9 +8,9 @@
 }
 
 .sh-inner {
-  width: min(92rem, calc(100% - 3rem));
+  position: relative;
+  width: min(1200px, calc(100% - 2rem));
   margin-inline: auto;
-  padding-inline: 1.5rem;
   text-align: center;
 }
 
@@ -68,22 +68,10 @@
   from { opacity: 0; transform: translateY(6px); }
 }
 
-/* The same entrance, for page headers built by hand (Units). */
-.sh-a-fade {
-  animation: sh-fade 0.7s var(--ease) 0.1s both;
-}
-
-.sh-a-rise {
-  display: inline-block;
-  animation: sh-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .sh-eyebrow,
   .sh-title > span,
-  .sh-sub,
-  .sh-a-fade,
-  .sh-a-rise {
+  .sh-sub {
     animation: none;
   }
 }

@@ -56,22 +56,20 @@ export function Header() {
           />
         </Link>
 
-        <nav className="hidden items-center gap-7 min-[1100px]:flex">
+        <nav className="ms-auto me-4 hidden items-center gap-7 min-[1100px]:flex">
           {primaryNav.map((item) => {
             const active = pathname === item.href;
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`group relative py-1 text-sm font-medium transition ${
+                className={`group relative py-1 text-[15px] font-medium transition ${
                   active ? "text-on-dark" : "text-on-dark-muted hover:text-on-dark"
                 }`}
               >
                 {isAr ? item.labelAr : item.labelEn}
                 <span
-                  className={`absolute bottom-0 inset-x-0 h-[1.5px] rounded-full transition-transform duration-300 origin-center ${
-                    solid ? "bg-primary" : "bg-on-dark"
-                  } ${active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
+                  className={`absolute bottom-0 inset-x-0 h-[1.5px] rounded-full bg-primary transition-transform duration-300 origin-center ${active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"}`}
                 />
               </Link>
             );
@@ -82,7 +80,6 @@ export function Header() {
           {/* Light/dark mode disabled:
           <ThemeToggle className="bg-fill-on-dark text-on-dark hover:bg-white/20" />
           */}
-          <LocaleSwitch className="rounded-full bg-fill-on-dark px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-on-dark transition hover:bg-white/20 sm:text-xs" />
           <Link
             href="/register"
             className={`relative hidden isolate overflow-hidden px-5 py-2.5 text-sm font-semibold tracking-[0.18em] uppercase transition min-[1100px]:inline-flex ${
@@ -93,6 +90,7 @@ export function Header() {
           >
             {t("register")}
           </Link>
+          <LocaleSwitch className="rounded-full border border-white/35 bg-white/20 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-on-dark transition hover:border-white/60 hover:bg-white/30 sm:text-sm" />
           <button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center border border-white/30 text-on-dark min-[1100px]:hidden"

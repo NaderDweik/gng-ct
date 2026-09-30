@@ -71,7 +71,7 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 
 | Path | AR | Status | Notes |
 |------|----|--------|-------|
-| `/` | الرئيسية | **Polished** | Cinematic layered hero (`features/home/HeroLayered`, GSAP): 3 auto-advancing slides from `content/hero.ts` (V sculpture · pavilion · dusk sign), fixed wordmark with per-slide cut-outs in front (`public/hero/*-cutout.webp`, regenerate with `scripts/hero-cutout.mjs`); pins & recedes on scroll, destinations, gallery hover-preview (`features/gallery/GalleryPreview` — checkerboard thumbs → wipe preview, picks `homePreviewPicks`), pricing, map, FAQ preview, RegisterCta |
+| `/` | الرئيسية | **Polished** | Cinematic layered hero (`features/home/HeroLayered`, GSAP): 3 auto-advancing slides from `content/hero.ts` (V sculpture · pavilion · dusk sign), fixed wordmark with per-slide cut-outs in front (`public/hero/*-cutout.webp`, regenerate with `scripts/hero-cutout.mjs`); pins & recedes on scroll. Section order (top → bottom): master plan · destinations · "A day at Giving City" (`features/gallery/GalleryDay` — static 7-tile bento with a Day/Night sky switch that auto-turns to Night 3.5s after the section is in view (once; a press cancels it), lede inside the big tile, sets in `dayScenes`; fits one screen on desktop; Night set is dusk + lit interiors until real night photos exist) · amenities · map (`LocationShowcase`) · stats bar · News & articles (`features/news/NewsPreview`, 3 cards from `homeNewsSlugs`) · FAQ · RegisterCta. Compare-plans cards live on /financing only |
 | `/about` | من نحن | **Polished** | Full-bleed hero + CountUp stats, pillars, collage, ISO video, socials, leadership link, RegisterCta |
 | `/gallery` | المعرض | **Polished** | Cinematic short hero · flush mosaic tabs · lightbox · 2 YT videos · **no** bottom RegisterCta |
 | `/units` | الوحدات المتاحة | **Built** | `UnitsPlans` + gallery placeholders until real floor plans |
@@ -157,8 +157,10 @@ Semantic utilities (use these, not raw `white`/`black`/`neutral-*`): `surface`/`
 | | |
 |--|--|
 | Feel | Calm luxury RE · Giving Spirit greens on #181818 · photo-led |
-| Body type | **Cairo** (next/font) · Arabic + Latin |
-| Display | Optima / Georgia stack (LTR) · Cairo for RTL display |
+| Body type | **AR:** Cairo (next/font) · **EN:** DM Sans (next/font, `--font-dm-sans`) |
+| Display | **AR:** Cairo for RTL display (Optima stack underneath) · **EN:** Kumbh Sans, self-hosted variable 100–900 (`public/fonts/kumbh-sans-latin.woff2`) |
+| Locale font switch | `html[lang="en"]` overrides `--font-display` / `--font-body` in `src/styles/base/theme.css` |
+| Section headings | One pattern only (`primitives.css`): `.sec-head` (eyebrow+title start, optional lede end) · `.section-eyebrow` · `.section-title` (≤20ch) · `.section-sub`; `.on-dark` recolours all three. Inner-page banners (`.sh`) share the 1200px content width |
 | Photo | Project gallery · golden-hour preference |
 | Avoid | Purple AI defaults · cream+terracotta cliché · broadsheet hairlines · card clutter in heroes · pill/stat spam in first viewport |
 

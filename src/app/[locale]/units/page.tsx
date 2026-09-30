@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { setRequestLocale } from "next-intl/server";
+import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { UnitsPlans } from "@/features/units/UnitsPlans";
 import { unitsCopy } from "@/content/units";
 import type { LocalePageProps } from "@/i18n/types";
@@ -9,32 +9,11 @@ type Props = LocalePageProps;
 export default async function UnitsPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const isAr = locale === "ar";
-  const copy = isAr ? unitsCopy.ar : unitsCopy.en;
+  const copy = locale === "ar" ? unitsCopy.ar : unitsCopy.en;
 
   return (
     <>
-      {/* JG-style slate title band */}
-      <section className="relative overflow-hidden border-b border-secondary-light bg-secondary pt-32 pb-6 md:pt-44 md:pb-8 xl:pt-[11.5rem] xl:pb-10">
-        <Image
-          src="/gallery/resortsPics/pool-and-tent-pavilion.png"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover opacity-35"
-        />
-        <div className="relative mx-auto w-[min(92rem,calc(100%-3rem))] px-6 text-center">
-          {/* Same entrance as the standard subpage header (subpage-header.css). */}
-          <span className="sh-a-fade mb-3 block text-[10px] font-bold tracking-[0.24em] text-on-dark-muted uppercase">
-            {copy.eyebrow}
-          </span>
-          <h1 className="overflow-hidden font-display text-4xl font-extrabold tracking-tight text-on-dark md:text-6xl">
-            <span className="sh-a-rise">{copy.title}</span>
-          </h1>
-        </div>
-      </section>
-
+      <SubpageHeader eyebrow="Giving City" title={copy.title} subtitle={copy.subtitle} />
       <UnitsPlans />
     </>
   );

@@ -16,6 +16,7 @@ import { masterPlanCopy } from "@/content/master-plan";
 import { PlanExplorer } from "@/features/master-plan/PlanExplorer";
 import { GalleryDay } from "@/features/gallery/GalleryDay";
 import { RegisterCta } from "@/features/register/RegisterCta";
+import { NewsPreview } from "@/features/news/NewsPreview";
 import type { LocalePageProps } from "@/i18n/types";
 
 type Props = LocalePageProps;
@@ -82,11 +83,13 @@ export default async function HomePage({ params }: Props) {
       <HeroLayered />
 
       {/* Master plan — same explorer as /master-plan */}
-      <section className="mp-page mp-page--home bg-surface">
+      <section className="mp-page bg-surface">
         <div className="container-gc">
-          <header className="mp-page-head">
-            <p className="section-eyebrow mb-2">{mpCopy.eyebrow}</p>
-            <h2 className="mp-page-title">{mpCopy.explorerTitle}</h2>
+          <header className="sec-head">
+            <div>
+              <p className="section-eyebrow">{mpCopy.eyebrow}</p>
+              <h2 className="section-title">{mpCopy.explorerTitle}</h2>
+            </div>
           </header>
           <PlanExplorer locale={locale} />
         </div>
@@ -106,7 +109,7 @@ export default async function HomePage({ params }: Props) {
                   : "Private resort, serviced community, flexible financing."}
               </h2>
             </div>
-            <p className="sub">
+            <p className="section-sub">
               {isAr
                 ? "مخطط واحد، ثلاث وجهات — الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في مجتمع Giving City."
                 : "One master plan, three destinations — privacy, lifestyle, and flexible financing meet in Giving City."}
@@ -151,7 +154,7 @@ export default async function HomePage({ params }: Props) {
               <p className="section-eyebrow mb-0">
                 {isAr ? amenitiesIntro.eyebrowAr : amenitiesIntro.eyebrowEn}
               </p>
-              <h2 className="section-title mb-0 max-w-3xl">
+              <h2 className="section-title mb-0">
                 {isAr ? amenitiesIntro.titleAr : amenitiesIntro.titleEn}
               </h2>
             </div>
@@ -167,6 +170,13 @@ export default async function HomePage({ params }: Props) {
             </div>
           </div>
           <AmenitiesGrid items={amenityFeatures} isAr={isAr} />
+        </div>
+      </section>
+
+      {/* Location showcase */}
+      <section className="section bg-surface-tint">
+        <div className="container-gc">
+          <LocationShowcase />
         </div>
       </section>
 
@@ -222,13 +232,6 @@ export default async function HomePage({ params }: Props) {
       <section className="section border-y border-line bg-surface">
         <div className="container-gc">
           <HomeFaq items={homeFaqPreview} locale={locale} />
-        </div>
-      </section>
-
-      {/* Location showcase */}
-      <section className="section bg-surface-tint">
-        <div className="container-gc">
-          <LocationShowcase />
         </div>
       </section>
 

@@ -80,7 +80,8 @@
   z-index: 3;
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--overlay) 45%, transparent) 0%, transparent 16%),
-    linear-gradient(0deg, color-mix(in srgb, var(--overlay) 88%, transparent) 0%, color-mix(in srgb, var(--overlay) 35%, transparent) 38%, transparent 62%);
+    /* Bottom tint: carries the title + CTAs over bright photos. */
+    linear-gradient(0deg, color-mix(in srgb, var(--overlay) 92%, transparent) 0%, color-mix(in srgb, var(--overlay) 62%, transparent) 30%, color-mix(in srgb, var(--overlay) 28%, transparent) 50%, transparent 72%);
   pointer-events: none;
 }
 
@@ -92,7 +93,7 @@
   flex-direction: column;
   justify-content: flex-end;
   padding-top: clamp(5.5rem, 12vh, 7.5rem);
-  padding-bottom: clamp(2rem, 6vh, 3.5rem);
+  padding-bottom: clamp(3rem, 9vh, 5.5rem);
 }
 
 .hl-eyebrow {
@@ -114,21 +115,13 @@
   align-items: end;
 }
 
-@media (min-width: 1024px) {
-  .hl-bottom {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-    gap: 4rem;
-  }
-}
-
 .hl-title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 5.2vw, 5rem);
+  font-size: clamp(2.2rem, 4.7vw, 4.5rem);
   font-weight: 700;
-  line-height: 0.95;
+  line-height: 1;
   letter-spacing: -0.02em;
-  text-transform: uppercase;
 }
 
 [dir="rtl"] .hl-title {
@@ -137,13 +130,11 @@
   letter-spacing: 0;
 }
 
-.hl-title,
-.hl-descs {
+.hl-title {
   display: grid;
 }
 
-.hl-title > .hl-set,
-.hl-descs > .hl-desc {
+.hl-title > .hl-set {
   grid-area: 1 / 1;
 }
 
@@ -198,117 +189,6 @@
 
 .hl-link:hover .lux-arrow-head {
   color: var(--brand-accent);
-}
-
-.hl-aside {
-  display: grid;
-  gap: 1.75rem;
-}
-
-@media (min-width: 1024px) {
-  .hl-aside {
-    justify-items: end;
-    text-align: end;
-  }
-}
-
-.hl-desc {
-  max-width: 26rem;
-  margin: 0;
-  color: var(--on-dark-muted);
-  font-size: 0.95rem;
-  font-weight: 300;
-  line-height: 1.7;
-}
-
-.hl-stats {
-  display: flex;
-  gap: clamp(1.5rem, 3vw, 2.75rem);
-  margin: 0;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--line-on-dark);
-}
-
-.hl-stats > div {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 0.35rem;
-}
-
-.hl-stats dt {
-  color: var(--on-dark-subtle);
-  font-size: 0.65rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-
-[dir="rtl"] .hl-stats dt {
-  letter-spacing: 0;
-  font-size: 0.75rem;
-}
-
-.hl-stats dd {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
-  font-weight: 700;
-  line-height: 1;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Slide nav: numbered hairlines; the active one fills over the interval. */
-.hl-nav {
-  display: flex;
-  gap: 1.1rem;
-}
-
-.hl-bar {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.4rem 0;
-  color: var(--on-dark-subtle);
-  cursor: pointer;
-  transition: color 0.4s var(--ease);
-}
-
-.hl-bar:hover,
-.hl-bar.is-active {
-  color: var(--on-dark);
-}
-
-.hl-bar:focus-visible {
-  outline: 2px solid var(--brand-accent);
-  outline-offset: 4px;
-}
-
-.hl-bar-num {
-  font-family: var(--font-display);
-  font-size: 0.8rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-
-.hl-bar-track {
-  position: relative;
-  display: block;
-  width: clamp(2.5rem, 4vw, 3.5rem);
-  height: 1px;
-  overflow: hidden;
-  background: var(--line-on-dark);
-}
-
-.hl-bar-fill {
-  position: absolute;
-  inset: 0;
-  background: var(--brand-accent);
-  transform: scaleX(0);
-  transform-origin: left center;
-}
-
-[dir="rtl"] .hl-bar-fill {
-  transform-origin: right center;
 }
 
 /* Scroll cue: a hairline with a light running down it. */

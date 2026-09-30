@@ -53,10 +53,10 @@ export function UnitsPlans() {
               </p>
             </div>
             <div className="flex flex-col justify-center p-6 md:p-10 lg:p-12">
-              <p className="mb-3 text-xs font-bold tracking-[0.2em] text-secondary-ink uppercase">
+              <p className="section-eyebrow">
                 {copy.introEyebrow}
               </p>
-              <h2 className="font-display mb-6 text-2xl font-bold text-primary-ink md:text-3xl">
+              <h2 className="section-title units-intro-title">
                 {copy.introHeading}
               </h2>
               <div className="space-y-5 text-sm text-muted md:text-base">

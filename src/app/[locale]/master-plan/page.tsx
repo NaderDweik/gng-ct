@@ -1,4 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
+import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { masterPlanCopy } from "@/content/master-plan";
 import { PlanExplorer } from "@/features/master-plan/PlanExplorer";
 import type { LocalePageProps } from "@/i18n/types";
@@ -12,12 +13,14 @@ export default async function MasterPlanPage({ params }: Props) {
 
   return (
     <>
-      {/* The plan is the page: a compact heading, then the explorer. */}
+      <SubpageHeader eyebrow="Giving City" title={copy.eyebrow} subtitle={copy.title} />
       <section className="mp-page bg-surface">
         <div className="container-gc">
-          <header className="mp-page-head">
-            <p className="section-eyebrow mb-2">{copy.eyebrow}</p>
-            <h1 className="mp-page-title">{copy.explorerTitle}</h1>
+          <header className="sec-head">
+            <div>
+              <p className="section-eyebrow">{copy.eyebrow}</p>
+              <h2 className="section-title">{copy.explorerTitle}</h2>
+            </div>
           </header>
           <PlanExplorer locale={locale} />
         </div>

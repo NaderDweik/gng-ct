@@ -26,7 +26,7 @@ export default async function GalleryPage({ params }: Props) {
       <section className="gal-videos">
         <div className="container-gc">
           <p className="section-eyebrow">{copy.videosEyebrow}</p>
-          <h2 className="gal-videos-title">{copy.videosTitle}</h2>
+          <h2 className="section-title gal-videos-title">{copy.videosTitle}</h2>
 
           <div className="gal-videos-grid">
             <div>

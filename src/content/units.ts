@@ -39,8 +39,8 @@ export const unitFilters: {
 
 export const unitsCopy = {
   ar: {
-    eyebrow: "مخططات الشاليهات",
-    title: "روح العطاء",
+    title: "مخططات الشاليهات",
+    subtitle: "من الوحدات المدمجة إلى الفلل الواسعة، كل وحدة بمساحة تقارب ٥٠٠ م².",
     introEyebrow: "روح العطاء",
     introHeading: "شاليهات فاخرة مصممة لحياة منتجعية راقية.",
     introCaption:
@@ -65,8 +65,8 @@ export const unitsCopy = {
     download: "تحميل مخطط الطابق",
   },
   en: {
-    eyebrow: "Chalet Plans",
-    title: "Giving City",
+    title: "Chalet plans",
+    subtitle: "From compact units to expansive villas, each on about 500 m².",
     introEyebrow: "Giving City",
     introHeading: "Luxury chalets designed for elevated resort living.",
     introCaption:

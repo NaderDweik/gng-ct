@@ -33,15 +33,6 @@
   background: var(--brand-primary-hover);
 }
 
-.btn-accent {
-  background: var(--brand-accent);
-  color: var(--dark);
-}
-
-.btn-accent:hover {
-  background: var(--brand-accent-hover);
-}
-
 .btn-ghost-light {
   background: transparent;
   color: var(--on-dark);
@@ -77,6 +68,7 @@
 }
 
 .section-title {
+  max-width: 20ch;
   font-family: var(--font-display);
   font-size: clamp(2rem, 4.2vw, 3.4rem);
   font-weight: 700;
@@ -92,9 +84,45 @@
 
 .section-sub {
   color: var(--muted);
-  font-size: 1.05rem;
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
   font-weight: 300;
-  max-width: 40rem;
+  max-width: 38rem;
   margin: 0;
   line-height: 1.75;
+}
+
+/* Dark bands (brand, image scrims). */
+.on-dark .section-eyebrow {
+  color: var(--brand-accent);
+}
+
+.on-dark .section-title {
+  color: var(--on-dark);
+}
+
+.on-dark .section-sub {
+  color: var(--on-dark-muted);
+}
+
+/*
+ * Section heading — the one pattern site-wide: eyebrow + title on the start
+ * side, optional lede on the end side (stacks below 1024px). Title-only heads
+ * keep the same column so every title wraps at the same width.
+ */
+.sec-head {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+}
+
+@media (min-width: 1024px) {
+  .sec-head {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    align-items: end;
+    gap: 3rem;
+  }
+}
+
+.sec-head .section-title {
+  margin-bottom: 0;
 }

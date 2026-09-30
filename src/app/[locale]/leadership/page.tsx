@@ -105,7 +105,7 @@ export default async function LeadershipPage({ params }: Props) {
       <section className="section bg-surface">
         <div className="container-gc">
           <p className="section-eyebrow">{isAr ? "مبادئ الإدارة" : "How we lead"}</p>
-          <h2 className="section-title max-w-2xl">
+          <h2 className="section-title">
             {isAr ? "مبادئي الثلاثة." : "My three principles."}
           </h2>
           <ol className="mt-10 grid gap-4 md:grid-cols-3">

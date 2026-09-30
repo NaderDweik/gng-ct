@@ -2,7 +2,7 @@
 
 /* Page shell: compact heading, the explorer takes the stage. */
 .mp-page {
-  padding-top: clamp(6.5rem, 12vh, 8rem);
+  padding-top: clamp(4rem, 8vw, 6rem);
   padding-bottom: clamp(3rem, 6vw, 5rem);
 }
 

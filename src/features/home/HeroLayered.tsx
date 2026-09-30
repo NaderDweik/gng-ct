@@ -9,7 +9,6 @@ import { useGSAP } from "@gsap/react";
 import { Link } from "@/i18n/navigation";
 import { heroLayered as hero, type HeroSlide } from "@/content/hero";
 import { site } from "@/content/site";
-import { formatNumber } from "@/lib/format";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { isSwitchingLocale } from "@/i18n/useSwitchLocale";
 
@@ -21,7 +20,7 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  *   slide's subject can stand in front of the letters (see content/hero.ts).
  *   Intro:  camera settles, wordmark rises letter by letter, title lines slide
  *           out of masks, details follow.
- *   Slides: auto-advance (progress bars); photo + its cut-out crossfade as one,
+ *   Slides: auto-advance on a timer; photo + its cut-out crossfade as one,
  *           title lines swap through their masks. Pauses off-screen / hidden tab.
  *   Scroll: (desktop) the hero pins and recedes into a framed picture while the
  *           copy lifts away, then scrolls on.
@@ -43,16 +42,8 @@ export function HeroLayered() {
   const isAr = locale === "ar";
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
-  /** Set by the GSAP context — the only way slides change. */
-  const goRef = useRef<(i: number) => void>(() => {});
 
   const word = isAr ? hero.wordmarkAr : hero.wordmarkEn;
-  const n = (v: number) => formatNumber(v, locale).padStart(isAr ? 0 : 2, "0");
-  const stats = [
-    { value: `${formatNumber(site.stats.units, locale)}+`, label: isAr ? "منتجع خاص" : "Private resorts" },
-    { value: formatNumber(site.stats.areaSqm, "en"), label: isAr ? "متر مربع" : "Square meters" }, // Latin digits in both languages
-    { value: isAr ? "٠٪" : "0%", label: isAr ? "فوائد" : "Interest" },
-  ];
 
   useGSAP(
     () => {
@@ -63,8 +54,6 @@ export function HeroLayered() {
       const layers = (i: number) => q(`img[data-slide="${i}"]`);
       const titleLines = (i: number) => q(`.hl-title [data-set="${i}"] .hl-line > span`);
       const titleSet = (i: number) => q(`.hl-title [data-set="${i}"]`);
-      const desc = (i: number) => q(`.hl-desc[data-set="${i}"]`);
-      const bars = q<HTMLElement>(".hl-bar-fill");
 
       let current = 0;
       let busy = false;
@@ -72,18 +61,11 @@ export function HeroLayered() {
       let paused = false;
       let timer: gsap.core.Tween | null = null;
 
-      // ── Autoplay: the active bar fills over the interval, then advances.
+      // ── Autoplay: advance after the interval.
       const runTimer = () => {
         timer?.kill();
-        gsap.set(bars, { scaleX: 0 });
-        const bar = bars[current];
-        if (reduced || slides.length < 2 || !bar) return;
-        timer = gsap.to(bar, {
-          scaleX: 1,
-          duration: hero.intervalMs / 1000,
-          ease: "none",
-          onComplete: () => go((current + 1) % slides.length),
-        });
+        if (reduced || slides.length < 2) return;
+        timer = gsap.delayedCall(hero.intervalMs / 1000, () => go((current + 1) % slides.length));
         if (paused) timer.pause();
       };
 
@@ -94,14 +76,13 @@ export function HeroLayered() {
         setActive(next);
 
         if (reduced) {
-          gsap.set([...layers(prev), ...titleSet(prev), ...desc(prev)], { autoAlpha: 0 });
-          gsap.set([...layers(next), ...titleSet(next), ...desc(next)], { autoAlpha: 1 });
+          gsap.set([...layers(prev), ...titleSet(prev)], { autoAlpha: 0 });
+          gsap.set([...layers(next), ...titleSet(next)], { autoAlpha: 1 });
           return;
         }
 
         busy = true;
         timer?.kill();
-        gsap.set(bars, { scaleX: 0 });
         gsap
           .timeline({
             onComplete: () => {
@@ -113,13 +94,10 @@ export function HeroLayered() {
           .fromTo(layers(next), { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 1.8, ease: "power2.out" }, 0)
           .to(layers(prev), { autoAlpha: 0, duration: 1.3, ease: "power1.inOut" }, 0.1)
           .to(titleLines(prev), { yPercent: -110, duration: 0.6, ease: "power3.in", stagger: 0.06 }, 0)
-          .to(desc(prev), { autoAlpha: 0, y: -10, duration: 0.5, ease: "power2.in" }, 0)
           .set(titleSet(prev), { autoAlpha: 0 }, 0.62)
           .set(titleSet(next), { autoAlpha: 1 }, 0.62)
-          .fromTo(titleLines(next), { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: "expo.out", stagger: 0.1 }, 0.62)
-          .fromTo(desc(next), { y: 12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8, ease: "power2.out" }, 0.8);
+          .fromTo(titleLines(next), { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: "expo.out", stagger: 0.1 }, 0.62);
       };
-      goRef.current = go;
 
       const syncPause = () => {
         paused = document.hidden || window.scrollY > 40;
@@ -266,49 +244,13 @@ export function HeroLayered() {
               ))}
             </h1>
             <div className="hl-ctas hl-fade">
-              <Link href={hero.primaryHref} className="btn btn-accent">
+              <Link href={hero.primaryHref} className="btn btn-primary">
                 {isAr ? hero.ctaPrimaryAr : hero.ctaPrimaryEn}
               </Link>
               <Link href={hero.secondaryHref} className="hl-link">
                 {isAr ? hero.ctaSecondaryAr : hero.ctaSecondaryEn}
                 <ArrowIcon />
               </Link>
-            </div>
-          </div>
-
-          <div className="hl-aside">
-            <div className="hl-descs hl-fade">
-              {slides.map((s, i) => (
-                <p key={i} data-set={i} className={`hl-desc hl-set${first(i)}`} aria-hidden={i !== active}>
-                  {isAr ? s.descAr : s.descEn}
-                </p>
-              ))}
-            </div>
-            <dl className="hl-stats hl-fade">
-              {stats.map((s) => (
-                <div key={s.label}>
-                  <dt>{s.label}</dt>
-                  <dd>{s.value}</dd>
-                </div>
-              ))}
-            </dl>
-            <div className="hl-nav hl-fade" role="tablist" aria-label={isAr ? "الشرائح" : "Slides"}>
-              {slides.map((_, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  role="tab"
-                  aria-selected={i === active}
-                  aria-label={`${n(i + 1)} / ${n(slides.length)}`}
-                  className={`hl-bar${i === active ? " is-active" : ""}`}
-                  onClick={() => goRef.current(i)}
-                >
-                  <span className="hl-bar-num">{n(i + 1)}</span>
-                  <span className="hl-bar-track">
-                    <span className="hl-bar-fill" />
-                  </span>
-                </button>
-              ))}
             </div>
           </div>
         </div>

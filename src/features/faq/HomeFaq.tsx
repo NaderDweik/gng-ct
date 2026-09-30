@@ -24,7 +24,7 @@ export function HomeFaq({ items, locale }: Props) {
       <div className="hfaq-intro">
         <p className="section-eyebrow">{isAr ? "أسئلة شائعة" : "Questions"}</p>
         <h2 className="section-title mb-0">{isAr ? "قبل أن تقرر." : "Before you decide."}</h2>
-        <p className="hfaq-lead">
+        <p className="section-sub hfaq-lead">
           {isAr
             ? "أكثر ما يسألنا عنه المشترون، بإجابات مختصرة وواضحة."
             : "What buyers ask us most, answered simply."}

@@ -57,7 +57,7 @@ export default async function FinancingPage({ params }: Props) {
                 {isAr ? "سعر واحد، وطريقتان للدفع." : "One price, two ways to pay."}
               </h2>
             </div>
-            <p className="section-sub max-w-md">
+            <p className="section-sub">
               {isAr
                 ? "بالتقسيط الشهري، أو كاش بخصم — مباشرة مع الشركة."
                 : "Monthly installments, or cash at a discount — directly with the developer."}
@@ -70,7 +70,7 @@ export default async function FinancingPage({ params }: Props) {
       <section className="section on-dark bg-secondary text-on-dark">
         <div className="container-gc">
           <p className="section-eyebrow">{isAr ? "كيف يعمل" : "How it works"}</p>
-          <h2 className="section-title max-w-2xl">
+          <h2 className="section-title">
             {isAr ? "أربع خطوات نحو شاليهك." : "Four steps to your chalet."}
           </h2>
           <ol className="mt-12 grid gap-px overflow-hidden border border-line-on-dark bg-fill-on-dark md:grid-cols-2 lg:grid-cols-4">

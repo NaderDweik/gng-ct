@@ -10,17 +10,17 @@ export async function RegisterCta({ locale, image }: Props) {
   const isAr = locale === "ar";
 
   return (
-    <section className="register-cta">
+    <section className="register-cta on-dark">
       <div className="register-cta-bg" aria-hidden>
         <Image src={image} alt="" fill sizes="100vw" className="object-cover" />
       </div>
       <div className="container-gc">
         <div className="register-cta-inner">
-          <p className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-on-dark-muted">
+          <p className="section-eyebrow">
             {tc("register")}
           </p>
-          <h2>{isAr ? "سجّل اهتمامك." : "Register your interest."}</h2>
-          <p className="-mt-2 mb-8 max-w-md text-sm text-on-dark-muted md:text-base">
+          <h2 className="section-title">{isAr ? "سجّل اهتمامك." : "Register your interest."}</h2>
+          <p className="section-sub">
             {tc("responseTime")}
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">

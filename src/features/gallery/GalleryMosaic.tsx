@@ -13,7 +13,7 @@ type Props = {
 export function GalleryMosaic({ locale, eyebrow, title, ctaLabel }: Props) {
   return (
     <div>
-      <div className="sec-head items-end">
+      <div className="sec-head">
         <div>
           <p className="section-eyebrow">{eyebrow}</p>
           <h2 className="section-title mb-0">{title}</h2>

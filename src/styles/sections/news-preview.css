@@ -1,0 +1,113 @@
+/* ── Home "News & articles". Markup: features/news/NewsPreview.tsx ── */
+.np-grid {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.75rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 900px) {
+  .np-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.np-card {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease), transform 0.4s var(--ease);
+}
+
+.np-card:hover {
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-card);
+  transform: translateY(-3px);
+}
+
+.np-card:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.np-media {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+.np-img {
+  object-fit: cover;
+  transition: transform 0.9s var(--ease);
+}
+
+.np-card:hover .np-img {
+  transform: scale(1.05);
+}
+
+.np-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+.np-date {
+  color: var(--primary-ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .np-date {
+  letter-spacing: 0;
+  font-size: 0.85rem;
+}
+
+.np-title {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+[dir="rtl"] .np-title {
+  font-family: var(--font-body);
+}
+
+.np-excerpt {
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1.65;
+}
+
+.np-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 0.5rem;
+  color: var(--primary-ink);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .np-more {
+  letter-spacing: 0;
+  font-size: 0.9rem;
+}
+
+.np-card:hover .lux-arrow-shaft {
+  width: 40px;
+}
