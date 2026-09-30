@@ -31,10 +31,12 @@ export const site = {
     weekdays: "Sunday – Thursday: 9:00 AM – 7:00 PM",
     saturday: "Saturday: 10:00 AM – 4:00 PM",
   },
+  /** The project's only official accounts — link these everywhere. */
   social: {
-    instagram: "https://www.instagram.com/giving.city/",
-    instagramCorp: "https://www.instagram.com/alataa_development/",
-    facebook: "https://www.facebook.com/alataa.giving/",
+    instagram: "https://www.instagram.com/spiritgivingdevelopment/",
+    instagramHandle: "@spiritgivingdevelopment",
+    facebook: "https://www.facebook.com/SpiritGivingDevelopment/",
+    facebookHandle: "SpiritGivingDevelopment",
   },
   contact: "د. طارق قازان",
   contactEn: "Dr. Tarek Qazan",

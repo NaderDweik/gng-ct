@@ -100,9 +100,8 @@ export default async function AboutPage({ params }: Props) {
   ];
 
   const socials = [
-    { href: site.social.instagram, label: "Instagram", handle: "@giving.city" },
-    { href: site.social.instagramCorp, label: "Instagram", handle: "@alataa_development" },
-    { href: site.social.facebook, label: "Facebook", handle: "alataa.giving" },
+    { href: site.social.instagram, label: "Instagram", handle: site.social.instagramHandle },
+    { href: site.social.facebook, label: "Facebook", handle: site.social.facebookHandle },
     { href: site.whatsappUrl, label: "WhatsApp", handle: tc("whatsapp") },
   ];
 

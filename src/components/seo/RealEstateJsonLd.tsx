@@ -24,6 +24,7 @@ export function RealEstateJsonLd() {
       latitude: site.coordinates.lat,
       longitude: site.coordinates.lng,
     },
+    sameAs: [site.social.instagram, site.social.facebook],
   };
 
   return (

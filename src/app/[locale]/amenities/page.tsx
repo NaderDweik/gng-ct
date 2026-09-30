@@ -10,17 +10,18 @@ import {
 } from "@/content/amenities-page";
 import { site } from "@/content/site";
 import {
-  CommunityMosaic,
-  ResortChapters,
-  ServiceList,
+  CommunityGrid,
+  ResortIndex,
+  RingMark,
+  ServiceSheet,
 } from "@/features/amenities/AmenitiesPage";
 import type { LocalePageProps } from "@/i18n/types";
 
 type Props = LocalePageProps;
 
 /*
- * Amenities: what's yours (inside the resort), what's shared (across the
- * community) and who keeps it running (serviced daily). Pieces and motion:
+ * Amenities zooms out in three rings: what's yours (inside your walls), what's
+ * shared (inside the gates) and who keeps it running (behind the scenes). Pieces and motion:
  * features/amenities/AmenitiesPage.tsx; styles: styles/sections/amenities-page.css.
  */
 export default async function AmenitiesPage({ params }: Props) {
@@ -34,69 +35,67 @@ export default async function AmenitiesPage({ params }: Props) {
 
   const stats = [
     { value: 24, suffix: isAr ? "/٧" : "/7", label: c.stats.security },
-    { value: 3, suffix: isAr ? " م" : " m", label: c.stats.walls },
-    { value: site.stats.unitAreaSqm, suffix: isAr ? " م²" : " m²", label: c.stats.area },
+    { value: site.stats.areaSqm, suffix: isAr ? " م²" : " m²", label: c.stats.grounds },
     { value: site.stats.units, suffix: "+", label: c.stats.units },
   ];
+
+  const head = (ring: 0 | 1 | 2, eyebrow: string, title: string, lead: string) => (
+    <header className="sec-head">
+      <div>
+        <p className="section-eyebrow ap-eyebrow">
+          <RingMark ring={ring} />
+          <span>
+            {(ring + 1).toLocaleString(isAr ? "ar-JO" : "en-US").padStart(isAr ? 0 : 2, "0")} · {eyebrow}
+          </span>
+        </p>
+        <h2 className="section-title mb-0">{title}</h2>
+      </div>
+      <p className="section-sub">{lead}</p>
+    </header>
+  );
 
   return (
     <>
       <SubpageHeader eyebrow="Giving City" title={c.crumb} subtitle={c.heroTitle} />
 
-      {/* 1 · Inside your resort */}
+      {/* 1 · Inside your walls */}
       <section id="resort" className="ap-section bg-surface">
         <div className="container-gc">
-          <header className="sec-head">
-            <div>
-              <p className="section-eyebrow">{c.resortEyebrow}</p>
-              <h2 className="section-title mb-0">{c.resortTitle}</h2>
-            </div>
-            <p className="section-sub">{c.resortLead}</p>
-          </header>
-          <ResortChapters items={chapters} isAr={isAr} />
+          {head(0, c.resortEyebrow, c.resortTitle, c.resortLead)}
+          <ResortIndex items={chapters} isAr={isAr} />
         </div>
       </section>
 
-      {/* 2 · Across the community */}
+      {/* 2 · Inside the gates */}
       <section id="community" className="ap-section bg-surface-alt">
         <div className="container-gc">
-          <header className="sec-head">
-            <div>
-              <p className="section-eyebrow">{c.communityEyebrow}</p>
-              <h2 className="section-title mb-0">{c.communityTitle}</h2>
-            </div>
-            <p className="section-sub">{c.communityLead}</p>
-          </header>
-          <CommunityMosaic places={communityPlaces} isAr={isAr} />
+          {head(1, c.communityEyebrow, c.communityTitle, c.communityLead)}
+          <CommunityGrid places={communityPlaces} isAr={isAr} />
         </div>
       </section>
 
-      {/* 3 · Serviced daily */}
+      {/* 3 · Behind the scenes */}
       <section id="services" className="ap-section bg-surface">
         <div className="container-gc">
-          <header className="sec-head">
-            <div>
-              <p className="section-eyebrow">{c.servicesEyebrow}</p>
-              <h2 className="section-title mb-0">{c.servicesTitle}</h2>
-            </div>
-            <p className="section-sub">{c.servicesLead}</p>
-          </header>
-
-          <dl className="ap-stats">
-            {stats.map((s, i) => (
-              <div key={s.label} className="ap-stat">
-                <dt>{s.label}</dt>
-                <dd>
-                  <CountUp value={s.value} locale={locale} suffix={s.suffix} delay={i * 120} />
-                </dd>
-              </div>
-            ))}
-          </dl>
-
-          <ServiceList lines={serviceLines} isAr={isAr} />
+          {head(2, c.servicesEyebrow, c.servicesTitle, c.servicesLead)}
+          <ServiceSheet
+            lines={serviceLines}
+            isAr={isAr}
+            figures={
+              <dl className="sv-figures">
+                {stats.map((s, i) => (
+                  <div key={s.label} className="sv-figure">
+                    <dt>{s.label}</dt>
+                    <dd>
+                      <CountUp value={s.value} locale={locale} suffix={s.suffix} delay={i * 120} />
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            }
+          />
         </div>
       </section>
-
     </>
   );
 }

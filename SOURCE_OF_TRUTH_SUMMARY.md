@@ -22,8 +22,8 @@
 | Cert | ISO 9001:2015 |
 | Old site | https://giving-city.com/ |
 | Live domain | https://giving-estate.com |
-| IG | [@giving.city](https://www.instagram.com/giving.city/) · [@alataa_development](https://www.instagram.com/alataa_development/) |
-| FB | [alataa.giving](https://www.facebook.com/alataa.giving/) |
+| IG | [@spiritgivingdevelopment](https://www.instagram.com/spiritgivingdevelopment/) — the only official Instagram |
+| FB | [SpiritGivingDevelopment](https://www.facebook.com/SpiritGivingDevelopment/) — the only official Facebook |
 | Maps | https://maps.app.goo.gl/PNR3uYsjeDX92fqs7 · ~31.949722, 35.930111 |
 | Location | 41 km (~55 min) from Le Royal Hotel → Sahab Al-Hatmiyeh (سحاب الحطمية) · drive times: `content/location.ts` |
 
@@ -75,7 +75,7 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 | `/about` | من نحن | **Polished** | Full-bleed hero + CountUp stats, pillars, collage, ISO video, socials, leadership link, RegisterCta |
 | `/gallery` | المعرض | **Polished** | Cinematic short hero · flush mosaic tabs · lightbox · 2 YT videos · **no** bottom RegisterCta |
 | `/units` | الوحدات المتاحة | **Built** | `UnitsPlans` + gallery placeholders until real floor plans |
-| `/amenities` | المرافق | **Built** | `AmenitiesHoverGrid` |
+| `/amenities` | المرافق | **Polished** | Three rings, zooming out (ring glyph in each eyebrow): 01 Inside your walls — `ResortIndex` (5-row accordion index beside one crossfading photo; photo inside the row on phones) · 02 Inside the gates — `CommunityGrid` (4-col catalogue, captions under photos; swipe row on phones) · 03 Behind the scenes — `ServiceSheet` (24/7 · 500,000 m² · 367+ figures beside a 2-col spec list). `features/amenities/AmenitiesPage.tsx` · `styles/sections/amenities-page.css` |
 | `/financing` | التمويل | **Polished** | Plans + showcase + RegisterCta |
 | `/faq` | الأسئلة الشائعة | **Polished** | `FaqExplorer` (search + sticky cats + accordion) · **no** RegisterCta |
 | `/register` | سجل اهتمامك | **Polished** | Compact form → WhatsApp · visit/financing chips |
