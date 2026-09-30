@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
 import { HeroLayered } from "@/features/home/HeroLayered";
+import { SceneExplode } from "@/features/home/SceneExplode";
 import { homeFaqPreview } from "@/content/faq";
 import { amenityFeatures, amenitiesIntro } from "@/content/amenities";
 import { formatNumber } from "@/lib/format";
@@ -81,6 +82,9 @@ export default async function HomePage({ params }: Props) {
   return (
     <>
       <HeroLayered />
+
+      {/* The hero's pavilion, taken apart piece by piece */}
+      <SceneExplode locale={locale} />
 
       {/* Master plan — same explorer as /master-plan */}
       <section className="mp-page bg-surface">

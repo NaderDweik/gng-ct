@@ -1,0 +1,479 @@
+/* ── Home "piece by piece": photo → exploded → model on the plan → top shot. Markup: features/home/SceneExplode.tsx ── */
+.sx {
+  position: relative;
+  height: 100svh;
+  min-height: 600px;
+  overflow: clip;
+  background: var(--brand-secondary);
+  color: var(--on-dark);
+}
+
+/* Photo plate, hint and the flying pieces: hidden in the static (SSR / reduced-motion) top shot. */
+.sx-plate,
+.sx-hint,
+.sx-pieces {
+  visibility: hidden;
+}
+
+.sx.is-live .sx-pieces {
+  visibility: visible;
+}
+
+.sx-plate {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+}
+
+.sx-plate-img {
+  object-fit: cover;
+  object-position: 50% 50%;
+}
+
+.sx-hint {
+  position: absolute;
+  inset: auto 0 clamp(1.5rem, 5vh, 3rem);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sx-hint > span {
+  padding: 0.55rem 1rem;
+  background: color-mix(in srgb, var(--overlay) 55%, transparent);
+  color: var(--on-dark);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+[dir="rtl"] .sx-hint > span {
+  letter-spacing: 0;
+  font-size: 0.85rem;
+}
+
+.sx-hint::after {
+  content: "";
+  width: 1px;
+  height: 2.25rem;
+  background: linear-gradient(var(--on-dark), transparent);
+  animation: sx-cue 1.8s var(--ease) infinite;
+  transform-origin: top;
+}
+
+@keyframes sx-cue {
+  0% { transform: scaleY(0); opacity: 1; }
+  70% { transform: scaleY(1); opacity: 1; }
+  100% { transform: scaleY(1); opacity: 0; }
+}
+
+/* ── Layout: heading, the plan (as large as fits), phone caption ── */
+.sx-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  /* Clear the fixed header (h-16 / md:h-20). */
+  padding-block: calc(4rem + clamp(0.75rem, 2.5vh, 1.5rem)) clamp(0.75rem, 2.5vh, 1.75rem);
+}
+
+@media (min-width: 768px) {
+  .sx-inner {
+    padding-top: calc(5rem + clamp(0.75rem, 2.5vh, 1.5rem));
+  }
+}
+
+.sx .sx-head {
+  flex-shrink: 0;
+  gap: 0.35rem;
+  margin-bottom: clamp(0.5rem, 2vh, 1.25rem);
+}
+
+@media (max-width: 599px) {
+  .sx .section-title {
+    font-size: clamp(1.35rem, 6.2vw, 1.7rem);
+  }
+}
+
+.sx-tap {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sx-tap {
+    display: none;
+  }
+}
+
+.sx-planwrap {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+/* 952×1024 plan. Phones: room above / below for the badges. Desktop: room either side for the labels. */
+.sx-plan {
+  --ratio: 0.9297;
+  position: relative;
+  width: min(100cqw, (100cqh - 5.5rem) * var(--ratio));
+  aspect-ratio: 952 / 1024;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+@media (min-width: 900px) {
+  .sx-plan {
+    width: min(100cqw - 32rem, (100cqh - 1rem) * var(--ratio));
+  }
+}
+
+.sx-plan-img {
+  object-fit: cover;
+  box-shadow:
+    0 30px 80px color-mix(in srgb, var(--black) 55%, transparent),
+    0 0 0 1px var(--line-on-dark);
+}
+
+/* ── Plan overlay: dim, space outlines, leader lines, dots (units = plan px) ── */
+.sx-svg {
+  position: absolute;
+  /* viewBox is the plan ±180 × ±130 px, so plan px map 1:1 onto the image. */
+  left: calc(-180 / 952 * 100%);
+  top: calc(-130 / 1024 * 100%);
+  width: calc(1312 / 952 * 100%);
+  height: calc(1284 / 1024 * 100%);
+  overflow: visible;
+  pointer-events: none;
+}
+
+.sx-dim {
+  fill: var(--overlay);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+
+.sx.has-active .sx-dim {
+  opacity: 0.62;
+}
+
+.sx-zone-fill {
+  fill: var(--brand-primary);
+  opacity: 0;
+}
+
+.sx-zone {
+  fill: none;
+  stroke: color-mix(in srgb, var(--white) 55%, transparent);
+  stroke-width: 1.25;
+  stroke-dasharray: 1;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.4s var(--ease), stroke-width 0.4s var(--ease);
+}
+
+.sx-leader {
+  fill: none;
+  stroke: color-mix(in srgb, var(--white) 60%, transparent);
+  stroke-width: 1.25;
+  stroke-dasharray: 1;
+  vector-effect: non-scaling-stroke;
+  transition: stroke 0.4s var(--ease);
+}
+
+.sx-dot {
+  fill: var(--brand-primary);
+  stroke: var(--brand-secondary);
+  stroke-width: 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.sx-z.is-on .sx-zone {
+  stroke: var(--brand-primary);
+  stroke-width: 2.5;
+  filter: drop-shadow(0 0 6px var(--brand-primary));
+}
+
+.sx-z.is-on .sx-leader {
+  stroke: var(--brand-primary);
+}
+
+.sx-z.is-on .sx-dot {
+  animation: sx-ping 1.6s var(--ease) infinite;
+}
+
+@keyframes sx-ping {
+  0%, 100% { filter: drop-shadow(0 0 0 var(--brand-primary)); }
+  50% { filter: drop-shadow(0 0 8px var(--brand-primary)); }
+}
+
+.sx-hit {
+  fill: transparent;
+  pointer-events: none;
+  cursor: pointer;
+}
+
+.sx.is-ready .sx-hit {
+  pointer-events: all;
+}
+
+.sx-leader--desk {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .sx-leader--desk {
+    display: inline;
+  }
+
+  .sx-leader--mob {
+    display: none;
+  }
+}
+
+/* ── Callouts: numbered badges (phones) / labels beside the plan (desktop) ── */
+.sx-callout {
+  position: absolute;
+  left: var(--mx);
+  top: var(--my);
+  z-index: 2;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  pointer-events: none;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sx.is-ready .sx-callout {
+  pointer-events: auto;
+}
+
+.sx-callout[data-mside="top"] { transform: translate(-50%, -100%); }
+.sx-callout[data-mside="bottom"] { transform: translate(-50%, 0); }
+
+.sx-callout-in {
+  /* Physical layout (it's a map) — text inside still follows the page direction. */
+  direction: ltr;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.3rem;
+  border: 1px solid var(--line-on-dark);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--brand-secondary) 82%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: background-color 0.35s var(--ease), border-color 0.35s var(--ease), opacity 0.35s var(--ease);
+}
+
+.sx-num {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 1.7rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  color: var(--on-primary);
+  font-size: 0.72rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.sx-ctext {
+  display: grid;
+  gap: 0.2rem;
+  text-align: start;
+}
+
+[dir="rtl"] .sx-ctext {
+  direction: rtl;
+}
+
+.sx-ctitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.sx-cdesc {
+  display: none;
+}
+
+/* Phones: badges only; the picked one grows its name. The caption below carries the line. */
+.sx-callout:not(.is-on) .sx-ctext {
+  display: none;
+}
+
+.sx-callout.is-on .sx-callout-in {
+  padding-inline-end: 0.8rem;
+  border-color: var(--brand-primary);
+}
+
+.sx-callout.is-on .sx-ctitle {
+  font-size: 0.75rem;
+}
+
+.sx.has-active .sx-callout:not(.is-on) .sx-callout-in {
+  opacity: 0.5;
+}
+
+.sx-callout:focus-visible {
+  outline: none;
+}
+
+.sx-callout:focus-visible .sx-callout-in {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+@media (min-width: 900px) {
+  .sx-callout {
+    left: var(--dx);
+    top: var(--dy);
+  }
+
+  .sx-callout[data-dside="left"] { transform: translate(-100%, -50%); }
+  .sx-callout[data-dside="right"] { transform: translate(0, -50%); }
+
+  .sx-callout-in {
+    align-items: flex-start;
+    gap: 0.7rem;
+    padding: 0.55rem 0.9rem 0.55rem 0.55rem;
+    border-radius: 14px;
+  }
+
+  .sx-callout[data-dside="left"] .sx-callout-in {
+    flex-direction: row-reverse;
+    padding: 0.55rem 0.55rem 0.55rem 0.9rem;
+  }
+
+  .sx-callout[data-dside="left"] .sx-ctext {
+    text-align: right;
+  }
+
+  .sx-callout[data-dside="right"] .sx-ctext {
+    text-align: left;
+  }
+
+  .sx-callout .sx-ctext,
+  .sx-callout:not(.is-on) .sx-ctext {
+    display: grid;
+    padding-top: 0.2rem;
+  }
+
+  .sx-ctitle,
+  .sx-callout.is-on .sx-ctitle {
+    font-size: 0.95rem;
+  }
+
+  /* The picked label opens its line. */
+  .sx-cdesc {
+    display: block;
+    max-width: 0;
+    max-height: 0;
+    overflow: hidden;
+    color: var(--on-dark-muted);
+    font-size: 0.82rem;
+    line-height: 1.5;
+    white-space: normal;
+    opacity: 0;
+    transition: max-height 0.45s var(--ease), opacity 0.35s var(--ease);
+  }
+
+  .sx-callout.is-on .sx-cdesc {
+    width: 15rem;
+    max-width: 15rem;
+    max-height: 6rem;
+    opacity: 1;
+  }
+
+  .sx-callout.is-on .sx-callout-in {
+    background: color-mix(in srgb, var(--brand-secondary) 92%, transparent);
+    box-shadow: 0 0 0 1px var(--brand-primary), 0 12px 32px color-mix(in srgb, var(--black) 45%, transparent);
+  }
+}
+
+[dir="rtl"] .sx-ctitle {
+  font-size: 0.9rem;
+}
+
+/* ── Phones: the picked space, spelled out under the plan ── */
+.sx-panel {
+  flex-shrink: 0;
+  display: grid;
+  gap: 0.2rem;
+  min-height: 3.6rem;
+  margin: 0.5rem 0 0;
+  padding-inline-start: 0.85rem;
+  border-inline-start: 2px solid var(--brand-primary);
+}
+
+.sx-panel-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.sx-panel-desc {
+  color: var(--on-dark-muted);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+@media (min-width: 900px) {
+  .sx-panel {
+    display: none;
+  }
+}
+
+/* ── The cut-outs (one flat layer over everything; positioned by render()) ── */
+.sx-pieces {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.sx-piece {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  aspect-ratio: var(--ar);
+  transform-origin: 0 0;
+  will-change: transform, opacity;
+}
+
+.sx-img {
+  object-fit: fill;
+  filter: drop-shadow(0 10px 14px color-mix(in srgb, var(--black) 50%, transparent));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sx-hint::after,
+  .sx-z.is-on .sx-dot {
+    animation: none;
+  }
+
+  .sx-dim,
+  .sx-zone,
+  .sx-leader,
+  .sx-callout-in,
+  .sx-cdesc {
+    transition-duration: 0.01ms !important;
+  }
+}

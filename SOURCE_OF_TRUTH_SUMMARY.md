@@ -4,7 +4,7 @@
 >
 > **Refresh rule:** After any meaningful product/design/content change, update this file before ending the turn so the next AI session starts current.
 >
-> *Last refreshed: 2026-09-27 (recolor to Giving Spirit palette) · mirrors live codebase under `jordangate-redesign-main/`*
+> *Last refreshed: 2026-09-30 (home "piece by piece" exploded-scene section) · mirrors live codebase under `jordangate-redesign-main/`*
 
 ---
 
@@ -71,7 +71,7 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 
 | Path | AR | Status | Notes |
 |------|----|--------|-------|
-| `/` | الرئيسية | **Polished** | Cinematic layered hero (`features/home/HeroLayered`, GSAP): 3 auto-advancing slides from `content/hero.ts` (V sculpture · pavilion · dusk sign), fixed wordmark with per-slide cut-outs in front (`public/hero/*-cutout.webp`, regenerate with `scripts/hero-cutout.mjs`); pins & recedes on scroll. Section order (top → bottom): master plan · destinations · "A day at Giving City" (`features/gallery/GalleryDay` — static 7-tile bento with a Day/Night sky switch that auto-turns to Night 3.5s after the section is in view (once; a press cancels it), lede inside the big tile, sets in `dayScenes`; fits one screen on desktop; Night set is dusk + lit interiors until real night photos exist) · amenities · map (`LocationShowcase`) · stats bar · News & articles (`features/news/NewsPreview`, 3 cards from `homeNewsSlugs`) · FAQ · RegisterCta. Compare-plans cards live on /financing only |
+| `/` | الرئيسية | **Polished** | Cinematic layered hero (`features/home/HeroLayered`, GSAP): 3 auto-advancing slides from `content/hero.ts` (V sculpture · pavilion · dusk sign), fixed wordmark with per-slide cut-outs in front (`public/hero/*-cutout.webp`, regenerate with `scripts/hero-cutout.mjs`); pins & recedes on scroll. Section order (top → bottom): **piece by piece** (`features/home/SceneExplode`, GSAP, one pinned scrubbed shot: hero slide 1 photo → its SAM-segmented objects lift off → the unit plan (`property-map.png`) arrives as a tilted tabletop and each object stands on its spot like a model → camera swings overhead, objects fold into their spaces → 5 zones outline + leader-line callouts (labels beside the plan on desktop, numbered badges + caption on phones); hover / tap a space dims the rest and pops its objects back up; auto-tours until touched. Zones, stands, copy in `content/scene.ts`) · master plan · destinations · "A day at Giving City" (`features/gallery/GalleryDay` — static 7-tile bento with a Day/Night sky switch that auto-turns to Night 3.5s after the section is in view (once; a press cancels it), lede inside the big tile, sets in `dayScenes`; fits one screen on desktop; Night set is dusk + lit interiors until real night photos exist) · amenities · map (`LocationShowcase`) · stats bar · News & articles (`features/news/NewsPreview`, 3 cards from `homeNewsSlugs`) · FAQ · RegisterCta. Compare-plans cards live on /financing only |
 | `/about` | من نحن | **Polished** | Full-bleed hero + CountUp stats, pillars, collage, ISO video, socials, leadership link, RegisterCta |
 | `/gallery` | المعرض | **Polished** | Cinematic short hero · flush mosaic tabs · lightbox · 2 YT videos · **no** bottom RegisterCta |
 | `/units` | الوحدات المتاحة | **Built** | `UnitsPlans` + gallery placeholders until real floor plans |
@@ -97,6 +97,7 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 | Asset | Location / value |
 |-------|------------------|
 | Gallery | `public/gallery/img_1.jpg` … `img_72.jpg` · categories in `content/gallery.ts` |
+| Scene cut-outs | `public/scene/royal/*.webp` + `src/content/scene-royal.geometry.json`, generated from hero slide 1 by `scripts/segment-scene.py` (SAM 2.1 box/point prompts; needs a Python env with `ultralytics`, not a project dep). Re-run if that photo changes. |
 | Hero slides | `src/content/hero.ts` — slide 3 is entrance fountain/gatehouse (`public/gallery/compoundPics/entrance-fountain-and-gatehouse.png`). Slides 1–2 unchanged. |
 | Logo | `GivingLogo` component · `public/logo.svg` · `public/logo-dark-text.svg` |
 | Founder | `public/leadership/tarek-qazan.jpg` (Dr. Tarek Qazan portrait — live) |

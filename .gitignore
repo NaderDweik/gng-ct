@@ -44,3 +44,5 @@ yarn-error.log*
 # vercel
 .vercel
 .env*
+scripts/.scene-debug.png
+scripts/.scene-sheet.png
