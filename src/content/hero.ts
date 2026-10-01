@@ -31,9 +31,9 @@ export const heroLayered = {
   intervalMs: 7000,
   slides: [
     {
-      // Main slide — the pavilion and pool at golden hour (AI-enhanced render of img_2).
-      background: "/gallery/Gemini_Generated_Image_8og1am8og1am8og1.jpg",
-      focus: "45% 50%",
+      // Main slide — the tent pavilion, pool and waterfall spout under a blue sky (4K).
+      background: "/gallery/resortsPics/pool-and-tent-pavilion-hd.jpg",
+      focus: "52% 55%",
       titleAr: ["عيش فوق", "التوقعات"],
       titleEn: ["Live Above", "Expectations"],
       descAr: "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة — منتجعات خاصة بسند ملكية مستقل.",

@@ -430,6 +430,7 @@
 /* Caption: time always; the title rises in on hover / focus (always on touch). */
 .gd-cap {
   position: absolute;
+  z-index: 3; /* above the hover glow */
   inset: auto 0 0;
   display: grid;
   justify-items: start;

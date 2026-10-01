@@ -26,6 +26,37 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  position: relative;
+}
+
+/* Card-to-card line: runs down the column behind the cards (so it shows in the gaps)
+   and fills with scroll. Top/height are measured in ResortChapters. */
+.ap-rail {
+  position: absolute;
+  top: var(--rail-top, 0);
+  inset-inline-start: 50%;
+  width: 2px;
+  height: var(--rail-h, 100%);
+  background: var(--line-strong);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+[dir="rtl"] .ap-rail {
+  transform: translateX(50%);
+}
+
+.ap-rail-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--brand-primary);
+  transform: scaleY(0);
+  transform-origin: top;
+}
+
+.ap-chapter {
+  position: relative;
+  z-index: 1;
 }
 
 /* Each chapter is a framed card. On desktop the chapter keeps a tall slot to
@@ -374,7 +405,7 @@
   position: absolute;
   inset-inline: 1.4rem;
   bottom: 1.25rem;
-  z-index: 1;
+  z-index: 3; /* above the hover glow */
   display: grid;
   gap: 0.3rem;
   color: var(--on-dark);

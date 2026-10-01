@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { dayCopy, dayScenes, type DayMode } from "@/content/gallery";
 import { formatNumber } from "@/lib/format";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
+import { HoverBadge, HoverGlow } from "@/components/ui/HoverAccent";
 
 /*
  * Home "A day at Giving City" (styles: styles/sections/gallery-day.css).
@@ -112,7 +113,7 @@ export function GalleryDay({ locale, ctaHref }: Props) {
 
         <ul className="gd-bento">
           {dayScenes.day.map((_, i) => (
-            <li key={i} className="gd-tile" tabIndex={0} style={{ "--i": i } as CSSProperties}>
+            <li key={i} className="gd-tile hv" tabIndex={0} style={{ "--i": i } as CSSProperties}>
               {MODES.map((m) => {
                 const scene = dayScenes[m][i]!;
                 const shown = m === mode;
@@ -128,6 +129,7 @@ export function GalleryDay({ locale, ctaHref }: Props) {
                         style={scene.focus ? { objectPosition: scene.focus } : undefined}
                       />
                     </span>
+                    <HoverGlow />
                     <figcaption className="gd-cap">
                       <span className="gd-time">{clock(scene.time)}</span>
                       <span className="gd-cap-title">{isAr ? scene.titleAr : scene.titleEn}</span>
@@ -135,6 +137,7 @@ export function GalleryDay({ locale, ctaHref }: Props) {
                   </figure>
                 );
               })}
+              <HoverBadge />
               {i === 0 && (
                 <p className={`gd-lede${inView ? " is-in" : ""}`}>
                   <span>{copy.lead}</span>

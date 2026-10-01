@@ -47,7 +47,7 @@ export default async function FinancingPage({ params }: Props) {
 
   return (
     <>
-      <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
+      <SubpageHeader tall eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
 
       <section id="plans" className="section scroll-mt-20 bg-surface-alt">
         <div className="container-gc">

@@ -7,13 +7,13 @@ import { usePlanChoice } from "@/features/register/usePlanChoice";
 
 /*
  * Register page, dark side card. With ?plan=… it shows the plan the visitor
- * chose on a plan card; otherwise the general "Prices from" summary.
+ * chose on a plan card; with no choice it renders nothing.
  * (Uses the existing .register-side--dark card styles.)
  */
 
-type Props = { locale: string; jd: string; promises: string[] };
+type Props = { locale: string; jd: string };
 
-export function ChosenPlanCard({ locale, jd, promises }: Props) {
+export function ChosenPlanCard({ locale, jd }: Props) {
   const isAr = locale === "ar";
   const n = (v: number) => formatNumber(v, locale);
   const pct = (v: number) => (isAr ? `${n(v)}٪` : `${v}%`);
@@ -91,27 +91,6 @@ export function ChosenPlanCard({ locale, jd, promises }: Props) {
     );
   }
 
-  // No choice: the general summary (as before)
-  return (
-    <div className="register-side register-side--dark">
-      {eyebrow(isAr ? "الأسعار تبدأ من" : "Prices from")}
-      <p className="font-display mt-2 text-4xl font-bold leading-none text-on-dark tabular-nums">
-        {n(basePriceJd)}
-        <span className="ms-2 text-sm font-medium text-on-dark-muted">{jd}</span>
-      </p>
-      <p className="mt-2 text-sm text-on-dark-muted">
-        {isAr
-          ? `أو ${n(cashPriceJd)} د.أ نقدًا — خصم ${n(cashDiscountPct)}٪`
-          : `or ${n(cashPriceJd)} JD cash — ${cashDiscountPct}% off`}
-      </p>
-      <ul className="mt-5 space-y-2 border-t border-line-on-dark pt-4">
-        {promises.map((line) => (
-          <li key={line} className="flex items-start gap-3 text-sm text-on-dark-muted">
-            <span className="mt-2 h-px w-4 shrink-0 bg-accent" aria-hidden />
-            {line}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  // No choice: nothing (the sales-office card leads the column).
+  return null;
 }

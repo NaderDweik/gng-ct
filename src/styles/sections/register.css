@@ -55,6 +55,68 @@
   border: 1px solid var(--line);
 }
 
+/* Contact card: dark accent bar, then icon · label · value rows split by hairlines. */
+.register-contact {
+  padding-block: 0.5rem;
+  border-top: 4px solid var(--brand-secondary);
+  box-shadow: var(--shadow-card);
+}
+
+.register-contact-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+  padding-block: 1.35rem;
+}
+
+.register-contact-row + .register-contact-row {
+  border-top: 1px solid var(--line);
+}
+
+.register-contact-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  background: var(--surface-alt);
+  color: var(--muted);
+}
+
+.register-contact-icon svg {
+  width: 1.3rem;
+  height: 1.3rem;
+}
+
+.register-contact-label {
+  margin: 0 0 0.35rem;
+  color: var(--subtle);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .register-contact-label {
+  letter-spacing: 0;
+}
+
+.register-contact-value {
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.register-contact-link {
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+.register-contact-link:hover {
+  color: var(--primary-ink);
+}
+
 .register-side--dark {
   color: var(--on-dark);
   border-color: transparent;

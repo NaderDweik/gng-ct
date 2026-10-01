@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { resortChapterIds } from "@/content/amenities-page";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import type { AmenityFeature } from "@/content/amenities";
+import { HoverAccent } from "@/components/ui/HoverAccent";
 
 /*
  * Home amenities — everything visible, nothing to hover (styles:
@@ -23,7 +24,7 @@ export function AmenitiesGrid({ items, isAr }: Props) {
     <ul className="amg">
       {items.map((it) => (
         <li key={it.id}>
-          <Link href={chapterHref(it.id)} className="amg-item">
+          <Link href={chapterHref(it.id)} className="amg-item hv">
           <div className="amg-photo">
             <Image
               src={it.image}
@@ -32,6 +33,7 @@ export function AmenitiesGrid({ items, isAr }: Props) {
               sizes="(max-width: 640px) 112px, (max-width: 1024px) 50vw, 25vw"
               className="amg-img"
             />
+            <HoverAccent />
           </div>
           <div className="amg-text">
             <h3 className="amg-title">

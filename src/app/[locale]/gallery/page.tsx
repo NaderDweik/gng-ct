@@ -17,7 +17,7 @@ export default async function GalleryPage({ params }: Props) {
 
   return (
     <>
-      <SubpageHeader eyebrow="Giving City" title={copy.title} subtitle={copy.lead} />
+      <SubpageHeader tall eyebrow="Giving City" title={copy.title} subtitle={copy.lead} />
 
       <Suspense fallback={null}>
         <GalleryGrid />

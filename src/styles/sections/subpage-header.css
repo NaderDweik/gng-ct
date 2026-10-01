@@ -7,9 +7,25 @@
   background: var(--brand-secondary);
 }
 
+.sh--tall {
+  padding-block: calc(80px + clamp(3.5rem, 7vw, 5.75rem)) clamp(3rem, 5.5vw, 4.5rem);
+}
+
+/* Rendered at full strength over the same slate as .sh; this opacity is the one knob for
+   how visible the lines are (0.55 = the original look). */
+.sh-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
 .sh-inner {
   position: relative;
-  width: min(1200px, calc(100% - 2rem));
+  width: min(1280px, calc(100% - 2rem));
   margin-inline: auto;
   text-align: center;
 }

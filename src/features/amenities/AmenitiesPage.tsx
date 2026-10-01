@@ -8,6 +8,7 @@ import { useGSAP } from "@gsap/react";
 import type { AmenityFeature } from "@/content/amenities";
 import type { CommunityPlace, ServiceLine } from "@/content/amenities-page";
 import { AmenityIcon } from "@/features/amenities/AmenitiesHoverGrid";
+import { HoverAccent } from "@/components/ui/HoverAccent";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -15,7 +16,8 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  * Amenities page pieces (styles: styles/sections/amenities-page.css).
  *   ResortChapters   — private amenities as cards beside a pinned frame; the
  *                      card you are reading is highlighted and its photo
- *                      wipes up over the last.
+ *                      wipes up over the last. A line runs card to card behind
+ *                      them and fills with the scroll (both directions).
  *   CommunityMosaic  — shared places; tiles rise in as they arrive.
  *   ServiceList      — infrastructure tiles with icons; static.
  * Reduced motion: no rises or wipes — the content is simply there.
@@ -35,6 +37,32 @@ export function ResortChapters({ items, isAr }: { items: AmenityFeature[]; isAr:
       const root = ref.current;
       if (!root) return;
       const chapters = gsap.utils.toArray<HTMLElement>(".ap-chapter", root);
+      const list = root.querySelector<HTMLElement>(".ap-chapters")!;
+      const cards = gsap.utils.toArray<HTMLElement>(".ap-card", root);
+      const rail = root.querySelector<HTMLElement>(".ap-rail")!;
+
+      // Rail spans first card's top → last card's bottom (re-measured on every refresh).
+      const measure = () => {
+        const first = cards[0], last = cards[cards.length - 1];
+        if (!first || !last) return;
+        const top = first.offsetTop + (first.offsetParent as HTMLElement).offsetTop;
+        const bottom = last.offsetTop + (last.offsetParent as HTMLElement).offsetTop + last.offsetHeight;
+        list.style.setProperty("--rail-top", `${top}px`);
+        list.style.setProperty("--rail-h", `${bottom - top}px`);
+      };
+      measure();
+      ScrollTrigger.addEventListener("refreshInit", measure);
+
+      if (reduced()) {
+        gsap.set(".ap-rail-fill", { scaleY: 1 });
+      } else {
+        gsap.fromTo(
+          ".ap-rail-fill",
+          { scaleY: 0 },
+          { scaleY: 1, ease: "none", scrollTrigger: { trigger: rail, start: "top 55%", end: "bottom 55%", scrub: 0.6 } },
+        );
+      }
+
       chapters.forEach((ch, i) => {
         ScrollTrigger.create({
           trigger: ch,
@@ -43,6 +71,7 @@ export function ResortChapters({ items, isAr }: { items: AmenityFeature[]; isAr:
           onToggle: (self) => self.isActive && setActive(i),
         });
       });
+      return () => ScrollTrigger.removeEventListener("refreshInit", measure);
     },
     { scope: ref },
   );
@@ -52,6 +81,9 @@ export function ResortChapters({ items, isAr }: { items: AmenityFeature[]; isAr:
   return (
     <div ref={ref} className="ap-resort">
       <ol className="ap-chapters">
+        <span className="ap-rail" aria-hidden>
+          <span className="ap-rail-fill" />
+        </span>
         {items.map((it, i) => (
           <li key={it.id} id={`amenity-${it.id}`} className={`ap-chapter scroll-mt-28${i === active ? " is-active" : ""}`}>
             <article className="ap-card">
@@ -139,7 +171,7 @@ export function CommunityMosaic({ places, isAr }: { places: CommunityPlace[]; is
   return (
     <div ref={ref} className="ap-mosaic">
       {places.map((p) => (
-        <figure key={p.id} className={`ap-tile ap-tile--${p.size}`}>
+        <figure key={p.id} className={`ap-tile ap-tile--${p.size} hv`}>
           <Image
             src={p.image}
             alt={isAr ? p.titleAr : p.titleEn}
@@ -147,6 +179,7 @@ export function CommunityMosaic({ places, isAr }: { places: CommunityPlace[]; is
             sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
             className="ap-tile-img object-cover"
           />
+          <HoverAccent />
           <figcaption className="ap-tile-cap">
             <b>{isAr ? p.titleAr : p.titleEn}</b>
             <span>{isAr ? p.bodyAr : p.bodyEn}</span>

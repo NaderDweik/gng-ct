@@ -11,6 +11,16 @@ import {
   type GalleryCategoryId,
   type GalleryImage,
 } from "@/content/gallery";
+import { HoverAccent } from "@/components/ui/HoverAccent";
+
+/** Points to the inline end (→ in English); CSS mirrors it for "previous" and for RTL. */
+function ChevronIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="m9 5 7 7-7 7" />
+    </svg>
+  );
+}
 
 function CloseIcon() {
   return (
@@ -116,7 +126,7 @@ export function GalleryGrid() {
               key={item.id}
               type="button"
               onClick={() => setActive(item)}
-              className="gal-tile"
+              className="gal-tile hv"
               style={{ animationDelay: `${Math.min(i, 12) * 40}ms` }}
               aria-label={nameLabel(item)}
             >
@@ -129,6 +139,7 @@ export function GalleryGrid() {
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="gal-tile-img"
               />
+              <HoverAccent />
               <span className="gal-tile-label">{nameLabel(item)}</span>
             </button>
           ))}
@@ -181,6 +192,16 @@ export function GalleryGrid() {
                 sizes="(max-width: 1100px) 100vw, 1100px"
                 className="object-contain"
               />
+              {filtered.length > 1 && (
+                <>
+                  <button type="button" className="gal-lb-arrow gal-lb-arrow--prev" onClick={() => go("prev")} aria-label={copy.prev}>
+                    <ChevronIcon />
+                  </button>
+                  <button type="button" className="gal-lb-arrow gal-lb-arrow--next" onClick={() => go("next")} aria-label={copy.next}>
+                    <ChevronIcon />
+                  </button>
+                </>
+              )}
             </div>
 
             <div className="gal-lb-bar">
@@ -192,16 +213,6 @@ export function GalleryGrid() {
               </span>
             </div>
 
-            {filtered.length > 1 && (
-              <div className="gal-lb-controls">
-                <button type="button" onClick={() => go("prev")}>
-                  {copy.prev}
-                </button>
-                <button type="button" onClick={() => go("next")}>
-                  {copy.next}
-                </button>
-              </div>
-            )}
           </div>
         </div>
       )}

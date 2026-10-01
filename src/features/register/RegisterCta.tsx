@@ -2,17 +2,23 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
+import { LoopVideo } from "@/components/ui/LoopVideo";
 
-type Props = { locale: string; image: string };
+/** `video` (a Remotion loop in public/motion) replaces the still `image` when given; `image` stays the fallback. */
+type Props = { locale: string; image: string; video?: { src: string; poster: string } };
 
-export async function RegisterCta({ locale, image }: Props) {
+export async function RegisterCta({ locale, image, video }: Props) {
   const tc = await getTranslations("common");
   const isAr = locale === "ar";
 
   return (
     <section className="register-cta on-dark">
       <div className="register-cta-bg" aria-hidden>
-        <Image src={image} alt="" fill sizes="100vw" className="object-cover" />
+        {video ? (
+          <LoopVideo src={video.src} poster={video.poster} className="register-cta-video" />
+        ) : (
+          <Image src={image} alt="" fill sizes="100vw" className="object-cover" />
+        )}
       </div>
       <div className="container-gc">
         <div className="register-cta-inner">

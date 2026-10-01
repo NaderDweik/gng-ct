@@ -1,0 +1,181 @@
+/* ── Home "About Giving City". Markup: features/home/HomeIntro.tsx ── */
+.hi-grid {
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .hi-grid {
+    /* Photo wide enough that its height roughly matches the copy column beside it. */
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+  }
+}
+
+/*
+ * Frame: 3:2 crop of the 16:9 layers. Once `.is-in` lands the layers build the photo:
+ * sky fades in, the back walls rise at 0.35s, the chalet drops in at 0.7s, the ground rises
+ * in at 1.1s, the pool settles in at 1.5s; done by ~2.4s. Stacked back to front in the markup.
+ */
+.hi-frame {
+  position: relative;
+  /* 3:2 trims the sides of the 16:9 layers a little (cover, centred) so the photo stands taller. */
+  aspect-ratio: 3 / 2;
+  margin: 0;
+  overflow: hidden;
+  background: var(--surface-alt);
+  box-shadow: var(--shadow-card-lg);
+}
+
+/* Photo layers: same frame, transparent around their part. */
+.hi-layer {
+  object-fit: cover;
+  opacity: 0;
+}
+
+.hi.is-in .hi-sky {
+  animation: hi-sky 1s var(--ease) forwards;
+}
+
+.hi.is-in .hi-walls {
+  animation: hi-rise-soft 0.9s var(--ease) 0.35s forwards;
+}
+
+.hi.is-in .hi-chalet {
+  animation: hi-drop 1s var(--ease) 0.7s forwards;
+}
+
+.hi.is-in .hi-ground {
+  animation: hi-rise 0.9s var(--ease) 1.1s forwards;
+}
+
+.hi.is-in .hi-pool {
+  animation: hi-settle 0.9s var(--ease) 1.5s forwards;
+}
+
+/*
+ * Seam lines (chalet base, then the pool's lower edge). One dash the length of each path:
+ * offset 1 → 0 draws it on from the left, 0 → -1 pulls the tail through to the far end.
+ */
+.hi-seam {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  filter: drop-shadow(0 0 3px color-mix(in srgb, var(--black) 35%, transparent));
+}
+
+.hi-seam path {
+  fill: none;
+  stroke: var(--on-dark);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+}
+
+.hi.is-in .hi-seam-chalet {
+  animation: hi-seam 2.6s cubic-bezier(0.65, 0, 0.35, 1) 2.5s forwards;
+}
+
+.hi.is-in .hi-seam-pool {
+  animation: hi-seam 2.2s cubic-bezier(0.65, 0, 0.35, 1) 3s forwards;
+}
+
+@keyframes hi-seam {
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+
+@keyframes hi-rise-soft {
+  from {
+    opacity: 0;
+    transform: translateY(4%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hi-settle {
+  from {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hi-sky {
+  from {
+    opacity: 0;
+    transform: scale(1.08);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hi-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-10%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes hi-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Copy ── */
+/* A step down from the shared section title so the copy column matches the photo's height. */
+.hi-copy .section-title {
+  margin-bottom: 1.25rem;
+  font-size: clamp(1.9rem, 2.8vw, 2.4rem);
+  text-wrap: balance;
+}
+
+.hi-body {
+  max-width: 36rem;
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: clamp(0.95rem, 1.05vw, 1rem);
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.hi-cta {
+  gap: 14px;
+  margin-top: 0.75rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hi-seam {
+    display: none;
+  }
+
+  .hi-layer,
+  .hi.is-in .hi-layer {
+    opacity: 1;
+    animation: none;
+  }
+}

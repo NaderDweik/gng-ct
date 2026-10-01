@@ -27,16 +27,19 @@
   align-items: center;
   justify-content: center;
   border-radius: 999px;
-  background: var(--surface);
+  background: var(--brand-secondary);
   border: 2px solid var(--primary-ink);
   box-shadow: 0 6px 18px color-mix(in srgb, var(--overlay) 30%, transparent);
   overflow: hidden;
 }
 
-.gc-marker-avatar-core svg {
+/* The 3D V rocking (same sprite as the image-card badge, styles/base/hover-accent.css). */
+.gc-marker-spin {
   display: block;
-  width: 34px;
-  height: 34px;
+  width: 40px;
+  height: 40px;
+  background: url("/brand/v-3d-logo.webp") 0 0 / 7200% 100% no-repeat;
+  animation: hv-spin 8s steps(72, jump-none) infinite;
 }
 
 .gc-marker-avatar-pulse {
@@ -135,6 +138,10 @@
   .gc-marker-avatar-pulse {
     animation: none;
     opacity: 0;
+  }
+
+  .gc-marker-spin {
+    animation: none;
   }
 }
 

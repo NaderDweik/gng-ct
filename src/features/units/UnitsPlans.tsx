@@ -1,36 +1,21 @@
 "use client";
 
 import Image from "next/image";
+import type { ReactNode } from "react";
 import { useLocale } from "next-intl";
-import { site } from "@/content/site";
 import { unitsCopy } from "@/content/units";
 
 /*
- * Units page body: the intro block, then a notice while the detailed floor
- * plans are being finalised. The plan data stays in content/units.ts
- * (`unitPlans`) for when the cards come back.
+ * Units page body: the intro block, followed by `children` (the unit plan section on
+ * /units). The per-unit plan data stays in content/units.ts (`unitPlans`) for when
+ * detailed floor plans are published.
  */
 
-const pending = {
-  en: {
-    eyebrow: "Floor plans",
-    title: "Detailed floor plans are on their way.",
-    body: "We’re finalising every unit layout with Dr. Tarek Qazan — the full plans will be published here soon. In the meantime, our team is happy to walk you through them.",
-    cta: "Ask on WhatsApp",
-  },
-  ar: {
-    eyebrow: "المخططات",
-    title: "المخططات التفصيلية قريبًا.",
-    body: "نعمل على اعتماد مخططات جميع الوحدات مع د. طارق قازان — وستُنشر هنا قريبًا. وحتى ذلك الحين، يسعد فريقنا بشرحها لك.",
-    cta: "اسأل عبر واتساب",
-  },
-} as const;
-
-export function UnitsPlans() {
+/** `children` renders after the intro (the unit plan section on /units). */
+export function UnitsPlans({ children }: { children?: ReactNode }) {
   const locale = useLocale();
   const isAr = locale === "ar";
   const copy = isAr ? unitsCopy.ar : unitsCopy.en;
-  const soon = isAr ? pending.ar : pending.en;
 
   return (
     <>
@@ -66,25 +51,10 @@ export function UnitsPlans() {
               </div>
             </div>
           </div>
-
-          {/* Floor plans — pending */}
-          <div className="units-soon">
-            <span className="units-soon-icon" aria-hidden>
-              <svg viewBox="0 0 48 48">
-                <rect x="6" y="8" width="36" height="32" rx="2" />
-                <path d="M6 22h14v18M20 22v-6h22M30 16v24" />
-              </svg>
-            </span>
-            <p className="units-soon-eyebrow">{soon.eyebrow}</p>
-            <h2 className="units-soon-title">{soon.title}</h2>
-            <p className="units-soon-body">{soon.body}</p>
-            <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer" className="units-soon-cta">
-              {soon.cta}
-              <span aria-hidden>{isAr ? "←" : "→"}</span>
-            </a>
-          </div>
         </div>
       </section>
+
+      {children}
     </>
   );
 }
