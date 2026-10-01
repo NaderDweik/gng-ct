@@ -23,11 +23,9 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const isAr = locale === "ar";
-  const isHome =
-    pathname === "/" ||
-    pathname === "/about" ||
-    pathname === "/register" ||
-    pathname === "/gallery";
+  // Every page opens on a dark band (home hero or SubpageHeader) except these light-topped ones,
+  // which need the solid bar from the start.
+  const lightTop = pathname === "/services" || pathname.startsWith("/news/");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -38,7 +36,7 @@ export function Header() {
 
   // Over a hero photo the bar starts transparent; once solid it is the dark brand band.
   // Text is light in both states.
-  const solid = scrolled || !isHome || open;
+  const solid = scrolled || lightTop || open;
 
   return (
     <header
@@ -82,15 +80,24 @@ export function Header() {
           */}
           <Link
             href="/register"
-            className={`relative hidden isolate overflow-hidden px-5 py-2.5 text-sm font-semibold tracking-[0.18em] uppercase transition min-[1100px]:inline-flex ${
+            className={`nav-cta relative hidden isolate overflow-hidden px-5 py-2.5 text-sm font-semibold tracking-[0.18em] uppercase transition min-[1100px]:inline-flex ${
               solid
-                ? "border border-primary/25 bg-primary text-on-primary hover:bg-primary-hover"
-                : "border border-white/25 bg-transparent text-on-dark hover:bg-fill-on-dark"
+                ? "nav-cta--solid border border-white/30 bg-primary/75 text-on-dark backdrop-blur-sm hover:bg-primary/90"
+                : "nav-glass text-on-dark"
             }`}
           >
             {t("register")}
           </Link>
-          <LocaleSwitch className="rounded-full border border-white/35 bg-white/20 px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-on-dark transition hover:border-white/60 hover:bg-white/30 sm:text-sm" />
+          <LocaleSwitch className={`lang-square${solid ? "" : " nav-glass"}`}>
+            {(target) => (
+              <>
+                <span className="sr-only">{target === "ar" ? "العربية" : "English"}</span>
+                <span aria-hidden className={target === "ar" ? "lang-square-ar" : undefined}>
+                  {target === "ar" ? "ع" : "EN"}
+                </span>
+              </>
+            )}
+          </LocaleSwitch>
           <button
             type="button"
             className="inline-flex h-10 w-10 items-center justify-center border border-white/30 text-on-dark min-[1100px]:hidden"

@@ -13,7 +13,6 @@ import type {
 } from "leaflet";
 import type { NearbyPlace } from "@/content/location";
 import { projectCoords } from "@/content/location";
-import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
 import { palette } from "@/theme/tokens";
 import "leaflet/dist/leaflet.css";
 
@@ -62,7 +61,7 @@ function projectIcon(L: LeafletModule, label: string, dir: "rtl" | "ltr") {
         <span class="gc-marker-label gc-marker-label--project" dir="${dir}">${escapeHtml(label)}</span>
         <span class="gc-marker-avatar">
           <span class="gc-marker-avatar-pulse"></span>
-          <span class="gc-marker-avatar-core">${GIVING_MARK_SVG}</span>
+          <span class="gc-marker-avatar-core"><span class="gc-marker-spin"></span></span>
         </span>
       </div>`,
   });

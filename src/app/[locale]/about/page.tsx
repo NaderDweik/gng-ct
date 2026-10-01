@@ -6,6 +6,7 @@ import { formatNumber } from "@/lib/format";
 import { CountUp } from "@/components/ui/CountUp";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import type { LocalePageProps } from "@/i18n/types";
+import { HoverAccent } from "@/components/ui/HoverAccent";
 
 type Props = LocalePageProps;
 
@@ -265,7 +266,7 @@ export default async function AboutPage({ params }: Props) {
           </div>
           <div className="mb-10 grid grid-cols-2 gap-3 lg:grid-cols-4">
             {progress.map((p) => (
-              <figure key={p.src} className="group">
+              <figure key={p.src} className="group hv">
                 <div className="relative aspect-[4/3] overflow-hidden bg-surface-alt">
                   <Image
                     src={p.src}
@@ -274,6 +275,7 @@ export default async function AboutPage({ params }: Props) {
                     sizes="(max-width: 1024px) 50vw, 25vw"
                     className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                   />
+                  <HoverAccent />
                 </div>
                 <figcaption className="mt-3 text-sm text-muted">{isAr ? p.ar : p.en}</figcaption>
               </figure>

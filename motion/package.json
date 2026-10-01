@@ -1,0 +1,15 @@
+{
+  "name": "giving-city-motion",
+  "private": true,
+  "description": "Remotion compositions rendered to looping videos in ../public/motion (not part of the Next.js build).",
+  "scripts": {
+    "studio": "remotion studio src/index.ts",
+    "render": "node render.mjs"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.531",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "remotion": "4.0.531"
+  }
+}

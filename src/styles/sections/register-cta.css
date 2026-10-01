@@ -14,6 +14,14 @@
   background-size: cover;
 }
 
+.register-cta-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .register-cta-bg::after {
   content: "";
   position: absolute;

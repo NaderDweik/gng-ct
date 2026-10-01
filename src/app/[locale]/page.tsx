@@ -18,6 +18,8 @@ import { GalleryDay } from "@/features/gallery/GalleryDay";
 import { RegisterCta } from "@/features/register/RegisterCta";
 import { NewsPreview } from "@/features/news/NewsPreview";
 import type { LocalePageProps } from "@/i18n/types";
+import { HoverAccent } from "@/components/ui/HoverAccent";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 type Props = LocalePageProps;
 
@@ -43,7 +45,6 @@ export default async function HomePage({ params }: Props) {
   const t = await getTranslations("home");
   const tc = await getTranslations("common");
   const isAr = locale === "ar";
-  const mpCopy = masterPlanCopy[isAr ? "ar" : "en"];
 
   const destinations = [
     {
@@ -81,24 +82,15 @@ export default async function HomePage({ params }: Props) {
   return (
     <>
       <HeroLayered />
+      <ScrollReveal />
 
-      {/* Master plan — same explorer as /master-plan */}
-      <section className="mp-page bg-surface">
-        <div className="container-gc">
-          <header className="sec-head">
-            <div>
-              <p className="section-eyebrow">{mpCopy.eyebrow}</p>
-              <h2 className="section-title">{mpCopy.explorerTitle}</h2>
-            </div>
-          </header>
-          <PlanExplorer locale={locale} />
-        </div>
-      </section>
+      {/* About Giving City — annotated photo + intro */}
+      <HomeIntro locale={locale} />
 
       {/* Destinations / projects overview — expanding cards */}
       <section className="section overflow-hidden border-b border-line bg-surface-tint">
         <div className="container-gc">
-          <div className="sec-head">
+          <div className="sec-head sec-head-wide">
             <div>
               <p className="section-eyebrow">
                 {isAr ? "المشاريع الرئيسية" : "Flagship destinations"}
@@ -118,7 +110,7 @@ export default async function HomePage({ params }: Props) {
 
           <div className="brands">
             {destinations.map((d) => (
-              <Link key={d.href} href={d.href} className="brand-card group">
+              <Link key={d.href} href={d.href} className="brand-card group hv">
                 <Image
                   src={d.img}
                   alt={d.title}
@@ -126,6 +118,7 @@ export default async function HomePage({ params }: Props) {
                   className="select-none"
                   sizes="(max-width:1024px) 100vw, 40vw"
                 />
+                <HoverAccent />
                 <div className="body text-start">
                   <div className="kicker">{d.title}</div>
                   <h3>{d.headline}</h3>
@@ -149,18 +142,18 @@ export default async function HomePage({ params }: Props) {
       {/* Amenities — all visible, no hover */}
       <section className="section overflow-hidden border-b border-line bg-surface">
         <div className="container-gc space-y-12">
-          <div className="grid items-end gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
-            <div className="space-y-5 text-start">
-              <p className="section-eyebrow mb-0">
+          <div className="sec-head">
+            <div>
+              <p className="section-eyebrow">
                 {isAr ? amenitiesIntro.eyebrowAr : amenitiesIntro.eyebrowEn}
               </p>
-              <h2 className="section-title mb-0">
+              <h2 className="section-title">
                 {isAr ? amenitiesIntro.titleAr : amenitiesIntro.titleEn}
               </h2>
             </div>
             {/* Intro + the way in, together — visible as soon as the section is. */}
-            <div className="flex flex-col items-start gap-6 lg:max-w-2xl lg:justify-self-end">
-              <p className="text-start text-base font-light leading-relaxed text-muted md:text-lg">
+            <div className="flex flex-col items-start gap-6 lg:items-end">
+              <p className="section-sub">
                 {isAr ? amenitiesIntro.subAr : amenitiesIntro.subEn}
               </p>
               <Link href="/amenities" className="gallery-outline-btn">
@@ -236,7 +229,11 @@ export default async function HomePage({ params }: Props) {
       </section>
 
       {/* Register CTA */}
-      <RegisterCta locale={locale} image="/gallery/resortsPics/foosball-kids-pool.png" />
+      <RegisterCta
+        locale={locale}
+        image="/gallery/resortsPics/foosball-kids-pool.png"
+        video={{ src: "/motion/cta-loop.mp4", poster: "/motion/cta-loop.jpg" }}
+      />
     </>
   );
 }

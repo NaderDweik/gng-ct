@@ -1,0 +1,69 @@
+<!doctype html>
+<!--
+  Renders public/brand/v-3d-logo.webp: the Giving Spirit V logomark as four extruded, bevelled
+  slabs (three.js), rocking slowly left <-> right (±42°), 72 frames. Long lens (9° FOV) at eye
+  level so the face-on frame keeps the logo's true 152:178 proportions. Open in a browser
+  (headless Chromium works), collect window.frames_ (PNG data URLs), crop each to the union
+  bounding box squared, scale to 128px and pack them left-to-right into one WebP.
+  Used by the image-card badge (styles/base/hover-accent.css) and the map pin (location-map.css).
+--><html><head><style>html,body{margin:0;background:transparent}</style>
+<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}</script>
+</head><body>
+<script type="module">
+import * as THREE from "three";
+import { SVGLoader } from "three/addons/loaders/SVGLoader.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+
+const SVG = `<svg viewBox="0 0 152 178" xmlns="http://www.w3.org/2000/svg">
+<path d="M25.1182 48.3381L75.6475 152.277L126.177 48.3381L126.451 47.7756H151.295L150.597 49.2131L88.3428 177.273L88.0703 177.832L88.0723 177.836H63.2227L63.2236 177.832L62.9521 177.273L0.698242 49.2131L0 47.7756H24.8438L25.1182 48.3381Z" fill="#035F46"/>
+<path d="M25.1182 35.2941L75.6475 139.233L126.177 35.2941L126.451 34.7316H151.295L150.597 36.1691L88.3428 164.229L88.0703 164.788L88.0723 164.792H63.2227L63.2236 164.788L62.9521 164.229L0.698242 36.1691L0 34.7316H24.8438L25.1182 35.2941Z" fill="#018860"/>
+<path d="M25.1182 16.209L75.6475 120.148L126.177 16.209L126.451 15.6465H151.295L150.597 17.084L88.3428 145.144L88.0703 145.703L88.0723 145.707H63.2227L63.2236 145.703L62.9521 145.144L0.698242 17.084L0 15.6465H24.8438L25.1182 16.209Z" fill="#05AB7D"/>
+<path d="M25.1182 0.5625L75.6475 104.501L126.177 0.5625L126.451 0H151.295L150.597 1.4375L88.3428 129.497L88.0703 130.057L88.0723 130.061H63.2227L63.2236 130.057L62.9521 129.497L0.698242 1.4375L0 0H24.8438L25.1182 0.5625Z" fill="#2ABBA3"/>
+</svg>`;
+
+const SIZE = 192, FRAMES = 72;
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1); renderer.setSize(SIZE, SIZE); renderer.setClearColor(0x000000, 0);
+renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.82;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+const camera = new THREE.PerspectiveCamera(9, 1, 1, 6000);
+camera.position.set(0, 0, 1500); // long lens: true proportions, no perspective squash
+camera.lookAt(0, 0, 0);
+
+const key = new THREE.DirectionalLight(0xffffff, 2.8); key.position.set(-180, 240, 320); scene.add(key);
+const rim = new THREE.DirectionalLight(0xe6fff8, 3.2); rim.position.set(220, 120, -260);
+const rim2 = new THREE.DirectionalLight(0xffffff, 1.4); rim2.position.set(-260, -40, 120); scene.add(rim2); scene.add(rim);
+scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+
+const data = new SVGLoader().parse(SVG);
+const group = new THREE.Group();
+const DEPTH = 12, GAP = 11; // slab thickness and the air between the stacked V's
+data.paths.forEach((p, i) => {
+  const color = p.userData.style.fill;
+  const mat = new THREE.MeshStandardMaterial({ color, metalness: 0.2, roughness: 0.28, envMapIntensity: 1.3 });
+  SVGLoader.createShapes(p).forEach((shape) => {
+    const geo = new THREE.ExtrudeGeometry(shape, { depth: DEPTH, bevelEnabled: true, bevelThickness: 2.4, bevelSize: 1.8, bevelSegments: 4, curveSegments: 4 });
+    const m = new THREE.Mesh(geo, mat);
+    m.position.z = (i - 1.5) * (DEPTH + GAP); // back (deep) → front (teal)
+    group.add(m);
+  });
+});
+// SVG is y-down: flip and centre
+group.scale.y = -1;
+const box = new THREE.Box3().setFromObject(group); const c = box.getCenter(new THREE.Vector3());
+const pivot = new THREE.Group(); group.position.set(-c.x, -c.y, -c.z); pivot.add(group); scene.add(pivot);
+
+window.frames_ = [];
+for (let k = 0; k < FRAMES; k++) {
+  const t = k / FRAMES;                       // seamless loop: frame N would equal frame 0
+  pivot.rotation.y = THREE.MathUtils.degToRad(42 * Math.sin(2 * Math.PI * t)); // slow rock left ↔ right
+  pivot.rotation.x = 0;
+  renderer.render(scene, camera);
+  window.frames_.push(renderer.domElement.toDataURL("image/png"));
+}
+window.done_ = true;
+</script></body></html>

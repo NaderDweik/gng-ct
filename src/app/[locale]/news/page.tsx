@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { articles } from "@/content/news";
 import type { LocalePageProps } from "@/i18n/types";
+import { HoverAccent } from "@/components/ui/HoverAccent";
 
 type Props = LocalePageProps;
 
@@ -19,7 +20,7 @@ export default async function NewsPage({ params }: Props) {
       <section className="section">
         <div className="container-gc grid gap-8 md:grid-cols-2">
           {articles.map((a) => (
-            <article key={a.slug} className="group border border-line bg-surface">
+            <article key={a.slug} className="group hv border border-line bg-surface">
               <Link href={`/news/${a.slug}`} className="relative block aspect-[16/9] overflow-hidden bg-surface-alt" tabIndex={-1} aria-hidden>
                 <Image
                   src={a.image}
@@ -28,6 +29,7 @@ export default async function NewsPage({ params }: Props) {
                   sizes="(max-width: 768px) 100vw, 50vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                 />
+                <HoverAccent />
               </Link>
               <div className="p-6">
                 <time className="text-xs text-muted">{a.date}</time>

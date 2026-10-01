@@ -41,3 +41,28 @@
 .hero-kenburns {
   animation: kenburns 7.5s ease-out forwards;
 }
+
+/*
+ * Scroll reveal (components/ui/ScrollReveal.tsx). Hidden until the section is in view,
+ * then each piece rises in, staggered by --rv-i. The animation uses backwards fill only,
+ * so afterwards the element's own transitions and hover transforms work untouched.
+ */
+.rv-section:not(.rv-in) .rv {
+  opacity: 0;
+}
+
+.rv-in .rv {
+  animation: rv-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  animation-delay: calc(var(--rv-i, 0) * 90ms);
+}
+
+@keyframes rv-rise {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

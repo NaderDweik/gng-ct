@@ -207,3 +207,48 @@ export const masterPlanZones: PlanZone[] = [
     ],
   },
 ];
+
+/**
+ * /units "plan with features" section (features/units/UnitPlanFeatures): the teal unit
+ * plan in the middle, rows either side. Rows reuse the explorer items above by id.
+ */
+export const unitPlanImage = { src: "/plans/unit-plan.webp", width: 992, height: 1067 } as const;
+export const unitPlanRows = {
+  start: ["living", "kitchen", "master", "bedrooms", "baths"],
+  end: ["pool", "lounge", "bbq", "kids", "parking"],
+} as const;
+
+/** /units plan section: column labels for the room tiles and the facts bar under them. */
+export const unitPlanPanel = {
+  en: {
+    inside: "Inside the house",
+    outside: "Outdoors",
+    facts: [
+      { label: "Plot", value: "500 m²" },
+      { label: "Ownership", value: "Independent deed" },
+      { label: "Price from", value: "168,000 JD" },
+      { label: "Move-in", value: "2025 – 2027" },
+    ],
+    cta: "Register interest",
+  },
+  ar: {
+    inside: "داخل المنزل",
+    outside: "المساحات الخارجية",
+    facts: [
+      { label: "المساحة", value: "٥٠٠ م²" },
+      { label: "الملكية", value: "سند ملكية مستقل" },
+      { label: "السعر يبدأ من", value: "١٦٨,٠٠٠ د.أ" },
+      { label: "الاستلام", value: "٢٠٢٥ – ٢٠٢٧" },
+    ],
+    cta: "سجل اهتمامك",
+  },
+  href: "/register",
+} as const;
+
+export function planItem(id: string): PlanItem | undefined {
+  for (const zone of masterPlanZones) {
+    const hit = zone.items.find((it) => it.id === id);
+    if (hit) return hit;
+  }
+  return undefined;
+}

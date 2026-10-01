@@ -1,0 +1,161 @@
+/* ── /units plan panel + room tiles + facts bar. Markup: features/units/UnitPlanFeatures.tsx ── */
+.up-grid {
+  display: grid;
+  gap: clamp(1rem, 1.6vw, 1.25rem);
+}
+
+@media (min-width: 1024px) {
+  .up-grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: stretch;
+  }
+}
+
+/* The plan sits in a framed panel, centred, filling the row height. */
+.up-plan {
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: clamp(1rem, 2.5vw, 2rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-card);
+}
+
+.up-plan img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Room tiles: interiors and outdoors as two columns of five. */
+.up-groups {
+  display: grid;
+  gap: clamp(1rem, 1.6vw, 1.25rem);
+}
+
+@media (min-width: 640px) {
+  .up-groups {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.up-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.up-group-label {
+  margin: 0;
+  color: var(--subtle);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .up-group-label {
+  letter-spacing: 0;
+}
+
+.up-tiles {
+  display: grid;
+  flex: 1;
+  grid-auto-rows: 1fr;
+  gap: clamp(0.75rem, 1.2vw, 1rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.up-tile {
+  display: grid;
+  align-content: start;
+  gap: 0.3rem;
+  padding: clamp(0.9rem, 1.4vw, 1.15rem);
+  background: var(--surface-alt);
+}
+
+.up-num {
+  color: var(--primary-ink);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  font-variant-numeric: tabular-nums;
+}
+
+.up-title {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.2vw, 1.1rem);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+[dir="rtl"] .up-title {
+  font-family: var(--font-body);
+}
+
+.up-body {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.55;
+}
+
+/* ── Facts bar: the unit at a glance + the next step ── */
+.up-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+  margin-top: clamp(1rem, 1.6vw, 1.25rem);
+  padding: clamp(1.1rem, 2vw, 1.5rem) clamp(1.25rem, 2.5vw, 2rem);
+  background: var(--brand-secondary);
+  color: var(--on-dark);
+}
+
+.up-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem clamp(1.5rem, 3vw, 3rem);
+  margin: 0;
+}
+
+@media (min-width: 768px) {
+  .up-facts {
+    grid-template-columns: repeat(4, auto);
+  }
+}
+
+.up-fact dt {
+  margin-bottom: 0.3rem;
+  color: var(--on-dark-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .up-fact dt {
+  letter-spacing: 0;
+}
+
+.up-fact dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  font-weight: 700;
+}
+
+[dir="rtl"] .up-fact dd {
+  font-family: var(--font-body);
+}
+
+.up-cta {
+  gap: 14px;
+}

@@ -11,9 +11,9 @@ import { usePlanChoice } from "@/features/register/usePlanChoice";
  * (Uses the existing .register-side--dark card styles.)
  */
 
-type Props = { locale: string; jd: string; promises: string[] };
+type Props = { locale: string; jd: string };
 
-export function ChosenPlanCard({ locale, jd, promises }: Props) {
+export function ChosenPlanCard({ locale, jd }: Props) {
   const isAr = locale === "ar";
   const n = (v: number) => formatNumber(v, locale);
   const pct = (v: number) => (isAr ? `${n(v)}٪` : `${v}%`);

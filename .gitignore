@@ -44,3 +44,10 @@ yarn-error.log*
 # vercel
 .vercel
 .env*
+
+# Remotion project (motion/): dependencies and render cache
+/motion/node_modules
+/motion/out
+
+# Remotion project deps (separate package under motion/)
+/motion/node_modules/

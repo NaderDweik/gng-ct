@@ -13,11 +13,17 @@ type Props = {
   title: string;
   /** Optional one-line tagline under the title. */
   subtitle?: string;
+  /** A slightly taller band (main destination pages: units, amenities, financing, gallery). */
+  tall?: boolean;
 };
 
-export function SubpageHeader({ eyebrow, title, subtitle }: Props) {
+import { LoopVideo } from "@/components/ui/LoopVideo";
+
+export function SubpageHeader({ eyebrow, title, subtitle, tall }: Props) {
   return (
-    <section className="sh">
+    <section className={`sh${tall ? " sh--tall" : ""}`}>
+      {/* Faint V-line loop behind the title (Remotion render; source: motion/src/BannerLines.tsx). */}
+      <LoopVideo src="/motion/banner-lines-full.mp4" poster="/motion/banner-lines-full.jpg" className="sh-video" />
       <div className="sh-inner">
         <span className="sh-eyebrow">{eyebrow}</span>
         <h1 className="sh-title">

@@ -1,0 +1,85 @@
+/* ── Image-card hover treatment. Markup: components/ui/HoverAccent.tsx; host card has `.hv` ── */
+.hv-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 2; /* above a card's dark scrim; captions sit at 3 */
+  background: linear-gradient(
+    0deg,
+    color-mix(in srgb, var(--brand-primary) 58%, transparent) 0%,
+    color-mix(in srgb, var(--brand-primary) 22%, transparent) 30%,
+    transparent 58%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s var(--ease);
+}
+
+.hv-badge {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  z-index: 4;
+  display: grid;
+  width: clamp(40px, 15%, 60px);
+  aspect-ratio: 1;
+  place-items: center;
+  background: transparent;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.5);
+  transform-origin: top right;
+  transition:
+    opacity 0.3s ease,
+    transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[dir="rtl"] .hv-badge {
+  transform-origin: top left;
+}
+
+/* 72-frame 3D render of the V rocking slowly left ↔ right, played as a flip-book. */
+.hv-sprite {
+  width: 72%;
+  /* No backing square: a soft shadow keeps the V legible over bright photos. */
+  filter: drop-shadow(0 2px 6px color-mix(in srgb, var(--black) 45%, transparent));
+  aspect-ratio: 1;
+  background: url("/brand/v-3d-logo.webp") 0 0 / 7200% 100% no-repeat;
+  animation: hv-spin 8s steps(72, jump-none) infinite;
+  animation-play-state: paused;
+}
+
+@keyframes hv-spin {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+.hv:hover .hv-glow,
+.hv:focus-visible .hv-glow {
+  opacity: 1;
+}
+
+.hv:hover .hv-badge,
+.hv:focus-visible .hv-badge {
+  opacity: 1;
+  transform: none;
+}
+
+.hv:hover .hv-sprite,
+.hv:focus-visible .hv-sprite {
+  animation-play-state: running;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hv-sprite {
+    animation: none;
+  }
+
+  .hv-badge {
+    transition: opacity 0.3s ease;
+    transform: none;
+  }
+}

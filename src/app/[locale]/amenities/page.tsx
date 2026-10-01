@@ -56,7 +56,7 @@ export default async function AmenitiesPage({ params }: Props) {
 
   return (
     <>
-      <SubpageHeader eyebrow="Giving City" title={c.crumb} subtitle={c.heroTitle} />
+      <SubpageHeader tall eyebrow="Giving City" title={c.crumb} subtitle={c.heroTitle} />
 
       {/* 1 · Inside your walls */}
       <section id="resort" className="ap-section bg-surface">

@@ -15,18 +15,57 @@ function formatPhone(phone: string) {
     : phone;
 }
 
+/* Line icons for the contact card (24px grid, drawn in currentColor). */
+const CONTACT_ICONS = {
+  phone: (
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+  ),
+  chat: <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />,
+  pin: (
+    <>
+      <path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0" />
+      <circle cx="12" cy="10" r="3" />
+    </>
+  ),
+  clock: (
+    <>
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 6v6l4 2" />
+    </>
+  ),
+};
+
+/** One contact row: icon tile, small caps label, value. */
+function ContactRow({
+  icon,
+  label,
+  children,
+}: {
+  icon: keyof typeof CONTACT_ICONS;
+  label: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="register-contact-row">
+      <span className="register-contact-icon" aria-hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+          {CONTACT_ICONS[icon]}
+        </svg>
+      </span>
+      <div className="min-w-0">
+        <p className="register-contact-label">{label}</p>
+        <div className="register-contact-value">{children}</div>
+      </div>
+    </div>
+  );
+}
+
 export default async function RegisterPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("register");
   const tc = await getTranslations("common");
   const isAr = locale === "ar";
-
-  const promises = [
-    site.copyBank[isAr ? "ar" : "en"].deed,
-    site.copyBank[isAr ? "ar" : "en"].zeroInterest,
-    site.copyBank[isAr ? "ar" : "en"].iso,
-  ];
 
   return (
     <>
@@ -44,36 +83,26 @@ export default async function RegisterPage({ params }: Props) {
           </div>
 
           <aside className="flex flex-col gap-4">
-            <ChosenPlanCard locale={locale} jd={tc("jd")} promises={promises} />
+            <ChosenPlanCard locale={locale} jd={tc("jd")} />
 
-            <div className="register-side flex flex-1 flex-col">
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted">
-                {isAr ? "مكتب المبيعات" : "Sales office"}
-              </p>
-              <p className="mt-3 text-sm leading-relaxed text-ink">
-                {isAr ? site.locationAr : site.locationEn}
-              </p>
-              <div className="mt-3 mb-4 space-y-1 text-sm text-muted">
-                <p>{isAr ? site.hoursAr.weekdays : site.hoursEn.weekdays}</p>
-                <p>{isAr ? site.hoursAr.saturday : site.hoursEn.saturday}</p>
-              </div>
-              <div className="mt-auto flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-line pt-4">
-                <a
-                  href={`tel:${site.phoneAction}`}
-                  dir="ltr"
-                  className="font-bold text-primary-ink transition hover:opacity-80"
-                >
+            <div className="register-side register-contact">
+              <ContactRow icon="phone" label={isAr ? "اتصل بنا" : "Call us"}>
+                <a href={`tel:${site.phoneAction}`} dir="ltr" className="register-contact-link">
                   {formatPhone(site.phone)}
                 </a>
-                <a
-                  href={site.whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-bold text-ink transition hover:text-primary-ink"
-                >
+              </ContactRow>
+              <ContactRow icon="chat" label={isAr ? "واتساب" : "WhatsApp"}>
+                <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer" className="register-contact-link">
                   {tc("whatsapp")}
                 </a>
-              </div>
+              </ContactRow>
+              <ContactRow icon="pin" label={isAr ? "مكتب المبيعات" : "Sales office"}>
+                {isAr ? site.locationAr : site.locationEn}
+              </ContactRow>
+              <ContactRow icon="clock" label={isAr ? "ساعات العمل" : "Opening hours"}>
+                <span className="block">{isAr ? site.hoursAr.weekdays : site.hoursEn.weekdays}</span>
+                <span className="block">{isAr ? site.hoursAr.saturday : site.hoursEn.saturday}</span>
+              </ContactRow>
             </div>
 
             <div className="register-side flex items-center gap-4">

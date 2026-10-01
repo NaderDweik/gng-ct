@@ -141,7 +141,7 @@
 
 .gal-tile-label {
   position: absolute;
-  z-index: 1;
+  z-index: 3; /* above the hover glow */
   inset-inline-start: clamp(12px, 1.4vw, 18px);
   bottom: clamp(12px, 1.4vw, 16px);
   display: inline-flex;
@@ -270,26 +270,77 @@
   color: var(--on-dark-subtle);
 }
 
-.gal-lb-controls {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.gal-lb-controls button {
-  border: 1px solid color-mix(in srgb, var(--white) 22%, transparent);
-  background: transparent;
-  color: color-mix(in srgb, var(--white) 85%, transparent);
+/* Prev / next: round arrows at the photo's sides — outside it on wide screens, over its edge on narrow. */
+.gal-lb-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--white) 25%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--overlay) 55%, transparent);
+  color: var(--on-dark);
+  backdrop-filter: blur(6px);
   cursor: pointer;
-  padding: 0.55rem 1.1rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: background 0.2s ease;
+  transform: translateY(-50%);
+  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s var(--ease);
 }
 
-.gal-lb-controls button:hover {
-  background: var(--fill-on-dark);
+.gal-lb-arrow:hover {
+  border-color: var(--brand-primary);
+  background: var(--brand-primary);
+  color: var(--on-primary);
+}
+
+.gal-lb-arrow:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.gal-lb-arrow--prev {
+  inset-inline-start: 0.75rem;
+}
+
+.gal-lb-arrow--next {
+  inset-inline-end: 0.75rem;
+}
+
+.gal-lb-arrow--prev svg,
+[dir="rtl"] .gal-lb-arrow--next svg {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .gal-lb-arrow--prev svg {
+  transform: none;
+}
+
+.gal-lb-arrow--prev:hover {
+  transform: translate(-3px, -50%);
+}
+
+.gal-lb-arrow--next:hover {
+  transform: translate(3px, -50%);
+}
+
+[dir="rtl"] .gal-lb-arrow--prev:hover {
+  transform: translate(3px, -50%);
+}
+
+[dir="rtl"] .gal-lb-arrow--next:hover {
+  transform: translate(-3px, -50%);
+}
+
+@media (min-width: 1240px) {
+  .gal-lb-arrow--prev {
+    inset-inline-start: -84px;
+  }
+
+  .gal-lb-arrow--next {
+    inset-inline-end: -84px;
+  }
 }
 
 .gal-videos {
