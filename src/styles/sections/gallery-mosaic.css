@@ -61,10 +61,6 @@
   inset: 0;
 }
 
-[dir="rtl"] .gallery-cell-tag {
-  font-family: var(--font-body);
-}
-
 .gallery-feature-cell:hover .gallery-cell-tag,
 .gallery-feature-cell:focus-visible .gallery-cell-tag {
   opacity: 1;

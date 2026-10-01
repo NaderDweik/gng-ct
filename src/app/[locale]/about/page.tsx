@@ -38,8 +38,8 @@ const pillars: { icon: PillarIcon; titleAr: string; titleEn: string; bodyAr: str
     icon: "finance",
     titleAr: "تمويل بدون فوائد",
     titleEn: "Zero-interest financing",
-    bodyAr: "خطط دفع مباشرة مع الشركة بدون بنك وبدون فوائد، أو خصم ١٥٪ عند الدفع نقدًا.",
-    bodyEn: "Payment plans directly with the developer — no bank, no interest — or 15% off for cash.",
+    bodyAr: "خطط دفع مباشرة مع الشركة بدون بنك وبدون فوائد، أو خصم ٢٤٪ عند الدفع كاش.",
+    bodyEn: "Payment plans directly with the developer — no bank, no interest — or 24% off for cash.",
   },
 ];
 
@@ -101,9 +101,8 @@ export default async function AboutPage({ params }: Props) {
   ];
 
   const socials = [
-    { href: site.social.instagram, label: "Instagram", handle: "@giving.city" },
-    { href: site.social.instagramCorp, label: "Instagram", handle: "@alataa_development" },
-    { href: site.social.facebook, label: "Facebook", handle: "alataa.giving" },
+    { href: site.social.instagram, label: "Instagram", handle: site.social.instagramHandle },
+    { href: site.social.facebook, label: "Facebook", handle: site.social.facebookHandle },
     { href: site.whatsappUrl, label: "WhatsApp", handle: tc("whatsapp") },
   ];
 

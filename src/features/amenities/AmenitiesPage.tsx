@@ -1,196 +1,164 @@
 "use client";
 
 import Image from "next/image";
-import { type ReactNode, useRef, useState } from "react";
+import { type ReactNode, useId, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import type { AmenityFeature } from "@/content/amenities";
 import type { CommunityPlace, ServiceLine } from "@/content/amenities-page";
-import { AmenityIcon } from "@/features/amenities/AmenitiesHoverGrid";
-import { HoverAccent } from "@/components/ui/HoverAccent";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /*
  * Amenities page pieces (styles: styles/sections/amenities-page.css).
- *   ResortChapters   — private amenities as cards beside a pinned frame; the
- *                      card you are reading is highlighted and its photo
- *                      wipes up over the last. A line runs card to card behind
- *                      them and fills with the scroll (both directions).
- *   CommunityMosaic  — shared places; tiles rise in as they arrive.
- *   ServiceList      — infrastructure tiles with icons; static.
- * Reduced motion: no rises or wipes — the content is simply there.
+ * The page zooms out in three rings — your walls, the gates, what runs
+ * beneath — and RingMark draws that idea in each section's eyebrow.
+ *   ResortIndex    — the five private amenities as an index beside one photo;
+ *                    one row is open at a time and the photo crossfades to it.
+ *   CommunityGrid  — shared places as a catalogue, captions under the photos;
+ *                    a swipe row on phones. Cards rise in as they arrive.
+ *   ServiceSheet   — key figures beside a two-column spec list; static.
+ * Reduced motion: no rises or crossfades — the content is simply there.
  */
 
 const reduced = () => typeof window !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 const num = (i: number, isAr: boolean) => (i + 1).toLocaleString(isAr ? "ar-JO" : "en-US").padStart(isAr ? 0 : 2, "0");
 
-// ── Inside your resort: chapters + pinned frame ───────────────────
+// ── The three rings: 0 your walls · 1 the gates · 2 everything beneath ──
 
-export function ResortChapters({ items, isAr }: { items: AmenityFeature[]; isAr: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(0);
-
-  useGSAP(
-    () => {
-      const root = ref.current;
-      if (!root) return;
-      const chapters = gsap.utils.toArray<HTMLElement>(".ap-chapter", root);
-      const list = root.querySelector<HTMLElement>(".ap-chapters")!;
-      const cards = gsap.utils.toArray<HTMLElement>(".ap-card", root);
-      const rail = root.querySelector<HTMLElement>(".ap-rail")!;
-
-      // Rail spans first card's top → last card's bottom (re-measured on every refresh).
-      const measure = () => {
-        const first = cards[0], last = cards[cards.length - 1];
-        if (!first || !last) return;
-        const top = first.offsetTop + (first.offsetParent as HTMLElement).offsetTop;
-        const bottom = last.offsetTop + (last.offsetParent as HTMLElement).offsetTop + last.offsetHeight;
-        list.style.setProperty("--rail-top", `${top}px`);
-        list.style.setProperty("--rail-h", `${bottom - top}px`);
-      };
-      measure();
-      ScrollTrigger.addEventListener("refreshInit", measure);
-
-      if (reduced()) {
-        gsap.set(".ap-rail-fill", { scaleY: 1 });
-      } else {
-        gsap.fromTo(
-          ".ap-rail-fill",
-          { scaleY: 0 },
-          { scaleY: 1, ease: "none", scrollTrigger: { trigger: rail, start: "top 55%", end: "bottom 55%", scrub: 0.6 } },
-        );
-      }
-
-      chapters.forEach((ch, i) => {
-        ScrollTrigger.create({
-          trigger: ch,
-          start: "top 55%",
-          end: "bottom 55%",
-          onToggle: (self) => self.isActive && setActive(i),
-        });
-      });
-      return () => ScrollTrigger.removeEventListener("refreshInit", measure);
-    },
-    { scope: ref },
+export function RingMark({ ring }: { ring: 0 | 1 | 2 }) {
+  const rings = [
+    { inset: 8, size: 8 },
+    { inset: 4.5, size: 15 },
+    { inset: 1, size: 22 },
+  ];
+  return (
+    <svg className="ap-ring" viewBox="0 0 24 24" width="22" height="22" aria-hidden>
+      {rings.map((r, i) => (
+        <rect
+          key={i}
+          x={r.inset}
+          y={r.inset}
+          width={r.size}
+          height={r.size}
+          rx={i === 0 ? 1 : 2}
+          className={ring === 2 || ring === i ? "is-on" : undefined}
+        />
+      ))}
+    </svg>
   );
+}
 
-  const current = items[active];
+// ── Inside your walls: index + photo ──────────────────────────────
+
+const Check = () => (
+  <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M3 8.5 6.5 12 13 4.5" />
+  </svg>
+);
+
+export function ResortIndex({ items, isAr }: { items: AmenityFeature[]; isAr: boolean }) {
+  const [active, setActive] = useState(0);
+  const uid = useId();
 
   return (
-    <div ref={ref} className="ap-resort">
-      <ol className="ap-chapters">
-        <span className="ap-rail" aria-hidden>
-          <span className="ap-rail-fill" />
-        </span>
+    <div className="ri">
+      <div className="ri-stage" aria-hidden>
         {items.map((it, i) => (
-          <li key={it.id} id={`amenity-${it.id}`} className={`ap-chapter scroll-mt-28${i === active ? " is-active" : ""}`}>
-            <article className="ap-card">
-              {/* Phones: each chapter carries its own photo. */}
-              <div className="ap-chapter-photo">
-                <Image src={it.image} alt="" fill sizes="100vw" className="object-cover" />
-              </div>
-              <div className="ap-card-top">
-                <span className="ap-card-icon" aria-hidden>
-                  <AmenityIcon name={it.icon} className="ap-chapter-icon" />
-                </span>
-                <span className="ap-chapter-num">
-                  {num(i, isAr)}
-                  <i>/</i>
-                  {num(items.length - 1, isAr)}
-                </span>
-              </div>
-              <h3 className="ap-chapter-title">{isAr ? it.titleAr : it.titleEn}</h3>
-              <p className="ap-chapter-body">{isAr ? it.descAr : it.descEn}</p>
-              <ul className="ap-specs">
-                {(isAr ? it.tagsAr : it.tagsEn).map((t) => (
-                  <li key={t}>
-                    <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M3 8.5 6.5 12 13 4.5" />
-                    </svg>
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </article>
-          </li>
+          <div key={it.id} className={`ri-photo${i === active ? " is-on" : ""}`}>
+            <Image src={it.image} alt="" fill sizes="(max-width: 1024px) 100vw, 55vw" className="object-cover" priority={i === 0} />
+          </div>
         ))}
-      </ol>
-
-      <div className="ap-frame" aria-hidden>
-        <div className="ap-frame-inner">
-          {items.map((it, i) => (
-            <div key={it.id} className={`ap-frame-photo${i <= active ? " is-on" : ""}`} style={{ zIndex: i + 1 }}>
-              <Image src={it.image} alt="" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
-            </div>
-          ))}
-          <div className="ap-frame-shade" />
-          {current && (
-            <div className="ap-frame-cap">
-              <span key={current.id} className="ap-frame-title">
-                {isAr ? current.titleAr : current.titleEn}
-              </span>
-              <span className="ap-frame-count">
-                {num(active, isAr)} <i /> {num(items.length - 1, isAr)}
-              </span>
-            </div>
-          )}
-          <span className="ap-frame-progress">
-            <i style={{ transform: `scaleY(${(active + 1) / items.length})` }} />
-          </span>
-        </div>
       </div>
+
+      <ol className="ri-list">
+        {items.map((it, i) => {
+          const open = i === active;
+          const btn = `${uid}-b${i}`;
+          const panel = `${uid}-p${i}`;
+          return (
+            <li key={it.id} id={`amenity-${it.id}`} className={`ri-item scroll-mt-28${open ? " is-open" : ""}`}>
+              <h3 className="ri-head">
+                <button
+                  id={btn}
+                  type="button"
+                  className="ri-btn"
+                  aria-expanded={open}
+                  aria-controls={panel}
+                  onClick={() => setActive(i)}
+                >
+                  <span className="ri-num">{num(i, isAr)}</span>
+                  <span className="ri-title">{isAr ? it.titleAr : it.titleEn}</span>
+                  <span className="ri-sign" aria-hidden />
+                </button>
+              </h3>
+              <div id={panel} role="region" aria-labelledby={btn} className="ri-panel" inert={!open}>
+                <div className="ri-panel-inner">
+                  {/* Phones: the open row carries its own photo. */}
+                  <div className="ri-panel-photo">
+                    <Image src={it.image} alt="" fill sizes="100vw" className="object-cover" />
+                  </div>
+                  <p className="ri-body">{isAr ? it.descAr : it.descEn}</p>
+                  <ul className="ri-specs">
+                    {(isAr ? it.tagsAr : it.tagsEn).map((t) => (
+                      <li key={t}>
+                        <Check />
+                        {t}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
     </div>
   );
 }
 
-// ── Across the community: mosaic ──────────────────────────────────
+// ── Inside the gates: catalogue ───────────────────────────────────
 
-export function CommunityMosaic({ places, isAr }: { places: CommunityPlace[]; isAr: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
+export function CommunityGrid({ places, isAr }: { places: CommunityPlace[]; isAr: boolean }) {
+  const ref = useRef<HTMLUListElement>(null);
 
   useGSAP(
     () => {
       const root = ref.current;
       if (!root || reduced()) return;
-      ScrollTrigger.batch(root.querySelectorAll(".ap-tile"), {
-        start: "top 88%",
+      ScrollTrigger.batch(root.querySelectorAll(".cg-card"), {
+        start: "top 90%",
         once: true,
         onEnter: (batch) =>
-          gsap.fromTo(
-            batch,
-            { y: 44, autoAlpha: 0, clipPath: "inset(12% 0% 0% 0%)" },
-            { y: 0, autoAlpha: 1, clipPath: "inset(0% 0% 0% 0%)", duration: 1, ease: "power3.out", stagger: 0.1 },
-          ),
+          gsap.fromTo(batch, { y: 32, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, ease: "power3.out", stagger: 0.08 }),
       });
     },
     { scope: ref },
   );
 
   return (
-    <div ref={ref} className="ap-mosaic">
+    <ul ref={ref} className="cg">
       {places.map((p) => (
-        <figure key={p.id} className={`ap-tile ap-tile--${p.size} hv`}>
-          <Image
-            src={p.image}
-            alt={isAr ? p.titleAr : p.titleEn}
-            fill
-            sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
-            className="ap-tile-img object-cover"
-          />
-          <HoverAccent />
-          <figcaption className="ap-tile-cap">
-            <b>{isAr ? p.titleAr : p.titleEn}</b>
-            <span>{isAr ? p.bodyAr : p.bodyEn}</span>
-          </figcaption>
-        </figure>
+        <li key={p.id} className="cg-card">
+          <div className="cg-photo">
+            <Image
+              src={p.image}
+              alt={isAr ? p.titleAr : p.titleEn}
+              fill
+              sizes="(max-width: 640px) 75vw, (max-width: 1024px) 50vw, 25vw"
+              className="cg-img object-cover"
+            />
+          </div>
+          <h3 className="cg-title">{isAr ? p.titleAr : p.titleEn}</h3>
+          <p className="cg-body">{isAr ? p.bodyAr : p.bodyEn}</p>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }
 
-// ── Serviced daily: infrastructure tiles ──────────────────────────
+// ── Behind the scenes: figures + spec list ────────────────────────
 // Parallel services, not steps — so icons, not numbers. Static (no entrance motion).
 
 const SERVICE_ICONS: Record<string, ReactNode> = {
@@ -212,20 +180,23 @@ const SERVICE_ICONS: Record<string, ReactNode> = {
   gardens: <path d="M5 19c0-8.3 5.2-14 14-14 0 8.8-5.7 14-14 14zM5 19l7.5-7.5" />,
 };
 
-export function ServiceList({ lines, isAr }: { lines: ServiceLine[]; isAr: boolean }) {
+export function ServiceSheet({ figures, lines, isAr }: { figures: ReactNode; lines: ServiceLine[]; isAr: boolean }) {
   return (
-    <ul className="ap-services">
-      {lines.map((l) => (
-        <li key={l.id} className="ap-service">
-          <span className="ap-service-icon" aria-hidden>
-            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-              {SERVICE_ICONS[l.id]}
-            </svg>
-          </span>
-          <h3 className="ap-service-title">{isAr ? l.titleAr : l.titleEn}</h3>
-          <p className="ap-service-body">{isAr ? l.bodyAr : l.bodyEn}</p>
-        </li>
-      ))}
-    </ul>
+    <div className="sv">
+      {figures}
+      <ul className="sv-list">
+        {lines.map((l) => (
+          <li key={l.id} className="sv-item">
+            <h3 className="sv-title">
+              <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                {SERVICE_ICONS[l.id]}
+              </svg>
+              {isAr ? l.titleAr : l.titleEn}
+            </h3>
+            <p className="sv-body">{isAr ? l.bodyAr : l.bodyEn}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

@@ -30,6 +30,13 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const slides: readonly HeroSlide[] = hero.slides;
 
+/**
+ * Rendered width of a cover-fitted 16:9 photo. On screens taller than 16:9
+ * (every phone held upright) it's height-led — ~1.78× the screen HEIGHT wide —
+ * so "100vw" made phones download a tiny version and stretch it.
+ */
+const HERO_SIZES = "(max-aspect-ratio: 16/9) 178vh, 100vw";
+
 export function HeroLayered() {
   const locale = useLocale();
   const isAr = locale === "ar";
@@ -185,7 +192,7 @@ export function HeroLayered() {
             src={s.background}
             alt=""
             fill
-            sizes="100vw"
+            sizes={HERO_SIZES}
             quality={88}
             priority={i === 0}
             data-slide={i}
@@ -209,7 +216,7 @@ export function HeroLayered() {
               src={s.foreground}
               alt=""
               fill
-              sizes="100vw"
+              sizes={HERO_SIZES}
               quality={88}
               priority={i === 0}
               data-slide={i}

@@ -56,7 +56,6 @@
 }
 
 [dir="rtl"] .hl-word {
-  font-family: var(--font-body);
   font-size: clamp(5rem, 21vw, 19rem);
   font-weight: 800;
   letter-spacing: 0;
@@ -126,7 +125,6 @@
 }
 
 [dir="rtl"] .hl-title {
-  font-family: var(--font-body);
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: 0;
