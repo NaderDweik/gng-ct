@@ -1,0 +1,224 @@
+/* ── News article page. Markup: app/[locale]/news/[slug]/page.tsx ── */
+.article-head {
+  /* Top padding clears the fixed site header (about 5rem tall). */
+  padding-block: calc(5rem + clamp(2rem, 4vw, 3rem)) clamp(2rem, 3.5vw, 2.75rem);
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-alt);
+}
+
+.article-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: color 0.25s ease;
+}
+
+.article-back:hover {
+  color: var(--primary-ink);
+}
+
+[dir="rtl"] .article-back {
+  letter-spacing: 0;
+}
+
+.article-title {
+  max-width: 68rem;
+  margin-top: 1.5rem;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.2vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  text-wrap: pretty;
+}
+
+[dir="rtl"] .article-title {
+  font-family: var(--font-body);
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.75rem;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.article-meta li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.article-cover {
+  position: relative;
+  aspect-ratio: 21 / 9;
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+@media (max-width: 767px) {
+  .article-cover {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* Text column + a recent-articles card that stays in view while reading. */
+.article-layout {
+  display: grid;
+  gap: 3rem;
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+@media (min-width: 1024px) {
+  .article-layout {
+    grid-template-columns: minmax(0, 1fr) 22rem;
+    gap: clamp(3rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+}
+
+.article-body {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 46rem;
+  color: var(--ink);
+  font-size: clamp(1.05rem, 1.2vw, 1.15rem);
+  line-height: 1.8;
+}
+
+.article-body p {
+  margin: 0;
+}
+
+.article-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  max-width: 46rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--line);
+}
+
+.article-foot-brand {
+  color: var(--primary-ink);
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.article-foot-line {
+  margin-top: 0.35rem;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.article-aside {
+  padding: 1.5rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow-card);
+}
+
+@media (min-width: 1024px) {
+  .article-aside {
+    position: sticky;
+    top: 6.5rem; /* clears the fixed header */
+  }
+}
+
+.article-aside-title {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .article-aside-title {
+  letter-spacing: 0;
+}
+
+.article-aside ul {
+  display: grid;
+  gap: 1.25rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.article-recent {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.article-recent-img {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+.article-recent-img img {
+  transition: transform 0.6s var(--ease);
+}
+
+.article-recent:hover .article-recent-img img {
+  transform: scale(1.06);
+}
+
+.article-recent-date {
+  display: block;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.article-recent-title {
+  display: -webkit-box;
+  margin-top: 0.3rem;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  transition: color 0.25s ease;
+}
+
+.article-recent:hover .article-recent-title {
+  color: var(--primary-ink);
+}
+
+.article-recent-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.4rem;
+  color: var(--primary-ink);
+  font-size: 0.75rem;
+  font-weight: 700;
+}

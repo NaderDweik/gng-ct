@@ -4,7 +4,7 @@
 >
 > **Refresh rule:** After any meaningful product/design/content change, update this file before ending the turn so the next AI session starts current.
 >
-> *Last refreshed: 2026-09-27 (recolor to Giving Spirit palette) · mirrors live codebase under `jordangate-redesign-main/`*
+> *Last refreshed: 2026-10-03 (financing simplified, article pages, white labels on primary, no em dashes in copy) · mirrors live codebase under `jordangate-redesign-main/`*
 
 ---
 
@@ -71,9 +71,9 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 
 | Path | AR | Status | Notes |
 |------|----|--------|-------|
-| `/` | الرئيسية | **Polished** | Cinematic layered hero (`features/home/HeroLayered`, GSAP): 3 auto-advancing slides from `content/hero.ts` (tent pavilion + pool · palms + pergola · garden swing), fixed wordmark with per-slide cut-outs in front (`public/hero/*-cutout.webp`, regenerate with `scripts/hero-cutout.mjs`); pins & recedes on scroll. Section order (top → bottom): About intro (`features/home/HomeIntro` — 3:2 crop (sides trimmed) of a 16:9 photo that assembles once in view from `public/home/intro-{sky,walls,chalet,ground,pool}-v2.webp` (sky fades, walls rise, chalet drops, ground rises, pool settles), then two white lines (`seams`, traced from the layer alpha) draw along the chalet's base (edge to edge) and the pool's lower edge, each trailing off; copy in `content/home-intro.ts`) · destinations · "A day at Giving City" (`features/gallery/GalleryDay` — static 7-tile bento with a Day/Night sky switch that auto-turns to Night 3.5s after the section is in view (once; a press cancels it), lede inside the big tile, sets in `dayScenes`; fits one screen on desktop; Night set is dusk + lit interiors until real night photos exist) · amenities · map (`LocationShowcase`) · stats bar · News & articles (`features/news/NewsPreview`, 3 cards from `homeNewsSlugs`) · FAQ · RegisterCta. Compare-plans cards live on /financing only |
+| `/` | الرئيسية | **Polished** | Cinematic layered hero (`features/home/HeroLayered`, GSAP): 3 auto-advancing slides from `content/hero.ts` (tent pavilion + pool · palms + pergola · garden swing), fixed wordmark with per-slide cut-outs in front (`public/hero/*-cutout.webp`, regenerate with `scripts/hero-cutout.mjs`); pins & recedes on scroll. Section order (top → bottom): About intro (`features/home/HomeIntro` — 3:2 crop (sides trimmed) of a 16:9 photo that assembles once in view from `public/home/intro-{sky,walls,chalet,ground,pool}-v2.webp` (sky fades, walls rise, chalet drops, ground rises, pool settles), then two white lines (`seams`, traced from the layer alpha) draw along the chalet's base (edge to edge) and the pool's lower edge, each trailing off; copy in `content/home-intro.ts`) · destinations · "A day at Giving City" (`features/gallery/GalleryDay` — static 7-tile bento (taller bottom row; time tag bottom-start, hover title opens under it and lifts it) with a minimal Day/Night switch (by day a sun with turning rays sits in the top-right corner) (night adds a crescent moon + stars sliding in from the section's top-right corner) that auto-turns to Night 3.5s after the section is in view (once; a press cancels it), lede inside the big tile, sets in `dayScenes`; fits one screen on desktop; Night set is dusk + lit interiors until real night photos exist) · amenities (`features/amenities/AmenitiesGrid`: 2-up horizontal cards, photo flush on the start side + icon/title/line; hover = primary border, the photo window opens across the card (image glides, never rescales) under a dark tint, text turns light and slides to the start edge) · map (`LocationShowcase`: clean map beside one panel — eyebrow, title, place, drive-time list with the auto tour, one Open map link) · stats bar (367+ resorts · 500,000 m² · 500 m² per unit · 0% interest; teal, with the banner V-line motif live in SVG at both sides, darkest green, masked out toward the middle: `components/ui/VLines` + `styles/base/v-lines.css`) · News & articles (`features/news/NewsPreview`, 3 cards from `homeNewsSlugs`) · FAQ · RegisterCta. Compare-plans cards live on /financing only |
 | `/about` | من نحن | **Polished** | Full-bleed hero + CountUp stats, pillars, collage, ISO video, socials, leadership link, RegisterCta |
-| `/gallery` | المعرض | **Polished** | Cinematic short hero · flush mosaic tabs · lightbox · 2 YT videos · **no** bottom RegisterCta |
+| `/gallery` | المعرض | **Polished** | Cinematic short hero · flush mosaic tabs (tile hover: photo blurs + darkens, centred zoom icon · category · name) · lightbox · 2 YT videos · **no** bottom RegisterCta |
 | `/units` | الوحدات المتاحة | **Built** | `SubpageHeader` → `UnitsPlans` intro → unit plan section (`features/units/UnitPlanFeatures`: `public/plans/unit-plan.webp` in a framed panel on the start side, the 10 rooms/spaces as numbered tiles in two columns (Inside / Outdoors, ids via `unitPlanRows`), then a dark facts bar (plot · ownership · price from · move-in, `unitPlanPanel` in `content/master-plan.ts`) with a Register interest CTA) → "floor plans coming soon" notice |
 | `/amenities` | المرافق | **Built** | `AmenitiesHoverGrid` |
 | `/financing` | التمويل | **Polished** | Plans + showcase + RegisterCta |
@@ -219,3 +219,15 @@ Also in `site.copyBank`.
 6. Theme changes go through `src/theme/tokens.ts`, not scattered hex.
 7. Codebase **is** Giving City (not Jordan Gate scaffolding). JG was reference UX only.
 8. Prefer matching existing page language (about / home mosaic / FAQ) over inventing a new visual system per page.
+
+---
+
+## 2026-10-03 changes
+
+- Copy rule: no em dashes in any user-facing EN/AR text (use commas, colons, periods, parentheses).
+- `--on-primary` is white (labels on the green primary fill).
+- Financing page: single "How would you like to pay?" picker (Move in 2025/2026/2027, Pay in full) with a today / monthly / total breakdown; PlanCompare cards removed.
+- News: /news grid is 3 columns; article pages have meta row, cover, sticky recent-articles sidebar, brand sign-off + register CTA (`styles/sections/article.css`).
+- Register: CTAs "Submit Interest" / "Call Us Directly"; site-visit card plays the CTA video loop under a tint.
+- Units plan is an SVG (`public/plans/unit-plan.svg`), frameless with faded edges.
+- Leadership: stats row and green glow removed. About: founder avatar uses the real portrait.

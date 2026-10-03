@@ -1,7 +1,7 @@
 {
   "meta": {
     "siteName": "Giving City | روح العطاء",
-    "description": "First and largest fully-serviced chalet city in the region — 367+ private resorts in Jordan"
+    "description": "First and largest fully-serviced chalet city in the region, 367+ private resorts in Jordan"
   },
   "common": {
     "whatsapp": "Chat on WhatsApp",
@@ -18,8 +18,8 @@
     "themeToLight": "Switch to light theme"
   },
   "home": {
-    "headline": "A city of private resorts — fully owned",
-    "sub": "367+ Spanish-style chalets on 500,000 m² — privacy, investment, and a fully serviced community.",
+    "headline": "A city of private resorts, fully owned",
+    "sub": "367+ Spanish-style chalets on 500,000 m²: privacy, investment, and a fully serviced community.",
     "ctaPrimary": "Register interest",
     "ctaSecondary": "Explore payment plans",
     "statsUnits": "private resorts",
@@ -36,15 +36,15 @@
     "featureQualityDesc": "Documented build and finish standards",
     "galleryTitle": "From the project",
     "pricingTitle": "Ownership with zero interest",
-    "pricingSub": "From 168,000 JD — or 142,800 cash",
+    "pricingSub": "From 168,000 JD, or 142,800 cash",
     "locationTitle": "Location",
     "locationSub": "41 km from Le Royal Hotel towards Sahab Al-Hatmiyeh"
   },
   "financing": {
     "title": "Financing & payment plans",
-    "subtitle": "Direct with the company — no bank, zero interest",
+    "subtitle": "Direct with the company: no bank, zero interest",
     "cashTitle": "Cash offer",
-    "cashDesc": "15% off — 142,800 JD with immediate move-in",
+    "cashDesc": "15% off: 142,800 JD with immediate move-in",
     "calculatorTitle": "Down-payment calculator",
     "calculatorHint": "Pick a plan to see the approximate down payment",
     "downPayment": "Down payment",
@@ -54,7 +54,7 @@
   },
   "gallery": {
     "title": "Gallery",
-    "subtitle": "From facade to skyline — every angle of the community.",
+    "subtitle": "From facade to skyline, every angle of the community.",
     "videos": "Videos",
     "tour": "Complete resort tour",
     "isoVideo": "ISO 9001:2015 certificate presentation"
@@ -69,8 +69,8 @@
     "morning": "Morning",
     "afternoon": "Afternoon",
     "evening": "Evening",
-    "submit": "Send via WhatsApp",
-    "orCall": "Or call directly"
+    "submit": "Submit Interest",
+    "orCall": "Call Us Directly"
   },
   "location": {
     "title": "Map & location",
@@ -87,7 +87,7 @@
   "about": {
     "title": "About us",
     "subtitle": "Al-Ataa for City Development & Financing",
-    "story": "Giving City is Al-Ataa’s flagship: the first and largest fully-serviced chalet city in the region. A gated community where every buyer owns their resort with an independent deed — not a hotel, but a home and an investment.",
+    "story": "Giving City is Al-Ataa’s flagship: the first and largest fully-serviced chalet city in the region. A gated community where every buyer owns their resort with an independent deed. Not a hotel, but a home and an investment.",
     "founder": "Led by Dr. Tarek Qazan with ISO 9001:2015 commitment."
   },
   "services": {
@@ -111,7 +111,7 @@
   },
   "masterPlan": {
     "title": "Master plan",
-    "subtitle": "A private 500 m² resort — considered interiors, a pool, and outdoor living inside a gated community."
+    "subtitle": "A private 500 m² resort: considered interiors, a pool, and outdoor living inside a gated community."
   },
   "units": {
     "title": "Available units",
@@ -120,6 +120,6 @@
     "statusAvailable": "Available",
     "statusReserved": "Reserved",
     "statusSold": "Sold",
-    "note": "Detailed availability is confirmed with sales — WhatsApp us for the latest status."
+    "note": "Detailed availability is confirmed with sales. WhatsApp us for the latest status."
   }
 }

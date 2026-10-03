@@ -18,7 +18,7 @@ export default async function NewsPage({ params }: Props) {
     <>
       <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
       <section className="section">
-        <div className="container-gc grid gap-8 md:grid-cols-2">
+        <div className="container-gc grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {articles.map((a) => (
             <article key={a.slug} className="group hv border border-line bg-surface">
               <Link href={`/news/${a.slug}`} className="relative block aspect-[16/9] overflow-hidden bg-surface-alt" tabIndex={-1} aria-hidden>
@@ -26,7 +26,7 @@ export default async function NewsPage({ params }: Props) {
                   src={a.image}
                   alt=""
                   fill
-                  sizes="(max-width: 768px) 100vw, 50vw"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                 />
                 <HoverAccent />

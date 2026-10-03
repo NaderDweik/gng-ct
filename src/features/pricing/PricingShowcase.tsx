@@ -1,328 +1,140 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { basePriceJd, cashDiscountPct, cashPriceJd, pricingPlans } from "@/content/pricing";
-import { site } from "@/content/site";
+import { basePriceJd, cashDiscountPct, cashPriceJd, isPlanChoice, pricingPlans, type PlanChoice } from "@/content/pricing";
 import { formatNumber } from "@/lib/format";
-import { CountUp } from "@/components/ui/CountUp";
-import { isSwitchingLocale } from "@/i18n/useSwitchLocale";
 
-type Mode = "installments" | "cash";
-
-function useAnimatedNumber(target: number, enabled: boolean, duration = 1400) {
-  const [value, setValue] = useState(0);
-  const fromRef = useRef(0);
-  const startedRef = useRef(false);
-
-  useEffect(() => {
-    if (!enabled) return;
-
-    // Reduced motion, or arriving via a language switch: show the number, don't count.
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches || isSwitchingLocale();
-    if (reduce) {
-      fromRef.current = target;
-      setValue(target);
-      startedRef.current = true;
-      return;
-    }
-
-    // First reveal: always count up from 0. Later changes (toggle/plan) tween from current.
-    const from = startedRef.current ? fromRef.current : 0;
-    startedRef.current = true;
-
-    if (from === target) {
-      setValue(target);
-      return;
-    }
-
-    let raf = 0;
-    const start = performance.now();
-    const tick = (now: number) => {
-      const p = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - p, 3);
-      const next = Math.round(from + (target - from) * eased);
-      fromRef.current = next;
-      setValue(next);
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [target, duration, enabled]);
-
-  return value;
-}
-
-function AnimatedNumber({
-  value,
-  locale,
-  enabled,
-}: {
-  value: number;
-  locale: string;
-  enabled: boolean;
-}) {
-  const v = useAnimatedNumber(value, enabled);
-  return <span className="tabular-nums">{formatNumber(v, locale)}</span>;
-}
-
-function Check() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <path d="M20 6 9 17l-5-5" />
-    </svg>
-  );
-}
-
+/*
+ * Financing, said plainly: one price, one choice (move-in year or pay in full), and a
+ * breakdown that answers "what do I pay today, what do I pay each month, for how long".
+ */
 export function PricingShowcase() {
   const locale = useLocale();
   const isAr = locale === "ar";
-  const t = useTranslations("home");
   const tc = useTranslations("common");
-  const copy = site.copyBank[isAr ? "ar" : "en"];
+  const jd = tc("jd");
+  const n = (v: number) => formatNumber(v, locale);
+  const pct = (v: number) => `${n(v)}${isAr ? "٪" : "%"}`;
+  const year = (v: number) => n(v).replace(/[٬,]/g, "");
 
-  const rootRef = useRef<HTMLDivElement>(null);
-  const [inView, setInView] = useState(false);
-
-  const [mode, setMode] = useState<Mode>("installments");
-  const [planId, setPlanId] = useState<(typeof pricingPlans)[number]["id"]>(pricingPlans[0].id);
-  const plan = pricingPlans.find((p) => p.id === planId) ?? pricingPlans[0];
+  const [choice, setChoice] = useState<PlanChoice>(pricingPlans[0].id);
 
   // Deep link from the home plan chooser: /financing?plan=midterm (or plan=cash).
   useEffect(() => {
     const wanted = new URLSearchParams(window.location.search).get("plan");
-    if (wanted === "cash") setMode("cash");
-    else if (pricingPlans.some((p) => p.id === wanted)) {
-      setMode("installments");
-      setPlanId(wanted as (typeof pricingPlans)[number]["id"]);
-    }
+    if (isPlanChoice(wanted)) setChoice(wanted);
   }, []);
 
-  const remaining = basePriceJd - plan.downJd;
-  const months = Math.ceil(remaining / plan.monthlyFromJd);
-  const savings = basePriceJd - cashPriceJd;
-  const headline = mode === "cash" ? cashPriceJd : basePriceJd;
-  const jd = tc("jd");
+  const plan = pricingPlans.find((p) => p.id === choice);
+  const options: { id: PlanChoice; label: string }[] = [
+    ...pricingPlans.map((p) => ({
+      id: p.id,
+      label: isAr ? `استلام ${year(p.moveIn)}` : `Move in ${year(p.moveIn)}`,
+    })),
+    { id: "cash", label: isAr ? "دفع كامل" : "Pay in full" },
+  ];
 
-  const benefits = [copy.deed, copy.spanish, copy.privacy, copy.iso];
-
-  useEffect(() => {
-    const el = rootRef.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry.isIntersecting) return;
-        setInView(true);
-        io.disconnect();
-      },
-      { threshold: 0.2 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+  const rows: { label: string; value: string; note?: string; accent?: boolean }[] = plan
+    ? [
+        {
+          label: isAr ? "تدفع اليوم" : "You pay today",
+          value: `${n(plan.downJd)} ${jd}`,
+          note: isAr ? `${pct(plan.downPct)} من السعر` : `${plan.downPct}% of the price`,
+        },
+        {
+          label: isAr ? "ثم كل شهر" : "Then every month",
+          value: `${n(plan.monthlyFromJd)} ${jd}`,
+          note: isAr
+            ? `لمدة ${n(Math.ceil((basePriceJd - plan.downJd) / plan.monthlyFromJd))} شهرًا`
+            : `for ${Math.ceil((basePriceJd - plan.downJd) / plan.monthlyFromJd)} months`,
+        },
+        { label: isAr ? "الفوائد" : "Interest", value: `${n(0)} ${jd}`, accent: true },
+      ]
+    : [
+        {
+          label: isAr ? "تدفع اليوم" : "You pay today",
+          value: `${n(cashPriceJd)} ${jd}`,
+          note: isAr ? "دفعة واحدة" : "One payment",
+        },
+        {
+          label: isAr ? "توفّر" : "You save",
+          value: `${n(basePriceJd - cashPriceJd)} ${jd}`,
+          note: isAr ? `خصم ${pct(cashDiscountPct)}` : `${cashDiscountPct}% off`,
+          accent: true,
+        },
+        { label: isAr ? "الأقساط" : "Monthly payments", value: isAr ? "لا يوجد" : "None" },
+      ];
+  const total = plan ? basePriceJd : cashPriceJd;
+  const moveIn = plan ? year(plan.moveIn) : year(pricingPlans[0].moveIn);
 
   return (
-    <div ref={rootRef} className="pricing-showcase grid items-stretch gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
-      <div className="flex flex-col justify-center">
+    <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+      <div>
         <p className="section-eyebrow">{tc("financing")}</p>
-        <h2 className="section-title">{t("pricingTitle")}</h2>
-        <p className="section-sub">{t("pricingSub")}</p>
-
-        <div role="tablist" aria-label={isAr ? "طريقة الدفع" : "Payment method"} className="pricing-toggle mt-10" data-mode={mode}>
-          <span className="pricing-toggle-thumb" aria-hidden />
-          {(["installments", "cash"] as const).map((m) => (
-            <button
-              key={m}
-              type="button"
-              role="tab"
-              aria-selected={mode === m}
-              onClick={() => setMode(m)}
-              className="pricing-toggle-btn"
-            >
-              {m === "installments"
-                ? isAr ? "تقسيط بدون فوائد" : "Zero-interest plan"
-                : isAr ? `نقدًا — خصم ${formatNumber(cashDiscountPct, locale)}٪` : `Cash — ${cashDiscountPct}% off`}
-            </button>
-          ))}
-        </div>
-
-        <div className="mt-8">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted">
-            {isAr ? "سعر الشاليه يبدأ من" : "Chalets from"}
-          </p>
-          <p className="font-display mt-3 flex items-baseline gap-3 text-6xl font-bold leading-none tracking-tight text-primary-ink md:text-7xl">
-            <AnimatedNumber value={headline} locale={locale} enabled={inView} />
-            <span className="text-lg font-medium tracking-normal text-muted">{jd}</span>
-          </p>
-          <div className="mt-4 flex min-h-8 flex-wrap items-center gap-3 text-sm">
-            {mode === "cash" ? (
-              <>
-                <span className="text-muted line-through">
-                  {formatNumber(basePriceJd, locale)} {jd}
-                </span>
-                <span className="pricing-chip pricing-chip--accent">
-                  {isAr ? "توفير" : "Save"}{" "}
-                  <AnimatedNumber value={savings} locale={locale} enabled={inView} /> {jd}
-                </span>
-              </>
-            ) : (
-              <>
-                <span className="pricing-chip">{isAr ? `${formatNumber(0, locale)}٪ فوائد` : "0% interest"}</span>
-                <span className="text-muted">
-                  {isAr ? "أو" : "or"} {formatNumber(cashPriceJd, locale)} {jd} {isAr ? "نقدًا" : "cash"}
-                </span>
-              </>
-            )}
-          </div>
-        </div>
-
-        <ul className="mt-10 grid gap-x-6 gap-y-4 border-t border-line pt-8 sm:grid-cols-2">
-          {benefits.map((b) => (
-            <li key={b} className="flex items-start gap-3 text-sm text-ink">
-              <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary">
-                <Check />
-              </span>
-              {b}
-            </li>
-          ))}
-        </ul>
-
-        {/* One clear next step: register with the plan shown on the card. */}
+        <h2 className="section-title">
+          {isAr ? "امتلك شاليهك بدون فوائد." : "Own your chalet with 0% interest."}
+        </h2>
+        <p className="section-sub">
+          {isAr
+            ? `سعر الشاليه ${n(basePriceJd)} ${jd}. ادفع جزءًا اليوم والباقي أقساطًا شهرية، مباشرة لنا، بدون بنك وبدون فوائد. أو ادفع كامل المبلغ واحصل على خصم ${pct(cashDiscountPct)}.`
+            : `A chalet costs ${n(basePriceJd)} ${jd}. Pay part of it today and the rest monthly, directly to us. No bank, no interest. Or pay in full and get ${cashDiscountPct}% off.`}
+        </p>
         <div className="mt-10">
-          <Link href={`/register?plan=${mode === "cash" ? "cash" : planId}`} className="btn btn-primary">
+          <Link href={`/register?plan=${choice}`} className="btn btn-primary">
             {tc("register")}
           </Link>
         </div>
       </div>
 
       <div className="pricing-card">
-        <div className="pricing-card-glow" aria-hidden />
-        <div className="relative z-10 flex h-full flex-col">
-          <div className="flex items-center justify-between gap-4">
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-accent">{copy.zeroInterest}</p>
-            <span className="rounded-full border border-white/20 px-3 py-1 text-[11px] text-on-dark-muted">
-              {isAr ? "مباشرة مع الشركة" : "Direct with developer"}
-            </span>
-          </div>
-
-          {mode === "installments" ? (
-            <div key="inst" className="pricing-fade mt-8 flex flex-1 flex-col">
-              <div role="tablist" aria-label={isAr ? "خطط الاستلام" : "Move-in plans"} className="grid grid-cols-3 gap-2">
-                {pricingPlans.map((p) => {
-                  const active = p.id === planId;
-                  return (
-                    <button
-                      key={p.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={active}
-                      onClick={() => setPlanId(p.id)}
-                      className={`pricing-plan-tab ${active ? "is-active" : ""}`}
-                    >
-                      <span className="font-display block text-2xl font-bold tabular-nums">
-                        {formatNumber(p.moveIn, locale).replace(/[٬,]/g, "")}
-                      </span>
-                      <span className="mt-1 block text-[11px] uppercase tracking-[0.14em] opacity-75">
-                        {isAr ? p.labelAr : p.labelEn}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div className="mt-10">
-                <p className="text-sm text-on-dark-muted">{isAr ? "الدفعة الأولى" : "Down payment"}</p>
-                <p className="font-display mt-2 flex items-baseline gap-3 text-5xl font-bold leading-none text-on-dark">
-                  <AnimatedNumber value={plan.downJd} locale={locale} enabled={inView} />
-                  <span className="text-base font-medium text-on-dark-muted">{jd}</span>
-                  <span className="pricing-chip pricing-chip--dark ms-auto">
-                    {formatNumber(plan.downPct, locale)}{isAr ? "٪" : "%"}
-                  </span>
-                </p>
-
-                <div className="mt-6" aria-hidden>
-                  <div className="pricing-bar">
-                    <span className="pricing-bar-fill" style={{ width: inView ? `${plan.downPct}%` : "0%" }} />
-                  </div>
-                  <div className="mt-2 flex justify-between text-[11px] text-on-dark-subtle">
-                    <span>{isAr ? "الدفعة الأولى" : "Down"}</span>
-                    <span>{isAr ? "أقساط شهرية بدون فوائد" : "Zero-interest monthly"}</span>
-                  </div>
-                </div>
-              </div>
-
-              <dl className="mt-auto grid grid-cols-2 gap-px overflow-hidden border border-line-on-dark bg-fill-on-dark pt-0 [&>div]:bg-secondary-deep">
-                <div className="p-5">
-                  <dt className="text-[11px] uppercase tracking-[0.14em] text-on-dark-subtle">{isAr ? "القسط الشهري من" : "Monthly from"}</dt>
-                  <dd className="font-display mt-2 text-2xl font-bold">
-                    <AnimatedNumber value={plan.monthlyFromJd} locale={locale} enabled={inView} />{" "}
-                    <span className="text-sm font-medium text-on-dark-muted">{jd}</span>
-                  </dd>
-                </div>
-                <div className="p-5">
-                  <dt className="text-[11px] uppercase tracking-[0.14em] text-on-dark-subtle">{isAr ? "المدة حتى" : "Up to"}</dt>
-                  <dd className="font-display mt-2 text-2xl font-bold">
-                    <AnimatedNumber value={months} locale={locale} enabled={inView} />{" "}
-                    <span className="text-sm font-medium text-on-dark-muted">{isAr ? "شهرًا" : "months"}</span>
-                  </dd>
-                </div>
-                <div className="p-5">
-                  <dt className="text-[11px] uppercase tracking-[0.14em] text-on-dark-subtle">{isAr ? "المتبقي" : "Balance"}</dt>
-                  <dd className="font-display mt-2 text-2xl font-bold">
-                    <AnimatedNumber value={remaining} locale={locale} enabled={inView} />{" "}
-                    <span className="text-sm font-medium text-on-dark-muted">{jd}</span>
-                  </dd>
-                </div>
-                <div className="p-5">
-                  <dt className="text-[11px] uppercase tracking-[0.14em] text-on-dark-subtle">{isAr ? "الفوائد" : "Interest"}</dt>
-                  <dd className="font-display mt-2 text-2xl font-bold text-accent">
-                    {inView ? (
-                      <CountUp value={0} from={100} locale={locale} duration={1600} delay={150} suffix={isAr ? "٪" : "%"} />
-                    ) : (
-                      <span className="tabular-nums">100{isAr ? "٪" : "%"}</span>
-                    )}
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          ) : (
-            <div key="cash" className="pricing-fade mt-8 flex flex-1 flex-col">
-              <p className="font-display text-3xl font-bold leading-tight text-on-dark md:text-4xl">
-                {isAr ? "ادفع نقدًا ووفّر مباشرة." : "Pay cash, save instantly."}
-              </p>
-              <p className="mt-3 max-w-sm text-sm text-on-dark-muted">
-                {isAr
-                  ? `خصم ${formatNumber(cashDiscountPct, locale)}٪ على السعر الأساسي عند الدفع الكامل، مع سند ملكية مستقل باسمك.`
-                  : `${cashDiscountPct}% off the list price for full payment, with an independent deed in your name.`}
-              </p>
-
-              <dl className="mt-auto space-y-4 border-t border-line-on-dark pt-8 text-sm">
-                <div className="flex items-center justify-between">
-                  <dt className="text-on-dark-muted">{isAr ? "السعر الأساسي" : "List price"}</dt>
-                  <dd className="tabular-nums text-on-dark-muted">
-                    <AnimatedNumber value={basePriceJd} locale={locale} enabled={inView} /> {jd}
-                  </dd>
-                </div>
-                <div className="flex items-center justify-between">
-                  <dt className="text-on-dark-muted">
-                    {isAr ? `خصم نقدي ${formatNumber(cashDiscountPct, locale)}٪` : `Cash discount ${cashDiscountPct}%`}
-                  </dt>
-                  <dd className="tabular-nums text-accent">
-                    − <AnimatedNumber value={savings} locale={locale} enabled={inView} /> {jd}
-                  </dd>
-                </div>
-                <div className="flex items-center justify-between border-t border-line-on-dark pt-4">
-                  <dt className="font-bold text-on-dark">{isAr ? "تدفع" : "You pay"}</dt>
-                  <dd className="font-display text-3xl font-bold tabular-nums text-on-dark">
-                    <AnimatedNumber value={cashPriceJd} locale={locale} enabled={inView} />{" "}
-                    <span className="text-sm font-medium text-on-dark-muted">{jd}</span>
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          )}
+        <p className="text-sm font-bold text-on-dark">
+          {isAr ? "كيف تريد أن تدفع؟" : "How would you like to pay?"}
+        </p>
+        <div
+          role="tablist"
+          aria-label={isAr ? "طريقة الدفع" : "Payment option"}
+          className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4"
+        >
+          {options.map((o) => (
+            <button
+              key={o.id}
+              type="button"
+              role="tab"
+              aria-selected={choice === o.id}
+              onClick={() => setChoice(o.id)}
+              className={`pricing-plan-tab${choice === o.id ? " is-active" : ""}`}
+            >
+              {o.label}
+            </button>
+          ))}
         </div>
+
+        <dl key={choice} className="pricing-fade mt-8">
+          {rows.map((r) => (
+            <div key={r.label} className="pricing-row">
+              <dt className="text-on-dark-muted">{r.label}</dt>
+              <dd className="text-end">
+                <span className={`font-display block text-2xl font-bold tabular-nums md:text-3xl${r.accent ? " text-accent" : ""}`}>
+                  {r.value}
+                </span>
+                {r.note && <span className="mt-1 block text-sm text-on-dark-muted">{r.note}</span>}
+              </dd>
+            </div>
+          ))}
+          <div className="pricing-row pricing-row--total">
+            <dt className="font-bold text-on-dark">{isAr ? "المجموع" : "Total"}</dt>
+            <dd className="text-end">
+              <span className="font-display block text-2xl font-bold tabular-nums md:text-3xl">
+                {n(total)} {jd}
+              </span>
+              <span className="mt-1 block text-sm text-on-dark-muted">
+                {isAr ? `الاستلام ${moveIn}` : `Move in ${moveIn}`}
+              </span>
+            </dd>
+          </div>
+        </dl>
       </div>
     </div>
   );

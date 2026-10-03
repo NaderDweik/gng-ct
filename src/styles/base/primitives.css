@@ -25,7 +25,7 @@
 
 .btn-primary {
   background: var(--brand-primary);
-  /* Token rule: labels on the primary fill use --on-primary (white is ~2.4:1). */
+  /* Labels on the primary fill always use --on-primary (white). */
   color: var(--on-primary);
 }
 

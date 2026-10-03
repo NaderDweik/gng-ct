@@ -131,14 +131,8 @@ export function ResortChapters({ items, isAr }: { items: AmenityFeature[]; isAr:
               <span key={current.id} className="ap-frame-title">
                 {isAr ? current.titleAr : current.titleEn}
               </span>
-              <span className="ap-frame-count">
-                {num(active, isAr)} <i /> {num(items.length - 1, isAr)}
-              </span>
             </div>
           )}
-          <span className="ap-frame-progress">
-            <i style={{ transform: `scaleY(${(active + 1) / items.length})` }} />
-          </span>
         </div>
       </div>
     </div>

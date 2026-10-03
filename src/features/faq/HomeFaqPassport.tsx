@@ -75,7 +75,7 @@ const copy = {
   en: {
     eyebrow: "FAQ",
     title: "Five answers, stamped.",
-    lead: "The questions we hear most — each answer comes with our seal on it.",
+    lead: "The questions we hear most, and each answer comes with our seal on it.",
     hint: "Tap a question to collect its stamp",
     collected: (n: string, t: string) => `${n} of ${t} stamped`,
     passport: "Giving City · Passport",
@@ -93,7 +93,7 @@ const copy = {
   ar: {
     eyebrow: "الأسئلة الشائعة",
     title: "خمس إجابات، مختومة.",
-    lead: "أكثر الأسئلة التي نسمعها — وكل إجابة تحمل ختمنا.",
+    lead: "أكثر الأسئلة التي نسمعها، وكل إجابة تحمل ختمنا.",
     hint: "اضغط على سؤال لتحصل على ختمه",
     collected: (n: string, t: string) => `${n} من ${t} مختومة`,
     passport: "جواز Giving City",

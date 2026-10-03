@@ -59,7 +59,7 @@ export function UnitPlanFeatures({ locale }: { locale: string }) {
               alt={copy.mapAlt}
               width={unitPlanImage.width}
               height={unitPlanImage.height}
-              sizes="(min-width: 1024px) 50vw, 100vw"
+              unoptimized /* SVG: served as-is, stays sharp at any size */
             />
           </figure>
           <div className="up-groups">

@@ -47,7 +47,7 @@ export function ChosenPlanCard({ locale, jd }: Props) {
       <div className="register-side register-side--dark" aria-live="polite">
         {eyebrow(isAr ? "خطتك المختارة" : "Your chosen plan")}
         <p className="font-display mt-2 text-2xl font-bold text-on-dark">
-          {isAr ? `الدفع النقدي — خصم ${pct(cashDiscountPct)}` : `Cash — ${cashDiscountPct}% off`}
+          {isAr ? `الدفع النقدي، خصم ${pct(cashDiscountPct)}` : `Cash, ${cashDiscountPct}% off`}
         </p>
         <p className="font-display mt-3 text-4xl font-bold leading-none text-on-dark tabular-nums">
           {n(cashPriceJd)}
@@ -71,7 +71,7 @@ export function ChosenPlanCard({ locale, jd }: Props) {
       <div className="register-side register-side--dark" aria-live="polite">
         {eyebrow(isAr ? "خطتك المختارة" : "Your chosen plan")}
         <p className="font-display mt-2 text-2xl font-bold text-on-dark">
-          {isAr ? `الاستلام ${year(plan.moveIn)} — ${plan.labelAr}` : `Move-in ${year(plan.moveIn)} — ${plan.labelEn}`}
+          {isAr ? `الاستلام ${year(plan.moveIn)} (${plan.labelAr})` : `Move-in ${year(plan.moveIn)} (${plan.labelEn})`}
         </p>
         <p className="mt-3 text-sm text-on-dark-muted">{isAr ? "الدفعة الأولى" : "Down payment"}</p>
         <p className="font-display mt-1 text-4xl font-bold leading-none text-on-dark tabular-nums">

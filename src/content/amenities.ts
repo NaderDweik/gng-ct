@@ -37,9 +37,9 @@ export const amenityFeatures: AmenityFeature[] = [
     tagsAr: ["مساحة الوحدة: ٥٠٠ م²", "مسبح كبير + مسبح أطفال"],
     tagsEn: ["Unit area: 500 m²", "Main pool + kids’ pool"],
     descAr:
-      "كل منتجع يتضمن مسبحاً خاصاً ومسبح أطفال — خصوصية كاملة داخل وحدتك، لا مشاركة مع الجيران.",
+      "كل منتجع يتضمن مسبحاً خاصاً ومسبح أطفال. خصوصية كاملة داخل وحدتك، لا مشاركة مع الجيران.",
     descEn:
-      "Every resort includes a private main pool and kids’ pool — full privacy inside your unit, never shared with neighbors.",
+      "Every resort includes a private main pool and kids’ pool. Full privacy inside your unit, never shared with neighbors.",
     image: "/gallery/resortsPics/swimmer-pool-waterfall.png",
   },
   {
@@ -52,9 +52,9 @@ export const amenityFeatures: AmenityFeature[] = [
     tagsAr: ["مجتمع مسوّر", "حراسة وكاميرات"],
     tagsEn: ["Gated community", "Guards & cameras"],
     descAr:
-      "حراسة أمنية وكاميرات مراقبة على مدار الساعة — مجتمع مغلق يمنحك راحة البال لعائلتك واستثمارك.",
+      "حراسة أمنية وكاميرات مراقبة على مدار الساعة. مجتمع مغلق يمنحك راحة البال لعائلتك واستثمارك.",
     descEn:
-      "Round-the-clock guards and CCTV — a gated community that protects your family and your investment.",
+      "Round-the-clock guards and CCTV. A gated community that protects your family and your investment.",
     image: "/gallery/compoundPics/security-guards-patrol-compound-o.png",
   },
   {
@@ -67,9 +67,9 @@ export const amenityFeatures: AmenityFeature[] = [
     tagsAr: ["تشطيبات فاخرة", "مدفأة ومطبخ مجهز"],
     tagsEn: ["Premium finishes", "Fireplace & fitted kitchen"],
     descAr:
-      "غرف معيشة دافئة بمدفأة، مطبخ مجهز بالكامل، وغرف نوم تطل على المسبح — تشطيبات فاخرة وضوء طبيعي في كل زاوية.",
+      "غرف معيشة دافئة بمدفأة، مطبخ مجهز بالكامل، وغرف نوم تطل على المسبح. تشطيبات فاخرة وضوء طبيعي في كل زاوية.",
     descEn:
-      "Warm living rooms with a fireplace, a fully fitted kitchen, and bedrooms that open onto the pool — premium finishes and natural light throughout.",
+      "Warm living rooms with a fireplace, a fully fitted kitchen, and bedrooms that open onto the pool. Premium finishes and natural light throughout.",
     image: "/gallery/resortsPics/family-living-room.png",
   },
   {
@@ -82,9 +82,9 @@ export const amenityFeatures: AmenityFeature[] = [
     tagsAr: ["مساحات لعب آمنة"],
     tagsEn: ["Safe play spaces"],
     descAr:
-      "مساحات لعب آمنة قريبة من المنازل — راحة للعائلات دون الابتعاد عن خصوصية الوحدة.",
+      "مساحات لعب آمنة قريبة من المنازل: راحة للعائلات دون الابتعاد عن خصوصية الوحدة.",
     descEn:
-      "Safe play spaces close to home — family comfort without leaving unit privacy behind.",
+      "Safe play spaces close to home: family comfort without leaving unit privacy behind.",
     image: "/gallery/compoundPics/kids-cycling-community-street.png",
   },
   {
@@ -97,9 +97,9 @@ export const amenityFeatures: AmenityFeature[] = [
     tagsAr: ["جلسات خارجية", "شواء خاص"],
     tagsEn: ["Outdoor seating", "Private BBQ"],
     descAr:
-      "برجولات ومناطق شواء لكل وحدة — أسلوب حياة خارجي فاخر بجانب المسبح والحديقة الخاصة.",
+      "برجولات ومناطق شواء لكل وحدة: أسلوب حياة خارجي فاخر بجانب المسبح والحديقة الخاصة.",
     descEn:
-      "Pergolas and BBQ for every unit — outdoor living beside your private pool and garden.",
+      "Pergolas and BBQ for every unit: outdoor living beside your private pool and garden.",
     image: "/gallery/resortsPics/father-son-bbq-grill.png",
   },
   {
@@ -112,9 +112,9 @@ export const amenityFeatures: AmenityFeature[] = [
     tagsAr: ["جدران بارتفاع ٣ أمتار"],
     tagsEn: ["3-meter perimeter walls"],
     descAr:
-      "جدران بارتفاع ٣ أمتار حول كل وحدة — خصوصية بصرية وصوتية تجعل منتجعك عالماً خاصاً بك.",
+      "جدران بارتفاع ٣ أمتار حول كل وحدة: خصوصية بصرية وصوتية تجعل منتجعك عالماً خاصاً بك.",
     descEn:
-      "Three-meter walls around every unit — visual and acoustic privacy that makes your resort truly yours.",
+      "Three-meter walls around every unit: visual and acoustic privacy that makes your resort truly yours.",
     image: "/gallery/resortsPics/garden-lounge-kids-swing.png",
   },
   {
@@ -142,9 +142,9 @@ export const amenityFeatures: AmenityFeature[] = [
     tagsAr: ["٥٠٠,٠٠٠ م² إجمالي المشروع", "حدائق منسقة"],
     tagsEn: ["500,000 m² total site", "Landscaped gardens"],
     descAr:
-      "حدائق ومساحات خضراء مخدومة عبر المشروع — بيئة خارجية هادئة لجميع الأعمار.",
+      "حدائق ومساحات خضراء مخدومة عبر المشروع، بيئة خارجية هادئة لجميع الأعمار.",
     descEn:
-      "Serviced gardens and green spaces across the project — a calm outdoor setting for every age.",
+      "Serviced gardens and green spaces across the project, a calm outdoor setting for every age.",
     image: "/gallery/compoundPics/community-park-families.png",
   },
 ];

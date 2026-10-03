@@ -89,8 +89,9 @@ const CAR_REST_MS = 1100;
 const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
 
 const FIT_OPTIONS: FitBoundsOptions = {
-  paddingTopLeft: [70, 90],
-  paddingBottomRight: [70, 130],
+  // Room for the pin labels (they run ~220px sideways) and the place card at the foot.
+  paddingTopLeft: [150, 90],
+  paddingBottomRight: [150, 140],
   animate: true,
   maxZoom: 14,
 };

@@ -10,13 +10,6 @@ import { formatNumber } from "@/lib/format";
 type Interest = "financing" | "visit";
 type TimeSlot = "morning" | "afternoon" | "evening";
 
-function formatPhone(phone: string) {
-  const d = phone.replace(/\D/g, "");
-  return d.startsWith("962") && d.length === 12
-    ? `+${d.slice(0, 3)} ${d.slice(3, 5)} ${d.slice(5, 8)} ${d.slice(8)}`
-    : phone;
-}
-
 export function RegisterForm() {
   const t = useTranslations("register");
   const tc = useTranslations("common");
@@ -55,13 +48,13 @@ export function RegisterForm() {
     if (!chosen) return "";
     if (chosen === "cash")
       return isAr
-        ? `الدفع النقدي — ${formatNumber(cashPriceJd, locale)} د.أ (خصم ${formatNumber(cashDiscountPct, locale)}٪)`
-        : `Cash — ${formatNumber(cashPriceJd, locale)} JD (${cashDiscountPct}% off)`;
+        ? `الدفع النقدي: ${formatNumber(cashPriceJd, locale)} د.أ (خصم ${formatNumber(cashDiscountPct, locale)}٪)`
+        : `Cash: ${formatNumber(cashPriceJd, locale)} JD (${cashDiscountPct}% off)`;
     const p = pricingPlans.find((x) => x.id === chosen);
     if (!p) return "";
     return isAr
-      ? `استلام ${formatNumber(p.moveIn, locale).replace(/[٬,]/g, "")} (${p.labelAr}) — دفعة أولى ${formatNumber(p.downJd, locale)} د.أ (${formatNumber(p.downPct, locale)}٪)`
-      : `Move-in ${p.moveIn} (${p.labelEn}) — ${formatNumber(p.downJd, locale)} JD down (${p.downPct}%)`;
+      ? `استلام ${formatNumber(p.moveIn, locale).replace(/[٬,]/g, "")} (${p.labelAr}): دفعة أولى ${formatNumber(p.downJd, locale)} د.أ (${formatNumber(p.downPct, locale)}٪)`
+      : `Move-in ${p.moveIn} (${p.labelEn}): ${formatNumber(p.downJd, locale)} JD down (${p.downPct}%)`;
   })();
 
   function onSubmit(e: FormEvent) {
@@ -75,7 +68,7 @@ export function RegisterForm() {
       : interest;
 
     const text = [
-      isAr ? "تسجيل اهتمام — Giving City" : "Register interest — Giving City",
+      isAr ? "تسجيل اهتمام: Giving City" : "Register interest: Giving City",
       `${isAr ? "الاسم" : "Name"}: ${name}`,
       `${isAr ? "الهاتف" : "Phone"}: ${phone}`,
       `${isAr ? "الاهتمام" : "Interest"}: ${interestText}`,
@@ -191,16 +184,16 @@ export function RegisterForm() {
         <button type="submit" className="register-submit">
           {t("submit")}
         </button>
-        <a href={`tel:${site.phoneAction}`} className="register-call" dir="ltr">
-          {t("orCall")} — {formatPhone(site.phone)}
+        <a href={`tel:${site.phoneAction}`} className="register-call">
+          {t("orCall")}
         </a>
       </div>
 
       {sent && (
         <p className="text-center text-sm font-medium text-primary-ink" role="status">
           {isAr
-            ? "تم فتح واتساب — أكمل الإرسال من هناك."
-            : "WhatsApp opened — finish sending from there."}
+            ? "تم فتح واتساب. أكمل الإرسال من هناك."
+            : "WhatsApp opened. Finish sending from there."}
         </p>
       )}
     </form>

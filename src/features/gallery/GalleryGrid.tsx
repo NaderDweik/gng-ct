@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import {
@@ -11,7 +11,6 @@ import {
   type GalleryCategoryId,
   type GalleryImage,
 } from "@/content/gallery";
-import { HoverAccent } from "@/components/ui/HoverAccent";
 
 /** Points to the inline end (→ in English); CSS mirrors it for "previous" and for RTL. */
 function ChevronIcon() {
@@ -34,6 +33,28 @@ function CloseIcon() {
  * Clean photo studio — flush mosaic, quiet tabs, minimal lightbox.
  * Same visual language as the home `.gm` tiles.
  */
+/*
+ * "All" tab order: a fixed shuffle (same seed every render, so server and client agree),
+ * then nudged so two photos from the same category rarely sit side by side.
+ */
+function seededShuffle(list: readonly GalleryImage[], seed: number): GalleryImage[] {
+  const out = [...list];
+  let x = seed;
+  for (let i = out.length - 1; i > 0; i--) {
+    x = (x * 1664525 + 1013904223) % 4294967296;
+    const j = x % (i + 1);
+    [out[i], out[j]] = [out[j]!, out[i]!];
+  }
+  for (let i = 1; i < out.length; i++) {
+    if (out[i]!.categoryId !== out[i - 1]!.categoryId) continue;
+    const k = out.findIndex((g, n) => n > i && g.categoryId !== out[i - 1]!.categoryId);
+    if (k > 0) [out[i], out[k]] = [out[k]!, out[i]!];
+  }
+  return out;
+}
+
+const mixedImages = seededShuffle(galleryImages, 7);
+
 export function GalleryGrid() {
   const locale = useLocale();
   const isAr = locale === "ar";
@@ -41,6 +62,8 @@ export function GalleryGrid() {
   const searchParams = useSearchParams();
   const [tab, setTab] = useState<GalleryCategoryId>("all");
   const [active, setActive] = useState<GalleryImage | null>(null);
+  // Each photo's own width/height, read on load, so the lightbox frame matches it (no letterbox bars).
+  const [ratios, setRatios] = useState<Record<string, number>>({});
   const touchX = useRef<number | null>(null);
   const touchDelta = useRef(0);
 
@@ -54,7 +77,7 @@ export function GalleryGrid() {
   const filtered = useMemo(
     () =>
       tab === "all"
-        ? galleryImages
+        ? mixedImages
         : galleryImages.filter((g) => g.categoryId === tab),
     [tab],
   );
@@ -126,7 +149,7 @@ export function GalleryGrid() {
               key={item.id}
               type="button"
               onClick={() => setActive(item)}
-              className="gal-tile hv"
+              className="gal-tile"
               style={{ animationDelay: `${Math.min(i, 12) * 40}ms` }}
               aria-label={nameLabel(item)}
             >
@@ -139,8 +162,14 @@ export function GalleryGrid() {
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 className="gal-tile-img"
               />
-              <HoverAccent />
-              <span className="gal-tile-label">{nameLabel(item)}</span>
+              <span className="gal-tile-hover" aria-hidden>
+                <svg className="gal-tile-zoom" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m20 20-3.9-3.9M11 8v6M8 11h6" />
+                </svg>
+                <span className="gal-tile-cat">{catLabel(item)}</span>
+                <span className="gal-tile-name">{nameLabel(item)}</span>
+              </span>
             </button>
           ))}
         </div>
@@ -164,6 +193,7 @@ export function GalleryGrid() {
 
           <div
             className="gal-lb-body"
+            style={{ "--lb-r": ratios[active.src] ?? 16 / 10 } as CSSProperties}
             onClick={(e) => e.stopPropagation()}
             onTouchStart={(e) => {
               touchX.current = e.touches[0]?.clientX ?? null;
@@ -191,6 +221,10 @@ export function GalleryGrid() {
                 quality={95}
                 sizes="(max-width: 1100px) 100vw, 1100px"
                 className="object-contain"
+                onLoad={(e) => {
+                  const { naturalWidth: w, naturalHeight: h, currentSrc } = e.currentTarget;
+                  if (w && h && currentSrc) setRatios((r) => ({ ...r, [active.src]: w / h }));
+                }}
               />
               {filtered.length > 1 && (
                 <>

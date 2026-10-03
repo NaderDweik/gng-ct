@@ -1,7 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { PricingShowcase } from "@/features/pricing/PricingShowcase";
-import { PlanCompare } from "@/features/pricing/PlanCompare";
 import { HomeFaq } from "@/features/faq/HomeFaq";
 import { faqCategories } from "@/content/faq";
 import { formatNumber } from "@/lib/format";
@@ -19,14 +18,14 @@ const steps = [
   {
     titleAr: "اختر خطتك",
     titleEn: "Choose your plan",
-    bodyAr: "استلام فوري أو متوسط الأجل أو مستقبلي — أو الدفع النقدي بخصم.",
-    bodyEn: "Immediate, mid-term or future move-in — or pay cash at a discount.",
+    bodyAr: "استلام فوري أو متوسط الأجل أو مستقبلي، أو الدفع النقدي بخصم.",
+    bodyEn: "Immediate, mid-term or future move-in, or pay cash at a discount.",
   },
   {
     titleAr: "الدفعة الأولى والعقد",
     titleEn: "Down payment & contract",
-    bodyAr: "ادفع الدفعة الأولى ووقّع العقد مباشرة مع الشركة — بدون بنك.",
-    bodyEn: "Pay the down payment and sign directly with the developer — no bank.",
+    bodyAr: "ادفع الدفعة الأولى ووقّع العقد مباشرة مع الشركة، بدون بنك.",
+    bodyEn: "Pay the down payment and sign directly with the developer. No bank.",
   },
   {
     titleAr: "سند ملكية وأقساط",
@@ -40,7 +39,6 @@ export default async function FinancingPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("financing");
-  const tc = await getTranslations("common");
   const isAr = locale === "ar";
 
   const financingFaq = faqCategories.find((c) => c.id === "purchase")?.items ?? [];
@@ -52,25 +50,6 @@ export default async function FinancingPage({ params }: Props) {
       <section id="plans" className="section scroll-mt-20 bg-surface-alt">
         <div className="container-gc">
           <PricingShowcase />
-        </div>
-      </section>
-
-      <section className="section bg-surface">
-        <div className="container-gc">
-          <div className="sec-head">
-            <div>
-              <p className="section-eyebrow">{isAr ? "قارن الخطط" : "Compare plans"}</p>
-              <h2 className="section-title mb-0">
-                {isAr ? "خطة لكل موعد استلام." : "A plan for every move-in date."}
-              </h2>
-            </div>
-            <p className="section-sub">
-              {isAr
-                ? "جميع الخطط مباشرة مع الشركة، بدون بنك وبدون فوائد — والفرق فقط في الدفعة الأولى وموعد الاستلام."
-                : "Every plan is direct with the developer, no bank and no interest — only the down payment and move-in date differ."}
-            </p>
-          </div>
-          <PlanCompare locale={locale} jd={tc("jd")} />
         </div>
       </section>
 

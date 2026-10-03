@@ -11,21 +11,38 @@
   }
 }
 
-/* The plan sits in a framed panel, centred, filling the row height. */
+/* The plan sits straight on the page, no frame. Its outer edges (garden plants) fade
+   into the background, and on desktop it bleeds a little past the container on the page
+   side so the planting reads as spilling out rather than cropped. */
 .up-plan {
+  --up-bleed: 0px;
   display: grid;
   place-items: center;
   margin: 0;
-  padding: clamp(1rem, 2.5vw, 2rem);
-  background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow-card);
 }
 
 .up-plan img {
   display: block;
-  width: 100%;
+  width: calc(100% + var(--up-bleed));
+  max-width: none;
   height: auto;
+  /* Bleeds out on the page side only, never into the room cards beside it. */
+  margin-inline-start: calc(-1 * var(--up-bleed));
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%),
+    linear-gradient(180deg, transparent 0, #000 3%, #000 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%),
+    linear-gradient(180deg, transparent 0, #000 3%, #000 100%);
+  mask-composite: intersect;
+}
+
+@media (min-width: 1024px) {
+  .up-plan {
+    --up-bleed: clamp(1.5rem, 3vw, 3rem);
+    padding-inline-end: clamp(0.5rem, 1.5vw, 1.25rem);
+  }
 }
 
 /* Room tiles: interiors and outdoors as two columns of five. */
