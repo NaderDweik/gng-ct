@@ -60,6 +60,7 @@ const Check = () => (
 
 export function ResortIndex({ items, isAr }: { items: AmenityFeature[]; isAr: boolean }) {
   const [active, setActive] = useState(0);
+  const current = items[active];
   const uid = useId();
 
   return (

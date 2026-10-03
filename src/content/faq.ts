@@ -39,7 +39,7 @@ export const faqCategories: FaqCategory[] = [
         qAr: "ما هي خطط الدفع المتاحة؟",
         aAr: "طريقتان: التقسيط بـ١٪ من السعر شهريًا (١,٦٨٠ دينار)، أو كاش بخصم ٢٤٪. أما الدفعة الأولى فبعض الشاليهات بدفعة وبعضها بدون دفعة، حسب الشاليه الذي تختاره.",
         qEn: "What payment plans are available?",
-        aEn: "Two ways: installments of 1% of the price a month (1,680 JD), or cash at 24% off. Some chalets come with a down payment and some without — it depends on the chalet you choose.",
+        aEn: "Two ways: installments of 1% of the price a month (1,680 JD), or cash at 24% off. Some chalets come with a down payment and some without, depending on the chalet you choose.",
       },
       {
         qAr: "هل يمكنني إعادة بيع الوحدة؟",
