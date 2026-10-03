@@ -50,11 +50,9 @@ export function RegisterForm() {
       return isAr
         ? `الدفع النقدي: ${formatNumber(cashPriceJd, locale)} د.أ (خصم ${formatNumber(cashDiscountPct, locale)}٪)`
         : `Cash: ${formatNumber(cashPriceJd, locale)} JD (${cashDiscountPct}% off)`;
-    const p = pricingPlans.find((x) => x.id === chosen);
-    if (!p) return "";
     return isAr
-      ? `استلام ${formatNumber(p.moveIn, locale).replace(/[٬,]/g, "")} (${p.labelAr}): دفعة أولى ${formatNumber(p.downJd, locale)} د.أ (${formatNumber(p.downPct, locale)}٪)`
-      : `Move-in ${p.moveIn} (${p.labelEn}): ${formatNumber(p.downJd, locale)} JD down (${p.downPct}%)`;
+      ? `بالتقسيط: ${formatNumber(monthlyPct, locale)}٪ شهريًا (${formatNumber(monthlyJd, locale)} د.أ)`
+      : `Installments: ${monthlyPct}% a month (${formatNumber(monthlyJd, locale)} JD)`;
   })();
 
   function onSubmit(e: FormEvent) {

@@ -81,8 +81,8 @@ export function PriceOffer({ locale, jd }: Props) {
         <span>
           <b>{isAr ? "الدفعة الأولى: " : "Down payment: "}</b>
           {isAr
-            ? "بعض الشاليهات بدفعة أولى وبعضها بدون دفعة — حسب الشاليه الذي تختاره."
-            : "some chalets come with a down payment and some without — it depends on the chalet you choose."}
+            ? "بعض الشاليهات بدفعة أولى وبعضها بدون دفعة، حسب الشاليه الذي تختاره."
+            : "some chalets come with a down payment and some without, depending on the chalet you choose."}
         </span>
       </p>
     </div>

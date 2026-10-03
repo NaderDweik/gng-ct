@@ -11,9 +11,9 @@ import { usePlanChoice } from "@/features/register/usePlanChoice";
  * (Uses the existing .register-side--dark card styles.)
  */
 
-type Props = { locale: string; jd: string };
+type Props = { locale: string; jd: string; promises: string[] };
 
-export function ChosenPlanCard({ locale, jd }: Props) {
+export function ChosenPlanCard({ locale, jd, promises }: Props) {
   const isAr = locale === "ar";
   const n = (v: number) => formatNumber(v, locale);
   const pct = (v: number) => (isAr ? `${n(v)}٪` : `${v}%`);
@@ -66,7 +66,7 @@ export function ChosenPlanCard({ locale, jd }: Props) {
       <div className="register-side register-side--dark" aria-live="polite">
         {eyebrow(isAr ? "خطتك المختارة" : "Your chosen plan")}
         <p className="font-display mt-2 text-2xl font-bold text-on-dark">
-          {isAr ? `الاستلام ${year(plan.moveIn)} (${plan.labelAr})` : `Move-in ${year(plan.moveIn)} (${plan.labelEn})`}
+          {isAr ? `بالتقسيط، ${pct(monthlyPct)} شهريًا` : `Installments, ${monthlyPct}% a month`}
         </p>
         <p className="font-display mt-3 text-4xl font-bold leading-none text-on-dark tabular-nums">
           {n(monthlyJd)}
@@ -83,7 +83,7 @@ export function ChosenPlanCard({ locale, jd }: Props) {
     );
   }
 
-  // No choice: the general summary (as before)
+  // No choice: the general summary
   return (
     <div className="register-side register-side--dark">
       {eyebrow(isAr ? "سعر الشاليه" : "Chalet price")}
@@ -93,8 +93,8 @@ export function ChosenPlanCard({ locale, jd }: Props) {
       </p>
       <p className="mt-2 text-sm text-on-dark-muted">
         {isAr
-          ? `بالتقسيط ${pct(monthlyPct)} شهريًا، أو ${n(cashPriceJd)} د.أ كاش — خصم ${pct(cashDiscountPct)}`
-          : `${monthlyPct}% a month, or ${n(cashPriceJd)} JD cash — ${cashDiscountPct}% off`}
+          ? `بالتقسيط ${pct(monthlyPct)} شهريًا، أو ${n(cashPriceJd)} د.أ كاش، خصم ${pct(cashDiscountPct)}`
+          : `${monthlyPct}% a month, or ${n(cashPriceJd)} JD cash, ${cashDiscountPct}% off`}
       </p>
       <ul className="mt-5 space-y-2 border-t border-line-on-dark pt-4">
         {promises.map((line) => (

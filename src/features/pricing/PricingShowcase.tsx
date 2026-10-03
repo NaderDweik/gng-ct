@@ -3,12 +3,21 @@
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { basePriceJd, cashDiscountPct, cashPriceJd, isPlanChoice, pricingPlans, type PlanChoice } from "@/content/pricing";
+import {
+  basePriceJd,
+  cashDiscountPct,
+  cashPriceJd,
+  isPlanChoice,
+  monthlyJd,
+  monthlyPct,
+  type PlanChoice,
+} from "@/content/pricing";
 import { formatNumber } from "@/lib/format";
 
 /*
- * Financing, said plainly: one price, one choice (move-in year or pay in full), and a
- * breakdown that answers "what do I pay today, what do I pay each month, for how long".
+ * Financing, said plainly: one price, one choice (installments or cash), and a
+ * breakdown that answers "what do I pay today / each month / in total".
+ * (Styles: styles/sections/pricing.css)
  */
 export function PricingShowcase() {
   const locale = useLocale();
@@ -17,57 +26,50 @@ export function PricingShowcase() {
   const jd = tc("jd");
   const n = (v: number) => formatNumber(v, locale);
   const pct = (v: number) => `${n(v)}${isAr ? "٪" : "%"}`;
-  const year = (v: number) => n(v).replace(/[٬,]/g, "");
 
-  const [choice, setChoice] = useState<PlanChoice>(pricingPlans[0].id);
+  const [choice, setChoice] = useState<PlanChoice>("installments");
 
-  // Deep link from the home plan chooser: /financing?plan=midterm (or plan=cash).
+  // Deep link from the home offer: /financing?plan=installments (or plan=cash).
   useEffect(() => {
     const wanted = new URLSearchParams(window.location.search).get("plan");
     if (isPlanChoice(wanted)) setChoice(wanted);
   }, []);
 
-  const plan = pricingPlans.find((p) => p.id === choice);
   const options: { id: PlanChoice; label: string }[] = [
-    ...pricingPlans.map((p) => ({
-      id: p.id,
-      label: isAr ? `استلام ${year(p.moveIn)}` : `Move in ${year(p.moveIn)}`,
-    })),
-    { id: "cash", label: isAr ? "دفع كامل" : "Pay in full" },
+    { id: "installments", label: isAr ? "بالتقسيط" : "Installments" },
+    { id: "cash", label: isAr ? "كاش" : "Pay in full" },
   ];
 
-  const rows: { label: string; value: string; note?: string; accent?: boolean }[] = plan
-    ? [
-        {
-          label: isAr ? "تدفع اليوم" : "You pay today",
-          value: `${n(plan.downJd)} ${jd}`,
-          note: isAr ? `${pct(plan.downPct)} من السعر` : `${plan.downPct}% of the price`,
-        },
-        {
-          label: isAr ? "ثم كل شهر" : "Then every month",
-          value: `${n(plan.monthlyFromJd)} ${jd}`,
-          note: isAr
-            ? `لمدة ${n(Math.ceil((basePriceJd - plan.downJd) / plan.monthlyFromJd))} شهرًا`
-            : `for ${Math.ceil((basePriceJd - plan.downJd) / plan.monthlyFromJd)} months`,
-        },
-        { label: isAr ? "الفوائد" : "Interest", value: `${n(0)} ${jd}`, accent: true },
-      ]
-    : [
-        {
-          label: isAr ? "تدفع اليوم" : "You pay today",
-          value: `${n(cashPriceJd)} ${jd}`,
-          note: isAr ? "دفعة واحدة" : "One payment",
-        },
-        {
-          label: isAr ? "توفّر" : "You save",
-          value: `${n(basePriceJd - cashPriceJd)} ${jd}`,
-          note: isAr ? `خصم ${pct(cashDiscountPct)}` : `${cashDiscountPct}% off`,
-          accent: true,
-        },
-        { label: isAr ? "الأقساط" : "Monthly payments", value: isAr ? "لا يوجد" : "None" },
-      ];
-  const total = plan ? basePriceJd : cashPriceJd;
-  const moveIn = plan ? year(plan.moveIn) : year(pricingPlans[0].moveIn);
+  const rows: { label: string; value: string; note?: string; accent?: boolean }[] =
+    choice === "installments"
+      ? [
+          {
+            label: isAr ? "سعر الشاليه" : "Chalet price",
+            value: `${n(basePriceJd)} ${jd}`,
+          },
+          {
+            label: isAr ? "ثم كل شهر" : "Then every month",
+            value: `${n(monthlyJd)} ${jd}`,
+            note: isAr ? `${pct(monthlyPct)} من السعر` : `${monthlyPct}% of the price`,
+          },
+          { label: isAr ? "الفوائد" : "Interest", value: `${n(0)} ${jd}`, accent: true },
+        ]
+      : [
+          {
+            label: isAr ? "تدفع اليوم" : "You pay today",
+            value: `${n(cashPriceJd)} ${jd}`,
+            note: isAr ? "دفعة واحدة" : "One payment",
+          },
+          {
+            label: isAr ? "توفّر" : "You save",
+            value: `${n(basePriceJd - cashPriceJd)} ${jd}`,
+            note: isAr ? `خصم ${pct(cashDiscountPct)}` : `${cashDiscountPct}% off`,
+            accent: true,
+          },
+          { label: isAr ? "الأقساط" : "Monthly payments", value: isAr ? "لا يوجد" : "None" },
+        ];
+
+  const total = choice === "installments" ? basePriceJd : cashPriceJd;
 
   return (
     <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
@@ -78,8 +80,8 @@ export function PricingShowcase() {
         </h2>
         <p className="section-sub">
           {isAr
-            ? `سعر الشاليه ${n(basePriceJd)} ${jd}. ادفع جزءًا اليوم والباقي أقساطًا شهرية، مباشرة لنا، بدون بنك وبدون فوائد. أو ادفع كامل المبلغ واحصل على خصم ${pct(cashDiscountPct)}.`
-            : `A chalet costs ${n(basePriceJd)} ${jd}. Pay part of it today and the rest monthly, directly to us. No bank, no interest. Or pay in full and get ${cashDiscountPct}% off.`}
+            ? `سعر الشاليه ${n(basePriceJd)} ${jd}. ادفع ${pct(monthlyPct)} شهريًا مباشرة لنا، بدون بنك وبدون فوائد. أو ادفع كامل المبلغ واحصل على خصم ${pct(cashDiscountPct)}.`
+            : `A chalet costs ${n(basePriceJd)} ${jd}. Pay ${monthlyPct}% a month, directly to us. No bank, no interest. Or pay in full and get ${cashDiscountPct}% off.`}
         </p>
         <div className="mt-10">
           <Link href={`/register?plan=${choice}`} className="btn btn-primary">
@@ -95,7 +97,7 @@ export function PricingShowcase() {
         <div
           role="tablist"
           aria-label={isAr ? "طريقة الدفع" : "Payment option"}
-          className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4"
+          className="mt-4 grid grid-cols-2 gap-2"
         >
           {options.map((o) => (
             <button
@@ -116,7 +118,9 @@ export function PricingShowcase() {
             <div key={r.label} className="pricing-row">
               <dt className="text-on-dark-muted">{r.label}</dt>
               <dd className="text-end">
-                <span className={`font-display block text-2xl font-bold tabular-nums md:text-3xl${r.accent ? " text-accent" : ""}`}>
+                <span
+                  className={`font-display block text-2xl font-bold tabular-nums md:text-3xl${r.accent ? " text-accent" : ""}`}
+                >
                   {r.value}
                 </span>
                 {r.note && <span className="mt-1 block text-sm text-on-dark-muted">{r.note}</span>}
@@ -130,7 +134,13 @@ export function PricingShowcase() {
                 {n(total)} {jd}
               </span>
               <span className="mt-1 block text-sm text-on-dark-muted">
-                {isAr ? `الاستلام ${moveIn}` : `Move in ${moveIn}`}
+                {choice === "installments"
+                  ? isAr
+                    ? "الدفعة الأولى حسب الشاليه"
+                    : "Down payment depends on the chalet"
+                  : isAr
+                    ? "استلام فوري"
+                    : "Immediate move-in"}
               </span>
             </dd>
           </div>

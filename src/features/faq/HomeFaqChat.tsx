@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Link } from "@/i18n/navigation";
 import type { FaqItem } from "@/content/faq";
-import { basePriceJd, cashDiscountPct, cashPriceJd, pricingPlans } from "@/content/pricing";
+import { basePriceJd, cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct } from "@/content/pricing";
 import { nearbyPlaces } from "@/content/location";
 import { site } from "@/content/site";
 import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
@@ -292,7 +292,10 @@ function InterestVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number })
 
 function PlansVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const max = Math.max(...pricingPlans.map((p) => p.downPct));
+  const ways = [
+    { id: "installments", label: c.monthly, pct: monthlyPct, amount: monthlyJd },
+    { id: "cash", label: c.jd, pct: cashDiscountPct, amount: cashPriceJd },
+  ];
   useGSAP(
     () => {
       if (reduced()) return;
@@ -304,19 +307,19 @@ function PlansVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
   );
   return (
     <div ref={ref} className="fq-vis fq-vis--plans">
-      {pricingPlans.map((p) => (
-        <div key={p.id} className="fq-plan">
-          <span className="fq-plan-year">{fmt(p.moveIn).replace(/[٬,]/g, "")}</span>
+      {ways.map((w) => (
+        <div key={w.id} className="fq-plan">
+          <span className="fq-plan-year">{w.id === "cash" ? "Cash" : "1%"}</span>
           <span className="fq-plan-track">
-            <span className="fq-plan-fill" style={{ width: `${(p.downPct / max) * 100}%` }} />
+            <span className="fq-plan-fill" style={{ width: `${(w.pct / cashDiscountPct) * 100}%` }} />
           </span>
           <span className="fq-plan-pct">
-            {fmt(p.downPct)}% <small>{c.down}</small>
+            {fmt(w.pct)}% <small>{w.id === "cash" ? c.down : c.monthly}</small>
           </span>
         </div>
       ))}
       <p className="fq-plan-foot">
-        {c.monthly} <b>{fmt(pricingPlans[0].monthlyFromJd)}</b> {c.jd}
+        {c.monthly} <b>{fmt(monthlyJd)}</b> {c.jd}
       </p>
     </div>
   );

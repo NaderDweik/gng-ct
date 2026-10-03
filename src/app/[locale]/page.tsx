@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
 import { HeroLayered } from "@/features/home/HeroLayered";
+import { HomeIntro } from "@/features/home/HomeIntro";
 import { homeFaqPreview } from "@/content/faq";
 import { amenityFeatures, amenitiesIntro } from "@/content/amenities";
 import { formatNumber } from "@/lib/format";
@@ -17,7 +18,6 @@ import { masterPlanCopy } from "@/content/master-plan";
 import { PlanExplorer } from "@/features/master-plan/PlanExplorer";
 import { GalleryDay } from "@/features/gallery/GalleryDay";
 import { RegisterCta } from "@/features/register/RegisterCta";
-import { NewsPreview } from "@/features/news/NewsPreview";
 import type { LocalePageProps } from "@/i18n/types";
 import { HoverAccent } from "@/components/ui/HoverAccent";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
@@ -212,8 +212,8 @@ export default async function HomePage({ params }: Props) {
             <div className="flex max-w-md flex-col items-start gap-7">
               <p className="section-sub">
                 {isAr
-                  ? "بالتقسيط الشهري، أو كاش بخصم — مباشرة مع الشركة."
-                  : "Monthly installments, or cash at a discount — directly with the developer."}
+                  ? "بالتقسيط الشهري، أو كاش بخصم، مباشرة مع الشركة."
+                  : "Monthly installments, or cash at a discount, directly with the developer."}
               </p>
               <Link href="/financing#plans" className="gallery-outline-btn">
                 {isAr ? "استكشف التمويل" : "Explore financing"}
