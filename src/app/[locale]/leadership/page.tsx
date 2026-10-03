@@ -32,12 +32,6 @@ export default async function LeadershipPage({ params }: Props) {
   );
   const name = isAr ? site.contact : site.contactEn;
 
-  const facts = [
-    { value: `${n(site.stats.units)}+`, label: isAr ? "منتجع خاص" : "Private resorts" },
-    { value: n(site.stats.areaSqm), label: isAr ? "م² مساحة المشروع" : "m² master plan" },
-    { value: "ISO", label: "9001:2015" },
-  ];
-
   return (
     <>
       <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
@@ -80,15 +74,6 @@ export default async function LeadershipPage({ params }: Props) {
                 ? "رؤيتنا بسيطة: أن يمتلك كل مشترٍ منتجعه الخاص بسند مستقل، داخل مجتمع مخدوم بالكامل، وبتمويل مباشر بدون فوائد."
                 : "Our vision is simple: every buyer owns a private resort with an independent deed, inside a fully serviced community, with direct zero-interest financing."}
             </blockquote>
-
-            <dl className="reveal mt-10 grid grid-cols-3 gap-4 border-t border-line pt-8" style={{ animationDelay: "240ms" }}>
-              {facts.map((f) => (
-                <div key={f.label}>
-                  <dd className="font-display text-2xl font-bold text-ink tabular-nums md:text-3xl">{f.value}</dd>
-                  <dt className="mt-1 text-xs text-muted">{f.label}</dt>
-                </div>
-              ))}
-            </dl>
 
             <div className="reveal mt-10 flex flex-wrap gap-3" style={{ animationDelay: "300ms" }}>
               <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">

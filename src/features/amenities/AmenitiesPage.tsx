@@ -114,6 +114,24 @@ export function ResortIndex({ items, isAr }: { items: AmenityFeature[]; isAr: bo
           );
         })}
       </ol>
+
+      <div className="ap-frame" aria-hidden>
+        <div className="ap-frame-inner">
+          {items.map((it, i) => (
+            <div key={it.id} className={`ap-frame-photo${i <= active ? " is-on" : ""}`} style={{ zIndex: i + 1 }}>
+              <Image src={it.image} alt="" fill sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" />
+            </div>
+          ))}
+          <div className="ap-frame-shade" />
+          {current && (
+            <div className="ap-frame-cap">
+              <span key={current.id} className="ap-frame-title">
+                {isAr ? current.titleAr : current.titleEn}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

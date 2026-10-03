@@ -10,9 +10,10 @@ import { HoverBadge, HoverGlow } from "@/components/ui/HoverAccent";
 
 /*
  * Home "A day at Giving City" (styles: styles/sections/gallery-day.css).
- * A static bento of seven scenes with a Day / Night toggle. Both sets are
- * stacked in every tile; the sky switch crossfades them tile by tile and the
- * whole section drops into its night palette. Hover / focus a tile to read it.
+ * A static bento of seven scenes with a quiet Day / Night switch. Both sets are
+ * stacked in every tile; the switch crossfades them tile by tile, the whole section
+ * drops into its night palette and a crescent moon with stars slides in from the
+ * top-right corner; by day a sun with turning rays sits there instead. Hover / focus a tile to read it.
  * A few seconds after the section comes into view it turns to Night on its own
  * (once; any press on the switch cancels that). Sized to fit one screen.
  */
@@ -21,6 +22,17 @@ import { HoverBadge, HoverGlow } from "@/components/ui/HoverAccent";
 const AUTO_NIGHT_MS = 3500;
 
 const MODES: DayMode[] = ["day", "night"];
+
+/** Star positions around the moon (top, right), from the section's top-right corner. */
+const STARS: [string, string][] = [
+  ["1.4rem", "10rem"],
+  ["4.2rem", "12.5rem"],
+  ["0.9rem", "15rem"],
+  ["5.6rem", "8.5rem"],
+  ["2.6rem", "18.5rem"],
+  ["6.4rem", "16rem"],
+  ["1.2rem", "3rem"],
+];
 
 type Props = { locale: string; ctaHref: string };
 
@@ -70,7 +82,21 @@ export function GalleryDay({ locale, ctaHref }: Props) {
   };
 
   return (
-    <section ref={root} className={`gd${night ? " is-night on-dark" : ""}`} aria-label={copy.title}>
+    <section ref={root} className={`gd${night ? " is-night on-dark" : ""}${inView ? " is-in" : ""}`} aria-label={copy.title}>
+      {/* Night sky: a crescent slides in from the top-right corner with stars around it. */}
+      {/* Day sky: a sun with slowly turning rays rises into the same corner. */}
+      <div className="gd-day-sky" aria-hidden>
+        <span className="gd-sun">
+          <span className="gd-sun-rays" />
+          <span className="gd-sun-core" />
+        </span>
+      </div>
+      <div className="gd-night-sky" aria-hidden>
+        <span className="gd-moon" />
+        {STARS.map((st, k) => (
+          <span key={k} className="gd-star" style={{ top: st[0], right: st[1], "--k": k } as CSSProperties} />
+        ))}
+      </div>
       <div className="container-gc">
         <header className="sec-head">
           <div>
@@ -91,18 +117,7 @@ export function GalleryDay({ locale, ctaHref }: Props) {
                 className="gd-switch"
                 onClick={() => choose(night ? "day" : "night")}
               >
-                <span className="gd-switch-sky" aria-hidden>
-                  <span className="gd-cloud gd-cloud--a" />
-                  <span className="gd-cloud gd-cloud--b" />
-                  {[0, 1, 2, 3, 4].map((k) => (
-                    <span key={k} className={`gd-star gd-star--${k}`} />
-                  ))}
-                </span>
-                <span className="gd-knob" aria-hidden>
-                  <span className="gd-crater gd-crater--a" />
-                  <span className="gd-crater gd-crater--b" />
-                  <span className="gd-crater gd-crater--c" />
-                </span>
+                <span className="gd-knob" aria-hidden />
               </button>
               <button type="button" className="gd-switch-label" aria-hidden tabIndex={-1} onClick={() => choose("night")}>
                 {copy.modes.night}

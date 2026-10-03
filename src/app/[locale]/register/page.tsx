@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { LoopVideo } from "@/components/ui/LoopVideo";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { site } from "@/content/site";
@@ -105,21 +105,13 @@ export default async function RegisterPage({ params }: Props) {
               </ContactRow>
             </div>
 
-            <div className="register-side flex items-center gap-4">
-              <div className="relative h-14 w-16 shrink-0 overflow-hidden">
-                <Image
-                  src="/gallery/compoundPics/reception-building.png"
-                  alt=""
-                  fill
-                  sizes="64px"
-                  className="object-cover"
-                />
-              </div>
-              <div>
-                <p className="text-sm font-bold text-ink">
+            <div className="register-side register-visit">
+              <LoopVideo src="/motion/cta-loop.mp4" poster="/motion/cta-loop.jpg" className="register-visit-video" />
+              <div className="register-visit-body">
+                <p className="font-display text-xl font-bold text-on-dark md:text-2xl">
                   {isAr ? "هل تفضّل زيارة مباشرة؟" : "Prefer a site visit?"}
                 </p>
-                <p className="mt-1 text-xs leading-relaxed text-muted">
+                <p className="mt-2 text-base leading-relaxed text-on-dark-muted">
                   {isAr
                     ? "اختر «زيارة الموقع» في النموذج وسنرتّب الموعد."
                     : "Pick “Site visit” in the form and we’ll arrange a time."}

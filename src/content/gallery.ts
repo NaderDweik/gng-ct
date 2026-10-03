@@ -66,7 +66,7 @@ export const galleryCopy = {
   en: {
     eyebrow: "Giving City",
     title: "Gallery",
-    lead: "From facade to skyline — every angle of the community.",
+    lead: "From facade to skyline, every angle of the community.",
     allTitle: "All",
     allDescription: "Community, resorts, interiors, amenities, and construction.",
     videosEyebrow: "On camera",
@@ -82,7 +82,7 @@ export const galleryCopy = {
   ar: {
     eyebrow: "روح العطاء",
     title: "المعرض",
-    lead: "من الواجهة إلى الأفق — كل زاوية في مدينة العطاء.",
+    lead: "من الواجهة إلى الأفق، كل زاوية في مدينة العطاء.",
     allTitle: "الكل",
     allDescription: "المجتمع، المنتجعات، الداخل، المرافق، ومراحل الإنشاء.",
     videosEyebrow: "على الكاميرا",
@@ -134,7 +134,7 @@ const shots: Record<Exclude<GalleryCategoryId, "all">, Shot[]> = {
     [`${R}/father-son-bbq-grill.png`, "Built-in BBQ grill", "شواء مدمج"],
     [`${R}/garden-lounge-kids-swing.png`, "Garden lounge & swing", "جلسة الحديقة والأرجوحة"],
     [`${R}/quad-bike-royal-clubhouse.png`, "Quad bike at the resort", "دراجة رباعية في المنتجع"],
-    [`${R}/family-arriving-resort-a9-garage.png`, "Arriving home — resort A9", "الوصول إلى المنتجع A9"],
+    [`${R}/family-arriving-resort-a9-garage.png`, "Arriving home: resort A9", "الوصول إلى المنتجع A9"],
     [`${R}/family-entering-resort-front-door.png`, "Welcome home", "أهلاً بك في بيتك"],
   ],
   interiors: [

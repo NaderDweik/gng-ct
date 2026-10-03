@@ -2,9 +2,7 @@
 .leader-hero {
   position: relative;
   overflow: hidden;
-  background:
-    radial-gradient(circle at 85% 10%, color-mix(in srgb, var(--brand-accent) 22%, transparent), transparent 45%),
-    var(--surface-alt);
+  background: var(--surface-alt);
   border-bottom: 1px solid var(--line);
 }
 

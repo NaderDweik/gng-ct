@@ -42,18 +42,36 @@
   }
 }
 
-.ri-stage {
-  display: none;
+.ap-chapters {
+  display: grid;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
 }
 
-@media (min-width: 1024px) {
-  .ri-stage {
-    display: block;
-    position: relative;
-    aspect-ratio: 5 / 4;
-    overflow: hidden;
-    background: var(--surface-tint);
-  }
+/* Card-to-card line: runs down the column behind the cards (so it shows in the gaps)
+   and fills with scroll. Top/height are measured in ResortChapters. */
+.ap-rail {
+  position: absolute;
+  top: var(--rail-top, 0);
+  inset-inline-start: 50%;
+  width: 6px;
+  height: var(--rail-h, 100%);
+  background: var(--line-strong);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+/* The scroll line is dotted: a dot mask over the track and its fill. */
+.ap-rail {
+  -webkit-mask: radial-gradient(circle, #000 2.5px, transparent 3px) center top / 100% 12px repeat-y;
+  mask: radial-gradient(circle, #000 2.5px, transparent 3px) center top / 100% 12px repeat-y;
+}
+
+[dir="rtl"] .ap-rail {
+  transform: translateX(50%);
 }
 
 .ri-photo {
@@ -286,8 +304,19 @@
   }
 }
 
-@media (min-width: 640px) {
-  .cg {
+@keyframes ap-cap-in {
+  from { opacity: 0; transform: translateY(10px); }
+}
+
+/* ── Across the community: mosaic ── */
+.ap-mosaic {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .ap-mosaic {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

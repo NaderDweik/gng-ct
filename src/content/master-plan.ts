@@ -7,32 +7,32 @@ export const masterPlanCopy = {
   ar: {
     eyebrow: "المخطط العام",
     title: "٥٠٠ م² من المنتجع الخاص، مخطّطة بعناية.",
-    lead: "داخلٌ مدروس، ومسبح في قلب الساحة، ومعيشة خارجية، وخصوصية تامة — داخل مجتمع مسوّر.",
-    mapAlt: "مخطط المنتجع الخاص — الطابق والموقع",
+    lead: "داخلٌ مدروس، ومسبح في قلب الساحة، ومعيشة خارجية، وخصوصية تامة، داخل مجتمع مسوّر.",
+    mapAlt: "مخطط المنتجع الخاص: الطابق والموقع",
     explorerEyebrow: "استكشف المخطط",
     explorerTitle: "كل ركن، في مكانه.",
     explorerHint: "مرّر فوق أي مساحة في المخطط، أو اخترها من القائمة.",
     explorerHintTouch: "المس أي مساحة في المخطط، أو اخترها من الأسفل.",
     caption: "مخطط وحدة المنتجع · ٥٠٠ م² · سند ملكية مستقل",
     reset: "عرض المخطط كاملًا",
-    turnHover: "الآن دورك — اكتشف المخطط",
-    turnTap: "الآن دورك — المس أي مساحة",
+    turnHover: "الآن دورك: اكتشف المخطط",
+    turnTap: "الآن دورك: المس أي مساحة",
     turnSub: "كل مساحة تُضاء وتحكي قصتها.",
     dims: "٥٠٠ م² · منتجع خاص",
   },
   en: {
     eyebrow: "Master plan",
     title: "500 m² of private resort, planned to the metre.",
-    lead: "Considered interiors, a pool at the heart of the courtyard, outdoor living and complete privacy — inside a gated community.",
-    mapAlt: "Private resort property map — floor plan and site",
+    lead: "Considered interiors, a pool at the heart of the courtyard, outdoor living and complete privacy, inside a gated community.",
+    mapAlt: "Private resort property map: floor plan and site",
     explorerEyebrow: "Explore the plan",
     explorerTitle: "Every corner, in its place.",
     explorerHint: "Hover any space on the plan, or pick one from the list.",
     explorerHintTouch: "Tap any space on the plan, or pick one below.",
     caption: "Resort unit plan · 500 m² · independent deed",
     reset: "Show the whole plan",
-    turnHover: "Now it’s your turn — discover the plan",
-    turnTap: "Now it’s your turn — tap any space",
+    turnHover: "Now it’s your turn: discover the plan",
+    turnTap: "Now it’s your turn: tap any space",
     turnSub: "Every space lights up and tells its story.",
     dims: "500 m² · private resort",
   },
@@ -212,7 +212,7 @@ export const masterPlanZones: PlanZone[] = [
  * /units "plan with features" section (features/units/UnitPlanFeatures): the teal unit
  * plan in the middle, rows either side. Rows reuse the explorer items above by id.
  */
-export const unitPlanImage = { src: "/plans/unit-plan.webp", width: 992, height: 1067 } as const;
+export const unitPlanImage = { src: "/plans/unit-plan.svg", width: 989, height: 1059 } as const;
 export const unitPlanRows = {
   start: ["living", "kitchen", "master", "bedrooms", "baths"],
   end: ["pool", "lounge", "bbq", "kids", "parking"],

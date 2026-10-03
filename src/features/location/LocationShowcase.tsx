@@ -6,7 +6,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { site } from "@/content/site";
-import { displayPhone } from "@/lib/format";
 import {
   locationCopy,
   mapsSearchUrl,
@@ -42,18 +41,7 @@ function MapPinIcon() {
 
 function NavIcon() {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
       <polygon points="3 11 22 2 13 21 11 13 3 11" />
     </svg>
   );
@@ -80,12 +68,13 @@ function ExternalArrow() {
 }
 
 /*
- * Location section (map: LocationLeafletMap).
+ * Location section (map: LocationLeafletMap; styles: styles/sections/location-map.css).
+ *   Layout: a clean map (route + pins) beside one panel: eyebrow, title, the place, then
+ *   the drive-time list on a dark band; the map keeps its place card + Open map button. Kept short and single-purpose.
  *   Tour: the first time the section is on screen, destinations advance on
  *   their own every TOUR_SECONDS, nearest first; a hairline fills across the
  *   active row to show when it moves on. Choosing a place hands control to the
  *   visitor for good. Off-screen the tour pauses.
- *   Trip readout: minutes and kilometres count up as each route draws.
  * Reduced motion: no tour, no counting — the list and map work as before.
  */
 export function LocationShowcase() {
@@ -98,9 +87,6 @@ export function LocationShowcase() {
   const tookOver = useRef(false);
   const active: NearbyPlace | null =
     nearbyPlaces.find((p) => p.id === activeId) ?? nearbyPlaces[0] ?? null;
-
-  const num = (v: number, digits = 0) =>
-    v.toLocaleString(isAr ? "ar-JO" : "en-US", { minimumFractionDigits: digits, maximumFractionDigits: digits });
 
   // Tour on/off with visibility; the list eases in the first time.
   useGSAP(
@@ -150,94 +136,38 @@ export function LocationShowcase() {
     };
   }, [touring, activeId]);
 
-  // Trip readout counts up with each new destination.
-  useEffect(() => {
-    const root = rootRef.current;
-    const minEl = root?.querySelector<HTMLElement>(".loc-trip-min");
-    const kmEl = root?.querySelector<HTMLElement>(".loc-trip-km");
-    if (!active || !minEl || !kmEl) return;
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      minEl.textContent = num(active.minutes);
-      kmEl.textContent = num(active.km);
-      return;
-    }
-    const v = { m: 0, k: 0 };
-    const tween = gsap.to(v, {
-      m: active.minutes,
-      k: active.km,
-      duration: 1.6,
-      ease: "power3.out",
-      onUpdate: () => {
-        minEl.textContent = num(Math.round(v.m));
-        kmEl.textContent = num(Math.round(v.k));
-      },
-    });
-    gsap.fromTo(root!.querySelector(".loc-trip-to"), { autoAlpha: 0, y: 8 }, { autoAlpha: 1, y: 0, duration: 0.5, ease: "power2.out" });
-    return () => {
-      tween.kill();
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active, isAr]);
-
   const choose = (id: string) => {
     tookOver.current = true;
     setTouring(false);
     setActiveId(id);
   };
 
-  const phoneDisplay = displayPhone(site.phone);
-  const telHref = `tel:${site.phoneAction || site.phone}`;
-
   return (
-    <div ref={rootRef} className={`loc grid gap-4 lg:grid-cols-[minmax(0,1.08fr)_minmax(400px,0.92fr)] lg:grid-rows-[auto_1fr] lg:items-stretch xl:min-h-[560px]${touring ? " is-touring" : ""}`}>
-      {/* Map */}
-      <div className="relative order-2 h-[420px] overflow-hidden rounded-none border border-surface/70 bg-surface-tint shadow-card-lg sm:h-[420px] lg:col-start-1 lg:row-span-2 lg:row-start-1 lg:h-full lg:min-h-[540px] xl:min-h-[560px]">
+    <div ref={rootRef} className={`loc${touring ? " is-touring" : ""}`}>
+      {/* Map: route + pins only */}
+      <div className="loc-map">
         <LocationLeafletMap
           active={active}
           isAr={isAr}
           projectLabel={isAr ? c.projectPinAr : c.projectPinEn}
         />
-        <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-b from-surface-tint/5 to-primary/10" />
-        {active && (
-          <div className="loc-trip" aria-live="polite">
-            <p className="loc-trip-to">
-              <span>{site.nameEn}</span>
-              <span className="loc-trip-arrow" aria-hidden />
-              <b>{isAr ? active.nameAr : active.nameEn}</b>
-            </p>
-            <p className="loc-trip-figures">
-              <span className="loc-trip-big">
-                <span className="loc-trip-min">{num(active.minutes)}</span>
-                <small>{isAr ? "دقيقة" : "min"}</small>
-              </span>
-              <span className="loc-trip-sep" aria-hidden />
-              <span className="loc-trip-small">
-                <span className="loc-trip-km">{num(active.km)}</span>
-                <small>{isAr ? "كم" : "km"}</small>
-              </span>
-            </p>
-          </div>
-        )}
-        <div className="absolute inset-x-4 bottom-4 z-30 rounded-none border border-surface/70 bg-surface/95 p-3 shadow-2xl backdrop-blur md:inset-x-5 md:bottom-5 md:p-4">
+        {/* Place card pinned to the map's foot, with the way out to Google Maps */}
+        <div className="absolute inset-x-4 bottom-4 z-30 border border-surface/70 bg-surface/95 p-3 shadow-2xl backdrop-blur md:inset-x-5 md:bottom-5 md:p-4">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-none bg-primary text-on-primary">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary text-on-primary">
                 <NavIcon />
               </span>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary-ink/55">
-                  {site.nameEn}
-                </p>
-                <p className="font-semibold text-primary-ink">
-                  {isAr ? c.mapShortAr : c.mapShortEn}
-                </p>
+                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary-ink/55">{site.nameEn}</p>
+                <p className="font-semibold text-primary-ink">{isAr ? c.mapShortAr : c.mapShortEn}</p>
               </div>
             </div>
             <a
               href={site.mapsUrl || mapsSearchUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-none bg-primary px-4 py-2.5 text-sm font-bold text-on-primary transition hover:bg-primary-hover"
+              className="inline-flex items-center justify-center gap-2 bg-primary px-4 py-2.5 text-sm font-bold text-on-primary transition hover:bg-primary-hover"
             >
               {isAr ? c.openMapAr : c.openMapEn}
               <ExternalArrow />
@@ -246,93 +176,39 @@ export function LocationShowcase() {
         </div>
       </div>
 
-      {/* Info card */}
-      <div className="order-1 rounded-none border border-surface/75 bg-surface p-6 shadow-card md:p-7 lg:col-start-2 lg:row-start-1 lg:shrink-0">
+      {/* One panel: where it is, then how far everything is */}
+      <div className="loc-panel">
         <span className="section-eyebrow flex items-center gap-2">
           <MapPinIcon />
           {isAr ? c.eyebrowAr : c.eyebrowEn}
         </span>
-        <h2 className="section-title">
-          {isAr ? c.titleAr : c.titleEn}
-        </h2>
-        <p className="section-sub loc-card-sub">
-          {isAr ? c.subAr : c.subEn}
-        </p>
-        <div className="border-t border-primary-ink/10">
-          <div className="grid gap-2 border-b border-primary-ink/10 py-4 sm:grid-cols-[120px_minmax(0,1fr)] sm:items-start sm:gap-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary-ink/45 xl:text-[11px] xl:tracking-[0.22em]">
-              {isAr ? c.addressLabelAr : c.addressLabelEn}
-            </p>
-            <p className="whitespace-pre-line text-[13px] font-semibold leading-relaxed text-primary-ink md:text-sm xl:text-base">
-              {isAr ? c.addressAr : c.addressEn}
-            </p>
-          </div>
-          <div className="grid gap-2 border-b border-primary-ink/10 py-4 sm:grid-cols-[120px_minmax(0,1fr)] sm:items-start sm:gap-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary-ink/45 xl:text-[11px] xl:tracking-[0.22em]">
-              {isAr ? c.phoneLabelAr : c.phoneLabelEn}
-            </p>
-            <a
-              href={telHref}
-              className="text-start text-[13px] font-semibold leading-relaxed text-primary-ink transition-colors hover:underline hover:opacity-75 md:text-sm xl:text-base"
-            >
-              <span dir="ltr" className="inline-block [direction:ltr]">
-                {phoneDisplay}
-              </span>
-            </a>
-          </div>
-          <div className="grid gap-2 border-b border-primary-ink/10 py-4 sm:grid-cols-[120px_minmax(0,1fr)] sm:items-start sm:gap-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary-ink/45 xl:text-[11px] xl:tracking-[0.22em]">
-              {isAr ? c.deliveryLabelAr : c.deliveryLabelEn}
-            </p>
-            <p className="whitespace-pre-line text-[13px] font-semibold leading-relaxed text-primary-ink md:text-sm xl:text-base">
-              {isAr ? c.deliveryAr : c.deliveryEn}
-            </p>
-          </div>
-        </div>
-      </div>
+        <h2 className="section-title loc-title">{isAr ? c.titleAr : c.titleEn}</h2>
+        <p className="loc-place">{isAr ? c.mapShortAr : c.mapShortEn}</p>
 
-      {/* Nearby list */}
-      <div className="order-3 flex flex-col rounded-none bg-secondary p-5 text-on-dark shadow-card-lg md:p-6 lg:col-start-2 lg:row-start-2 lg:flex-1">
-        <h3 className="font-display mb-4 whitespace-nowrap text-sm font-semibold leading-tight tracking-tight sm:text-lg xl:text-xl">
-          {isAr ? c.nearbyTitleAr : c.nearbyTitleEn}
-        </h3>
-        <ul className="loc-list grid gap-2 md:grid-cols-2 lg:flex-1 lg:grid-cols-2 lg:content-start xl:content-between">
-          {nearbyPlaces.map((place, i) => {
+        {/* Drive times on the dark band at the foot of the panel */}
+        <div className="loc-drive">
+        <p className="loc-list-label">{isAr ? c.nearbyTitleAr : c.nearbyTitleEn}</p>
+        <ul className="loc-list">
+          {nearbyPlaces.map((place) => {
             const on = place.id === activeId;
             return (
-              <li key={place.id} className="loc-item relative min-h-10">
+              <li key={place.id} className="loc-item">
                 <button
                   type="button"
                   aria-pressed={on}
                   onClick={() => choose(place.id)}
-                  className={`group flex min-h-10 w-full cursor-pointer items-center gap-2 rounded-none px-3 py-2 text-start transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/80 hover:bg-fill-on-dark ${
-                    on ? "bg-fill-on-dark" : ""
-                  }`}
+                  className={`loc-row${on ? " is-on" : ""}`}
                 >
-                  <span
-                    className={`h-2 w-2 shrink-0 rounded-full transition ${
-                      on ? "bg-on-dark" : "bg-white/35"
-                    }`}
-                    aria-hidden
-                  />
-                  <span
-                    className={`text-[13px] font-medium leading-snug xl:text-sm ${
-                      on ? "text-on-dark" : "text-on-dark"
-                    }`}
-                  >
-                    {isAr ? place.nameAr : place.nameEn}
-                  </span>
-                  <span className="h-px flex-1 bg-white/18 transition group-hover:bg-white/30" />
-                  <span className="shrink-0 rounded-none bg-fill-light px-2.5 py-1 text-xs font-bold text-primary-deep">
-                    {isAr ? place.timeAr : place.timeEn}
-                  </span>
+                  <span className="loc-row-name">{isAr ? place.nameAr : place.nameEn}</span>
+                  <span className="loc-row-time">{isAr ? place.timeAr : place.timeEn}</span>
                 </button>
                 <span className="loc-bar" data-bar={place.id} aria-hidden />
-                <span className="sr-only">{i + 1}</span>
               </li>
             );
           })}
         </ul>
+
+        </div>
       </div>
     </div>
   );

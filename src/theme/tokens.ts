@@ -11,7 +11,7 @@
  *
  * Semantic Tailwind utilities — prefer these over raw palette steps:
  *   brand:   bg-{primary|secondary|accent} (fills; put
- *            text-on-primary on bg-primary, never white),
+ *            text-on-primary on bg-primary; it is white),
  *            text/border-{primary-ink|secondary-ink|accent-ink} (brand color as
  *            text or lines on light surfaces),
  *            -primary-hover, -primary-soft, -secondary-deep, -secondary-light,

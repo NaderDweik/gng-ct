@@ -17,6 +17,7 @@
 @import "./base/primitives.css";
 @import "./base/motion.css";
 @import "./base/hover-accent.css";
+@import "./base/v-lines.css";
 
 @import "./sections/home.css";
 @import "./sections/gallery-mosaic.css";
@@ -38,6 +39,7 @@
 @import "./sections/master-plan.css";
 @import "./sections/home-faq.css";
 @import "./sections/news-preview.css";
+@import "./sections/article.css";
 @import "./sections/home-intro.css";
 @import "./sections/unit-plan.css";
 @import "./base/locale-switch.css";

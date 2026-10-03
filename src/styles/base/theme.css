@@ -10,8 +10,8 @@
   --brand-accent-hover: color-mix(in srgb, var(--brand-accent) 88%, var(--black));
   --brand-accent-soft: color-mix(in srgb, var(--brand-accent) 50%, var(--white));
   --on-accent: var(--brand-secondary);
-  /* Labels on the light Giving Spirit green (white would be 2.2:1). */
-  --on-primary: var(--brand-secondary);
+  /* Labels on the Giving Spirit green: white, by design choice (contrast is ~2.2:1). */
+  --on-primary: var(--white);
 
   --dark: var(--neutral-950);
 

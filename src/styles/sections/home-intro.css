@@ -5,6 +5,17 @@
   align-items: center;
 }
 
+/*
+ * On tablet / desktop the hero above recedes into a framed picture with ~12% of the
+ * viewport left empty under it; that gap already separates the two, so the section's
+ * own top padding is trimmed to keep the hand-off tight.
+ */
+@media (min-width: 768px) {
+  .hi.section {
+    padding-top: clamp(0.5rem, 1.5vw, 1.5rem);
+  }
+}
+
 @media (min-width: 1024px) {
   .hi-grid {
     /* Photo wide enough that its height roughly matches the copy column beside it. */
@@ -13,9 +24,11 @@
 }
 
 /*
- * Frame: 3:2 crop of the 16:9 layers. Once `.is-in` lands the layers build the photo:
- * sky fades in, the back walls rise at 0.35s, the chalet drops in at 0.7s, the ground rises
- * in at 1.1s, the pool settles in at 1.5s; done by ~2.4s. Stacked back to front in the markup.
+ * Frame: 3:2 crop of the 16:9 layers. Once `.is-in` lands the layers build the photo, each
+ * starting before the last has finished: sky fades in, the back walls rise at 0.15s, the
+ * chalet drops in at 0.35s, the ground rises at 0.6s, the pool settles at 0.8s. Each seam
+ * line starts drawing while its own layer is still landing (chalet ~0.7s, pool ~1.1s), so
+ * the build and the lines read as one motion. Stacked back to front in the markup.
  */
 .hi-frame {
   position: relative;
@@ -38,19 +51,19 @@
 }
 
 .hi.is-in .hi-walls {
-  animation: hi-rise-soft 0.9s var(--ease) 0.35s forwards;
+  animation: hi-rise-soft 0.9s var(--ease) 0.15s forwards;
 }
 
 .hi.is-in .hi-chalet {
-  animation: hi-drop 1s var(--ease) 0.7s forwards;
+  animation: hi-drop 0.9s var(--ease) 0.35s forwards;
 }
 
 .hi.is-in .hi-ground {
-  animation: hi-rise 0.9s var(--ease) 1.1s forwards;
+  animation: hi-rise 0.9s var(--ease) 0.6s forwards;
 }
 
 .hi.is-in .hi-pool {
-  animation: hi-settle 0.9s var(--ease) 1.5s forwards;
+  animation: hi-settle 0.9s var(--ease) 0.8s forwards;
 }
 
 /*
@@ -78,11 +91,11 @@
 }
 
 .hi.is-in .hi-seam-chalet {
-  animation: hi-seam 2.6s cubic-bezier(0.65, 0, 0.35, 1) 2.5s forwards;
+  animation: hi-seam 2.4s cubic-bezier(0.45, 0, 0.25, 1) 0.7s forwards;
 }
 
 .hi.is-in .hi-seam-pool {
-  animation: hi-seam 2.2s cubic-bezier(0.65, 0, 0.35, 1) 3s forwards;
+  animation: hi-seam 2.2s cubic-bezier(0.45, 0, 0.25, 1) 1.1s forwards;
 }
 
 @keyframes hi-seam {

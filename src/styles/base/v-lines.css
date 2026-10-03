@@ -1,0 +1,56 @@
+/* ── V-line motif (components/ui/VLines.tsx). The parent sets the stroke colour via
+   --vl-color and must be position: relative; content above it needs z-index: 1. ── */
+.vl {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  /* Strong at the two sides, gone through the middle. */
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, transparent 34%, transparent 66%, #000 100%);
+  mask-image: linear-gradient(90deg, #000 0%, transparent 34%, transparent 66%, #000 100%);
+}
+
+.vl path {
+  fill: none;
+  stroke: var(--vl-color, var(--brand-primary-darkest));
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation: vl-draw 12s ease-in-out infinite;
+}
+
+.vl-drift {
+  animation: vl-drift 12s ease-in-out infinite;
+}
+
+/* Draw on, then off (0 → full → 0) once per loop. */
+@keyframes vl-draw {
+  0%,
+  100% {
+    stroke-dashoffset: 1;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes vl-drift {
+  0%,
+  100% {
+    transform: translate(-40px, 10px);
+  }
+  50% {
+    transform: translate(40px, -10px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vl path,
+  .vl-drift {
+    animation: none;
+  }
+
+  .vl path {
+    stroke-dashoffset: 0;
+  }
+}

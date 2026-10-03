@@ -17,8 +17,8 @@ const pillars: { icon: PillarIcon; titleAr: string; titleEn: string; bodyAr: str
     icon: "deed",
     titleAr: "سند ملكية مستقل",
     titleEn: "Independent deed",
-    bodyAr: "كل مشترٍ يمتلك منتجعه الخاص بسند مستقل باسمه — ملكية حقيقية لا حصة في فندق.",
-    bodyEn: "Every buyer owns their private resort with an independent deed — real ownership, not a hotel share.",
+    bodyAr: "كل مشترٍ يمتلك منتجعه الخاص بسند مستقل باسمه: ملكية حقيقية لا حصة في فندق.",
+    bodyEn: "Every buyer owns their private resort with an independent deed: real ownership, not a hotel share.",
   },
   {
     icon: "privacy",
@@ -38,8 +38,8 @@ const pillars: { icon: PillarIcon; titleAr: string; titleEn: string; bodyAr: str
     icon: "finance",
     titleAr: "تمويل بدون فوائد",
     titleEn: "Zero-interest financing",
-    bodyAr: "خطط دفع مباشرة مع الشركة بدون بنك وبدون فوائد، أو خصم ٢٤٪ عند الدفع كاش.",
-    bodyEn: "Payment plans directly with the developer — no bank, no interest — or 24% off for cash.",
+    bodyAr: "خطط دفع مباشرة مع الشركة بدون بنك وبدون فوائد، أو خصم ١٥٪ عند الدفع نقدًا.",
+    bodyEn: "Payment plans directly with the developer (no bank, no interest) or 15% off for cash.",
   },
 ];
 
@@ -118,7 +118,7 @@ export default async function AboutPage({ params }: Props) {
       <SubpageHeader
         eyebrow="Giving City"
         title={t("title")}
-        subtitle={isAr ? "ليس فندقًا، بل استثمار وحياة." : "Not a hotel — an investment, and a way of life."}
+        subtitle={isAr ? "ليس فندقًا، بل استثمار وحياة." : "Not a hotel. An investment, and a way of life."}
       />
 
       {/* Key figures — a slate band continuing the header (Jordan Gate pattern). */}
@@ -145,13 +145,20 @@ export default async function AboutPage({ params }: Props) {
               {isAr ? site.taglineAr + "." : site.taglineEn + "."}
             </h2>
             <p className="section-sub">{t("story")}</p>
-            <div className="mt-10 flex items-center gap-4 border-t border-line pt-8">
-              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-bold text-on-primary">
-                {isAr ? "ط.ق" : "TQ"}
+            <div className="mt-10 flex items-center gap-5 border-t border-line pt-8 md:gap-6">
+              <span className="relative h-[72px] w-[72px] shrink-0 overflow-hidden rounded-full bg-surface-alt md:h-[84px] md:w-[84px]">
+                <Image
+                  src="/leadership/tarek-qazan.jpg"
+                  alt={isAr ? site.contact : site.contactEn}
+                  fill
+                  sizes="400px"
+                  quality={90}
+                  className="object-cover object-top origin-[50%_24%] scale-[1.9]"
+                />
               </span>
               <div>
-                <p className="font-bold text-ink">{isAr ? site.contact : site.contactEn}</p>
-                <p className="text-sm text-muted">{isAr ? site.companyAr : site.companyEn}</p>
+                <p className="font-display text-xl font-bold text-ink md:text-2xl">{isAr ? site.contact : site.contactEn}</p>
+                <p className="mt-1 text-base text-muted">{isAr ? site.companyAr : site.companyEn}</p>
               </div>
             </div>
           </div>
@@ -220,7 +227,7 @@ export default async function AboutPage({ params }: Props) {
               {[
                 isAr ? "إدارة ومتابعة مباشرة من الشركة المطوّرة" : "Managed directly by the developer",
                 isAr ? "عمليات موثّقة وفق نظام إدارة الجودة ISO 9001:2015" : "Processes documented under ISO 9001:2015 quality management",
-                isAr ? "تعامل مباشر مع المشتري — بدون وسطاء أو بنوك" : "Direct with buyers — no brokers, no banks",
+                isAr ? "تعامل مباشر مع المشتري: بدون وسطاء أو بنوك" : "Direct with buyers: no brokers, no banks",
               ].map((line) => (
                 <li key={line} className="flex items-start gap-3">
                   <span className="mt-2 h-px w-5 shrink-0 bg-accent" aria-hidden />

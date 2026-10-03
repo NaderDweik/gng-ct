@@ -37,7 +37,7 @@ export const companyServices = [
     titleAr: "حلول التمويل",
     titleEn: "Financing solutions",
     descAr: "تقسيط مباشر مع الشركة بدون فوائد وبدون بنك.",
-    descEn: "Direct company installments — zero interest, no bank.",
+    descEn: "Direct company installments: zero interest, no bank.",
   },
   {
     id: "aftersale",
@@ -98,7 +98,7 @@ export const projectAmenities = [
     titleAr: "مناطق جلوس وBBQ",
     titleEn: "Seating & BBQ",
     descAr: "برجولات ومناطق شواء مشتركة وخصوصية لكل وحدة.",
-    descEn: "Pergolas and BBQ areas — shared and per-unit privacy.",
+    descEn: "Pergolas and BBQ areas: shared and per-unit privacy.",
   },
   {
     id: "parking",

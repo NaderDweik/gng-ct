@@ -96,13 +96,26 @@
   padding-bottom: clamp(3rem, 9vh, 5.5rem);
 }
 
+/* White on the photo (green was lost on busy shots); a short green rule keeps the brand cue. */
 .hl-eyebrow {
-  margin: 0 0 1.25rem;
-  color: var(--brand-accent);
-  font-size: 0.72rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0 0 1.4rem;
+  color: var(--on-dark);
+  font-size: clamp(0.8rem, 0.95vw, 0.9rem);
   font-weight: 700;
   letter-spacing: 0.26em;
   text-transform: uppercase;
+  text-shadow: 0 1px 14px color-mix(in srgb, var(--black) 55%, transparent);
+}
+
+.hl-eyebrow::before {
+  content: "";
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2px;
+  background: var(--brand-primary);
 }
 
 [dir="rtl"] .hl-eyebrow {
@@ -118,7 +131,7 @@
 .hl-title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 4.7vw, 4.5rem);
+  font-size: clamp(2.5rem, 5.4vw, 5.25rem);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -0.02em;

@@ -1,6 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
-import { PriceOffer } from "@/features/pricing/PriceOffer";
+import { PricingShowcase } from "@/features/pricing/PricingShowcase";
 import { HomeFaq } from "@/features/faq/HomeFaq";
 import { faqCategories } from "@/content/faq";
 import { formatNumber } from "@/lib/format";
@@ -18,14 +18,14 @@ const steps = [
   {
     titleAr: "اختر خطتك",
     titleEn: "Choose your plan",
-    bodyAr: "بالتقسيط ١٪ شهريًا، أو كاش بخصم ٢٤٪.",
-    bodyEn: "Installments of 1% a month, or cash at 24% off.",
+    bodyAr: "استلام فوري أو متوسط الأجل أو مستقبلي، أو الدفع النقدي بخصم.",
+    bodyEn: "Immediate, mid-term or future move-in, or pay cash at a discount.",
   },
   {
-    titleAr: "العقد",
-    titleEn: "Contract",
-    bodyAr: "وقّع العقد مباشرة مع الشركة — بدون بنك. الدفعة الأولى، إن وُجدت، حسب الشاليه.",
-    bodyEn: "Sign directly with the developer — no bank. A down payment, if any, depends on the chalet.",
+    titleAr: "الدفعة الأولى والعقد",
+    titleEn: "Down payment & contract",
+    bodyAr: "ادفع الدفعة الأولى ووقّع العقد مباشرة مع الشركة، بدون بنك.",
+    bodyEn: "Pay the down payment and sign directly with the developer. No bank.",
   },
   {
     titleAr: "سند ملكية وأقساط",
@@ -39,7 +39,6 @@ export default async function FinancingPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("financing");
-  const tc = await getTranslations("common");
   const isAr = locale === "ar";
 
   const financingFaq = faqCategories.find((c) => c.id === "purchase")?.items ?? [];
@@ -50,20 +49,7 @@ export default async function FinancingPage({ params }: Props) {
 
       <section id="plans" className="section scroll-mt-20 bg-surface-alt">
         <div className="container-gc">
-          <div className="sec-head items-end">
-            <div>
-              <p className="section-eyebrow">{isAr ? "الأسعار" : "Prices"}</p>
-              <h2 className="section-title mb-0">
-                {isAr ? "سعر واحد، وطريقتان للدفع." : "One price, two ways to pay."}
-              </h2>
-            </div>
-            <p className="section-sub">
-              {isAr
-                ? "بالتقسيط الشهري، أو كاش بخصم — مباشرة مع الشركة."
-                : "Monthly installments, or cash at a discount — directly with the developer."}
-            </p>
-          </div>
-          <PriceOffer locale={locale} jd={tc("jd")} />
+          <PricingShowcase />
         </div>
       </section>
 

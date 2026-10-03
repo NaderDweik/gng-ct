@@ -29,18 +29,18 @@
   }
 }
 
-/* ── Sky switch: the track is a sky, the knob a sun that becomes the moon ── */
+/* ── Day / Night switch: a thin outlined pill with a small dot, labels either side ── */
 .gd-switch-wrap {
   display: inline-flex;
   align-items: center;
-  gap: 0.85rem;
+  gap: 1rem;
 }
 
 .gd-switch-label {
   color: var(--subtle);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
   transition: color 0.5s var(--ease);
@@ -48,7 +48,7 @@
 
 [dir="rtl"] .gd-switch-label {
   letter-spacing: 0;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .gd:not(.is-night) .gd-switch-label:first-child,
@@ -65,25 +65,19 @@
 }
 
 .gd-switch {
-  --track-w: 6.5rem;
-  --track-h: 3rem;
-  --knob: 2.4rem;
-  --pad: calc((var(--track-h) - var(--knob)) / 2);
+  --track-w: 3.4rem;
+  --track-h: 1.8rem;
+  --knob: 1.05rem;
+  --pad: calc((var(--track-h) - var(--knob)) / 2 - 1px);
   position: relative;
   flex-shrink: 0;
   width: var(--track-w);
   height: var(--track-h);
   padding: 0;
+  border: 1px solid var(--line-strong);
   border-radius: 999px;
   cursor: pointer;
-  box-shadow:
-    inset 0 2px 6px color-mix(in srgb, var(--black) 25%, transparent),
-    0 6px 18px color-mix(in srgb, var(--sky-day-deep) 35%, transparent);
-  transition: box-shadow 0.8s var(--ease), transform 0.2s var(--ease);
-}
-
-.gd-switch:active {
-  transform: scale(0.97);
+  transition: border-color 0.6s var(--ease);
 }
 
 [dir="rtl"] .gd-title {
@@ -92,159 +86,151 @@
 }
 
 .gd.is-night .gd-switch {
-  box-shadow:
-    inset 0 2px 6px color-mix(in srgb, var(--black) 45%, transparent),
-    0 6px 22px color-mix(in srgb, var(--sky-night) 70%, transparent);
+  border-color: var(--line-on-dark);
 }
 
-/* Two skies stacked; night fades in over day. */
-.gd-switch-sky {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  border-radius: inherit;
-  background: linear-gradient(160deg, var(--sky-day), var(--sky-day-deep));
-}
-
-.gd-switch-sky::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(160deg, var(--sky-night), var(--sky-night-deep));
-  opacity: 0;
-  transition: opacity 0.7s var(--ease);
-}
-
-.gd.is-night .gd-switch-sky::before {
-  opacity: 1;
-}
-
-/* Clouds drift off the bottom at night. */
-.gd-cloud {
-  position: absolute;
-  z-index: 1;
-  height: 0.7rem;
-  border-radius: 999px;
-  background: var(--white);
-  opacity: 0.95;
-  transition: transform 0.7s var(--ease), opacity 0.5s var(--ease);
-}
-
-.gd-cloud::before {
-  content: "";
-  position: absolute;
-  bottom: 40%;
-  left: 22%;
-  width: 55%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: inherit;
-}
-
-.gd-cloud--a {
-  width: 2.1rem;
-  bottom: 0.55rem;
-  inset-inline-end: 0.55rem;
-}
-
-.gd-cloud--b {
-  width: 1.4rem;
-  bottom: 1.45rem;
-  inset-inline-end: 2.2rem;
-  opacity: 0.7;
-}
-
-.gd.is-night .gd-cloud {
-  opacity: 0;
-  transform: translateY(1.6rem);
-}
-
-/* Stars twinkle in on the day side of the track. */
-.gd-star {
-  position: absolute;
-  z-index: 1;
-  width: 3px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--white);
-  opacity: 0;
-  transform: scale(0);
-  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
-}
-
-.gd-star--0 { top: 22%; inset-inline-start: 18%; }
-.gd-star--1 { top: 58%; inset-inline-start: 12%; width: 2px; }
-.gd-star--2 { top: 30%; inset-inline-start: 38%; width: 2px; }
-.gd-star--3 { top: 66%; inset-inline-start: 32%; }
-.gd-star--4 { top: 18%; inset-inline-start: 52%; width: 2px; }
-
-.gd.is-night .gd-star {
-  opacity: 1;
-  transform: scale(1);
-  animation: gd-twinkle 2.4s ease-in-out infinite;
-}
-
-.gd.is-night .gd-star--0 { transition-delay: 0.25s; animation-delay: 0.2s; }
-.gd.is-night .gd-star--1 { transition-delay: 0.35s; animation-delay: 1.1s; }
-.gd.is-night .gd-star--2 { transition-delay: 0.3s; animation-delay: 0.6s; }
-.gd.is-night .gd-star--3 { transition-delay: 0.4s; animation-delay: 1.6s; }
-.gd.is-night .gd-star--4 { transition-delay: 0.45s; animation-delay: 0.9s; }
-
-@keyframes gd-twinkle {
-  50% { opacity: 0.35; }
-}
-
-/* Knob: a glowing sun; at night it rolls across and becomes the moon. */
 .gd-knob {
   position: absolute;
-  z-index: 2;
   top: var(--pad);
   inset-inline-start: var(--pad);
   width: var(--knob);
   height: var(--knob);
-  overflow: hidden;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, var(--sky-sun), var(--sky-sun-edge));
-  box-shadow:
-    0 0 0 5px color-mix(in srgb, var(--white) 38%, transparent),
-    0 0 0 10px color-mix(in srgb, var(--white) 16%, transparent),
-    0 0 16px color-mix(in srgb, var(--sky-sun) 60%, transparent),
-    0 2px 6px color-mix(in srgb, var(--black) 25%, transparent);
-  transition:
-    transform 0.7s cubic-bezier(0.34, 1.4, 0.5, 1),
-    background 0.7s var(--ease),
-    box-shadow 0.7s var(--ease);
+  background: var(--ink);
+  transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1), background-color 0.6s var(--ease);
 }
 
 .gd.is-night .gd-knob {
-  transform: translateX(calc(var(--track-w) - var(--knob) - var(--pad) * 2)) rotate(300deg);
-  background: radial-gradient(circle at 35% 35%, var(--white), var(--sky-moon));
-  box-shadow:
-    0 0 0 5px color-mix(in srgb, var(--sky-moon) 12%, transparent),
-    0 0 14px color-mix(in srgb, var(--sky-moon) 45%, transparent),
-    0 2px 6px color-mix(in srgb, var(--black) 35%, transparent);
+  transform: translateX(calc(var(--track-w) - var(--knob) - var(--pad) * 2 - 2px));
+  background: var(--on-dark);
 }
 
 [dir="rtl"] .gd.is-night .gd-knob {
-  transform: translateX(calc((var(--track-w) - var(--knob) - var(--pad) * 2) * -1)) rotate(-300deg);
+  transform: translateX(calc((var(--track-w) - var(--knob) - var(--pad) * 2 - 2px) * -1));
 }
 
-.gd-crater {
+/* ── Night sky: crescent + stars in the section's top-right corner ── */
+.gd {
+  position: relative;
+  overflow: hidden;
+}
+
+.gd-night-sky {
   position: absolute;
-  border-radius: 50%;
-  background: var(--sky-crater);
-  opacity: 0;
-  transform: scale(0.4);
-  transition: opacity 0.5s var(--ease) 0.2s, transform 0.5s var(--ease) 0.2s;
+  inset: 0 0 auto auto;
+  width: 22rem;
+  height: 8rem;
+  pointer-events: none;
 }
 
-.gd-crater--a { width: 32%; aspect-ratio: 1; top: 20%; left: 45%; }
-.gd-crater--b { width: 20%; aspect-ratio: 1; top: 58%; left: 22%; }
-.gd-crater--c { width: 14%; aspect-ratio: 1; top: 66%; left: 62%; }
+/* ── Day sky: a warm sun rises into the corner once the section is in view; sets at night ── */
+.gd-day-sky {
+  position: absolute;
+  inset: 0 0 auto auto;
+  width: 14rem;
+  height: 9rem;
+  overflow: hidden;
+  pointer-events: none;
+}
 
-.gd.is-night .gd-crater {
+.gd-sun {
+  position: absolute;
+  top: 1.4rem;
+  right: clamp(2.5rem, 5vw, 5rem);
+  width: 3.6rem;
+  height: 3.6rem;
+  opacity: 0;
+  transform: translate(2.5rem, 3.5rem) scale(0.6);
+  transition: opacity 0.8s var(--ease), transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gd.is-in:not(.is-night) .gd-sun {
   opacity: 1;
+  transform: none;
+  transition-delay: 0.2s;
+}
+
+/* Night: the sun sinks back out of the corner as the moon arrives. */
+.gd.is-night .gd-sun {
+  opacity: 0;
+  transform: translate(1.5rem, 4rem) scale(0.7);
+  transition-duration: 0.6s, 0.9s;
+}
+
+.gd-sun-core {
+  position: absolute;
+  inset: 22%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 38% 35%, var(--sky-sun), var(--sky-sun-edge));
+  box-shadow: 0 0 22px color-mix(in srgb, var(--sky-sun) 55%, transparent);
+}
+
+/* Twelve thin rays from a repeating conic gradient, masked to a ring; they turn slowly. */
+.gd-sun-rays {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: repeating-conic-gradient(var(--sky-sun-edge) 0deg 4deg, transparent 4deg 30deg);
+  -webkit-mask-image: radial-gradient(circle, transparent 42%, #000 44%, #000 68%, transparent 70%);
+  mask-image: radial-gradient(circle, transparent 42%, #000 44%, #000 68%, transparent 70%);
+  opacity: 0.8;
+  animation: gd-sun-turn 24s linear infinite;
+}
+
+@keyframes gd-sun-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* A crescent: an empty circle whose offset shadow is the lit sliver. */
+.gd-moon {
+  position: absolute;
+  top: 1.6rem;
+  right: clamp(2.5rem, 5vw, 5rem);
+  width: 3.4rem;
+  height: 3.4rem;
+  border-radius: 50%;
+  box-shadow: 0.7rem -0.4rem 0 0 var(--sky-moon);
+  filter: drop-shadow(0 0 10px color-mix(in srgb, var(--sky-moon) 45%, transparent));
+  opacity: 0;
+  transform: translate(3rem, -3rem) rotate(-20deg);
+  transition: opacity 0.9s var(--ease), transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.gd.is-night .gd-moon {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.25s;
+}
+
+.gd-star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--on-dark);
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+
+.gd-star:nth-child(odd) {
+  width: 2px;
+  height: 2px;
+}
+
+.gd.is-night .gd-star {
+  opacity: 0.85;
   transform: scale(1);
+  transition-delay: calc(0.6s + var(--k) * 0.12s);
+  animation: gd-twinkle 3.2s ease-in-out calc(var(--k) * 0.45s) infinite;
+}
+
+@keyframes gd-twinkle {
+  50% {
+    opacity: 0.25;
+  }
 }
 
 /* ── CTA: ghost bordered button under the grid, start-aligned ── */
@@ -291,9 +277,10 @@
       "a a b c"
       "a a d c"
       "e f f g";
-    grid-template-rows: repeat(3, minmax(0, 1fr));
+    /* Bottom row a little taller than the two above it. */
+    grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.35fr);
     /* Viewport minus nav, padding and heading: the whole section fits one screen. */
-    height: clamp(400px, calc(100svh - 25rem), 620px);
+    height: clamp(440px, calc(100svh - 23rem), 680px);
   }
 
   .gd-tile:first-child {
@@ -365,7 +352,7 @@
 .gd-lede {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 4; /* above the caption's scrim, so no shade ever sits over the text */
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
@@ -423,15 +410,18 @@
   }
 }
 
-/* Caption: time always; the title rises in on hover / focus (always on touch). */
+/*
+ * Caption: the time tag sits in the bottom-start corner. The title is collapsed (no
+ * height) until hover / focus, when it opens underneath and lifts the tag; always
+ * open on touch.
+ */
 .gd-cap {
   position: absolute;
   z-index: 3; /* above the hover glow */
   inset: auto 0 0;
   display: grid;
   justify-items: start;
-  gap: 0.5rem;
-  padding: clamp(0.75rem, 1.4vw, 1.1rem);
+  padding: clamp(0.6rem, 1vw, 0.85rem);
   background: linear-gradient(0deg, color-mix(in srgb, var(--overlay) 70%, transparent), transparent);
   color: var(--on-dark);
 }
@@ -452,6 +442,7 @@
 }
 
 .gd-cap-title {
+  margin-top: 0.5rem;
   font-family: var(--font-display);
   font-size: clamp(0.95rem, 1.3vw, 1.15rem);
   font-weight: 700;
@@ -464,15 +455,22 @@
 
 @media (hover: hover) {
   .gd-cap-title {
+    max-height: 0;
+    margin-top: 0;
+    overflow: hidden;
     opacity: 0;
-    transform: translateY(8px);
-    transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+    transition:
+      max-height 0.4s var(--ease),
+      margin-top 0.4s var(--ease),
+      opacity 0.3s var(--ease);
   }
 
   .gd-tile:hover .gd-cap-title,
   .gd-tile:focus-visible .gd-cap-title {
+    max-height: 4em;
+    margin-top: 0.5rem;
     opacity: 1;
-    transform: none;
+    transition-delay: 0s, 0s, 0.1s;
   }
 }
 

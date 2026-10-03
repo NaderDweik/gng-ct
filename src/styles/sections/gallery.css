@@ -126,64 +126,85 @@
   animation: gal-tile-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+/* Hover: the photo softens and darkens; a centred zoom icon, category and name fade up. */
 .gal-tile::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--overlay) 70%, transparent) 100%);
-  transition: background 0.45s ease;
+  background: color-mix(in srgb, var(--overlay) 72%, transparent);
+  opacity: 0;
+  transition: opacity 0.45s ease;
 }
 
 .gal-tile-img {
   object-fit: cover;
-  transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    transform 1.1s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.45s ease;
 }
 
-.gal-tile-label {
+.gal-tile-hover {
   position: absolute;
-  z-index: 3; /* above the hover glow */
-  inset-inline-start: clamp(12px, 1.4vw, 18px);
-  bottom: clamp(12px, 1.4vw, 16px);
-  display: inline-flex;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1rem;
   color: var(--on-dark);
-  font-size: 12.5px;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  text-align: center;
   opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.35s ease, transform 0.35s ease;
-  text-shadow: 0 1px 10px color-mix(in srgb, var(--black) 35%, transparent);
+  transform: translateY(8px);
+  transition: opacity 0.4s ease, transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.gal-tile-label::before {
-  content: "";
-  width: 16px;
-  height: 1px;
-  background: var(--brand-accent);
-  transition: width 0.4s ease;
+.gal-tile-zoom {
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 0.4rem;
+}
+
+.gal-tile-cat {
+  color: var(--on-dark-muted);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .gal-tile-cat {
+  letter-spacing: 0;
+  font-size: 0.8rem;
+}
+
+.gal-tile-name {
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.4vw, 1.3rem);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+[dir="rtl"] .gal-tile-name {
+  font-family: var(--font-body);
 }
 
 .gal-tile:hover .gal-tile-img,
 .gal-tile:focus-visible .gal-tile-img {
-  transform: scale(1.05);
+  transform: scale(1.06);
+  filter: blur(6px);
 }
 
 .gal-tile:hover::after,
 .gal-tile:focus-visible::after {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--overlay) 8%, transparent) 30%, color-mix(in srgb, var(--overlay) 78%, transparent) 100%);
+  opacity: 1;
 }
 
-.gal-tile:hover .gal-tile-label,
-.gal-tile:focus-visible .gal-tile-label {
+.gal-tile:hover .gal-tile-hover,
+.gal-tile:focus-visible .gal-tile-hover {
   opacity: 1;
   transform: none;
-}
-
-.gal-tile:hover .gal-tile-label::before,
-.gal-tile:focus-visible .gal-tile-label::before {
-  width: 28px;
 }
 
 .gal-tile:focus-visible {
@@ -238,9 +259,12 @@
   background: var(--fill-on-dark);
 }
 
+/* The frame takes the photo's own ratio (--lb-r, set from the loaded image) and the
+   largest size that fits, so the photo fills it edge to edge with no bars. */
 .gal-lb-body {
+  --lb-w: min(1040px, 100%, calc(min(72svh, 720px) * var(--lb-r, 1.6)));
   display: flex;
-  width: min(1040px, 100%);
+  width: 100%;
   flex-direction: column;
   align-items: center;
   gap: 0.85rem;
@@ -248,15 +272,13 @@
 
 .gal-lb-shot {
   position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  max-height: min(72svh, 720px);
-  background: var(--overlay);
+  width: var(--lb-w);
+  aspect-ratio: var(--lb-r, 1.6);
 }
 
 .gal-lb-bar {
   display: flex;
-  width: 100%;
+  width: var(--lb-w);
   align-items: baseline;
   justify-content: space-between;
   gap: 1rem;

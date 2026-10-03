@@ -1,0 +1,66 @@
+/* Pricing showcase (financing page). Markup: features/pricing/PricingShowcase.tsx */
+.pricing-card {
+  padding: clamp(1.75rem, 3.5vw, 2.75rem);
+  color: var(--on-dark);
+  background: var(--brand-secondary);
+  box-shadow: 0 40px 80px -40px color-mix(in srgb, var(--overlay) 55%, transparent);
+}
+
+.pricing-plan-tab {
+  padding: 0.8rem 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--on-dark-muted);
+  border: 1px solid color-mix(in srgb, var(--white) 14%, transparent);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.pricing-plan-tab:hover {
+  color: var(--on-dark);
+  border-color: color-mix(in srgb, var(--white) 35%, transparent);
+}
+
+.pricing-plan-tab.is-active {
+  background: var(--fill-light);
+  color: var(--ink-on-light);
+  border-color: var(--fill-light);
+}
+
+/* Breakdown: label on one side, amount (and a short note) on the other. */
+.pricing-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding-block: 1.1rem;
+  border-top: 1px solid var(--line-on-dark);
+}
+
+.pricing-row--total {
+  border-top-width: 2px;
+  border-top-color: color-mix(in srgb, var(--white) 35%, transparent);
+}
+
+.pricing-fade {
+  animation: pricing-fade 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes pricing-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pricing-fade {
+    animation: none;
+  }
+}

@@ -32,7 +32,7 @@ export const faqCategories: FaqCategory[] = [
         qAr: "هل يوجد فوائد على التقسيط؟",
         aAr: "لا، جميع خطط الدفع بدون فوائد ومباشرة مع الشركة بدون تدخل بنكي.",
         qEn: "Is there interest on installments?",
-        aEn: "No. All plans are zero-interest and direct with the company — no bank.",
+        aEn: "No. All plans are zero-interest and direct with the company. No bank.",
       },
       {
         id: "plans",
@@ -84,7 +84,7 @@ export const faqCategories: FaqCategory[] = [
         qAr: "أين يقع مشروع Giving City؟",
         aAr: "يبعد ٤١ كم (نحو ٥٥ دقيقة) من فندق الرويال باتجاه سحاب الحطمية، ونحو ٣٠ دقيقة من مطار الملكة علياء.",
         qEn: "Where is Giving City located?",
-        aEn: "41 km (about 55 min) from Le Royal Hotel towards Sahab Al-Hatmiyeh — and about 30 min from Queen Alia International Airport.",
+        aEn: "41 km (about 55 min) from Le Royal Hotel towards Sahab Al-Hatmiyeh, and about 30 min from Queen Alia International Airport.",
       },
       {
         qAr: "ما هي المرافق المتوفرة داخل المشروع؟",
@@ -96,7 +96,7 @@ export const faqCategories: FaqCategory[] = [
         qAr: "هل يوجد حراسة أمنية؟",
         aAr: "نعم، المشروع مغلق (gated community) مع حراسة أمنية وكاميرات مراقبة على مدار الساعة، وجدران بارتفاع ٣ أمتار لكل وحدة.",
         qEn: "Is there security?",
-        aEn: "Yes — gated community with 24/7 guards and cameras, plus 3-meter privacy walls per unit.",
+        aEn: "Yes, a gated community with 24/7 guards and cameras, plus 3-meter privacy walls per unit.",
       },
     ],
   },

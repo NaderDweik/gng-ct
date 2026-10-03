@@ -36,8 +36,8 @@ export const heroLayered = {
       focus: "52% 55%",
       titleAr: ["عيش فوق", "التوقعات"],
       titleEn: ["Live Above", "Expectations"],
-      descAr: "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة — منتجعات خاصة بسند ملكية مستقل.",
-      descEn: "The first and largest fully-serviced chalet city in the region — private resorts with an independent deed.",
+      descAr: "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة. منتجعات خاصة بسند ملكية مستقل.",
+      descEn: "The first and largest fully-serviced chalet city in the region. Private resorts with an independent deed.",
     },
     {
       // Palms, pool and pergola.
@@ -54,8 +54,8 @@ export const heroLayered = {
       focus: "58% 45%",
       titleAr: ["عالمك الخاص،", "مخدوم بالكامل."],
       titleEn: ["A Private World,", "Fully Serviced."],
-      descAr: "مسابح، أمن، ألياف ضوئية، وخطط بدون فوائد — مباشرة مع الشركة.",
-      descEn: "Pools, security, fiber, and zero-interest plans — directly with the company.",
+      descAr: "مسابح، أمن، ألياف ضوئية، وخطط بدون فوائد، مباشرة مع الشركة.",
+      descEn: "Pools, security, fiber, and zero-interest plans, directly with the company.",
     },
   ] satisfies HeroSlide[],
 } as const;

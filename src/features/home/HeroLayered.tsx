@@ -133,9 +133,11 @@ export function HeroLayered() {
       intro
         .from(q(".hl-stage"), { scale: 1.16, duration: 2.6 }, 0)
         .from(layers(0), { filter: "brightness(0.35) saturate(0.8)", duration: 2.2, ease: "power2.out" }, 0)
-        .from(q(".hl-glyph"), { yPercent: 105, duration: 1.4, stagger: 0.06 }, 0.35)
         .from(titleLines(0), { yPercent: 110, duration: 1.1, stagger: 0.12 }, 0.95)
         .from(q(".hl-fade"), { y: 18, autoAlpha: 0, duration: 0.9, stagger: 0.08 }, 1.25);
+      // The wordmark is optional (empty in content/hero.ts): only animate its letters if any.
+      const glyphs = q(".hl-glyph");
+      if (glyphs.length) intro.from(glyphs, { yPercent: 105, duration: 1.4, stagger: 0.06 }, 0.35);
 
       if (switching) {
         intro.progress(1);
@@ -155,7 +157,7 @@ export function HeroLayered() {
             defaults: { ease: "none" },
             scrollTrigger: { trigger: el, start: "top top", end: "+=70%", pin: true, scrub: 0.6 },
           })
-          .to(q(".hl-stage"), { clipPath: "inset(9% 5% 12% 5%)", scale: 0.96 }, 0)
+          .to(q(".hl-stage"), { clipPath: "inset(9% 5% 3% 5%)", scale: 0.96 }, 0)
           .to(q(".hl-word"), { yPercent: -18 }, 0)
           .to(q(".hl-content"), { yPercent: -35, autoAlpha: 0 }, 0)
           .to(q(".hl-cue"), { autoAlpha: 0, duration: 0.2 }, 0);

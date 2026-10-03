@@ -139,181 +139,235 @@
   }
 }
 
-/* ── Home amenities (static). Markup: features/amenities/AmenitiesGrid.tsx ── */
+/* ── Home amenities: horizontal cards. Markup: features/amenities/AmenitiesGrid.tsx ── */
 .amg {
+  --amg-photo: 40%;
+  --amg-shift: calc(40 / 60);
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(2rem, 3.5vw, 3rem) clamp(1rem, 2vw, 1.5rem);
+  gap: clamp(0.75rem, 1.4vw, 1.25rem);
+  margin: 0;
   padding: 0;
   list-style: none;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .amg {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-.amg-item {
-  display: flex;
-  flex-direction: column;
+.amg-card {
+  position: relative;
+  display: block;
+  min-height: clamp(9.5rem, 15vw, 12.5rem);
+  overflow: hidden;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color var(--amg-dur) var(--amg-ease);
+}
+
+.amg-card:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
+/*
+ * Photo: one card-sized image behind a clipped window. At rest the window is the start
+ * 40% and the image is shifted so its middle shows there; on hover the window opens to
+ * the whole card while the image glides back to centre, so it never rescales.
+ */
+.amg-card {
+  --amg-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  --amg-dur: 0.85s;
+  --amg-dir: 1;
+}
+
+[dir="rtl"] .amg-card {
+  --amg-dir: -1;
 }
 
 .amg-photo {
-  position: relative;
-  aspect-ratio: 4 / 3;
+  position: absolute;
+  inset: 0;
   overflow: hidden;
   background: var(--surface-tint);
+  clip-path: inset(0 calc(100% - var(--amg-photo)) 0 0);
+  transition: clip-path var(--amg-dur) var(--amg-ease);
+}
+
+[dir="rtl"] .amg-photo {
+  clip-path: inset(0 0 0 calc(100% - var(--amg-photo)));
+}
+
+.amg-frame {
+  position: absolute;
+  inset: 0;
+  translate: calc(var(--amg-dir) * (var(--amg-photo) / 2 - 50%)) 0;
+  transition: translate var(--amg-dur) var(--amg-ease);
 }
 
 .amg-img {
   object-fit: cover;
+  scale: 1.04;
+  transition: scale var(--amg-dur) var(--amg-ease);
 }
 
-/* Caption sits on a hairline, so every card's text starts on the same line. */
-.amg-text {
-  position: relative;
-  margin-top: 1rem;
-  padding-top: 0.9rem;
-  border-top: 1px solid var(--line-strong);
-}
-
-/* ── Hover / focus: quiet cues that the card opens its amenity ── */
-.amg-item {
-  color: inherit;
-  text-decoration: none;
-}
-
-.amg-item:focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 6px;
-}
-
-.amg-img {
-  transition: scale 0.9s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* The hairline draws across in the primary colour, from the reading side. */
-.amg-text::before {
+.amg-photo::after {
   content: "";
   position: absolute;
-  inset-inline: 0;
-  top: -1px;
-  height: 2px;
-  background: var(--primary-ink);
-  transform: scaleX(0);
-  transform-origin: left center;
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-[dir="rtl"] .amg-text::before {
-  transform-origin: right center;
-}
-
-.amg-title {
-  transition: color 0.3s ease;
-}
-
-.amg-arrow {
-  margin-inline-start: 0.6rem;
-  vertical-align: middle;
+  inset: 0;
+  /* Scrim: darkest behind the text (start side), easing off toward the end so the photo
+     stays bright where nothing sits on it. */
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--overlay) 90%, transparent) 0%,
+    color-mix(in srgb, var(--overlay) 80%, transparent) 45%,
+    color-mix(in srgb, var(--overlay) 55%, transparent) 70%,
+    color-mix(in srgb, var(--overlay) 35%, transparent) 100%
+  );
   opacity: 0;
-  translate: -6px 0;
-  transition:
-    opacity 0.3s ease,
-    translate 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.45s ease;
 }
 
-[dir="rtl"] .amg-arrow {
-  translate: 6px 0;
+.amg-card {
+  display: flex;
 }
 
-@media (hover: hover) {
-  .amg-item:hover .amg-img {
-    scale: 1.04;
-  }
+.amg-text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-inline-start: var(--amg-photo);
+  padding: clamp(1rem, 1.8vw, 1.5rem);
+  transition: translate var(--amg-dur) var(--amg-ease);
 }
 
-.amg-item:hover .amg-text::before,
-.amg-item:focus-visible .amg-text::before {
-  transform: scaleX(1);
-}
-
-.amg-item:hover .amg-title,
-.amg-item:focus-visible .amg-title {
+.amg-icon {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  margin-bottom: 0.5rem;
+  background: var(--surface-alt);
   color: var(--primary-ink);
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease;
 }
 
-.amg-item:hover .amg-arrow,
-.amg-item:focus-visible .amg-arrow {
-  opacity: 1;
-  translate: 0 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .amg-img,
-  .amg-text::before,
-  .amg-arrow {
-    transition: none;
-  }
-
-  .amg-item:hover .amg-img {
-    scale: 1;
-  }
+.amg-icon svg {
+  width: 2rem;
+  height: 2rem;
 }
 
 .amg-title {
-  margin: 0;
-  color: var(--ink);
-  font-size: 1.2rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.6vw, 1.45rem);
   font-weight: 700;
   line-height: 1.3;
   text-wrap: balance;
+  /* Colour flips quickly so the text is already light when it crosses onto the photo. */
+  transition: color 0.35s ease;
+}
+
+[dir="rtl"] .amg-title {
+  font-family: var(--font-body);
 }
 
 .amg-desc {
-  margin: 0.35rem 0 0;
   color: var(--muted);
-  font-size: 1rem;
+  font-size: 0.95rem;
+  font-weight: 300;
   line-height: 1.6;
   text-wrap: pretty;
+  transition: color 0.35s ease;
 }
 
-/* Phones: one clear row per amenity — small photo beside the text. */
-@media (max-width: 640px) {
+/* ── Hover / focus ── */
+.amg-card:hover,
+.amg-card:focus-visible {
+  border-color: var(--primary-ink);
+}
+
+.amg-card:hover .amg-photo,
+.amg-card:focus-visible .amg-photo {
+  clip-path: inset(0);
+}
+
+.amg-card:hover .amg-frame,
+.amg-card:focus-visible .amg-frame {
+  translate: 0 0;
+}
+
+.amg-card:hover .amg-img,
+.amg-card:focus-visible .amg-img {
+  scale: 1;
+}
+
+/* The text slides back over the opened photo to the card's start edge (its own width
+   stays put, so nothing re-wraps): shift = photo width / text width. */
+.amg-card:hover .amg-text,
+.amg-card:focus-visible .amg-text {
+  translate: calc(var(--amg-dir) * -100% * var(--amg-shift)) 0;
+}
+
+[dir="rtl"] .amg-photo::after {
+  transform: scaleX(-1);
+}
+
+.amg-card:hover .amg-photo::after,
+.amg-card:focus-visible .amg-photo::after {
+  opacity: 1;
+}
+
+.amg-card:hover .amg-icon,
+.amg-card:focus-visible .amg-icon {
+  background: color-mix(in srgb, var(--white) 16%, transparent);
+  color: var(--on-dark);
+}
+
+.amg-card:hover .amg-title,
+.amg-card:focus-visible .amg-title,
+.amg-card:hover .amg-desc,
+.amg-card:focus-visible .amg-desc {
+  color: var(--on-dark);
+  text-shadow: 0 1px 12px color-mix(in srgb, var(--black) 40%, transparent);
+}
+
+.amg-card:hover .amg-desc,
+.amg-card:focus-visible .amg-desc {
+  font-weight: 400;
+}
+
+/* Phones: a narrower photo so the text keeps room. */
+@media (max-width: 479px) {
   .amg {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
-  }
-
-  .amg-item {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1rem 0;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .amg > li:first-child .amg-item {
-    border-top: 1px solid var(--line);
-  }
-
-  .amg-photo {
-    flex: 0 0 112px;
-    aspect-ratio: 1;
-  }
-
-  .amg-text {
-    margin-top: 0;
-    padding-top: 0;
-    border-top: 0;
-  }
-
-  .amg-title {
-    font-size: 1.05rem;
+    --amg-photo: 34%;
+    --amg-shift: calc(34 / 66);
   }
 
   .amg-desc {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .amg-card,
+  .amg-photo,
+  .amg-frame,
+  .amg-img,
+  .amg-text,
+  .amg-photo::after,
+  .amg-icon,
+  .amg-title,
+  .amg-desc {
+    transition: none;
   }
 }

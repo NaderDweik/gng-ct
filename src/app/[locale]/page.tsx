@@ -9,6 +9,7 @@ import { homeFaqPreview } from "@/content/faq";
 import { amenityFeatures, amenitiesIntro } from "@/content/amenities";
 import { formatNumber } from "@/lib/format";
 import { AmenitiesGrid } from "@/features/amenities/AmenitiesGrid";
+import { VLines } from "@/components/ui/VLines";
 import { HomeFaq } from "@/features/faq/HomeFaq";
 import { LocationShowcase } from "@/features/location/LocationShowcase";
 import { PriceOffer } from "@/features/pricing/PriceOffer";
@@ -52,8 +53,8 @@ export default async function HomePage({ params }: Props) {
       title: isAr ? "المنتجعات الخاصة" : "Private Resorts",
       headline: isAr ? "قمة الخصوصية المعاصرة" : "Contemporary privacy, elevated",
       desc: isAr
-        ? "٥٠٠ م² بسند ملكية مستقل — غرف، مسابح، وخصوصية كاملة داخل مجتمع مسوّر."
-        : "500 m² with an independent deed — rooms, pools, and full privacy inside a gated community.",
+        ? "٥٠٠ م² بسند ملكية مستقل: غرف، مسابح، وخصوصية كاملة داخل مجتمع مسوّر."
+        : "500 m² with an independent deed: rooms, pools, and full privacy inside a gated community.",
       img: "/gallery/resortsPics/pool-and-tent-pavilion.png",
       cta: isAr ? "استكشف الوحدات" : "Explore units",
     },
@@ -72,8 +73,8 @@ export default async function HomePage({ params }: Props) {
       title: isAr ? "التمويل المرن" : "Flexible financing",
       headline: isAr ? "بدون فوائد، مباشرة مع الشركة" : "Zero interest, direct with us",
       desc: isAr
-        ? "تقسيط ١٪ شهريًا، أو خصم ٢٤٪ كاش — مباشرة مع الشركة."
-        : "1% a month in installments, or 24% off in cash — directly with the developer.",
+        ? "خطط دفع مرنة وخطط استلام ٢٠٢٥–٢٠٢٧. تمويل مباشر بدون فوائد بنكية."
+        : "Flexible payment plans and 2025–2027 move-in windows. Direct financing with zero bank interest.",
       img: "/gallery/resortsPics/family-entering-resort-front-door.png",
       cta: isAr ? "خطط الدفع" : "Payment plans",
     },
@@ -103,8 +104,8 @@ export default async function HomePage({ params }: Props) {
             </div>
             <p className="section-sub">
               {isAr
-                ? "مخطط واحد، ثلاث وجهات — الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في مجتمع Giving City."
-                : "One master plan, three destinations — privacy, lifestyle, and flexible financing meet in Giving City."}
+                ? "مخطط واحد، ثلاث وجهات. الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في مجتمع Giving City."
+                : "One master plan, three destinations. Privacy, lifestyle, and flexible financing meet in Giving City."}
             </p>
           </div>
 
@@ -173,9 +174,11 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* Stats — white on the primary teal (by choice; contrast is ~2.4:1) */}
-      <section className="border-y border-line bg-primary text-on-dark">
-        <div className="container-gc grid grid-cols-2 gap-x-6 gap-y-8 py-10 md:py-14 lg:grid-cols-4 lg:gap-10">
+      {/* Stats — white on the primary teal (by choice; contrast is ~2.4:1), with the banner's
+          V-line motif in the darkest green at both sides, fading out toward the middle */}
+      <section className="relative overflow-hidden border-y border-line bg-primary text-on-dark">
+        <VLines />
+        <div className="container-gc relative z-[1] grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
           {[
             { v: `${site.stats.units}+`, l: t("statsUnits") },
             {
@@ -183,7 +186,8 @@ export default async function HomePage({ params }: Props) {
               l: t("statsArea"),
             },
             { v: `${site.stats.unitAreaSqm}`, l: isAr ? "م² لكل وحدة" : "m² per unit" },
-            { v: site.iso.split(" ")[1] ?? "ISO", l: t("statsIso") },
+            // Zero-interest plans direct from the developer: the figure buyers actually weigh.
+            { v: "0%", l: isAr ? "فوائد على خطط الدفع" : "interest on payment plans" },
           ].map((s) => (
             <div key={s.l}>
               <p className="font-display text-3xl font-bold tracking-tight md:text-5xl">
@@ -221,7 +225,7 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* FAQ — plain questions + a person to call */}
+      {/* FAQ — plain questions */}
       <section className="section border-y border-line bg-surface">
         <div className="container-gc">
           <HomeFaq items={homeFaqPreview} locale={locale} />
