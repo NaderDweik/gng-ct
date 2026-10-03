@@ -7,6 +7,28 @@
 }
 
 /* On the home page it follows the hero, so no fixed-header offset. */
+.mp-page--home {
+  padding-top: clamp(4rem, 8vw, 6rem);
+}
+
+.mp-page-head {
+  margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+.mp-page-title {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+[dir="rtl"] .mp-page-title {
+  letter-spacing: 0;
+}
+
 /* ── Explorer ── */
 .mp-explorer {
   position: relative;
@@ -186,10 +208,6 @@
   font-size: clamp(1.6rem, 2.4vw, 2rem);
   font-weight: 700;
   line-height: 1.15;
-}
-
-[dir="rtl"] .mp-detail-title {
-  font-family: var(--font-body);
 }
 
 .mp-detail-body {
@@ -724,4 +742,94 @@
 
 [dir="rtl"] .mp-item-num {
   font-size: 1rem;
+}
+
+/* ── Phones & tablets: details and choices live right under the plan ── */
+.mp-sheet,
+.mp-chips {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  /* The side panel (detail + long list) is replaced by the strip and chips. */
+  .mp-panel {
+    display: none;
+  }
+
+  /* minmax(0, 1fr): the one-line chip row must not widen the column. */
+  .mp-explorer {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .mp-sheet {
+    display: block;
+    min-height: 5.25rem;
+    padding: 0.95rem 1.1rem;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface-alt);
+  }
+
+  .mp-sheet-inner {
+    display: grid;
+    gap: 0.25rem;
+    animation: mp-detail-in 0.45s var(--ease) both;
+  }
+
+  .mp-sheet-inner b {
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+
+  [dir="rtl"] .mp-sheet-inner b {
+    font-family: var(--font-body);
+  }
+
+  .mp-sheet-inner span,
+  .mp-sheet-hint {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .mp-chips {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.85rem;
+    padding-bottom: 0.25rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .mp-chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mp-chip {
+    flex: none;
+    min-height: 40px;
+    padding: 0.5rem 0.95rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
+  }
+
+  .mp-chip.is-active {
+    border-color: var(--brand-primary);
+    background: var(--brand-primary);
+    color: var(--on-dark);
+  }
+
+  .mp-caption {
+    margin-top: 0.75rem;
+  }
 }

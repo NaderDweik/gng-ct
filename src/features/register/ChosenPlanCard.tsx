@@ -1,25 +1,23 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import { basePriceJd, cashDiscountPct, cashPriceJd, pricingPlans } from "@/content/pricing";
+import { basePriceJd, cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct } from "@/content/pricing";
 import { formatNumber } from "@/lib/format";
 import { usePlanChoice } from "@/features/register/usePlanChoice";
 
 /*
- * Register page, dark side card. With ?plan=… it shows the plan the visitor
- * chose on a plan card; with no choice it renders nothing.
+ * Register page, dark side card. With ?plan=installments|cash it shows the
+ * payment choice made on the offer block; otherwise the general price summary.
  * (Uses the existing .register-side--dark card styles.)
  */
 
-type Props = { locale: string; jd: string };
+type Props = { locale: string; jd: string; promises: string[] };
 
-export function ChosenPlanCard({ locale, jd }: Props) {
+export function ChosenPlanCard({ locale, jd, promises }: Props) {
   const isAr = locale === "ar";
   const n = (v: number) => formatNumber(v, locale);
   const pct = (v: number) => (isAr ? `${n(v)}٪` : `${v}%`);
-  const year = (v: number) => n(v).replace(/[٬,]/g, "");
   const choice = usePlanChoice();
-  const plan = pricingPlans.find((p) => p.id === choice);
 
   const Row = ({ k, v }: { k: string; v: string }) => (
     <div className="flex items-baseline justify-between gap-4 py-1.5">
@@ -56,41 +54,56 @@ export function ChosenPlanCard({ locale, jd }: Props) {
         <dl className="mt-4 border-t border-line-on-dark pt-3">
           <Row k={isAr ? "بدلًا من" : "Instead of"} v={`${n(basePriceJd)} ${jd}`} />
           <Row k={isAr ? "التوفير" : "You save"} v={`${n(basePriceJd - cashPriceJd)} ${jd}`} />
-          <Row k={isAr ? "الاستلام" : "Move-in"} v={isAr ? "فوري" : "Immediate"} />
         </dl>
         {change}
       </div>
     );
   }
 
-  // Chosen: an installment plan
-  if (plan) {
-    const remaining = basePriceJd - plan.downJd;
-    const months = Math.ceil(remaining / plan.monthlyFromJd);
+  // Chosen: installments
+  if (choice === "installments") {
     return (
       <div className="register-side register-side--dark" aria-live="polite">
         {eyebrow(isAr ? "خطتك المختارة" : "Your chosen plan")}
         <p className="font-display mt-2 text-2xl font-bold text-on-dark">
-          {isAr ? `الاستلام ${year(plan.moveIn)} (${plan.labelAr})` : `Move-in ${year(plan.moveIn)} (${plan.labelEn})`}
+          {isAr ? `بالتقسيط، ${pct(monthlyPct)} شهريًا` : `Installments, ${monthlyPct}% a month`}
         </p>
-        <p className="mt-3 text-sm text-on-dark-muted">{isAr ? "الدفعة الأولى" : "Down payment"}</p>
-        <p className="font-display mt-1 text-4xl font-bold leading-none text-on-dark tabular-nums">
-          {n(plan.downJd)}
+        <p className="font-display mt-3 text-4xl font-bold leading-none text-on-dark tabular-nums">
+          {n(monthlyJd)}
           <span className="ms-2 text-sm font-medium text-on-dark-muted">
-            {jd} · {pct(plan.downPct)}
+            {jd} {isAr ? "شهريًا" : "/ month"}
           </span>
         </p>
         <dl className="mt-4 border-t border-line-on-dark pt-3">
-          <Row k={isAr ? "القسط الشهري من" : "Monthly from"} v={`${n(plan.monthlyFromJd)} ${jd}`} />
-          <Row k={isAr ? "المدة حتى" : "Up to"} v={`${n(months)} ${isAr ? "شهرًا" : "months"}`} />
-          <Row k={isAr ? "المتبقي" : "Balance"} v={`${n(remaining)} ${jd}`} />
-          <Row k={isAr ? "الفوائد" : "Interest"} v={pct(0)} />
+          <Row k={isAr ? "سعر الشاليه" : "Chalet price"} v={`${n(basePriceJd)} ${jd}`} />
+          <Row k={isAr ? "الدفعة الأولى" : "Down payment"} v={isAr ? "حسب الشاليه" : "Depends on the chalet"} />
         </dl>
         {change}
       </div>
     );
   }
 
-  // No choice: nothing (the sales-office card leads the column).
-  return null;
+  // No choice: the general summary
+  return (
+    <div className="register-side register-side--dark">
+      {eyebrow(isAr ? "سعر الشاليه" : "Chalet price")}
+      <p className="font-display mt-2 text-4xl font-bold leading-none text-on-dark tabular-nums">
+        {n(basePriceJd)}
+        <span className="ms-2 text-sm font-medium text-on-dark-muted">{jd}</span>
+      </p>
+      <p className="mt-2 text-sm text-on-dark-muted">
+        {isAr
+          ? `بالتقسيط ${pct(monthlyPct)} شهريًا، أو ${n(cashPriceJd)} د.أ كاش، خصم ${pct(cashDiscountPct)}`
+          : `${monthlyPct}% a month, or ${n(cashPriceJd)} JD cash, ${cashDiscountPct}% off`}
+      </p>
+      <ul className="mt-5 space-y-2 border-t border-line-on-dark pt-4">
+        {promises.map((line) => (
+          <li key={line} className="flex items-start gap-3 text-sm text-on-dark-muted">
+            <span className="mt-2 h-px w-4 shrink-0 bg-accent" aria-hidden />
+            {line}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }

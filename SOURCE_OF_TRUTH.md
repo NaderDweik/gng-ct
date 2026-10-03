@@ -14,9 +14,9 @@
 - **Arabic Name:** شركة العطاء للتطوير والتمويل العمراني
 - **English Name:** Al-Ataa for City Development & Financing
 - **Project/Brand Name:** Giving City / Giving City Resorts / روح العطاء للتطوير العقاري
-- **Instagram:** [@giving.city](https://www.instagram.com/giving.city/)
-- **Facebook:** [alataa.giving](https://www.facebook.com/alataa.giving/)
-- **Instagram (corporate):** [@alataa_development](https://www.instagram.com/alataa_development/)
+- **Instagram:** [@spiritgivingdevelopment](https://www.instagram.com/spiritgivingdevelopment/)
+- **Facebook:** [SpiritGivingDevelopment](https://www.facebook.com/SpiritGivingDevelopment/)
+- These are the project's only official accounts.
 - **WhatsApp:** +962790029928
 - **Phone:** +962790029928
 - **Current Website:** [giving-city.com](https://giving-city.com/)
@@ -371,12 +371,12 @@ The current website is a **single-page site** with the following sections:
 
 ## 9. Social Media Content Reference
 
-### Instagram (@giving.city)
+### Instagram (@spiritgivingdevelopment)
 - Active account based in Amman, Jordan
 - Content includes: construction progress, finished resort photos, reels/videos, promotional posts
 - Messaging themes: luxury, privacy, investment, first-in-the-Middle-East, Spanish design
 
-### Facebook (alataa.giving)
+### Facebook (SpiritGivingDevelopment)
 - Company page for Al-Ataa development
 - Used for marketing and lead generation
 
@@ -516,9 +516,8 @@ The project already has presence on external platforms:
 |----------|-----|-------|
 | Website | [giving-city.com](https://giving-city.com/) | Current single-page site (being replaced) |
 | **New Domain** | **giving-estate.com** | The new website domain |
-| Instagram | [@giving.city](https://www.instagram.com/giving.city/) | Active — photos, reels, promotions |
-| Facebook | [alataa.giving](https://www.facebook.com/alataa.giving/) | Company page |
-| Instagram (Corp) | [@alataa_development](https://www.instagram.com/alataa_development/) | Corporate account |
+| Instagram | [@spiritgivingdevelopment](https://www.instagram.com/spiritgivingdevelopment/) | Official — the only Instagram to link |
+| Facebook | [SpiritGivingDevelopment](https://www.facebook.com/SpiritGivingDevelopment/) | Official — the only Facebook to link |
 | Tripadvisor | [Giving City - Amman](https://www.tripadvisor.in/Hotel_Review-g293986-d34265838-Reviews-Giving_City-Amman_Amman_Governorate.html) | Listed, no reviews yet, has 5 photos |
 | Booking.com | Listed via Tripadvisor aggregation | Price range ~$534/night shown |
 | WhatsApp | [wa.me/962790029928](https://wa.me/962790029928) | Primary communication channel |

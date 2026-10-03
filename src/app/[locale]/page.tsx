@@ -5,6 +5,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
 import { HeroLayered } from "@/features/home/HeroLayered";
+import { HomeIntro } from "@/features/home/HomeIntro";
 import { homeFaqPreview } from "@/content/faq";
 import { amenityFeatures, amenitiesIntro } from "@/content/amenities";
 import { formatNumber } from "@/lib/format";
@@ -12,10 +13,11 @@ import { AmenitiesGrid } from "@/features/amenities/AmenitiesGrid";
 import { VLines } from "@/components/ui/VLines";
 import { HomeFaq } from "@/features/faq/HomeFaq";
 import { LocationShowcase } from "@/features/location/LocationShowcase";
-import { HomeIntro } from "@/features/home/HomeIntro";
+import { PriceOffer } from "@/features/pricing/PriceOffer";
+import { masterPlanCopy } from "@/content/master-plan";
+import { PlanExplorer } from "@/features/master-plan/PlanExplorer";
 import { GalleryDay } from "@/features/gallery/GalleryDay";
 import { RegisterCta } from "@/features/register/RegisterCta";
-import { NewsPreview } from "@/features/news/NewsPreview";
 import type { LocalePageProps } from "@/i18n/types";
 import { HoverAccent } from "@/components/ui/HoverAccent";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
@@ -188,7 +190,7 @@ export default async function HomePage({ params }: Props) {
             { v: "0%", l: isAr ? "فوائد على خطط الدفع" : "interest on payment plans" },
           ].map((s) => (
             <div key={s.l}>
-              <p className="font-display text-4xl font-bold tracking-tight md:text-5xl">
+              <p className="font-display text-3xl font-bold tracking-tight md:text-5xl">
                 {s.v}
               </p>
               <p className="mt-2 text-sm text-on-dark-muted">{s.l}</p>
@@ -197,8 +199,31 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* News & articles */}
-      <NewsPreview locale={locale} />
+      {/* The offer — same block as the financing page */}
+      <section className="section bg-surface-alt">
+        <div className="container-gc">
+          <div className="sec-head items-end">
+            <div>
+              <p className="section-eyebrow">{isAr ? "الأسعار" : "Prices"}</p>
+              <h2 className="section-title mb-0">
+                {isAr ? "سعر واحد، وطريقتان للدفع." : "One price, two ways to pay."}
+              </h2>
+            </div>
+            <div className="flex max-w-md flex-col items-start gap-7">
+              <p className="section-sub">
+                {isAr
+                  ? "بالتقسيط الشهري، أو كاش بخصم، مباشرة مع الشركة."
+                  : "Monthly installments, or cash at a discount, directly with the developer."}
+              </p>
+              <Link href="/financing#plans" className="gallery-outline-btn">
+                {isAr ? "استكشف التمويل" : "Explore financing"}
+                <ArrowIcon className="arrow" />
+              </Link>
+            </div>
+          </div>
+          <PriceOffer locale={locale} jd={tc("jd")} />
+        </div>
+      </section>
 
       {/* FAQ — plain questions */}
       <section className="section border-y border-line bg-surface">

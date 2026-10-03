@@ -59,18 +59,22 @@ export function CountUp({ value, from = 0, locale, duration = 2000, delay = 0, p
   }, [value, from, duration, delay]);
 
   const final = `${prefix}${formatNumber(value, locale)}${suffix}`;
+  const shown = `${prefix}${formatNumber(current, locale)}${suffix}`;
 
+  // Grid stack: the invisible final value reserves width; the live value paints in the
+  // same cell. Avoids the absolute/relative pair that can show both numbers when layout CSS is off.
   return (
-    <span ref={ref} className="relative inline-block tabular-nums">
-      <span className="invisible" aria-hidden>
+    <span
+      ref={ref}
+      className="inline-grid tabular-nums [grid-template-areas:'n']"
+      aria-label={final}
+    >
+      <span className="invisible col-[1] row-[1] [grid-area:n] whitespace-nowrap" aria-hidden>
         {final}
       </span>
-      <span className="absolute inset-0 whitespace-nowrap" aria-hidden>
-        {prefix}
-        {formatNumber(current, locale)}
-        {suffix}
+      <span className="col-[1] row-[1] [grid-area:n] whitespace-nowrap" aria-hidden>
+        {shown}
       </span>
-      <span className="sr-only">{final}</span>
     </span>
   );
 }

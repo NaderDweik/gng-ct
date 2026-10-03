@@ -79,7 +79,7 @@ export default async function LeadershipPage({ params }: Props) {
               <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                 {tc("whatsapp")}
               </a>
-              <a href={site.social.instagramCorp} target="_blank" rel="noopener noreferrer" className="btn btn-ghost-dark">
+              <a href={site.social.instagram} target="_blank" rel="noopener noreferrer" className="btn btn-ghost-dark">
                 Instagram
               </a>
             </div>

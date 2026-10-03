@@ -67,6 +67,12 @@ export default async function RegisterPage({ params }: Props) {
   const tc = await getTranslations("common");
   const isAr = locale === "ar";
 
+  const promises = [
+    site.copyBank[isAr ? "ar" : "en"].deed,
+    site.copyBank[isAr ? "ar" : "en"].zeroInterest,
+    site.copyBank[isAr ? "ar" : "en"].iso,
+  ];
+
   return (
     <>
       <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
@@ -83,7 +89,7 @@ export default async function RegisterPage({ params }: Props) {
           </div>
 
           <aside className="flex flex-col gap-4">
-            <ChosenPlanCard locale={locale} jd={tc("jd")} />
+            <ChosenPlanCard locale={locale} jd={tc("jd")} promises={promises} />
 
             <div className="register-side register-contact">
               <ContactRow icon="phone" label={isAr ? "اتصل بنا" : "Call us"}>

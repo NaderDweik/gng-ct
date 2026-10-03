@@ -4,7 +4,7 @@
 >
 > **Refresh rule:** After any meaningful product/design/content change, update this file before ending the turn so the next AI session starts current.
 >
-> *Last refreshed: 2026-10-03 (financing simplified, article pages, white labels on primary, no em dashes in copy) · mirrors live codebase under `jordangate-redesign-main/`*
+> *Last refreshed: 2026-10-03 (PriceOffer CSS restored, one price / two ways, CountUp fixed) · mirrors live codebase under `jordangate-redesign-main/`*
 
 ---
 
@@ -22,8 +22,8 @@
 | Cert | ISO 9001:2015 |
 | Old site | https://giving-city.com/ |
 | Live domain | https://giving-estate.com |
-| IG | [@giving.city](https://www.instagram.com/giving.city/) · [@alataa_development](https://www.instagram.com/alataa_development/) |
-| FB | [alataa.giving](https://www.facebook.com/alataa.giving/) |
+| IG | [@spiritgivingdevelopment](https://www.instagram.com/spiritgivingdevelopment/) — the only official Instagram |
+| FB | [SpiritGivingDevelopment](https://www.facebook.com/SpiritGivingDevelopment/) — the only official Facebook |
 | Maps | https://maps.app.goo.gl/PNR3uYsjeDX92fqs7 · ~31.949722, 35.930111 |
 | Location | 41 km (~55 min) from Le Royal Hotel → Sahab Al-Hatmiyeh (سحاب الحطمية) · drive times: `content/location.ts` |
 
@@ -45,21 +45,16 @@ Canonical runtime values: `src/content/site.ts`.
 
 ## Pricing
 
-Canonical: `src/content/pricing.ts` (+ mirrored in `site.stats`).
+Canonical: `src/content/pricing.ts`.
 
 | | |
 |--|--|
-| Base | **168,000 JD** |
-| Cash | **142,800 JD** (15% off) · immediate move-in |
-| Plans | Direct with company · **0% interest** · no bank |
+| Base | **168,000 JD** (every chalet, one price) |
+| Installments | **1% / month** = **1,680 JD** · 0% interest · direct with company |
+| Cash | **127,680 JD** (**24% off**) |
+| Down payment | Depends on the chalet (some with, some without) |
 
-| Plan | Move-in | Down % | Down JD | Monthly |
-|------|---------|--------|---------|---------|
-| Immediate | 2025 | 35% | 59,000 | from 1,000 JD |
-| Mid-term | 2026 | 25% | 42,000 | from 1,000 JD |
-| Future | 2027 | 15% | 25,000 | from 1,000 JD |
-
-UI: `PricingShowcase` (home/financing) · `PlanCompare`.
+UI: `PriceOffer` (home + `/financing#plans`, styles `.po-*` in `financing.css`) · `PricingShowcase` (installments/cash picker, `pricing.css`) · register deep-link `?plan=installments|cash`.
 
 ---
 
@@ -71,12 +66,12 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 
 | Path | AR | Status | Notes |
 |------|----|--------|-------|
-| `/` | الرئيسية | **Polished** | Cinematic layered hero (`features/home/HeroLayered`, GSAP): 3 auto-advancing slides from `content/hero.ts` (tent pavilion + pool · palms + pergola · garden swing), fixed wordmark with per-slide cut-outs in front (`public/hero/*-cutout.webp`, regenerate with `scripts/hero-cutout.mjs`); pins & recedes on scroll. Section order (top → bottom): About intro (`features/home/HomeIntro` — 3:2 crop (sides trimmed) of a 16:9 photo that assembles once in view from `public/home/intro-{sky,walls,chalet,ground,pool}-v2.webp` (sky fades, walls rise, chalet drops, ground rises, pool settles), then two white lines (`seams`, traced from the layer alpha) draw along the chalet's base (edge to edge) and the pool's lower edge, each trailing off; copy in `content/home-intro.ts`) · destinations · "A day at Giving City" (`features/gallery/GalleryDay` — static 7-tile bento (taller bottom row; time tag bottom-start, hover title opens under it and lifts it) with a minimal Day/Night switch (by day a sun with turning rays sits in the top-right corner) (night adds a crescent moon + stars sliding in from the section's top-right corner) that auto-turns to Night 3.5s after the section is in view (once; a press cancels it), lede inside the big tile, sets in `dayScenes`; fits one screen on desktop; Night set is dusk + lit interiors until real night photos exist) · amenities (`features/amenities/AmenitiesGrid`: 2-up horizontal cards, photo flush on the start side + icon/title/line; hover = primary border, the photo window opens across the card (image glides, never rescales) under a dark tint, text turns light and slides to the start edge) · map (`LocationShowcase`: clean map beside one panel — eyebrow, title, place, drive-time list with the auto tour, one Open map link) · stats bar (367+ resorts · 500,000 m² · 500 m² per unit · 0% interest; teal, with the banner V-line motif live in SVG at both sides, darkest green, masked out toward the middle: `components/ui/VLines` + `styles/base/v-lines.css`) · News & articles (`features/news/NewsPreview`, 3 cards from `homeNewsSlugs`) · FAQ · RegisterCta. Compare-plans cards live on /financing only |
+| `/` | الرئيسية | **Polished** | Cinematic layered hero (`features/home/HeroLayered`, GSAP): 3 auto-advancing slides from `content/hero.ts` (tent pavilion + pool · palms + pergola · garden swing), fixed wordmark with per-slide cut-outs in front (`public/hero/*-cutout.webp`, regenerate with `scripts/hero-cutout.mjs`); pins & recedes on scroll. Section order (top → bottom): About intro (`features/home/HomeIntro`) · destinations · "A day at Giving City" (`GalleryDay`) · amenities (`AmenitiesGrid`) · map (`LocationShowcase`) · stats bar (367+ · 500,000 m² · 500 m²/unit · 0% interest; `VLines`) · **Prices** (`PriceOffer`: one price, installments or cash) · FAQ · RegisterCta |
 | `/about` | من نحن | **Polished** | Full-bleed hero + CountUp stats, pillars, collage, ISO video, socials, leadership link, RegisterCta |
 | `/gallery` | المعرض | **Polished** | Cinematic short hero · flush mosaic tabs (tile hover: photo blurs + darkens, centred zoom icon · category · name) · lightbox · 2 YT videos · **no** bottom RegisterCta |
 | `/units` | الوحدات المتاحة | **Built** | `SubpageHeader` → `UnitsPlans` intro → unit plan section (`features/units/UnitPlanFeatures`: `public/plans/unit-plan.webp` in a framed panel on the start side, the 10 rooms/spaces as numbered tiles in two columns (Inside / Outdoors, ids via `unitPlanRows`), then a dark facts bar (plot · ownership · price from · move-in, `unitPlanPanel` in `content/master-plan.ts`) with a Register interest CTA) → "floor plans coming soon" notice |
 | `/amenities` | المرافق | **Built** | `AmenitiesHoverGrid` |
-| `/financing` | التمويل | **Polished** | Plans + showcase + RegisterCta |
+| `/financing` | التمويل | **Polished** | Same `PriceOffer` as home · how-it-works steps · purchase FAQ |
 | `/faq` | الأسئلة الشائعة | **Polished** | `FaqExplorer` (search + sticky cats + accordion) · **no** RegisterCta |
 | `/register` | سجل اهتمامك | **Polished** | Compact form → WhatsApp · visit/financing chips · side column: chosen-plan card only when `?plan=` is set (no generic "Prices from" card), then a contact card (`.register-contact`: dark top bar, icon · label · value rows for call, WhatsApp, sales office, hours) and the site-visit note |
 | `/leadership` | الإدارة | **Built** | Founder focus · real portrait at `/leadership/tarek-qazan.jpg` · principles · no ISO/CTA band |
@@ -97,7 +92,7 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 | Asset | Location / value |
 |-------|------------------|
 | Gallery | `public/gallery/img_1.jpg` … `img_72.jpg` · categories in `content/gallery.ts` |
-| Hero slides | `public/hero/` · `content/heroSlides.tsx` |
+| Hero slides | `src/content/hero.ts` — slide 3 is entrance fountain/gatehouse (`public/gallery/compoundPics/entrance-fountain-and-gatehouse.png`). Slides 1–2 unchanged. |
 | Logo | `GivingLogo` component · `public/logo.svg` · `public/logo-dark-text.svg` |
 | Founder | `public/leadership/tarek-qazan.jpg` (Dr. Tarek Qazan portrait — live) |
 | Unit property map | `public/plans/property-map.png` — home about teaser + `/master-plan` |
@@ -226,8 +221,8 @@ Also in `site.copyBank`.
 
 - Copy rule: no em dashes in any user-facing EN/AR text (use commas, colons, periods, parentheses).
 - `--on-primary` is white (labels on the green primary fill).
-- Financing page: single "How would you like to pay?" picker (Move in 2025/2026/2027, Pay in full) with a today / monthly / total breakdown; PlanCompare cards removed.
+- **Pricing offer:** one price (168k), installments 1%/mo or cash 24% off. Home + `/financing` use `PriceOffer` (`.po-*` in `financing.css`). PR #4 had dropped those styles with the old plan-card CSS; restored. `CountUp` uses a grid stack so numbers no longer double.
 - News: /news grid is 3 columns; article pages have meta row, cover, sticky recent-articles sidebar, brand sign-off + register CTA (`styles/sections/article.css`).
-- Register: CTAs "Submit Interest" / "Call Us Directly"; site-visit card plays the CTA video loop under a tint.
+- Register: CTAs "Submit Interest" / "Call Us Directly"; site-visit card plays the CTA video loop under a tint; `?plan=installments|cash`.
 - Units plan is an SVG (`public/plans/unit-plan.svg`), frameless with faded edges.
 - Leadership: stats row and green glow removed. About: founder avatar uses the real portrait.

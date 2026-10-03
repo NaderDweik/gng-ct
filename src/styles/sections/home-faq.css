@@ -154,3 +154,22 @@
     transition: none;
   }
 }
+
+/* Phones: questions first — heading, then the accordion, then "all questions"
+   and the person to call. The intro dissolves so its parts can be reordered. */
+@media (max-width: 1023px) {
+  .hfaq {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .hfaq-intro {
+    display: contents;
+  }
+
+  .hfaq-intro > * { order: 1; }
+  .hfaq > :not(.hfaq-intro) { order: 2; margin-top: 1.75rem; }
+  .hfaq-intro > .hfaq-all { order: 3; align-self: flex-start; margin-top: 1.75rem; }
+  .hfaq-intro > .hfaq-person { order: 4; }
+}

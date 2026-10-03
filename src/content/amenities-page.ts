@@ -20,10 +20,9 @@ export const amenitiesPageCopy = {
     servicesTitle: "The quiet work behind it all.",
     servicesLead: "Infrastructure and people that keep Giving City running, so your time here is only yours.",
     stats: {
-      security: "Security, every day",
-      walls: "Private walls around every resort",
-      area: "Of private resort, per unit",
-      units: "Private resorts in the community",
+      security: "Security on duty, every day",
+      grounds: "Of grounds, landscaped and tended",
+      units: "Private resorts looked after",
     },
   },
   ar: {
@@ -40,10 +39,9 @@ export const amenitiesPageCopy = {
     servicesTitle: "العمل الهادئ خلف كل شيء.",
     servicesLead: "بنية تحتية وفريق عمل يحافظان على Giving City، ليبقى وقتك هنا لك وحدك.",
     stats: {
-      security: "أمن طوال اليوم",
-      walls: "أسوار خاصة حول كل منتجع",
-      area: "منتجع خاص لكل وحدة",
-      units: "منتجع خاص في المجتمع",
+      security: "أمن طوال اليوم، كل يوم",
+      grounds: "من المساحات المنسّقة والمعتنى بها",
+      units: "منتجع خاص نعتني به",
     },
   },
 } as const;
@@ -58,8 +56,6 @@ export type CommunityPlace = {
   bodyEn: string;
   bodyAr: string;
   image: string;
-  /** Mosaic footprint on wide screens. */
-  size: "wide" | "tall" | "normal";
 };
 
 export const communityPlaces: CommunityPlace[] = [
@@ -70,7 +66,6 @@ export const communityPlaces: CommunityPlace[] = [
     bodyEn: "Your first welcome: visits, keys and questions, handled on site.",
     bodyAr: "استقبالك الأول: الزيارات والمفاتيح والاستفسارات، في الموقع.",
     image: `${C}/reception-building.png`,
-    size: "wide",
   },
   {
     id: "mosque",
@@ -79,7 +74,6 @@ export const communityPlaces: CommunityPlace[] = [
     bodyEn: "A calm place of prayer within the community.",
     bodyAr: "مكان هادئ للصلاة داخل المجتمع.",
     image: `${C}/mosque-at-sunset.png`,
-    size: "tall",
   },
   {
     id: "golf",
@@ -88,7 +82,6 @@ export const communityPlaces: CommunityPlace[] = [
     bodyEn: "A putting green for slow evenings and friendly rivalries.",
     bodyAr: "ملعب غولف مصغّر للأمسيات الهادئة والمنافسات الودية.",
     image: `${C}/mini-golf-putting-green.png`,
-    size: "normal",
   },
   {
     id: "park",
@@ -97,7 +90,6 @@ export const communityPlaces: CommunityPlace[] = [
     bodyEn: "Landscaped walkways and shade, open to every family.",
     bodyAr: "ممرات منسقة وظلال، مفتوحة لكل العائلات.",
     image: `${C}/community-park-families.png`,
-    size: "normal",
   },
   {
     id: "shop",
@@ -106,7 +98,6 @@ export const communityPlaces: CommunityPlace[] = [
     bodyEn: "Daily essentials without leaving the gates.",
     bodyAr: "احتياجاتك اليومية دون مغادرة البوابات.",
     image: `${C}/fast-shop-mini-market.png`,
-    size: "normal",
   },
   {
     id: "streets",
@@ -115,7 +106,6 @@ export const communityPlaces: CommunityPlace[] = [
     bodyEn: "Quiet internal roads where children ride and play.",
     bodyAr: "طرق داخلية هادئة يلعب فيها الأطفال ويركبون دراجاتهم.",
     image: `${C}/kids-cycling-community-street.png`,
-    size: "wide",
   },
   {
     id: "security",
@@ -124,7 +114,6 @@ export const communityPlaces: CommunityPlace[] = [
     bodyEn: "Gated entrances, patrols and cameras, day and night.",
     bodyAr: "بوابات مسوّرة ودوريات وكاميرات، ليلًا ونهارًا.",
     image: `${C}/security-guards-patrol-compound-o.png`,
-    size: "normal",
   },
   {
     id: "housekeeping",
@@ -133,7 +122,6 @@ export const communityPlaces: CommunityPlace[] = [
     bodyEn: "An on-site team to keep your resort ready for you.",
     bodyAr: "فريق في الموقع يُبقي منتجعك جاهزًا لك.",
     image: `${C}/housekeeping-team.png`,
-    size: "wide",
   },
 ];
 

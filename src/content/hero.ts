@@ -49,9 +49,9 @@ export const heroLayered = {
       descEn: "500 m² private resorts with independent deeds and Spanish design.",
     },
     {
-      // The garden swing on the lawn.
-      background: "/gallery/img_5.jpg",
-      focus: "50% 50%",
+      // Entrance fountain and gatehouse at golden hour.
+      background: "/gallery/compoundPics/entrance-fountain-and-gatehouse.png",
+      focus: "58% 45%",
       titleAr: ["عالمك الخاص،", "مخدوم بالكامل."],
       titleEn: ["A Private World,", "Fully Serviced."],
       descAr: "مسابح، أمن، ألياف ضوئية، وخطط بدون فوائد، مباشرة مع الشركة.",
