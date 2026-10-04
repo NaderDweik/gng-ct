@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Link } from "@/i18n/navigation";
 import type { FaqItem } from "@/content/faq";
-import { basePriceJd, cashDiscountPct, cashPriceJd, pricingPlans } from "@/content/pricing";
+import { basePriceJd, cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct } from "@/content/pricing";
 import { nearbyPlaces } from "@/content/location";
 import { site } from "@/content/site";
 import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
@@ -58,9 +58,11 @@ const copy = {
     stamp: "Tabou",
     interest: "interest",
     noBank: "Direct with the company, no bank in between.",
-    down: "down",
-    moveIn: "Move-in",
-    monthly: "Monthly from",
+    withDown: "With down",
+    noDown: "No down",
+    perMonth: "/ month",
+    off: "off",
+    monthly: "Monthly installment",
   },
   ar: {
     eyebrow: "الأسئلة الشائعة",
@@ -89,9 +91,11 @@ const copy = {
     stamp: "طابو",
     interest: "فوائد",
     noBank: "مباشرة مع الشركة، بدون أي بنك.",
-    down: "دفعة أولى",
-    moveIn: "الاستلام",
-    monthly: "أقساط شهرية من",
+    withDown: "بدفعة أولى",
+    noDown: "بدون دفعة",
+    perMonth: "شهريًا",
+    off: "خصم",
+    monthly: "القسط الشهري",
   },
 } as const;
 
@@ -292,7 +296,12 @@ function InterestVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number })
 
 function PlansVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const max = Math.max(...pricingPlans.map((p) => p.downPct));
+  // Three ways to pay; the bar is what the chalet costs you in total.
+  const ways = [
+    { id: "withDown", label: c.withDown, fill: 100, value: `${fmt(monthlyPct)}%`, note: c.perMonth },
+    { id: "noDown", label: c.noDown, fill: 100, value: `${fmt(monthlyPct)}%`, note: c.perMonth },
+    { id: "cash", label: c.cash, fill: (cashPriceJd / basePriceJd) * 100, value: `${fmt(cashDiscountPct)}%`, note: c.off },
+  ];
   useGSAP(
     () => {
       if (reduced()) return;
@@ -304,19 +313,19 @@ function PlansVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
   );
   return (
     <div ref={ref} className="fq-vis fq-vis--plans">
-      {pricingPlans.map((p) => (
-        <div key={p.id} className="fq-plan">
-          <span className="fq-plan-year">{fmt(p.moveIn).replace(/[٬,]/g, "")}</span>
+      {ways.map((w) => (
+        <div key={w.id} className="fq-plan">
+          <span className="fq-plan-year">{w.label}</span>
           <span className="fq-plan-track">
-            <span className="fq-plan-fill" style={{ width: `${(p.downPct / max) * 100}%` }} />
+            <span className="fq-plan-fill" style={{ width: `${w.fill}%` }} />
           </span>
           <span className="fq-plan-pct">
-            {fmt(p.downPct)}% <small>{c.down}</small>
+            {w.value} <small>{w.note}</small>
           </span>
         </div>
       ))}
       <p className="fq-plan-foot">
-        {c.monthly} <b>{fmt(pricingPlans[0].monthlyFromJd)}</b> {c.jd}
+        {c.monthly} <b>{fmt(monthlyJd)}</b> {c.jd}
       </p>
     </div>
   );

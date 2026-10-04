@@ -16,9 +16,9 @@ export const faqCategories: FaqCategory[] = [
       {
         id: "price",
         qAr: "ما هو سعر الشاليه في Giving City؟",
-        aAr: "سعر الوحدة الواحدة ١٦٨,٠٠٠ دينار أردني. يتوفر خصم ١٥٪ عند الدفع نقدًا (١٤٢,٨٠٠ دينار).",
+        aAr: "جميع الشاليهات بسعر ١٦٨,٠٠٠ دينار أردني. يتوفر خصم ٢٤٪ عند الدفع نقدًا (١٢٧,٦٨٠ دينار).",
         qEn: "What is the chalet price at Giving City?",
-        aEn: "One unit is 168,000 JD. A 15% cash discount brings it to 142,800 JD.",
+        aEn: "Every chalet is 168,000 JD. A 24% cash discount brings it to 127,680 JD.",
       },
       {
         id: "deed",
@@ -37,9 +37,9 @@ export const faqCategories: FaqCategory[] = [
       {
         id: "plans",
         qAr: "ما هي خطط الدفع المتاحة؟",
-        aAr: "ثلاث خطط: دفعة أولى ٣٥٪ مع استلام فوري (٢٠٢٥)، أو ٢٥٪ مع استلام ٢٠٢٦، أو ١٥٪ مع استلام ٢٠٢٧. الأقساط الشهرية تبدأ من ١,٠٠٠ دينار.",
+        aAr: "تقسيط بقيمة ١٪ من السعر شهريًا (١,٦٨٠ دينار)، بدفعة أولى أو بدون دفعة حسب الشاليه الذي تختاره، أو الدفع النقدي بخصم ٢٤٪. لكل شاليه رقمه ودفعته والمدة المتبقية على تسليمه، وتختاره عند زيارتك لمكتب المبيعات.",
         qEn: "What payment plans are available?",
-        aEn: "Three plans: 35% down with 2025 move-in, 25% with 2026, or 15% with 2027. Monthly from 1,000 JD.",
+        aEn: "Installments of 1% of the price a month (1,680 JD), with or without a down payment depending on the chalet you choose, or pay cash at 24% off. Each chalet has its own number, down payment and time left to handover; you pick yours when you visit our sales office.",
       },
       {
         qAr: "هل يمكنني إعادة بيع الوحدة؟",

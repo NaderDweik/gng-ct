@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { site } from "@/content/site";
 import { usePlanChoice } from "@/features/register/usePlanChoice";
-import { cashDiscountPct, cashPriceJd, pricingPlans } from "@/content/pricing";
+import { cashDiscountPct, cashPriceJd, monthlyJd, pricingPlans } from "@/content/pricing";
 import { formatNumber } from "@/lib/format";
 
 type Interest = "financing" | "visit";
@@ -53,8 +53,8 @@ export function RegisterForm() {
     const p = pricingPlans.find((x) => x.id === chosen);
     if (!p) return "";
     return isAr
-      ? `استلام ${formatNumber(p.moveIn, locale).replace(/[٬,]/g, "")} (${p.labelAr}): دفعة أولى ${formatNumber(p.downJd, locale)} د.أ (${formatNumber(p.downPct, locale)}٪)`
-      : `Move-in ${p.moveIn} (${p.labelEn}): ${formatNumber(p.downJd, locale)} JD down (${p.downPct}%)`;
+      ? `تقسيط ${p.labelAr}: ${formatNumber(monthlyJd, locale)} د.أ شهريًا`
+      : `Installments, ${p.labelEn.toLowerCase()}: ${formatNumber(monthlyJd, locale)} JD a month`;
   })();
 
   function onSubmit(e: FormEvent) {

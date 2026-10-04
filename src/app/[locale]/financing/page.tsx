@@ -10,28 +10,28 @@ type Props = LocalePageProps;
 
 const steps = [
   {
-    titleAr: "زيارة واستشارة",
-    titleEn: "Visit & consult",
-    bodyAr: "زر الموقع أو تواصل مع فريق المبيعات لاختيار الوحدة المناسبة لك.",
-    bodyEn: "Visit the site or talk to our sales team to pick the right unit.",
+    titleAr: "زيارة واختيار الشاليه",
+    titleEn: "Visit & pick your chalet",
+    bodyAr: "زر مكتب المبيعات لتختار شاليهك من الشاليهات المتاحة، مع رقمه ودفعته والمدة المتبقية على تسليمه.",
+    bodyEn: "Visit our sales office to choose from the available chalets, each with its number, down payment and time left to handover.",
   },
   {
     titleAr: "اختر خطتك",
     titleEn: "Choose your plan",
-    bodyAr: "استلام فوري أو متوسط الأجل أو مستقبلي، أو الدفع النقدي بخصم.",
-    bodyEn: "Immediate, mid-term or future move-in, or pay cash at a discount.",
+    bodyAr: "أقساط ١٪ من السعر شهريًا، بدفعة أولى أو بدونها حسب الشاليه، أو الدفع النقدي بخصم ٢٤٪.",
+    bodyEn: "Installments of 1% of the price a month, with or without a down payment depending on the chalet, or pay cash at 24% off.",
   },
   {
-    titleAr: "الدفعة الأولى والعقد",
-    titleEn: "Down payment & contract",
-    bodyAr: "ادفع الدفعة الأولى ووقّع العقد مباشرة مع الشركة، بدون بنك.",
-    bodyEn: "Pay the down payment and sign directly with the developer. No bank.",
+    titleAr: "العقد",
+    titleEn: "Contract",
+    bodyAr: "وقّع العقد مباشرة مع الشركة، بدون بنك، وادفع الدفعة الأولى إن وُجدت.",
+    bodyEn: "Sign directly with the developer, no bank, and pay the down payment if your chalet has one.",
   },
   {
     titleAr: "سند ملكية وأقساط",
     titleEn: "Deed & installments",
-    bodyAr: "سند ملكية مستقل باسمك، وأقساط شهرية مريحة بدون أي فوائد.",
-    bodyEn: "An independent title deed in your name, with zero-interest monthly installments.",
+    bodyAr: "سند ملكية مستقل باسمك، وأقساط شهرية ثابتة بقيمة ١٪ من السعر.",
+    bodyEn: "An independent title deed in your name, with fixed monthly installments of 1% of the price.",
   },
 ];
 

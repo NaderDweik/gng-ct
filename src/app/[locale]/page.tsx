@@ -71,8 +71,8 @@ export default async function HomePage({ params }: Props) {
       title: isAr ? "التمويل المرن" : "Flexible financing",
       headline: isAr ? "بدون فوائد، مباشرة مع الشركة" : "Zero interest, direct with us",
       desc: isAr
-        ? "خطط دفع مرنة وخطط استلام ٢٠٢٥–٢٠٢٧. تمويل مباشر بدون فوائد بنكية."
-        : "Flexible payment plans and 2025–2027 move-in windows. Direct financing with zero bank interest.",
+        ? "أقساط ١٪ من السعر شهريًا، بدفعة أولى أو بدونها حسب الشاليه. تمويل مباشر بدون فوائد بنكية."
+        : "Installments of 1% of the price a month, with or without a down payment depending on the chalet. Direct financing with zero bank interest.",
       img: "/gallery/resortsPics/family-entering-resort-front-door.png",
       cta: isAr ? "خطط الدفع" : "Payment plans",
     },
