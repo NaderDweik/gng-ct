@@ -37,6 +37,8 @@ export const site = {
   },
   contact: "د. طارق قازان",
   contactEn: "Dr. Tarek Qazan",
+  /** Portrait of the founder (leadership page, home leadership note). */
+  founderPhoto: "/leadership/newimg-tarek-qazan.jpeg",
   iso: "ISO 9001:2015",
   stats: {
     units: 367,

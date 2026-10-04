@@ -19,6 +19,7 @@ import { NewsPreview } from "@/features/news/NewsPreview";
 import type { LocalePageProps } from "@/i18n/types";
 import { HoverAccent } from "@/components/ui/HoverAccent";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { HomeServicesStrip } from "@/features/home/HomeServicesStrip";
 
 type Props = LocalePageProps;
 
@@ -164,6 +165,9 @@ export default async function HomePage({ params }: Props) {
           <AmenitiesGrid items={amenityFeatures} isAr={isAr} />
         </div>
       </section>
+
+      {/* Beyond the chalet: the compound's running services → /services */}
+      <HomeServicesStrip locale={locale} />
 
       {/* Location showcase */}
       <section className="section bg-surface-tint">

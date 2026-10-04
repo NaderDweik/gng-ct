@@ -46,4 +46,5 @@
 @import "./sections/home-intro.css";
 @import "./sections/unit-plan.css";
 @import "./sections/services-directory.css";
+@import "./sections/home-links.css";
 @import "./base/locale-switch.css";

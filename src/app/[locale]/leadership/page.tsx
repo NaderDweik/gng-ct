@@ -9,7 +9,7 @@ import type { LocalePageProps } from "@/i18n/types";
 type Props = LocalePageProps;
 
 /** Drop the founder portrait here (portrait orientation, ~1200×1500). */
-const FOUNDER_PHOTO = "/leadership/newimg-tarek-qazan.jpeg";
+const FOUNDER_PHOTO = site.founderPhoto;
 
 
 /** The founder's own three principles, in his words. */

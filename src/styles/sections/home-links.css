@@ -1,0 +1,78 @@
+/* ── Home: compound services row. Markup: features/home/HomeServicesStrip.tsx ── */
+
+/* Six running services in one row, divided by hairlines: an icon over each name. */
+.hsv-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .hsv-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .hsv-row {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+.hsv-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem) 1rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .hsv-item {
+    border-bottom: 0;
+  }
+
+  .hsv-item + .hsv-item {
+    border-inline-start: 1px solid var(--line);
+  }
+}
+
+.hsv-icon {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: var(--brand-primary-soft);
+  color: var(--primary-ink);
+  transition:
+    background-color 0.35s var(--ease),
+    color 0.35s var(--ease),
+    transform 0.35s var(--ease);
+}
+
+.hsv-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.hsv-item:hover .hsv-icon {
+  background: var(--brand-primary);
+  color: var(--on-primary);
+  transform: translateY(-3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hsv-item:hover .hsv-icon {
+    transform: none;
+  }
+}
