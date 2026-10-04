@@ -34,9 +34,9 @@ export const galleryCategories: GalleryCategory[] = [
   },
   {
     id: "resorts",
-    titleAr: "المنتجعات",
+    titleAr: "الشاليهات",
     titleEn: "Resorts",
-    descriptionAr: "مسابح خاصة، برجولات، شواء، وجلسات خارجية داخل كل منتجع.",
+    descriptionAr: "مسابح خاصة، برجولات، شواء، وجلسات خارجية داخل كل شاليه.",
     descriptionEn: "Private pools, pergolas, BBQ, and outdoor living inside every resort.",
   },
   {
@@ -57,14 +57,14 @@ export const galleryCategories: GalleryCategory[] = [
     id: "construction",
     titleAr: "مراحل الإنشاء",
     titleEn: "Construction",
-    descriptionAr: "مراحل البناء والتطوير في مشروع Giving City.",
-    descriptionEn: "Construction and development phases at Giving City.",
+    descriptionAr: "مراحل البناء والتطوير في مشروع Giving Compound.",
+    descriptionEn: "Construction and development phases at Giving Compound.",
   },
 ];
 
 export const galleryCopy = {
   en: {
-    eyebrow: "Giving City",
+    eyebrow: "Giving Compound",
     title: "Gallery",
     lead: "From facade to skyline, every angle of the community.",
     allTitle: "All",
@@ -84,7 +84,7 @@ export const galleryCopy = {
     title: "المعرض",
     lead: "من الواجهة إلى الأفق، كل زاوية في مدينة العطاء.",
     allTitle: "الكل",
-    allDescription: "المجتمع، المنتجعات، الداخل، المرافق، ومراحل الإنشاء.",
+    allDescription: "المجتمع، الشاليهات، الداخل، المرافق، ومراحل الإنشاء.",
     videosEyebrow: "على الكاميرا",
     videosTitle: "شاهد المكان قبل الزيارة.",
     open: "فتح",
@@ -133,8 +133,8 @@ const shots: Record<Exclude<GalleryCategoryId, "all">, Shot[]> = {
     [`${R}/family-breakfast-poolside-table.png`, "Poolside breakfast", "فطور بجانب المسبح"],
     [`${R}/father-son-bbq-grill.png`, "Built-in BBQ grill", "شواء مدمج"],
     [`${R}/garden-lounge-kids-swing.png`, "Garden lounge & swing", "جلسة الحديقة والأرجوحة"],
-    [`${R}/quad-bike-royal-clubhouse.png`, "Quad bike at the resort", "دراجة رباعية في المنتجع"],
-    [`${R}/family-arriving-resort-a9-garage.png`, "Arriving home: resort A9", "الوصول إلى المنتجع A9"],
+    [`${R}/quad-bike-royal-clubhouse.png`, "Quad bike at the resort", "دراجة رباعية في الشاليه"],
+    [`${R}/family-arriving-resort-a9-garage.png`, "Arriving home: resort A9", "الوصول إلى الشاليه A9"],
     [`${R}/family-entering-resort-front-door.png`, "Welcome home", "أهلاً بك في بيتك"],
   ],
   interiors: [
@@ -158,7 +158,7 @@ const shots: Record<Exclude<GalleryCategoryId, "all">, Shot[]> = {
     [`${C}/water-tower-billboard.png`, "The water tower", "برج المياه"],
   ],
   construction: [
-    [`${C}/construction-crew-building-walls.png`, "Building the resorts", "بناء المنتجعات"],
+    [`${C}/construction-crew-building-walls.png`, "Building the resorts", "بناء الشاليهات"],
     [`${C}/compound-l-under-construction.png`, "Compound L under construction", "كمباوند L قيد الإنشاء"],
     [`${C}/engineers-site-office.png`, "Engineers on site", "المهندسون في الموقع"],
     [`${C}/gardeners-landscaping-park.png`, "Landscaping the park", "تنسيق الحديقة"],
@@ -190,7 +190,7 @@ export type HomeGalleryPick = {
 };
 
 export const homeGalleryPicks: HomeGalleryPick[] = [
-  { src: `${R}/swimmer-pool-waterfall.png`, categoryId: "resorts", captionAr: "مسبح خاص لكل منتجع", captionEn: "A private pool in every resort" },
+  { src: `${R}/swimmer-pool-waterfall.png`, categoryId: "resorts", captionAr: "مسبح خاص لكل شاليه", captionEn: "A private pool in every resort" },
   { src: `${R}/master-bedroom-pool-view.png`, categoryId: "interiors", captionAr: "غرفة نوم بإطلالة على المسبح", captionEn: "A bedroom that opens onto the pool" },
   { src: `${C}/main-entrance-gate-sunset.png`, categoryId: "community", captionAr: "البوابة الرئيسية", captionEn: "The main gate" },
   { src: `${C}/mini-golf-putting-green.png`, categoryId: "amenities", captionAr: "ميني غولف", captionEn: "Mini golf" },
@@ -209,12 +209,12 @@ export const homePreviewPicks: HomePreviewPick[] = [
   { src: `${C}/reception-building.png`, captionAr: "الاستقبال والحدائق", captionEn: "Reception & gardens" },
   { src: `${R}/twin-bedroom-pool-view.png`, captionAr: "غرف نوم بإطلالة", captionEn: "Bedrooms with a view" },
   { src: `${C}/mosque-at-sunset.png`, captionAr: "المسجد وقت الغروب", captionEn: "The mosque at golden hour" },
-  { src: `${R}/father-son-bbq-grill.png`, captionAr: "شواء خاص في كل منتجع", captionEn: "A private BBQ in every resort" },
+  { src: `${R}/father-son-bbq-grill.png`, captionAr: "شواء خاص في كل شاليه", captionEn: "A private BBQ in every resort" },
   { src: `${R}/foosball-kids-pool.png`, captionAr: "مرح بجانب المسبح", captionEn: "Fun by the pool" },
 ];
 
 /**
- * Home "A day at Giving City" bento — a Day and a Night set, toggled in place.
+ * Home "A day at Giving Compound" bento — a Day and a Night set, toggled in place.
  * Seven scenes each; slot 0 is the large tile, slot 2 the tall one. `time` is minutes
  * after midnight. Keep these photos distinct from the rest of the home page.
  * There are no true night photos yet: the Night set is dusk + lit interiors.
@@ -254,7 +254,7 @@ export const dayScenes: Record<DayMode, DayScene[]> = {
 export const dayCopy = {
   en: {
     eyebrow: "Spaces & lifestyle.",
-    title: "A day at Giving City.",
+    title: "A day at Giving Compound.",
     lead: "From breakfast by the pool to evenings by the fire. Switch between day and night inside the community.",
     toggleLabel: "Time of day",
     modes: { day: "Day", night: "Night" },
@@ -262,7 +262,7 @@ export const dayCopy = {
   },
   ar: {
     eyebrow: "المساحات ونمط الحياة.",
-    title: "يوم في Giving City.",
+    title: "يوم في Giving Compound.",
     lead: "من فطور بجانب المسبح إلى سهرة بجانب المدفأة. بدّل بين النهار والليل داخل المجتمع.",
     toggleLabel: "وقت اليوم",
     modes: { day: "نهار", night: "ليل" },

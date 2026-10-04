@@ -1,45 +1,19 @@
-import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
-import {
-  masterPlanCopy,
-  planItem,
-  unitPlanImage,
-  unitPlanPanel,
-  unitPlanRows,
-  type PlanItem,
-} from "@/content/master-plan";
-import { formatNumber } from "@/lib/format";
+import { masterPlanCopy, unitPlanPanel } from "@/content/master-plan";
+import { PlanExplorer } from "@/features/master-plan/PlanExplorer";
 
 /*
- * /units: the unit plan in a large panel on the start side, its rooms and spaces as
- * numbered tiles on the end side (interiors and outdoors in two columns), and a facts
- * bar with the CTA underneath (styles: styles/sections/unit-plan.css). Stacks on phones.
+ * /units: the animated colour plan (the master-plan explorer) on the start side, its
+ * rooms and spaces as numbered tiles on the end side (interiors and outdoors in two
+ * columns) that light their space up on the plan, and a facts bar with the CTA
+ * underneath (styles: styles/sections/unit-plan.css). Stacks on phones.
  */
 
 export function UnitPlanFeatures({ locale }: { locale: string }) {
   const isAr = locale === "ar";
   const copy = masterPlanCopy[isAr ? "ar" : "en"];
   const panel = unitPlanPanel[isAr ? "ar" : "en"];
-  const pick = (ids: readonly string[]) => ids.map(planItem).filter((it): it is PlanItem => Boolean(it));
-  const inside = pick(unitPlanRows.start);
-  const outside = pick(unitPlanRows.end);
-  const num = (n: number) => formatNumber(n, locale).padStart(2, isAr ? "٠" : "0");
-
-  const Group = ({ label, items, from }: { label: string; items: PlanItem[]; from: number }) => (
-    <div className="up-group">
-      <p className="up-group-label">{label}</p>
-      <ul className="up-tiles">
-        {items.map((it, i) => (
-          <li key={it.id} className="up-tile">
-            <span className="up-num">{num(from + i)}</span>
-            <h3 className="up-title">{isAr ? it.titleAr : it.titleEn}</h3>
-            <p className="up-body">{isAr ? it.bodyAr : it.bodyEn}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
 
   return (
     <section className="section bg-surface">
@@ -52,21 +26,7 @@ export function UnitPlanFeatures({ locale }: { locale: string }) {
           <p className="section-sub">{copy.caption}</p>
         </header>
 
-        <div className="up-grid">
-          <figure className="up-plan">
-            <Image
-              src={unitPlanImage.src}
-              alt={copy.mapAlt}
-              width={unitPlanImage.width}
-              height={unitPlanImage.height}
-              unoptimized /* SVG: served as-is, stays sharp at any size */
-            />
-          </figure>
-          <div className="up-groups">
-            <Group label={panel.inside} items={inside} from={1} />
-            <Group label={panel.outside} items={outside} from={inside.length + 1} />
-          </div>
-        </div>
+        <PlanExplorer locale={locale} variant="tiles" defaultId="pool" />
 
         <div className="up-bar">
           <dl className="up-facts">

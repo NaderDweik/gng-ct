@@ -4,6 +4,7 @@ import { GalleryGrid } from "@/features/gallery/GalleryGrid";
 import { galleryCopy } from "@/content/gallery";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { site } from "@/content/site";
+import { VideoPlayer } from "@/components/ui/VideoPlayer";
 import type { LocalePageProps } from "@/i18n/types";
 
 type Props = LocalePageProps;
@@ -17,7 +18,7 @@ export default async function GalleryPage({ params }: Props) {
 
   return (
     <>
-      <SubpageHeader tall eyebrow="Giving City" title={copy.title} subtitle={copy.lead} />
+      <SubpageHeader tall eyebrow="Giving Compound" title={copy.title} subtitle={copy.lead} />
 
       <Suspense fallback={null}>
         <GalleryGrid />
@@ -31,25 +32,11 @@ export default async function GalleryPage({ params }: Props) {
           <div className="gal-videos-grid">
             <div>
               <p className="gal-videos-label">{t("tour")}</p>
-              <div className="gal-videos-frame">
-                <iframe
-                  src={site.videos.tour}
-                  title={t("tour")}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
+              <VideoPlayer {...site.videos.tour} title={t("tour")} locale={locale} />
             </div>
             <div>
               <p className="gal-videos-label">{t("isoVideo")}</p>
-              <div className="gal-videos-frame">
-                <iframe
-                  src={site.videos.iso}
-                  title={t("isoVideo")}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
+              <VideoPlayer {...site.videos.iso} title={t("isoVideo")} locale={locale} />
             </div>
           </div>
         </div>

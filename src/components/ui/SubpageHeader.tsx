@@ -7,7 +7,7 @@
  */
 
 type Props = {
-  /** Small line above the title, e.g. "Giving City". */
+  /** Small line above the title, e.g. "Giving Compound". */
   eyebrow: string;
   /** The page name — this is the page's h1. */
   title: string;

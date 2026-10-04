@@ -1,6 +1,6 @@
 {
   "meta": {
-    "siteName": "Giving City | روح العطاء",
+    "siteName": "Giving Compound | روح العطاء",
     "description": "First and largest fully-serviced chalet city in the region, 367+ private resorts in Jordan"
   },
   "common": {
@@ -25,7 +25,7 @@
     "statsUnits": "private resorts",
     "statsArea": "square meters",
     "statsIso": "quality certified",
-    "featuresTitle": "Why Giving City?",
+    "featuresTitle": "Why Giving Compound?",
     "featurePrivacy": "Complete privacy",
     "featurePrivacyDesc": "3-meter walls around every unit",
     "featureSpace": "500 m² per chalet",
@@ -74,7 +74,7 @@
   },
   "location": {
     "title": "Map & location",
-    "subtitle": "Giving City community near Amman",
+    "subtitle": "Giving Compound community near Amman",
     "directions": "Directions",
     "hours": "Working hours",
     "parking": "Free parking available",
@@ -87,16 +87,16 @@
   "about": {
     "title": "About us",
     "subtitle": "Al-Ataa for City Development & Financing",
-    "story": "Giving City is Al-Ataa’s flagship: the first and largest fully-serviced chalet city in the region. A gated community where every buyer owns their resort with an independent deed. Not a hotel, but a home and an investment.",
+    "story": "Giving Compound is Al-Ataa’s flagship: the first and largest fully-serviced chalet city in the region. A gated community where every buyer owns their resort with an independent deed. Not a hotel, but a home and an investment.",
     "founder": "Led by Dr. Tarek Qazan with ISO 9001:2015 commitment."
   },
   "services": {
-    "title": "Our services",
-    "subtitle": "What Al-Ataa provides to clients"
+    "title": "Compound services",
+    "subtitle": "What runs in the compound today, and what's coming."
   },
   "amenities": {
     "title": "Project amenities",
-    "subtitle": "Infrastructure and facilities inside Giving City"
+    "subtitle": "Infrastructure and facilities inside Giving Compound"
   },
   "news": {
     "title": "News & articles",

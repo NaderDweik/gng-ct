@@ -22,7 +22,7 @@ export async function NewsPreview({ locale }: { locale: string }) {
         <div className="sec-head">
           <div>
             <p className="section-eyebrow">{t("title")}</p>
-            <h2 className="section-title">{isAr ? "آخر أخبار Giving City." : "Latest from Giving City."}</h2>
+            <h2 className="section-title">{isAr ? "آخر أخبار Giving Compound." : "Latest from Giving Compound."}</h2>
           </div>
           <div className="flex flex-col items-start gap-6 lg:items-end">
             <p className="section-sub">{t("subtitle")}</p>

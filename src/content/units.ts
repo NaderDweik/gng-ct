@@ -39,14 +39,14 @@ export const unitFilters: {
 
 export const unitsCopy = {
   ar: {
-    title: "مخططات الشاليهات",
+    title: "مخطط أحد الشاليهات",
     subtitle: "من الوحدات المدمجة إلى الفلل الواسعة، كل وحدة بمساحة تقارب ٥٠٠ م².",
     introEyebrow: "روح العطاء",
-    introHeading: "شاليهات فاخرة مصممة لحياة منتجعية راقية.",
+    introHeading: "شاليهات فاخرة مصممة لحياة راقية.",
     introCaption:
       "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة، مصممة حول الطريقة التي يرغب الناس فعلاً في العيش بها.",
     introImageAlt: "شاليه روح العطاء بإطلالة على المشروع",
-    p1: "٣٦٧+ منتجع خاص على مساحة ٥٠٠,٠٠٠ متر مربع، بمخططات مدروسة بعناية: من الوحدات المدمجة إلى الفلل الواسعة، كل وحدة بمساحة تقارب ٥٠٠ م² وسند ملكية مستقل.",
+    p1: "٣٦٧+ شاليه خاص على مساحة ٥٠٠,٠٠٠ متر مربع، بمخططات مدروسة بعناية: من الوحدات المدمجة إلى الفلل الواسعة، كل وحدة بمساحة تقارب ٥٠٠ م² وسند ملكية مستقل.",
     p2: "روعيت كل التفاصيل: تصميم إسباني فاخر، وإضاءة طبيعية، وتشطيبات راقية، وخصوصية تامة بجدران بارتفاع ٣ أمتار. صُممت الوحدات حول المسبح والمساحات الخارجية للمعيشة اليومية والاستقبال.",
     p3: "ما يميّز روح العطاء هو ما يحيط بالشاليهات: مرافق مجتمعية كاملة، وإدارة محترفة، وتمويل مباشر بدون فوائد، كلها ضمن عنوان واحد.",
     filterLabel: "تصفية المخططات",
@@ -67,14 +67,14 @@ export const unitsCopy = {
   en: {
     title: "Chalet plans",
     subtitle: "From compact units to expansive villas, each on about 500 m².",
-    introEyebrow: "Giving City",
+    introEyebrow: "Giving Compound",
     introHeading: "Luxury chalets designed for elevated resort living.",
     introCaption:
       "The first and largest fully-serviced chalet city in the region, designed around how people actually want to live.",
-    introImageAlt: "Giving City chalet overlooking the project",
+    introImageAlt: "Giving Compound chalet overlooking the project",
     p1: "367+ private resorts across 500,000 m², with carefully considered layouts: from compact units to expansive villas, each ~500 m² with an independent ownership deed.",
     p2: "Every detail is considered: Spanish luxury design, natural light, refined finishes, and complete privacy with 3-meter walls. Units are planned around the pool and outdoor living for everyday life and hosting.",
-    p3: "What sets Giving City apart is what surrounds the chalets: full community amenities, professional management, and zero-interest financing directly with the company, all at one address.",
+    p3: "What sets Giving Compound apart is what surrounds the chalets: full community amenities, professional management, and zero-interest financing directly with the company, all at one address.",
     filterLabel: "Filter Plans",
     filterMeta: "5 Types",
     quickView: "Quick View",

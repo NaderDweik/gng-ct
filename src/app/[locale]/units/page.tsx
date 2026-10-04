@@ -14,7 +14,7 @@ export default async function UnitsPage({ params }: Props) {
 
   return (
     <>
-      <SubpageHeader tall eyebrow="Giving City" title={copy.title} subtitle={copy.subtitle} />
+      <SubpageHeader tall eyebrow="Giving Compound" title={copy.title} subtitle={copy.subtitle} />
       <UnitsPlans>
         {/* The unit plan with its rooms and spaces either side */}
         <UnitPlanFeatures locale={locale} />

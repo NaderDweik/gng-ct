@@ -4,7 +4,7 @@ export function RealEstateJsonLd() {
   const data = {
     "@context": "https://schema.org",
     "@type": "RealEstateListing",
-    name: "Giving City Resort Unit",
+    name: "Giving Compound Resort Unit",
     description: site.taglineEn,
     url: site.siteUrl,
     image: `${site.siteUrl}/hero/hero.jpg`,

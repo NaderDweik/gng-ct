@@ -18,7 +18,7 @@ export const amenitiesPageCopy = {
     communityLead: "Beyond your walls, a gated community with the everyday essentials (and a few pleasures) within reach.",
     servicesEyebrow: "Serviced daily",
     servicesTitle: "The quiet work behind it all.",
-    servicesLead: "Infrastructure and people that keep Giving City running, so your time here is only yours.",
+    servicesLead: "Infrastructure and people that keep Giving Compound running, so your time here is only yours.",
     stats: {
       security: "Security, every day",
       walls: "Private walls around every resort",
@@ -29,27 +29,27 @@ export const amenitiesPageCopy = {
   ar: {
     crumb: "المرافق",
     heroTitle: "كل ما تحتاجه، داخل الأسوار.",
-    heroSub: "مرافق خاصة في كل منتجع، وأماكن مشتركة عبر المجتمع، وفريق يحافظ على كل شيء.",
-    resortEyebrow: "داخل منتجعك",
+    heroSub: "مرافق خاصة في كل شاليه، وأماكن مشتركة عبر المجتمع، وفريق يحافظ على كل شيء.",
+    resortEyebrow: "داخل شاليهك",
     resortTitle: "خمسة أشياء لك وحدك.",
-    resortLead: "كل منتجع بمساحة ٥٠٠ م² عالم خاص متكامل. لا شيء هنا مشترك مع الجيران.",
+    resortLead: "كل شاليه بمساحة ٥٠٠ م² عالم خاص متكامل. لا شيء هنا مشترك مع الجيران.",
     communityEyebrow: "عبر المجتمع",
     communityTitle: "أماكن مشتركة، على بُعد خطوات.",
     communityLead: "خلف أسوارك، مجتمع مسوّر يضم أساسيات الحياة اليومية (وبعض المتعة) على مقربة منك.",
     servicesEyebrow: "خدمة يومية",
     servicesTitle: "العمل الهادئ خلف كل شيء.",
-    servicesLead: "بنية تحتية وفريق عمل يحافظان على Giving City، ليبقى وقتك هنا لك وحدك.",
+    servicesLead: "بنية تحتية وفريق عمل يحافظان على Giving Compound، ليبقى وقتك هنا لك وحدك.",
     stats: {
       security: "أمن طوال اليوم",
-      walls: "أسوار خاصة حول كل منتجع",
-      area: "منتجع خاص لكل وحدة",
-      units: "منتجع خاص في المجتمع",
+      walls: "أسوار خاصة حول كل شاليه",
+      area: "شاليه خاص لكل وحدة",
+      units: "شاليه خاص في المجتمع",
     },
   },
 } as const;
 
 /** Private amenities, in chapter order — ids from `amenityFeatures`. */
-export const resortChapterIds = ["pool", "interior", "bbq", "walls", "parking"] as const;
+export const resortChapterIds = ["pool", "interior", "jacuzzi", "bbq", "kids", "green", "walls", "parking"] as const;
 
 export type CommunityPlace = {
   id: string;
@@ -131,7 +131,7 @@ export const communityPlaces: CommunityPlace[] = [
     titleEn: "Housekeeping",
     titleAr: "التدبير المنزلي",
     bodyEn: "An on-site team to keep your resort ready for you.",
-    bodyAr: "فريق في الموقع يُبقي منتجعك جاهزًا لك.",
+    bodyAr: "فريق في الموقع يُبقي شاليهك جاهزًا لك.",
     image: `${C}/housekeeping-team.png`,
     size: "wide",
   },

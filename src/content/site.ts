@@ -1,6 +1,6 @@
 export const site = {
   nameAr: "روح العطاء",
-  nameEn: "Giving City",
+  nameEn: "Giving Compound",
   companyAr: "شركة العطاء للتطوير والتمويل العمراني",
   companyEn: "Al-Ataa for City Development & Financing",
   taglineAr: "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة",
@@ -32,8 +32,7 @@ export const site = {
     saturday: "Saturday: 10:00 AM – 4:00 PM",
   },
   social: {
-    instagram: "https://www.instagram.com/giving.city/",
-    instagramCorp: "https://www.instagram.com/alataa_development/",
+    instagram: "https://www.instagram.com/spiritgivingdevelopment/",
     facebook: "https://www.facebook.com/alataa.giving/",
   },
   contact: "د. طارق قازان",
@@ -47,14 +46,19 @@ export const site = {
     cashPriceJd: 127680,
     cashDiscountPct: 24,
   },
+  /**
+   * Played by components/ui/VideoPlayer. Put the original file in public/videos and
+   * set `src` (e.g. "/videos/tour.mp4") to serve it from the site; without `src`
+   * the YouTube video plays with all of YouTube's interface hidden.
+   */
   videos: {
-    tour: "https://www.youtube.com/embed/8D8-mb6opx4",
-    iso: "https://www.youtube.com/embed/3Lr4a5EHaRI",
-  },
+    tour: { youtubeId: "8D8-mb6opx4", poster: "/gallery/resortsPics/pool-and-tent-pavilion-hd.jpg" },
+    iso: { youtubeId: "3Lr4a5EHaRI", poster: "/videos/iso-poster.webp" },
+  } as Record<"tour" | "iso", { youtubeId: string; src?: string; poster: string }>,
   copyBank: {
     ar: {
       firstLargest: "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة",
-      privateResorts: "٣٦٧+ منتجع خاص",
+      privateResorts: "٣٦٧+ شاليه خاص",
       area: "٥٠٠,٠٠٠ متر مربع",
       deed: "سند ملكية مستقل",
       zeroInterest: "بدون فوائد، مباشرة مع الشركة",

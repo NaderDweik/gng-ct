@@ -52,24 +52,32 @@ export function HeroLayered() {
       let busy = false;
       let started = false;
       let paused = false;
+      /** Set on cleanup: anything still scheduled from this run (the intro's start, the
+       *  autoplay timer — created in callbacks, outside the GSAP context) must stop, or a
+       *  second carousel keeps swapping titles over this one's. */
+      let disposed = false;
       let timer: gsap.core.Tween | null = null;
+
+      /** Every slide but `keep`: hidden on each swap so titles can never stack. */
+      const others = (pick: (i: number) => Element[], keep: number) =>
+        slides.flatMap((_, i) => (i === keep ? [] : pick(i)));
 
       // ── Autoplay: advance after the interval.
       const runTimer = () => {
         timer?.kill();
-        if (reduced || slides.length < 2) return;
+        if (disposed || reduced || slides.length < 2) return;
         timer = gsap.delayedCall(hero.intervalMs / 1000, () => go((current + 1) % slides.length));
         if (paused) timer.pause();
       };
 
       const go = (next: number) => {
-        if (next === current || busy) return;
+        if (disposed || next === current || busy) return;
         const prev = current;
         current = next;
         setActive(next);
 
         if (reduced) {
-          gsap.set([...layers(prev), ...titleSet(prev)], { autoAlpha: 0 });
+          gsap.set([...others(layers, next), ...others(titleSet, next)], { autoAlpha: 0 });
           gsap.set([...layers(next), ...titleSet(next)], { autoAlpha: 1 });
           return;
         }
@@ -87,9 +95,11 @@ export function HeroLayered() {
           .fromTo(layers(next), { autoAlpha: 0, scale: 1.08 }, { autoAlpha: 1, scale: 1, duration: 1.8, ease: "power2.out" }, 0)
           .to(layers(prev), { autoAlpha: 0, duration: 1.3, ease: "power1.inOut" }, 0.1)
           .to(titleLines(prev), { yPercent: -110, duration: 0.6, ease: "power3.in", stagger: 0.06 }, 0)
-          .set(titleSet(prev), { autoAlpha: 0 }, 0.62)
+          .set(others(titleSet, next), { autoAlpha: 0 }, 0.62)
           .set(titleSet(next), { autoAlpha: 1 }, 0.62)
-          .fromTo(titleLines(next), { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: "expo.out", stagger: 0.1 }, 0.62);
+          .fromTo(titleLines(next), { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: "expo.out", stagger: 0.1 }, 0.62)
+          // Settle: only the new slide's photos remain (covers any interrupted swap).
+          .set(others(layers, next), { autoAlpha: 0 }, 1.8);
       };
 
       const syncPause = () => {
@@ -101,6 +111,7 @@ export function HeroLayered() {
       window.addEventListener("scroll", syncPause, { passive: true });
       document.addEventListener("visibilitychange", syncPause);
       const cleanup = () => {
+        disposed = true;
         timer?.kill();
         window.removeEventListener("scroll", syncPause);
         document.removeEventListener("visibilitychange", syncPause);
@@ -139,7 +150,9 @@ export function HeroLayered() {
         Promise.race([
           Promise.all((layers(0) as HTMLImageElement[]).map((img) => img.decode().catch(() => undefined))),
           new Promise((r) => setTimeout(r, 1500)),
-        ]).then(() => intro.play());
+        ]).then(() => {
+          if (!disposed) intro.play();
+        });
       }
 
       // Scroll: pin + recede on larger screens; gentle drift on phones.
@@ -188,7 +201,7 @@ export function HeroLayered() {
             alt=""
             fill
             sizes="100vw"
-            quality={88}
+            quality={95}
             priority={i === 0}
             data-slide={i}
             className={`hl-photo hl-layer${first(i)}`}
@@ -212,7 +225,7 @@ export function HeroLayered() {
               alt=""
               fill
               sizes="100vw"
-              quality={88}
+              quality={95}
               priority={i === 0}
               data-slide={i}
               className={`hl-photo hl-layer hl-cutout${first(i)}`}

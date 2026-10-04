@@ -73,7 +73,7 @@ export const palette = {
   //   secondaryInk: "#e6e6e6",
   // },
 
-  /** Day / Night sky switch (home "A day at Giving City"). Illustrative, fixed. */
+  /** Day / Night sky switch (home "A day at Giving Compound"). Illustrative, fixed. */
   sky: {
     day: "#7cc8f2",
     dayDeep: "#3f97d6",

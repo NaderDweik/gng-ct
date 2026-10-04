@@ -34,11 +34,12 @@ export function AmenityIcon({
           <path d="M2 5q2.5 2 5 0t5 0 5 0 5 0" />
         </svg>
       );
-    case "security":
+    case "jacuzzi":
       return (
         <svg {...common}>
-          <path d="M12 3 4 7v5c0 5 3.5 8.5 8 9.5 4.5-1 8-4.5 8-9.5V7l-8-4Z" />
-          <path d="m9 12 2 2 4-4" />
+          <path d="M3 12h18v2a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z" />
+          <path d="M7 19l-1 2M17 19l1 2" />
+          <path d="M8 9c0-1.2 1-1.8 1-3s-1-1.8-1-3M12 9c0-1.2 1-1.8 1-3s-1-1.8-1-3M16 9c0-1.2 1-1.8 1-3s-1-1.8-1-3" />
         </svg>
       );
     case "interior":

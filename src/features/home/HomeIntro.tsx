@@ -7,10 +7,8 @@ import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { homeIntro as intro } from "@/content/home-intro";
 
 /*
- * Home "About Giving City" (styles: styles/sections/home-intro.css).
- * Once in view the photo assembles from its layers (sky, walls, chalet, ground, pool),
- * then two lines run along the seams (the chalet's base, the pool's lower edge), each
- * drawing on and trailing off.
+ * Home "About Giving Compound" (styles: styles/sections/home-intro.css).
+ * Once in view the photo unveils from the bottom up while it settles from a slight zoom.
  */
 
 const IMAGE_SIZES = "(min-width: 1024px) 55vw, 100vw";
@@ -39,28 +37,31 @@ export function HomeIntro({ locale }: { locale: string }) {
     <section ref={root} className={`hi section bg-surface${inView ? " is-in" : ""}`}>
       <div className="container-gc hi-grid">
         <figure className="hi-frame">
-          <Image src={intro.layers.sky} alt="" fill sizes={IMAGE_SIZES} className="hi-layer hi-sky" />
-          <Image src={intro.layers.walls} alt="" fill sizes={IMAGE_SIZES} className="hi-layer hi-walls" />
-          <Image src={intro.layers.ground} alt="" fill sizes={IMAGE_SIZES} className="hi-layer hi-ground" />
-          <Image src={intro.layers.pool} alt="" fill sizes={IMAGE_SIZES} className="hi-layer hi-pool" />
           <Image
-            src={intro.layers.chalet}
+            src={intro.image}
             alt={copy.alt}
             fill
             sizes={IMAGE_SIZES}
-            className="hi-layer hi-chalet"
+            quality={92}
+            className="hi-photo"
+            style={{ objectPosition: intro.focus }}
           />
-          <svg className="hi-seam" viewBox="0 0 546 307" preserveAspectRatio="xMidYMid slice" aria-hidden>
-            <path className="hi-seam-chalet" d={intro.seams.chalet} pathLength={1} />
-            <path className="hi-seam-pool" d={intro.seams.pool} pathLength={1} />
-          </svg>
         </figure>
 
         <div className="hi-copy">
           <p className="section-eyebrow">{copy.eyebrow}</p>
           <h2 className="section-title">{copy.title}</h2>
           <p className="hi-body">{copy.p1}</p>
-          <p className="hi-body">{copy.p2}</p>
+          <ul className="hi-facts">
+            {copy.facts.map((f) => (
+              <li key={f}>
+                <svg viewBox="0 0 24 24" aria-hidden>
+                  <path d="m5 12.5 4.5 4.5L19 7.5" />
+                </svg>
+                {f}
+              </li>
+            ))}
+          </ul>
           <Link href={intro.href} className="btn btn-primary hi-cta">
             {copy.cta}
             <ArrowIcon />

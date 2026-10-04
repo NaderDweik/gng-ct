@@ -12,20 +12,20 @@ const steps = [
   {
     titleAr: "زيارة واختيار الشاليه",
     titleEn: "Visit & pick your chalet",
-    bodyAr: "زر مكتب المبيعات لتختار شاليهك من الشاليهات المتاحة، مع رقمه ودفعته والمدة المتبقية على تسليمه.",
-    bodyEn: "Visit our sales office to choose from the available chalets, each with its number, down payment and time left to handover.",
+    bodyAr: "زر مكتب المبيعات لتختار شاليهك من الشاليهات المتاحة.",
+    bodyEn: "Visit our sales office to choose from the available chalets.",
   },
   {
     titleAr: "اختر خطتك",
     titleEn: "Choose your plan",
-    bodyAr: "أقساط ١٪ من السعر شهريًا، بدفعة أولى أو بدونها حسب الشاليه، أو الدفع النقدي بخصم ٢٤٪.",
-    bodyEn: "Installments of 1% of the price a month, with or without a down payment depending on the chalet, or pay cash at 24% off.",
+    bodyAr: "نقدًا بخصم ٢٤٪، أو بالتقسيط: دفعة أولى نتفق عليها معك، وكلما زادت استلمت أسرع.",
+    bodyEn: "Cash at 24% off, or installments: a down payment we agree with you, and the bigger it is, the sooner you move in.",
   },
   {
     titleAr: "العقد",
     titleEn: "Contract",
-    bodyAr: "وقّع العقد مباشرة مع الشركة، بدون بنك، وادفع الدفعة الأولى إن وُجدت.",
-    bodyEn: "Sign directly with the developer, no bank, and pay the down payment if your chalet has one.",
+    bodyAr: "وقّع العقد مباشرة مع الشركة، بدون بنك، وادفع دفعتك الأولى أو المبلغ النقدي.",
+    bodyEn: "Sign directly with the developer, no bank, and pay your down payment or the cash price.",
   },
   {
     titleAr: "سند ملكية وأقساط",
@@ -45,7 +45,7 @@ export default async function FinancingPage({ params }: Props) {
 
   return (
     <>
-      <SubpageHeader tall eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
+      <SubpageHeader tall eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
 
       <section id="plans" className="section scroll-mt-20 bg-surface-alt">
         <div className="container-gc">

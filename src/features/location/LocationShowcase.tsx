@@ -200,7 +200,7 @@ export function LocationShowcase() {
                   className={`loc-row${on ? " is-on" : ""}`}
                 >
                   <span className="loc-row-name">{isAr ? place.nameAr : place.nameEn}</span>
-                  <span className="loc-row-time">{isAr ? place.timeAr : place.timeEn}</span>
+                  <span className="loc-row-time">{isAr ? place.distanceAr : place.distanceEn}</span>
                 </button>
                 <span className="loc-bar" data-bar={place.id} aria-hidden />
               </li>

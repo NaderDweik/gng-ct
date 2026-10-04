@@ -6,16 +6,56 @@
   box-shadow: 0 40px 80px -40px color-mix(in srgb, var(--overlay) 55%, transparent);
 }
 
+/* Payment option tabs: the label at the bottom-start, the option's headline figure
+   (1% / 24%) large and faint in the top corner. Choosing a tab glides a white panel
+   under it (the old tab fades back to dark as the new one lights), the figure eases
+   into brand green, and a thin line draws along the tab's foot. */
+.pricing-tabs {
+  --pt-gap: 0.5rem;
+  --pt-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  --pt-time: 0.55s;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--pt-gap);
+}
+
+.pricing-plan-thumb {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-start: 0;
+  width: calc(50% - var(--pt-gap) / 2);
+  background: var(--fill-light);
+  box-shadow: 0 10px 30px -12px color-mix(in srgb, #000 60%, transparent);
+  transition: transform var(--pt-time) var(--pt-ease);
+  pointer-events: none;
+}
+
+.pricing-tabs[data-on="cash"] .pricing-plan-thumb {
+  transform: translateX(calc(100% + var(--pt-gap)));
+}
+
+[dir="rtl"] .pricing-tabs[data-on="cash"] .pricing-plan-thumb {
+  transform: translateX(calc(-100% - var(--pt-gap)));
+}
 .pricing-plan-tab {
-  padding: 0.8rem 0.5rem;
-  font-size: 0.85rem;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: 5.25rem;
+  padding: 0.85rem 1rem;
+  overflow: hidden;
+  font-size: 0.95rem;
   font-weight: 700;
-  text-align: center;
+  text-align: start;
   color: var(--on-dark-muted);
   border: 1px solid color-mix(in srgb, var(--white) 14%, transparent);
   background: transparent;
   cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  transition:
+    color var(--pt-time) var(--pt-ease),
+    border-color var(--pt-time) var(--pt-ease);
 }
 
 .pricing-plan-tab:hover {
@@ -24,9 +64,74 @@
 }
 
 .pricing-plan-tab.is-active {
-  background: var(--fill-light);
   color: var(--ink-on-light);
-  border-color: var(--fill-light);
+  border-color: transparent;
+}
+
+.pricing-plan-tab-label {
+  position: relative;
+}
+
+.pricing-plan-tab-figure {
+  position: absolute;
+  top: 0.35rem;
+  inset-inline-end: 0.75rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  color: var(--on-dark);
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.12;
+  pointer-events: none;
+  transition:
+    opacity var(--pt-time) var(--pt-ease),
+    color var(--pt-time) var(--pt-ease),
+    transform var(--pt-time) var(--pt-ease);
+  transform: translateY(4px) scale(0.94);
+}
+
+.pricing-plan-tab-figure small {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.pricing-plan-tab:hover .pricing-plan-tab-figure {
+  opacity: 0.22;
+}
+
+.pricing-plan-tab.is-active .pricing-plan-tab-figure {
+  color: var(--brand-primary);
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.08s;
+}
+
+/* Thin brand line drawn along the chosen tab's foot. */
+.pricing-plan-tab::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 3px;
+  background: var(--brand-primary);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s var(--pt-ease);
+}
+
+[dir="rtl"] .pricing-plan-tab::after {
+  transform-origin: right center;
+}
+
+.pricing-plan-tab.is-active::after {
+  transform: scaleX(1);
+  transition-duration: 0.6s;
+  transition-delay: 0.2s;
 }
 
 /* Breakdown: label on one side, amount (and a short note) on the other. */
@@ -39,13 +144,18 @@
   border-top: 1px solid var(--line-on-dark);
 }
 
+.pricing-row dt {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 .pricing-row--total {
   border-top-width: 2px;
   border-top-color: color-mix(in srgb, var(--white) 35%, transparent);
 }
 
 .pricing-fade {
-  animation: pricing-fade 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: pricing-fade 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
 }
 
 @keyframes pricing-fade {
@@ -62,5 +172,12 @@
 @media (prefers-reduced-motion: reduce) {
   .pricing-fade {
     animation: none;
+  }
+
+  .pricing-plan-thumb,
+  .pricing-plan-tab,
+  .pricing-plan-tab-figure,
+  .pricing-plan-tab::after {
+    transition: none;
   }
 }

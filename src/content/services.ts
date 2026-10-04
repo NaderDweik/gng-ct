@@ -1,131 +1,87 @@
-export const companyServices = [
-  {
-    id: "development",
-    image: "/gallery/compoundPics/engineers-site-office.png",
-    titleAr: "التطوير العقاري",
-    titleEn: "Real estate development",
-    descAr: "تخطيط وتطوير مشاريع سكنية متكاملة بمعايير عالمية.",
-    descEn: "Planning and delivering integrated residential projects to global standards.",
-  },
-  {
-    id: "construction",
-    image: "/gallery/compoundPics/construction-crew-building-walls.png",
-    titleAr: "البناء والتشطيب",
-    titleEn: "Construction & finishing",
-    descAr: "تنفيذ وإنهاء الوحدات بمواد فاخرة وعزل حراري عالي.",
-    descEn: "Building and finishing units with premium materials and strong thermal insulation.",
-  },
-  {
-    id: "management",
-    image: "/gallery/compoundPics/housekeeping-team.png",
-    titleAr: "إدارة الممتلكات",
-    titleEn: "Property management",
-    descAr: "متابعة الصيانة والخدمات المشتركة داخل المجتمع.",
-    descEn: "Ongoing maintenance and shared-community service oversight.",
-  },
-  {
-    id: "investment",
-    image: "/gallery/resortsPics/giant-chess-poolside-royal.png",
-    titleAr: "الاستشارات الاستثمارية",
-    titleEn: "Investment consulting",
-    descAr: "إرشاد المشترين حول العائد والقيمة طويلة الأمد.",
-    descEn: "Guiding buyers on return and long-term asset value.",
-  },
-  {
-    id: "financing",
-    image: "/gallery/resortsPics/family-lounge-under-pergola.png",
-    titleAr: "حلول التمويل",
-    titleEn: "Financing solutions",
-    descAr: "تقسيط مباشر مع الشركة بدون فوائد وبدون بنك.",
-    descEn: "Direct company installments: zero interest, no bank.",
-  },
-  {
-    id: "aftersale",
-    image: "/gallery/compoundPics/gardeners-landscaping-park.png",
-    titleAr: "ما بعد البيع والضمان",
-    titleEn: "After-sale & warranty",
-    descAr: "دعم مستمر وفق نظام جودة ISO 9001:2015.",
-    descEn: "Ongoing support under ISO 9001:2015 quality systems.",
-  },
-  {
-    id: "legal",
-    image: "/gallery/resortsPics/family-entering-resort-front-door.png",
-    titleAr: "الدعم القانوني",
-    titleEn: "Legal support",
-    descAr: "تيسير إجراءات سند الملكية (الطابو) باسم المشتري.",
-    descEn: "Facilitating ownership deed (tabou) processing in the buyer’s name.",
-  },
-] as const;
+/**
+ * /services — what runs in the compound today, and what is coming.
+ * `availableServices` is the company's current list (the "completed now"
+ * brochure); `upcomingServices` is the rest of the 46-service plan. When a
+ * service opens, move it from upcoming to available and give it an icon
+ * (features/services/ServiceIcon.tsx).
+ * Page: app/[locale]/services/page.tsx → features/services/ServicesDirectory.tsx.
+ */
 
-export const projectAmenities = [
-  {
-    id: "security",
-    titleAr: "الأمن والحراسة",
-    titleEn: "Security",
-    descAr: "مجتمع مسوّر، حراسة على مدار الساعة، وكاميرات مراقبة.",
-    descEn: "Gated community, 24/7 guards, and surveillance cameras.",
+/** Line icons drawn in features/services/ServiceIcon.tsx. */
+export type ServiceIconName =
+  | "gate" | "shield" | "sprout" | "sparkle" | "drop" | "wrench" | "cart" | "cup" | "bolt"
+  | "road" | "golf" | "trees" | "bike" | "bell" | "mosque" | "flower" | "crane";
+
+export type AvailableService = { id: string; icon: ServiceIconName; titleAr: string; titleEn: string };
+export type UpcomingService = { id: string; titleAr: string; titleEn: string };
+
+export const availableServices: AvailableService[] = [
+  { id: "walls-gates", icon: "gate", titleAr: "الأسوار والبوابات الأمنية", titleEn: "Security walls & gates" },
+  { id: "security", icon: "shield", titleAr: "قسم الأمن والكاميرات", titleEn: "Security & CCTV" },
+  { id: "planting", icon: "sprout", titleAr: "قسم الزراعة والري", titleEn: "Planting & irrigation" },
+  { id: "housekeeping", icon: "sparkle", titleAr: "قسم نظافة هاوس كيبنغ", titleEn: "Housekeeping" },
+  { id: "water", icon: "drop", titleAr: "ضخ المياه على مدار الساعة", titleEn: "24/7 water pumping" },
+  { id: "maintenance", icon: "wrench", titleAr: "قسم الصيانة والمتابعة", titleEn: "Maintenance & follow-up" },
+  { id: "supermarket", icon: "cart", titleAr: "سوبر ماركت", titleEn: "Supermarket" },
+  { id: "cafe", icon: "cup", titleAr: "كافيه", titleEn: "Café" },
+  { id: "power", icon: "bolt", titleAr: "كهرباء ٣ فاز لكل شاليه", titleEn: "3-phase power per chalet" },
+  { id: "streets", icon: "road", titleAr: "شوارع معبّدة", titleEn: "Paved streets" },
+  { id: "golf", icon: "golf", titleAr: "ملعب جولف", titleEn: "Golf course" },
+  { id: "gardens", icon: "trees", titleAr: "حدائق عامة", titleEn: "Public gardens" },
+  { id: "bikes", icon: "bike", titleAr: "دراجات هوائية", titleEn: "Bicycles" },
+  { id: "reception", icon: "bell", titleAr: "استقبال ضيوف", titleEn: "Guest reception" },
+  { id: "prayer", icon: "mosque", titleAr: "مصلى", titleEn: "Prayer hall" },
+  { id: "sidewalks", icon: "flower", titleAr: "زراعة الأرصفة", titleEn: "Planted sidewalks" },
+  { id: "development", icon: "crane", titleAr: "قسم تطوير", titleEn: "Development department" },
+];
+
+export const upcomingServices: UpcomingService[] = [
+  { id: "helipad", titleAr: "مهبط طيران", titleEn: "Helipad" },
+  { id: "water-filter", titleAr: "فلتر مياه", titleEn: "Water filtration" },
+  { id: "well", titleAr: "بئر ارتوازي", titleEn: "Artesian well" },
+  { id: "street-lights", titleAr: "إنارة شوارع", titleEn: "Street lighting" },
+  { id: "dry-clean", titleAr: "مركز دراي كلين", titleEn: "Dry cleaning" },
+  { id: "transport", titleAr: "مواصلات", titleEn: "Transport" },
+  { id: "building-materials", titleAr: "مركز مواد بناء", titleEn: "Building materials" },
+  { id: "dog-care", titleAr: "مركز عناية بالكلاب", titleEn: "Dog care" },
+  { id: "football", titleAr: "ملعب كرة قدم", titleEn: "Football pitch" },
+  { id: "fruit-picking", titleAr: "مركز قطف ثمار", titleEn: "Fruit picking" },
+  { id: "bazaar", titleAr: "مركز بازارات", titleEn: "Bazaar centre" },
+  { id: "equestrian", titleAr: "نادي فروسية", titleEn: "Equestrian club" },
+  { id: "water-games", titleAr: "ألعاب مائية", titleEn: "Water games" },
+  { id: "trips", titleAr: "مركز رحلات", titleEn: "Trips centre" },
+  { id: "schools", titleAr: "مدارس", titleEn: "Schools" },
+  { id: "clothing", titleAr: "مركز ملابس", titleEn: "Clothing store" },
+  { id: "outdoor-cinema", titleAr: "سينما خارجية", titleEn: "Outdoor cinema" },
+  { id: "basketball", titleAr: "ملعب كرة سلة", titleEn: "Basketball court" },
+  { id: "nursery", titleAr: "حضانة أطفال", titleEn: "Nursery" },
+  { id: "bird-park", titleAr: "حديقة طيور", titleEn: "Bird park" },
+  { id: "emergency", titleAr: "مركز طوارئ", titleEn: "Emergency centre" },
+  { id: "tennis", titleAr: "ملعب كرة تنس", titleEn: "Tennis court" },
+  { id: "clinic", titleAr: "عيادة طبية", titleEn: "Medical clinic" },
+  { id: "pharmacy", titleAr: "صيدلية", titleEn: "Pharmacy" },
+  { id: "mosque", titleAr: "مسجد", titleEn: "Mosque" },
+  { id: "events-hall", titleAr: "قاعة مناسبات", titleEn: "Events hall" },
+  { id: "indoor-cinema", titleAr: "سينما داخلية", titleEn: "Indoor cinema" },
+  { id: "ev-charging", titleAr: "محطة شحن مركبات", titleEn: "EV charging" },
+  { id: "restaurant", titleAr: "مطعم", titleEn: "Restaurant" },
+  { id: "beauty-women", titleAr: "بيوتي سنتر سيدات", titleEn: "Women's beauty centre" },
+  { id: "beauty-men", titleAr: "بيوتي سنتر رجالي", titleEn: "Men's grooming" },
+  { id: "spa", titleAr: "مركز عناية واسترخاء (سبا)", titleEn: "Spa" },
+  { id: "gym", titleAr: "نادي رياضي (جيم)", titleEn: "Gym" },
+];
+
+export const servicesCopy = {
+  ar: {
+    available: "متاحة الآن",
+    availableSub: "خدمات قائمة يستفيد منها السكان والضيوف اليوم.",
+    upcoming: "قريبًا",
+    upcomingSub: "تُفتتح تباعًا مع اكتمال مراحل المشروع.",
   },
-  {
-    id: "infra",
-    titleAr: "البنية التحتية الرقمية",
-    titleEn: "Digital infrastructure",
-    descAr: "إنترنت ألياف ضوئية، ستلايت، وأنظمة تكييف.",
-    descEn: "Fiber internet, satellite, and AC systems.",
+  en: {
+    available: "Available now",
+    availableSub: "Services residents and guests use today.",
+    upcoming: "Coming soon",
+    upcomingSub: "Opening in turn as each phase of the project completes.",
   },
-  {
-    id: "water",
-    titleAr: "أنظمة المياه",
-    titleEn: "Water systems",
-    descAr: "مضخات أوتوماتيكية وتوزيع موثوق للمياه.",
-    descEn: "Automatic pumps and reliable water distribution.",
-  },
-  {
-    id: "pools",
-    titleAr: "صيانة المسابح",
-    titleEn: "Pool systems",
-    descAr: "فلترة متقدمة وصيانة دورية للمسابح.",
-    descEn: "Advanced filtration and routine pool maintenance.",
-  },
-  {
-    id: "green",
-    titleAr: "المساحات الخضراء",
-    titleEn: "Green spaces",
-    descAr: "حدائق وتنسيق حدائق داخل المجتمع.",
-    descEn: "Gardens and landscaping throughout the community.",
-  },
-  {
-    id: "bbq",
-    titleAr: "مناطق جلوس وBBQ",
-    titleEn: "Seating & BBQ",
-    descAr: "برجولات ومناطق شواء مشتركة وخصوصية لكل وحدة.",
-    descEn: "Pergolas and BBQ areas: shared and per-unit privacy.",
-  },
-  {
-    id: "parking",
-    titleAr: "مواقف السيارات",
-    titleEn: "Parking",
-    descAr: "كراج لسيارتين لكل وحدة ومواقف للزوار.",
-    descEn: "2-car garage per unit plus visitor parking.",
-  },
-  {
-    id: "kids",
-    titleAr: "مناطق الأطفال",
-    titleEn: "Children’s areas",
-    descAr: "مساحات لعب ومسبح أطفال داخل الوحدات والمجتمع.",
-    descEn: "Play areas and kids’ pools within units and the community.",
-  },
-  {
-    id: "roads",
-    titleAr: "الطرق الداخلية",
-    titleEn: "Internal roads",
-    descAr: "شبكة طرق داخلية سهلة الوصول.",
-    descEn: "Easy-access internal road network.",
-  },
-  {
-    id: "utilities",
-    titleAr: "الكهرباء والمرافق",
-    titleEn: "Utilities",
-    descAr: "توصيلات كهرباء ومرافق مكتملة لكل وحدة.",
-    descEn: "Completed electricity and utility connections per unit.",
-  },
-] as const;
+} as const;

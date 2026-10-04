@@ -1,4 +1,4 @@
-# 🏗️ Giving City — Source of Truth & Project Brief
+# 🏗️ Giving Compound — Source of Truth & Project Brief
 
 > **Purpose of this document:** Authoritative **business / content** brief (company facts, unit specs, pricing, long FAQ/blog seeds). Any AI agent or developer should read this — then use **`SOURCE_OF_TRUTH_SUMMARY.md` for the live product state** (tokens, routes maturity, TEMP WhatsApp, what is polished vs stub).
 >
@@ -13,10 +13,9 @@
 ### Identity
 - **Arabic Name:** شركة العطاء للتطوير والتمويل العمراني
 - **English Name:** Al-Ataa for City Development & Financing
-- **Project/Brand Name:** Giving City / Giving City Resorts / روح العطاء للتطوير العقاري
-- **Instagram:** [@giving.city](https://www.instagram.com/giving.city/)
+- **Project/Brand Name:** Giving Compound / Giving Compound Resorts / روح العطاء للتطوير العقاري
+- **Instagram:** [@spiritgivingdevelopment](https://www.instagram.com/spiritgivingdevelopment/)
 - **Facebook:** [alataa.giving](https://www.facebook.com/alataa.giving/)
-- **Instagram (corporate):** [@alataa_development](https://www.instagram.com/alataa_development/)
 - **WhatsApp:** +962790029928
 - **Phone:** +962790029928
 - **Current Website:** [giving-city.com](https://giving-city.com/)
@@ -24,8 +23,8 @@
 - **Certification:** ISO 9001:2015
 - **Country:** Jordan (الأردن)
 
-### What is Giving City?
-Giving City is **the first and largest fully-serviced chalet/resort city in the Middle East**, located in Jordan. The project spans approximately **500,000 square meters** and offers **367+ private resorts** designed in a Spanish architectural style. Each resort is an independent unit with its own deed (سند ملكية مستقل), providing complete privacy and luxury living.
+### What is Giving Compound?
+Giving Compound is **the first and largest fully-serviced chalet/resort city in the Middle East**, located in Jordan. The project spans approximately **500,000 square meters** and offers **367+ private resorts** designed in a Spanish architectural style. Each resort is an independent unit with its own deed (سند ملكية مستقل), providing complete privacy and luxury living.
 
 The project is NOT a hotel — it is a **gated residential resort community** where buyers own their individual resort unit outright. The value proposition combines luxury living, privacy, investment potential, and a fully-serviced community with modern amenities.
 
@@ -138,7 +137,7 @@ The current website has **72 images** in the gallery at `giving-city.com/images/
 The new website will have **13 pages**, agreed upon with Dr. Tarek Qazan. Below is each page with its purpose, content requirements, and notes for the developer.
 
 ### Page 1: من نحن — About Us (The Project)
-**Purpose:** Introduce the company and the Giving City project.
+**Purpose:** Introduce the company and the Giving Compound project.
 **Content needed:**
 - Company story / founding narrative
 - Key statistics: years of experience, number of projects, number of units (367+), total area (500,000 m²)
@@ -166,10 +165,10 @@ The new website will have **13 pages**, agreed upon with Dr. Tarek Qazan. Below 
 - After-sale support / warranty (ISO 9001:2015)
 - Legal support (ownership deed processing)
 
-> ⚠️ **Confirmed separate from page 7.** This page = what Al-Ataa the company does for you. Page 7 = what exists inside the Giving City community.
+> ⚠️ **Confirmed separate from page 7.** This page = what Al-Ataa the company does for you. Page 7 = what exists inside the Giving Compound community.
 
 ### Page 4: المخطط العام (المول) — Master Plan (The Mall/Complex)
-**Purpose:** Show the overall layout and master plan of the Giving City project.
+**Purpose:** Show the overall layout and master plan of the Giving Compound project.
 **Content needed:**
 - Interactive or high-resolution master plan image
 - Zoning: residential areas, amenities, green spaces, commercial areas
@@ -197,7 +196,7 @@ The new website will have **13 pages**, agreed upon with Dr. Tarek Qazan. Below 
 
 ### Page 7: مرافق المشروع — Project Amenities & Utilities
 **Suggested Arabic name:** "مرافق المشروع" instead of "الخدمات والمرافق" to clearly differentiate from page 3 (خدماتنا).
-**Purpose:** Detail the **on-site infrastructure, utilities, and amenities** inside the Giving City community itself.
+**Purpose:** Detail the **on-site infrastructure, utilities, and amenities** inside the Giving Compound community itself.
 **Content needed:**
 - Security services (gated community, cameras, 24/7 guards)
 - Infrastructure: fiber internet, satellite, AC systems
@@ -213,7 +212,7 @@ The new website will have **13 pages**, agreed upon with Dr. Tarek Qazan. Below 
 > ⚠️ **Confirmed separate from page 3.** This page = physical amenities and utilities inside the community. Page 3 = company-level services offered to buyers.
 
 ### Page 8: الخريطة — Map / Location
-**Purpose:** Show exactly where Giving City is located.
+**Purpose:** Show exactly where Giving Compound is located.
 **Content needed:**
 - Embedded Google Map with pin
 - Directions from Amman and key landmarks
@@ -352,7 +351,7 @@ The current website is a **single-page site** with the following sections:
 ## 8. Brand & Design Direction
 
 ### Current Brand Signals
-- The name "Giving City" (روح العطاء) evokes **generosity, community, warmth**
+- The name "Giving Compound" (روح العطاء) evokes **generosity, community, warmth**
 - Spanish architectural influence → warm Mediterranean palette
 - Luxury positioning: "First in the Middle East", ISO certification
 - Target audience: Jordanian families, investors, expats looking for vacation/investment property
@@ -371,7 +370,7 @@ The current website is a **single-page site** with the following sections:
 
 ## 9. Social Media Content Reference
 
-### Instagram (@giving.city)
+### Instagram (@spiritgivingdevelopment)
 - Active account based in Amman, Jordan
 - Content includes: construction progress, finished resort photos, reels/videos, promotional posts
 - Messaging themes: luxury, privacy, investment, first-in-the-Middle-East, Spanish design
@@ -398,7 +397,7 @@ Use these phrases consistently across the website:
 | Arabic | English |
 |--------|---------|
 | أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة | First and largest fully-serviced chalet city in the region |
-| ٣٦٧+ منتجع خاص | 367+ private resorts |
+| ٣٦٧+ شاليه خاص | 367+ private resorts |
 | ٥٠٠,٠٠٠ متر مربع | 500,000 square meters |
 | سند ملكية مستقل | Independent ownership deed |
 | بدون فوائد — مباشرة مع الشركة | Zero interest — directly with the company |
@@ -429,15 +428,15 @@ Use these phrases consistently across the website:
 
 The client does not have existing blog articles. The following seed articles should be created for launch based on research gathered from the current site, social media, and public listings. Each article targets SEO keywords relevant to Jordanian real estate buyers.
 
-### Article 1: لماذا Giving City هي أول مدينة شاليهات متكاملة في الشرق الأوسط؟
-**Topic:** Founding story and what makes Giving City unique — 367+ resorts, 500,000 m², Spanish design, ISO certification.
-**Keywords:** شاليهات أردن، مدينة شاليهات، منتجعات خاصة أردن
+### Article 1: لماذا Giving Compound هي أول مدينة شاليهات متكاملة في الشرق الأوسط؟
+**Topic:** Founding story and what makes Giving Compound unique — 367+ resorts, 500,000 m², Spanish design, ISO certification.
+**Keywords:** شاليهات أردن، مدينة شاليهات، شاليهات خاصة أردن
 
 ### Article 2: ٥ أسباب تجعل الاستثمار العقاري في الشاليهات خيارًا ذكيًا في ٢٠٢٦
-**Topic:** Real estate investment trends in Jordan, vacation property ROI, Giving City's appreciation potential.
+**Topic:** Real estate investment trends in Jordan, vacation property ROI, Giving Compound's appreciation potential.
 **Keywords:** استثمار عقاري أردن، شراء شاليه، عائد استثمار عقاري
 
-### Article 3: جولة داخل شاليه Giving City — ٥٠٠ م² من الخصوصية والرفاهية
+### Article 3: جولة داخل شاليه Giving Compound — ٥٠٠ م² من الخصوصية والرفاهية
 **Topic:** Virtual tour walkthrough — 3 bedrooms, pools, jacuzzi, BBQ, pergola, garage. Use gallery photos.
 **Keywords:** شاليه خاص أردن، مواصفات شاليه، شاليه مع مسبح خاص
 
@@ -449,11 +448,11 @@ The client does not have existing blog articles. The following seed articles sho
 **Topic:** Breakdown of the 3 payment plans, cash discount, comparison with bank mortgages.
 **Keywords:** تقسيط شاليه أردن، شراء بدون فوائد، خطة دفع عقاري
 
-### Article 6: التصميم الإسباني في Giving City — لماذا هذا الطراز؟
+### Article 6: التصميم الإسباني في Giving Compound — لماذا هذا الطراز؟
 **Topic:** Spanish architectural influence, insulation benefits, Mediterranean lifestyle in Jordan.
 **Keywords:** تصميم إسباني، عمارة متوسطية، شاليهات فاخرة
 
-### Article 7: الحياة داخل مجتمع Giving City — أمن، مرافق، وجيران
+### Article 7: الحياة داخل مجتمع Giving Compound — أمن، مرافق، وجيران
 **Topic:** Community living, security features, shared amenities, what daily life looks like.
 **Keywords:** مجتمع سكني أردن، شاليهات مخدومة، حياة مجتمعية
 
@@ -464,7 +463,7 @@ The client does not have existing blog articles. The following seed articles sho
 Generated from analysis of the current site content, pricing structure, and common real estate buyer questions in Jordan.
 
 ### الشراء والتملك
-**س: ما هو سعر الشاليه في Giving City؟**
+**س: ما هو سعر الشاليه في Giving Compound؟**
 ج: سعر الوحدة الواحدة ١٦٨,٠٠٠ دينار أردني. يتوفر خصم ١٥٪ عند الدفع نقدًا (١٤٢,٨٠٠ دينار).
 
 **س: هل أحصل على سند ملكية مستقل؟**
@@ -490,7 +489,7 @@ Generated from analysis of the current site content, pricing structure, and comm
 ج: أساسات خرسانية مسلحة وفق كود البناء الأردني، جدران ثيرموستون للعزل، بورسلان فاخر مع إضاءة LED، دهانات Super Crown/Jotun، أدوات صحية إيطالية، واجهات بعزل إسباني.
 
 ### الموقع والمرافق
-**س: أين يقع مشروع Giving City؟**
+**س: أين يقع مشروع Giving Compound؟**
 ج: يبعد ٣٩ كم من فندق الرويال باتجاه سحاب الحطمية، بالقرب من عمّان.
 
 **س: ما هي المرافق المتوفرة داخل المشروع؟**
@@ -516,10 +515,9 @@ The project already has presence on external platforms:
 |----------|-----|-------|
 | Website | [giving-city.com](https://giving-city.com/) | Current single-page site (being replaced) |
 | **New Domain** | **giving-estate.com** | The new website domain |
-| Instagram | [@giving.city](https://www.instagram.com/giving.city/) | Active — photos, reels, promotions |
+| Instagram | [@spiritgivingdevelopment](https://www.instagram.com/spiritgivingdevelopment/) | Active — photos, reels, promotions |
 | Facebook | [alataa.giving](https://www.facebook.com/alataa.giving/) | Company page |
-| Instagram (Corp) | [@alataa_development](https://www.instagram.com/alataa_development/) | Corporate account |
-| Tripadvisor | [Giving City - Amman](https://www.tripadvisor.in/Hotel_Review-g293986-d34265838-Reviews-Giving_City-Amman_Amman_Governorate.html) | Listed, no reviews yet, has 5 photos |
+| Tripadvisor | [Giving Compound - Amman](https://www.tripadvisor.in/Hotel_Review-g293986-d34265838-Reviews-Giving_City-Amman_Amman_Governorate.html) | Listed, no reviews yet, has 5 photos |
 | Booking.com | Listed via Tripadvisor aggregation | Price range ~$534/night shown |
 | WhatsApp | [wa.me/962790029928](https://wa.me/962790029928) | Primary communication channel |
 | YouTube | 2 videos embedded on current site | Resort tour + ISO certificate |

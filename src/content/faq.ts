@@ -15,9 +15,9 @@ export const faqCategories: FaqCategory[] = [
     items: [
       {
         id: "price",
-        qAr: "ما هو سعر الشاليه في Giving City؟",
+        qAr: "ما هو سعر الشاليه في Giving Compound؟",
         aAr: "جميع الشاليهات بسعر ١٦٨,٠٠٠ دينار أردني. يتوفر خصم ٢٤٪ عند الدفع نقدًا (١٢٧,٦٨٠ دينار).",
-        qEn: "What is the chalet price at Giving City?",
+        qEn: "What is the chalet price at Giving Compound?",
         aEn: "Every chalet is 168,000 JD. A 24% cash discount brings it to 127,680 JD.",
       },
       {
@@ -37,9 +37,9 @@ export const faqCategories: FaqCategory[] = [
       {
         id: "plans",
         qAr: "ما هي خطط الدفع المتاحة؟",
-        aAr: "تقسيط بقيمة ١٪ من السعر شهريًا (١,٦٨٠ دينار)، بدفعة أولى أو بدون دفعة حسب الشاليه الذي تختاره، أو الدفع النقدي بخصم ٢٤٪. لكل شاليه رقمه ودفعته والمدة المتبقية على تسليمه، وتختاره عند زيارتك لمكتب المبيعات.",
+        aAr: "خياران: التقسيط بدفعة أولى تختار قيمتها ثم ١٪ من السعر شهريًا (١,٦٨٠ دينار)، وكلما زادت الدفعة الأولى استلمت شاليهك أسرع؛ أو الدفع النقدي بخصم ٢٤٪. قيمة الدفعة وموعد الاستلام نتفق عليهما معك عند زيارتك لمكتب المبيعات.",
         qEn: "What payment plans are available?",
-        aEn: "Installments of 1% of the price a month (1,680 JD), with or without a down payment depending on the chalet you choose, or pay cash at 24% off. Each chalet has its own number, down payment and time left to handover; you pick yours when you visit our sales office.",
+        aEn: "Two options: installments, with a down payment you choose and then 1% of the price a month (1,680 JD), where a bigger down payment means an earlier handover; or pay cash at 24% off. The down payment and handover date are agreed with you at our sales office.",
       },
       {
         qAr: "هل يمكنني إعادة بيع الوحدة؟",
@@ -81,9 +81,9 @@ export const faqCategories: FaqCategory[] = [
     items: [
       {
         id: "where",
-        qAr: "أين يقع مشروع Giving City؟",
+        qAr: "أين يقع مشروع Giving Compound؟",
         aAr: "يبعد ٤١ كم (نحو ٥٥ دقيقة) من فندق الرويال باتجاه سحاب الحطمية، ونحو ٣٠ دقيقة من مطار الملكة علياء.",
-        qEn: "Where is Giving City located?",
+        qEn: "Where is Giving Compound located?",
         aEn: "41 km (about 55 min) from Le Royal Hotel towards Sahab Al-Hatmiyeh, and about 30 min from Queen Alia International Airport.",
       },
       {

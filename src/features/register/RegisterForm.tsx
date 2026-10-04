@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { site } from "@/content/site";
 import { usePlanChoice } from "@/features/register/usePlanChoice";
-import { cashDiscountPct, cashPriceJd, monthlyJd, pricingPlans } from "@/content/pricing";
+import { cashDiscountPct, cashPriceJd, monthlyJd } from "@/content/pricing";
 import { formatNumber } from "@/lib/format";
 
 type Interest = "financing" | "visit";
@@ -50,11 +50,10 @@ export function RegisterForm() {
       return isAr
         ? `الدفع النقدي: ${formatNumber(cashPriceJd, locale)} د.أ (خصم ${formatNumber(cashDiscountPct, locale)}٪)`
         : `Cash: ${formatNumber(cashPriceJd, locale)} JD (${cashDiscountPct}% off)`;
-    const p = pricingPlans.find((x) => x.id === chosen);
-    if (!p) return "";
+    if (chosen !== "installments") return "";
     return isAr
-      ? `تقسيط ${p.labelAr}: ${formatNumber(monthlyJd, locale)} د.أ شهريًا`
-      : `Installments, ${p.labelEn.toLowerCase()}: ${formatNumber(monthlyJd, locale)} JD a month`;
+      ? `التقسيط: دفعة أولى ثم ${formatNumber(monthlyJd, locale)} د.أ شهريًا`
+      : `Installments: a down payment, then ${formatNumber(monthlyJd, locale)} JD a month`;
   })();
 
   function onSubmit(e: FormEvent) {
@@ -68,7 +67,7 @@ export function RegisterForm() {
       : interest;
 
     const text = [
-      isAr ? "تسجيل اهتمام: Giving City" : "Register interest: Giving City",
+      isAr ? "تسجيل اهتمام: Giving Compound" : "Register interest: Giving Compound",
       `${isAr ? "الاسم" : "Name"}: ${name}`,
       `${isAr ? "الهاتف" : "Phone"}: ${phone}`,
       `${isAr ? "الاهتمام" : "Interest"}: ${interestText}`,

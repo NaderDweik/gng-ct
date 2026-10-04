@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { isPlanChoice, type PlanChoice } from "@/content/pricing";
+import { toPlanChoice, type PlanChoice } from "@/content/pricing";
 
 /**
  * The plan picked on the plans / financing cards, read from `?plan=` after
@@ -10,8 +10,7 @@ import { isPlanChoice, type PlanChoice } from "@/content/pricing";
 export function usePlanChoice(): PlanChoice | null {
   const [choice, setChoice] = useState<PlanChoice | null>(null);
   useEffect(() => {
-    const v = new URLSearchParams(window.location.search).get("plan");
-    if (isPlanChoice(v)) setChoice(v);
+    setChoice(toPlanChoice(new URLSearchParams(window.location.search).get("plan")));
   }, []);
   return choice;
 }

@@ -6,7 +6,8 @@ import { formatNumber } from "@/lib/format";
 import { CountUp } from "@/components/ui/CountUp";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import type { LocalePageProps } from "@/i18n/types";
-import { HoverAccent } from "@/components/ui/HoverAccent";
+import { VideoPlayer } from "@/components/ui/VideoPlayer";
+import { SocialIcon } from "@/components/ui/SocialIcon";
 
 type Props = LocalePageProps;
 
@@ -17,14 +18,14 @@ const pillars: { icon: PillarIcon; titleAr: string; titleEn: string; bodyAr: str
     icon: "deed",
     titleAr: "سند ملكية مستقل",
     titleEn: "Independent deed",
-    bodyAr: "كل مشترٍ يمتلك منتجعه الخاص بسند مستقل باسمه: ملكية حقيقية لا حصة في فندق.",
+    bodyAr: "كل مشترٍ يمتلك شاليهه الخاص بسند مستقل باسمه: ملكية حقيقية لا حصة في فندق.",
     bodyEn: "Every buyer owns their private resort with an independent deed: real ownership, not a hotel share.",
   },
   {
     icon: "privacy",
     titleAr: "خصوصية تامة",
     titleEn: "Complete privacy",
-    bodyAr: "جدران بارتفاع ٣ أمتار حول كل منتجع، داخل مجتمع مسوّر ومحروس على مدار الساعة.",
+    bodyAr: "جدران بارتفاع ٣ أمتار حول كل شاليه، داخل مجتمع مسوّر ومحروس على مدار الساعة.",
     bodyEn: "3-meter walls around every resort, inside a gated community guarded around the clock.",
   },
   {
@@ -94,30 +95,22 @@ export default async function AboutPage({ params }: Props) {
 
   const pctSign = isAr ? "٪" : "%";
   const stats = [
-    { value: site.stats.units, suffix: "+", label: isAr ? "منتجع خاص" : "Private resorts" },
+    { value: site.stats.units, suffix: "+", label: isAr ? "شاليه خاص" : "Private resorts" },
     { value: site.stats.areaSqm, unit: isAr ? "م²" : "m²", label: isAr ? "مساحة المشروع" : "Master-plan area" },
     { value: site.stats.unitAreaSqm, unit: isAr ? "م²" : "m²", label: isAr ? "لكل وحدة" : "Per unit" },
     { value: 0, from: 100, suffix: pctSign, label: isAr ? "فوائد على التقسيط" : "Interest on installments" },
   ];
 
   const socials = [
-    { href: site.social.instagram, label: "Instagram", handle: "@giving.city" },
-    { href: site.social.instagramCorp, label: "Instagram", handle: "@alataa_development" },
-    { href: site.social.facebook, label: "Facebook", handle: "alataa.giving" },
-    { href: site.whatsappUrl, label: "WhatsApp", handle: tc("whatsapp") },
-  ];
-
-  const progress = [
-    { src: "/gallery/compoundPics/compound-l-under-construction.png", en: "Compound L taking shape", ar: "كمباوند L يتشكّل" },
-    { src: "/gallery/compoundPics/compound-b-gate-gardener-landscaping.png", en: "Landscaping Compound B", ar: "تنسيق كمباوند B" },
-    { src: "/gallery/compoundPics/solar-farm-building-store.png", en: "Solar farm & building store", ar: "محطة الطاقة الشمسية ومتجر البناء" },
-    { src: "/gallery/compoundPics/compound-a-gate-motorbikes.png", en: "Compound A, open and lived in", ar: "كمباوند A مأهول" },
+    { name: "instagram" as const, href: site.social.instagram, label: "Instagram", handle: "@spiritgivingdevelopment" },
+    { name: "facebook" as const, href: site.social.facebook, label: "Facebook", handle: "alataa.giving" },
+    { name: "whatsapp" as const, href: site.whatsappUrl, label: "WhatsApp", handle: tc("whatsapp") },
   ];
 
   return (
     <>
       <SubpageHeader
-        eyebrow="Giving City"
+        eyebrow="Giving Compound"
         title={t("title")}
         subtitle={isAr ? "ليس فندقًا، بل استثمار وحياة." : "Not a hotel. An investment, and a way of life."}
       />
@@ -169,7 +162,7 @@ export default async function AboutPage({ params }: Props) {
               <Image src="/gallery/resortsPics/master-bedroom-pool-view.png" alt={isAr ? "غرفة نوم بإطلالة على المسبح" : "Bedroom with a pool view"} fill sizes="(max-width: 1024px) 90vw, 40vw" className="object-cover" />
             </div>
             <div className="about-collage-side">
-              <Image src="/gallery/resortsPics/family-entering-resort-front-door.png" alt={isAr ? "واجهة منتجع" : "Resort facade"} fill sizes="(max-width: 1024px) 45vw, 20vw" className="object-cover" />
+              <Image src="/gallery/resortsPics/family-entering-resort-front-door.png" alt={isAr ? "واجهة شاليه" : "Resort facade"} fill sizes="(max-width: 1024px) 45vw, 20vw" className="object-cover" />
             </div>
             <div className="about-collage-badge">
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
@@ -186,7 +179,7 @@ export default async function AboutPage({ params }: Props) {
         <div className="container-gc">
           <div className="sec-head">
             <div>
-              <p className="section-eyebrow">{isAr ? "لماذا Giving City" : "Why Giving City"}</p>
+              <p className="section-eyebrow">{isAr ? "لماذا Giving Compound" : "Why Giving Compound"}</p>
               <h2 className="section-title mb-0">
                 {isAr ? "أربعة وعود نلتزم بها." : "Four promises we keep."}
               </h2>
@@ -244,16 +237,12 @@ export default async function AboutPage({ params }: Props) {
             </div>
           </div>
           <div>
-            <div className="relative aspect-video overflow-hidden border border-line-on-dark bg-overlay shadow-card-lg">
-              <iframe
-                src={site.videos.iso}
-                title={isAr ? "تقديم شهادة ISO 9001:2015" : "ISO 9001:2015 certification"}
-                className="absolute inset-0 h-full w-full"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              />
-            </div>
+            <VideoPlayer
+              {...site.videos.iso}
+              title={isAr ? "تقديم شهادة ISO 9001:2015" : "ISO 9001:2015 certification"}
+              locale={locale}
+              className="border border-line-on-dark shadow-card-lg"
+            />
             <p className="mt-3 text-xs text-on-dark-subtle">
               {isAr ? "تقديم شهادة ISO 9001:2015 لشركة العطاء" : "Al-Ataa receiving the ISO 9001:2015 certification"}
             </p>
@@ -261,52 +250,43 @@ export default async function AboutPage({ params }: Props) {
         </div>
       </section>
 
-      {/* Follow */}
+      {/* Social */}
       <section className="section bg-surface">
         <div className="container-gc">
-          <div className="sec-head">
-            <div>
-              <p className="section-eyebrow">{isAr ? "تابعنا" : "Follow along"}</p>
-              <h2 className="section-title mb-0">
-                {isAr ? "شاهد المشروع يكبر يومًا بعد يوم." : "Watch the project grow, day by day."}
-              </h2>
-            </div>
-          </div>
-          <div className="mb-10 grid grid-cols-2 gap-3 lg:grid-cols-4">
-            {progress.map((p) => (
-              <figure key={p.src} className="group hv">
-                <div className="relative aspect-[4/3] overflow-hidden bg-surface-alt">
-                  <Image
-                    src={p.src}
-                    alt={isAr ? p.ar : p.en}
-                    fill
-                    sizes="(max-width: 1024px) 50vw, 25vw"
-                    className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                  />
-                  <HoverAccent />
-                </div>
-                <figcaption className="mt-3 text-sm text-muted">{isAr ? p.ar : p.en}</figcaption>
-              </figure>
-            ))}
-          </div>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <header className="social-head">
+            <p className="section-eyebrow">{isAr ? "تابعنا" : "Follow us"}</p>
+            <h2 className="section-title">{isAr ? "ابقَ على تواصل معنا." : "Stay in touch."}</h2>
+            <p className="section-sub">
+              {isAr
+                ? "آخر أخبار المشروع وصوره، وفريقنا جاهز للرد على أسئلتك."
+                : "The latest project news and photos, and a team ready to answer your questions."}
+            </p>
+          </header>
+          <ul className="social-cards">
             {socials.map((s) => (
-              <a key={s.handle} href={s.href} target="_blank" rel="noopener noreferrer" className="social-card group">
-                <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted">{s.label}</span>
-                <span className="mt-6 block truncate font-display text-xl font-bold text-ink" dir="auto">
-                  {s.handle}
-                </span>
-                <span className="social-card-arrow" aria-hidden>
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M7 17 17 7M8 7h9v9" />
-                  </svg>
-                </span>
-              </a>
+              <li key={s.name}>
+                <a href={s.href} target="_blank" rel="noopener noreferrer" className={`social-card social-card--${s.name}`}>
+                  <SocialIcon name={s.name} size={160} className="social-card-mark" />
+                  <span className="social-card-icon">
+                    <SocialIcon name={s.name} size={20} />
+                  </span>
+                  <span className="social-card-text">
+                    <span className="social-card-label">{s.label}</span>
+                    <span className="social-card-handle" dir="auto">
+                      {s.handle}
+                    </span>
+                  </span>
+                  <span className="social-card-arrow" aria-hidden>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M7 17 17 7M8 7h9v9" />
+                    </svg>
+                  </span>
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
-
     </>
   );
 }

@@ -1,8 +1,12 @@
-/** Home + amenities page — JG-style hover facility cards, Giving City content. */
+/**
+ * Home "inside your chalet" cards + the amenities page chapters. Everything here is
+ * inside the chalet's own walls (the unit plan, content/master-plan.ts); shared
+ * compound places and services live on /amenities and /services.
+ */
 
 export type AmenityFeature = {
   id: string;
-  icon: "pool" | "security" | "interior" | "kids" | "bbq" | "walls" | "parking" | "green";
+  icon: "pool" | "jacuzzi" | "interior" | "kids" | "bbq" | "walls" | "parking" | "green";
   titleAr: string;
   titleEn: string;
   tagsAr: string[];
@@ -20,10 +24,10 @@ export type AmenityFeature = {
 export const amenitiesIntro = {
   eyebrowAr: "المرافق",
   eyebrowEn: "Amenities",
-  titleAr: "عالم خاص، داخل مجتمعك.",
-  titleEn: "A private world, inside your community.",
-  subAr: "كل ما تحتاجه العائلة، داخل مجتمع خاص ومسوّر.",
-  subEn: "Everything a family needs, inside a private, gated community.",
+  titleAr: "عالمك الخاص، داخل شاليهك.",
+  titleEn: "Your own world, inside your chalet.",
+  subAr: "كل ما تحتاجه العائلة خلف جدران شاليهك، لك وحدك.",
+  subEn: "Everything a family needs behind your chalet’s own walls, yours alone.",
 } as const;
 
 export const amenityFeatures: AmenityFeature[] = [
@@ -37,25 +41,10 @@ export const amenityFeatures: AmenityFeature[] = [
     tagsAr: ["مساحة الوحدة: ٥٠٠ م²", "مسبح كبير + مسبح أطفال"],
     tagsEn: ["Unit area: 500 m²", "Main pool + kids’ pool"],
     descAr:
-      "كل منتجع يتضمن مسبحاً خاصاً ومسبح أطفال. خصوصية كاملة داخل وحدتك، لا مشاركة مع الجيران.",
+      "كل شاليه يتضمن مسبحاً خاصاً ومسبح أطفال. خصوصية كاملة داخل وحدتك، لا مشاركة مع الجيران.",
     descEn:
       "Every resort includes a private main pool and kids’ pool. Full privacy inside your unit, never shared with neighbors.",
     image: "/gallery/resortsPics/swimmer-pool-waterfall.png",
-  },
-  {
-    id: "security",
-    icon: "security",
-    shortAr: "مجتمع مسوّر بحراسة وكاميرات ليلًا ونهارًا.",
-    shortEn: "Gated, with guards and cameras day and night.",
-    titleAr: "أمن على مدار الساعة",
-    titleEn: "24/7 security",
-    tagsAr: ["مجتمع مسوّر", "حراسة وكاميرات"],
-    tagsEn: ["Gated community", "Guards & cameras"],
-    descAr:
-      "حراسة أمنية وكاميرات مراقبة على مدار الساعة. مجتمع مغلق يمنحك راحة البال لعائلتك واستثمارك.",
-    descEn:
-      "Round-the-clock guards and CCTV. A gated community that protects your family and your investment.",
-    image: "/gallery/compoundPics/security-guards-patrol-compound-o.png",
   },
   {
     id: "interior",
@@ -73,19 +62,19 @@ export const amenityFeatures: AmenityFeature[] = [
     image: "/gallery/resortsPics/family-living-room.png",
   },
   {
-    id: "kids",
-    icon: "kids",
-    shortAr: "أماكن لعب آمنة قريبة من البيت.",
-    shortEn: "Safe places to play, close to home.",
-    titleAr: "مناطق الأطفال",
-    titleEn: "Children’s areas",
-    tagsAr: ["مساحات لعب آمنة"],
-    tagsEn: ["Safe play spaces"],
+    id: "jacuzzi",
+    icon: "jacuzzi",
+    shortAr: "جاكوزي خاص وحمامات بتشطيبات إيطالية.",
+    shortEn: "A private jacuzzi and Italian-finish baths.",
+    titleAr: "جاكوزي وحمامات فاخرة",
+    titleEn: "Jacuzzi & fine bathrooms",
+    tagsAr: ["جاكوزي خاص", "تشطيبات إيطالية"],
+    tagsEn: ["Private jacuzzi", "Italian finishes"],
     descAr:
-      "مساحات لعب آمنة قريبة من المنازل: راحة للعائلات دون الابتعاد عن خصوصية الوحدة.",
+      "جاكوزي خاص في الجناح الرئيسي، وحمامات بتشطيبات إيطالية، لاسترخاء دون مغادرة البيت.",
     descEn:
-      "Safe play spaces close to home: family comfort without leaving unit privacy behind.",
-    image: "/gallery/compoundPics/kids-cycling-community-street.png",
+      "A private jacuzzi in the master suite and bathrooms with Italian finishes: unwind without leaving home.",
+    image: "/gallery/resortsPics/bathroom-jacuzzi-tub.png",
   },
   {
     id: "bbq",
@@ -97,10 +86,40 @@ export const amenityFeatures: AmenityFeature[] = [
     tagsAr: ["جلسات خارجية", "شواء خاص"],
     tagsEn: ["Outdoor seating", "Private BBQ"],
     descAr:
-      "برجولات ومناطق شواء لكل وحدة: أسلوب حياة خارجي فاخر بجانب المسبح والحديقة الخاصة.",
+      "برجولا وشواء خاص وطاولة لثمانية أشخاص بجانب مسبحك، أسلوب حياة خارجي داخل شاليهك.",
     descEn:
-      "Pergolas and BBQ for every unit: outdoor living beside your private pool and garden.",
+      "Your own pergola, grill and a table for eight beside your pool: outdoor living inside your chalet.",
     image: "/gallery/resortsPics/father-son-bbq-grill.png",
+  },
+  {
+    id: "kids",
+    icon: "kids",
+    shortAr: "عشب ومنزلق للأطفال على مرأى من المسبح.",
+    shortEn: "A lawn and slide for the kids, in sight of the pool.",
+    titleAr: "ركن أطفال خاص",
+    titleEn: "Kids’ own corner",
+    tagsAr: ["عشب ومنزلق", "شطرنج عملاق"],
+    tagsEn: ["Lawn & slide", "Giant chess"],
+    descAr:
+      "ملعب عشب بمنزلق ورقعة شطرنج عملاقة داخل شاليهك، يلعب فيها الأطفال وأنت تراهم من المسبح.",
+    descEn:
+      "A lawn with a slide and a giant chessboard inside your chalet, where the kids play in sight of the pool.",
+    image: "/gallery/resortsPics/foosball-kids-pool.png",
+  },
+  {
+    id: "green",
+    icon: "green",
+    shortAr: "مسطحات خضراء على جانبي البيت.",
+    shortEn: "Lawns on both sides of the house.",
+    titleAr: "حديقة خاصة",
+    titleEn: "Private garden",
+    tagsAr: ["على جانبي البيت", "جلسات وأرجوحة"],
+    tagsEn: ["Both sides of the house", "Seating & swing"],
+    descAr:
+      "مسطحات خضراء على جانبي البيت بجلسات وأرجوحة، حديقتك أنت داخل حدود الشاليه.",
+    descEn:
+      "Lawns on both sides of the house with seating and a swing: your own garden, inside the chalet’s boundary.",
+    image: "/gallery/resortsPics/garden-lounge-kids-swing.png",
   },
   {
     id: "walls",
@@ -112,39 +131,24 @@ export const amenityFeatures: AmenityFeature[] = [
     tagsAr: ["جدران بارتفاع ٣ أمتار"],
     tagsEn: ["3-meter perimeter walls"],
     descAr:
-      "جدران بارتفاع ٣ أمتار حول كل وحدة: خصوصية بصرية وصوتية تجعل منتجعك عالماً خاصاً بك.",
+      "جدران بارتفاع ٣ أمتار حول كل وحدة: خصوصية بصرية وصوتية تجعل شاليهك عالماً خاصاً بك.",
     descEn:
       "Three-meter walls around every unit: visual and acoustic privacy that makes your resort truly yours.",
-    image: "/gallery/resortsPics/garden-lounge-kids-swing.png",
+    image: "/gallery/resortsPics/family-entering-resort-front-door.png",
   },
   {
     id: "parking",
     icon: "parking",
-    shortAr: "كراج لسيارتين، ومواقف للزوار.",
-    shortEn: "A 2-car garage, plus visitor parking.",
+    shortAr: "كراج لسيارتين داخل حدود الشاليه.",
+    shortEn: "A 2-car garage inside the chalet’s walls.",
     titleAr: "مواقف السيارات",
     titleEn: "Parking",
-    tagsAr: ["كراج لسيارتين", "مواقف زوار"],
-    tagsEn: ["2-car garage", "Visitor parking"],
+    tagsAr: ["كراج لسيارتين", "داخل الأسوار"],
+    tagsEn: ["2-car garage", "Inside the walls"],
     descAr:
-      "كراج لسيارتين ضمن كل وحدة، مع مواقف مخصصة للزوار داخل المجتمع المسوّر.",
+      "كراج لسيارتين ضمن حدود الشاليه، خلف جدران الخصوصية، تصل منه إلى بيتك مباشرة.",
     descEn:
-      "A two-car garage in every unit, plus dedicated visitor parking inside the gated community.",
+      "A two-car garage within the chalet’s boundary, behind the privacy walls, straight to your front door.",
     image: "/gallery/resortsPics/family-arriving-resort-a9-garage.png",
-  },
-  {
-    id: "green",
-    icon: "green",
-    shortAr: "حدائق مخدومة في أنحاء المشروع.",
-    shortEn: "Serviced gardens across the whole site.",
-    titleAr: "مساحات خضراء وحدائق",
-    titleEn: "Green spaces & gardens",
-    tagsAr: ["٥٠٠,٠٠٠ م² إجمالي المشروع", "حدائق منسقة"],
-    tagsEn: ["500,000 m² total site", "Landscaped gardens"],
-    descAr:
-      "حدائق ومساحات خضراء مخدومة عبر المشروع، بيئة خارجية هادئة لجميع الأعمار.",
-    descEn:
-      "Serviced gardens and green spaces across the project, a calm outdoor setting for every age.",
-    image: "/gallery/compoundPics/community-park-families.png",
   },
 ];

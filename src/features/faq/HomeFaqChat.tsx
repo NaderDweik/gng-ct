@@ -8,14 +8,14 @@ import { useGSAP } from "@gsap/react";
 import { Link } from "@/i18n/navigation";
 import type { FaqItem } from "@/content/faq";
 import { basePriceJd, cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct } from "@/content/pricing";
-import { nearbyPlaces } from "@/content/location";
+import { royalDrive } from "@/content/location";
 import { site } from "@/content/site";
 import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 /*
- * Home FAQ as a conversation with a Giving City concierge
+ * Home FAQ as a conversation with a Giving Compound concierge
  * (styles: styles/sections/faq-chat.css).
  *   Questions are chips; picking one sends it as the visitor's message, the
  *   concierge types, then answers word by word — and each answer carries a
@@ -35,7 +35,7 @@ const copy = {
     title: "Ask us anything.",
     lead: "The questions we hear most, answered by our concierge in seconds.",
     pick: "Pick a question",
-    name: "Giving City Concierge",
+    name: "Giving Compound Concierge",
     status: "Online · replies instantly",
     welcome: "Welcome! Pick any question and I’ll answer right away, or ask me your own below.",
     placeholder: "Ask your own question…",
@@ -47,7 +47,7 @@ const copy = {
     km: "km",
     min: "min",
     royal: "Le Royal",
-    home: "Giving City",
+    home: "Giving Compound",
     installments: "Installments",
     cash: "Cash",
     deed: "Title deed",
@@ -58,8 +58,6 @@ const copy = {
     stamp: "Tabou",
     interest: "interest",
     noBank: "Direct with the company, no bank in between.",
-    withDown: "With down",
-    noDown: "No down",
     perMonth: "/ month",
     off: "off",
     monthly: "Monthly installment",
@@ -69,7 +67,7 @@ const copy = {
     title: "اسألنا ما تشاء.",
     lead: "أكثر الأسئلة التي نسمعها، يجيب عنها مستشارنا في ثوانٍ.",
     pick: "اختر سؤالًا",
-    name: "مستشار Giving City",
+    name: "مستشار Giving Compound",
     status: "متصل · يرد فورًا",
     welcome: "أهلًا بك! اختر أي سؤال وسأجيبك فورًا، أو اكتب سؤالك في الأسفل.",
     placeholder: "اكتب سؤالك…",
@@ -80,7 +78,7 @@ const copy = {
     km: "كم",
     min: "دقيقة",
     royal: "فندق الرويال",
-    home: "Giving City",
+    home: "Giving Compound",
     installments: "بالتقسيط",
     cash: "نقدًا",
     deed: "سند ملكية",
@@ -91,8 +89,6 @@ const copy = {
     stamp: "طابو",
     interest: "فوائد",
     noBank: "مباشرة مع الشركة، بدون أي بنك.",
-    withDown: "بدفعة أولى",
-    noDown: "بدون دفعة",
     perMonth: "شهريًا",
     off: "خصم",
     monthly: "القسط الشهري",
@@ -121,9 +117,8 @@ function countTo(el: Element | null, from: number, to: number, fmt: Fmt, delay: 
 
 function WhereVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const royal = nearbyPlaces.find((p) => p.id === "royal");
-  const km = royal?.km ?? 41;
-  const min = royal?.minutes ?? 55;
+  const km = royalDrive.km;
+  const min = royalDrive.minutes;
   useGSAP(
     () => {
       const q = gsap.utils.selector(ref);
@@ -296,10 +291,9 @@ function InterestVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number })
 
 function PlansVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  // Three ways to pay; the bar is what the chalet costs you in total.
+  // Two ways to pay; the bar is what the chalet costs you in total.
   const ways = [
-    { id: "withDown", label: c.withDown, fill: 100, value: `${fmt(monthlyPct)}%`, note: c.perMonth },
-    { id: "noDown", label: c.noDown, fill: 100, value: `${fmt(monthlyPct)}%`, note: c.perMonth },
+    { id: "installments", label: c.installments, fill: 100, value: `${fmt(monthlyPct)}%`, note: c.perMonth },
     { id: "cash", label: c.cash, fill: (cashPriceJd / basePriceJd) * 100, value: `${fmt(cashDiscountPct)}%`, note: c.off },
   ];
   useGSAP(

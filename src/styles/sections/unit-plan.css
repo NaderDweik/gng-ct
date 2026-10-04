@@ -1,51 +1,86 @@
-/* ── /units plan panel + room tiles + facts bar. Markup: features/units/UnitPlanFeatures.tsx ── */
-.up-grid {
-  display: grid;
-  gap: clamp(1rem, 1.6vw, 1.25rem);
-}
-
+/* ── /units plan + room tiles + facts bar. Markup: features/units/UnitPlanFeatures.tsx ── */
+/* Plan + tiles: the master-plan explorer (variant "tiles") lays out the colour plan on
+   the start side and the room tiles on the end side; the plan fills its column. */
 @media (min-width: 1024px) {
-  .up-grid {
+  .mp-explorer.is-tiles {
     grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(1rem, 1.6vw, 1.25rem);
     align-items: stretch;
   }
-}
 
-/* The plan sits straight on the page, no frame. Its outer edges (garden plants) fade
-   into the background, and on desktop it bleeds a little past the container on the page
-   side so the planting reads as spilling out rather than cropped. */
-.up-plan {
-  --up-bleed: 0px;
-  display: grid;
-  place-items: center;
-  margin: 0;
-}
+  /* The cards run taller than the plan, so the plan stays in view beside them. */
+  .is-tiles .mp-map {
+    position: sticky;
+    top: 6.5rem;
+    align-self: start;
+  }
 
-.up-plan img {
-  display: block;
-  width: calc(100% + var(--up-bleed));
-  max-width: none;
-  height: auto;
-  /* Bleeds out on the page side only, never into the room cards beside it. */
-  margin-inline-start: calc(-1 * var(--up-bleed));
-  -webkit-mask-image:
-    linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%),
-    linear-gradient(180deg, transparent 0, #000 3%, #000 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%),
-    linear-gradient(180deg, transparent 0, #000 3%, #000 100%);
-  mask-composite: intersect;
-}
-
-@media (min-width: 1024px) {
-  .up-plan {
-    --up-bleed: clamp(1.5rem, 3vw, 3rem);
-    padding-inline-end: clamp(0.5rem, 1.5vw, 1.25rem);
+  .is-tiles .mp-map-inner {
+    width: 100%;
+    max-width: none;
+    height: auto;
   }
 }
 
-/* Room tiles: interiors and outdoors as two columns of five. */
+/* Wide screens: the cards end where the plan ends. The tile column adds no height of its
+   own (height 0, min-height 100%), so the row is the plan's height and the cards fit it. */
+@media (min-width: 1280px) {
+  .is-tiles .mp-map {
+    position: static;
+  }
+
+  .is-tiles .up-groups {
+    height: 0;
+    min-height: 100%;
+    gap: 0.75rem;
+  }
+
+  .is-tiles .up-col,
+  .is-tiles .up-group {
+    gap: 0.5rem;
+  }
+
+  .is-tiles .up-col,
+  .is-tiles .up-group,
+  .is-tiles .up-tiles,
+  .is-tiles .up-tiles > li {
+    min-height: 0;
+  }
+
+  .is-tiles .up-tiles {
+    grid-auto-rows: minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  /* Number and title share the first line; the description runs under both. */
+  .is-tiles .up-tile {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-content: center;
+    align-items: baseline;
+    gap: 0.2rem 0.6rem;
+    padding: 0.5rem 0.9rem;
+    overflow: hidden;
+  }
+
+  .is-tiles .up-body {
+    grid-column: 1 / -1;
+  }
+
+  .is-tiles .up-title {
+    font-size: 1rem;
+  }
+
+  .is-tiles .up-body {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    overflow: hidden;
+  }
+}
+
+/* Room tiles: two columns of seven (interiors + terraces & gardens | outdoors). */
 .up-groups {
   display: grid;
   gap: clamp(1rem, 1.6vw, 1.25rem);
@@ -57,7 +92,15 @@
   }
 }
 
+.up-col {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 1.6vw, 1.25rem);
+}
+
+/* flex-grow is set inline to the group's tile count, so every tile gets the same height. */
 .up-group {
+  flex-basis: 0;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -86,12 +129,41 @@
   list-style: none;
 }
 
+.up-tiles > li {
+  display: flex;
+}
+
+/* Each tile lights its space up on the plan (hover / focus / tap). */
 .up-tile {
   display: grid;
+  flex: 1;
   align-content: start;
   gap: 0.3rem;
   padding: clamp(0.9rem, 1.4vw, 1.15rem);
+  border: 1px solid transparent;
   background: var(--surface-alt);
+  text-align: start;
+  cursor: pointer;
+  transition:
+    background-color 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+
+.up-tile:hover,
+.up-tile.is-active {
+  border-color: var(--primary-ink);
+  background: var(--surface-tint);
+}
+
+.up-tile:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.up-num,
+.up-title,
+.up-body {
+  display: block;
 }
 
 .up-num {

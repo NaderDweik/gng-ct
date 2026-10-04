@@ -10,6 +10,9 @@ import {
   masterPlanMapSize as MAP,
   masterPlanMapSrc,
   masterPlanZones,
+  planItem,
+  unitPlanPanel,
+  unitPlanColumns,
   type PlanArea,
   type PlanItem,
 } from "@/content/master-plan";
@@ -38,12 +41,24 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  * Entrance (only when it starts below the fold): the plan arrives as a
  * blueprint and a scan line sweeps it into the full render.
  * Reduced motion: no wandering, no sweep — hover and tap still highlight.
+ *
+ * variant "tiles" (/units): the room cards (two columns, styles:
+ * styles/sections/unit-plan.css) take the list's place beside the plan.
+ *
+ * `defaultId`: the space shown before the visitor explores (after the entrance,
+ * between tutorial steps). Once they've explored, leaving the plan and cards
+ * returns it to no selection.
  */
 
-type Props = { locale: string };
+type Props = { locale: string; variant?: "list" | "tiles"; defaultId?: string };
 
-const items: PlanItem[] = masterPlanZones.flatMap((z) => z.items);
-const numberOf = new Map(items.map((it, i) => [it.id, i + 1]));
+const pick = (ids: readonly string[]) => ids.map(planItem).filter((it): it is PlanItem => Boolean(it));
+const listItems: PlanItem[] = masterPlanZones.flatMap((z) => z.items);
+const tileColumns = unitPlanColumns.map((col) => col.map((g) => ({ label: g.label, items: pick(g.ids) })));
+const tileItems: PlanItem[] = tileColumns.flat().flatMap((g) => g.items);
+const numbering = (list: PlanItem[]) => new Map(list.map((it, i) => [it.id, i + 1]));
+const listNumbers = numbering(listItems);
+const tileNumbers = numbering(tileItems);
 
 /** First-visit tutorial: the light visits these, in order, once. */
 const TUTORIAL = ["pool", "living", "lounge"];
@@ -85,9 +100,12 @@ const holes = (areas: readonly PlanArea[]) => {
   ].join(", ")})`;
 };
 
-export function PlanExplorer({ locale }: Props) {
+export function PlanExplorer({ locale, variant = "list", defaultId }: Props) {
   const isAr = locale === "ar";
   const copy = masterPlanCopy[isAr ? "ar" : "en"];
+  const tiles = variant === "tiles";
+  const items = tiles ? tileItems : listItems;
+  const numberOf = tiles ? tileNumbers : listNumbers;
   const [hovered, setHovered] = useState<string | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   const [wander, setWander] = useState<string | null>(null);
@@ -95,11 +113,13 @@ export function PlanExplorer({ locale }: Props) {
   const [explored, setExplored] = useState(false);
   /** Tutorial finished → "your turn" prompt, until the visitor explores. */
   const [yourTurn, setYourTurn] = useState(false);
+  /** False while the blueprint entrance plays — the default space waits for it. */
+  const [ready, setReady] = useState(true);
   const rootRef = useRef<HTMLDivElement>(null);
   const selectedRef = useRef<string | null>(null);
   const pauseRef = useRef<() => void>(() => {});
 
-  const activeId = hovered ?? selected ?? wander;
+  const activeId = hovered ?? selected ?? wander ?? (ready && !explored ? defaultId : undefined) ?? null;
   const active = items.find((it) => it.id === activeId) ?? null;
 
   // Keep the last geometry while fading out, so the tag/cut-outs don't collapse.
@@ -113,7 +133,8 @@ export function PlanExplorer({ locale }: Props) {
     if (selected) pauseRef.current();
   }, [selected]);
 
-  const n = (v: number) => formatNumber(v, locale).padStart(isAr ? 0 : 2, "0");
+  const n = (v: number) =>
+    tiles ? formatNumber(v, locale).padStart(2, isAr ? "٠" : "0") : formatNumber(v, locale).padStart(isAr ? 0 : 2, "0");
   const title = (it: PlanItem) => (isAr ? it.titleAr : it.titleEn);
   const num = (it: PlanItem) => n(numberOf.get(it.id) ?? 0);
 
@@ -190,6 +211,7 @@ export function PlanExplorer({ locale }: Props) {
       // ── Entrance: blueprint → render (only if it starts off-screen). ──
       if (inner.getBoundingClientRect().top > window.innerHeight * 0.9) {
         introDone = false;
+        setReady(false);
         const bp = q(".mp-blueprint")[0]!;
         const scan = q(".mp-scan")[0]!;
         gsap.set(bp, { autoAlpha: 1, clipPath: "inset(0% 0% 0% 0%)" });
@@ -202,6 +224,7 @@ export function PlanExplorer({ locale }: Props) {
             scrollTrigger: { trigger: inner, start: "top 78%", once: true },
             onComplete: () => {
               introDone = true;
+              setReady(true);
               start();
             },
           })
@@ -246,7 +269,13 @@ export function PlanExplorer({ locale }: Props) {
 
   const toggle = (id: string) => setSelected((cur) => (cur === id ? null : id));
   const hover = (id: string) => ({
-    onPointerEnter: (e: PointerEvent) => e.pointerType === "mouse" && setHovered(id),
+    onPointerEnter: (e: PointerEvent) => {
+      if (e.pointerType !== "mouse") return;
+      setHovered(id);
+      // Hovering a space (or its list entry / card) is exploring: the tutorial and prompt step aside.
+      pauseRef.current();
+      setExplored(true);
+    },
     onPointerLeave: (e: PointerEvent) => e.pointerType === "mouse" && setHovered(null),
   });
   const control = (id: string) => ({
@@ -266,7 +295,9 @@ export function PlanExplorer({ locale }: Props) {
   return (
     <div
       ref={rootRef}
-      className={`mp-explorer${active ? " is-focused" : ""}${wander && !hovered && !selected ? " is-auto" : ""}${yourTurn && !explored ? " is-your-turn" : ""}`}
+      /* A mouse leaving the plan and its list/cards lets go of any clicked space. */
+      onPointerLeave={(e) => e.pointerType === "mouse" && setSelected(null)}
+      className={`mp-explorer${tiles ? " is-tiles" : ""}${active ? " is-focused" : ""}${wander && !hovered && !selected ? " is-auto" : ""}${yourTurn && !explored ? " is-your-turn" : ""}`}
     >
       <figure className="mp-map" aria-label={copy.mapAlt}>
         <div className="mp-dims" aria-hidden>
@@ -369,49 +400,79 @@ export function PlanExplorer({ locale }: Props) {
             )}
           </div>
         </div>
-        <figcaption className="mp-caption">{copy.caption}</figcaption>
+        {!tiles && <figcaption className="mp-caption">{copy.caption}</figcaption>}
       </figure>
 
-      <div className="mp-panel">
-        <div className="mp-detail" aria-live="polite">
-          {active ? (
-            <div key={active.id} className="mp-detail-inner">
-              <span className="mp-detail-num">{num(active)}</span>
-              <h3 className="mp-detail-title">{title(active)}</h3>
-              <p className="mp-detail-body">{isAr ? active.bodyAr : active.bodyEn}</p>
+      {tiles ? (
+        <div className="up-groups">
+          {tileColumns.map((col, c) => (
+            <div key={c} className="up-col">
+              {col.map((g) => (
+                <div key={g.label} className="up-group" style={{ flexGrow: g.items.length }}>
+                  <p className="up-group-label">{unitPlanPanel[isAr ? "ar" : "en"][g.label]}</p>
+                  <ul className="up-tiles">
+                    {g.items.map((it) => (
+                      <li key={it.id}>
+                        <button
+                          type="button"
+                          className={`up-tile${it.id === activeId ? " is-active" : ""}`}
+                          aria-pressed={it.id === selected}
+                          {...control(it.id)}
+                        >
+                          <span className="up-num">{num(it)}</span>
+                          <span className="up-title">{title(it)}</span>
+                          <span className="up-body">{isAr ? it.bodyAr : it.bodyEn}</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
-          ) : (
-            <p className="mp-detail-hint">{copy.explorerHint}</p>
+          ))}
+        </div>
+      ) : (
+        <div className="mp-panel">
+          <div className="mp-detail" aria-live="polite">
+            {active ? (
+              <div key={active.id} className="mp-detail-inner">
+                <span className="mp-detail-num">{num(active)}</span>
+                <h3 className="mp-detail-title">{title(active)}</h3>
+                <p className="mp-detail-body">{isAr ? active.bodyAr : active.bodyEn}</p>
+              </div>
+            ) : (
+              <p className="mp-detail-hint">{copy.explorerHint}</p>
+            )}
+          </div>
+
+          {masterPlanZones.map((z) => (
+            <div key={z.id} className="mp-zone">
+              <h3 className="mp-zone-title">{isAr ? z.titleAr : z.titleEn}</h3>
+              <ul className="mp-list">
+                {z.items.map((it) => (
+                  <li key={it.id}>
+                    <button
+                      type="button"
+                      className={`mp-item${it.id === activeId ? " is-active" : ""}`}
+                      aria-pressed={it.id === selected}
+                      {...control(it.id)}
+                    >
+                      <span className="mp-item-num">{num(it)}</span>
+                      <span className="mp-item-title">{title(it)}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          {selected && (
+            <button type="button" className="mp-reset" onClick={() => setSelected(null)}>
+              {copy.reset}
+            </button>
           )}
         </div>
-
-        {masterPlanZones.map((z) => (
-          <div key={z.id} className="mp-zone">
-            <h3 className="mp-zone-title">{isAr ? z.titleAr : z.titleEn}</h3>
-            <ul className="mp-list">
-              {z.items.map((it) => (
-                <li key={it.id}>
-                  <button
-                    type="button"
-                    className={`mp-item${it.id === activeId ? " is-active" : ""}`}
-                    aria-pressed={it.id === selected}
-                    {...control(it.id)}
-                  >
-                    <span className="mp-item-num">{num(it)}</span>
-                    <span className="mp-item-title">{title(it)}</span>
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-
-        {selected && (
-          <button type="button" className="mp-reset" onClick={() => setSelected(null)}>
-            {copy.reset}
-          </button>
-        )}
-      </div>
+      )}
     </div>
   );
 }

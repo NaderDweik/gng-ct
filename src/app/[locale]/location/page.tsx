@@ -12,7 +12,7 @@ export default async function LocationPage({ params }: Props) {
 
   return (
     <>
-      <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
+      <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
       <section className="section bg-surface-tint">
         <div className="container-gc">
           <LocationShowcase />

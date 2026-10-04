@@ -6,18 +6,18 @@ export const masterPlanMapSize = { width: 952, height: 1024 } as const;
 export const masterPlanCopy = {
   ar: {
     eyebrow: "المخطط العام",
-    title: "٥٠٠ م² من المنتجع الخاص، مخطّطة بعناية.",
+    title: "٥٠٠ م² من الشاليه الخاص، مخطّطة بعناية.",
     lead: "داخلٌ مدروس، ومسبح في قلب الساحة، ومعيشة خارجية، وخصوصية تامة، داخل مجتمع مسوّر.",
-    mapAlt: "مخطط المنتجع الخاص: الطابق والموقع",
+    mapAlt: "مخطط الشاليه الخاص: الطابق والموقع",
     explorerEyebrow: "استكشف المخطط",
     explorerTitle: "كل ركن، في مكانه.",
     explorerHint: "مرّر فوق أي مساحة في المخطط، أو اخترها من القائمة.",
-    caption: "مخطط وحدة المنتجع · ٥٠٠ م² · سند ملكية مستقل",
+    caption: "مخطط وحدة الشاليه · ٥٠٠ م² · سند ملكية مستقل",
     reset: "عرض المخطط كاملًا",
     turnHover: "الآن دورك: اكتشف المخطط",
     turnTap: "الآن دورك: المس أي مساحة",
     turnSub: "كل مساحة تُضاء وتحكي قصتها.",
-    dims: "٥٠٠ م² · منتجع خاص",
+    dims: "٥٠٠ م² · شاليه خاص",
   },
   en: {
     eyebrow: "Master plan",
@@ -207,19 +207,23 @@ export const masterPlanZones: PlanZone[] = [
 ];
 
 /**
- * /units "plan with features" section (features/units/UnitPlanFeatures): the teal unit
- * plan in the middle, rows either side. Rows reuse the explorer items above by id.
+ * /units "plan with features" section (features/units/UnitPlanFeatures): the explorer's
+ * plan with these room tiles beside it. Tiles reuse the explorer items above by id.
  */
-export const unitPlanImage = { src: "/plans/unit-plan.svg", width: 989, height: 1059 } as const;
-export const unitPlanRows = {
-  start: ["living", "kitchen", "master", "bedrooms", "baths"],
-  end: ["pool", "lounge", "bbq", "kids", "parking"],
-} as const;
+/** Two columns of seven: every explorer item, grouped under the `unitPlanPanel` labels. */
+export const unitPlanColumns = [
+  [
+    { label: "inside", ids: ["living", "kitchen", "master", "bedrooms", "baths"] },
+    { label: "terraces", ids: ["terraces", "gardens"] },
+  ],
+  [{ label: "outside", ids: ["pool", "lounge", "bbq", "garden-dining", "kids", "chess", "parking"] }],
+] as const;
 
 /** /units plan section: column labels for the room tiles and the facts bar under them. */
 export const unitPlanPanel = {
   en: {
     inside: "Inside the house",
+    terraces: "Terraces & gardens",
     outside: "Outdoors",
     facts: [
       { label: "Plot", value: "500 m²" },
@@ -231,6 +235,7 @@ export const unitPlanPanel = {
   },
   ar: {
     inside: "داخل المنزل",
+    terraces: "الشرفات والحدائق",
     outside: "المساحات الخارجية",
     facts: [
       { label: "المساحة", value: "٥٠٠ م²" },

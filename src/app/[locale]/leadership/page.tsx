@@ -9,7 +9,7 @@ import type { LocalePageProps } from "@/i18n/types";
 type Props = LocalePageProps;
 
 /** Drop the founder portrait here (portrait orientation, ~1200×1500). */
-const FOUNDER_PHOTO = "/leadership/tarek-qazan.jpg";
+const FOUNDER_PHOTO = "/leadership/newimg-tarek-qazan.jpeg";
 
 
 /** The founder's own three principles, in his words. */
@@ -34,7 +34,7 @@ export default async function LeadershipPage({ params }: Props) {
 
   return (
     <>
-      <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
+      <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
 
       <section className="leader-hero">
         <div className="container-gc grid items-center gap-10 pb-16 pt-12 md:pt-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:pb-20">
@@ -71,7 +71,7 @@ export default async function LeadershipPage({ params }: Props) {
 
             <blockquote className="leader-quote reveal" style={{ animationDelay: "180ms" }}>
               {isAr
-                ? "رؤيتنا بسيطة: أن يمتلك كل مشترٍ منتجعه الخاص بسند مستقل، داخل مجتمع مخدوم بالكامل، وبتمويل مباشر بدون فوائد."
+                ? "رؤيتنا بسيطة: أن يمتلك كل مشترٍ شاليهه الخاص بسند مستقل، داخل مجتمع مخدوم بالكامل، وبتمويل مباشر بدون فوائد."
                 : "Our vision is simple: every buyer owns a private resort with an independent deed, inside a fully serviced community, with direct zero-interest financing."}
             </blockquote>
 
@@ -79,7 +79,7 @@ export default async function LeadershipPage({ params }: Props) {
               <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                 {tc("whatsapp")}
               </a>
-              <a href={site.social.instagramCorp} target="_blank" rel="noopener noreferrer" className="btn btn-ghost-dark">
+              <a href={site.social.instagram} target="_blank" rel="noopener noreferrer" className="btn btn-ghost-dark">
                 Instagram
               </a>
             </div>

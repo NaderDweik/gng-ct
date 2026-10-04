@@ -1,4 +1,4 @@
-/* ── Home "A day at Giving City": Day / Night bento. Markup: features/gallery/GalleryDay.tsx ── */
+/* ── Home "A day at Giving Compound": Day / Night bento. Markup: features/gallery/GalleryDay.tsx ── */
 .gd {
   padding-block: clamp(3rem, 6vh, 4.5rem);
   background: var(--surface-alt);

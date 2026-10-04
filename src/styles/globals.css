@@ -18,6 +18,7 @@
 @import "./base/motion.css";
 @import "./base/hover-accent.css";
 @import "./base/v-lines.css";
+@import "./base/video-player.css";
 
 @import "./sections/home.css";
 @import "./sections/gallery-mosaic.css";
@@ -44,4 +45,5 @@
 @import "./sections/article.css";
 @import "./sections/home-intro.css";
 @import "./sections/unit-plan.css";
+@import "./sections/services-directory.css";
 @import "./base/locale-switch.css";

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { type CSSProperties, useEffect, useMemo, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import {
@@ -53,7 +53,20 @@ function seededShuffle(list: readonly GalleryImage[], seed: number): GalleryImag
   return out;
 }
 
-const mixedImages = seededShuffle(galleryImages, 7);
+/** Kept out of the opening rows: shown after the rest of their tab. */
+const LATER = ["family-walk-compound-t", "compound-a-gate-motorbikes", "compound-j-guard-booth"];
+const isLater = (g: GalleryImage) => LATER.some((name) => g.src.includes(name));
+const laterLast = (list: GalleryImage[]) => [...list.filter((g) => !isLater(g)), ...list.filter(isLater)];
+
+const mixedImages = laterLast(seededShuffle(galleryImages, 23));
+/** Each category tab gets its own fixed shuffle too, so no tab reads as a sequence. */
+const categoryImages = (id: GalleryCategoryId) =>
+  laterLast(
+    seededShuffle(
+      galleryImages.filter((g) => g.categoryId === id),
+      11 + id.length,
+    ),
+  );
 
 export function GalleryGrid() {
   const locale = useLocale();
@@ -61,25 +74,69 @@ export function GalleryGrid() {
   const copy = isAr ? galleryCopy.ar : galleryCopy.en;
   const searchParams = useSearchParams();
   const [tab, setTab] = useState<GalleryCategoryId>("all");
+  /** The tab whose photos are on screen; trails `tab` while the old grid fades out. */
+  const [shown, setShown] = useState<GalleryCategoryId>("all");
+  const [leaving, setLeaving] = useState(false);
+  const swapTimer = useRef<number | null>(null);
+
+  // Switching tabs: the underline moves at once, the old photos fade out, then the
+  // new ones rise in. Reduced motion swaps straight away.
+  const pick = (next: GalleryCategoryId) => {
+    if (next === tab) return;
+    setTab(next);
+    if (swapTimer.current) window.clearTimeout(swapTimer.current);
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setShown(next);
+      return;
+    }
+    setLeaving(true);
+    swapTimer.current = window.setTimeout(() => {
+      setShown(next);
+      setLeaving(false);
+    }, 260);
+  };
+  useEffect(() => () => {
+    if (swapTimer.current) window.clearTimeout(swapTimer.current);
+  }, []);
   const [active, setActive] = useState<GalleryImage | null>(null);
   // Each photo's own width/height, read on load, so the lightbox frame matches it (no letterbox bars).
   const [ratios, setRatios] = useState<Record<string, number>>({});
   const touchX = useRef<number | null>(null);
   const touchDelta = useRef(0);
 
+  // One underline that slides from the old tab to the new one (re-measured on resize,
+  // since the tab row can wrap).
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const [line, setLine] = useState<{ x: number; y: number; w: number } | null>(null);
+  useLayoutEffect(() => {
+    const row = tabsRef.current;
+    if (!row) return;
+    const measure = () => {
+      const el = row.querySelector<HTMLElement>(".gal-tab.is-active");
+      if (el) setLine({ x: el.offsetLeft, y: el.offsetTop + el.offsetHeight, w: el.offsetWidth });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(row);
+    return () => ro.disconnect();
+  }, [tab, isAr]);
+
   useEffect(() => {
     const q = searchParams.get("tab");
     if (!q) return;
     const valid = q === "all" || galleryCategories.some((c) => c.id === q);
-    if (valid) setTab(q as GalleryCategoryId);
+    if (valid) {
+      setTab(q as GalleryCategoryId);
+      setShown(q as GalleryCategoryId);
+    }
   }, [searchParams]);
 
   const filtered = useMemo(
     () =>
-      tab === "all"
+      shown === "all"
         ? mixedImages
-        : galleryImages.filter((g) => g.categoryId === tab),
-    [tab],
+        : categoryImages(shown),
+    [shown],
   );
 
   const activeIndex = active ? filtered.findIndex((g) => g.id === active.id) : -1;
@@ -125,7 +182,7 @@ export function GalleryGrid() {
   return (
     <div className="gal" dir={isAr ? "rtl" : "ltr"}>
       <div className="container-gc">
-        <div className="gal-tabs" role="tablist" aria-label={copy.title}>
+        <div ref={tabsRef} className="gal-tabs" role="tablist" aria-label={copy.title}>
           {tabs.map((t) => {
             const on = tab === t.id;
             return (
@@ -134,23 +191,30 @@ export function GalleryGrid() {
                 type="button"
                 role="tab"
                 aria-selected={on}
-                onClick={() => setTab(t.id)}
+                onClick={() => pick(t.id)}
                 className={`gal-tab${on ? " is-active" : ""}`}
               >
                 {t.title}
               </button>
             );
           })}
+          {line && (
+            <span
+              className="gal-tabs-line"
+              style={{ transform: `translate(${line.x}px, ${line.y}px)`, width: line.w }}
+              aria-hidden
+            />
+          )}
         </div>
 
-        <div key={tab} className="gal-grid">
+        <div key={shown} className={`gal-grid${leaving ? " is-leaving" : ""}`}>
           {filtered.map((item, i) => (
             <button
               key={item.id}
               type="button"
               onClick={() => setActive(item)}
               className="gal-tile"
-              style={{ animationDelay: `${Math.min(i, 12) * 40}ms` }}
+              style={{ animationDelay: `${Math.min(i, 9) * 55}ms` }}
               aria-label={nameLabel(item)}
             >
               <Image
@@ -158,8 +222,8 @@ export function GalleryGrid() {
                 alt=""
                 fill
                 quality={88}
-                priority={i < 6 && tab === "all"}
-                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                priority={i < 6 && shown === "all"}
+                sizes="(max-width: 768px) 50vw, 33vw"
                 className="gal-tile-img"
               />
               <span className="gal-tile-hover" aria-hidden>

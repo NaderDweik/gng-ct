@@ -69,7 +69,7 @@ export default async function RegisterPage({ params }: Props) {
 
   return (
     <>
-      <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
+      <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
 
       <section className="register-body bg-surface-alt">
         <div className="container-gc grid items-stretch gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:gap-8">

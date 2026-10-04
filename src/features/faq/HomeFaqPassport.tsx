@@ -8,7 +8,7 @@ import { useGSAP } from "@gsap/react";
 import { Link } from "@/i18n/navigation";
 import type { FaqItem } from "@/content/faq";
 import { basePriceJd, cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct } from "@/content/pricing";
-import { nearbyPlaces } from "@/content/location";
+import { royalDrive } from "@/content/location";
 import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -17,7 +17,7 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 const MARK_INNER = GIVING_MARK_SVG.replace(/^<svg[^>]*>/, "").replace(/<\/svg>$/, "");
 
 /*
- * Home FAQ as the "Giving City passport" (styles: styles/sections/faq-passport.css).
+ * Home FAQ as the "Giving Compound passport" (styles: styles/sections/faq-passport.css).
  *   An open booklet: the left page carries the question and answer, the right
  *   page is a visa page. Choosing a question turns the page and that answer's
  *   own rubber stamp slams onto the visa page (ink texture, impact jolt, ink
@@ -49,19 +49,18 @@ type Stamp = {
 type Fmt = (v: number) => string;
 
 function stampsFor(isAr: boolean, fmt: Fmt): Record<string, Stamp> {
-  const royal = nearbyPlaces.find((p) => p.id === "royal");
-  const km = fmt(royal?.km ?? 41);
-  const min = fmt(royal?.minutes ?? 55);
+  const km = fmt(royalDrive.km);
+  const min = fmt(royalDrive.minutes);
   return isAr
     ? {
-        where: { shape: "circle", ink: "slate", ring: "من فندق الرويال · إلى Giving City ·", big: `${km} كم`, sub: `${min} دقيقة`, at: { x: 27, y: 25, r: -9 } },
-        price: { shape: "rect", ink: "gold", top: "سعر المنتجع", big: `${fmt(basePriceJd)} د.أ`, sub: `نقدًا −${fmt(cashDiscountPct)}٪ · ${fmt(cashPriceJd)}`, at: { x: 61, y: 22, r: 6 } },
+        where: { shape: "circle", ink: "slate", ring: "من فندق الرويال · إلى Giving Compound ·", big: `${km} كم`, sub: `${min} دقيقة`, at: { x: 27, y: 25, r: -9 } },
+        price: { shape: "rect", ink: "gold", top: "سعر الشاليه", big: `${fmt(basePriceJd)} د.أ`, sub: `نقدًا −${fmt(cashDiscountPct)}٪ · ${fmt(cashPriceJd)}`, at: { x: 61, y: 22, r: 6 } },
         deed: { shape: "circle", ink: "gold", ring: "سند ملكية مستقل · ٥٠٠ م² · باسمك ·", mark: true, sub: "طابو", at: { x: 33, y: 62, r: -5 } },
         interest: { shape: "oval", ink: "rust", top: "فوائد", big: `${fmt(0)}٪`, sub: "بدون بنك", at: { x: 72, y: 55, r: 11 } },
         plans: { shape: "rect", ink: "teal", top: "قسط شهري", big: `٪${fmt(monthlyPct)}`, sub: `${fmt(monthlyJd)} د.أ · بدفعة أو بدون`, at: { x: 55, y: 85, r: -6 } },
       }
     : {
-        where: { shape: "circle", ink: "slate", ring: "LE ROYAL · TO · GIVING CITY ·", big: `${km} km`, sub: `${min} min`, at: { x: 27, y: 25, r: -9 } },
+        where: { shape: "circle", ink: "slate", ring: "LE ROYAL · TO · GIVING COMPOUND ·", big: `${km} km`, sub: `${min} min`, at: { x: 27, y: 25, r: -9 } },
         price: { shape: "rect", ink: "gold", top: "PRICE PER RESORT", big: `${fmt(basePriceJd)} JD`, sub: `CASH −${cashDiscountPct}% · ${fmt(cashPriceJd)}`, at: { x: 61, y: 22, r: 6 } },
         deed: { shape: "circle", ink: "gold", ring: "INDEPENDENT DEED · 500 m² · IN YOUR NAME ·", mark: true, sub: "TABOU", at: { x: 33, y: 62, r: -5 } },
         interest: { shape: "oval", ink: "rust", top: "INTEREST", big: "0%", sub: "NO BANK", at: { x: 72, y: 55, r: 11 } },
@@ -76,12 +75,12 @@ const copy = {
     lead: "The questions we hear most, and each answer comes with our seal on it.",
     hint: "Tap a question to collect its stamp",
     collected: (n: string, t: string) => `${n} of ${t} stamped`,
-    passport: "Giving City · Passport",
+    passport: "Giving Compound · Passport",
     page: "Page",
     visas: "Visas",
     empty: "Your first stamp lands here",
     issued: "Answers issued by Al-Ataa · ISO 9001:2015",
-    approvedRing: "GIVING CITY · APPROVED · GIVING CITY · APPROVED ·",
+    approvedRing: "GIVING COMPOUND · APPROVED · GIVING COMPOUND · APPROVED ·",
     approvedSub: "READY TO VISIT",
     doneTitle: "You’ve got the essentials.",
     doneBody: "Now come and see it for real.",
@@ -94,12 +93,12 @@ const copy = {
     lead: "أكثر الأسئلة التي نسمعها، وكل إجابة تحمل ختمنا.",
     hint: "اضغط على سؤال لتحصل على ختمه",
     collected: (n: string, t: string) => `${n} من ${t} مختومة`,
-    passport: "جواز Giving City",
+    passport: "جواز Giving Compound",
     page: "صفحة",
     visas: "تأشيرات",
     empty: "هنا يُطبع ختمك الأول",
     issued: "إجابات صادرة عن شركة العطاء · ISO 9001:2015",
-    approvedRing: "Giving City · معتمد · Giving City · معتمد ·",
+    approvedRing: "Giving Compound · معتمد · Giving Compound · معتمد ·",
     approvedSub: "جاهز للزيارة",
     doneTitle: "أصبحت تعرف الأساسيات.",
     doneBody: "تعال الآن وشاهده على أرض الواقع.",

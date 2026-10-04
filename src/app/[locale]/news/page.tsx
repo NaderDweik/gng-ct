@@ -16,7 +16,7 @@ export default async function NewsPage({ params }: Props) {
 
   return (
     <>
-      <SubpageHeader eyebrow="Giving City" title={t("title")} subtitle={t("subtitle")} />
+      <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
       <section className="section">
         <div className="container-gc grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {articles.map((a) => (

@@ -188,7 +188,7 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
       icon: destIcon(
         L,
         isAr ? active.nameAr : active.nameEn,
-        isAr ? active.timeAr : active.timeEn,
+        isAr ? active.distanceAr : active.distanceEn,
         dir,
       ),
       keyboard: false,
@@ -297,7 +297,7 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
       ref={containerRef}
       dir="ltr"
       className="absolute inset-0 z-0 h-full w-full"
-      aria-label={isAr ? "خريطة موقع Giving City" : "Giving City location map"}
+      aria-label={isAr ? "خريطة موقع Giving Compound" : "Giving Compound location map"}
     />
   );
 }

@@ -1,0 +1,355 @@
+/* ── Branded video player. Markup + behaviour: components/ui/VideoPlayer.tsx ── */
+
+.vp {
+  --vp-accent: var(--brand-primary);
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #000;
+  color: var(--white);
+  isolation: isolate;
+}
+
+.vp:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.vp-stage {
+  position: absolute;
+  inset: 0;
+}
+
+.vp-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+/* YouTube: 3× taller than the frame and centred. The 16:9 picture fills the
+   frame exactly; YouTube's own chrome (title bar, logo, pause panel) sits in
+   the parts above and below, which the frame clips away. */
+.vp-yt {
+  position: absolute;
+  inset-inline: 0;
+  top: -100%;
+  height: 300%;
+  pointer-events: none;
+}
+
+.vp-yt iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* Fullscreen: keep a 16:9 frame centred on the screen so the crop still holds. */
+.vp.is-full {
+  aspect-ratio: auto;
+  display: grid;
+  place-items: center;
+}
+
+.vp.is-full .vp-stage {
+  inset: auto;
+  position: relative;
+  width: min(100vw, calc(100vh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.vp-shield {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.vp.is-idle .vp-shield {
+  cursor: none;
+}
+
+/* ── Poster ── */
+.vp-poster {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: #000;
+  color: inherit;
+  cursor: pointer;
+  transition:
+    opacity 0.6s var(--ease),
+    visibility 0.6s;
+}
+
+.vp.is-started .vp-poster {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.vp-poster-img {
+  object-fit: cover;
+  transition: transform 1.2s var(--ease);
+}
+
+.vp-poster:hover .vp-poster-img {
+  transform: scale(1.04);
+}
+
+.vp-poster-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 60% at 50% 50%, color-mix(in srgb, #000 10%, transparent), color-mix(in srgb, #000 45%, transparent)),
+    linear-gradient(to top, color-mix(in srgb, #000 70%, transparent), transparent 55%);
+}
+
+.vp-big-play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  width: clamp(4rem, 9vw, 5.5rem);
+  height: clamp(4rem, 9vw, 5.5rem);
+  margin: auto;
+  place-items: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--white) 16%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--white) 55%, transparent);
+  transition:
+    background-color 0.35s var(--ease),
+    transform 0.35s var(--ease);
+}
+
+.vp-big-play::before {
+  content: "";
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--white) 35%, transparent);
+  animation: vp-pulse 2.4s ease-out infinite;
+}
+
+@keyframes vp-pulse {
+  from { opacity: 0.9; transform: scale(0.9); }
+  to { opacity: 0; transform: scale(1.35); }
+}
+
+.vp-big-play svg {
+  width: 38%;
+  height: 38%;
+  margin-inline-start: 6%;
+  fill: var(--white);
+}
+
+[dir="rtl"] .vp-big-play svg {
+  margin-inline-start: 0;
+  margin-inline-end: 6%;
+}
+
+.vp-poster:hover .vp-big-play,
+.vp-poster:focus-visible .vp-big-play {
+  background: var(--vp-accent);
+  transform: scale(1.06);
+}
+
+.vp-poster:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: -4px;
+}
+
+.vp-poster-title {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+  font-family: var(--font-display);
+  font-size: clamp(1rem, 1.6vw, 1.2rem);
+  font-weight: 700;
+  text-align: start;
+  text-shadow: 0 2px 12px color-mix(in srgb, #000 50%, transparent);
+}
+
+[dir="rtl"] .vp-poster-title {
+  font-family: var(--font-body);
+}
+
+/* ── Loading ── */
+.vp-spinner {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin: auto;
+  border: 2.5px solid color-mix(in srgb, var(--white) 25%, transparent);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: vp-spin 0.8s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes vp-spin {
+  to { transform: rotate(1turn); }
+}
+
+/* ── Control bar ── */
+.vp-bar {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 2.5rem 0.75rem 0.6rem;
+  background: linear-gradient(to top, color-mix(in srgb, #000 72%, transparent), transparent);
+  transition:
+    opacity 0.45s var(--ease),
+    transform 0.45s var(--ease);
+}
+
+.vp.is-idle.is-playing .vp-bar {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+}
+
+.vp-btn {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  color: var(--white);
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease);
+}
+
+.vp-btn:hover {
+  background: color-mix(in srgb, var(--white) 16%, transparent);
+}
+
+.vp-btn:focus-visible,
+.vp-track:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+.vp-btn svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: currentColor;
+}
+
+.vp-btn .vp-stroke {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+[dir="rtl"] .vp-bar .vp-btn:first-child svg {
+  transform: scaleX(-1);
+}
+
+.vp-track {
+  position: relative;
+  flex: 1;
+  height: 1.5rem;
+  margin-inline: 0.5rem;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.vp-track::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--white) 28%, transparent);
+  transition: height 0.2s var(--ease), margin 0.2s var(--ease);
+}
+
+.vp-track-fill {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 50%;
+  height: 3px;
+  margin-top: -1.5px;
+  border-radius: 3px;
+  background: var(--vp-accent);
+  transition: height 0.2s var(--ease), margin 0.2s var(--ease);
+}
+
+.vp-track:hover::before,
+.vp-track:hover .vp-track-fill {
+  height: 5px;
+  margin-top: -2.5px;
+}
+
+.vp-track-knob {
+  position: absolute;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  margin: -6.5px 0 0 -6.5px;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--vp-accent) 55%, transparent);
+  transform: scale(0);
+  transition: transform 0.2s var(--ease);
+}
+
+[dir="rtl"] .vp-track-knob {
+  margin: -6.5px -6.5px 0 0;
+}
+
+.vp-track:hover .vp-track-knob,
+.vp-track:focus-visible .vp-track-knob {
+  transform: scale(1);
+}
+
+.vp-time {
+  flex-shrink: 0;
+  margin-inline-end: 0.35rem;
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  opacity: 0.9;
+}
+
+.vp-time i {
+  font-style: normal;
+  opacity: 0.55;
+}
+
+@media (max-width: 480px) {
+  .vp-time {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vp-big-play::before {
+    animation: none;
+  }
+
+  .vp-poster:hover .vp-poster-img {
+    transform: none;
+  }
+}

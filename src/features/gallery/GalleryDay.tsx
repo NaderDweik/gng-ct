@@ -9,7 +9,7 @@ import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { HoverBadge, HoverGlow } from "@/components/ui/HoverAccent";
 
 /*
- * Home "A day at Giving City" (styles: styles/sections/gallery-day.css).
+ * Home "A day at Giving Compound" (styles: styles/sections/gallery-day.css).
  * A static bento of seven scenes with a quiet Day / Night switch. Both sets are
  * stacked in every tile; the switch crossfades them tile by tile, the whole section
  * drops into its night palette and a crescent moon with stars slides in from the

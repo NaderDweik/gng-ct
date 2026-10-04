@@ -153,25 +153,139 @@
   background: var(--brand-accent);
 }
 
-.social-card {
-  position: relative;
-  display: block;
-  padding: 1.5rem;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  transition: border-color 0.35s var(--ease), transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+/* Social cards: a centred heading, then wide, low cards side by side. Each carries
+   its platform's logo, large and faded, behind the top corner. The hover is quiet:
+   a lift, a brand-green edge and a shadow. */
+.social-head {
+  display: grid;
+  justify-items: center;
+  margin-bottom: clamp(2rem, 4vw, 3rem);
+  text-align: center;
 }
 
-.social-card:hover {
-  transform: translateY(-4px);
-  border-color: color-mix(in srgb, var(--primary-ink) 35%, transparent);
-  box-shadow: var(--shadow-card);
+.social-head .section-title {
+  max-width: none;
+}
+
+.social-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.social-cards > li {
+  flex: 1 1 22rem;
+  max-width: 26rem;
+}
+
+.social-card {
+  --sc-color: var(--primary-ink);
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  height: 100%;
+  padding: 1.35rem 1.5rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  transition:
+    border-color 0.35s var(--ease),
+    transform 0.4s var(--ease),
+    box-shadow 0.4s var(--ease);
+}
+
+.social-card--instagram { --sc-color: #d62976; }
+.social-card--facebook { --sc-color: #1877f2; }
+.social-card--whatsapp { --sc-color: #1fa855; }
+
+/* Faded logo behind the top corner. */
+.social-card-mark {
+  position: absolute;
+  top: -1.75rem;
+  inset-inline-end: -1.25rem;
+  z-index: -1;
+  width: 7.5rem;
+  height: 7.5rem;
+  color: var(--sc-color);
+  opacity: 0.08;
+  stroke-width: 1.2;
+  transform: rotate(-12deg);
+  transition:
+    opacity 0.45s var(--ease),
+    transform 0.6s var(--ease);
+}
+
+[dir="rtl"] .social-card-mark {
+  transform: rotate(12deg);
+}
+
+.social-card-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--sc-color) 10%, transparent);
+  color: var(--sc-color);
+}
+
+.social-card-text {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+
+.social-card-label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.social-card-handle {
+  display: block;
+  margin-top: 0.2rem;
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Arabic: the site's Arabic face, a touch larger. */
+[dir="rtl"] .social-card-label {
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+}
+
+[dir="rtl"] .social-card-handle {
+  font-family: var(--font-body);
+  font-size: 1.3rem;
+}
+
+@media (max-width: 480px) {
+  .social-card {
+    padding-inline: 1.15rem;
+  }
+
+  .social-card-handle,
+  [dir="rtl"] .social-card-handle {
+    font-size: 1.05rem;
+  }
 }
 
 .social-card-arrow {
-  position: absolute;
-  top: 1.25rem;
-  inset-inline-end: 1.25rem;
+  flex-shrink: 0;
   color: var(--primary-ink);
   transition: transform 0.35s var(--ease);
 }
@@ -180,10 +294,37 @@
   transform: scaleX(-1);
 }
 
-.social-card:hover .social-card-arrow {
+.social-card:hover,
+.social-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--primary-ink) 40%, transparent);
+  box-shadow: var(--shadow-card);
+}
+
+.social-card:hover .social-card-mark,
+.social-card:focus-visible .social-card-mark {
+  opacity: 0.13;
+  transform: rotate(0deg) scale(1.06);
+}
+
+.social-card:hover .social-card-arrow,
+.social-card:focus-visible .social-card-arrow {
   transform: translate(3px, -3px);
 }
 
-[dir="rtl"] .social-card:hover .social-card-arrow {
+[dir="rtl"] .social-card:hover .social-card-arrow,
+[dir="rtl"] .social-card:focus-visible .social-card-arrow {
   transform: scaleX(-1) translate(3px, -3px);
+}
+
+.social-card:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .social-card,
+  .social-card-mark {
+    transition: none;
+  }
 }

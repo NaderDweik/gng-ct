@@ -48,7 +48,7 @@ export default async function HomePage({ params }: Props) {
   const destinations = [
     {
       href: "/units",
-      title: isAr ? "المنتجعات الخاصة" : "Private Resorts",
+      title: isAr ? "الشاليهات الخاصة" : "Private Resorts",
       headline: isAr ? "قمة الخصوصية المعاصرة" : "Contemporary privacy, elevated",
       desc: isAr
         ? "٥٠٠ م² بسند ملكية مستقل: غرف، مسابح، وخصوصية كاملة داخل مجتمع مسوّر."
@@ -71,8 +71,8 @@ export default async function HomePage({ params }: Props) {
       title: isAr ? "التمويل المرن" : "Flexible financing",
       headline: isAr ? "بدون فوائد، مباشرة مع الشركة" : "Zero interest, direct with us",
       desc: isAr
-        ? "أقساط ١٪ من السعر شهريًا، بدفعة أولى أو بدونها حسب الشاليه. تمويل مباشر بدون فوائد بنكية."
-        : "Installments of 1% of the price a month, with or without a down payment depending on the chalet. Direct financing with zero bank interest.",
+        ? "دفعة أولى تختارها ثم أقساط ١٪ من السعر شهريًا، أو خصم ٢٤٪ نقدًا. تمويل مباشر بدون فوائد بنكية."
+        : "A down payment you choose, then 1% of the price a month, or 24% off in cash. Direct financing with zero bank interest.",
       img: "/gallery/resortsPics/family-entering-resort-front-door.png",
       cta: isAr ? "خطط الدفع" : "Payment plans",
     },
@@ -83,7 +83,7 @@ export default async function HomePage({ params }: Props) {
       <HeroLayered />
       <ScrollReveal />
 
-      {/* About Giving City — annotated photo + intro */}
+      {/* About Giving Compound — annotated photo + intro */}
       <HomeIntro locale={locale} />
 
       {/* Destinations / projects overview — expanding cards */}
@@ -96,14 +96,14 @@ export default async function HomePage({ params }: Props) {
               </p>
               <h2 className="section-title mb-0">
                 {isAr
-                  ? "منتجع خاص، مجتمع مخدوم، وتمويل مرن."
+                  ? "شاليه خاص، مجتمع مخدوم، وتمويل مرن."
                   : "Private resort, serviced community, flexible financing."}
               </h2>
             </div>
             <p className="section-sub">
               {isAr
-                ? "مخطط واحد، ثلاث وجهات. الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في مجتمع Giving City."
-                : "One master plan, three destinations. Privacy, lifestyle, and flexible financing meet in Giving City."}
+                ? "مخطط واحد، ثلاث وجهات. الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في مجتمع Giving Compound."
+                : "One master plan, three destinations. Privacy, lifestyle, and flexible financing meet in Giving Compound."}
             </p>
           </div>
 
@@ -135,7 +135,7 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      {/* Gallery — a day at Giving City */}
+      {/* Gallery — a day at Giving Compound */}
       <GalleryDay locale={locale} ctaHref="/gallery" />
 
       {/* Amenities — all visible, no hover */}

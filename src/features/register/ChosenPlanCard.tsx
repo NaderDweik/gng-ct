@@ -1,7 +1,7 @@
 "use client";
 
 import { Link } from "@/i18n/navigation";
-import { basePriceJd, cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct, pricingPlans } from "@/content/pricing";
+import { basePriceJd, cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct } from "@/content/pricing";
 import { formatNumber } from "@/lib/format";
 import { usePlanChoice } from "@/features/register/usePlanChoice";
 
@@ -18,7 +18,6 @@ export function ChosenPlanCard({ locale, jd }: Props) {
   const n = (v: number) => formatNumber(v, locale);
   const pct = (v: number) => (isAr ? `${n(v)}٪` : `${v}%`);
   const choice = usePlanChoice();
-  const plan = pricingPlans.find((p) => p.id === choice);
 
   const Row = ({ k, v }: { k: string; v: string }) => (
     <div className="flex items-baseline justify-between gap-4 py-1.5">
@@ -62,14 +61,13 @@ export function ChosenPlanCard({ locale, jd }: Props) {
     );
   }
 
-  // Chosen: an installment plan
-  if (plan) {
-    const noDown = plan.id === "noDown";
+  // Chosen: installments
+  if (choice === "installments") {
     return (
       <div className="register-side register-side--dark" aria-live="polite">
         {eyebrow(isAr ? "خطتك المختارة" : "Your chosen plan")}
         <p className="font-display mt-2 text-2xl font-bold text-on-dark">
-          {isAr ? `التقسيط ${plan.labelAr}` : `Installments, ${plan.labelEn.toLowerCase()}`}
+          {isAr ? "التقسيط الشهري" : "Monthly installments"}
         </p>
         <p className="mt-3 text-sm text-on-dark-muted">{isAr ? "القسط الشهري" : "Monthly installment"}</p>
         <p className="font-display mt-1 text-4xl font-bold leading-none text-on-dark tabular-nums">
@@ -80,11 +78,8 @@ export function ChosenPlanCard({ locale, jd }: Props) {
         </p>
         <dl className="mt-4 border-t border-line-on-dark pt-3">
           <Row k={isAr ? "سعر الشاليه" : "Chalet price"} v={`${n(basePriceJd)} ${jd}`} />
-          <Row
-            k={isAr ? "الدفعة الأولى" : "Down payment"}
-            v={noDown ? `${n(0)} ${jd}` : isAr ? "حسب الشاليه" : "Per chalet"}
-          />
-          <Row k={isAr ? "التسليم" : "Handover"} v={isAr ? "حسب الشاليه" : "Per chalet"} />
+          <Row k={isAr ? "الدفعة الأولى" : "Down payment"} v={isAr ? "تختار قيمتها" : "Your choice"} />
+          <Row k={isAr ? "الاستلام" : "Handover"} v={isAr ? "حسب دفعتك الأولى" : "Set by your down payment"} />
         </dl>
         {change}
       </div>
