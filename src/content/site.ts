@@ -33,7 +33,7 @@ export const site = {
   },
   social: {
     instagram: "https://www.instagram.com/spiritgivingdevelopment/",
-    facebook: "https://www.facebook.com/alataa.giving/",
+    facebook: "https://www.facebook.com/SpiritGivingDevelopment/",
   },
   contact: "د. طارق قازان",
   contactEn: "Dr. Tarek Qazan",

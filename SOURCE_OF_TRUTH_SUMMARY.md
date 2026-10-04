@@ -23,7 +23,7 @@
 | Old site | https://giving-city.com/ |
 | Live domain | https://giving-estate.com |
 | IG | [@spiritgivingdevelopment](https://www.instagram.com/spiritgivingdevelopment/) |
-| FB | [alataa.giving](https://www.facebook.com/alataa.giving/) |
+| FB | [SpiritGivingDevelopment](https://www.facebook.com/SpiritGivingDevelopment/) |
 | Maps | https://maps.app.goo.gl/PNR3uYsjeDX92fqs7 · ~31.949722, 35.930111 |
 | Location | 41 km (~55 min) from Le Royal Hotel → Sahab Al-Hatmiyeh (سحاب الحطمية) · drive times: `content/location.ts` |
 

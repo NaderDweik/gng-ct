@@ -103,7 +103,7 @@ export default async function AboutPage({ params }: Props) {
 
   const socials = [
     { name: "instagram" as const, href: site.social.instagram, label: "Instagram", handle: "@spiritgivingdevelopment" },
-    { name: "facebook" as const, href: site.social.facebook, label: "Facebook", handle: "alataa.giving" },
+    { name: "facebook" as const, href: site.social.facebook, label: "Facebook", handle: "SpiritGivingDevelopment" },
     { name: "whatsapp" as const, href: site.whatsappUrl, label: "WhatsApp", handle: tc("whatsapp") },
   ];
 
@@ -210,7 +210,8 @@ export default async function AboutPage({ params }: Props) {
 
       {/* Leadership + ISO */}
       <section className="section on-dark bg-secondary text-on-dark">
-        <div className="container-gc grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
+        {/* The video column is wider than the copy so the ISO film reads at a good size. */}
+        <div className="container-gc grid items-center gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-14">
           <div>
             <p className="section-eyebrow">{isAr ? "القيادة والجودة" : "Leadership & quality"}</p>
             <h2 className="section-title">

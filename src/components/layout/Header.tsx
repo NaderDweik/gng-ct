@@ -12,6 +12,7 @@ const primaryNav = [
   { href: "/about", labelAr: "من نحن", labelEn: "About" },
   { href: "/gallery", labelAr: "المعرض", labelEn: "Gallery" },
   { href: "/units", labelAr: "الوحدات المتاحة", labelEn: "Units" },
+  { href: "/master-plan", labelAr: "المخطط العام", labelEn: "Master Plan" },
   { href: "/amenities", labelAr: "المرافق", labelEn: "Amenities" },
   { href: "/financing", labelAr: "التمويل", labelEn: "Financing" },
 ] as const;
@@ -40,6 +41,8 @@ export function Header() {
 
   return (
     <header
+      /* Pages opened from the header always start at the top (components/layout/ScrollMemory). */
+      data-scroll-fresh
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         solid
           ? "border-b border-line-on-dark bg-secondary shadow-header"

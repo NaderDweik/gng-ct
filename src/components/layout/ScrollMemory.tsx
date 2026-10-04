@@ -7,37 +7,69 @@ import { usePathname } from "@/i18n/navigation";
  * Site-wide scroll memory: coming back to a page — by link, Back/Forward or a
  * refresh — returns you to where you were on it, not the top.
  *   - Positions are kept per page (path + query, same for both languages) in
- *     sessionStorage, so they last for the visit.
+ *     sessionStorage, but only for the last RECENT pages visited: going back to
+ *     one of those returns you to your place; anything older opens at the top
+ *     (so a long trail of pages doesn't leave every page parked at its footer).
+ *     A refresh counts as the same page and keeps its place.
  *   - Saved continuously while you scroll, and frozen the moment you leave
  *     (link click / Back), so the next page's scroll-to-top can't overwrite it.
  *   - Restore retries briefly until the page is tall enough (late images,
  *     GSAP pin spacers) and stops if you start scrolling yourself.
  *   - Links to a #section still go to that section.
+ *   - Links inside a `[data-scroll-fresh]` area (the site header) always open the
+ *     page at its top and forget its old position.
  */
 
-const KEY = "gc-scroll-v1";
+const KEY = "gc-scroll-v2";
 const RETRY_MS = 60;
 const GIVE_UP_MS = 2500;
+/** How many previously visited pages keep their scroll position. */
+const RECENT = 3;
 
-type Store = Record<string, number>;
+/** `order`: pages by last visit, newest first (the current page leads). */
+type Store = { order: string[]; pos: Record<string, number> };
 
 const read = (): Store => {
   try {
-    return JSON.parse(sessionStorage.getItem(KEY) || "{}") as Store;
+    const s = JSON.parse(sessionStorage.getItem(KEY) || "null") as Store | null;
+    return s && Array.isArray(s.order) && s.pos ? s : { order: [], pos: {} };
   } catch {
-    return {};
+    return { order: [], pos: {} };
   }
 };
 
-const write = (page: string, y: number) => {
+const save = (s: Store) => {
   try {
-    const s = read();
-    s[page] = Math.round(y);
     sessionStorage.setItem(KEY, JSON.stringify(s));
   } catch {
     /* storage blocked — just no memory */
   }
 };
+
+const write = (page: string, y: number) => {
+  const s = read();
+  s.pos[page] = Math.round(y);
+  save(s);
+};
+
+/**
+ * Arriving on `page`: its remembered position if it is among the last RECENT pages
+ * visited (or is the page itself, on a refresh), else nothing. Then it becomes the
+ * newest page, and positions for pages that fall off the list are forgotten.
+ */
+const arrive = (page: string): number | undefined => {
+  const s = read();
+  const rank = s.order.indexOf(page);
+  const saved = rank >= 0 && rank < RECENT ? s.pos[page] : undefined;
+  s.order = [page, ...s.order.filter((p) => p !== page)].slice(0, RECENT + 1);
+  s.pos = Object.fromEntries(s.order.filter((p) => p in s.pos).map((p) => [p, s.pos[p]!]));
+  if (saved === undefined) delete s.pos[page];
+  save(s);
+  return saved;
+};
+
+/** Set by a click on a `[data-scroll-fresh]` link; the next page opens at the top. */
+let freshNext = false;
 
 export function ScrollMemory() {
   const pathname = usePathname();
@@ -69,12 +101,16 @@ export function ScrollMemory() {
       locked.current = true;
       // Safety: a click that doesn't change page (e.g. the language switch) unlocks again.
       window.clearTimeout(lockTimer.current);
-      lockTimer.current = window.setTimeout(() => (locked.current = false), 2000);
+      lockTimer.current = window.setTimeout(() => {
+        locked.current = false;
+        freshNext = false;
+      }, 2000);
     };
     const onClick = (e: MouseEvent) => {
       const a = (e.target as Element)?.closest?.("a[href]") as HTMLAnchorElement | null;
       if (!a || a.target === "_blank" || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
       if (a.origin !== window.location.origin) return;
+      freshNext = Boolean(a.closest("[data-scroll-fresh]"));
       freeze();
     };
 
@@ -96,7 +132,10 @@ export function ScrollMemory() {
     const page = `${pathname}${window.location.search}`;
     pageRef.current = page;
 
-    const saved = read()[page];
+    const fresh = freshNext;
+    freshNext = false;
+    const remembered = arrive(page);
+    const saved = fresh ? undefined : remembered;
     const unlock = () => {
       window.clearTimeout(lockTimer.current);
       locked.current = false;

@@ -295,8 +295,21 @@ export function PlanExplorer({ locale, variant = "list", defaultId }: Props) {
   return (
     <div
       ref={rootRef}
-      /* A mouse leaving the plan and its list/cards lets go of any clicked space. */
-      onPointerLeave={(e) => e.pointerType === "mouse" && setSelected(null)}
+      /* A mouse anywhere over the plan or its list/cards ends the tour for good; leaving
+         the whole area clears every highlight, back to the plain plan. */
+      onPointerEnter={(e) => {
+        if (e.pointerType !== "mouse") return;
+        pauseRef.current();
+        setExplored(true);
+      }}
+      onPointerLeave={(e) => {
+        if (e.pointerType !== "mouse") return;
+        pauseRef.current();
+        setExplored(true);
+        setHovered(null);
+        setSelected(null);
+        setWander(null);
+      }}
       className={`mp-explorer${tiles ? " is-tiles" : ""}${active ? " is-focused" : ""}${wander && !hovered && !selected ? " is-auto" : ""}${yourTurn && !explored ? " is-your-turn" : ""}`}
     >
       <figure className="mp-map" aria-label={copy.mapAlt}>

@@ -26,9 +26,10 @@
   content: "";
   position: absolute;
   inset: 0;
+  /* Light overall shade so the photos stay clear, deeper only behind the centred copy. */
   background:
-    linear-gradient(color-mix(in srgb, var(--overlay) 28%, transparent) 0%, color-mix(in srgb, var(--overlay) 58%, transparent) 100%),
-    linear-gradient(90deg, color-mix(in srgb, var(--overlay) 72%, transparent) 0%, color-mix(in srgb, var(--overlay) 28%, transparent) 100%);
+    radial-gradient(55% 65% at 50% 50%, color-mix(in srgb, var(--overlay) 50%, transparent), transparent 80%),
+    linear-gradient(color-mix(in srgb, var(--overlay) 18%, transparent) 0%, color-mix(in srgb, var(--overlay) 40%, transparent) 100%);
 }
 
 .register-cta-inner {
@@ -45,6 +46,14 @@
 
 .register-cta-inner .section-sub {
   margin-bottom: 2rem;
+}
+
+/* The photos are only lightly shaded, so the copy carries its own soft shadow. */
+.register-cta-inner .section-eyebrow,
+.register-cta-inner .section-title,
+.register-cta-inner .section-sub {
+  color: var(--on-dark);
+  text-shadow: 0 2px 18px color-mix(in srgb, #000 55%, transparent);
 }
 
 .register-cta-btn {

@@ -15,7 +15,7 @@
 - **English Name:** Al-Ataa for City Development & Financing
 - **Project/Brand Name:** Giving Compound / Giving Compound Resorts / روح العطاء للتطوير العقاري
 - **Instagram:** [@spiritgivingdevelopment](https://www.instagram.com/spiritgivingdevelopment/)
-- **Facebook:** [alataa.giving](https://www.facebook.com/alataa.giving/)
+- **Facebook:** [SpiritGivingDevelopment](https://www.facebook.com/SpiritGivingDevelopment/)
 - **WhatsApp:** +962790029928
 - **Phone:** +962790029928
 - **Current Website:** [giving-city.com](https://giving-city.com/)
@@ -375,7 +375,7 @@ The current website is a **single-page site** with the following sections:
 - Content includes: construction progress, finished resort photos, reels/videos, promotional posts
 - Messaging themes: luxury, privacy, investment, first-in-the-Middle-East, Spanish design
 
-### Facebook (alataa.giving)
+### Facebook (SpiritGivingDevelopment)
 - Company page for Al-Ataa development
 - Used for marketing and lead generation
 
@@ -516,7 +516,7 @@ The project already has presence on external platforms:
 | Website | [giving-city.com](https://giving-city.com/) | Current single-page site (being replaced) |
 | **New Domain** | **giving-estate.com** | The new website domain |
 | Instagram | [@spiritgivingdevelopment](https://www.instagram.com/spiritgivingdevelopment/) | Active — photos, reels, promotions |
-| Facebook | [alataa.giving](https://www.facebook.com/alataa.giving/) | Company page |
+| Facebook | [SpiritGivingDevelopment](https://www.facebook.com/SpiritGivingDevelopment/) | Company page |
 | Tripadvisor | [Giving Compound - Amman](https://www.tripadvisor.in/Hotel_Review-g293986-d34265838-Reviews-Giving_City-Amman_Amman_Governorate.html) | Listed, no reviews yet, has 5 photos |
 | Booking.com | Listed via Tripadvisor aggregation | Price range ~$534/night shown |
 | WhatsApp | [wa.me/962790029928](https://wa.me/962790029928) | Primary communication channel |

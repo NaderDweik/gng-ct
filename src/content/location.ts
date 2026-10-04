@@ -48,15 +48,16 @@ const place = (p: Omit<NearbyPlace, "distanceAr" | "distanceEn">): NearbyPlace =
 });
 
 /**
- * The places and routes we measure from, nearest first (company figures).
+ * The places and routes we measure from (company figures), in the order the
+ * map lists and tours them.
  * Road endpoints sit where each route reaches its road: Al-Qastal on the airport
  * road, the Development Corridor (100 Street) by Al-Dhuhaybah.
  */
 export const nearbyPlaces: NearbyPlace[] = [
-  place({ id: "amra", nameAr: "طريق عمرة عبر الحاتمية", nameEn: "Amra Road via Al-Hatimiyah", km: 12, coords: { lat: 31.8065, lng: 36.2808 } }),
   place({ id: "street100", nameAr: "شارع المية عبر الذهيبة", nameEn: "100 Street via Al-Dhuhaybah", km: 18, coords: { lat: 31.8121, lng: 36.0093 } }),
   place({ id: "airport", nameAr: "طريق المطار عبر القسطل", nameEn: "Airport Road via Al-Qastal", km: 22, coords: { lat: 31.75, lng: 35.9333 } }),
   place({ id: "isra", nameAr: "جامعة الإسراء", nameEn: "Isra University", km: 25, coords: { lat: 31.7892, lng: 35.9287 } }),
+  place({ id: "amra", nameAr: "طريق عمرة عبر الحاتمية", nameEn: "Amra Road via Al-Hatimiyah", km: 12, coords: { lat: 31.8065, lng: 36.2808 } }),
 ];
 
 /** Le Royal Hotel: the reference point in the address and the FAQ. */
