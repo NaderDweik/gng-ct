@@ -24,8 +24,9 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  *           title lines swap through their masks. Pauses off-screen / hidden tab.
  *   Scroll: (desktop) the hero pins and recedes into a framed picture while the
  *           copy lifts away, then scrolls on.
- * SSR renders slide 1 final; `.hl--pre` hides the animated bits until GSAP takes
- * over (CSS failsafe). Reduced motion: no intro, no autoplay, instant swaps.
+ * SSR renders slide 1 final; `.hl--pre` plays the copy intro in CSS from first
+ * paint (hero-layered.css), so the text never waits for JS. Reduced motion: no
+ * intro, no autoplay, instant swaps.
  */
 
 const slides: readonly HeroSlide[] = hero.slides;
@@ -117,13 +118,14 @@ export function HeroLayered() {
         document.removeEventListener("visibilitychange", syncPause);
       };
 
-      // Un-hide first: `.from()` tweens read their end state from the live styles,
-      // and render their start state immediately — same frame, so no flash.
-      el.classList.remove("hl--pre");
-      if (reduced) return cleanup;
-
       // Arriving via a language switch: the page should feel the same, not reload.
       const switching = isSwitchingLocale();
+
+      // The CSS copy intro is done (or skipped) → hand the title lines to GSAP's swaps.
+      // Removing the class mid-intro would jump the copy, so wait for it to end.
+      if (reduced || switching) el.classList.remove("hl--pre");
+      else gsap.delayedCall(1.8, () => el.classList.remove("hl--pre"));
+      if (reduced) return cleanup;
 
       const intro = gsap.timeline({
         defaults: { ease: "expo.out" },
@@ -136,9 +138,7 @@ export function HeroLayered() {
       });
       intro
         .from(q(".hl-stage"), { scale: 1.16, duration: 2.6 }, 0)
-        .from(layers(0), { filter: "brightness(0.35) saturate(0.8)", duration: 2.2, ease: "power2.out" }, 0)
-        .from(titleLines(0), { yPercent: 110, duration: 1.1, stagger: 0.12 }, 0.95)
-        .from(q(".hl-fade"), { y: 18, autoAlpha: 0, duration: 0.9, stagger: 0.08 }, 1.25);
+        .from(layers(0), { filter: "brightness(0.35) saturate(0.8)", duration: 2.2, ease: "power2.out" }, 0);
       // The wordmark is optional (empty in content/hero.ts): only animate its letters if any.
       const glyphs = q(".hl-glyph");
       if (glyphs.length) intro.from(glyphs, { yPercent: 105, duration: 1.4, stagger: 0.06 }, 0.35);

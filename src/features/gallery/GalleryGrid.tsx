@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { type CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import {
   galleryCategories,
@@ -72,7 +71,6 @@ export function GalleryGrid() {
   const locale = useLocale();
   const isAr = locale === "ar";
   const copy = isAr ? galleryCopy.ar : galleryCopy.en;
-  const searchParams = useSearchParams();
   const [tab, setTab] = useState<GalleryCategoryId>("all");
   /** The tab whose photos are on screen; trails `tab` while the old grid fades out. */
   const [shown, setShown] = useState<GalleryCategoryId>("all");
@@ -121,15 +119,17 @@ export function GalleryGrid() {
     return () => ro.disconnect();
   }, [tab, isAr]);
 
+  // ?tab=… (home mosaic links) is read on mount, not via useSearchParams: that would
+  // make the page skip server-rendering the grid (layout shift, photos missing from HTML).
   useEffect(() => {
-    const q = searchParams.get("tab");
+    const q = new URLSearchParams(window.location.search).get("tab");
     if (!q) return;
     const valid = q === "all" || galleryCategories.some((c) => c.id === q);
     if (valid) {
       setTab(q as GalleryCategoryId);
       setShown(q as GalleryCategoryId);
     }
-  }, [searchParams]);
+  }, []);
 
   const filtered = useMemo(
     () =>

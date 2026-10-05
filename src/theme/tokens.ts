@@ -35,7 +35,7 @@ export const palette = {
   /** Supporting green — eyebrows on dark, chips, progress bars, highlight details. */
   accent: "#05ab7d",
   /** Deeper supporting greens — brand text on light fills (≥4.5:1 on white) and dark detail. */
-  primaryDeep: "#018860",
+  primaryDeep: "#017e59",
   primaryDarkest: "#035f46",
 
   /** Base of all dark overlays / image scrims. */

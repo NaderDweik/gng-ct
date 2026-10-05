@@ -30,7 +30,7 @@ const quickLinks: FooterLink[] = [
 function FooterColumn({ title, children }: { title: string; children: ReactNode }) {
   return (
     <div>
-      <h4 className="font-display mb-8 text-base font-bold text-on-dark">{title}</h4>
+      <h2 className="font-display mb-8 text-base font-bold text-on-dark">{title}</h2>
       {children}
     </div>
   );

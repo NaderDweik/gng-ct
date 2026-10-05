@@ -1,5 +1,4 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Suspense } from "react";
 import { GalleryGrid } from "@/features/gallery/GalleryGrid";
 import { galleryCopy } from "@/content/gallery";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
@@ -27,9 +26,7 @@ export default async function GalleryPage({ params }: Props) {
       <PageJsonLd locale={locale} path="/gallery" />
       <SubpageHeader tall eyebrow="Giving Compound" title={copy.title} subtitle={copy.lead} />
 
-      <Suspense fallback={null}>
-        <GalleryGrid />
-      </Suspense>
+      <GalleryGrid />
 
       <section className="gal-videos">
         <div className="container-gc">
