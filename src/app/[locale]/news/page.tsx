@@ -41,7 +41,9 @@ export default async function NewsPage({ params }: Props) {
               <div className="p-6">
                 <time className="text-xs text-muted">{a.date}</time>
                 <h2 className="mt-2 text-xl font-semibold text-primary-ink">
-                  {isAr ? a.titleAr : a.titleEn}
+                  <Link href={`/news/${a.slug}`} className="hover:underline">
+                    {isAr ? a.titleAr : a.titleEn}
+                  </Link>
                 </h2>
                 <p className="mt-3 text-muted">{isAr ? a.excerptAr : a.excerptEn}</p>
                 <Link
@@ -49,6 +51,7 @@ export default async function NewsPage({ params }: Props) {
                   className="mt-4 inline-block text-sm font-semibold text-primary-ink hover:underline"
                 >
                   {t("readMore")}
+                  <span className="sr-only">: {isAr ? a.titleAr : a.titleEn}</span>
                 </Link>
               </div>
             </article>

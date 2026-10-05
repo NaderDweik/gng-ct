@@ -266,8 +266,10 @@
   from { transform: translateY(110%); }
 }
 
+/* 0.01, not 0: looks the same, but Chrome only counts painted (opacity > 0) text
+   for LCP, so the hero copy registers at first paint instead of after the fade. */
 @keyframes hl-fade-up {
-  from { opacity: 0; transform: translateY(18px); }
+  from { opacity: 0.01; transform: translateY(18px); }
 }
 
 @keyframes hl-failsafe {

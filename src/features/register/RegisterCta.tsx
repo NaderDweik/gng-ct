@@ -15,7 +15,7 @@ export async function RegisterCta({ locale, image, video }: Props) {
     <section className="register-cta on-dark">
       <div className="register-cta-bg" aria-hidden>
         {video ? (
-          <LoopVideo src={video.src} poster={video.poster} className="register-cta-video" />
+          <LoopVideo src={video.src} poster={video.poster} className="register-cta-video" lazyPoster />
         ) : (
           <Image src={image} alt="" fill sizes="100vw" className="object-cover" />
         )}

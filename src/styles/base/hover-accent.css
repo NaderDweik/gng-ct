@@ -43,9 +43,16 @@
   /* No backing square: a soft shadow keeps the V legible over bright photos. */
   filter: drop-shadow(0 2px 6px color-mix(in srgb, var(--black) 45%, transparent));
   aspect-ratio: 1;
-  background: url("/brand/v-3d-logo.webp") 0 0 / 7200% 100% no-repeat;
+  background: 0 0 / 7200% 100% no-repeat;
   animation: hv-spin 8s steps(72, jump-none) infinite;
   animation-play-state: paused;
+}
+
+/* The badge only shows on hover, so touch screens never fetch the 295 KB sprite. */
+@media (hover: hover) {
+  .hv-sprite {
+    background-image: url("/brand/v-3d-logo.webp");
+  }
 }
 
 @keyframes hv-spin {
