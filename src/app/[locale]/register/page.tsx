@@ -5,8 +5,14 @@ import { site } from "@/content/site";
 import { RegisterForm } from "@/features/register/RegisterForm";
 import { ChosenPlanCard } from "@/features/register/ChosenPlanCard";
 import type { LocalePageProps } from "@/i18n/types";
+import { PageJsonLd } from "@/components/seo/PageJsonLd";
+import { routeMetadata } from "@/lib/seo";
 
 type Props = LocalePageProps;
+
+export function generateMetadata({ params }: Props) {
+  return routeMetadata(params, "/register");
+}
 
 function formatPhone(phone: string) {
   const d = phone.replace(/\D/g, "");
@@ -69,6 +75,7 @@ export default async function RegisterPage({ params }: Props) {
 
   return (
     <>
+      <PageJsonLd locale={locale} path="/register" />
       <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
 
       <section className="register-body bg-surface-alt">

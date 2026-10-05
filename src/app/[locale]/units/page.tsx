@@ -2,8 +2,14 @@ import { setRequestLocale } from "next-intl/server";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { unitsCopy } from "@/content/units";
 import type { LocalePageProps } from "@/i18n/types";
+import { PageJsonLd } from "@/components/seo/PageJsonLd";
+import { routeMetadata } from "@/lib/seo";
 
 type Props = LocalePageProps;
+
+export function generateMetadata({ params }: Props) {
+  return routeMetadata(params, "/units");
+}
 
 export default async function UnitsPage({ params }: Props) {
   const { locale } = await params;
@@ -13,6 +19,7 @@ export default async function UnitsPage({ params }: Props) {
 
   return (
     <>
+      <PageJsonLd locale={locale} path="/units" listing />
       <SubpageHeader tall eyebrow="Giving Compound" title={copy.title} subtitle={copy.subtitle} />
       {/* Placeholder until the full compound plan (every chalet) arrives; the chalet plan lives on /master-plan. */}
       <section className="section bg-surface">

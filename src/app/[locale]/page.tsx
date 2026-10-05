@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Image from "next/image";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -17,26 +16,16 @@ import { GalleryDay } from "@/features/gallery/GalleryDay";
 import { RegisterCta } from "@/features/register/RegisterCta";
 import { NewsPreview } from "@/features/news/NewsPreview";
 import type { LocalePageProps } from "@/i18n/types";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { listingJsonLd, routeMetadata } from "@/lib/seo";
 import { HoverAccent } from "@/components/ui/HoverAccent";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { HomeServicesStrip } from "@/features/home/HomeServicesStrip";
 
 type Props = LocalePageProps;
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "meta" });
-  return {
-    title: t("siteName"),
-    description: t("description"),
-    openGraph: {
-      title: t("siteName"),
-      description: t("description"),
-      locale: locale === "ar" ? "ar_JO" : "en_US",
-      type: "website",
-      url: site.siteUrl,
-    },
-  };
+export function generateMetadata({ params }: Props) {
+  return routeMetadata(params, "");
 }
 
 export default async function HomePage({ params }: Props) {
@@ -81,6 +70,7 @@ export default async function HomePage({ params }: Props) {
 
   return (
     <>
+      <JsonLd data={listingJsonLd(locale === "en" ? "en" : "ar", "")} />
       <HeroLayered />
       <ScrollReveal />
 

@@ -6,10 +6,16 @@ import { formatNumber } from "@/lib/format";
 import { CountUp } from "@/components/ui/CountUp";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import type { LocalePageProps } from "@/i18n/types";
+import { PageJsonLd } from "@/components/seo/PageJsonLd";
+import { routeMetadata } from "@/lib/seo";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 
 type Props = LocalePageProps;
+
+export function generateMetadata({ params }: Props) {
+  return routeMetadata(params, "/about");
+}
 
 type PillarIcon = "deed" | "privacy" | "design" | "finance";
 
@@ -109,6 +115,7 @@ export default async function AboutPage({ params }: Props) {
 
   return (
     <>
+      <PageJsonLd locale={locale} path="/about" />
       <SubpageHeader
         eyebrow="Giving Compound"
         title={t("title")}

@@ -15,8 +15,14 @@ import {
   ServiceList,
 } from "@/features/amenities/AmenitiesPage";
 import type { LocalePageProps } from "@/i18n/types";
+import { PageJsonLd } from "@/components/seo/PageJsonLd";
+import { routeMetadata } from "@/lib/seo";
 
 type Props = LocalePageProps;
+
+export function generateMetadata({ params }: Props) {
+  return routeMetadata(params, "/amenities");
+}
 
 /*
  * Amenities: what's yours (inside the resort), what's shared (across the
@@ -41,6 +47,7 @@ export default async function AmenitiesPage({ params }: Props) {
 
   return (
     <>
+      <PageJsonLd locale={locale} path="/amenities" />
       <SubpageHeader tall eyebrow="Giving Compound" title={c.crumb} subtitle={c.heroTitle} />
 
       {/* 1 · Inside your resort */}

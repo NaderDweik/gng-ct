@@ -6,8 +6,14 @@ import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { site } from "@/content/site";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
 import type { LocalePageProps } from "@/i18n/types";
+import { PageJsonLd } from "@/components/seo/PageJsonLd";
+import { routeMetadata } from "@/lib/seo";
 
 type Props = LocalePageProps;
+
+export function generateMetadata({ params }: Props) {
+  return routeMetadata(params, "/gallery");
+}
 
 export default async function GalleryPage({ params }: Props) {
   const { locale } = await params;
@@ -18,6 +24,7 @@ export default async function GalleryPage({ params }: Props) {
 
   return (
     <>
+      <PageJsonLd locale={locale} path="/gallery" />
       <SubpageHeader tall eyebrow="Giving Compound" title={copy.title} subtitle={copy.lead} />
 
       <Suspense fallback={null}>

@@ -6,7 +6,13 @@ import { site } from "@/content/site";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { formatNumber } from "@/lib/format";
 import type { LocalePageProps } from "@/i18n/types";
+import { PageJsonLd } from "@/components/seo/PageJsonLd";
+import { routeMetadata } from "@/lib/seo";
 type Props = LocalePageProps;
+
+export function generateMetadata({ params }: Props) {
+  return routeMetadata(params, "/leadership");
+}
 
 /** Drop the founder portrait here (portrait orientation, ~1200×1500). */
 const FOUNDER_PHOTO = site.founderPhoto;
@@ -34,6 +40,7 @@ export default async function LeadershipPage({ params }: Props) {
 
   return (
     <>
+      <PageJsonLd locale={locale} path="/leadership" />
       <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
 
       <section className="leader-hero">

@@ -5,6 +5,8 @@ import { Link } from "@/i18n/navigation";
 import { articles, getArticle } from "@/content/news";
 import { site } from "@/content/site";
 import type { LocalePageProps } from "@/i18n/types";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { articleJsonLd, articleOgImage, breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
 type Props = LocalePageProps<{ slug: string }>;
 
@@ -13,6 +15,23 @@ export function generateStaticParams() {
     { locale: "ar", slug: a.slug },
     { locale: "en", slug: a.slug },
   ]);
+}
+
+export async function generateMetadata({ params }: Props) {
+  const { locale: raw, slug } = await params;
+  const article = getArticle(slug);
+  if (!article) return {};
+  const locale = raw === "en" ? "en" : "ar";
+  const isAr = locale === "ar";
+  return buildMetadata({
+    locale,
+    path: `/news/${slug}`,
+    title: isAr ? article.titleAr : article.titleEn,
+    description: isAr ? article.excerptAr : article.excerptEn,
+    image: articleOgImage(slug),
+    type: "article",
+    publishedTime: article.date,
+  });
 }
 
 /* Small line icons for the meta row (styles: styles/sections/article.css). */
@@ -71,8 +90,17 @@ export default async function ArticlePage({ params }: Props) {
     .sort((a, b) => b.date.localeCompare(a.date))
     .slice(0, 3);
 
+  const seoLocale = isAr ? "ar" : "en";
+
   return (
     <article>
+      <JsonLd data={articleJsonLd(seoLocale, article)} />
+      <JsonLd
+        data={breadcrumbJsonLd(seoLocale, [
+          { name: isAr ? "الأخبار" : "News", path: "/news" },
+          { name: title, path: `/news/${article.slug}` },
+        ])}
+      />
       <header className="article-head">
         <div className="container-gc">
           <Link href="/news" className="article-back">

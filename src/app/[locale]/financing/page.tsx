@@ -5,8 +5,14 @@ import { HomeFaq } from "@/features/faq/HomeFaq";
 import { faqCategories } from "@/content/faq";
 import { formatNumber } from "@/lib/format";
 import type { LocalePageProps } from "@/i18n/types";
+import { PageJsonLd } from "@/components/seo/PageJsonLd";
+import { routeMetadata } from "@/lib/seo";
 
 type Props = LocalePageProps;
+
+export function generateMetadata({ params }: Props) {
+  return routeMetadata(params, "/financing");
+}
 
 const steps = [
   {
@@ -45,6 +51,7 @@ export default async function FinancingPage({ params }: Props) {
 
   return (
     <>
+      <PageJsonLd locale={locale} path="/financing" listing />
       <SubpageHeader tall eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
 
       <section id="plans" className="section scroll-mt-20 bg-surface-alt">

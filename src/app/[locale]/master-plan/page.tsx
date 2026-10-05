@@ -5,8 +5,14 @@ import { UnitPlanFeatures } from "@/features/units/UnitPlanFeatures";
 import { masterPlanCopy } from "@/content/master-plan";
 import { site } from "@/content/site";
 import type { LocalePageProps } from "@/i18n/types";
+import { PageJsonLd } from "@/components/seo/PageJsonLd";
+import { routeMetadata } from "@/lib/seo";
 
 type Props = LocalePageProps;
+
+export function generateMetadata({ params }: Props) {
+  return routeMetadata(params, "/master-plan");
+}
 
 /** The chalet plan with its room tiles, then the full chalet tour video. */
 export default async function MasterPlanPage({ params }: Props) {
@@ -18,6 +24,7 @@ export default async function MasterPlanPage({ params }: Props) {
 
   return (
     <>
+      <PageJsonLd locale={locale} path="/master-plan" />
       <SubpageHeader tall eyebrow="Giving Compound" title={copy.eyebrow} subtitle={copy.title} />
       <UnitPlanFeatures locale={locale} />
 

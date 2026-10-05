@@ -4,9 +4,15 @@ import { Link } from "@/i18n/navigation";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { articles } from "@/content/news";
 import type { LocalePageProps } from "@/i18n/types";
+import { PageJsonLd } from "@/components/seo/PageJsonLd";
+import { routeMetadata } from "@/lib/seo";
 import { HoverAccent } from "@/components/ui/HoverAccent";
 
 type Props = LocalePageProps;
+
+export function generateMetadata({ params }: Props) {
+  return routeMetadata(params, "/news");
+}
 
 export default async function NewsPage({ params }: Props) {
   const { locale } = await params;
@@ -16,6 +22,7 @@ export default async function NewsPage({ params }: Props) {
 
   return (
     <>
+      <PageJsonLd locale={locale} path="/news" />
       <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
       <section className="section">
         <div className="container-gc grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">

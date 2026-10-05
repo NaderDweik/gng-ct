@@ -114,7 +114,7 @@ Gallery categories: exteriors · interiors · amenities · construction · aeria
 - Theme: `src/theme/tokens.ts` → CSS vars injected in locale layout
 - Maps: Leaflet + OSRM (not Google embed as primary)
 - Deploy: **Vercel** · domain `giving-estate.com`
-- SEO: `RealEstateJsonLd` · `sitemap.ts` · `robots.ts`
+- SEO: per-page titles/descriptions in `content/seo.ts` → `lib/seo.ts` (`routeMetadata` / `buildMetadata`: canonical, hreflang ar/en/x-default, OG + Twitter). JSON-LD via `components/seo/JsonLd` + `PageJsonLd`: site graph (RealEstateAgent + WebSite + GatedResidenceCommunity) on every page, BreadcrumbList on subpages, RealEstateListing on home/units/financing, FAQPage on /faq, Article on news. OG images: `public/og/default.jpg` + `public/og/news/<slug>.jpg` (1200×630, ~130 KB for WhatsApp previews). Icons: `app/icon.png`, `app/apple-icon.png`, `manifest.ts`. `sitemap.ts` (both locales, hreflang; bump `CONTENT_UPDATED`) · `robots.ts` (blocks `/api/`). Search Console / Bing verification via env `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`, `NEXT_PUBLIC_BING_SITE_VERIFICATION`. New page → add its route to `content/seo.ts` + `generateMetadata` + `<PageJsonLd>`
 - i18n strings: `messages/ar.json` · `messages/en.json`
 - Content modules: `src/content/*` (site, gallery, faq, pricing, units, amenities, …)
 
@@ -202,7 +202,7 @@ Also in `site.copyBank`.
 - [ ] Real unit availability + floor-plan assets (`/units` still gallery placeholders)
 - [ ] Deeper services & news presentation (content exists, UI thin)
 - [ ] Team bios beyond founder (leadership)
-- [ ] Analytics / final SEO pass
+- [ ] Analytics (GA4) · Search Console + Bing verification · Google Business Profile
 - [ ] Confirm production DNS/email if needed
 
 **Resolved since original brief:** domain `giving-estate.com` · logo in product · 72 gallery images · FAQ explorer · about/financing/register/gallery/leadership polish · tokenized theme · Leaflet map · Vercel · founder portrait · unit property map on home + master-plan page.

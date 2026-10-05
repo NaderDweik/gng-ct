@@ -1,3 +1,4 @@
+import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -7,8 +8,11 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { ScrollMemory } from "@/components/layout/ScrollMemory";
-import { RealEstateJsonLd } from "@/components/seo/RealEstateJsonLd";
-import { themeCss } from "@/theme/tokens";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { site } from "@/content/site";
+import { brandAr, brandEn } from "@/content/seo";
+import { siteGraph } from "@/lib/seo";
+import { palette, themeCss } from "@/theme/tokens";
 // Light/dark mode disabled: import { themeCss, themeInitScript } from "@/theme/tokens";
 import "@/styles/globals.css";
 
@@ -35,6 +39,38 @@ type Props = {
   params: Promise<{ locale: string }>;
 };
 
+export const viewport: Viewport = {
+  themeColor: palette.secondary,
+  colorScheme: "light",
+};
+
+/** Site-wide defaults; each page adds its own title, description, canonical + hreflang (lib/seo.ts). */
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const brand = locale === "en" ? brandEn : brandAr;
+  return {
+    metadataBase: new URL(site.siteUrl),
+    title: { default: brand, template: `%s | ${brand}` },
+    applicationName: brand,
+    creator: site.companyEn,
+    publisher: site.companyEn,
+    category: "real estate",
+    formatDetection: { telephone: false, email: false, address: false },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 },
+    },
+    // Search Console / Bing Webmaster ownership — set in Vercel env when the sites are added.
+    verification: {
+      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+      other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+        ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION }
+        : undefined,
+    },
+  };
+}
+
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
   if (!isLocale(locale)) {
@@ -55,7 +91,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       </head>
       <body className="min-h-screen bg-background font-sans antialiased">
         <NextIntlClientProvider messages={messages}>
-          <RealEstateJsonLd />
+          <JsonLd data={siteGraph(locale)} />
           <ScrollMemory />
           <Header />
           <main>{children}</main>
