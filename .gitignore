@@ -52,3 +52,4 @@ yarn-error.log*
 
 # Remotion project deps (separate package under motion/)
 /motion/node_modules/
+!.env.example

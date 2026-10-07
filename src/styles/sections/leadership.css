@@ -78,17 +78,142 @@
   color: var(--muted);
 }
 
-.principle-card {
-  position: relative;
-  padding: clamp(1.75rem, 2.8vw, 2.25rem);
-  background: var(--surface-alt);
-  border: 1px solid var(--line);
-  border-top: 2px solid var(--brand-accent);
-  transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease), background 0.4s var(--ease);
+/* Principles: a dark horizontal box that floats across the founder section's bottom edge.
+   The hero's bottom padding and the box's negative margin are the same overlap, so the box
+   sits half on the grey band and half on the page below. */
+.leader-hero {
+  --leader-overlap: clamp(5rem, 9vw, 8rem);
+  padding-bottom: calc(var(--leader-overlap) + clamp(3rem, 6vw, 5rem));
 }
 
-.principle-card:hover {
-  transform: translateY(-4px);
-  background: var(--surface);
-  box-shadow: var(--shadow-card);
+.leader-principles {
+  position: relative;
+  z-index: 1;
+  margin-top: calc(-1 * clamp(5rem, 9vw, 8rem));
+  padding-bottom: clamp(4rem, 9vw, 7rem);
+}
+
+.leader-principles-box {
+  display: grid;
+  gap: clamp(1.75rem, 3vw, 2.5rem);
+  padding: clamp(1.75rem, 4vw, 3.25rem);
+  background: var(--brand-secondary);
+  box-shadow: var(--shadow-card-lg);
+}
+
+@media (min-width: 1024px) {
+  .leader-principles-box {
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 2.25fr);
+    align-items: start;
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+}
+
+.leader-principles-head .section-eyebrow {
+  color: var(--brand-accent);
+}
+
+.leader-principles-head .section-title {
+  margin: 0;
+  max-width: 12ch;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  color: var(--on-dark);
+}
+
+.leader-principles-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.leader-principle {
+  padding-block: 1.25rem;
+  border-top: 1px solid var(--line-on-dark);
+}
+
+@media (min-width: 768px) {
+  .leader-principles-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .leader-principle {
+    padding-block: 0.25rem;
+    padding-inline: clamp(1.25rem, 2.5vw, 2rem);
+    border-top: 0;
+    border-inline-start: 1px solid var(--line-on-dark);
+  }
+}
+
+/* Hover: a solid green highlight sweeps over the number (as a padded block) and the text
+   (line after line), in reading direction. Each inner "-ink" span repaints its glyphs
+   (background-clip: text) at the same rate, so they turn black exactly where the highlight
+   has reached. */
+.leader-principle-num,
+.leader-principle-num-ink,
+.leader-principle-text,
+.leader-principle-ink {
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  transition: background-size 0.9s var(--ease);
+}
+
+.leader-principle-num,
+.leader-principle-text {
+  background-image: linear-gradient(var(--brand-accent), var(--brand-accent));
+  background-size: 0% 100%;
+}
+
+.leader-principle-num-ink,
+.leader-principle-ink {
+  color: transparent;
+  background-size: 0% 100%, 100% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.leader-principle-ink {
+  background-image:
+    linear-gradient(var(--black), var(--black)),
+    linear-gradient(var(--on-dark), var(--on-dark));
+}
+
+/* The block's padding is pulled back with negative margins so the digits don't move. */
+.leader-principle-num {
+  display: inline-block;
+  margin: -0.18em -0.28em;
+}
+
+.leader-principle-num-ink {
+  display: block;
+  padding: 0.18em 0.28em;
+  background-image:
+    linear-gradient(var(--black), var(--black)),
+    linear-gradient(var(--brand-accent), var(--brand-accent));
+}
+
+[dir="rtl"] .leader-principle-num,
+[dir="rtl"] .leader-principle-num-ink,
+[dir="rtl"] .leader-principle-text,
+[dir="rtl"] .leader-principle-ink {
+  background-position: 100% 0;
+}
+
+.leader-principle:hover .leader-principle-num,
+.leader-principle:hover .leader-principle-text {
+  background-size: 100% 100%;
+}
+
+.leader-principle:hover .leader-principle-num-ink,
+.leader-principle:hover .leader-principle-ink {
+  background-size: 100% 100%, 100% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leader-principle-num,
+  .leader-principle-num-ink,
+  .leader-principle-text,
+  .leader-principle-ink {
+    transition: none;
+  }
 }

@@ -188,6 +188,48 @@
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-ink) 12%, transparent);
 }
 
+/* Validation (anti-spam guards in RegisterForm). Local tone; the brand palette has no error token. */
+.register-form {
+  --register-error: #c0392b;
+}
+
+.register-field [aria-invalid="true"] {
+  border-color: var(--register-error);
+}
+
+.register-field [aria-invalid="true"]:focus {
+  border-color: var(--register-error);
+  box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.14);
+}
+
+.register-error {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  font-style: normal;
+  font-weight: 600;
+  color: var(--register-error);
+}
+
+.register-submit:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+/* Turnstile stays invisible unless Cloudflare needs the visitor to tick a box. */
+.register-turnstile:empty {
+  display: none;
+}
+
+/* Honeypot: off-screen rather than display:none, which some bots skip. */
+.register-hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
 .register-field input::placeholder,
 .register-field textarea::placeholder {
   color: var(--neutral-400);

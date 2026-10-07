@@ -44,7 +44,7 @@ export default async function LeadershipPage({ params }: Props) {
       <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
 
       <section className="leader-hero">
-        <div className="container-gc grid items-center gap-10 pb-16 pt-12 md:pt-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16 lg:pb-20">
+        <div className="container-gc grid items-center gap-10 pt-12 md:pt-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div className="leader-portrait reveal">
             {hasPhoto ? (
               <Image
@@ -94,22 +94,31 @@ export default async function LeadershipPage({ params }: Props) {
         </div>
       </section>
 
-      <section className="section bg-surface">
+      {/* Floating principles band: pulled up so it overlaps the bottom of the founder section. */}
+      <section className="leader-principles">
         <div className="container-gc">
-          <p className="section-eyebrow">{isAr ? "مبادئ الإدارة" : "How we lead"}</p>
-          <h2 className="section-title">
-            {isAr ? "مبادئي الثلاثة." : "My three principles."}
-          </h2>
-          <ol className="mt-10 grid gap-4 md:grid-cols-3">
-            {principles.map((p, i) => (
-              <li key={p.titleEn} className="principle-card">
-                <span className="font-display text-4xl font-bold leading-none text-accent tabular-nums">
-                  {n(i + 1).padStart(isAr ? 0 : 2, "0")}
-                </span>
-                <h3 className="font-display mt-6 text-xl font-bold text-ink">{isAr ? p.titleAr : p.titleEn}</h3>
-              </li>
-            ))}
-          </ol>
+          <div className="leader-principles-box reveal">
+            <div className="leader-principles-head">
+              <p className="section-eyebrow">{isAr ? "مبادئ الإدارة" : "How we lead"}</p>
+              <h2 className="section-title">
+                {isAr ? "مبادئي الثلاثة." : "My three principles."}
+              </h2>
+            </div>
+            <ol className="leader-principles-list">
+              {principles.map((p, i) => (
+                <li key={p.titleEn} className="leader-principle">
+                  <span className="leader-principle-num font-display text-3xl font-bold leading-none tabular-nums md:text-4xl">
+                    <span className="leader-principle-num-ink">{n(i + 1).padStart(isAr ? 0 : 2, "0")}</span>
+                  </span>
+                  <h3 className="font-display mt-4 text-lg font-bold leading-snug text-on-dark md:mt-5 md:text-xl">
+                    <span className="leader-principle-text">
+                      <span className="leader-principle-ink">{isAr ? p.titleAr : p.titleEn}</span>
+                    </span>
+                  </h3>
+                </li>
+              ))}
+            </ol>
+          </div>
         </div>
       </section>
     </>
