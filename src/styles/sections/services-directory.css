@@ -1,196 +1,668 @@
-/* ── /services: available tiles + coming-soon tags in one view.
-   Markup: features/services/ServicesDirectory.tsx ── */
+/* ── /services: big photo viewer, then a dark band of services that tucks under it.
+   Markup: features/services/ServicesDirectory.tsx, features/services/ServicesViewer.tsx ── */
 
+/* How far the photo reaches down into the dark band. */
+.svv,
 .svc {
-  padding-block: clamp(2rem, 4vw, 2.75rem);
+  --svv-overlap: clamp(3rem, 8vw, 7rem);
 }
 
-.svc-grid {
+/* ── Viewer ── */
+.svv {
+  position: relative;
+  z-index: 1;
+  margin-bottom: calc(-1 * var(--svv-overlap));
+  padding-top: clamp(2rem, 4vw, 3.5rem);
+  /* Light page above, but the strip the photo overlaps is clear, so the dark band
+     shows on both sides of the photo's lower edge. */
+  background: linear-gradient(var(--surface) calc(100% - var(--svv-overlap)), transparent 0);
+}
+
+/* Padded white card that floats over the dark band: photo + "Available now" list. */
+.svv-card {
   display: grid;
-  gap: clamp(2.5rem, 5vw, 3.5rem);
-  align-items: start;
+  gap: clamp(0.5rem, 1.1vw, 0.9rem);
+  padding: clamp(0.5rem, 1.1vw, 0.9rem);
+  background: var(--surface);
+  box-shadow:
+    0 2px 6px color-mix(in srgb, var(--black) 8%, transparent),
+    0 30px 60px -20px color-mix(in srgb, var(--black) 45%, transparent),
+    0 60px 120px -40px color-mix(in srgb, var(--black) 55%, transparent);
 }
 
 @media (min-width: 1024px) {
-  .svc-grid {
-    grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
-    gap: clamp(2rem, 3vw, 3rem);
-  }
-
-  /* A hairline between the two halves. */
-  .svc-panel--soon {
-    padding-inline-start: clamp(2rem, 3vw, 3rem);
-    border-inline-start: 1px solid var(--line);
+  .svv-card {
+    grid-template-columns: minmax(0, 1fr) clamp(18rem, 27vw, 23rem);
   }
 }
 
-.svc-head {
-  margin-bottom: 1rem;
+.svv-stage {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--surface-alt);
 }
 
-.svc-title {
+@media (max-width: 767px) {
+  .svv-stage {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+.svv-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.9s var(--ease);
+}
+
+.svv-slide img {
+  scale: 1.05;
+  transition: scale 6s linear;
+}
+
+.svv-slide.is-on {
+  opacity: 1;
+}
+
+.svv-slide.is-on img {
+  scale: 1;
+}
+
+/* Caption, dots and arrows sit on a soft shade along the bottom of the photo. */
+.svv-stage::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 40%;
+  background: linear-gradient(0deg, color-mix(in srgb, var(--overlay) 70%, transparent), transparent);
+  pointer-events: none;
+}
+
+.svv-caption {
+  position: absolute;
+  z-index: 2;
+  bottom: 0;
+  inset-inline-start: 0;
   display: flex;
-  align-items: center;
-  gap: 0.65rem;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2vw, 1.6rem);
+  font-weight: 700;
+}
+
+[dir="rtl"] .svv-caption {
+  font-family: var(--font-body);
+}
+
+/*
+ * Caption card (ServicesViewer): flush in the photo's bottom corner. .has-block sweeps a
+ * white block out from the corner; .has-text fades the title up inside it. Hiding runs
+ * the same steps backwards.
+ */
+.svv-cap {
+  position: relative;
+  display: inline-flex;
+  padding: clamp(1rem, 2vw, 1.4rem) clamp(1.25rem, 2.4vw, 1.9rem);
+}
+
+.svv-cap-block {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: var(--surface);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+[dir="rtl"] .svv-cap-block {
+  transform-origin: right center;
+}
+
+.svv-cap.has-block .svv-cap-block {
+  transform: scaleX(1);
+}
+
+.svv-cap-text {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.28s ease,
+    transform 0.28s ease;
+}
+
+.svv-cap.has-text .svv-cap-text {
+  opacity: 1;
+  transform: none;
+}
+
+.svv-count {
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  font-variant-numeric: tabular-nums;
+}
+
+.svv-arrows {
+  position: absolute;
+  z-index: 2;
+  bottom: clamp(1rem, 2.5vw, 1.75rem);
+  inset-inline-end: clamp(1rem, 2.5vw, 2rem);
+  display: flex;
+  gap: 0.5rem;
+}
+
+.svv-arrow {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid color-mix(in srgb, var(--white) 35%, transparent);
+  background: color-mix(in srgb, var(--overlay) 35%, transparent);
+  color: var(--on-dark);
+  cursor: pointer;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.svv-arrow:hover {
+  border-color: var(--on-dark);
+  background: var(--on-dark);
+  color: var(--ink-on-light);
+}
+
+
+/* "Available now" list beside the photo; it scrolls inside itself, never the page. */
+.svv-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: clamp(1rem, 1.6vw, 1.4rem) clamp(0.5rem, 1vw, 0.75rem) 0;
+}
+
+@media (min-width: 1024px) {
+  /* Same height as the photo: the grid row is set by the stage's aspect ratio. */
+  .svv-panel {
+    position: relative;
+  }
+
+  .svv-panel > * {
+    flex-shrink: 0;
+  }
+}
+
+.svv-panel-head {
+  padding-inline: 0.5rem;
+  margin-bottom: 0.9rem;
+}
+
+.svv-panel-title {
   margin: 0;
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  font-size: clamp(1.5rem, 2vw, 1.85rem);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.15;
+}
+
+[dir="rtl"] .svv-panel-title {
+  font-family: var(--font-body);
+}
+
+.svv-panel-sub {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.svv-list {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 0.3rem;
+  height: 20rem;
+  margin: 0;
+  padding: 0.75rem 0;
+  overflow-y: auto;
+  padding-inline-end: 0.6rem;
+  list-style: none;
+  scrollbar-width: none;
+}
+
+.svv-list::-webkit-scrollbar {
+  display: none;
+}
+
+/*
+ * Minimal square scroll indicator on the end side of the list. Tune it here:
+ *   --scroll-w      bar width          --scroll-inset  gap from the list's top/bottom
+ *   --scroll-track  track colour       --scroll-thumb  thumb colour (and -hover)
+ *   --scroll-min    shortest thumb
+ */
+.svv-list-wrap {
+  --scroll-w: 4px;
+  --scroll-inset: 0.75rem;
+  --scroll-track: color-mix(in srgb, var(--ink) 7%, transparent);
+  --scroll-thumb: color-mix(in srgb, var(--ink) 24%, transparent);
+  --scroll-thumb-hover: var(--brand-primary);
+  --scroll-min: 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.svv-scroll {
+  position: absolute;
+  top: var(--scroll-inset);
+  bottom: var(--scroll-inset);
+  inset-inline-end: 0;
+  width: var(--scroll-w);
+  background: var(--scroll-track);
+  pointer-events: none;
+}
+
+.svv-scroll-thumb {
+  position: absolute;
+  inset-inline: 0;
+  min-height: var(--scroll-min);
+  background: var(--scroll-thumb);
+  transition: top 0.2s linear, background 0.3s ease;
+}
+
+.svv-list-wrap:hover .svv-scroll-thumb {
+  background: var(--scroll-thumb-hover);
+}
+
+@media (min-width: 1024px) {
+  .svv-list-wrap {
+    flex: 1 1 0;
+  }
+
+  .svv-list {
+    flex: 1 1 0;
+    flex-shrink: 1;
+    height: auto;
+    min-height: 0;
+  }
+}
+
+.svv-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  width: 100%;
+  padding: 0.55rem 0.5rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition: background 0.4s var(--ease), border-color 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.svv-item:hover {
+  color: var(--ink);
+  background: var(--surface-alt);
+}
+
+.svv-item:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+
+/* Selected service: solid primary green, white label and icon. */
+.svv-item.is-on {
+  border-color: var(--brand-primary);
+  background: var(--brand-primary);
+  color: var(--on-primary);
+}
+
+.svv-item-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  background: var(--surface-alt);
+  color: var(--muted);
+  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.svv-item.is-on .svv-item-icon {
+  background: color-mix(in srgb, var(--white) 18%, transparent);
+  color: var(--on-primary);
+}
+
+.svv-item-icon svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.svv-item-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+/* ── Dark services band ── */
+.svc {
+  padding-top: calc(var(--svv-overlap) + clamp(3rem, 6vw, 5rem));
+  padding-bottom: clamp(4rem, 8vw, 6.5rem);
+  background: var(--brand-secondary);
+  color: var(--on-dark);
+}
+
+.svc-head {
+  max-width: 40rem;
+  margin: 0 auto clamp(1.75rem, 3vw, 2.5rem);
+  text-align: center;
+}
+
+.svc-title {
+  margin: 0;
+  color: var(--on-dark);
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
 }
 
 [dir="rtl"] .svc-title {
   font-family: var(--font-body);
 }
 
-.svc-count {
-  display: inline-grid;
-  place-items: center;
-  min-width: 2rem;
-  height: 1.75rem;
-  padding-inline: 0.5rem;
-  background: var(--brand-primary-soft);
-  color: var(--primary-ink);
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.svc-panel--soon .svc-count {
-  background: var(--surface-alt);
-  color: var(--muted);
-}
-
 .svc-sub {
-  margin: 0.4rem 0 0;
-  color: var(--muted);
-  font-size: 0.95rem;
-  font-weight: 300;
+  margin: 0.75rem 0 0;
+  color: var(--on-dark-muted);
+  font-size: clamp(0.95rem, 1.1vw, 1.05rem);
 }
 
-/* Live dot next to "Available now". */
-.svc-live {
-  position: relative;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background: var(--brand-primary);
-}
-
-.svc-live::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: inherit;
-  animation: svc-ping 2.2s ease-out infinite;
-}
-
-@keyframes svc-ping {
-  from { opacity: 0.6; transform: scale(1); }
-  to { opacity: 0; transform: scale(2.6); }
-}
-
-/* Available: icon tiles */
+/* Tiles: centred, three across on desktop. */
 .svc-tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 12.5rem), 1fr));
-  gap: 0.5rem;
-  margin: 0;
+  gap: 0.75rem;
+  max-width: 62rem;
+  margin: 0 auto;
   padding: 0;
   list-style: none;
 }
 
+@media (min-width: 600px) {
+  .svc-tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .svc-tiles {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 .svc-tile {
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding: 0.5rem 0.8rem;
-  border: 1px solid transparent;
-  background: var(--surface-alt);
-  transition:
-    background-color 0.3s var(--ease),
-    border-color 0.3s var(--ease),
-    box-shadow 0.3s var(--ease);
-}
-
-.svc-tile:hover {
-  border-color: color-mix(in srgb, var(--primary-ink) 30%, transparent);
-  background: var(--surface);
-  box-shadow: var(--shadow-card);
-}
-
-.svc-tile-icon {
-  display: grid;
-  flex-shrink: 0;
-  place-items: center;
-  width: 2.15rem;
-  height: 2.15rem;
-  background: var(--brand-primary-soft);
-  color: var(--primary-ink);
-  transition:
-    background-color 0.3s var(--ease),
-    color 0.3s var(--ease);
-}
-
-.svc-tile:hover .svc-tile-icon {
-  background: var(--brand-primary);
-  color: var(--on-primary);
-}
-
-.svc-tile-icon svg {
-  width: 1.25rem;
-  height: 1.25rem;
+  gap: 0.9rem;
+  min-height: 4.25rem;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line-on-dark);
+  background: var(--brand-secondary-light);
+  transition: border-color 0.3s ease, transform 0.3s var(--ease);
 }
 
 .svc-tile-title {
-  color: var(--ink);
-  font-size: 0.95rem;
+  color: var(--on-dark);
   font-weight: 600;
   line-height: 1.35;
 }
 
-/* Phones: two tiles per row keeps the list short. */
-@media (max-width: 639px) {
-  .svc-tiles {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .svc-tile {
-    gap: 0.55rem;
-    padding: 0.5rem 0.55rem;
-  }
-
-  .svc-tile-icon {
-    width: 1.9rem;
-    height: 1.9rem;
-  }
-
-  .svc-tile-title {
-    font-size: 0.82rem;
-  }
+/* ── Coming soon: same tiles, greyed out, fading toward the bottom ── */
+.svc-soon {
+  position: relative;
+  margin-top: 0;
 }
 
-/* Coming soon: quiet name tags */
-.svc-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+/* "Coming soon" closes the section as a ghost box under the bento. */
+.svc-soon-big {
+  display: block;
+  width: fit-content;
+  margin: clamp(2rem, 4vw, 3rem) auto 0;
+  padding: clamp(0.9rem, 1.8vw, 1.25rem) clamp(2rem, 4vw, 3.25rem);
+  border: 1px solid color-mix(in srgb, var(--white) 22%, transparent);
+  background: transparent;
+  color: color-mix(in srgb, var(--white) 55%, transparent);
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+[dir="rtl"] .svc-soon-big {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+}
+
+.svc-soon-badge {
+  display: inline-block;
   margin: 0;
+  padding: 0.45rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--white) 22%, transparent);
+  color: var(--on-dark-muted);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .svc-soon-badge {
+  font-size: 0.9rem;
+  letter-spacing: 0;
+}
+
+
+/*
+ * Coming soon as a bento: six columns on desktop, two on tablets, one on phones.
+ * Tiles come in seven sizes (see SOON_SIZE); dense packing fills the gaps.
+ */
+.svc-bento {
+  display: grid;
+  grid-auto-flow: dense;
+  grid-auto-rows: 4.25rem;
+  gap: 0.75rem;
+  max-width: 68rem;
+  margin: 0 auto;
   padding: 0;
   list-style: none;
 }
 
-.svc-tag {
-  padding: 0.3rem 0.65rem;
-  border: 1px dashed var(--line-strong);
-  color: var(--muted);
-  font-size: 0.85rem;
-  line-height: 1.4;
+@media (min-width: 600px) {
+  .svc-bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .svc-bento {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}
+
+/*
+ * Greyed out: flat, a touch lighter than the band, no border. --fade (rows further
+ * down are fainter) and --col (stagger along a row) are measured in ServicesDirectory;
+ * tiles fade up into place once they scroll in (.is-in).
+ */
+.svc-tile--soon {
+  --fade: 1;
+  --col: 0;
+  border: 0;
+  background: color-mix(in srgb, var(--white) 4%, transparent);
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
+  transition-delay: calc(var(--col) * 80ms);
+}
+
+/* Traveling border line (driven from ServicesDirectory): one short bright segment
+   that laps a tile's border and moves on along the shortest route to the bottom tile. */
+.svc-tile--soon {
+  position: relative;
+}
+
+.svc-trace {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.svc-trace path {
+  fill: none;
+  stroke: var(--brand-accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 0.2 1;
+  stroke-dashoffset: 0.2;
+}
+
+.svc-tile--soon.is-in {
+  opacity: var(--fade);
+  transform: none;
+}
+
+/* Bigger cells: the name sits in the bottom corner, set larger the bigger the cell. */
+.svc-tile--soon:is(.is-xl, .is-hero, .is-lg, .is-wide3, .is-wide, .is-tall3, .is-tall) {
+  align-items: flex-end;
+  padding: 1.1rem 1.25rem;
+}
+
+/* Phones (one column): only the height varies. */
+.svc-tile--soon:is(.is-xl, .is-tall3) {
+  grid-row: span 3;
+}
+
+.svc-tile--soon:is(.is-hero, .is-lg, .is-tall) {
+  grid-row: span 2;
+}
+
+/* Tablets (two columns): wide shapes take the full row. */
+@media (min-width: 600px) {
+  .svc-tile--soon:is(.is-xl, .is-hero, .is-lg, .is-wide3, .is-wide) {
+    grid-column: span 2;
+  }
+}
+
+/* Desktop (six columns): the full set of shapes. */
+@media (min-width: 1024px) {
+  .svc-tile--soon.is-xl {
+    grid-column: span 3;
+    grid-row: span 3;
+  }
+
+  .svc-tile--soon.is-hero {
+    grid-column: span 3;
+    grid-row: span 2;
+  }
+
+  .svc-tile--soon.is-lg {
+    grid-column: span 2;
+    grid-row: span 2;
+  }
+
+  .svc-tile--soon.is-wide3 {
+    grid-column: span 3;
+  }
+
+  .svc-tile--soon.is-wide {
+    grid-column: span 2;
+  }
+}
+
+.svc-tile--soon.is-xl .svc-tile-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.6rem);
+  line-height: 1.05;
+}
+
+.svc-tile--soon:is(.is-hero, .is-lg) .svc-tile-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2.1vw, 1.85rem);
+  line-height: 1.1;
+}
+
+.svc-tile--soon:is(.is-wide3, .is-wide, .is-tall3, .is-tall) .svc-tile-title {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+}
+
+[dir="rtl"] .svc-tile--soon .svc-tile-title {
+  font-family: var(--font-body);
+}
+
+.svc-tile--soon:hover {
+  transform: none;
+}
+
+/* One light weight for every bento title; only the size changes with the tile. */
+.svc-tile--soon .svc-tile-title {
+  color: var(--on-dark-subtle);
+  font-weight: 300;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .svc-live::after {
-    animation: none;
+  .svc-tile--soon {
+    opacity: var(--fade);
+    transform: none;
+    transition: none;
+  }
+
+  .svv-slide,
+  .svv-slide img {
+    transition: none;
+  }
+
+}
+
+/* Phones: a compact two-column list. Every tile one cell, and no tile fades past
+   readable, so the whole set fits in a couple of screens instead of a long dim column. */
+@media (max-width: 599px) {
+  .svc-bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    gap: 0.5rem;
+  }
+
+  .svc-tile--soon,
+  .svc-tile--soon:is(.is-xl, .is-hero, .is-lg, .is-wide3, .is-wide, .is-tall3, .is-tall) {
+    grid-column: auto;
+    grid-row: auto;
+    align-items: center;
+    min-height: 3.25rem;
+    padding: 0.7rem 0.85rem;
+  }
+
+  .svc-tile--soon .svc-tile-title,
+  .svc-tile--soon:is(.is-xl, .is-hero, .is-lg, .is-wide3, .is-wide, .is-tall3, .is-tall) .svc-tile-title {
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+
+  .svc-tile--soon.is-in {
+    opacity: max(var(--fade), 0.75);
   }
 }

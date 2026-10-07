@@ -67,7 +67,7 @@ UI: `PricingShowcase` (home/financing) · `PlanCompare`.
 
 Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/app/[locale]/`.
 
-**Header primary nav:** About · Gallery · Units · Amenities · Financing (+ Register CTA, locale switch). Full list in `src/content/nav.ts`.
+**Header primary nav:** About · Gallery · Units · Amenities · Financing (+ Register CTA, locale switch). Full list in `src/content/nav.ts`. Below 1100px the burger opens a full-screen menu that slides in from the burger's side (RTL-aware): centered links, Register, language, logo at the bottom; locks scroll, closes on Escape/route change.
 
 | Path | AR | Status | Notes |
 |------|----|--------|-------|
@@ -76,10 +76,10 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 | `/gallery` | المعرض | **Polished** | Cinematic short hero · flush mosaic tabs (tile hover: photo blurs + darkens, centred zoom icon · category · name) · lightbox · 2 YT videos · **no** bottom RegisterCta |
 | `/units` | الوحدات المتاحة | **Built** | `SubpageHeader` → `UnitsPlans` intro → unit plan section (`features/units/UnitPlanFeatures`: `public/plans/unit-plan.webp` in a framed panel on the start side, the 10 rooms/spaces as numbered tiles in two columns (Inside / Outdoors, ids via `unitPlanRows`), then a dark facts bar (plot · ownership · price from · move-in, `unitPlanPanel` in `content/master-plan.ts`) with a Register interest CTA) → "floor plans coming soon" notice |
 | `/amenities` | المرافق | **Built** | `AmenitiesHoverGrid` |
-| `/financing` | التمويل | **Polished** | Plans + showcase + RegisterCta |
+| `/financing` | التمويل | **Polished** | Header → PricingShowcase picker → Four steps → FAQ |
 | `/faq` | الأسئلة الشائعة | **Polished** | `FaqExplorer` (search + sticky cats + accordion) · **no** RegisterCta |
-| `/register` | سجل اهتمامك | **Polished** | Compact form → WhatsApp · visit/financing chips · side column: chosen-plan card only when `?plan=` is set (no generic "Prices from" card), then a contact card (`.register-contact`: dark top bar, icon · label · value rows for call, WhatsApp, sales office, hours) and the site-visit note |
-| `/leadership` | الإدارة | **Built** | Founder focus · real portrait at `/leadership/tarek-qazan.jpg` · principles · no ISO/CTA band |
+| `/register` | سجل اهتمامك | **Polished** | Compact form → `POST /api/register` → WhatsApp Cloud API template to one sales number (env in `.env.example`; until set, a tap-to-send wa.me fallback). Anti-spam on both sides (`features/register/leadRules.ts`): honeypot, 3s min fill, name/phone/no-links validation, 60s cooldown, per-IP rate limit + per-phone dedupe, optional Turnstile · visit/financing chips · side column: chosen-plan card only when `?plan=` is set (no generic "Prices from" card), then a contact card (`.register-contact`: dark top bar, icon · label · value rows for call, WhatsApp, sales office, hours) and the site-visit note |
+| `/leadership` | الإدارة | **Built** | Founder focus · real portrait at `/leadership/tarek-qazan.jpg` · principles in a dark floating box overlapping the founder section's bottom edge; hover sweeps a green highlight over number (block) and text, text turns black · no ISO/CTA band |
 | `/location` | الخريطة | **Built** | Leaflet + OSRM · `LocationShowcase` / `LocationLeafletMap` |
 | `/services` | خدماتنا | Thin | Simple list from `content/services.ts` — **≠ amenities** |
 | `/master-plan` | المخطط العام | **Built** | Property map hero · unit zones · stats · WA/units CTA |

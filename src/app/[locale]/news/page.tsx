@@ -48,7 +48,7 @@ export default async function NewsPage({ params }: Props) {
                 <p className="mt-3 text-muted">{isAr ? a.excerptAr : a.excerptEn}</p>
                 <Link
                   href={`/news/${a.slug}`}
-                  className="mt-4 inline-block text-sm font-semibold text-primary-ink hover:underline"
+                  className="tap-target mt-4 text-sm font-semibold text-primary-ink hover:underline"
                 >
                   {t("readMore")}
                   <span className="sr-only">: {isAr ? a.titleAr : a.titleEn}</span>

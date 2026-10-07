@@ -12,6 +12,12 @@ body {
 
 html {
   scroll-behavior: smooth;
+  /* No visible page scroll bar; scrolling (wheel, trackpad, keys, touch) still works. */
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
 }
 
 body {

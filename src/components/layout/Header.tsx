@@ -26,7 +26,7 @@ export function Header() {
   const isAr = locale === "ar";
   // Every page opens on a dark band (home hero or SubpageHeader) except these light-topped ones,
   // which need the solid bar from the start.
-  const lightTop = pathname === "/services" || pathname.startsWith("/news/");
+  const lightTop = pathname.startsWith("/news/");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);

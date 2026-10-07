@@ -71,6 +71,33 @@ export const upcomingServices: UpcomingService[] = [
   { id: "gym", titleAr: "نادي رياضي (جيم)", titleEn: "Gym" },
 ];
 
+const C = "/gallery/compoundPics";
+
+/**
+ * Photo shown in the /services viewer for each available service. Café and
+ * 3-phase power have no photo of their own yet, so they use the closest shot
+ * (reception building, solar farm); swap these when real photos exist.
+ */
+export const servicePhotos: Record<string, string> = {
+  "walls-gates": `${C}/main-entrance-gate-sunset.png`,
+  security: `${C}/security-guards-patrol-compound-o.png`,
+  planting: `${C}/gardeners-landscaping-park.png`,
+  housekeeping: `${C}/housekeeping-team.png`,
+  water: `${C}/water-tower-billboard.png`,
+  maintenance: `${C}/engineers-site-office.png`,
+  supermarket: `${C}/fast-shop-mini-market.png`,
+  cafe: `${C}/reception-building.png`,
+  power: `${C}/solar-farm-building-store.png`,
+  streets: `${C}/golf-cart-shuttle-street.png`,
+  golf: `${C}/mini-golf-putting-green.png`,
+  gardens: `${C}/community-park-families.png`,
+  bikes: `${C}/kids-cycling-community-street.png`,
+  reception: `${C}/entrance-fountain-and-gatehouse.png`,
+  prayer: `${C}/mosque-at-sunset.png`,
+  sidewalks: `${C}/palm-roundabout-flower-bed-hd.jpg`,
+  development: `${C}/construction-crew-building-walls.png`,
+};
+
 export const servicesCopy = {
   ar: {
     available: "متاحة الآن",

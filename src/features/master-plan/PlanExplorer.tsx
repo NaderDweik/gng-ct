@@ -42,8 +42,8 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  * blueprint and a scan line sweeps it into the full render.
  * Reduced motion: no wandering, no sweep — hover and tap still highlight.
  *
- * variant "tiles" (/units): the room cards (two columns, styles:
- * styles/sections/unit-plan.css) take the list's place beside the plan.
+ * variant "tiles" (/units): beside the plan, one detail card for the highlighted space
+ * and the space names as grouped buttons (styles: styles/sections/unit-plan.css).
  *
  * `defaultId`: the space shown before the visitor explores (after the entrance,
  * between tutorial steps). Once they've explored, leaving the plan and cards
@@ -417,30 +417,38 @@ export function PlanExplorer({ locale, variant = "list", defaultId }: Props) {
       </figure>
 
       {tiles ? (
-        <div className="up-groups">
-          {tileColumns.map((col, c) => (
-            <div key={c} className="up-col">
-              {col.map((g) => (
-                <div key={g.label} className="up-group" style={{ flexGrow: g.items.length }}>
-                  <p className="up-group-label">{unitPlanPanel[isAr ? "ar" : "en"][g.label]}</p>
-                  <ul className="up-tiles">
-                    {g.items.map((it) => (
-                      <li key={it.id}>
-                        <button
-                          type="button"
-                          className={`up-tile${it.id === activeId ? " is-active" : ""}`}
-                          aria-pressed={it.id === selected}
-                          {...control(it.id)}
-                        >
-                          <span className="up-num">{num(it)}</span>
-                          <span className="up-title">{title(it)}</span>
-                          <span className="up-body">{isAr ? it.bodyAr : it.bodyEn}</span>
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+        /* /units: one card says what the highlighted space is; below it, just the names,
+           grouped, as quiet buttons that light their space up on the plan. */
+        <div className="up-panel">
+          <div className="up-detail" aria-live="polite">
+            {active ? (
+              <div key={active.id} className="up-detail-inner">
+                <span className="up-num">{num(active)}</span>
+                <h3 className="up-title">{title(active)}</h3>
+                <p className="up-body">{isAr ? active.bodyAr : active.bodyEn}</p>
+              </div>
+            ) : (
+              <p className="up-detail-hint">{copy.explorerHint}</p>
+            )}
+          </div>
+
+          {tileColumns.flat().map((g) => (
+            <div key={g.label} className="up-group">
+              <p className="up-group-label">{unitPlanPanel[isAr ? "ar" : "en"][g.label]}</p>
+              <ul className="up-chips">
+                {g.items.map((it) => (
+                  <li key={it.id}>
+                    <button
+                      type="button"
+                      className={`up-chip${it.id === activeId ? " is-active" : ""}`}
+                      aria-pressed={it.id === selected}
+                      {...control(it.id)}
+                    >
+                      {title(it)}
+                    </button>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </div>

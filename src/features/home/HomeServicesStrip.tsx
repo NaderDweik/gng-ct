@@ -1,16 +1,18 @@
+import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
-import { availableServices, upcomingServices } from "@/content/services";
+import { availableServices, servicePhotos, upcomingServices } from "@/content/services";
 import { ServiceIcon } from "@/features/services/ServiceIcon";
 import { formatNumber } from "@/lib/format";
 
 /*
  * Home: what the compound runs around the chalets, leading to /services
  * (styles: styles/sections/home-links.css). Same head as the amenities section above
- * it, then one quiet row of running services: an icon over each name.
+ * it, then a photo bento of running services (one big, four small), each a real photo
+ * with its name on a white corner card, the same caption look as the /services viewer.
  */
 
-const SHOWN = ["security", "maintenance", "housekeeping", "water", "supermarket", "cafe"];
+const SHOWN = ["security", "housekeeping", "supermarket", "golf", "prayer"];
 
 export function HomeServicesStrip({ locale }: { locale: string }) {
   const isAr = locale === "ar";
@@ -37,13 +39,24 @@ export function HomeServicesStrip({ locale }: { locale: string }) {
             </Link>
           </div>
         </div>
-        <ul className="hsv-row">
-          {shown.map((s) => (
-            <li key={s.id} className="hsv-item">
-              <span className="hsv-icon">
-                <ServiceIcon name={s.icon} />
-              </span>
-              {isAr ? s.titleAr : s.titleEn}
+        <ul className="hsv-grid">
+          {shown.map((s, i) => (
+            <li key={s.id} className={`hsv-card${i === 0 ? " is-big" : ""}`}>
+              <Link href="/services" className="hsv-link">
+                <Image
+                  src={servicePhotos[s.id] ?? ""}
+                  alt={isAr ? s.titleAr : s.titleEn}
+                  fill
+                  sizes={i === 0 ? "(min-width: 1024px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"}
+                  className="hsv-img"
+                />
+                <span className="hsv-cap">
+                  <span className="hsv-icon">
+                    <ServiceIcon name={s.icon} />
+                  </span>
+                  <span className="hsv-title">{isAr ? s.titleAr : s.titleEn}</span>
+                </span>
+              </Link>
             </li>
           ))}
         </ul>

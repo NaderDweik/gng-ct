@@ -114,6 +114,11 @@ export function GalleryGrid() {
       if (el) setLine({ x: el.offsetLeft, y: el.offsetTop + el.offsetHeight, w: el.offsetWidth });
     };
     measure();
+    // On phones the row scrolls sideways: bring the chosen tab into view.
+    const active = row.querySelector<HTMLElement>(".gal-tab.is-active");
+    if (active && row.scrollWidth > row.clientWidth) {
+      row.scrollTo({ left: active.offsetLeft - (row.clientWidth - active.offsetWidth) / 2, behavior: "smooth" });
+    }
     const ro = new ResizeObserver(measure);
     ro.observe(row);
     return () => ro.disconnect();

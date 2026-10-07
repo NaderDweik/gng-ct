@@ -305,3 +305,18 @@
   border-color: color-mix(in srgb, var(--white) 50%, transparent);
   background: color-mix(in srgb, var(--white) 22%, transparent);
 }
+
+/* Small text links: a ~44px touch area without moving anything around them. */
+.tap-target,
+.article-back,
+.register-contact-link,
+.hl-link,
+.gd-switch-label {
+  padding-block: 0.75rem;
+  margin-block: -0.75rem;
+}
+
+.tap-target,
+.register-contact-link {
+  display: inline-block;
+}

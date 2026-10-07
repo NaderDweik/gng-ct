@@ -27,10 +27,10 @@ const quickLinks: FooterLink[] = [
   { href: "/register", labelAr: "سجل اهتمامك", labelEn: "Register Interest" },
 ];
 
-function FooterColumn({ title, children }: { title: string; children: ReactNode }) {
+function FooterColumn({ title, children, wide = false }: { title: string; children: ReactNode; wide?: boolean }) {
   return (
-    <div>
-      <h2 className="font-display mb-8 text-base font-bold text-on-dark">{title}</h2>
+    <div className={wide ? "col-span-2 md:col-span-1" : undefined}>
+      <h2 className="font-display mb-3 text-base font-bold text-on-dark lg:mb-8">{title}</h2>
       {children}
     </div>
   );
@@ -38,12 +38,12 @@ function FooterColumn({ title, children }: { title: string; children: ReactNode 
 
 function LinkList({ items, isAr }: { items: FooterLink[]; isAr: boolean }) {
   return (
-    <ul className="space-y-4 text-sm">
+    <ul className="text-sm lg:space-y-4">
       {items.map((item) => (
         <li key={item.href}>
           <Link
             href={item.href}
-            className="inline-block text-on-dark-muted transition-all duration-300 hover:text-on-dark ltr:hover:translate-x-1.5 rtl:hover:-translate-x-1.5"
+            className="inline-block py-2.5 text-on-dark-muted transition-all lg:py-0 duration-300 hover:text-on-dark ltr:hover:translate-x-1.5 rtl:hover:-translate-x-1.5"
           >
             {isAr ? item.labelAr : item.labelEn}
           </Link>
@@ -72,15 +72,15 @@ export function Footer() {
   ];
 
   return (
-    <footer className="relative overflow-hidden border-t border-line-on-dark bg-secondary pb-12 pt-24 text-on-dark">
+    <footer className="relative overflow-hidden border-t border-line-on-dark bg-secondary pb-12 pt-16 text-on-dark md:pt-24">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
       <div className="pointer-events-none absolute bottom-0 left-1/2 h-[250px] w-[600px] -translate-x-1/2 rounded-full bg-white/[0.03] blur-[100px]" />
 
       <div className="container-gc relative z-10">
-        <div className="grid gap-12 border-b border-line-on-dark pb-20 text-start md:grid-cols-2 lg:grid-cols-4">
-          <div className="space-y-6">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 border-b border-line-on-dark pb-12 text-start md:gap-12 md:pb-20 lg:grid-cols-4">
+          <div className="col-span-2 space-y-6 md:col-span-1">
             <Link href="/" className="block w-fit transition-transform duration-100 active:scale-[0.98]" aria-label={site.nameEn}>
-              <GivingLogo variant="light" className="h-20 w-auto" />
+              <GivingLogo variant="light" className="h-16 w-auto md:h-20" />
             </Link>
             <p className="text-sm leading-relaxed text-on-dark-muted">
               {isAr
@@ -95,7 +95,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={s.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-fill-on-dark text-on-dark-muted shadow-sm transition-all duration-300 hover:scale-105 hover:bg-white/20 hover:text-on-dark active:scale-95"
+                  className="flex h-11 w-11 items-center justify-center rounded-full bg-fill-on-dark text-on-dark-muted shadow-sm transition-all duration-300 hover:scale-105 hover:bg-white/20 hover:text-on-dark active:scale-95"
                 >
                   <SocialIcon name={s.name} />
                 </a>
@@ -111,7 +111,7 @@ export function Footer() {
             <LinkList items={quickLinks} isAr={isAr} />
           </FooterColumn>
 
-          <FooterColumn title={isAr ? "مكتب المبيعات" : "Sales Office"}>
+          <FooterColumn wide title={isAr ? "مكتب المبيعات" : "Sales Office"}>
             <address className="space-y-4 text-sm not-italic text-on-dark-muted">
               <p>{isAr ? site.locationAr : site.locationEn}</p>
               <p>
@@ -119,11 +119,11 @@ export function Footer() {
                 <br />
                 {isAr ? site.hoursAr.saturday : site.hoursEn.saturday}
               </p>
-              <div className="space-y-2 pt-2">
+              <div className="pt-2 lg:space-y-2">
                 <a
                   href={`tel:${site.phoneAction}`}
                   dir="ltr"
-                  className="block w-fit font-bold text-on-dark transition-colors hover:text-on-dark-muted"
+                  className="block w-fit py-2 font-bold text-on-dark transition-colors hover:text-on-dark-muted lg:py-0"
                 >
                   {formatPhone(site.phone)}
                 </a>
@@ -131,7 +131,7 @@ export function Footer() {
                   href={site.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block w-fit font-bold text-on-dark transition-colors hover:text-on-dark-muted"
+                  className="block w-fit py-2 font-bold text-on-dark transition-colors hover:text-on-dark-muted lg:py-0"
                 >
                   {isAr ? "تواصل عبر واتساب" : "Chat on WhatsApp"}
                 </a>
@@ -148,7 +148,7 @@ export function Footer() {
                 {isAr ? "جميع الحقوق محفوظة." : "All rights reserved."}
               </p>
               <span className="hidden select-none text-line-on-dark md:inline">|</span>
-              <span className="rounded border border-white/20 bg-fill-on-dark px-2 py-0.5 text-[10px] text-on-dark">
+              <span className="rounded border border-white/20 bg-fill-on-dark px-2 py-0.5 text-[11px] text-on-dark">
                 {site.iso}
               </span>
             </div>
@@ -161,7 +161,7 @@ export function Footer() {
             type="button"
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             aria-label={isAr ? "الرجوع لأعلى الصفحة" : "Back to top"}
-            className="flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border border-white/15 text-on-dark-muted transition-all duration-300 hover:bg-white/20 hover:text-on-dark active:scale-95"
+            className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full border border-white/15 text-on-dark-muted transition-all duration-300 hover:bg-white/20 hover:text-on-dark active:scale-95"
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
               <path d="m18 15-6-6-6 6" />

@@ -298,3 +298,11 @@
 [dir="rtl"] .loc-bar {
   transform-origin: right center;
 }
+
+/* Phones: the map is zoomed out, so the destination label lands on top of the
+   compound's own tag. The card under the pin already names the compound. */
+@media (max-width: 639px) {
+  .gc-marker-label--project {
+    display: none;
+  }
+}

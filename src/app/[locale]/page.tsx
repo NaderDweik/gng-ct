@@ -170,7 +170,7 @@ export default async function HomePage({ params }: Props) {
           V-line motif in the darkest green at both sides, fading out toward the middle */}
       <section className="relative overflow-hidden border-y border-line bg-primary text-on-dark">
         <VLines />
-        <div className="container-gc relative z-[1] grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="container-gc relative z-[1] grid grid-cols-2 gap-x-6 gap-y-8 py-12 md:gap-10 md:py-14 lg:grid-cols-4">
           {[
             { v: `${site.stats.units}+`, l: t("statsUnits") },
             {
@@ -182,7 +182,7 @@ export default async function HomePage({ params }: Props) {
             { v: "0%", l: isAr ? "فوائد على خطط الدفع" : "interest on payment plans" },
           ].map((s) => (
             <div key={s.l}>
-              <p className="font-display text-4xl font-bold tracking-tight md:text-5xl">
+              <p className="font-display text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
                 {s.v}
               </p>
               <p className="mt-2 text-sm text-on-dark-muted">{s.l}</p>

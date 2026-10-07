@@ -66,6 +66,27 @@
   border-bottom: 1px solid var(--line);
 }
 
+/* Phones: one row that scrolls sideways instead of three wrapped rows. */
+@media (max-width: 767px) {
+  .gal-tabs {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: calc(-1 * var(--gutter, 1rem));
+    padding-inline: var(--gutter, 1rem);
+  }
+
+  .gal-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .gal-tab {
+    flex: 0 0 auto;
+    padding-inline: 0.9rem;
+  }
+}
+
 .gal-tab {
   position: relative;
   padding: 1.1rem 1.35rem;

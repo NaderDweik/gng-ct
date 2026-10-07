@@ -87,7 +87,7 @@ export function FaqExplorer() {
   };
 
   return (
-    <div className="grid items-start gap-10 lg:grid-cols-[280px_1fr] lg:gap-14">
+    <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-10 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-14">
       <aside className="space-y-5 lg:sticky lg:top-28">
         <label className="faq-search">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden>
