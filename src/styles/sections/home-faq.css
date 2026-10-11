@@ -9,6 +9,13 @@
     grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
     align-items: start;
   }
+
+  /* The intro rides along beside the questions while you read them, under the fixed
+     site header, and stops with the end of the list. */
+  .hfaq-intro {
+    position: sticky;
+    top: 7.5rem;
+  }
 }
 
 .hfaq-lead {
@@ -32,7 +39,7 @@
   min-height: 4.5rem;
   padding: 1.25rem 0.25rem;
   color: var(--ink);
-  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  font-size: var(--fs-h4);
   font-weight: 600;
   line-height: 1.4;
   width: 100%;
@@ -52,7 +59,7 @@
 .hfaq-num {
   color: var(--subtle);
   font-family: var(--font-display);
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
   font-variant-numeric: tabular-nums;
 }
 
@@ -98,7 +105,7 @@
   margin: 0;
   padding: 0 3.5rem 1.6rem;
   color: var(--muted);
-  font-size: 1.05rem;
+  font-size: var(--fs-body);
   line-height: 1.8;
 }
 

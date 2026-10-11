@@ -1,18 +1,30 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { basePriceJd, cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct, toPlanChoice, type PlanChoice } from "@/content/pricing";
+import { basePriceJd, cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct, type PlanChoice } from "@/content/pricing";
 import { formatNumber } from "@/lib/format";
+import { ArrowIcon } from "@/components/ui/ArrowIcon";
 
 /*
- * Financing, said plainly: one price for every chalet and two ways to pay.
- * Installments — a down payment the buyer chooses, then 1% of the price a month;
- * the bigger the down payment, the sooner the handover.
- * Cash — the full price at a discount. Amounts and dates are agreed at the
- * sales office, so the card shows the rule, not a table.
+ * Financing, said plainly (styles: styles/sections/pricing.css). A dark panel: the pitch on
+ * the start side with one card per way to pay underneath (its headline figure, then the
+ * numbers that follow from it), and the chalet price with the register CTA on the end side.
+ * Installments: a down payment the buyer chooses, then 1% of the price a month; the bigger
+ * the down payment, the sooner the handover. Cash: the full price at a discount. Amounts
+ * and dates are agreed at the sales office, so the cards show the rule, not a table.
  */
+
+type Plan = {
+  id: PlanChoice;
+  name: string;
+  figure: string;
+  caption: string;
+  rows: { k: string; v: string; accent?: boolean; total?: boolean }[];
+  note: string;
+  cta: string;
+};
+
 export function PricingShowcase() {
   const locale = useLocale();
   const isAr = locale === "ar";
@@ -21,128 +33,92 @@ export function PricingShowcase() {
   const n = (v: number) => formatNumber(v, locale);
   const pct = (v: number) => `${n(v)}${isAr ? "٪" : "%"}`;
 
-  const [choice, setChoice] = useState<PlanChoice>("installments");
 
-  // Deep link: /financing?plan=cash (or plan=installments).
-  useEffect(() => {
-    const wanted = toPlanChoice(new URLSearchParams(window.location.search).get("plan"));
-    if (wanted) setChoice(wanted);
-  }, []);
-
-  // Each option's headline figure sits large in the tab's corner and lights up when chosen.
-  const options: { id: PlanChoice; label: string; figure: string; caption: string }[] = [
-    { id: "installments", label: isAr ? "دفعة أولى" : "Down payment", figure: pct(monthlyPct), caption: isAr ? "شهريًا" : "a month" },
-    { id: "cash", label: isAr ? "نقدًا" : "Cash", figure: pct(cashDiscountPct), caption: isAr ? "خصم" : "off" },
+  const plans: Plan[] = [
+    {
+      id: "installments",
+      name: isAr ? "بالتقسيط" : "Installments",
+      figure: pct(monthlyPct),
+      caption: isAr ? "شهريًا" : "a month",
+      rows: [
+        { k: isAr ? "الدفعة الأولى" : "Down payment", v: isAr ? "تختار قيمتها" : "You choose" },
+        { k: isAr ? "كل شهر" : "Every month", v: `${n(monthlyJd)} ${jd}`, accent: true },
+        { k: isAr ? "المجموع، بدون فوائد" : "Total, zero interest", v: `${n(basePriceJd)} ${jd}`, total: true },
+      ],
+      note: isAr
+        ? "كلما زادت دفعتك الأولى، استلمت شاليهك أسرع."
+        : "The bigger your down payment, the sooner your chalet is handed over.",
+      cta: isAr ? "اختر التقسيط" : "Choose installments",
+    },
+    {
+      id: "cash",
+      name: isAr ? "نقدًا" : "Cash",
+      figure: pct(cashDiscountPct),
+      caption: isAr ? "خصم" : "off",
+      rows: [
+        { k: isAr ? "توفّر" : "You save", v: `${n(basePriceJd - cashPriceJd)} ${jd}`, accent: true },
+        { k: isAr ? "الدفعات" : "Payments", v: isAr ? "دفعة واحدة" : "One" },
+        { k: isAr ? "المجموع" : "Total", v: `${n(cashPriceJd)} ${jd}`, total: true },
+      ],
+      note: isAr ? "موعد التسليم حسب الشاليه الذي تختاره." : "Handover depends on the chalet you choose.",
+      cta: isAr ? "اختر الدفع النقدي" : "Choose cash",
+    },
   ];
 
-  const rows: { label: string; value: string; note?: string; accent?: boolean }[] =
-    choice === "cash"
-      ? [
-          {
-            label: isAr ? "تدفع اليوم" : "You pay today",
-            value: `${n(cashPriceJd)} ${jd}`,
-            note: isAr ? "دفعة واحدة" : "One payment",
-          },
-          {
-            label: isAr ? "توفّر" : "You save",
-            value: `${n(basePriceJd - cashPriceJd)} ${jd}`,
-            note: isAr ? `خصم ${pct(cashDiscountPct)}` : `${cashDiscountPct}% off`,
-            accent: true,
-          },
-          { label: isAr ? "الأقساط" : "Monthly payments", value: isAr ? "لا يوجد" : "None" },
-        ]
-      : [
-          {
-            label: isAr ? "الدفعة الأولى" : "Down payment",
-            value: isAr ? "تختار قيمتها" : "You choose",
-            note: isAr ? "نتفق عليها معك في مكتب المبيعات" : "Agreed with you at the sales office",
-          },
-          {
-            label: isAr ? "ثم كل شهر" : "Then every month",
-            value: `${n(monthlyJd)} ${jd}`,
-            note: isAr ? `${pct(monthlyPct)} من السعر` : `${monthlyPct}% of the price`,
-            accent: true,
-          },
-        ];
-
   return (
-    <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
-      <div>
-        <p className="section-eyebrow">{tc("financing")}</p>
-        <h2 className="section-title">{isAr ? "طريقتان لتملّك شاليهك." : "Two ways to own your chalet."}</h2>
-        <p className="section-sub">
+    <div className="fin">
+      <div className="fin-main">
+        <p className="fin-badge">{tc("financing")}</p>
+        <h2 className="fin-title">{isAr ? "طريقتان لتملّك شاليهك." : "Two ways to own your chalet."}</h2>
+        <p className="fin-lead">
           {isAr
-            ? `جميع الشاليهات بسعر ${n(basePriceJd)} ${jd}. قسّط شاليهك بدفعة أولى تختار قيمتها، ثم ${pct(monthlyPct)} من السعر شهريًا (${n(monthlyJd)} ${jd})، وكلما زادت دفعتك الأولى استلمت شاليهك أسرع. أو ادفع نقدًا ووفّر ${pct(cashDiscountPct)}. قيمة الدفعة وموعد الاستلام نتفق عليهما معك عند زيارتك لمكتب المبيعات.`
-            : `Every chalet is ${n(basePriceJd)} ${jd}. Pay in installments: a down payment you choose, then ${monthlyPct}% of the price a month (${n(monthlyJd)} ${jd}). The bigger your down payment, the sooner your chalet is handed over. Or pay cash and save ${cashDiscountPct}%. We agree the down payment and handover date with you at our sales office.`}
+            ? `جميع الشاليهات بسعر ${n(basePriceJd)} ${jd}، بتمويل مباشر من الشركة وبدون فوائد. قسّط شاليهك أو ادفع نقدًا بخصم ${pct(cashDiscountPct)}، ونتفق معك على الدفعة الأولى وموعد الاستلام عند زيارتك لمكتب المبيعات.`
+            : `Every chalet is ${n(basePriceJd)} ${jd}, financed directly by the developer with zero interest. Pay in installments, or pay cash and save ${cashDiscountPct}%. We agree the down payment and handover date with you at our sales office.`}
         </p>
-        <div className="mt-10">
-          <Link href={`/register?plan=${choice}`} className="btn btn-primary">
+
+        <div className="fin-plans">
+          {plans.map((p) => (
+            <article key={p.id} className="fin-plan">
+              <p className="fin-plan-name">{p.name}</p>
+              <p className="fin-plan-figure">
+                {p.figure}
+                <small>{p.caption}</small>
+              </p>
+              <dl className="fin-plan-rows">
+                {p.rows.map((r) => (
+                  <div key={r.k} className={`fin-plan-row${r.total ? " is-total" : ""}`}>
+                    <dt>{r.k}</dt>
+                    <dd className={r.accent ? "is-accent" : undefined}>{r.v}</dd>
+                  </div>
+                ))}
+              </dl>
+              <p className="fin-plan-note">{p.note}</p>
+              <Link href="/register" className="fin-plan-cta">
+                {p.cta}
+                <ArrowIcon />
+              </Link>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <aside className="fin-aside">
+        <div className="fin-price">
+          <p className="fin-price-label">{isAr ? "سعر كل شاليه" : "Every chalet"}</p>
+          <p className="fin-price-figure">
+            {n(basePriceJd)} <small>{jd}</small>
+          </p>
+          <p className="fin-price-tag">{isAr ? "بدون فوائد · مباشرة مع الشركة" : "Zero interest · Direct with the developer"}</p>
+          <p className="fin-price-text">
+            {isAr
+              ? "بدون بنوك أو وسطاء. سند ملكية مستقل باسمك."
+              : "No banks, no brokers. An independent title deed in your name."}
+          </p>
+          <Link href="/register" className="fin-price-btn">
             {tc("register")}
           </Link>
         </div>
-      </div>
-
-      <div className="pricing-card">
-        <p className="text-sm font-bold text-on-dark">
-          {isAr ? "كيف تريد أن تدفع؟" : "How would you like to pay?"}
-        </p>
-        <div
-          role="tablist"
-          aria-label={isAr ? "طريقة الدفع" : "Payment option"}
-          className="pricing-tabs mt-4"
-          data-on={choice}
-        >
-          {/* The white panel behind the chosen tab; it glides when the choice changes. */}
-          <span className="pricing-plan-thumb" aria-hidden />
-          {options.map((o) => (
-            <button
-              key={o.id}
-              type="button"
-              role="tab"
-              aria-selected={choice === o.id}
-              onClick={() => setChoice(o.id)}
-              className={`pricing-plan-tab${choice === o.id ? " is-active" : ""}`}
-            >
-              <span className="pricing-plan-tab-figure" aria-hidden>
-                {o.figure}
-                <small>{o.caption}</small>
-              </span>
-              <span className="pricing-plan-tab-label">{o.label}</span>
-              <span className="sr-only">
-                {o.figure} {o.caption}
-              </span>
-            </button>
-          ))}
-        </div>
-
-        <dl key={choice} className="pricing-fade mt-8">
-          {rows.map((r) => (
-            <div key={r.label} className="pricing-row">
-              <dt className="text-on-dark-muted">{r.label}</dt>
-              <dd className="text-end">
-                <span className={`font-display block text-2xl font-bold tabular-nums md:text-3xl${r.accent ? " text-accent" : ""}`}>
-                  {r.value}
-                </span>
-                {r.note && <span className="mt-1 block text-sm text-on-dark-muted">{r.note}</span>}
-              </dd>
-            </div>
-          ))}
-
-          <div className="pricing-row pricing-row--total">
-            <dt className="font-bold text-on-dark">{isAr ? "المجموع" : "Total"}</dt>
-            <dd className="text-end">
-              <span className="font-display block text-2xl font-bold tabular-nums md:text-3xl">
-                {n(choice === "cash" ? cashPriceJd : basePriceJd)} {jd}
-              </span>
-              <span className="mt-1 block text-sm text-on-dark-muted">
-                {choice === "cash"
-                  ? isAr ? "التسليم حسب الشاليه" : "Handover depends on the chalet"
-                  : isAr ? "سعر الشاليه، بدون فوائد" : "The chalet price, zero interest"}
-              </span>
-            </dd>
-          </div>
-        </dl>
-      </div>
+      </aside>
     </div>
   );
 }

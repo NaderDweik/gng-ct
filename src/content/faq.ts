@@ -16,9 +16,9 @@ export const faqCategories: FaqCategory[] = [
       {
         id: "price",
         qAr: "ما هو سعر الشاليه في Giving Compound؟",
-        aAr: "جميع الشاليهات بسعر ١٦٨,٠٠٠ دينار أردني. يتوفر خصم ٢٤٪ عند الدفع نقدًا (١٢٧,٦٨٠ دينار).",
+        aAr: "جميع الشاليهات بسعر ١٦٨,٠٠٠ دينار أردني. يتوفر خصم ٢٤٪ عند الدفع نقدًا (١٢٨,٠٠٠ دينار).",
         qEn: "What is the chalet price at Giving Compound?",
-        aEn: "Every chalet is 168,000 JD. A 24% cash discount brings it to 127,680 JD.",
+        aEn: "Every chalet is 168,000 JD. A 24% cash discount brings it to 128,000 JD.",
       },
       {
         id: "deed",

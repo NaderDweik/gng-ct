@@ -141,11 +141,8 @@ export default async function HomePage({ params }: Props) {
                 {isAr ? amenitiesIntro.titleAr : amenitiesIntro.titleEn}
               </h2>
             </div>
-            {/* Intro + the way in, together — visible as soon as the section is. */}
+            {/* The way in, visible as soon as the section is. */}
             <div className="flex flex-col items-start gap-6 lg:items-end">
-              <p className="section-sub">
-                {isAr ? amenitiesIntro.subAr : amenitiesIntro.subEn}
-              </p>
               <Link href="/amenities" className="gallery-outline-btn">
                 {isAr ? "استكشف كل المرافق" : "Explore all amenities"}
                 <ArrowIcon className="arrow" />
@@ -162,15 +159,23 @@ export default async function HomePage({ params }: Props) {
       {/* Location showcase */}
       <section className="section bg-surface-tint">
         <div className="container-gc">
+          <header className="mx-auto mb-10 max-w-2xl text-center md:mb-12">
+            <p className="section-eyebrow">{isAr ? "الطريق إلينا" : "Getting here"}</p>
+            {/* Inline margins: .section-title's own margin shorthand outranks mx-auto. */}
+            <h2 className="section-title" style={{ marginInline: "auto", marginBottom: 0 }}>
+              {isAr ? "قريب من المدينة، بعيد عن ضجيجها." : "Close to the city, away from the noise."}
+            </h2>
+          </header>
           <LocationShowcase />
         </div>
       </section>
 
-      {/* Stats — white on the primary teal (by choice; contrast is ~2.4:1), with the banner's
-          V-line motif in the darkest green at both sides, fading out toward the middle */}
-      <section className="relative overflow-hidden border-y border-line bg-primary text-on-dark">
+      {/* Stats: teal figures and white labels on the charcoal band (AA), each figure centred
+          over its label, with the banner's V-line motif in teal at both sides, fading out
+          toward the middle */}
+      <section className="stats-band relative overflow-hidden border-y border-line text-on-dark">
         <VLines />
-        <div className="container-gc relative z-[1] grid grid-cols-2 gap-x-6 gap-y-8 py-12 md:gap-10 md:py-14 lg:grid-cols-4">
+        <div className="container-gc relative z-[1] grid grid-cols-2 gap-x-6 gap-y-10 py-12 text-center md:gap-10 md:py-16 lg:grid-cols-4">
           {[
             { v: `${site.stats.units}+`, l: t("statsUnits") },
             {
@@ -182,10 +187,10 @@ export default async function HomePage({ params }: Props) {
             { v: "0%", l: isAr ? "فوائد على خطط الدفع" : "interest on payment plans" },
           ].map((s) => (
             <div key={s.l}>
-              <p className="font-display text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl">
+              <p className="stats-band-figure font-display text-(length:--fs-stat) font-bold tracking-tight">
                 {s.v}
               </p>
-              <p className="mt-2 text-sm text-on-dark-muted">{s.l}</p>
+              <p className="mt-3 text-sm font-medium md:text-base">{s.l}</p>
             </div>
           ))}
         </div>

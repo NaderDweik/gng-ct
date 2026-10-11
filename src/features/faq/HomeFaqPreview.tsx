@@ -65,7 +65,7 @@ export function HomeFaqPreview({ items }: Props) {
         </p>
         <Link
           href="/register"
-          className="mt-7 inline-flex items-center gap-[9px] border-b border-primary-ink pb-1 text-[13px] font-medium text-primary-ink transition-all duration-300 hover:gap-[14px] hover:opacity-80"
+          className="mt-7 inline-flex items-center gap-[9px] border-b border-primary-ink pb-1 text-(length:--fs-small) font-medium text-primary-ink transition-all duration-300 hover:gap-[14px] hover:opacity-80"
         >
           {isAr ? "لا يزال لديك سؤال؟ تحدّث إلى فريقنا" : "Still have a question? Talk to our team"}
           <ArrowUpRight className={isAr ? "rotate-180" : ""} />
@@ -86,14 +86,14 @@ export function HomeFaqPreview({ items }: Props) {
                   className="flex w-full items-center gap-[clamp(16px,2vw,28px)] bg-transparent py-[clamp(22px,2.4vw,30px)] text-start transition-colors duration-300 hover:text-primary-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus-ring"
                 >
                   <span
-                    className={`shrink-0 font-display text-[clamp(18px,1.6vw,22px)] font-semibold leading-none transition-colors duration-300 ${
+                    className={`shrink-0 font-display text-(length:--fs-h4) font-semibold leading-none transition-colors duration-300 ${
                       isOpen ? "text-primary-ink" : "text-muted"
                     }`}
                   >
                     {num}
                   </span>
                   <span
-                    className={`flex-1 text-[clamp(17px,1.5vw,20px)] transition-colors duration-300 ${
+                    className={`flex-1 text-(length:--fs-h4) transition-colors duration-300 ${
                       isOpen ? "text-primary-ink" : "text-ink"
                     }`}
                   >
@@ -107,7 +107,7 @@ export function HomeFaqPreview({ items }: Props) {
                   }`}
                 >
                   <div className="overflow-hidden">
-                    <p className="pb-[clamp(22px,2.4vw,30px)] ps-[clamp(34px,3.6vw,50px)] text-[15.5px] leading-[1.75] text-muted md:ps-0 lg:ps-[clamp(34px,3.6vw,50px)]">
+                    <p className="pb-[clamp(22px,2.4vw,30px)] ps-[clamp(34px,3.6vw,50px)] text-(length:--fs-body) leading-[1.75] text-muted md:ps-0 lg:ps-[clamp(34px,3.6vw,50px)]">
                       {isAr ? item.aAr : item.aEn}
                     </p>
                   </div>

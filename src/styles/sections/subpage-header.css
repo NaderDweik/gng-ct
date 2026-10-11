@@ -34,7 +34,7 @@
   display: block;
   margin-bottom: 0.75rem;
   color: var(--on-dark-muted);
-  font-size: 11px;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -43,7 +43,7 @@
 
 [dir="rtl"] .sh-eyebrow {
   letter-spacing: 0;
-  font-size: 12px;
+  font-size: var(--fs-caption);
 }
 
 .sh-title {
@@ -51,7 +51,7 @@
   overflow: hidden;
   color: var(--on-dark);
   font-family: var(--font-display);
-  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  font-size: var(--fs-h1);
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: -0.02em;
@@ -72,7 +72,7 @@
   margin: 0.75rem auto 0;
   max-width: 40rem;
   color: var(--on-dark-muted);
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
   line-height: 1.6;
   animation: sh-fade 0.7s var(--ease) 0.35s both;
 }
@@ -132,7 +132,7 @@
 .sh-stats-grid dd {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(1.9rem, 3.4vw, 2.6rem);
+  font-size: var(--fs-stat);
   font-weight: 700;
   line-height: 1;
   font-variant-numeric: tabular-nums;
@@ -142,11 +142,11 @@
   margin-inline-start: 0.3rem;
   color: var(--on-dark-muted);
   font-family: var(--font-body);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
   font-weight: 500;
 }
 
 .sh-stats-grid dt {
   color: var(--on-dark-muted);
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
 }

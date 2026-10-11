@@ -26,7 +26,7 @@
   margin-top: 0.65rem;
   max-width: 14ch;
   font-family: var(--font-display);
-  font-size: clamp(1.85rem, 4.2vw, 3.25rem);
+  font-size: var(--fs-h1);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.03em;
@@ -39,10 +39,22 @@
 }
 
 .register-panel {
-  padding: clamp(1.15rem, 2.2vw, 1.75rem);
+  --rp-pad: clamp(1.15rem, 2.2vw, 1.75rem);
+  padding: var(--rp-pad);
   background: var(--surface);
   border: 1px solid var(--line);
   box-shadow: var(--shadow-card);
+}
+
+/* The form's heading sits in a dark bar across the top of the panel (edge to edge). */
+.register-panel-head {
+  margin: calc(var(--rp-pad) * -1) calc(var(--rp-pad) * -1) var(--rp-pad);
+  padding: calc(var(--rp-pad) * 0.9) var(--rp-pad);
+  /* The green-glow gradient of the FAQ "Didn't find it?" card (.faq-help), with the glow
+     reshaped for a wide, short bar. */
+  background:
+    radial-gradient(60% 220% at 100% 0%, color-mix(in srgb, var(--brand-accent) 18%, transparent), transparent 60%),
+    linear-gradient(160deg, var(--brand-secondary-light), var(--brand-secondary-deep));
 }
 
 .register-body {
@@ -55,13 +67,15 @@
   border: 1px solid var(--line);
 }
 
-/* Site-visit card: the register CTA's video loop under a tint, text above both. */
+/* Site-visit card (top of the side column): the register CTA's video loop under a tint,
+   text above both; it grows so the column ends level with the form. */
 .register-visit {
   position: relative;
   isolation: isolate;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1;
   min-height: clamp(10rem, 16vw, 12.5rem);
   text-align: center;
   overflow: hidden;
@@ -126,7 +140,7 @@
 .register-contact-label {
   margin: 0 0 0.35rem;
   color: var(--subtle);
-  font-size: 0.7rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -138,7 +152,7 @@
 
 .register-contact-value {
   color: var(--ink);
-  font-size: 1.05rem;
+  font-size: var(--fs-body);
   font-weight: 500;
   line-height: 1.5;
 }
@@ -163,7 +177,7 @@
 .register-field span {
   display: block;
   margin-bottom: 0.5rem;
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.04em;
   color: var(--ink);
@@ -205,7 +219,7 @@
 .register-error {
   display: block;
   margin-top: 0.4rem;
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
   font-style: normal;
   font-weight: 600;
   color: var(--register-error);
@@ -221,21 +235,28 @@
   display: none;
 }
 
-/* Honeypot: off-screen rather than display:none, which some bots skip. */
+/* Honeypot: visually hidden in place rather than display:none (which some bots skip).
+   Never pushed off-screen: a large left offset becomes horizontal scroll in RTL. */
 .register-hp {
   position: absolute;
-  left: -10000px;
   width: 1px;
   height: 1px;
   overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .register-field input::placeholder,
 .register-field textarea::placeholder {
-  color: var(--neutral-400);
+  color: var(--subtle); /* 4.7:1 on white (neutral-400 was 2.5:1) */
 }
 
 .register-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
   padding: 0.75rem 0.9rem;
   text-align: start;
   border: 1px solid var(--line);
@@ -254,9 +275,43 @@
   box-shadow: inset 0 0 0 1px var(--primary-ink);
 }
 
+/* Radio mark inside each choice: an empty ring, filled with a dot when chosen. */
+.register-radio {
+  position: relative;
+  flex-shrink: 0;
+  width: 1.15rem;
+  height: 1.15rem;
+  border: 1.5px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--surface);
+  transition: border-color 0.25s ease;
+}
+
+.register-radio::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--primary-ink);
+  transform: scale(0);
+  transition: transform 0.25s var(--ease);
+}
+
+.register-choice:hover .register-radio {
+  border-color: var(--primary-ink);
+}
+
+.register-choice.is-active .register-radio {
+  border-color: var(--primary-ink);
+}
+
+.register-choice.is-active .register-radio::after {
+  transform: scale(1);
+}
+
 .register-time {
   padding: 0.65rem 1.1rem;
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
   font-weight: 700;
   border: 1px solid var(--line);
   background: var(--surface);
@@ -285,7 +340,7 @@
   padding: 0.85rem 1.35rem;
   background: var(--brand-primary);
   color: var(--on-primary);
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -305,7 +360,7 @@
   padding: 0.9rem 1.25rem;
   border: 1px solid var(--line);
   color: var(--ink);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
   font-weight: 600;
   text-decoration: none;
   transition: border-color 0.25s ease, background 0.25s ease;

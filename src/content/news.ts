@@ -103,12 +103,12 @@ export const articles: Article[] = [
     date: "2026-03-18",
     keywords: ["تقسيط شاليه أردن", "شراء بدون فوائد", "خطة دفع عقاري"],
     bodyAr: [
-      "جميع الشاليهات بسعر ١٦٨,٠٠٠ دينار، مع خصم ٢٤٪ عند الدفع النقدي ليصبح ١٢٧,٦٨٠ دينار.",
+      "جميع الشاليهات بسعر ١٦٨,٠٠٠ دينار، مع خصم ٢٤٪ عند الدفع النقدي ليصبح ١٢٨,٠٠٠ دينار.",
       "التقسيط بدفعة أولى تختار قيمتها، ثم ١٪ من السعر شهريًا (١,٦٨٠ دينار). كلما زادت الدفعة الأولى، استلمت شاليهك أسرع، ونتفق معك على الدفعة وموعد الاستلام عند زيارة الشركة.",
       "التعامل مباشر مع الشركة بدون بنك وسيط، ما يبسّط الإجراءات ويحافظ على الشفافية.",
     ],
     bodyEn: [
-      "Every chalet is 168,000 JD; cash buyers save 24% at 127,680 JD.",
+      "Every chalet is 168,000 JD; cash buyers save 24% at 128,000 JD.",
       "Installments start with a down payment you choose, then 1% of the price a month (1,680 JD). The bigger the down payment, the sooner your chalet is handed over; we agree both with you when you visit us.",
       "Dealing directly with the company (no bank) keeps the process simple and transparent.",
     ],

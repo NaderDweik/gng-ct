@@ -48,7 +48,7 @@
   border-radius: 0.25rem;
   background: var(--surface-tint);
   color: var(--secondary-ink);
-  font-size: 11px;
+  font-size: var(--fs-caption);
   font-weight: 600;
   letter-spacing: 0.025em;
   transition:
@@ -81,7 +81,7 @@
   z-index: 10;
   color: var(--subtle);
   font-family: var(--font-display);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   transition: color 0.35s var(--ease), translate 0.5s var(--ease);
@@ -142,7 +142,8 @@
 /* ── Home amenities: horizontal cards. Markup: features/amenities/AmenitiesGrid.tsx ── */
 .amg {
   --amg-photo: 40%;
-  --amg-shift: calc(40 / 60);
+  /* How far the text travels on hover: the photo's width, in card widths (cqw). */
+  --amg-move: 40cqw;
   display: grid;
   gap: clamp(0.75rem, 1.4vw, 1.25rem);
   margin: 0;
@@ -182,6 +183,8 @@
   --amg-ease: cubic-bezier(0.65, 0, 0.35, 1);
   --amg-dur: 0.85s;
   --amg-dir: 1;
+  /* Lets the text pieces move by a share of the card's width. */
+  container-type: inline-size;
 }
 
 [dir="rtl"] .amg-card {
@@ -246,8 +249,21 @@
   gap: 0.4rem;
   margin-inline-start: var(--amg-photo);
   padding: clamp(1rem, 1.8vw, 1.5rem);
-  transition: translate var(--amg-dur) var(--amg-ease);
 }
+
+/* On hover the icon, title and description slide to the card's start edge one after
+   another (their own widths stay put, so nothing re-wraps); leaving, they return in
+   reverse order. --amg-in / --amg-out are each piece's delay. */
+.amg-icon,
+.amg-title,
+.amg-desc {
+  --amg-step: 0.09s;
+  --amg-text-dur: 0.7s;
+}
+
+.amg-icon { --amg-in: 0s; --amg-out: calc(var(--amg-step) * 2); }
+.amg-title { --amg-in: var(--amg-step); --amg-out: var(--amg-step); }
+.amg-desc { --amg-in: calc(var(--amg-step) * 2); --amg-out: 0s; }
 
 .amg-icon {
   display: grid;
@@ -259,7 +275,8 @@
   color: var(--primary-ink);
   transition:
     background-color 0.35s ease,
-    color 0.35s ease;
+    color 0.35s ease,
+    translate var(--amg-text-dur) var(--amg-ease) var(--amg-out);
 }
 
 .amg-icon svg {
@@ -269,12 +286,14 @@
 
 .amg-title {
   font-family: var(--font-display);
-  font-size: clamp(1.2rem, 1.6vw, 1.45rem);
+  font-size: var(--fs-h4);
   font-weight: 700;
   line-height: 1.3;
   text-wrap: balance;
   /* Colour flips quickly so the text is already light when it crosses onto the photo. */
-  transition: color 0.35s ease;
+  transition:
+    color 0.35s ease,
+    translate var(--amg-text-dur) var(--amg-ease) var(--amg-out);
 }
 
 [dir="rtl"] .amg-title {
@@ -283,11 +302,13 @@
 
 .amg-desc {
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
   font-weight: 300;
   line-height: 1.6;
   text-wrap: pretty;
-  transition: color 0.35s ease;
+  transition:
+    color 0.35s ease,
+    translate var(--amg-text-dur) var(--amg-ease) var(--amg-out);
 }
 
 /* ── Hover / focus ── */
@@ -311,11 +332,15 @@
   scale: 1;
 }
 
-/* The text slides back over the opened photo to the card's start edge (its own width
-   stays put, so nothing re-wraps): shift = photo width / text width. */
-.amg-card:hover .amg-text,
-.amg-card:focus-visible .amg-text {
-  translate: calc(var(--amg-dir) * -100% * var(--amg-shift)) 0;
+.amg-card:hover :is(.amg-icon, .amg-title, .amg-desc),
+.amg-card:focus-visible :is(.amg-icon, .amg-title, .amg-desc) {
+  translate: calc(var(--amg-dir) * -1 * var(--amg-move)) 0;
+  transition-delay: 0s, 0s, var(--amg-in);
+}
+
+.amg-card:hover :is(.amg-title, .amg-desc),
+.amg-card:focus-visible :is(.amg-title, .amg-desc) {
+  transition-delay: 0s, var(--amg-in);
 }
 
 [dir="rtl"] .amg-photo::after {
@@ -350,11 +375,11 @@
 @media (max-width: 479px) {
   .amg {
     --amg-photo: 34%;
-    --amg-shift: calc(34 / 66);
+    --amg-move: 34cqw;
   }
 
   .amg-desc {
-    font-size: 0.9rem;
+    font-size: var(--fs-small);
   }
 }
 

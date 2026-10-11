@@ -16,7 +16,7 @@
   max-width: 36ch;
   margin: 0;
   color: var(--muted);
-  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  font-size: var(--fs-lead);
   font-weight: 300;
   line-height: 1.7;
 }
@@ -24,7 +24,7 @@
 .fq-pick {
   margin: 2rem 0 0.85rem;
   color: var(--primary-ink);
-  font-size: 0.7rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -32,7 +32,7 @@
 
 [dir="rtl"] .fq-pick {
   letter-spacing: 0;
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
 }
 
 /* Question chips */
@@ -54,7 +54,7 @@
   border: 1px solid var(--line);
   background: var(--surface);
   color: var(--ink);
-  font-size: 0.98rem;
+  font-size: var(--fs-body);
   line-height: 1.4;
   text-align: start;
   cursor: pointer;
@@ -147,7 +147,7 @@
   padding-bottom: 0.2rem;
   border-bottom: 1px solid var(--primary-ink);
   color: var(--primary-ink);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
   font-weight: 700;
   transition: gap 0.3s var(--ease);
 }
@@ -177,12 +177,12 @@
 .fq-chat-head b {
   display: block;
   color: var(--ink);
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
 }
 
 .fq-chat-head small {
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: var(--fs-caption);
 }
 
 .fq-avatar {
@@ -258,7 +258,7 @@
   margin: 0;
   padding: 0.8rem 1rem;
   border-radius: 16px;
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
   line-height: 1.65;
 }
 
@@ -378,7 +378,7 @@
 .fq-route-label {
   position: absolute;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   white-space: nowrap;
 }
@@ -392,13 +392,13 @@
   gap: 0.7rem;
   margin: 0.2rem 0 0;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
 }
 
 .fq-figs b {
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: 1.7rem;
+  font-size: var(--fs-h3);
   font-variant-numeric: tabular-nums;
 }
 
@@ -428,19 +428,19 @@
   align-items: center;
   gap: 0.45rem;
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
   font-weight: 600;
 }
 
 .fq-price-val {
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
 }
 
 .fq-price-val b {
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: 1.45rem;
+  font-size: var(--fs-h3);
   font-variant-numeric: tabular-nums;
 }
 
@@ -474,7 +474,7 @@
   border-radius: 999px;
   background: var(--brand-accent);
   color: var(--on-accent);
-  font-size: 0.7rem;
+  font-size: var(--fs-caption);
   font-weight: 800;
 }
 
@@ -499,7 +499,7 @@
   margin: 0 0 0.7rem;
   color: var(--accent-ink);
   font-family: var(--font-display);
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -507,7 +507,7 @@
 
 [dir="rtl"] .fq-deed-title {
   letter-spacing: 0;
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
   font-family: var(--font-body);
 }
 
@@ -533,14 +533,14 @@
 
 .fq-deed-fields dt {
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--fs-caption);
 }
 
 .fq-deed-fields dd {
   margin: 0;
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: var(--fs-h4);
   font-weight: 700;
 }
 
@@ -571,7 +571,7 @@
 
 .fq-seal-text {
   color: var(--accent-ink);
-  font-size: 0.55rem;
+  font-size: var(--fs-caption);
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -579,7 +579,7 @@
 
 [dir="rtl"] .fq-seal-text {
   letter-spacing: 0;
-  font-size: 0.7rem;
+  font-size: var(--fs-caption);
 }
 
 .fq-seal-ring {
@@ -608,20 +608,20 @@
 }
 
 .fq-zero b {
-  font-size: 4.2rem;
+  font-size: var(--fs-stat);
   font-variant-numeric: tabular-nums;
 }
 
 .fq-zero span {
   margin-top: 0.35rem;
   color: var(--brand-accent);
-  font-size: 1.8rem;
+  font-size: var(--fs-h3);
 }
 
 .fq-zero-label {
   margin: 0;
   color: var(--ink);
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -629,7 +629,7 @@
 
 [dir="rtl"] .fq-zero-label {
   letter-spacing: 0;
-  font-size: 1rem;
+  font-size: var(--fs-body);
 }
 
 .fq-zero-sub {
@@ -638,7 +638,7 @@
   gap: 0.45rem;
   margin: 0.3rem 0 0;
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
   line-height: 1.4;
 }
 
@@ -675,7 +675,7 @@
 .fq-plan-year {
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-size: var(--fs-small);
   font-weight: 700;
 }
 
@@ -705,14 +705,14 @@
 .fq-plan-pct {
   min-width: 5.5rem;
   color: var(--ink);
-  font-size: 0.9rem;
+  font-size: var(--fs-small);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
 .fq-plan-pct small {
   color: var(--muted);
-  font-size: 0.72rem;
+  font-size: var(--fs-caption);
   font-weight: 500;
 }
 
@@ -721,7 +721,7 @@
   padding-top: 0.6rem;
   border-top: 1px solid var(--line);
   color: var(--muted);
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
 }
 
 .fq-plan-foot b {
@@ -744,7 +744,7 @@
   border-radius: 999px;
   background: var(--surface-alt);
   color: var(--ink);
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
   transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease);
 }
 

@@ -11,7 +11,7 @@
   align-items: center;
   gap: 0.45rem;
   color: var(--muted);
-  font-size: 0.75rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -31,7 +31,7 @@
   margin-top: 1.5rem;
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4.2vw, 3.25rem);
+  font-size: var(--fs-h1);
   font-weight: 700;
   line-height: 1.12;
   letter-spacing: -0.015em;
@@ -52,7 +52,7 @@
   padding: 0;
   list-style: none;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
   font-weight: 500;
 }
 
@@ -95,7 +95,7 @@
   gap: 1.5rem;
   max-width: 46rem;
   color: var(--ink);
-  font-size: clamp(1.05rem, 1.2vw, 1.15rem);
+  font-size: var(--fs-lead);
   line-height: 1.8;
 }
 
@@ -117,7 +117,7 @@
 
 .article-foot-brand {
   color: var(--primary-ink);
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
   font-weight: 800;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -126,7 +126,7 @@
 .article-foot-line {
   margin-top: 0.35rem;
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
 }
 
 .article-aside {
@@ -147,7 +147,7 @@
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--line);
   color: var(--ink);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -190,7 +190,7 @@
 .article-recent-date {
   display: block;
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -201,7 +201,7 @@
   margin-top: 0.3rem;
   overflow: hidden;
   color: var(--ink);
-  font-size: 0.9rem;
+  font-size: var(--fs-small);
   font-weight: 600;
   line-height: 1.4;
   -webkit-box-orient: vertical;
@@ -219,6 +219,6 @@
   gap: 0.3rem;
   margin-top: 0.4rem;
   color: var(--primary-ink);
-  font-size: 0.75rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
 }

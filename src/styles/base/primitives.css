@@ -10,7 +10,7 @@
   gap: 0.5rem;
   padding: 0.85rem 1.6rem;
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: var(--fs-small);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   border-radius: 0;
@@ -59,7 +59,7 @@
 }
 
 .section-eyebrow {
-  font-size: 0.75rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -70,7 +70,7 @@
 .section-title {
   max-width: 20ch;
   font-family: var(--font-display);
-  font-size: clamp(2rem, 4.2vw, 3.4rem);
+  font-size: var(--fs-h2);
   font-weight: 700;
   color: var(--ink);
   line-height: 1.15;
@@ -85,7 +85,7 @@
 
 .section-sub {
   color: var(--muted);
-  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  font-size: var(--fs-lead);
   font-weight: 300;
   max-width: 38rem;
   margin: 0;
@@ -268,7 +268,7 @@
   border: 1px solid color-mix(in srgb, var(--white) 35%, transparent);
   background: color-mix(in srgb, var(--white) 14%, transparent);
   color: var(--on-dark);
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.06em;
   transition: background-color 0.25s ease, border-color 0.25s ease;

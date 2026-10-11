@@ -22,7 +22,13 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--overlay) 75%, transparent) 100%);
+  /* Deeper at the foot so the role + name read over the dark suit. */
+  background: linear-gradient(
+    180deg,
+    transparent 50%,
+    color-mix(in srgb, var(--overlay) 45%, transparent) 70%,
+    color-mix(in srgb, var(--overlay) 92%, transparent) 100%
+  );
 }
 
 .leader-portrait-fallback {
@@ -53,9 +59,9 @@
 }
 
 .leader-title {
-  margin-top: 0.5rem;
+  margin-top: 0;
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 5.5vw, 4.25rem);
+  font-size: var(--fs-h1);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.03em;
@@ -73,8 +79,10 @@
   margin-top: 2rem;
   padding-inline-start: 1.5rem;
   border-inline-start: 2px solid var(--brand-accent);
-  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
-  line-height: 1.75;
+  /* Narrow measure + a step up in size: the quote fills the column's height, not its width. */
+  max-width: 30rem;
+  font-size: clamp(1.2rem, 1rem + 0.9vw, 1.625rem);
+  line-height: 1.6;
   color: var(--muted);
 }
 
@@ -116,7 +124,7 @@
 .leader-principles-head .section-title {
   margin: 0;
   max-width: 12ch;
-  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-size: var(--fs-h2);
   color: var(--on-dark);
 }
 

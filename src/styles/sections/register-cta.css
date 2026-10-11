@@ -64,7 +64,7 @@
   background: var(--fill-light);
   color: var(--brand-primary-deep);
   border: 1px solid var(--fill-light);
-  font-size: 12px;
+  font-size: var(--fs-caption);
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;

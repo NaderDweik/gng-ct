@@ -15,9 +15,6 @@ export const homeIntro = {
     facts: [
       "About 500 m² per chalet",
       "Independent title deed",
-      "Spanish-style design",
-      "3-metre privacy walls",
-      "Gated, 24/7 security",
       "Zero-interest plans, direct",
     ],
     cta: "Explore Resorts",
@@ -30,9 +27,6 @@ export const homeIntro = {
     facts: [
       "شاليه بمساحة ٥٠٠ م² تقريبًا",
       "سند ملكية مستقل",
-      "تصميم إسباني",
-      "جدران خصوصية بارتفاع ٣ أمتار",
-      "مجتمع مسوّر بأمن دائم",
       "تقسيط مباشر بدون فوائد",
     ],
     cta: "استكشف الشاليهات",

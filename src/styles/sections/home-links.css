@@ -1,137 +1,365 @@
-/* ── Home: compound services bento. Markup: features/home/HomeServicesStrip.tsx ── */
+/* ── Home: compound services film strip. Markup: features/home/HomeServicesViewer.tsx ── */
 
-/* One big photo card and four small ones; two columns on phones, four on desktop. */
-.hsv-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-auto-rows: clamp(11rem, 22vw, 15rem);
-  gap: clamp(0.6rem, 1.2vw, 1rem);
-  margin: 0;
-  padding: 0;
-  list-style: none;
+/* The focused photo is first, wider and taller; the next ones follow at a smaller size,
+   bottom-aligned. Sizes are % of the strip, so the track moves by whole small widths. */
+.hsc {
+  --hsc-gap: clamp(0.75rem, 1.2vw, 1.25rem);
+  --hsc-lg: 44%;
+  /* The two that follow share what is left after the big one and the gaps. */
+  --hsc-sm: calc((100% - var(--hsc-lg) - var(--hsc-gap) * 2) / 2);
+  --hsc-h: clamp(18rem, 12rem + 14vw, 26rem);
+  --hsc-dir: -1;
+  --hsc-ease: cubic-bezier(0.65, 0, 0.35, 1);
+  --hsc-dur: 0.8s;
+  outline: none;
 }
 
-@media (min-width: 1024px) {
-  .hsv-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+[dir="rtl"] .hsc {
+  --hsc-dir: 1;
+}
+
+.hsc:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 6px;
+}
+
+@media (max-width: 767px) {
+  .hsc {
+    --hsc-gap: 0.6rem;
+    --hsc-lg: 78%;
+    --hsc-sm: 52%;
+    --hsc-h: 17rem;
   }
 }
 
-.hsv-card.is-big {
-  grid-column: span 2;
-  grid-row: span 2;
+/* ── Caption over the focused photo, arrows + progress over the rest ── */
+/* Tighter than the default section padding: the strip carries the section. */
+.section.hsc-band {
+  padding-block: clamp(2.5rem, 5vw, 4rem);
 }
 
-.hsv-link {
+/* The section head sits close above the strip (the arrows row is the only gap). */
+.hsc-head {
+  margin-bottom: clamp(1rem, 2vw, 1.5rem);
+}
+
+/* Desktop: the button shares the title's row and is centred on it (not on the eyebrow +
+   title block): the copy column's children join the head grid directly. */
+@media (min-width: 1024px) {
+  .hsc-head {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    row-gap: 0;
+  }
+
+  .hsc-head > div:first-child {
+    display: contents;
+  }
+
+  .hsc-head .section-eyebrow {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .hsc-head .section-title {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .hsc-head > div:nth-child(2) {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: center;
+  }
+}
+
+/* Arrows + count sit in the free space above the smaller (upcoming) photos: the strip
+   is bottom-aligned and those photos are shorter, so the band above them is empty. */
+.hsc {
   position: relative;
-  display: block;
-  height: 100%;
-  overflow: hidden;
-  background: var(--surface-tint);
 }
 
-.hsv-img {
-  object-fit: cover;
-  transition: transform 1.1s var(--ease);
+.hsc-top {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: calc(100% - var(--hsc-lg) - var(--hsc-gap));
+  height: calc(var(--hsc-h) * 0.24 - var(--hsc-gap));
 }
 
-.hsv-link:hover .hsv-img,
-.hsv-link:focus-visible .hsv-img {
-  transform: scale(1.05);
+/* Phones: the upcoming photos are mostly off screen, so the arrows get their own row. */
+@media (max-width: 767px) {
+  .hsc-top {
+    position: static;
+    width: auto;
+    height: auto;
+    margin-bottom: 1rem;
+  }
+
+  .hsc-cap {
+    padding: 0.8rem 1rem;
+  }
+
+  .hsc-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
 }
 
-.hsv-link:focus-visible {
+/* White card flush in the focused photo's bottom start corner (as on /services). It
+   slides up once the photo has grown into focus, and drops away as it leaves. */
+.hsc-cap {
+  position: absolute;
+  bottom: 0;
+  inset-inline-start: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: calc(100% - 1.5rem);
+  padding: 1.1rem 1.5rem 1.1rem 1.1rem;
+  background: var(--surface);
+  color: var(--ink);
+  opacity: 0;
+  transform: translateY(100%);
+  transition:
+    opacity 0.3s var(--ease),
+    transform 0.4s var(--ease);
+}
+
+[dir="rtl"] .hsc-cap {
+  padding: 1.1rem 1.1rem 1.1rem 1.5rem;
+}
+
+.hsc-item.is-on .hsc-cap {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 0.5s var(--ease) 0.45s,
+    transform 0.6s var(--ease) 0.45s;
+}
+
+.hsc-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  background: var(--brand-secondary);
+  color: var(--white);
+}
+
+.hsc-icon svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.hsc-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+[dir="rtl"] .hsc-title {
+  font-family: var(--font-body);
+}
+
+.hsc-nav {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.hsc-arrows {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.hsc-count {
+  margin-inline-end: 0.6rem;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--fs-small);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.hsc-count span {
+  color: var(--subtle);
+}
+
+.hsc-arrow {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+
+.hsc-arrow.is-next {
+  border-color: var(--brand-secondary);
+  background: var(--brand-secondary);
+  color: var(--white);
+}
+
+.hsc-arrow:hover {
+  border-color: var(--primary-ink);
+  background: var(--primary-ink);
+  color: var(--white);
+}
+
+.hsc-arrow:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
-/* White caption card flush in the bottom corner, as on /services. */
-.hsv-cap {
+/* A thin rule under the photos; the dark part grows with your place in the set. */
+/* Full width under the strip. */
+.hsc-line {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 2px;
+  margin-top: clamp(1.25rem, 2.4vw, 2rem);
+  background: var(--line);
+}
+
+.hsc-line > span {
   position: absolute;
-  bottom: 0;
+  inset-block: 0;
   inset-inline-start: 0;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  max-width: calc(100% - 1.5rem);
-  padding: 0.75rem 1.1rem 0.75rem 0.85rem;
-  background: var(--surface);
-  color: var(--ink);
+  background: var(--brand-secondary);
+  transition: width var(--hsc-dur) var(--hsc-ease);
 }
 
-[dir="rtl"] .hsv-cap {
-  padding: 0.75rem 0.85rem 0.75rem 1.1rem;
+/* ── The strip ── */
+.hsc-viewport {
+  overflow: hidden;
+  touch-action: pan-y;
 }
 
-.hsv-card.is-big .hsv-cap {
-  gap: 1rem;
-  padding: 1.1rem 1.6rem 1.1rem 1.2rem;
+.hsc-track {
+  display: flex;
+  align-items: flex-end;
+  height: var(--hsc-h);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  transform: translateX(calc(var(--pos) * (var(--hsc-sm) + var(--hsc-gap)) * var(--hsc-dir)));
+  transition: transform var(--hsc-dur) var(--hsc-ease);
 }
 
-.hsv-icon {
-  display: grid;
-  flex-shrink: 0;
-  place-items: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  background: var(--surface-alt);
-  color: var(--muted);
-  transition: background 0.35s var(--ease), color 0.35s var(--ease);
+.hsc-item {
+  position: relative;
+  flex: 0 0 var(--hsc-sm);
+  height: 76%;
+  margin-inline-end: var(--hsc-gap);
+  overflow: hidden;
+  background: var(--surface-tint);
+  cursor: pointer;
+  transition:
+    flex-basis var(--hsc-dur) var(--hsc-ease),
+    height var(--hsc-dur) var(--hsc-ease);
 }
 
-.hsv-icon svg {
-  width: 1.15rem;
-  height: 1.15rem;
+.hsc-item.is-on {
+  flex-basis: var(--hsc-lg);
+  height: 100%;
+  cursor: default;
 }
 
-.hsv-card.is-big .hsv-icon {
-  width: 2.75rem;
-  height: 2.75rem;
+.hsc-img {
+  object-fit: cover;
+  transform: scale(1.06);
+  /* Out of focus: dimmed; the focused photo lights up as it grows in. */
+  filter: saturate(0.75) brightness(0.55);
+  transition:
+    transform 1.2s var(--ease),
+    filter var(--hsc-dur) var(--hsc-ease);
 }
 
-.hsv-link:hover .hsv-icon,
-.hsv-link:focus-visible .hsv-icon {
-  background: var(--brand-primary);
-  color: var(--on-primary);
+.hsc-item.is-on .hsc-img {
+  transform: none;
+  filter: none;
 }
 
-.hsv-title {
-  font-size: 0.95rem;
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-.hsv-card.is-big .hsv-title {
-  font-family: var(--font-display);
-  font-size: clamp(1.2rem, 1.8vw, 1.5rem);
-  font-weight: 700;
-}
-
-[dir="rtl"] .hsv-card.is-big .hsv-title {
-  font-family: var(--font-body);
-}
-
-/* Phones: the small cards are narrow, so their captions drop the icon. */
-@media (max-width: 599px) {
-  .hsv-card:not(.is-big) .hsv-icon {
-    display: none;
-  }
-
-  .hsv-card:not(.is-big) .hsv-cap {
-    padding: 0.6rem 0.8rem;
-  }
-
-  .hsv-card:not(.is-big) .hsv-title {
-    font-size: 0.85rem;
-  }
+/* The silent jump back to the middle copy. */
+.hsc-track.no-anim,
+.hsc-track.no-anim .hsc-item,
+.hsc-track.no-anim .hsc-img {
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hsv-img {
+  .hsc-track,
+  .hsc-item,
+  .hsc-img,
+  .hsc-line > span {
     transition: none;
   }
 
-  .hsv-link:hover .hsv-img {
-    transform: none;
+  .hsc-cap,
+  .hsc-item.is-on .hsc-cap {
+    transition: none;
   }
+}
+
+/* ── On the dark band (the section is .on-dark) ── */
+.on-dark .gallery-outline-btn {
+  color: var(--on-dark);
+  border-color: color-mix(in srgb, var(--white) 30%, transparent);
+}
+
+.on-dark .gallery-outline-btn:hover {
+  border-color: var(--brand-primary);
+}
+
+.on-dark .hsc-count {
+  color: var(--on-dark);
+}
+
+.on-dark .hsc-count span {
+  color: var(--on-dark-subtle);
+}
+
+.on-dark .hsc-arrow {
+  border-color: color-mix(in srgb, var(--white) 30%, transparent);
+  background: transparent;
+  color: var(--on-dark);
+}
+
+.on-dark .hsc-arrow.is-next {
+  border-color: var(--white);
+  background: var(--white);
+  color: var(--ink-on-light);
+}
+
+.on-dark .hsc-arrow:hover {
+  border-color: var(--brand-primary);
+  background: var(--brand-primary);
+  color: var(--white);
+}
+
+.on-dark .hsc-line {
+  background: var(--line-on-dark);
+}
+
+.on-dark .hsc-line > span {
+  background: var(--white);
+}
+
+.on-dark .hsc-item {
+  background: var(--neutral-800);
 }

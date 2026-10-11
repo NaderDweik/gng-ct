@@ -8,3 +8,35 @@
 .step-card:hover {
   background: var(--brand-secondary-light);
 }
+
+/* A chalet photo in its own box behind step 04: same width as that card, nudged up and
+   out past its end edge so it peeks from behind (the step cards are opaque). */
+.steps-wrap {
+  position: relative;
+  isolation: isolate;
+}
+
+.steps-grid {
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 30px 60px -20px color-mix(in srgb, #000 60%, transparent);
+}
+
+.steps-photo {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .steps-photo {
+    position: absolute;
+    z-index: 0;
+    display: block;
+    top: -6rem;
+    inset-inline-end: -2.5rem;
+    width: 25%;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid var(--line-on-dark);
+  }
+}
+

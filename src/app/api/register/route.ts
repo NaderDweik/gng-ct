@@ -11,7 +11,6 @@
  * Without the WhatsApp vars it answers 503 and the form falls back to the wa.me link.
  */
 import { NextResponse } from "next/server";
-import { cashDiscountPct, cashPriceJd, monthlyJd } from "@/content/pricing";
 import {
   MIN_FILL_MS,
   cleanName,
@@ -69,9 +68,6 @@ const labels = {
     morning: "Morning",
     afternoon: "Afternoon",
     evening: "Evening",
-    cash: `Cash: ${cashPriceJd.toLocaleString("en-US")} JD (${cashDiscountPct}% off)`,
-    installments: `Installments: down payment, then ${monthlyJd.toLocaleString("en-US")} JD a month`,
-    none: "-",
     site: { ar: "Arabic", en: "English" },
   },
   ar: {
@@ -80,9 +76,6 @@ const labels = {
     morning: "صباحًا",
     afternoon: "بعد الظهر",
     evening: "مساءً",
-    cash: `الدفع النقدي: ${cashPriceJd.toLocaleString("en-US")} د.أ (خصم ${cashDiscountPct}٪)`,
-    installments: `التقسيط: دفعة أولى ثم ${monthlyJd.toLocaleString("en-US")} د.أ شهريًا`,
-    none: "-",
     site: { ar: "العربية", en: "الإنجليزية" },
   },
 };
@@ -101,13 +94,12 @@ async function sendWhatsApp(lead: LeadPayload, phone: string) {
 
   const L = labels[lang];
   // Template body, in this order:
-  // {{1}} name · {{2}} phone · {{3}} interest · {{4}} plan · {{5}} preferred time ·
-  // {{6}} message · {{7}} site language
+  // {{1}} name · {{2}} phone · {{3}} interest · {{4}} preferred time · {{5}} message ·
+  // {{6}} site language
   const parameters = [
     cleanName(lead.name),
     `+${phone}`,
     L[lead.interest],
-    lead.plan ? L[lead.plan] : L.none,
     L[lead.time],
     lead.message.slice(0, 500),
     L.site[lead.locale],

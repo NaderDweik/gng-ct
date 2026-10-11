@@ -7,6 +7,7 @@ import type { LocalePageProps } from "@/i18n/types";
 import { PageJsonLd } from "@/components/seo/PageJsonLd";
 import { routeMetadata } from "@/lib/seo";
 import { HoverAccent } from "@/components/ui/HoverAccent";
+import { ArrowIcon } from "@/components/ui/ArrowIcon";
 
 type Props = LocalePageProps;
 
@@ -27,7 +28,7 @@ export default async function NewsPage({ params }: Props) {
       <section className="section">
         <div className="container-gc grid gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8">
           {articles.map((a) => (
-            <article key={a.slug} className="group hv border border-line bg-surface">
+            <article key={a.slug} className="group hv flex flex-col border border-line bg-surface">
               <Link href={`/news/${a.slug}`} className="relative block aspect-[16/9] overflow-hidden bg-surface-alt" tabIndex={-1} aria-hidden>
                 <Image
                   src={a.image}
@@ -38,20 +39,19 @@ export default async function NewsPage({ params }: Props) {
                 />
                 <HoverAccent />
               </Link>
-              <div className="p-6">
+              <div className="flex flex-1 flex-col items-start p-6">
                 <time className="text-xs text-muted">{a.date}</time>
                 <h2 className="mt-2 text-xl font-semibold text-primary-ink">
                   <Link href={`/news/${a.slug}`} className="hover:underline">
                     {isAr ? a.titleAr : a.titleEn}
                   </Link>
                 </h2>
-                <p className="mt-3 text-muted">{isAr ? a.excerptAr : a.excerptEn}</p>
-                <Link
-                  href={`/news/${a.slug}`}
-                  className="tap-target mt-4 text-sm font-semibold text-primary-ink hover:underline"
-                >
+                <p className="mb-6 mt-3 text-muted">{isAr ? a.excerptAr : a.excerptEn}</p>
+                {/* Pinned to the card's foot so the buttons line up across a row. */}
+                <Link href={`/news/${a.slug}`} className="gallery-outline-btn mt-auto">
                   {t("readMore")}
                   <span className="sr-only">: {isAr ? a.titleAr : a.titleEn}</span>
+                  <ArrowIcon />
                 </Link>
               </div>
             </article>

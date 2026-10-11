@@ -159,7 +159,7 @@ export function LocationShowcase() {
                 <NavIcon />
               </span>
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-primary-ink/55">{site.nameEn}</p>
+                <p className="text-(length:--fs-caption) font-bold uppercase tracking-[0.22em] text-primary-ink/55">{site.nameEn}</p>
                 <p className="font-semibold text-primary-ink">{isAr ? c.mapShortAr : c.mapShortEn}</p>
               </div>
             </div>

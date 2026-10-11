@@ -3,7 +3,6 @@
  * The client checks first for instant feedback; /api/register re-checks everything,
  * since a bot can skip the browser entirely.
  */
-import { toPlanChoice, type PlanChoice } from "@/content/pricing";
 
 export type Interest = "financing" | "visit";
 export type TimeSlot = "morning" | "afternoon" | "evening";
@@ -15,7 +14,6 @@ export type LeadPayload = {
   message: string;
   interest: Interest;
   time: TimeSlot;
-  plan: PlanChoice | null;
   locale: "ar" | "en";
   /** Honeypot. Must arrive empty. */
   company_website: string;
@@ -91,7 +89,6 @@ export function parseLead(body: unknown): LeadPayload | null {
     message: str("message"),
     interest,
     time,
-    plan: toPlanChoice(str("plan")),
     locale,
     company_website: str("company_website"),
     elapsedMs: typeof b.elapsedMs === "number" ? b.elapsedMs : 0,

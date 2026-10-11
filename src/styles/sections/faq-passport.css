@@ -36,7 +36,7 @@
   max-width: 34ch;
   margin: 0;
   color: var(--muted);
-  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  font-size: var(--fs-lead);
   font-weight: 300;
   line-height: 1.7;
 }
@@ -47,7 +47,7 @@
   gap: 0.85rem;
   margin: 1.9rem 0 0.9rem;
   color: var(--primary-ink);
-  font-size: 0.72rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -55,7 +55,7 @@
 
 [dir="rtl"] .pp-progress {
   letter-spacing: 0;
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
 }
 
 .pp-progress-bars {
@@ -92,7 +92,7 @@
   padding: 1rem 0.25rem;
   border-bottom: 1px solid var(--line);
   color: var(--ink);
-  font-size: 1rem;
+  font-size: var(--fs-body);
   line-height: 1.45;
   text-align: start;
   cursor: pointer;
@@ -113,7 +113,7 @@
 .pp-q-n {
   color: var(--subtle);
   font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-size: var(--fs-small);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
   transition: color 0.3s var(--ease);
@@ -177,7 +177,7 @@
   padding-bottom: 0.2rem;
   border-bottom: 1px solid var(--primary-ink);
   color: var(--primary-ink);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
   font-weight: 700;
   transition: gap 0.3s var(--ease);
 }
@@ -303,7 +303,7 @@
   padding-bottom: 0.7rem;
   border-bottom: 1px dashed color-mix(in srgb, var(--pp-faint) 70%, transparent);
   color: var(--pp-muted);
-  font-size: 0.66rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -311,7 +311,7 @@
 
 [dir="rtl"] .pp-page-head {
   letter-spacing: 0;
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
 }
 
 .pp-page--visa .pp-page-head {
@@ -331,7 +331,7 @@
   margin: 1.6rem 0 0;
   color: var(--pp-text);
   font-family: var(--font-display);
-  font-size: clamp(1.4rem, 2vw, 1.75rem);
+  font-size: var(--fs-h3);
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.01em;
@@ -346,7 +346,7 @@
 .pp-answer {
   margin: 1rem 0 0;
   color: color-mix(in srgb, var(--pp-text) 78%, var(--pp-paper));
-  font-size: 1rem;
+  font-size: var(--fs-body);
   line-height: 1.8;
 }
 
@@ -363,7 +363,7 @@
   margin-top: auto;
   padding-top: 1.2rem;
   color: var(--pp-faint);
-  font-size: 0.68rem;
+  font-size: var(--fs-caption);
 }
 
 /* Machine-readable zone, like the foot of a real passport page. */
@@ -372,7 +372,7 @@
   overflow: hidden;
   color: color-mix(in srgb, var(--pp-muted) 70%, transparent);
   font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-  font-size: 0.72rem;
+  font-size: var(--fs-caption);
   letter-spacing: 0.18em;
   white-space: nowrap;
 }
@@ -388,7 +388,7 @@
   border: 1.5px dashed color-mix(in srgb, var(--pp-faint) 80%, transparent);
   border-radius: 12px;
   color: var(--pp-faint);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
   white-space: nowrap;
 }
 
@@ -461,30 +461,30 @@
 
 .pp-ring-text {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--fs-caption);
   font-weight: 800;
   letter-spacing: 0.12em;
 }
 
 [dir="rtl"] .pp-ring-text {
   letter-spacing: 0;
-  font-size: 12px;
+  font-size: var(--fs-caption);
 }
 
 .pp-big {
   font-family: var(--font-display);
-  font-size: 27px;
+  font-size: var(--fs-h3);
   font-weight: 700;
 }
 
 .pp-big--xl {
-  font-size: 44px;
+  font-size: var(--fs-stat);
 }
 
 .pp-top,
 .pp-sub {
   font-family: var(--font-body);
-  font-size: 11px;
+  font-size: var(--fs-caption);
   font-weight: 800;
   letter-spacing: 0.14em;
 }
@@ -492,7 +492,7 @@
 [dir="rtl"] .pp-top,
 [dir="rtl"] .pp-sub {
   letter-spacing: 0;
-  font-size: 12.5px;
+  font-size: var(--fs-small);
 }
 
 .pp-splash {
@@ -517,7 +517,7 @@
   margin: 0;
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: 1.35rem;
+  font-size: var(--fs-h4);
   font-weight: 700;
 }
 
@@ -538,7 +538,7 @@
   padding: 0.85rem 1.4rem;
   background: var(--brand-primary);
   color: var(--on-primary);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
   font-weight: 700;
   transition: background-color 0.3s var(--ease), gap 0.3s var(--ease);
 }

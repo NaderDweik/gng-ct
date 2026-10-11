@@ -35,7 +35,7 @@
   margin-top: 1rem;
   max-width: 16ch;
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 6.2vw, 5.25rem);
+  font-size: var(--fs-h1);
   font-weight: 700;
   line-height: 1.02;
   letter-spacing: -0.03em;
@@ -149,13 +149,12 @@
 }
 
 .pillar-card:hover .pillar-icon {
-  color: var(--on-accent);
+  color: var(--white);
   background: var(--brand-accent);
 }
 
-/* Social cards: a centred heading, then wide, low cards side by side. Each carries
-   its platform's logo, large and faded, behind the top corner. The hover is quiet:
-   a lift, a brand-green edge and a shadow. */
+/* Social cards: a centred heading, then wide, low cards side by side. All three icons sit
+   on the site's dark gradient. The hover is quiet: a lift, a brand-green edge and a shadow. */
 .social-head {
   display: grid;
   justify-items: center;
@@ -183,9 +182,7 @@
 }
 
 .social-card {
-  --sc-color: var(--primary-ink);
   position: relative;
-  isolation: isolate;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -201,31 +198,6 @@
     box-shadow 0.4s var(--ease);
 }
 
-.social-card--instagram { --sc-color: #d62976; }
-.social-card--facebook { --sc-color: #1877f2; }
-.social-card--whatsapp { --sc-color: #1fa855; }
-
-/* Faded logo behind the top corner. */
-.social-card-mark {
-  position: absolute;
-  top: -1.75rem;
-  inset-inline-end: -1.25rem;
-  z-index: -1;
-  width: 7.5rem;
-  height: 7.5rem;
-  color: var(--sc-color);
-  opacity: 0.08;
-  stroke-width: 1.2;
-  transform: rotate(-12deg);
-  transition:
-    opacity 0.45s var(--ease),
-    transform 0.6s var(--ease);
-}
-
-[dir="rtl"] .social-card-mark {
-  transform: rotate(12deg);
-}
-
 .social-card-icon {
   display: grid;
   flex-shrink: 0;
@@ -233,8 +205,8 @@
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--sc-color) 10%, transparent);
-  color: var(--sc-color);
+  background: linear-gradient(160deg, var(--brand-secondary-light), var(--brand-secondary-deep));
+  color: var(--white);
 }
 
 .social-card-text {
@@ -245,7 +217,7 @@
 
 .social-card-label {
   color: var(--muted);
-  font-size: 11px;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -256,7 +228,7 @@
   margin-top: 0.2rem;
   overflow: hidden;
   font-family: var(--font-display);
-  font-size: 1.15rem;
+  font-size: var(--fs-h4);
   font-weight: 700;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -265,12 +237,12 @@
 /* Arabic: the site's Arabic face, a touch larger. */
 [dir="rtl"] .social-card-label {
   letter-spacing: 0.08em;
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
 }
 
 [dir="rtl"] .social-card-handle {
   font-family: var(--font-body);
-  font-size: 1.3rem;
+  font-size: var(--fs-h4);
 }
 
 @media (max-width: 480px) {
@@ -280,7 +252,7 @@
 
   .social-card-handle,
   [dir="rtl"] .social-card-handle {
-    font-size: 1.05rem;
+    font-size: var(--fs-body);
   }
 }
 
@@ -301,12 +273,6 @@
   box-shadow: var(--shadow-card);
 }
 
-.social-card:hover .social-card-mark,
-.social-card:focus-visible .social-card-mark {
-  opacity: 0.13;
-  transform: rotate(0deg) scale(1.06);
-}
-
 .social-card:hover .social-card-arrow,
 .social-card:focus-visible .social-card-arrow {
   transform: translate(3px, -3px);
@@ -323,8 +289,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .social-card,
-  .social-card-mark {
+  .social-card {
     transition: none;
   }
 }

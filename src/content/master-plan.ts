@@ -5,7 +5,7 @@ export const masterPlanMapSize = { width: 952, height: 1024 } as const;
 
 export const masterPlanCopy = {
   ar: {
-    eyebrow: "مخطط أحد الشاليهات",
+    eyebrow: "المخطط العام",
     title: "٥٠٠ م² من الشاليه الخاص، مخطّطة بعناية.",
     lead: "داخلٌ مدروس، ومسبح في قلب الساحة، ومعيشة خارجية، وخصوصية تامة، داخل مجتمع مسوّر.",
     mapAlt: "مخطط الشاليه الخاص: الطابق والموقع",
@@ -247,6 +247,34 @@ export const unitPlanPanel = {
   },
   href: "/register",
 } as const;
+
+/** /master-plan room viewer: a photo for each plan space (real resort photos; terraces
+ *  and kids' area have no dedicated shot yet, so they borrow the closest scene). */
+const R = "/gallery/resortsPics";
+export const planItemPhotos: Record<string, string> = {
+  living: `${R}/family-living-room.png`,
+  kitchen: `${R}/kitchen-and-laundry.png`,
+  master: `${R}/master-bedroom-pool-view.png`,
+  bedrooms: `${R}/twin-bedroom-pool-view.png`,
+  baths: `${R}/bathroom-jacuzzi-tub.png`,
+  terraces: `${R}/pool-and-tent-pavilion-hd.jpg`,
+  gardens: `${R}/garden-lounge-kids-swing.png`,
+  pool: `${R}/swimmer-pool-waterfall.png`,
+  lounge: `${R}/family-lounge-under-pergola.png`,
+  bbq: `${R}/father-son-bbq-grill.png`,
+  "garden-dining": `${R}/family-breakfast-poolside-table.png`,
+  kids: `${R}/foosball-kids-pool.png`,
+  chess: `${R}/giant-chess-poolside-royal.png`,
+  parking: `${R}/family-arriving-resort-a9-garage.png`,
+};
+
+/** Short muted loops cut from the chalet walkthrough video (public/plan-clips/<id>.mp4 + .jpg
+ *  poster), shown in a corner card for the spaces the walkthrough actually passes through. */
+export const planItemClips = new Set(["parking", "pool", "living", "baths", "kitchen", "bedrooms", "master"]);
+
+/** The line-drawing plan shown in the room viewer: the same drawing as the colour map at
+ *  the same proportions, so `PlanArea` rectangles map onto it by percentage. */
+export const unitPlanLineSrc = "/plans/unit-plan.webp";
 
 export function planItem(id: string): PlanItem | undefined {
   for (const zone of masterPlanZones) {

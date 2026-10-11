@@ -1,0 +1,417 @@
+/* ── /master-plan room viewer. Markup: features/master-plan/RoomViewer.tsx ── */
+
+/* Split screen: photo on the start side, the dark plan panel on the end side. */
+.rmv {
+  display: grid;
+  outline: none;
+  background: var(--brand-secondary-deep);
+  color: var(--on-dark);
+}
+
+.rmv:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 4px;
+}
+
+/* Desktop: exactly one screen under the site header (never past the fold); the plan
+   takes whatever height the panel has left. (`.rv` prefixes: these sit above the base
+   rules in the file and must still win.) */
+@media (min-width: 1024px) {
+  .rmv {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    height: clamp(34rem, calc(100svh - 5rem), 56rem);
+  }
+
+  .rmv .rmv-panel {
+    min-height: 0;
+  }
+
+  /* The plan box keeps the drawing's exact proportions (the space outlines are placed
+     in % of it): as wide as fits both the panel's width and its leftover height. */
+  .rmv .rmv-plan-wrap {
+    flex: 1;
+    min-height: 0;
+    container-type: size;
+    align-items: center;
+  }
+
+  .rmv .rmv-plan {
+    width: min(100cqw, 100cqh * 952 / 1024);
+    max-width: none;
+  }
+}
+
+/* ── Photo side ── */
+.rmv-photo {
+  position: relative;
+  min-height: 26rem;
+  overflow: hidden;
+  background: var(--surface-tint);
+}
+
+.rmv-img {
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.05);
+  transition:
+    opacity 0.8s var(--ease),
+    transform 1.6s var(--ease);
+}
+
+.rmv-img.is-on {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Bottom scrim so the name reads over any photo. */
+.rmv-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--overlay) 55%, transparent) 0%, transparent 32%),
+    linear-gradient(180deg, transparent 40%, color-mix(in srgb, var(--overlay) 82%, transparent) 100%);
+  pointer-events: none;
+}
+
+/* Chalet size, top start corner: a quiet label over one big figure. */
+.rmv-size {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.6s var(--ease),
+    transform 0.6s var(--ease);
+}
+
+.rmv-size.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+.rmv-size-label {
+  color: color-mix(in srgb, var(--white) 72%, transparent);
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.rmv-size-value {
+  margin-top: 0.4rem;
+  color: var(--on-dark);
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 2.4rem + 4.5vw, 6.5rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  font-variant-numeric: tabular-nums;
+}
+
+[dir="rtl"] .rmv-size-label,
+[dir="rtl"] .rmv-size-value {
+  letter-spacing: 0;
+}
+
+.rmv-size-unit {
+  font-size: 0.6em;
+}
+
+/* Phones: the photo is short, so the figure steps down. */
+@media (max-width: 767px) {
+  .rmv-size-value {
+    font-size: clamp(2.75rem, 12vw, 3.5rem);
+  }
+
+  .rmv-size-label {
+    font-size: var(--fs-h4);
+  }
+}
+
+/* Walkthrough clip: a padded dark card in the photo's top end corner. */
+.rmv-clip {
+  position: absolute;
+  top: clamp(0.5rem, 1vw, 0.875rem);
+  inset-inline-end: clamp(0.5rem, 1vw, 0.875rem);
+  z-index: 2;
+  width: clamp(11rem, 18vw, 17rem);
+  margin: 0;
+  padding: 0.5rem;
+  background: color-mix(in srgb, var(--brand-secondary) 88%, transparent);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-card-lg);
+  animation: rmv-copy-in 0.6s var(--ease) 0.25s both;
+}
+
+.rmv-clip video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  background: var(--brand-secondary-deep);
+}
+
+@media (max-width: 767px) {
+  .rmv-clip {
+    width: 9.5rem;
+    padding: 0.35rem;
+  }
+}
+
+.rmv-photo-copy {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: clamp(1.5rem, 4vw, 3.5rem);
+  animation: rmv-copy-in 0.6s var(--ease) both;
+}
+
+@keyframes rmv-copy-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+.rmv-zone {
+  margin: 0;
+  color: var(--on-dark-muted);
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .rmv-zone {
+  letter-spacing: 0;
+}
+
+.rmv-name {
+  margin: 0.5rem 0 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h1);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+[dir="rtl"] .rmv-name {
+  font-family: var(--font-body);
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+
+.rmv-body {
+  max-width: 34rem;
+  margin: 0.9rem 0 0;
+  color: color-mix(in srgb, var(--white) 85%, transparent);
+  font-size: var(--fs-lead);
+  line-height: 1.65;
+}
+
+/* ── Plan side ── */
+.rmv-panel {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  padding: clamp(1.5rem, 3.5vw, 3rem);
+}
+
+.rmv-count {
+  margin: 0;
+  margin-inline-start: 0.75rem;
+  color: var(--brand-primary);
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.rmv-count span {
+  color: var(--on-dark-subtle);
+  font-size: 0.6em;
+}
+
+/* The line plan, flipped to light-on-dark and greyed; `lighten` drops its black ground
+   into the panel. */
+.rmv-plan-wrap {
+  display: flex;
+  justify-content: center;
+}
+
+.rmv-plan {
+  position: relative;
+  width: 100%;
+  max-width: 34rem;
+}
+
+.rmv-plan-img {
+  object-fit: contain;
+  /* Inverted and desaturated: light grey linework (walls stay brightest). */
+  filter: invert(1) grayscale(1) brightness(1.15) contrast(1.05);
+  mix-blend-mode: lighten;
+  /* The source's 1–2px edge pixels invert to light lines; trim them. */
+  clip-path: inset(1% 0.6% 0.3% 0.3%);
+}
+
+.rmv-area {
+  position: absolute;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  /* Outlines, not borders: the box stays exactly the measured rectangle, so the colour
+     crop inside lines up with the drawing. */
+  outline: 1px solid transparent;
+  transition: outline-color 0.35s var(--ease);
+}
+
+.rmv-area:hover {
+  outline-color: color-mix(in srgb, var(--white) 35%, transparent);
+}
+
+.rmv-area.is-on {
+  z-index: 1;
+  outline: 2px solid var(--brand-primary);
+}
+
+.rmv-area-img {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+
+.rmv-area.is-on .rmv-area-img {
+  opacity: 1;
+}
+
+.rmv-dot {
+  z-index: 2;
+}
+
+.rmv-area:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
+}
+
+/* A pulsing marker in the middle of the current space. */
+.rmv-dot {
+  position: absolute;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  box-shadow: 0 0 0 0.35rem color-mix(in srgb, var(--brand-primary) 35%, transparent);
+  translate: -50% -50%;
+  pointer-events: none;
+  transition:
+    left 0.6s var(--ease),
+    top 0.6s var(--ease);
+  animation: rmv-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes rmv-pulse {
+  50% {
+    box-shadow: 0 0 0 0.7rem color-mix(in srgb, var(--brand-primary) 0%, transparent);
+  }
+}
+
+.rmv-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.rmv-arrows {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.rmv-arrow {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border: 1px solid color-mix(in srgb, var(--white) 30%, transparent);
+  background: transparent;
+  color: var(--on-dark);
+  cursor: pointer;
+  transition:
+    background-color 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+
+.rmv-arrow:hover {
+  border-color: var(--brand-primary);
+  background: var(--brand-primary);
+}
+
+.rmv-arrow:focus-visible,
+.rmv-cta:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 3px;
+}
+
+.rmv-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.95rem 1.25rem;
+  border: 1px solid color-mix(in srgb, var(--white) 30%, transparent);
+  color: var(--on-dark);
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition:
+    background-color 0.3s var(--ease),
+    color 0.3s var(--ease);
+}
+
+[dir="rtl"] .rmv-cta {
+  letter-spacing: 0;
+}
+
+.rmv-cta:hover {
+  background: var(--fill-light);
+  color: var(--ink-on-light);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rmv-size,
+  .rmv-area-img,
+  .rmv-img,
+  .rmv-dot,
+  .rmv-area {
+    transition: none;
+  }
+
+  .rmv-img {
+    transform: none;
+  }
+
+  .rmv-photo-copy,
+  .rmv-clip,
+  .rmv-dot {
+    animation: none;
+  }
+}

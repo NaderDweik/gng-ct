@@ -54,14 +54,19 @@
   background: linear-gradient(color-mix(in srgb, var(--overlay) 12%, transparent) 0%, color-mix(in srgb, var(--overlay) 45%, transparent) 52%, color-mix(in srgb, var(--overlay) 90%, transparent) 100%);
 }
 
+/* The copy spans the card (start-aligned), so it widens with the card on hover; lines
+   are capped for readability. */
 .brand-card .body {
   position: absolute;
   bottom: 0;
   inset-inline: 0;
   z-index: 2;
-  width: min(29vw, 392px);
-  margin-inline: auto;
   padding: clamp(28px, 2.4vw, 40px);
+}
+
+.brand-card h3,
+.brand-card p {
+  max-width: 30rem;
 }
 
 .brand-card .kicker {
@@ -69,7 +74,7 @@
   text-transform: uppercase;
   color: color-mix(in srgb, var(--white) 80%, transparent);
   margin-bottom: 14px;
-  font-size: 11px;
+  font-size: var(--fs-caption);
   font-weight: 600;
 }
 
@@ -77,7 +82,7 @@
   font-family: var(--font-display);
   color: var(--on-dark);
   margin: 0 0 14px;
-  font-size: clamp(24px, 2.4vw, 32px);
+  font-size: var(--fs-h3);
   font-weight: 600;
   line-height: 1.12;
 }
@@ -89,7 +94,7 @@
 .brand-card p {
   color: color-mix(in srgb, var(--white) 88%, transparent);
   margin: 0 0 22px;
-  font-size: 15px;
+  font-size: var(--fs-small);
   line-height: 1.7;
 }
 
@@ -99,7 +104,7 @@
   gap: 0.5rem;
   margin-top: auto;
   padding: 0.65rem 1.25rem;
-  font-size: 0.75rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -135,16 +140,15 @@
   }
 
   .brand-card .body {
-    width: min(31vw, 408px);
     padding: 24px;
   }
 
   .brand-card h3 {
-    font-size: clamp(22px, 2.1vw, 28px);
+    font-size: var(--fs-h3);
   }
 
   .brand-card p {
-    font-size: 14px;
+    font-size: var(--fs-small);
     line-height: 1.6;
   }
 }
@@ -163,14 +167,12 @@
   }
 
   .brand-card .body {
-    width: auto;
     padding: 28px 24px;
-    inset-inline: 0;
   }
 
   .brand-card p {
     margin-bottom: 18px;
-    font-size: 14px;
+    font-size: var(--fs-small);
   }
 }
 

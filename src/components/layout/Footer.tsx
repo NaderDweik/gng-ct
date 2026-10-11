@@ -148,7 +148,7 @@ export function Footer() {
                 {isAr ? "جميع الحقوق محفوظة." : "All rights reserved."}
               </p>
               <span className="hidden select-none text-line-on-dark md:inline">|</span>
-              <span className="rounded border border-white/20 bg-fill-on-dark px-2 py-0.5 text-[11px] text-on-dark">
+              <span className="rounded border border-white/20 bg-fill-on-dark px-2 py-0.5 text-(length:--fs-caption) text-on-dark">
                 {site.iso}
               </span>
             </div>

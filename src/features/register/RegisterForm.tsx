@@ -3,9 +3,6 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { site } from "@/content/site";
-import { usePlanChoice } from "@/features/register/usePlanChoice";
-import { cashDiscountPct, cashPriceJd, monthlyJd } from "@/content/pricing";
-import { formatNumber } from "@/lib/format";
 import {
   MESSAGE_MAX,
   NAME_MAX,
@@ -120,19 +117,6 @@ export function RegisterForm() {
     { id: "evening", label: t("evening") },
   ];
 
-  // Plan picked on a plan card (?plan=…) — sent along so sales knows the choice.
-  const chosen = usePlanChoice();
-  const planText = (() => {
-    if (!chosen) return "";
-    if (chosen === "cash")
-      return isAr
-        ? `الدفع النقدي: ${formatNumber(cashPriceJd, locale)} د.أ (خصم ${formatNumber(cashDiscountPct, locale)}٪)`
-        : `Cash: ${formatNumber(cashPriceJd, locale)} JD (${cashDiscountPct}% off)`;
-    if (chosen !== "installments") return "";
-    return isAr
-      ? `التقسيط: دفعة أولى ثم ${formatNumber(monthlyJd, locale)} د.أ شهريًا`
-      : `Installments: a down payment, then ${formatNumber(monthlyJd, locale)} JD a month`;
-  })();
 
   /** Fallback when the WhatsApp API isn't configured or fails: the visitor sends it themselves. */
   function whatsAppHandoffUrl() {
@@ -149,7 +133,6 @@ export function RegisterForm() {
       `${isAr ? "الاسم" : "Name"}: ${name.trim()}`,
       `${isAr ? "الهاتف" : "Phone"}: ${phone.trim()}`,
       `${isAr ? "الاهتمام" : "Interest"}: ${interestText}`,
-      planText ? `${isAr ? "الخطة المختارة" : "Chosen plan"}: ${planText}` : "",
       `${isAr ? "الوقت المفضل" : "Preferred time"}: ${timeLabel}`,
       message.trim() ? `${isAr ? "الرسالة" : "Message"}: ${message.trim()}` : "",
     ]
@@ -198,7 +181,6 @@ export function RegisterForm() {
         message,
         interest,
         time,
-        plan: chosen ?? "",
         locale: lang,
         company_website: honeypot,
         elapsedMs: Date.now() - openedAt.current,
@@ -276,6 +258,7 @@ export function RegisterForm() {
                 onClick={() => setInterest(item.id)}
                 className={`register-choice ${active ? "is-active" : ""}`}
               >
+                <span className="register-radio" aria-hidden />
                 <span className="block text-sm font-bold text-ink">
                   {isAr ? item.labelAr : item.labelEn}
                 </span>

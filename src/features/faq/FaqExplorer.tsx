@@ -123,7 +123,7 @@ export function FaqExplorer() {
         </nav>
 
         <div className="faq-help hidden lg:block">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+          <p className="text-(length:--fs-caption) font-bold uppercase tracking-[0.2em] text-accent">
             {isAr ? "لم تجد إجابتك؟" : "Didn't find it?"}
           </p>
           <p className="font-display mt-2 text-xl font-bold text-on-dark">
@@ -175,7 +175,7 @@ export function FaqExplorer() {
               <section key={cat.id} id={`faq-${cat.id}`} className="scroll-mt-28">
                 <div className="mb-4 flex items-baseline gap-4">
                   <span className="font-display text-sm font-bold text-accent-ink tabular-nums">{pad(ci + 1)}</span>
-                  <h2 className="font-display text-2xl font-bold text-ink md:text-3xl">
+                  <h2 className="font-display text-(length:--fs-h3) font-bold text-ink">
                     {isAr ? cat.titleAr : cat.titleEn}
                   </h2>
                 </div>
@@ -210,7 +210,7 @@ export function FaqExplorer() {
         )}
 
         <div className="faq-help mt-14 lg:hidden">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-accent">
+          <p className="text-(length:--fs-caption) font-bold uppercase tracking-[0.2em] text-accent">
             {isAr ? "لم تجد إجابتك؟" : "Didn't find it?"}
           </p>
           <p className="font-display mt-2 text-xl font-bold text-on-dark">

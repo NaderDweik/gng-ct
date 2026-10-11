@@ -79,7 +79,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`group relative py-1 text-[15px] font-medium transition ${
+                className={`group relative py-1 text-(length:--fs-body) font-medium transition ${
                   active ? "text-on-dark" : "text-on-dark-muted hover:text-on-dark"
                 }`}
               >

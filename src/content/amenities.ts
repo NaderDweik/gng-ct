@@ -26,8 +26,6 @@ export const amenitiesIntro = {
   eyebrowEn: "Amenities",
   titleAr: "عالمك الخاص، داخل شاليهك.",
   titleEn: "Your own world, inside your chalet.",
-  subAr: "كل ما تحتاجه العائلة خلف جدران شاليهك، لك وحدك.",
-  subEn: "Everything a family needs behind your chalet’s own walls, yours alone.",
 } as const;
 
 export const amenityFeatures: AmenityFeature[] = [

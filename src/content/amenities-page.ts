@@ -137,7 +137,15 @@ export const communityPlaces: CommunityPlace[] = [
   },
 ];
 
-export type ServiceLine = { id: string; titleEn: string; titleAr: string; bodyEn: string; bodyAr: string };
+export type ServiceLine = {
+  id: string;
+  titleEn: string;
+  titleAr: string;
+  bodyEn: string;
+  bodyAr: string;
+  /** Shown beside the list when this line is active. */
+  image: string;
+};
 
 /** The infrastructure behind the community (from content/services.ts, reworded). */
 export const serviceLines: ServiceLine[] = [
@@ -147,6 +155,7 @@ export const serviceLines: ServiceLine[] = [
     titleAr: "أنظمة المياه",
     bodyEn: "Automatic pumps and a reliable supply to every unit.",
     bodyAr: "مضخات أوتوماتيكية وتزويد موثوق لكل وحدة.",
+    image: `${C}/water-tower-billboard.png`,
   },
   {
     id: "pools",
@@ -154,6 +163,7 @@ export const serviceLines: ServiceLine[] = [
     titleAr: "صيانة المسابح",
     bodyEn: "Advanced filtration and routine maintenance.",
     bodyAr: "فلترة متقدمة وصيانة دورية.",
+    image: "/gallery/resortsPics/pool-and-tent-pavilion-hd.jpg",
   },
   {
     id: "fiber",
@@ -161,6 +171,7 @@ export const serviceLines: ServiceLine[] = [
     titleAr: "ألياف ضوئية وستلايت",
     bodyEn: "Fiber internet, satellite and AC-ready homes.",
     bodyAr: "إنترنت ألياف ضوئية وستلايت ومنازل جاهزة للتكييف.",
+    image: "/gallery/resortsPics/family-living-room.png",
   },
   {
     id: "power",
@@ -168,6 +179,7 @@ export const serviceLines: ServiceLine[] = [
     titleAr: "الكهرباء والطاقة الشمسية",
     bodyEn: "Completed utility connections, backed by an on-site solar farm.",
     bodyAr: "توصيلات مرافق مكتملة، مدعومة بمحطة طاقة شمسية في الموقع.",
+    image: `${C}/solar-farm-building-store.png`,
   },
   {
     id: "roads",
@@ -175,6 +187,7 @@ export const serviceLines: ServiceLine[] = [
     titleAr: "الطرق الداخلية",
     bodyEn: "An easy-access road network with golf-cart shuttles.",
     bodyAr: "شبكة طرق سهلة الوصول مع تنقل بعربات الغولف.",
+    image: `${C}/golf-cart-shuttle-street.png`,
   },
   {
     id: "gardens",
@@ -182,6 +195,7 @@ export const serviceLines: ServiceLine[] = [
     titleAr: "تنسيق الحدائق",
     bodyEn: "Gardeners tending green spaces across 500,000 m².",
     bodyAr: "بستانيون يعتنون بالمساحات الخضراء على ٥٠٠,٠٠٠ م².",
+    image: `${C}/gardeners-landscaping-park.png`,
   },
 ];
 

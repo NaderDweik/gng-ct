@@ -31,10 +31,32 @@
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
+  /* Type scale: one ratio (~1.25) on a 16px base; every size the site uses maps to a step.
+     Fluid steps are rem + vw (never vw alone) and stay within 2.5× of their minimum, so
+     text still reaches 200% under browser zoom (WCAG 1.4.4). Body copy never below 16px;
+     captions (eyebrows, tags) never below 12px. */
+  --fs-caption: 0.75rem; /* 12px */
+  --fs-small: 0.875rem; /* 14px */
+  --fs-body: 1rem; /* 16px */
+  --fs-lead: clamp(1rem, 0.96rem + 0.2vw, 1.125rem); /* 16–18 */
+  --fs-h4: clamp(1.125rem, 1.07rem + 0.25vw, 1.25rem); /* 18–20: card / item titles */
+  --fs-h3: clamp(1.25rem, 1.12rem + 0.55vw, 1.625rem); /* 20–26: panel titles */
+  --fs-h2: clamp(1.75rem, 1.45rem + 1.3vw, 2.5rem); /* 28–40: section titles */
+  --fs-h1: clamp(2.25rem, 1.75rem + 2.1vw, 3.25rem); /* 36–52: page titles */
+  --fs-display: clamp(2.5rem, 1.85rem + 2.8vw, 3.75rem); /* 40–60: home hero */
+  --fs-stat: clamp(2rem, 1.65rem + 1.5vw, 2.75rem); /* 32–44: headline figures */
+
   --background: var(--surface);
   --foreground: var(--ink);
   --font-display: "GC Digits", Optima, "Optima Nova", ui-serif, Georgia, serif;
   --font-body: "GC Digits", var(--font-cairo), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Arabic glyphs sit smaller than Latin at the same size: the two smallest steps go up a
+   notch so captions and labels stay as readable as their English counterparts. */
+[dir="rtl"] {
+  --fs-caption: 0.8125rem; /* 13px */
+  --fs-small: 0.9375rem; /* 15px */
 }
 
 /* English: Kumbh Sans headlines, DM Sans copy. Arabic keeps Cairo + Optima. */

@@ -12,7 +12,7 @@ import { site } from "@/content/site";
 import {
   CommunityMosaic,
   ResortChapters,
-  ServiceList,
+  ServiceShowcase,
 } from "@/features/amenities/AmenitiesPage";
 import type { LocalePageProps } from "@/i18n/types";
 import { PageJsonLd } from "@/components/seo/PageJsonLd";
@@ -60,8 +60,9 @@ export default async function AmenitiesPage({ params }: Props) {
             </div>
             <p className="section-sub">{c.resortLead}</p>
           </header>
-          <ResortChapters items={chapters} isAr={isAr} />
         </div>
+        {/* Edge to edge: rows and photos run to both sides of the screen. */}
+        <ResortChapters items={chapters} isAr={isAr} />
       </section>
 
       {/* 2 · Across the community */}
@@ -100,7 +101,7 @@ export default async function AmenitiesPage({ params }: Props) {
             ))}
           </dl>
 
-          <ServiceList lines={serviceLines} isAr={isAr} />
+          <ServiceShowcase lines={serviceLines} isAr={isAr} />
         </div>
       </section>
 

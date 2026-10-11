@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { PricingShowcase } from "@/features/pricing/PricingShowcase";
@@ -66,10 +67,21 @@ export default async function FinancingPage({ params }: Props) {
           <h2 className="section-title">
             {isAr ? "أربع خطوات نحو شاليهك." : "Four steps to your chalet."}
           </h2>
-          <ol className="mt-12 grid gap-px overflow-hidden border border-line-on-dark bg-fill-on-dark md:grid-cols-2 lg:grid-cols-4">
+          <div className="steps-wrap mt-12">
+          {/* A chalet photo in its own box behind step 04, offset so it peeks out past it. */}
+          <div className="steps-photo" aria-hidden>
+            <Image
+              src="/gallery/resortsPics/family-entering-resort-front-door.png"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 28vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+          <ol className="steps-grid grid gap-px overflow-hidden border border-line-on-dark bg-fill-on-dark md:grid-cols-2 lg:grid-cols-4">
             {steps.map((s, i) => (
               <li key={s.titleEn} className="step-card">
-                <span className="font-display text-5xl font-bold leading-none text-accent/80 tabular-nums">
+                <span className="font-display text-(length:--fs-stat) font-bold leading-none text-accent/80 tabular-nums">
                   {formatNumber(i + 1, locale).padStart(isAr ? 0 : 2, "0")}
                 </span>
                 <h3 className="font-display mt-8 text-xl font-bold text-on-dark">
@@ -81,6 +93,7 @@ export default async function FinancingPage({ params }: Props) {
               </li>
             ))}
           </ol>
+          </div>
         </div>
       </section>
 

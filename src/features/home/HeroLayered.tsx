@@ -31,6 +31,12 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
 
 const slides: readonly HeroSlide[] = hero.slides;
 
+// Logomark V outline (viewBox 0 0 152 178), as in components/ui/VLines.
+const V_PATH =
+  "M25.1182 0.5625L75.6475 104.501L126.177 0.5625L126.451 0H151.295L150.597 1.4375L88.3428 129.497L88.0703 130.057L88.0723 130.061H63.2227L63.2236 130.057L62.9521 129.497L0.698242 1.4375L0 0H24.8438L25.1182 0.5625Z";
+/** The scroll row of V outlines: x positions in a 1920 × 1080 field, overlapping. */
+const V_ROW = Array.from({ length: 20 }, (_, i) => -100 + i * 105);
+
 export function HeroLayered() {
   const locale = useLocale();
   const isAr = locale === "ar";
@@ -158,7 +164,7 @@ export function HeroLayered() {
       // Scroll: pin + recede on larger screens; gentle drift on phones.
       const mm = gsap.matchMedia();
       mm.add("(min-width: 768px)", () => {
-        gsap
+        const pin = gsap
           .timeline({
             defaults: { ease: "none" },
             scrollTrigger: { trigger: el, start: "top top", end: "+=70%", pin: true, scrub: 0.6 },
@@ -167,6 +173,24 @@ export function HeroLayered() {
           .to(q(".hl-word"), { yPercent: -18 }, 0)
           .to(q(".hl-content"), { yPercent: -35, autoAlpha: 0 }, 0)
           .to(q(".hl-cue"), { autoAlpha: 0, duration: 0.2 }, 0);
+
+        // After the pin (copy gone, photo framed), on the way down to the About section:
+        // a row of V outlines draws on one after another in reading direction, then erases
+        // in the same order (dash offset 1 → 0 → -1). Its own range, so the pin is unchanged.
+        const pinEnd = () => pin.scrollTrigger?.end ?? 0;
+        gsap
+          .timeline({
+            defaults: { ease: "none" },
+            scrollTrigger: {
+              trigger: el,
+              start: () => pinEnd(),
+              end: () => pinEnd() + innerHeight * 0.6,
+              scrub: 0.6,
+            },
+          })
+          .set(q(".hl-vs"), { autoAlpha: 1 }, 0)
+          .fromTo(q(".hl-v"), { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 0.2, stagger: 0.014 }, 0)
+          .to(q(".hl-v"), { strokeDashoffset: -1, duration: 0.2, stagger: 0.014 }, 0.55);
       });
       mm.add("(max-width: 767px)", () => {
         gsap
@@ -234,6 +258,19 @@ export function HeroLayered() {
           ) : null,
         )}
         <div className="hl-scrim" aria-hidden />
+
+        {/* Scroll accent (desktop): the V row, drawn and erased by the pin timeline. */}
+        <svg className="hl-vs" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" aria-hidden>
+          {(isAr ? [...V_ROW].reverse() : V_ROW).map((x) => (
+            <path
+              key={x}
+              className="hl-v"
+              d={V_PATH}
+              transform={`translate(${x} 650) scale(1.8)`}
+              pathLength={1}
+            />
+          ))}
+        </svg>
       </div>
 
       <div className="hl-content container-gc">

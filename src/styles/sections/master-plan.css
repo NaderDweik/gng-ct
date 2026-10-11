@@ -106,7 +106,7 @@
   padding: 0.3rem 0.6rem;
   background: var(--brand-primary);
   color: var(--on-primary);
-  font-size: 11px;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.06em;
   line-height: 1.2;
@@ -117,7 +117,7 @@
 
 [dir="rtl"] .mp-tag {
   letter-spacing: 0;
-  font-size: 12px;
+  font-size: var(--fs-caption);
 }
 
 .mp-tag.is-below {
@@ -140,7 +140,7 @@
 .mp-caption {
   margin-top: 1rem;
   color: var(--subtle);
-  font-size: 0.75rem;
+  font-size: var(--fs-caption);
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -148,7 +148,7 @@
 
 [dir="rtl"] .mp-caption {
   letter-spacing: 0;
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
 }
 
 /* Panel */
@@ -177,7 +177,7 @@
 .mp-detail-num {
   color: var(--accent-ink);
   font-family: var(--font-display);
-  font-size: 0.9rem;
+  font-size: var(--fs-small);
   font-weight: 700;
 }
 
@@ -185,7 +185,7 @@
   margin: 0.35rem 0 0;
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 2.4vw, 2rem);
+  font-size: var(--fs-h3);
   font-weight: 700;
   line-height: 1.15;
 }
@@ -203,7 +203,7 @@
 .mp-detail-hint {
   margin: 0;
   color: var(--muted);
-  font-size: 1.05rem;
+  font-size: var(--fs-body);
   font-weight: 300;
   line-height: 1.6;
 }
@@ -215,7 +215,7 @@
 .mp-zone-title {
   margin: 0 0 0.5rem;
   color: var(--primary-ink);
-  font-size: 0.7rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -223,7 +223,7 @@
 
 [dir="rtl"] .mp-zone-title {
   letter-spacing: 0;
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
 }
 
 .mp-list {
@@ -243,7 +243,7 @@
   padding: 0.6rem 0;
   border-bottom: 1px solid var(--line);
   color: var(--ink);
-  font-size: 1.05rem;
+  font-size: var(--fs-body);
   text-align: start;
   cursor: pointer;
   transition: color 0.25s var(--ease);
@@ -252,7 +252,7 @@
 .mp-item-num {
   color: var(--subtle);
   font-family: var(--font-display);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
   font-variant-numeric: tabular-nums;
   transition: color 0.25s var(--ease);
 }
@@ -296,7 +296,7 @@
 .mp-reset {
   margin-top: 1.25rem;
   color: var(--primary-ink);
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -343,7 +343,7 @@
   padding-inline: 0.85rem;
   background: var(--surface);
   color: var(--muted);
-  font-size: 0.7rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -351,7 +351,7 @@
 
 [dir="rtl"] .mp-dims-label {
   letter-spacing: 0;
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
 }
 
 /* Blueprint the plan arrives as (entrance only). */
@@ -579,14 +579,14 @@
 }
 
 .mp-turn-copy b {
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
   font-weight: 700;
   letter-spacing: 0.01em;
 }
 
 .mp-turn-copy > span {
   color: var(--on-dark-muted);
-  font-size: 0.78rem;
+  font-size: var(--fs-caption);
 }
 
 @keyframes mp-turn-glow {
@@ -721,9 +721,9 @@
 
 /* Arabic figures (Amiri) read best a touch larger. */
 [dir="rtl"] .mp-detail-num {
-  font-size: 1.35rem;
+  font-size: var(--fs-h4);
 }
 
 [dir="rtl"] .mp-item-num {
-  font-size: 1rem;
+  font-size: var(--fs-body);
 }

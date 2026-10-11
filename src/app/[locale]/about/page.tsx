@@ -2,7 +2,6 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
-import { formatNumber } from "@/lib/format";
 import { CountUp } from "@/components/ui/CountUp";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import type { LocalePageProps } from "@/i18n/types";
@@ -97,7 +96,6 @@ export default async function AboutPage({ params }: Props) {
   const t = await getTranslations("about");
   const tc = await getTranslations("common");
   const isAr = locale === "ar";
-  const n = (v: number) => formatNumber(v, locale);
 
   const pctSign = isAr ? "٪" : "%";
   const stats = [
@@ -172,7 +170,7 @@ export default async function AboutPage({ params }: Props) {
               <Image src="/gallery/resortsPics/family-entering-resort-front-door.png" alt={isAr ? "واجهة شاليه" : "Resort facade"} fill sizes="(max-width: 1024px) 45vw, 20vw" className="object-cover" />
             </div>
             <div className="about-collage-badge">
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
+              <span className="text-(length:--fs-caption) font-bold uppercase tracking-[0.2em] text-accent">
                 {isAr ? "معتمد" : "Certified"}
               </span>
               <span className="font-display mt-1 text-lg font-bold leading-tight text-on-dark">{site.iso}</span>
@@ -193,16 +191,11 @@ export default async function AboutPage({ params }: Props) {
             </div>
           </div>
           <div className="grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-            {pillars.map((p, i) => (
+            {pillars.map((p) => (
               <article key={p.icon} className="pillar-card group">
-                <div className="flex items-start justify-between">
-                  <span className="pillar-icon">
-                    <Icon name={p.icon} />
-                  </span>
-                  <span className="font-display text-sm font-bold text-muted/60 tabular-nums">
-                    {n(i + 1).padStart(isAr ? 0 : 2, "0")}
-                  </span>
-                </div>
+                <span className="pillar-icon">
+                  <Icon name={p.icon} />
+                </span>
                 <h3 className="font-display mt-10 text-xl font-bold text-ink transition-colors duration-300 group-hover:text-on-dark">
                   {isAr ? p.titleAr : p.titleEn}
                 </h3>
@@ -225,18 +218,11 @@ export default async function AboutPage({ params }: Props) {
               {isAr ? "رؤية واضحة، ومعايير عالمية." : "A clear vision, global standards."}
             </h2>
             <p className="section-sub">{t("founder")}</p>
-            <ul className="mt-8 space-y-3 text-sm text-on-dark-muted">
-              {[
-                isAr ? "إدارة ومتابعة مباشرة من الشركة المطوّرة" : "Managed directly by the developer",
-                isAr ? "عمليات موثّقة وفق نظام إدارة الجودة ISO 9001:2015" : "Processes documented under ISO 9001:2015 quality management",
-                isAr ? "تعامل مباشر مع المشتري: بدون وسطاء أو بنوك" : "Direct with buyers: no brokers, no banks",
-              ].map((line) => (
-                <li key={line} className="flex items-start gap-3">
-                  <span className="mt-2 h-px w-5 shrink-0 bg-accent" aria-hidden />
-                  {line}
-                </li>
-              ))}
-            </ul>
+            <p className="mt-6 max-w-xl leading-relaxed text-on-dark-muted">
+              {isAr
+                ? "تدير الشركة المطوّرة كل مرحلة وتتابعها بنفسها، بعمليات موثّقة وفق نظام إدارة الجودة ISO 9001:2015، وتتعامل مع المشتري مباشرة، بدون وسطاء أو بنوك."
+                : "The developer runs every stage itself, with processes documented under ISO 9001:2015 quality management, and deals with buyers directly: no brokers, no banks."}
+            </p>
             <div className="mt-10 flex flex-wrap gap-3">
               <Link href="/leadership" className="register-cta-btn">
                 {isAr ? "تعرّف على الإدارة" : "Meet the leadership"}
@@ -273,8 +259,7 @@ export default async function AboutPage({ params }: Props) {
           <ul className="social-cards">
             {socials.map((s) => (
               <li key={s.name}>
-                <a href={s.href} target="_blank" rel="noopener noreferrer" className={`social-card social-card--${s.name}`}>
-                  <SocialIcon name={s.name} size={160} className="social-card-mark" />
+                <a href={s.href} target="_blank" rel="noopener noreferrer" className="social-card">
                   <span className="social-card-icon">
                     <SocialIcon name={s.name} size={20} />
                   </span>

@@ -29,7 +29,6 @@ export default async function LeadershipPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("leadership");
-  const tc = await getTranslations("common");
   const isAr = locale === "ar";
   const n = (v: number) => formatNumber(v, locale);
 
@@ -44,7 +43,7 @@ export default async function LeadershipPage({ params }: Props) {
       <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
 
       <section className="leader-hero">
-        <div className="container-gc grid items-center gap-10 pt-12 md:pt-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+        <div className="container-gc grid items-start gap-10 pt-12 md:pt-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
           <div className="leader-portrait reveal">
             {hasPhoto ? (
               <Image
@@ -61,7 +60,7 @@ export default async function LeadershipPage({ params }: Props) {
               </div>
             )}
             <div className="leader-portrait-tag">
-              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
+              <span className="text-(length:--fs-caption) font-bold uppercase tracking-[0.2em] text-accent">
                 {t("founderRole")}
               </span>
               <span className="font-display mt-1 text-lg font-bold text-on-dark">{name}</span>
@@ -82,14 +81,6 @@ export default async function LeadershipPage({ params }: Props) {
                 : "Our vision is simple: every buyer owns a private resort with an independent deed, inside a fully serviced community, with direct zero-interest financing."}
             </blockquote>
 
-            <div className="reveal mt-10 flex flex-wrap gap-3" style={{ animationDelay: "300ms" }}>
-              <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
-                {tc("whatsapp")}
-              </a>
-              <a href={site.social.instagram} target="_blank" rel="noopener noreferrer" className="btn btn-ghost-dark">
-                Instagram
-              </a>
-            </div>
           </div>
         </div>
       </section>
@@ -107,7 +98,7 @@ export default async function LeadershipPage({ params }: Props) {
             <ol className="leader-principles-list">
               {principles.map((p, i) => (
                 <li key={p.titleEn} className="leader-principle">
-                  <span className="leader-principle-num font-display text-3xl font-bold leading-none tabular-nums md:text-4xl">
+                  <span className="leader-principle-num font-display text-(length:--fs-h2) font-bold leading-none tabular-nums">
                     <span className="leader-principle-num-ink">{n(i + 1).padStart(isAr ? 0 : 2, "0")}</span>
                   </span>
                   <h3 className="font-display mt-4 text-lg font-bold leading-snug text-on-dark md:mt-5 md:text-xl">

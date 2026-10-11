@@ -60,7 +60,7 @@
 
 .np-date {
   color: var(--primary-ink);
-  font-size: 0.72rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -68,13 +68,13 @@
 
 [dir="rtl"] .np-date {
   letter-spacing: 0;
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
 }
 
 .np-title {
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: clamp(1.15rem, 1.5vw, 1.35rem);
+  font-size: var(--fs-h4);
   font-weight: 700;
   line-height: 1.3;
 }
@@ -85,7 +85,7 @@
 
 .np-excerpt {
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: var(--fs-body);
   font-weight: 300;
   line-height: 1.65;
 }
@@ -97,7 +97,7 @@
   margin-top: auto;
   padding-top: 0.25rem;
   color: var(--primary-ink);
-  font-size: 0.75rem;
+  font-size: var(--fs-caption);
   font-weight: 800;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -105,7 +105,7 @@
 
 [dir="rtl"] .np-more {
   letter-spacing: 0;
-  font-size: 0.9rem;
+  font-size: var(--fs-small);
 }
 
 .np-card:hover .lux-arrow-shaft {

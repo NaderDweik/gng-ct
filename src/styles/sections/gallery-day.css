@@ -27,18 +27,46 @@
   .gd-aside {
     justify-content: flex-end;
   }
+
+  /* The switch shares the title's row and is centred on it (not on the eyebrow + title
+     block): the copy column's children join the head grid directly. */
+  .gd .sec-head {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    row-gap: 0;
+  }
+
+  .gd .sec-head > div:first-child {
+    display: contents;
+  }
+
+  .gd .sec-head .section-eyebrow {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .gd .sec-head .section-title {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .gd .sec-head > .gd-aside {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: center;
+  }
 }
 
 /* ── Day / Night switch: a thin outlined pill with a small dot, labels either side ── */
 .gd-switch-wrap {
   display: inline-flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .gd-switch-label {
   color: var(--subtle);
-  font-size: 0.8rem;
+  font-size: var(--fs-body);
   font-weight: 700;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -48,7 +76,7 @@
 
 [dir="rtl"] .gd-switch-label {
   letter-spacing: 0;
-  font-size: 1rem;
+  font-size: 1.2rem;
 }
 
 .gd:not(.is-night) .gd-switch-label:first-child,
@@ -65,9 +93,9 @@
 }
 
 .gd-switch {
-  --track-w: 3.4rem;
-  --track-h: 1.8rem;
-  --knob: 1.05rem;
+  --track-w: 4.1rem;
+  --track-h: 2.15rem;
+  --knob: 1.3rem;
   --pad: calc((var(--track-h) - var(--knob)) / 2 - 1px);
   position: relative;
   flex-shrink: 0;
@@ -381,7 +409,7 @@
 .gd-lede > span {
   max-width: min(21rem, 58%);
   color: var(--on-dark);
-  font-size: clamp(0.85rem, 1.15vw, 1.05rem);
+  font-size: var(--fs-body);
   font-weight: 400;
   line-height: 1.6;
   text-align: end;
@@ -433,7 +461,7 @@
 .gd-time {
   padding: 0.3rem 0.55rem;
   background: color-mix(in srgb, var(--overlay) 55%, transparent);
-  font-size: 0.7rem;
+  font-size: var(--fs-caption);
   font-weight: 700;
   letter-spacing: 0.14em;
   font-variant-numeric: tabular-nums;
@@ -442,13 +470,13 @@
 
 [dir="rtl"] .gd-time {
   letter-spacing: 0;
-  font-size: 0.8rem;
+  font-size: var(--fs-caption);
 }
 
 .gd-cap-title {
   margin-top: 0.5rem;
   font-family: var(--font-display);
-  font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+  font-size: var(--fs-h4);
   font-weight: 700;
   line-height: 1.25;
 }

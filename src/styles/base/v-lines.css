@@ -54,3 +54,19 @@
     stroke-dashoffset: 0;
   }
 }
+
+/* Home stats band (app/[locale]/page.tsx): the charcoal brand band with teal figures
+   (7.2:1) and white labels; the V lines switch to teal to show on the dark. */
+.stats-band {
+  --vl-color: var(--brand-primary);
+  background: var(--brand-secondary);
+}
+
+/* The lines sit semi-transparent behind the figures. */
+.stats-band .vl {
+  opacity: 0.4;
+}
+
+.stats-band-figure {
+  color: var(--brand-primary);
+}

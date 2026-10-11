@@ -3,7 +3,6 @@ import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { site } from "@/content/site";
 import { RegisterForm } from "@/features/register/RegisterForm";
-import { ChosenPlanCard } from "@/features/register/ChosenPlanCard";
 import type { LocalePageProps } from "@/i18n/types";
 import { PageJsonLd } from "@/components/seo/PageJsonLd";
 import { routeMetadata } from "@/lib/seo";
@@ -81,8 +80,8 @@ export default async function RegisterPage({ params }: Props) {
       <section className="register-body bg-surface-alt">
         <div className="container-gc grid items-stretch gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:gap-8">
           <div className="register-panel">
-            <div className="mb-5 border-b border-line pb-4">
-              <h2 className="font-display text-xl font-bold text-ink md:text-2xl">
+            <div className="register-panel-head">
+              <h2 className="font-display text-xl font-bold text-on-dark md:text-2xl">
                 {isAr ? "أخبرنا كيف نتواصل معك." : "Tell us how to reach you."}
               </h2>
             </div>
@@ -90,7 +89,20 @@ export default async function RegisterPage({ params }: Props) {
           </div>
 
           <aside className="flex flex-col gap-4">
-            <ChosenPlanCard locale={locale} jd={tc("jd")} />
+
+            <div className="register-side register-visit">
+              <LoopVideo src="/motion/cta-loop.mp4" poster="/motion/cta-loop.jpg" className="register-visit-video" />
+              <div className="register-visit-body">
+                <p className="font-display text-xl font-bold text-on-dark md:text-2xl">
+                  {isAr ? "هل تفضّل زيارة مباشرة؟" : "Prefer a site visit?"}
+                </p>
+                <p className="mt-2 text-base leading-relaxed text-on-dark-muted">
+                  {isAr
+                    ? "اختر «زيارة الموقع» في النموذج وسنرتّب الموعد."
+                    : "Pick “Site visit” in the form and we’ll arrange a time."}
+                </p>
+              </div>
+            </div>
 
             <div className="register-side register-contact">
               <ContactRow icon="phone" label={isAr ? "اتصل بنا" : "Call us"}>
@@ -110,20 +122,6 @@ export default async function RegisterPage({ params }: Props) {
                 <span className="block">{isAr ? site.hoursAr.weekdays : site.hoursEn.weekdays}</span>
                 <span className="block">{isAr ? site.hoursAr.saturday : site.hoursEn.saturday}</span>
               </ContactRow>
-            </div>
-
-            <div className="register-side register-visit">
-              <LoopVideo src="/motion/cta-loop.mp4" poster="/motion/cta-loop.jpg" className="register-visit-video" />
-              <div className="register-visit-body">
-                <p className="font-display text-xl font-bold text-on-dark md:text-2xl">
-                  {isAr ? "هل تفضّل زيارة مباشرة؟" : "Prefer a site visit?"}
-                </p>
-                <p className="mt-2 text-base leading-relaxed text-on-dark-muted">
-                  {isAr
-                    ? "اختر «زيارة الموقع» في النموذج وسنرتّب الموعد."
-                    : "Pick “Site visit” in the form and we’ll arrange a time."}
-                </p>
-              </div>
             </div>
           </aside>
         </div>

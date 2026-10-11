@@ -5,315 +5,211 @@
   scroll-margin-top: 8rem;
 }
 
-/* ── Inside your resort ── */
+/* ── Inside your resort: list rows + parallax photo column ── */
 
-.ap-resort {
+.arl {
+  /* The list runs edge to edge; text starts where the page container would,
+     so it lines up with the section heading above. */
+  --arl-edge: calc((100vw - min(1280px, 100vw - 2rem)) / 2);
+  --arl-pad: clamp(1.25rem, 2.6vw, 2.25rem);
+  --arl-start: max(var(--arl-edge), var(--arl-pad));
   display: grid;
   gap: 2rem;
 }
 
+/* Desktop: rows on the start side, a sticky photo column on the end side. */
 @media (min-width: 1024px) {
-  .ap-resort {
-    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
-    gap: clamp(3rem, 6vw, 6rem);
+  .arl {
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    gap: 0;
     align-items: start;
   }
 }
 
-.ap-chapters {
-  display: grid;
-  gap: 1.25rem;
+.arl-list {
   margin: 0;
   padding: 0;
   list-style: none;
-  position: relative;
+  border-top: 1px solid var(--line);
 }
 
-/* Card-to-card line: runs down the column behind the cards (so it shows in the gaps)
-   and fills with scroll. Top/height are measured in ResortChapters. */
-.ap-rail {
-  position: absolute;
-  top: var(--rail-top, 0);
-  inset-inline-start: 50%;
-  width: 6px;
-  height: var(--rail-h, 100%);
-  background: var(--line-strong);
-  transform: translateX(-50%);
-  pointer-events: none;
+.arl-row {
+  border-bottom: 1px solid var(--line);
+  transition: background-color 0.45s var(--ease);
 }
 
-/* The scroll line is dotted: a dot mask over the track and its fill. */
-.ap-rail {
-  -webkit-mask: radial-gradient(circle, #000 2.5px, transparent 3px) center top / 100% 12px repeat-y;
-  mask: radial-gradient(circle, #000 2.5px, transparent 3px) center top / 100% 12px repeat-y;
-}
-
-[dir="rtl"] .ap-rail {
-  transform: translateX(50%);
-}
-
-.ap-rail-fill {
-  position: absolute;
-  inset: 0;
-  background: var(--brand-primary);
-  transform: scaleY(0);
-  transform-origin: top;
-}
-
-.ap-chapter {
-  position: relative;
-  z-index: 1;
-}
-
-/* Each chapter is a framed card. On desktop the chapter keeps a tall slot to
-   pace the scroll, with its card centred in it. */
-@media (min-width: 1024px) {
-  .ap-chapters {
-    gap: 0;
-  }
-
-  .ap-chapter {
-    display: grid;
-    align-content: center;
-    min-height: 62svh;
-    padding-block: 1.5rem;
-  }
-
-  .ap-chapter:first-child {
-    align-content: start;
-    padding-top: 0;
-  }
-}
-
-.ap-card {
-  position: relative;
-  display: grid;
-  gap: 1rem;
-  padding: clamp(1.5rem, 3vw, 2.5rem);
-  border: 1px solid var(--line);
-  border-radius: 4px;
-  background: var(--surface-alt);
-  transition:
-    background-color 0.5s var(--ease),
-    border-color 0.5s var(--ease),
-    box-shadow 0.5s var(--ease);
-}
-
-/* The one you're reading: white, lifted, with a primary edge on the reading side. */
-.ap-card::before {
-  content: "";
-  position: absolute;
-  inset-block: -1px;
-  inset-inline-start: -1px;
-  width: 4px;
-  border-start-start-radius: 4px;
-  border-end-start-radius: 4px;
-  background: var(--brand-primary);
-  opacity: 0;
-  transition: opacity 0.5s var(--ease);
-}
-
-@media (max-width: 1023px) {
-  .ap-card {
-    background: var(--surface);
-    box-shadow: var(--shadow-card);
-  }
-
-  .ap-card::before {
-    opacity: 1;
-  }
-}
-
-@media (min-width: 1024px) {
-  .ap-chapter.is-active .ap-card {
-    border-color: var(--line-strong);
-    background: var(--surface);
-    box-shadow: var(--shadow-card-lg);
-  }
-
-  .ap-chapter.is-active .ap-card::before {
-    opacity: 1;
-  }
-}
-
-.ap-chapter-photo {
-  position: relative;
-  aspect-ratio: 4 / 3;
-  margin: calc(-1 * clamp(1.5rem, 3vw, 2.5rem));
-  margin-bottom: 0.25rem;
-  overflow: hidden;
-  border-radius: 4px 4px 0 0;
-}
-
-@media (min-width: 1024px) {
-  .ap-chapter-photo {
-    display: none;
-  }
-}
-
-.ap-card-top {
+.arl-row-main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.5rem;
+  padding-block: clamp(1.4rem, 2.6vw, 2.1rem) clamp(0.75rem, 1.4vw, 1.1rem);
+  padding-inline: var(--arl-start) var(--arl-pad);
 }
 
-.ap-card-icon {
-  display: grid;
-  width: 3.5rem;
-  height: 3.5rem;
-  place-items: center;
-  border-radius: 999px;
-  background: var(--brand-primary-soft);
-  color: var(--primary-ink);
-}
-
-.ap-chapter-icon {
-  width: 30px;
-  height: 30px;
-}
-
-.ap-chapter-num {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.35rem;
-  color: var(--primary-ink);
-  font-family: var(--font-display);
-  font-size: 1rem;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-
-.ap-chapter-num i {
-  color: var(--line-strong);
-  font-style: normal;
-  font-weight: 400;
-}
-
-.ap-chapter-title {
-  margin: 0.5rem 0 0;
+.arl-title {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0;
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: clamp(1.7rem, 2.6vw, 2.25rem);
+  font-size: var(--fs-h2);
   font-weight: 700;
-  line-height: 1.15;
-  letter-spacing: -0.015em;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  transition: color 0.45s var(--ease);
 }
 
-[dir="rtl"] .ap-chapter-title {
+[dir="rtl"] .arl-title {
   font-family: var(--font-body);
   letter-spacing: 0;
-  line-height: 1.35;
 }
 
-.ap-chapter-body {
-  max-width: 34rem;
-  margin: 0;
-  color: var(--muted);
-  font-size: 1.05rem;
-  line-height: 1.75;
-}
-
-/* Facts: a checked list above a hairline, not floating boxes. */
-.ap-specs {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.6rem 1.75rem;
-  margin: 0.5rem 0 0;
-  padding: 1.25rem 0 0;
-  border-top: 1px solid var(--line);
-  list-style: none;
-}
-
-.ap-specs li {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--ink);
-  font-size: 0.95rem;
-  font-weight: 600;
-}
-
-.ap-specs svg {
-  flex: none;
+.arl-icon {
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
   color: var(--primary-ink);
+  transition: color 0.45s var(--ease);
 }
 
-/* The pinned frame: each chapter's photo wipes up over the last. */
-.ap-frame {
+.arl-sub {
+  margin: 0.55rem 0 0;
+  color: var(--muted);
+  font-size: var(--fs-body);
+  transition: color 0.45s var(--ease);
+}
+
+/* Big index figure on the end side, quiet grey until its row is current. */
+.arl-num {
+  flex-shrink: 0;
+  color: var(--neutral-300);
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 1.6rem + 3.6vw, 5.25rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+  transition: color 0.45s var(--ease);
+}
+
+/* Every row keeps its line open, so no row changes height while you scroll
+   (a row opening and the one above closing used to shift the whole list).
+   Off rows set it quietly; the current row lifts it onto the dark band. */
+.arl-desc {
+  display: block;
+}
+
+.arl-desc > p {
+  min-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding-inline: var(--arl-start) var(--arl-pad);
+  padding-bottom: clamp(1.4rem, 2.6vw, 2.1rem);
+  max-width: calc(40rem + var(--arl-start));
+  color: var(--muted);
+  font-size: var(--fs-body);
+  line-height: 1.7;
+  transition: color 0.45s var(--ease);
+}
+
+/* Current row: the dark band. */
+.arl-row.is-on {
+  background: var(--brand-secondary);
+}
+
+.arl-row.is-on .arl-title,
+.arl-row.is-on .arl-num {
+  color: var(--on-dark);
+}
+
+.arl-row.is-on .arl-icon {
+  color: var(--brand-primary);
+}
+
+.arl-row.is-on .arl-sub {
+  color: var(--on-dark-muted);
+}
+
+.arl-row.is-on .arl-desc > p {
+  color: var(--on-dark-muted);
+}
+
+/* Phones / tablets: each row shows its own photo; no sticky column. */
+.arl-row-photo {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--surface-tint);
+}
+
+.arl-photos {
   display: none;
 }
 
 @media (min-width: 1024px) {
-  .ap-frame {
-    display: block;
+  .arl-row-photo {
+    display: none;
+  }
+
+  .arl-photos {
     position: sticky;
-    top: calc(80px + 4.5rem);
-    height: min(calc(100svh - 80px - 7rem), 44rem);
+    top: 5rem;
+    display: block;
+    height: calc(100svh - 5rem);
+    max-height: 56rem;
+    overflow: hidden;
+    background: var(--surface-tint);
+  }
+
+  /* The strip glides to the current row's photo (--i of --n, set in ResortChapters),
+     so photo and row always match, and the last photo arrives with the last row. */
+  .arl-strip {
+    --h: min(100svh - 5rem, 56rem);
+    --gap: 0.75rem;
+    display: grid;
+    row-gap: var(--gap);
+    /* First photo flush with the top, last flush with the bottom, the rest stepping
+       evenly between, so the frame never shows empty space at either end. */
+    transform: translateY(
+      calc(var(--i, 0) / (var(--n, 2) - 1) * var(--h) * 0.38 - var(--i, 0) * (var(--h) * 0.62 + var(--gap)))
+    );
+    transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: transform;
+  }
+
+  .arl-photo {
+    position: relative;
+    height: calc(var(--h) * 0.62);
+    overflow: hidden;
+  }
+
+  .arl-photo img {
+    filter: brightness(0.6) saturate(0.8);
+    transition: filter 0.6s var(--ease);
+  }
+
+  .arl-photo.is-on img {
+    filter: none;
   }
 }
 
-.ap-frame-inner {
-  position: relative;
-  height: 100%;
-  overflow: hidden;
-  background: var(--surface-tint);
-  box-shadow: var(--shadow-card-lg);
+@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
+  .arl-strip {
+    transition: none;
+  }
 }
 
-.ap-frame-photo {
-  position: absolute;
-  inset: 0;
-  clip-path: inset(100% 0 0 0);
-  transition: clip-path 1.1s cubic-bezier(0.76, 0, 0.24, 1);
-}
+@media (max-width: 599px) {
+  .arl-num {
+    font-size: 2.25rem;
+  }
 
-.ap-frame-photo img {
-  scale: 1.12;
-  transition: scale 1.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.ap-frame-photo.is-on {
-  clip-path: inset(0 0 0 0);
-}
-
-.ap-frame-photo.is-on img {
-  scale: 1;
-}
-
-.ap-frame-shade {
-  position: absolute;
-  inset: 0;
-  z-index: 20;
-  background: linear-gradient(0deg, color-mix(in srgb, var(--overlay) 70%, transparent), transparent 42%);
-  pointer-events: none;
-}
-
-.ap-frame-cap {
-  position: absolute;
-  inset-inline: 1.75rem;
-  bottom: 1.5rem;
-  z-index: 21;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-  color: var(--on-dark);
-}
-
-.ap-frame-title {
-  font-family: var(--font-display);
-  font-size: clamp(1.3rem, 2vw, 1.75rem);
-  font-weight: 700;
-  animation: ap-cap-in 0.7s var(--ease) both;
-}
-
-[dir="rtl"] .ap-frame-title {
-  font-family: var(--font-body);
-}
-
-@keyframes ap-cap-in {
-  from { opacity: 0; transform: translateY(10px); }
+  .arl-icon {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
 }
 
 /* ── Across the community: mosaic ── */
@@ -383,7 +279,7 @@
 
 .ap-tile-cap b {
   font-family: var(--font-display);
-  font-size: 1.3rem;
+  font-size: var(--fs-h4);
   font-weight: 700;
 }
 
@@ -395,7 +291,7 @@
 .ap-tile-cap span {
   max-width: 28rem;
   color: var(--on-dark-muted);
-  font-size: 0.88rem;
+  font-size: var(--fs-small);
   line-height: 1.55;
 }
 
@@ -415,13 +311,15 @@
 }
 
 /* ── Serviced daily ── */
+
+/* Stats: big green figures on the page itself, split by hairlines (no boxes). */
 .ap-stats {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1px;
-  margin: 0 0 clamp(3rem, 6vw, 4.5rem);
-  border: 1px solid var(--line);
-  background: var(--line);
+  gap: 1.75rem 0;
+  margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
+  padding-block: clamp(1.5rem, 3vw, 2rem);
+  border-block: 1px solid var(--line);
 }
 
 @media (min-width: 1024px) {
@@ -433,14 +331,33 @@
 .ap-stat {
   display: flex;
   flex-direction: column-reverse;
-  gap: 0.5rem;
-  padding: clamp(1.5rem, 3vw, 2.25rem);
-  background: var(--surface);
+  /* Reversed column: flex-end is the top, so figures line up when labels wrap. */
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding-inline: clamp(1rem, 2.4vw, 2rem);
+  border-inline-start: 1px solid var(--line);
+}
+
+.ap-stat:nth-child(2n + 1) {
+  padding-inline-start: 0;
+  border-inline-start: 0;
+}
+
+@media (min-width: 1024px) {
+  .ap-stat:nth-child(2n + 1) {
+    padding-inline-start: clamp(1rem, 2.4vw, 2rem);
+    border-inline-start: 1px solid var(--line);
+  }
+
+  .ap-stat:first-child {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
 }
 
 .ap-stat dt {
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: var(--fs-small);
   line-height: 1.4;
 }
 
@@ -448,85 +365,187 @@
   margin: 0;
   color: var(--primary-ink);
   font-family: var(--font-display);
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-size: var(--fs-stat);
   font-weight: 700;
   line-height: 1;
+  letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
 }
 
-/* Serviced daily — a 3 × 2 grid of tiles divided by hairlines (the 1px gaps
-   show the grid's line colour). Icon, title, one line. */
-.ap-services {
+/* Showcase: a large photo on the start side, a dark panel with the list on the end side. */
+.ap-svc {
   display: grid;
-  gap: 1px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  border: 1px solid var(--line);
-  background: var(--line);
-}
-
-@media (min-width: 640px) {
-  .ap-services {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+  box-shadow: var(--shadow-card-lg);
 }
 
 @media (min-width: 1024px) {
-  .ap-services {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .ap-svc {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    min-height: clamp(32rem, 42vw, 38rem);
   }
 }
 
-.ap-service {
+.ap-svc-stage {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--surface-tint);
+}
+
+@media (min-width: 1024px) {
+  .ap-svc-stage {
+    aspect-ratio: auto;
+  }
+}
+
+.ap-svc-img {
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.05);
+  transition:
+    opacity 0.8s var(--ease),
+    transform 1.6s var(--ease);
+}
+
+.ap-svc-img.is-on {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ap-svc-list {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: clamp(1.5rem, 2.6vw, 2.25rem);
-  background: var(--surface);
+  justify-content: center;
+  margin: 0;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  list-style: none;
+  background: linear-gradient(160deg, var(--brand-secondary-light), var(--brand-secondary-deep));
+  color: var(--on-dark);
 }
 
-.ap-service-icon {
+.ap-svc-item {
+  position: relative;
+  border-bottom: 1px solid var(--line-on-dark);
+}
+
+.ap-svc-item:last-child {
+  border-bottom: 0;
+}
+
+.ap-svc-btn {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.95rem 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.ap-svc-btn:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 2px;
+}
+
+.ap-svc-icon {
   display: grid;
-  width: 3.25rem;
-  height: 3.25rem;
+  flex-shrink: 0;
   place-items: center;
-  border-radius: 999px;
-  background: var(--brand-primary-soft);
-  color: var(--primary-ink);
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--line-on-dark);
+  color: var(--on-dark-muted);
+  transition:
+    background-color 0.4s var(--ease),
+    border-color 0.4s var(--ease),
+    color 0.4s var(--ease);
 }
 
-.ap-service-title {
-  margin: 1.25rem 0 0;
-  color: var(--ink);
+.ap-svc-title {
+  color: var(--on-dark-muted);
   font-family: var(--font-display);
-  font-size: 1.25rem;
+  font-size: var(--fs-h4);
   font-weight: 700;
   line-height: 1.3;
+  transition: color 0.4s var(--ease);
 }
 
-[dir="rtl"] .ap-service-title {
+[dir="rtl"] .ap-svc-title {
   font-family: var(--font-body);
 }
 
-.ap-service-body {
-  margin: 0.45rem 0 0;
-  color: var(--muted);
-  font-size: 1rem;
+.ap-svc-item.is-on .ap-svc-icon {
+  border-color: var(--brand-accent);
+  background: var(--brand-accent);
+  color: var(--white);
+}
+
+.ap-svc-item.is-on .ap-svc-title,
+.ap-svc-btn:hover .ap-svc-title {
+  color: var(--on-dark);
+}
+
+/* The active line opens to show its copy. */
+.ap-svc-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.5s var(--ease),
+    opacity 0.4s var(--ease);
+}
+
+.ap-svc-body > p {
+  min-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding-inline-start: calc(2.75rem + 1rem);
+  color: var(--on-dark-muted);
+  font-size: var(--fs-body);
   line-height: 1.65;
-  text-wrap: pretty;
+}
+
+.ap-svc-item.is-on .ap-svc-body {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.ap-svc-item.is-on .ap-svc-body > p {
+  padding-bottom: 1.1rem;
+}
+
+/* Auto-advance timer: fills along the active line's bottom edge. */
+.ap-svc-progress {
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  background: var(--brand-accent);
+  transform-origin: left;
+  animation: ap-svc-fill linear both;
+}
+
+[dir="rtl"] .ap-svc-progress {
+  transform-origin: right;
+}
+
+@keyframes ap-svc-fill {
+  from {
+    transform: scaleX(0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ap-frame-photo,
-  .ap-frame-photo img,
+  .ap-svc-img,
+  .ap-svc-body,
   .ap-tile-img,
-  .ap-card,
-  .ap-card::before {
+  .arl-row,
+  .arl-desc,
+  .arl-photo img {
     transition: none;
-  }
-
-  .ap-frame-title {
-    animation: none;
   }
 }
