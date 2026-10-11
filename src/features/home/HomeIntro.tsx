@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { homeIntro as intro } from "@/content/home-intro";
@@ -9,32 +9,52 @@ import { homeIntro as intro } from "@/content/home-intro";
 /*
  * Home "About Giving Compound" (styles: styles/sections/home-intro.css).
  * Once in view the photo unveils from the bottom up while it settles from a slight zoom.
+ *
+ * Phones add a quiet editorial sequence (all CSS-gated to max-width: 767px):
+ *   - the photo drifts slower than the page (scroll-driven, where supported);
+ *   - the title rises line by line from behind a mask;
+ *   - the facts' green rule draws down and each check draws itself, one after another.
+ * Reduced motion: everything is shown in its final state.
  */
 
 const IMAGE_SIZES = "(min-width: 1024px) 55vw, 100vw";
 
+/** "One Community. 367 Private Resorts." → ["One Community.", "367 Private Resorts."] */
+const lines = (title: string) => title.split(/(?<=\.)\s+/);
+
 export function HomeIntro({ locale }: { locale: string }) {
-  const copy = locale === "ar" ? intro.ar : intro.en;
+  const isAr = locale === "ar";
+  const copy = isAr ? intro.ar : intro.en;
   const root = useRef<HTMLElement>(null);
+  const copyRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
+  const [copyIn, setCopyIn] = useState(false);
 
   useEffect(() => {
-    const el = root.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (!entry?.isIntersecting) return;
-        setInView(true);
-        io.disconnect();
-      },
-      { threshold: 0.35 },
-    );
-    io.observe(el);
-    return () => io.disconnect();
+    const watch = (el: Element | null, threshold: number, done: () => void) => {
+      if (!el) return () => {};
+      const io = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry?.isIntersecting) return;
+          done();
+          io.disconnect();
+        },
+        { threshold },
+      );
+      io.observe(el);
+      return () => io.disconnect();
+    };
+    const a = watch(root.current, 0.35, () => setInView(true));
+    // The copy has its own trigger: on phones it sits well below the photo.
+    const b = watch(copyRef.current, 0.15, () => setCopyIn(true));
+    return () => {
+      a();
+      b();
+    };
   }, []);
 
   return (
-    <section ref={root} className={`hi section bg-surface${inView ? " is-in" : ""}`}>
+    <section ref={root} className={`hi section bg-surface${inView ? " is-in" : ""}${copyIn ? " is-copy-in" : ""}`}>
       <div className="container-gc hi-grid">
         <figure className="hi-frame">
           <Image
@@ -48,15 +68,21 @@ export function HomeIntro({ locale }: { locale: string }) {
           />
         </figure>
 
-        <div className="hi-copy">
+        <div ref={copyRef} className="hi-copy">
           <p className="section-eyebrow">{copy.eyebrow}</p>
-          <h2 className="section-title">{copy.title}</h2>
+          <h2 className="section-title">
+            {lines(copy.title).map((line, i) => (
+              <span key={line} className="hi-line" style={{ "--i": i } as CSSProperties}>
+                <span className="hi-line-in">{line}</span>{" "}
+              </span>
+            ))}
+          </h2>
           <p className="hi-body">{copy.p1}</p>
           <ul className="hi-facts">
-            {copy.facts.map((f) => (
-              <li key={f}>
+            {copy.facts.map((f, i) => (
+              <li key={f} style={{ "--i": i } as CSSProperties}>
                 <svg viewBox="0 0 24 24" aria-hidden>
-                  <path d="m5 12.5 4.5 4.5L19 7.5" />
+                  <path pathLength={1} d="m5 12.5 4.5 4.5L19 7.5" />
                 </svg>
                 {f}
               </li>

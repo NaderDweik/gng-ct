@@ -175,7 +175,7 @@ export default async function HomePage({ params }: Props) {
           toward the middle */}
       <section className="stats-band relative overflow-hidden border-y border-line text-on-dark">
         <VLines />
-        <div className="container-gc relative z-[1] grid grid-cols-2 gap-x-6 gap-y-10 py-12 text-center md:gap-10 md:py-16 lg:grid-cols-4">
+        <div className="stats-band-grid container-gc relative z-[1] grid grid-cols-2 gap-x-6 gap-y-10 py-12 text-center md:gap-10 md:py-16 lg:grid-cols-4">
           {[
             { v: `${site.stats.units}+`, l: t("statsUnits") },
             {
@@ -186,11 +186,12 @@ export default async function HomePage({ params }: Props) {
             // Zero-interest plans direct from the developer: the figure buyers actually weigh.
             { v: "0%", l: isAr ? "فوائد على خطط الدفع" : "interest on payment plans" },
           ].map((s) => (
-            <div key={s.l}>
-              <p className="stats-band-figure font-display text-(length:--fs-stat) font-bold tracking-tight">
+            <div key={s.l} className="stats-band-cell">
+              {/* dir="ltr": keeps "367+" and "0%" in figure order inside Arabic text. */}
+              <p dir="ltr" className="stats-band-figure font-display text-(length:--fs-stat) font-bold tracking-tight">
                 {s.v}
               </p>
-              <p className="mt-3 text-sm font-medium md:text-base">{s.l}</p>
+              <p className="stats-band-label mt-3 text-sm font-medium md:text-base">{s.l}</p>
             </div>
           ))}
         </div>

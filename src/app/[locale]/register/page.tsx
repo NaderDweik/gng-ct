@@ -116,7 +116,7 @@ export default async function RegisterPage({ params }: Props) {
                 </a>
               </ContactRow>
               <ContactRow icon="pin" label={isAr ? "مكتب المبيعات" : "Sales office"}>
-                {isAr ? site.locationAr : site.locationEn}
+                {isAr ? site.salesOfficeAr : site.salesOfficeEn}
               </ContactRow>
               <ContactRow icon="clock" label={isAr ? "ساعات العمل" : "Opening hours"}>
                 <span className="block">{isAr ? site.hoursAr.weekdays : site.hoursEn.weekdays}</span>

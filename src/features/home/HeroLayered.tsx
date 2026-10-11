@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import { useRef, useState } from "react";
+import Image, { getImageProps } from "next/image";
+import { useRef, useState, type CSSProperties } from "react";
 import { useLocale } from "next-intl";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -10,6 +10,45 @@ import { Link } from "@/i18n/navigation";
 import { heroLayered as hero, type HeroSlide } from "@/content/hero";
 import { site } from "@/content/site";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
+
+/**
+ * The photos are 16:9 and `object-cover` a full-height hero (100svh, min 640px). On any
+ * screen narrower than 16:9 (every phone held upright) they render at the hero's HEIGHT
+ * × 16/9, far wider than the viewport; "100vw" made phones fetch a viewport-wide file and
+ * stretch it ~4×. These sizes describe the real rendered width so the browser picks a
+ * sharp file (640px min height × 16/9 = 1138px).
+ */
+const HERO_SIZES =
+  "(max-aspect-ratio: 16/9) and (min-height: 640px) calc(100vh * 16 / 9), (max-aspect-ratio: 16/9) 1138px, 100vw";
+
+/** Where a slide's `mobileBackground` (portrait photo) replaces the 16:9 one. */
+const PORTRAIT = "(max-aspect-ratio: 3/4)";
+/** The portrait photos are ~9:16 (1536 × 2752): on screens narrower than that they
+    cover the hero's height, wider ones its width. */
+const PORTRAIT_SIZES = "(max-aspect-ratio: 1536/2752) calc(100vh * 1536 / 2752), 100vw";
+
+/**
+ * A slide photo with art direction: the portrait file on portrait screens, the 16:9 one
+ * elsewhere. Still a single <img data-slide> (inside <picture>), so the slide animations
+ * and the first-slide decode wait find it as before.
+ */
+function HeroArtPhoto({ slide, index, className }: { slide: HeroSlide; index: number; className: string }) {
+  const common = { alt: "", fill: true, quality: 95, priority: index === 0 } as const;
+  const portrait = getImageProps({ ...common, src: slide.mobileBackground!, sizes: PORTRAIT_SIZES }).props;
+  const { style, ...wide } = getImageProps({ ...common, src: slide.background, sizes: HERO_SIZES }).props;
+  return (
+    <picture>
+      <source media={PORTRAIT} srcSet={portrait.srcSet} sizes={portrait.sizes} />
+      {/* eslint-disable-next-line jsx-a11y/alt-text -- alt="" comes in through `wide` (getImageProps) */}
+      <img
+        {...wide}
+        data-slide={index}
+        className={`${className} hl-photo--art`}
+        style={{ ...style, "--hl-focus": slide.focus, "--hl-mfocus": slide.mobileFocus ?? "50% 50%" } as CSSProperties}
+      />
+    </picture>
+  );
+}
 import { isSwitchingLocale } from "@/i18n/useSwitchLocale";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -218,20 +257,24 @@ export function HeroLayered() {
       aria-roledescription="carousel"
     >
       <div className="hl-stage">
-        {slides.map((s, i) => (
-          <Image
-            key={s.background}
-            src={s.background}
-            alt=""
-            fill
-            sizes="100vw"
-            quality={95}
-            priority={i === 0}
-            data-slide={i}
-            className={`hl-photo hl-layer${first(i)}`}
-            style={{ objectPosition: s.focus }}
-          />
-        ))}
+        {slides.map((s, i) =>
+          s.mobileBackground ? (
+            <HeroArtPhoto key={s.background} slide={s} index={i} className={`hl-photo hl-layer${first(i)}`} />
+          ) : (
+            <Image
+              key={s.background}
+              src={s.background}
+              alt=""
+              fill
+              sizes={HERO_SIZES}
+              quality={95}
+              priority={i === 0}
+              data-slide={i}
+              className={`hl-photo hl-layer${first(i)}`}
+              style={{ objectPosition: s.focus }}
+            />
+          ),
+        )}
 
         <p className="hl-word" aria-hidden>
           {glyphs.map((g, i) => (
@@ -248,7 +291,7 @@ export function HeroLayered() {
               src={s.foreground}
               alt=""
               fill
-              sizes="100vw"
+              sizes={HERO_SIZES}
               quality={95}
               priority={i === 0}
               data-slide={i}

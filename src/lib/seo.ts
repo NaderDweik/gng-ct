@@ -261,7 +261,7 @@ export function articleJsonLd(locale: Locale, a: Article) {
     datePublished: a.date,
     dateModified: a.date,
     inLanguage: locale,
-    keywords: a.keywords.join(", "),
+    keywords: a.keywords?.join(", "),
     mainEntityOfPage: localeUrl(locale, `/news/${a.slug}`),
     author: { "@id": ORG_ID },
     publisher: { "@id": ORG_ID },

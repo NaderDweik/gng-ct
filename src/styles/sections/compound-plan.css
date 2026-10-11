@@ -1,0 +1,1057 @@
+/* ── /units compound explorer. Markup: features/units/CompoundPlan.tsx ──
+   One screen: the page header (SubpageHeader), then the plan filling what's left, edge to
+   edge, glass panels on top.
+   Phones: search on top, the chalet card as a bottom sheet.
+   Tablet up: intro at the bottom start (over the plan's empty desert), "step inside" at
+   the top end, the chalet card as a side panel on the end edge. */
+
+/* The view (pan + zoom) is three animatable custom properties, so the canvas and the
+   counter-scaled pin inside it glide together. */
+@property --x {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --y {
+  syntax: "<length>";
+  inherits: true;
+  initial-value: 0px;
+}
+
+@property --s {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 1;
+}
+
+/* Page header + explorer = exactly one screen; the explorer takes what the header leaves. */
+.cx-page {
+  display: flex;
+  flex-direction: column;
+  height: 100svh;
+  min-height: 40rem;
+}
+
+.cx-page .sh {
+  flex: none;
+  padding-bottom: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+.cx {
+  /* The page header already clears the fixed site nav, so overlays start at the top. */
+  --hdr: 0px;
+  --gap: 0.75rem;
+  --card-w: 23rem;
+  --glass: color-mix(in srgb, var(--brand-secondary) 80%, transparent);
+  --glass-line: color-mix(in srgb, var(--white) 12%, transparent);
+  --glass-shadow: 0 18px 50px color-mix(in srgb, var(--black) 35%, transparent);
+
+  position: relative;
+  flex: 1;
+  min-height: 24rem;
+  overflow: hidden;
+  background: var(--dark);
+  color: var(--on-dark);
+}
+
+@media (min-width: 768px) {
+  .cx {
+    --gap: 1.25rem;
+  }
+}
+
+/* Sides are set with left/right plus [dir="rtl"] swaps: the CSS build polyfills one-sided
+   logical properties (inset-inline-start…) with :lang() rules that outrank media queries. */
+
+/* ── Stage ── */
+.cx-stage {
+  position: absolute;
+  inset: var(--hdr) 0 0;
+  overflow: hidden;
+  touch-action: pan-x pan-y;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Pannable sideways only: a vertical swipe still scrolls the page. Both ways: the map owns touch. */
+.cx-stage.can-pan-x {
+  touch-action: pan-y;
+}
+
+.cx-stage.can-pan-y {
+  touch-action: pan-x;
+}
+
+.cx-stage.can-pan-x.can-pan-y {
+  touch-action: none;
+}
+
+.cx-stage.is-dragging {
+  cursor: grabbing;
+}
+
+/* Fills the letterbox around the plan with a soft, darkened echo of it. */
+.cx-backdrop {
+  object-fit: cover;
+  filter: blur(28px) saturate(0.7) brightness(0.55);
+  scale: 1.15;
+  pointer-events: none;
+}
+
+.cx-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: min(100%, (100svh - var(--hdr)) * 7874 / 5906);
+  aspect-ratio: 7874 / 5906;
+  transform-origin: 0 0;
+  transform: translate3d(var(--x), var(--y), 0) scale(var(--s));
+  transition:
+    --x 0.8s var(--ease),
+    --y 0.8s var(--ease),
+    --s 0.8s var(--ease);
+  box-shadow: 0 0 80px color-mix(in srgb, var(--black) 45%, transparent);
+  opacity: 0;
+}
+
+.is-ready .cx-canvas {
+  animation: cx-arrive 1.1s var(--ease) both;
+}
+
+@keyframes cx-arrive {
+  from {
+    opacity: 0;
+    filter: blur(10px) saturate(0.4);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+.is-dragging .cx-canvas {
+  transition: none;
+}
+
+.cx-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* A chalet: an invisible hit area over its printed number tag. */
+.cx-spot {
+  position: absolute;
+  translate: -50% -50%;
+  padding: 0;
+  border-radius: 3px;
+  background: transparent;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease;
+}
+
+.cx-spot:hover,
+.cx-spot.is-selected {
+  box-shadow: 0 0 0 calc(1.5px / var(--s)) var(--white);
+}
+
+.cx-spot:focus-visible {
+  outline: calc(2px / var(--s)) solid var(--white);
+  outline-offset: calc(2px / var(--s));
+}
+
+/* Hover label and pin: placed in plan %, counter-scaled to one screen size. */
+.cx-tip,
+.cx-pin {
+  position: absolute;
+  z-index: 2;
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) scale(calc(1 / var(--s)));
+  pointer-events: none;
+}
+
+/* Tooltip: one element. Its anchor glides from chalet to chalet (left/top), the body
+   lifts in and out, and the number swaps with a short rise. */
+.cx-tip {
+  z-index: 3;
+  transition:
+    left 0.38s var(--ease),
+    top 0.38s var(--ease);
+}
+
+.cx-tip-body {
+  position: relative;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-bottom: 10px;
+  padding: 0.4rem 0.7rem;
+  border-radius: 8px;
+  background: var(--brand-secondary);
+  color: var(--on-dark);
+  white-space: nowrap;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--white) 10%, transparent),
+    0 8px 22px color-mix(in srgb, var(--black) 35%, transparent);
+  opacity: 0;
+  transform: translateY(6px) scale(0.92);
+  transform-origin: 50% 100%;
+  transition:
+    opacity 0.2s ease,
+    transform 0.3s var(--ease);
+}
+
+/* Caret under the body. */
+.cx-tip-body::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 8px;
+  height: 8px;
+  translate: -50% 0;
+  rotate: 45deg;
+  background: inherit;
+  border-radius: 0 0 2px 0;
+}
+
+.cx-tip.is-on .cx-tip-body {
+  opacity: 1;
+  transform: none;
+}
+
+.cx-tip-label {
+  color: var(--on-dark-subtle);
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .cx-tip-label {
+  letter-spacing: 0;
+  font-size: 0.6875rem;
+}
+
+.cx-tip-id {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  font-variant-numeric: tabular-nums;
+  animation: cx-tip-swap 0.25s var(--ease);
+}
+
+@keyframes cx-tip-swap {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+.cx-pin {
+  display: grid;
+  justify-items: center;
+}
+
+/* A teardrop: the number in a pill, a stem, and a ripple on the chalet. */
+.cx-pin-head {
+  position: relative;
+  display: block;
+  margin-bottom: 14px;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  background: var(--brand-primary);
+  color: var(--on-primary);
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  box-shadow:
+    0 0 0 3px var(--white),
+    0 10px 24px color-mix(in srgb, var(--black) 40%, transparent);
+  animation: cx-drop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+.cx-pin-head::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 100%;
+  width: 3px;
+  height: 14px;
+  translate: -50% 3px;
+  background: var(--white);
+  border-radius: 0 0 2px 2px;
+}
+
+.cx-pin::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -9px;
+  width: 18px;
+  height: 18px;
+  translate: -50% 0;
+  border-radius: 50%;
+  border: 2px solid var(--white);
+  animation: cx-ripple 1.8s var(--ease) 0.5s infinite;
+}
+
+@keyframes cx-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-28px);
+  }
+}
+
+@keyframes cx-ripple {
+  from {
+    opacity: 1;
+    scale: 0.4;
+  }
+  to {
+    opacity: 0;
+    scale: 2.6;
+  }
+}
+
+/* ── Glass panels (shared) ── */
+.cx-intro,
+.cx-inside,
+.cx-card-inner,
+.cx-zoom,
+.cx-hint {
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
+}
+
+/* Panels arrive one after another (fill "backwards": once in, plain styles such as the
+   card-open fades take over again). */
+.cx:not(.is-ready) :is(.cx-intro, .cx-inside, .cx-zoom) {
+  opacity: 0;
+}
+
+.is-ready .cx-intro {
+  animation: cx-rise 0.8s var(--ease) 0.35s backwards;
+}
+
+.is-ready .cx-inside {
+  animation: cx-rise 0.8s var(--ease) 0.55s backwards;
+}
+
+.is-ready .cx-zoom {
+  animation: cx-fade 0.8s var(--ease) 0.7s backwards;
+}
+
+@keyframes cx-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes cx-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+.cx-eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--brand-primary);
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .cx-eyebrow {
+  letter-spacing: 0;
+}
+
+/* ── Intro: title, search, "pick one for me" ── */
+.cx-intro {
+  position: absolute;
+  z-index: 3;
+  inset-inline: var(--gap);
+  top: calc(var(--hdr) + var(--gap));
+  padding: 0.6rem 0.6rem 0.75rem;
+}
+
+.cx-search {
+  position: relative;
+  display: flex;
+  height: 2.9rem;
+  border: 1px solid color-mix(in srgb, var(--white) 22%, transparent);
+  background: color-mix(in srgb, var(--white) 8%, transparent);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.cx-search:focus-within {
+  border-color: var(--brand-primary);
+  background: color-mix(in srgb, var(--white) 12%, transparent);
+}
+
+.cx-search-icon {
+  position: absolute;
+  left: 0.8rem;
+  top: 50%;
+  width: 1.1rem;
+  height: 1.1rem;
+  translate: 0 -50%;
+  fill: none;
+  stroke: var(--on-dark-muted);
+  stroke-width: 2;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+[dir="rtl"] .cx-search-icon {
+  left: auto;
+  right: 0.8rem;
+}
+
+.cx-search input {
+  flex: 1;
+  min-width: 0;
+  padding: 0 0.75rem 0 2.5rem;
+  border: 0;
+  background: transparent;
+  color: var(--on-dark);
+  font-size: 1rem; /* 16px: no iOS zoom on focus */
+  outline: none;
+}
+
+[dir="rtl"] .cx-search input {
+  padding: 0 2.5rem 0 0.75rem;
+}
+
+.cx-search input::placeholder {
+  color: var(--on-dark-subtle);
+}
+
+.cx-search input::-webkit-search-cancel-button {
+  filter: invert(1);
+}
+
+.cx-search button {
+  padding-inline: 1.1rem;
+  background: var(--brand-primary);
+  color: var(--on-primary);
+  font-size: var(--fs-small);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background 0.2s ease;
+}
+
+.cx-search button:hover {
+  background: var(--brand-primary-hover);
+}
+
+.cx-error {
+  margin: 0.5rem 0 0;
+  color: var(--brand-accent-soft);
+  font-size: var(--fs-small);
+}
+
+.cx-surprise {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  color: var(--on-dark);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  transition: color 0.2s ease;
+}
+
+.cx-surprise svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  transition: rotate 0.5s var(--ease);
+}
+
+.cx-surprise circle {
+  fill: currentColor;
+  stroke: none;
+}
+
+.cx-surprise:hover {
+  color: var(--brand-primary);
+}
+
+.cx-surprise:hover svg {
+  rotate: 90deg;
+}
+
+/* ── Step inside: thumbnail of the chalet plan → /master-plan ── */
+.cx-inside {
+  position: absolute;
+  z-index: 3;
+  left: var(--gap);
+  bottom: calc(var(--gap) + 0.25rem);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: calc(100% - 6.5rem); /* clear of the floating WhatsApp button */
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
+  color: var(--on-dark);
+  text-decoration: none;
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s var(--ease),
+    opacity 0.3s ease;
+}
+
+[dir="rtl"] .cx-inside {
+  left: auto;
+  right: var(--gap);
+  padding: 0.5rem 0.5rem 0.5rem 1rem;
+}
+
+.cx-inside:hover {
+  border-color: var(--brand-primary);
+  transform: translateY(-2px);
+}
+
+/* The chalet plan as on /master-plan: light linework on dark, the pool in colour. */
+.cx-inside-thumb {
+  position: relative;
+  flex: none;
+  width: 2.6rem;
+  aspect-ratio: 952 / 1024;
+  overflow: hidden;
+  background: var(--brand-secondary-deep);
+  transition: scale 0.5s var(--ease);
+}
+
+.cx-inside-lines {
+  object-fit: contain;
+  filter: invert(1) grayscale(1) brightness(1.15) contrast(1.05);
+  mix-blend-mode: lighten;
+  clip-path: inset(1% 0.6% 0.3% 0.3%);
+}
+
+.cx-inside-pool {
+  position: absolute;
+  background-repeat: no-repeat;
+  outline: 1px solid var(--brand-primary);
+}
+
+.cx-inside:hover .cx-inside-thumb {
+  scale: 1.06;
+}
+
+.cx-inside-text {
+  display: grid;
+  min-width: 0;
+}
+
+.cx-inside-text strong {
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.cx-inside-text span {
+  display: none;
+  color: var(--on-dark-muted);
+  font-size: var(--fs-caption);
+}
+
+.cx-inside-arrow {
+  color: var(--brand-primary);
+  font-size: 1.1rem;
+  transition: translate 0.25s var(--ease);
+}
+
+.cx-inside:hover .cx-inside-arrow {
+  translate: 3px 0;
+}
+
+[dir="rtl"] .cx-inside:hover .cx-inside-arrow {
+  translate: -3px 0;
+}
+
+/* ── Zoom controls: end edge, vertically centred on the stage ── */
+.cx-zoom {
+  position: absolute;
+  z-index: 3;
+  right: var(--gap);
+  top: calc(var(--hdr) + (100% - var(--hdr)) / 2);
+  display: flex;
+  flex-direction: column;
+  translate: 0 -50%;
+  transition:
+    right 0.5s var(--ease),
+    left 0.5s var(--ease),
+    opacity 0.3s ease;
+}
+
+[dir="rtl"] .cx-zoom {
+  right: auto;
+  left: var(--gap);
+}
+
+.cx-zoom button {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: var(--on-dark);
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.cx-zoom button + button {
+  border-top: 1px solid var(--glass-line);
+}
+
+.cx-zoom button:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--white) 10%, transparent);
+}
+
+.cx-zoom button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.cx-zoom svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+/* ── Where-am-I map and hint: tablet up only ── */
+.cx-mini,
+.cx-hint {
+  display: none;
+}
+
+/* ── Chalet card ── */
+.cx-card {
+  position: absolute;
+  z-index: 4;
+  inset-inline: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.cx-card-inner {
+  position: relative;
+  max-height: 55svh;
+  overflow-y: auto;
+  padding: 1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom));
+  border-radius: 1.25rem 1.25rem 0 0;
+  border-bottom: 0;
+  background: color-mix(in srgb, var(--brand-secondary) 92%, transparent);
+  pointer-events: auto;
+  animation: cx-sheet 0.55s var(--ease) both;
+}
+
+@keyframes cx-sheet {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+.cx-card-close {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  color: var(--on-dark-muted);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+[dir="rtl"] .cx-card-close {
+  right: auto;
+  left: 0.75rem;
+}
+
+.cx-card-close:hover {
+  background: color-mix(in srgb, var(--white) 10%, transparent);
+  color: var(--on-dark);
+}
+
+.cx-card-close svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.cx-card .cx-eyebrow {
+  margin-bottom: 0.15rem;
+}
+
+.cx-card-id {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 2rem + 2vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+[dir="rtl"] .cx-card-id {
+  text-align: right;
+}
+
+.cx-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.cx-facts li {
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--glass-line);
+  border-radius: 999px;
+  color: var(--on-dark);
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cx-pitch {
+  margin: 0 0 0.9rem;
+  color: var(--on-dark-muted);
+  font-size: var(--fs-small);
+  line-height: 1.6;
+}
+
+.cx-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.cx-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  padding: 0.6rem 0.9rem;
+  font-size: var(--fs-small);
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.cx-btn:hover {
+  transform: translateY(-1px);
+}
+
+.cx-btn svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: none;
+}
+
+.cx-btn--wa {
+  background: var(--brand-primary);
+  color: var(--on-primary);
+}
+
+.cx-btn--wa:hover {
+  background: var(--brand-primary-hover);
+}
+
+.cx-btn--ghost {
+  border: 1px solid color-mix(in srgb, var(--white) 30%, transparent);
+  color: var(--on-dark);
+}
+
+.cx-btn--ghost:hover {
+  border-color: var(--white);
+  background: color-mix(in srgb, var(--white) 8%, transparent);
+}
+
+.cx-card-inside {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+  color: var(--brand-primary);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cx-card-inside span {
+  transition: translate 0.25s var(--ease);
+}
+
+.cx-card-inside:hover span {
+  translate: 3px 0;
+}
+
+[dir="rtl"] .cx-card-inside:hover span {
+  translate: -3px 0;
+}
+
+/* Phones, card open: the sheet takes the bottom; the pill and the floating WhatsApp step aside. */
+@media (max-width: 767px) {
+  .cx.has-card .cx-inside {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  body:has(.cx.has-card) .wa-float {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .cx.has-card .cx-zoom {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Card open: the intro shrinks to its search bar so the chalet has room. */
+  .cx.has-card .cx-intro {
+    padding: 0.5rem;
+  }
+
+  .cx.has-card .cx-surprise {
+    display: none;
+  }
+}
+
+/* ── Tablet up ── */
+@media (min-width: 768px) {
+  .cx-intro {
+    right: auto;
+    top: auto;
+    bottom: var(--gap);
+    width: 22rem;
+    padding: 1.1rem;
+  }
+
+  [dir="rtl"] .cx-intro {
+    right: var(--gap);
+    left: auto;
+  }
+
+  .cx-inside {
+    left: auto;
+    right: var(--gap);
+    top: calc(var(--hdr) + var(--gap));
+    bottom: auto;
+    max-width: none;
+    padding: 0.6rem 1.25rem 0.6rem 0.6rem;
+    gap: 1rem;
+  }
+
+  [dir="rtl"] .cx-inside {
+    right: auto;
+    left: var(--gap);
+    padding: 0.6rem 0.6rem 0.6rem 1.25rem;
+  }
+
+  .cx-inside-thumb {
+    width: 3.75rem;
+  }
+
+  .cx-inside-text strong {
+    font-size: var(--fs-body);
+  }
+
+  .cx-inside-text span {
+    display: block;
+  }
+
+  .cx.has-card .cx-inside {
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+  }
+
+  /* Card open: the zoom controls move off the card's edge. */
+  .cx.has-card .cx-zoom {
+    right: calc(var(--card-w) + var(--gap) * 2);
+  }
+
+  [dir="rtl"] .cx.has-card .cx-zoom {
+    right: auto;
+    left: calc(var(--card-w) + var(--gap) * 2);
+  }
+
+  .cx-card {
+    left: auto;
+    right: var(--gap);
+    top: calc(var(--hdr) + var(--gap));
+    bottom: var(--gap);
+    display: flex;
+    align-items: center;
+    width: var(--card-w);
+  }
+
+  [dir="rtl"] .cx-card {
+    right: auto;
+    left: var(--gap);
+  }
+
+  .cx-card-inner {
+    width: 100%;
+    max-height: 100%;
+    padding: 1.75rem;
+    border-radius: 0;
+    border-bottom: 1px solid var(--glass-line);
+    animation-name: cx-slide;
+  }
+
+  [dir="rtl"] .cx-card-inner {
+    animation-name: cx-slide-rtl;
+  }
+
+  .cx-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .cx-btn {
+    min-height: 3.1rem;
+  }
+
+  .cx-mini {
+    position: absolute;
+    z-index: 3;
+    left: var(--gap);
+    top: calc(var(--hdr) + var(--gap));
+    display: block;
+    width: 11rem;
+    aspect-ratio: 7874 / 5906;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid var(--glass-line);
+    box-shadow: var(--glass-shadow);
+    cursor: crosshair;
+    opacity: 0;
+    transform: translateY(-6px);
+    pointer-events: none;
+    transition:
+      opacity 0.35s ease,
+      transform 0.35s var(--ease);
+  }
+
+  [dir="rtl"] .cx-mini {
+    left: auto;
+    right: var(--gap);
+  }
+
+  .cx-mini.is-on {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .cx-mini img {
+    object-fit: cover;
+    filter: saturate(0.6) brightness(0.8);
+  }
+
+  .cx-mini-view {
+    position: absolute;
+    border: 2px solid var(--white);
+    background: color-mix(in srgb, var(--white) 14%, transparent);
+    box-shadow: 0 0 0 999px color-mix(in srgb, var(--black) 35%, transparent);
+    transition: all 0.8s var(--ease);
+  }
+
+  .cx-hint {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    bottom: var(--gap);
+    display: block;
+    margin: 0;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    color: var(--on-dark-muted);
+    font-size: var(--fs-caption);
+    white-space: nowrap;
+    translate: -50% 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  .cx.has-card .cx-hint {
+    opacity: 0;
+  }
+}
+
+@keyframes cx-slide {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}
+
+@keyframes cx-slide-rtl {
+  from {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+
+/* Narrow tablets: intro and hint would meet; the hint goes. */
+@media (min-width: 768px) and (max-width: 1100px) {
+  .cx-hint {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cx-canvas,
+  .cx-mini-view,
+  .cx-tip,
+  .cx-tip-body {
+    transition: none;
+  }
+
+  .cx-tip-id {
+    animation: none;
+  }
+
+  .is-ready .cx-canvas,
+  .is-ready .cx-intro,
+  .is-ready .cx-inside,
+  .is-ready .cx-zoom,
+  .cx-card-inner,
+  .cx-pin-head {
+    animation: none;
+    opacity: 1;
+  }
+
+  .cx-pin::after {
+    animation: none;
+  }
+}

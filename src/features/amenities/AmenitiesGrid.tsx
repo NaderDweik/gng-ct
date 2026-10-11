@@ -3,6 +3,7 @@ import { Link } from "@/i18n/navigation";
 import { resortChapterIds } from "@/content/amenities-page";
 import type { AmenityFeature } from "@/content/amenities";
 import { AmenityIcon } from "@/features/amenities/AmenitiesHoverGrid";
+import { AmenitiesScrollFocus } from "@/features/amenities/AmenitiesScrollFocus";
 
 /*
  * Home amenities as horizontal cards (styles: styles/sections/amenities-grid.css, .amg-*):
@@ -11,6 +12,8 @@ import { AmenityIcon } from "@/features/amenities/AmenitiesHoverGrid";
  * window opens across the card (the image glides into place, never rescales) under a dark
  * tint, and the text turns light and slides back to the card's start edge, all on one easing.
  * Each card links to its chapter on /amenities (or the page top if it has none).
+ * Touch screens / phones have no hover: AmenitiesScrollFocus opens the card crossing the
+ * middle of the screen instead (`.is-active`, same styles as hover).
  */
 
 type Props = { items: AmenityFeature[]; isAr: boolean };
@@ -39,6 +42,7 @@ export function AmenitiesGrid({ items, isAr }: Props) {
           </Link>
         </li>
       ))}
+      <AmenitiesScrollFocus />
     </ul>
   );
 }

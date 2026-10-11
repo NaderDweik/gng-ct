@@ -14,7 +14,7 @@ const SHOWN: { id: string; en: string; ar: string }[] = [
   {
     id: "security",
     en: "Guards on patrol and cameras across the compound, around the clock.",
-    ar: "حراس في جولات دائمة وكاميرات في أنحاء الكمبوند، على مدار الساعة.",
+    ar: "حراس في جولات دائمة وكاميرات في أنحاء الكمباوند، على مدار الساعة.",
   },
   {
     id: "housekeeping",
@@ -24,17 +24,17 @@ const SHOWN: { id: string; en: string; ar: string }[] = [
   {
     id: "supermarket",
     en: "Daily essentials inside the compound, a short walk from your chalet.",
-    ar: "احتياجاتك اليومية داخل الكمبوند، على بعد خطوات من شاليهك.",
+    ar: "احتياجاتك اليومية داخل الكمباوند، على بعد خطوات من شاليهك.",
   },
   {
     id: "golf",
     en: "A mini golf green on the compound grounds, for residents and their guests.",
-    ar: "ملعب جولف مصغّر داخل الكمبوند، للمقيمين وضيوفهم.",
+    ar: "ملعب جولف مصغّر داخل الكمباوند، للمقيمين وضيوفهم.",
   },
   {
     id: "prayer",
     en: "A prayer hall within the compound, close to every chalet.",
-    ar: "مصلى داخل الكمبوند، قريب من كل شاليه.",
+    ar: "مصلى داخل الكمباوند، قريب من كل شاليه.",
   },
 ];
 
@@ -52,12 +52,12 @@ export function HomeServicesStrip({ locale }: { locale: string }) {
       <div className="container-gc">
         <div className="sec-head hsc-head">
           <div>
-            <p className="section-eyebrow">{isAr ? "خدمات الكمبوند" : "Compound services"}</p>
-            <h2 className="section-title">{isAr ? "كمبوند يعمل من أجلك." : "A compound that works for you."}</h2>
+            <p className="section-eyebrow">{isAr ? "خدمات الكمباوند" : "Compound services"}</p>
+            <h2 className="section-title">{isAr ? "كمباوند يعمل من أجلك." : "A compound that works for you."}</h2>
           </div>
           <div className="flex flex-col items-start gap-6 lg:items-end">
             <Link href="/services" className="gallery-outline-btn">
-              {isAr ? "استكشف خدمات الكمبوند" : "Explore compound services"}
+              {isAr ? "استكشف خدمات الكمباوند" : "Explore compound services"}
               <ArrowIcon className="arrow" />
             </Link>
           </div>

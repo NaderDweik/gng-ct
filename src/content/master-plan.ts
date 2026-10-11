@@ -5,12 +5,12 @@ export const masterPlanMapSize = { width: 952, height: 1024 } as const;
 
 export const masterPlanCopy = {
   ar: {
-    eyebrow: "المخطط العام",
+    eyebrow: "المخطط",
     title: "٥٠٠ م² من الشاليه الخاص، مخطّطة بعناية.",
     lead: "داخلٌ مدروس، ومسبح في قلب الساحة، ومعيشة خارجية، وخصوصية تامة، داخل مجتمع مسوّر.",
     mapAlt: "مخطط الشاليه الخاص: الطابق والموقع",
     explorerEyebrow: "استكشف المخطط",
-    explorerTitle: "كل ركن، في مكانه.",
+    explorerTitle: "مخطط أحد الشاليهات",
     explorerHint: "مرّر فوق أي مساحة في المخطط، أو اخترها من القائمة.",
     caption: "مخطط وحدة الشاليه · ٥٠٠ م² · سند ملكية مستقل",
     reset: "عرض المخطط كاملًا",

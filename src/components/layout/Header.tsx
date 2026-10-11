@@ -11,8 +11,8 @@ import { LocaleSwitch } from "@/components/layout/LocaleSwitch";
 const primaryNav = [
   { href: "/about", labelAr: "من نحن", labelEn: "About" },
   { href: "/gallery", labelAr: "المعرض", labelEn: "Gallery" },
-  { href: "/units", labelAr: "الوحدات المتاحة", labelEn: "Units" },
-  { href: "/master-plan", labelAr: "المخطط العام", labelEn: "Master Plan" },
+  { href: "/units", labelAr: "خريطة الكمباوند", labelEn: "Units" },
+  { href: "/master-plan", labelAr: "المخطط", labelEn: "Master Plan" },
   { href: "/amenities", labelAr: "المرافق", labelEn: "Amenities" },
   { href: "/financing", labelAr: "التمويل", labelEn: "Financing" },
 ] as const;

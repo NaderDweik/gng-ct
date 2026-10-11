@@ -102,23 +102,19 @@ export function GalleryGrid() {
   const touchX = useRef<number | null>(null);
   const touchDelta = useRef(0);
 
-  // One underline that slides from the old tab to the new one (re-measured on resize,
-  // since the tab row can wrap).
+  // One indicator that glides from the old tab to the new one (re-measured on resize,
+  // since the tabs can wrap). Desktop draws it as an underline, phones as a pill behind
+  // the tab in a 3 × 2 grid (gallery.css), so both the tab's top and bottom are measured.
   const tabsRef = useRef<HTMLDivElement>(null);
-  const [line, setLine] = useState<{ x: number; y: number; w: number } | null>(null);
+  const [line, setLine] = useState<{ x: number; top: number; h: number; w: number } | null>(null);
   useLayoutEffect(() => {
     const row = tabsRef.current;
     if (!row) return;
     const measure = () => {
       const el = row.querySelector<HTMLElement>(".gal-tab.is-active");
-      if (el) setLine({ x: el.offsetLeft, y: el.offsetTop + el.offsetHeight, w: el.offsetWidth });
+      if (el) setLine({ x: el.offsetLeft, top: el.offsetTop, h: el.offsetHeight, w: el.offsetWidth });
     };
     measure();
-    // On phones the row scrolls sideways: bring the chosen tab into view.
-    const active = row.querySelector<HTMLElement>(".gal-tab.is-active");
-    if (active && row.scrollWidth > row.clientWidth) {
-      row.scrollTo({ left: active.offsetLeft - (row.clientWidth - active.offsetWidth) / 2, behavior: "smooth" });
-    }
     const ro = new ResizeObserver(measure);
     ro.observe(row);
     return () => ro.disconnect();
@@ -206,7 +202,15 @@ export function GalleryGrid() {
           {line && (
             <span
               className="gal-tabs-line"
-              style={{ transform: `translate(${line.x}px, ${line.y}px)`, width: line.w }}
+              style={
+                {
+                  "--x": `${line.x}px`,
+                  "--top": `${line.top}px`,
+                  "--bottom": `${line.top + line.h}px`,
+                  "--h": `${line.h}px`,
+                  width: line.w,
+                } as CSSProperties
+              }
               aria-hidden
             />
           )}

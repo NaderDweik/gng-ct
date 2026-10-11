@@ -42,25 +42,41 @@
 }
 
 /* ── Photo side ── */
+/* Layers: photos 0–2 (outgoing 1, incoming 2), scrim 3, size / clip / caption 4. */
 .rmv-photo {
   position: relative;
+  isolation: isolate;
   min-height: 26rem;
   overflow: hidden;
   background: var(--surface-tint);
 }
 
+/* The incoming photo fades in on top; the outgoing one stays solid beneath it, so the
+   change never dips to the background. Photos that drop out hide only once covered. */
 .rmv-img {
+  z-index: 0;
   object-fit: cover;
   opacity: 0;
   transform: scale(1.05);
   transition:
-    opacity 0.8s var(--ease),
-    transform 1.6s var(--ease);
+    opacity 0s linear 0.9s,
+    transform 0s linear 0.9s;
+}
+
+.rmv-img.is-prev {
+  z-index: 1;
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.25s ease;
 }
 
 .rmv-img.is-on {
+  z-index: 2;
   opacity: 1;
   transform: scale(1);
+  transition:
+    opacity 0.8s var(--ease),
+    transform 1.6s var(--ease);
 }
 
 /* Bottom scrim so the name reads over any photo. */
@@ -68,7 +84,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 3;
   background:
     linear-gradient(180deg, color-mix(in srgb, var(--overlay) 55%, transparent) 0%, transparent 32%),
     linear-gradient(180deg, transparent 40%, color-mix(in srgb, var(--overlay) 82%, transparent) 100%);
@@ -80,7 +96,7 @@
   position: absolute;
   top: 0;
   inset-inline-start: 0;
-  z-index: 2;
+  z-index: 4;
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -144,22 +160,46 @@
   position: absolute;
   top: clamp(0.5rem, 1vw, 0.875rem);
   inset-inline-end: clamp(0.5rem, 1vw, 0.875rem);
-  z-index: 2;
+  z-index: 4;
+  display: grid;
   width: clamp(11rem, 18vw, 17rem);
   margin: 0;
   padding: 0.5rem;
   background: color-mix(in srgb, var(--brand-secondary) 88%, transparent);
   backdrop-filter: blur(6px);
   box-shadow: var(--shadow-card-lg);
-  animation: rmv-copy-in 0.6s var(--ease) 0.25s both;
+  opacity: 0;
+  transform: translateY(-6px);
+  pointer-events: none;
+  transition:
+    opacity 0.5s var(--ease),
+    transform 0.5s var(--ease);
 }
 
+/* The card stays mounted; it fades out on spaces without a clip and back in after. */
+.rmv-clip.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+/* Clips stack; the new one fades in over the last only once it has a frame to show. */
 .rmv-clip video {
+  grid-area: 1 / 1;
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
   background: var(--brand-secondary-deep);
+}
+
+.rmv-clip video.is-cur {
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.5s var(--ease);
+}
+
+.rmv-clip video.is-cur.is-ready {
+  opacity: 1;
 }
 
 @media (max-width: 767px) {
@@ -173,15 +213,32 @@
   position: absolute;
   inset-inline: 0;
   bottom: 0;
-  z-index: 2;
+  z-index: 4;
   padding: clamp(1.5rem, 4vw, 3.5rem);
   animation: rmv-copy-in 0.6s var(--ease) both;
+}
+
+/* Hand-over: the old caption lifts away while the new one rises in just behind it. */
+.rmv-photo-copy.is-in {
+  animation-delay: 0.12s;
+}
+
+.rmv-photo-copy.is-out {
+  pointer-events: none;
+  animation: rmv-copy-out 0.35s var(--ease) forwards;
 }
 
 @keyframes rmv-copy-in {
   from {
     opacity: 0;
     transform: translateY(12px);
+  }
+}
+
+@keyframes rmv-copy-out {
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
   }
 }
 
@@ -240,7 +297,135 @@
   font-variant-numeric: tabular-nums;
 }
 
-.rmv-count span {
+/* The number rolls like an odometer: the old one leaves as the new one arrives, upward
+   when moving forward, downward when moving back. Both share one grid cell. */
+.rmv-count-now {
+  display: inline-grid;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.rmv-count-digits {
+  grid-area: 1 / 1;
+  display: block;
+}
+
+.rmv-count-digits.is-in {
+  animation: rmv-roll-in 0.5s var(--ease) both;
+}
+
+.rmv-count-digits.is-out {
+  animation: rmv-roll-out 0.5s var(--ease) forwards;
+}
+
+.is-back > .rmv-count-digits.is-in {
+  animation-name: rmv-roll-in-back;
+}
+
+.is-back > .rmv-count-digits.is-out {
+  animation-name: rmv-roll-out-back;
+}
+
+@keyframes rmv-roll-in {
+  from {
+    opacity: 0;
+    transform: translateY(85%);
+  }
+}
+
+@keyframes rmv-roll-out {
+  to {
+    opacity: 0;
+    transform: translateY(-85%);
+  }
+}
+
+@keyframes rmv-roll-in-back {
+  from {
+    opacity: 0;
+    transform: translateY(-85%);
+  }
+}
+
+@keyframes rmv-roll-out-back {
+  to {
+    opacity: 0;
+    transform: translateY(85%);
+  }
+}
+
+/* ── Step bar: a segment per space; the lit thumb glides to the current one ── */
+.rmv-steps {
+  --gap: 4px;
+  --seg: calc((100% - (var(--n) - 1) * var(--gap)) / var(--n));
+
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--n), 1fr);
+  gap: var(--gap);
+  margin-top: auto;
+}
+
+.rmv-steps + .rmv-foot {
+  margin-top: 0;
+}
+
+.rmv-step {
+  position: relative;
+  height: 16px;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.rmv-step::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 2px;
+  translate: 0 -50%;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--white) 16%, transparent);
+  transition:
+    background-color 0.5s var(--ease),
+    height 0.3s var(--ease);
+}
+
+.rmv-step.is-past::before {
+  background: color-mix(in srgb, var(--brand-primary) 45%, transparent);
+}
+
+@media (hover: hover) {
+  .rmv-step:hover::before {
+    height: 4px;
+    background: color-mix(in srgb, var(--white) 45%, transparent);
+  }
+}
+
+.rmv-steps-thumb {
+  position: absolute;
+  top: 50%;
+  left: calc(var(--i) * (var(--seg) + var(--gap)));
+  width: var(--seg);
+  height: 4px;
+  translate: 0 -50%;
+  border-radius: 2px;
+  background: var(--brand-primary);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--brand-primary) 60%, transparent);
+  pointer-events: none;
+  transition:
+    left 0.6s var(--ease),
+    right 0.6s var(--ease);
+}
+
+/* RTL: the grid runs right to left, so the thumb counts from the right. */
+[dir="rtl"] .rmv-steps-thumb {
+  left: auto;
+  right: calc(var(--i) * (var(--seg) + var(--gap)));
+}
+
+.rmv-count-total {
   color: var(--on-dark-subtle);
   font-size: 0.6em;
 }
@@ -274,18 +459,19 @@
   background: transparent;
   cursor: pointer;
   /* Outlines, not borders: the box stays exactly the measured rectangle, so the colour
-     crop inside lines up with the drawing. */
-  outline: 1px solid transparent;
-  transition: outline-color 0.35s var(--ease);
-}
-
-.rmv-area:hover {
-  outline-color: color-mix(in srgb, var(--white) 35%, transparent);
+     crop inside lines up with the drawing. Width never changes, only colour (no jump). */
+  outline: 2px solid transparent;
+  transition: outline-color 0.4s var(--ease);
 }
 
 .rmv-area.is-on {
   z-index: 1;
-  outline: 2px solid var(--brand-primary);
+}
+
+/* The current space's first rectangle is outlined by the gliding frame; a second
+   rectangle of the same space fades its own outline in. */
+.rmv-area--extra.is-on {
+  outline-color: var(--brand-primary);
 }
 
 .rmv-area-img {
@@ -293,15 +479,31 @@
   inset: 0;
   background-repeat: no-repeat;
   opacity: 0;
-  transition: opacity 0.5s var(--ease);
+  transition: opacity 0.45s var(--ease);
 }
 
-.rmv-area.is-on .rmv-area-img {
+/* Hover previews the space's colour straight away; the photo follows after a short intent. */
+.rmv-area.is-on .rmv-area-img,
+.rmv-area:hover .rmv-area-img {
   opacity: 1;
 }
 
-.rmv-dot {
+/* One outline that glides between spaces instead of blinking from box to box. */
+.rmv-frame {
+  position: absolute;
   z-index: 2;
+  outline: 2px solid var(--brand-primary);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--brand-primary) 35%, transparent);
+  pointer-events: none;
+  transition:
+    left 0.6s var(--ease),
+    top 0.6s var(--ease),
+    width 0.6s var(--ease),
+    height 0.6s var(--ease);
+}
+
+.rmv-dot {
+  z-index: 3;
 }
 
 .rmv-area:focus-visible {
@@ -345,23 +547,79 @@
   gap: 0.6rem;
 }
 
+/* Arrows: the fill sweeps in from the side (no colour snap), the chevron nudges forward. */
 .rmv-arrow {
+  position: relative;
+  isolation: isolate;
   display: grid;
   place-items: center;
   width: 3.25rem;
   height: 3.25rem;
+  overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--white) 30%, transparent);
   background: transparent;
   color: var(--on-dark);
   cursor: pointer;
   transition:
-    background-color 0.3s var(--ease),
-    border-color 0.3s var(--ease);
+    border-color 0.45s var(--ease),
+    transform 0.2s var(--ease);
 }
 
-.rmv-arrow:hover {
-  border-color: var(--brand-primary);
+.rmv-arrow::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background: var(--brand-primary);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.45s var(--ease);
+}
+
+.rmv-arrow:first-child::before {
+  transform-origin: 100% 50%;
+}
+
+[dir="rtl"] .rmv-arrow::before {
+  transform-origin: 100% 50%;
+}
+
+[dir="rtl"] .rmv-arrow:first-child::before {
+  transform-origin: 0 50%;
+}
+
+.rmv-arrow svg {
+  transition: translate 0.45s var(--ease);
+}
+
+@media (hover: hover) {
+  .rmv-arrow:hover {
+    border-color: var(--brand-primary);
+  }
+
+  .rmv-arrow:hover::before {
+    transform: scaleX(1);
+  }
+
+  .rmv-arrow:hover svg {
+    translate: 3px 0;
+  }
+
+  .rmv-arrow:first-child:hover svg {
+    translate: -3px 0;
+  }
+
+  [dir="rtl"] .rmv-arrow:hover svg {
+    translate: -3px 0;
+  }
+
+  [dir="rtl"] .rmv-arrow:first-child:hover svg {
+    translate: 3px 0;
+  }
+}
+
+.rmv-arrow:active {
+  transform: scale(0.94);
 }
 
 .rmv-arrow:focus-visible,
@@ -401,7 +659,28 @@
   .rmv-area-img,
   .rmv-img,
   .rmv-dot,
-  .rmv-area {
+  .rmv-area,
+  .rmv-frame,
+  .rmv-arrow,
+  .rmv-arrow::before,
+  .rmv-arrow svg {
+    transition: none;
+  }
+
+  .rmv-count-digits,
+  .rmv-photo-copy {
+    animation: none;
+  }
+
+  .rmv-count-digits.is-out,
+  .rmv-photo-copy.is-out {
+    display: none;
+  }
+
+  .rmv-clip,
+  .rmv-clip video,
+  .rmv-step::before,
+  .rmv-steps-thumb {
     transition: none;
   }
 

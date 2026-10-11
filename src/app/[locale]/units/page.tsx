@@ -1,7 +1,8 @@
 import { setRequestLocale } from "next-intl/server";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
-import { unitsCopy } from "@/content/units";
+import { compoundCopy } from "@/content/units";
 import type { LocalePageProps } from "@/i18n/types";
+import { CompoundPlan } from "@/features/units/CompoundPlan";
 import { PageJsonLd } from "@/components/seo/PageJsonLd";
 import { routeMetadata } from "@/lib/seo";
 
@@ -11,24 +12,17 @@ export function generateMetadata({ params }: Props) {
   return routeMetadata(params, "/units");
 }
 
+/** Page header + the compound explorer, together exactly one screen (styles: compound-plan.css). */
 export default async function UnitsPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const isAr = locale === "ar";
-  const copy = isAr ? unitsCopy.ar : unitsCopy.en;
+  const copy = compoundCopy[locale === "ar" ? "ar" : "en"];
 
   return (
-    <>
+    <div className="cx-page">
       <PageJsonLd locale={locale} path="/units" listing />
-      <SubpageHeader tall eyebrow="Giving Compound" title={copy.title} subtitle={copy.subtitle} />
-      {/* Placeholder until the full compound plan (every chalet) arrives; the chalet plan lives on /master-plan. */}
-      <section className="section bg-surface">
-        <div className="container-gc">
-          <p className="mx-auto max-w-2xl border border-dashed border-line-strong px-6 py-12 text-center text-lg text-muted">
-            {isAr ? "بانتظار مخطط الكمبوند من د. طارق" : "Waiting on the compound plan from Dr. Tarek"}
-          </p>
-        </div>
-      </section>
-    </>
+      <SubpageHeader eyebrow={copy.eyebrow} title={copy.title} subtitle={copy.lede} />
+      <CompoundPlan locale={locale} />
+    </div>
   );
 }

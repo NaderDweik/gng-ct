@@ -311,34 +311,41 @@
     translate var(--amg-text-dur) var(--amg-ease) var(--amg-out);
 }
 
-/* ── Hover / focus ── */
+/* ── Hover / focus / .is-active (touch screens: the card crossing the middle of the screen,
+   set by features/amenities/AmenitiesScrollFocus.tsx) ── */
 .amg-card:hover,
+.amg-card.is-active,
 .amg-card:focus-visible {
   border-color: var(--primary-ink);
 }
 
 .amg-card:hover .amg-photo,
+.amg-card.is-active .amg-photo,
 .amg-card:focus-visible .amg-photo {
   clip-path: inset(0);
 }
 
 .amg-card:hover .amg-frame,
+.amg-card.is-active .amg-frame,
 .amg-card:focus-visible .amg-frame {
   translate: 0 0;
 }
 
 .amg-card:hover .amg-img,
+.amg-card.is-active .amg-img,
 .amg-card:focus-visible .amg-img {
   scale: 1;
 }
 
 .amg-card:hover :is(.amg-icon, .amg-title, .amg-desc),
+.amg-card.is-active :is(.amg-icon, .amg-title, .amg-desc),
 .amg-card:focus-visible :is(.amg-icon, .amg-title, .amg-desc) {
   translate: calc(var(--amg-dir) * -1 * var(--amg-move)) 0;
   transition-delay: 0s, 0s, var(--amg-in);
 }
 
 .amg-card:hover :is(.amg-title, .amg-desc),
+.amg-card.is-active :is(.amg-title, .amg-desc),
 .amg-card:focus-visible :is(.amg-title, .amg-desc) {
   transition-delay: 0s, var(--amg-in);
 }
@@ -348,38 +355,69 @@
 }
 
 .amg-card:hover .amg-photo::after,
+.amg-card.is-active .amg-photo::after,
 .amg-card:focus-visible .amg-photo::after {
   opacity: 1;
 }
 
 .amg-card:hover .amg-icon,
+.amg-card.is-active .amg-icon,
 .amg-card:focus-visible .amg-icon {
   background: color-mix(in srgb, var(--white) 16%, transparent);
   color: var(--on-dark);
 }
 
 .amg-card:hover .amg-title,
+.amg-card.is-active .amg-title,
 .amg-card:focus-visible .amg-title,
 .amg-card:hover .amg-desc,
+.amg-card.is-active .amg-desc,
 .amg-card:focus-visible .amg-desc {
   color: var(--on-dark);
   text-shadow: 0 1px 12px color-mix(in srgb, var(--black) 40%, transparent);
 }
 
 .amg-card:hover .amg-desc,
+.amg-card.is-active .amg-desc,
 .amg-card:focus-visible .amg-desc {
   font-weight: 400;
 }
 
-/* Phones: a narrower photo so the text keeps room. */
+/* Phones: a narrower photo so the text keeps room; a tighter type scale. */
 @media (max-width: 479px) {
   .amg {
     --amg-photo: 34%;
     --amg-move: 34cqw;
+    gap: 0.75rem;
+  }
+
+  .amg-card {
+    min-height: 8.75rem;
+  }
+
+  .amg-text {
+    gap: 0.3rem;
+    padding: 0.95rem 1rem;
+  }
+
+  .amg-icon {
+    width: 2.6rem;
+    height: 2.6rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .amg-icon svg {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+
+  .amg-title {
+    font-size: 1.05rem;
   }
 
   .amg-desc {
     font-size: var(--fs-small);
+    line-height: 1.55;
   }
 }
 

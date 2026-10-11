@@ -136,7 +136,7 @@ export function HomeServicesViewer({
       className="hsc"
       role="region"
       aria-roledescription={isAr ? "عارض صور" : "carousel"}
-      aria-label={isAr ? "خدمات الكمبوند" : "Compound services"}
+      aria-label={isAr ? "خدمات الكمباوند" : "Compound services"}
       tabIndex={0}
       lang={locale}
       onKeyDown={onKeyDown}

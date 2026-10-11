@@ -119,16 +119,16 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "سجّل اهتمامك: احجز زيارة أو استشارة تمويل",
     titleEn: "Register Interest: Book a Visit or Financing Call",
     descAr:
-      "سجّل اهتمامك بشاليه في روح العطاء واحجز زيارة للموقع أو استشارة تمويل. يرد فريق المبيعات خلال ساعات العمل عبر واتساب أو الهاتف.",
+      "سجّل اهتمامك بشاليه في روح العطاء واحجز زيارة للموقع أو استشارة تمويل. يرد عليك فريق المبيعات في أقرب وقت ممكن عبر واتساب أو الهاتف.",
     descEn:
-      "Register your interest in a Giving Compound chalet and book a site visit or a financing call. Our sales team replies on WhatsApp or by phone during working hours.",
+      "Register your interest in a Giving Compound chalet and book a site visit or a financing call. Our sales team will get back to you on WhatsApp or by phone as soon as possible.",
   },
   "/units": {
     titleAr: "الشاليهات المتاحة للبيع: ٥٠٠ م² بمسبح خاص",
     titleEn: "Chalets for Sale: 500 m² With Private Pool",
     descAr:
-      "الشاليهات المتاحة في روح العطاء: ٥٠٠ م² بسند ملكية مستقل، ٣ غرف نوم، مسبح خاص وجاكوزي، بسعر ١٦٨,٠٠٠ دينار مع تقسيط بدون فوائد.",
+      "شاليهات روح العطاء على المخطط العام: ٥٠٠ م² بسند ملكية مستقل، ٣ غرف نوم، مسبح خاص وجاكوزي، بسعر ١٦٨,٠٠٠ دينار مع تقسيط بدون فوائد.",
     descEn:
-      "Available chalets at Giving Compound: 500 m² with an independent deed, 3 bedrooms, private pool and jacuzzi, from 168,000 JD with 0% installments.",
+      "Explore every chalet at Giving Compound on the master plan: 500 m² with an independent deed, 3 bedrooms, private pool and jacuzzi, from 168,000 JD with 0% installments.",
   },
 };

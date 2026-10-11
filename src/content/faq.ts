@@ -9,123 +9,172 @@ export type FaqCategory = {
 
 export const faqCategories: FaqCategory[] = [
   {
-    id: "purchase",
-    titleAr: "الشراء والتملك",
-    titleEn: "Purchase & Ownership",
+    id: "compound",
+    titleAr: "عن الكمباوند",
+    titleEn: "The Compound",
+    items: [
+      {
+        qAr: "ما هو كمباوند شاليهات Giving، وما الذي يميّزه عن الكمباوندات العقارية الأخرى؟",
+        aAr: "هو مفهوم متكامل لكمباوند شاليهات يجمع بين التملك الخاص والاستجمام والخصوصية ضمن بيئة منظمة. ويتميّز بتوفير شاليهات مستقلة ومرافق وخدمات مشتركة، ليمنح المالك تجربة تتجاوز امتلاك شاليه تقليدي.",
+        qEn: "What is the Giving chalet compound, and what sets it apart from other compounds?",
+        aEn: "A complete chalet-compound concept that brings together private ownership, leisure and privacy in an organised setting. Independent chalets come with shared facilities and services, giving owners far more than a traditional chalet.",
+      },
+      {
+        id: "where",
+        qAr: "أين يقع كمباوند شاليهات Giving وما أبرز مميزات موقعه؟",
+        aAr: "يقع الكمباوند بالقرب من جامعة ابن سينا والمطار، في موقع يجمع بين سهولة الوصول والهدوء والخصوصية، بعيداً عن الازدحام وبمناخ معتدل وجميل.",
+        qEn: "Where is the Giving compound, and what makes the location special?",
+        aEn: "Near Ibn Sina University and the airport: easy to reach, yet quiet and private, away from the crowds, with a mild, pleasant climate.",
+      },
+    ],
+  },
+  {
+    id: "chalet",
+    titleAr: "عن الشاليه",
+    titleEn: "The Chalet",
+    items: [
+      {
+        id: "size",
+        qAr: "ما مساحة الأرض والبناء لكل شاليه، وما أبرز مواصفاته؟",
+        aAr: "تبلغ مساحة الأرض للشاليه في النموذج الحالي ٥٠٠ متر مربع بقوشان مستقل، ومساحة البناء ١٢٠ متراً مربعاً بما يعادل ١٨٠ متراً بناء دوبلكس. ويتميّز الشاليه بتصميم من طابق واحد يضم ٣ غرف نوم ماستر وأربعة حمامات ومطبخاً، بالإضافة إلى مسبح خاص ومساحات خارجية.",
+        qEn: "What are the land and built areas of each chalet, and its main specs?",
+        aEn: "In the current model, each chalet sits on 500 m² of land with its own deed, with 120 m² built (equivalent to 180 m² of duplex build). It is single-storey, with 3 master bedrooms, four bathrooms and a kitchen, plus a private pool and outdoor spaces.",
+      },
+      {
+        qAr: "ما المرافق الخاصة المتوفرة في كل شاليه؟",
+        aAr: "يضم الشاليه مسبحاً خاصاً بمساحة ٥ × ١٠ أمتار، ومساحة مخصصة للأطفال، بالإضافة إلى مكان للجاكوزي وموقفين للسيارات وبرغولا وباربيكيو.",
+        qEn: "What private facilities does each chalet have?",
+        aEn: "A private 5 × 10 m pool, a dedicated kids' area, a jacuzzi spot, two parking spaces, a pergola and a barbecue.",
+      },
+      {
+        qAr: "ما المرافق والخدمات المتوفرة داخل الكمباوند؟",
+        aAr: "يضم الكمباوند مجموعة من المرافق والخدمات، تشمل الأمن والحراسة، ومركز الصيانة، وخدمات التدبير المنزلي (Housekeeping) للعناية بالشاليهات، وسوبر ماركت، ومصلى، وملاعب، وحدائق ومساحات خضراء مشتركة.",
+        qEn: "What facilities and services are inside the compound?",
+        aEn: "Security and guards, a maintenance centre, housekeeping for the chalets, a supermarket, a prayer room, sports courts, and shared gardens and green spaces.",
+      },
+      {
+        qAr: "كيف يتم توفير الخصوصية والأمن داخل الكمباوند؟",
+        aAr: "تم تصميم الشاليهات بما يراعي خصوصية المالكين، من خلال توزيع الشاليهات والمساحات الخارجية والأسوار التي تصل إلى نحو ٣ أمتار وفق المخطط المعتمد. كما يتضمن الكمباوند نظاماً أمنياً يشمل الحراسة على مدار الساعة وتنظيم الدخول والخروج.",
+        qEn: "How are privacy and security handled in the compound?",
+        aEn: "The chalets are laid out with owners' privacy in mind: the placement of chalets and outdoor spaces, and walls of about 3 metres as per the approved plan. The compound also has a security system with round-the-clock guards and controlled entry and exit.",
+      },
+    ],
+  },
+  {
+    id: "visit",
+    titleAr: "المعاينة والحجز",
+    titleEn: "Viewing & Booking",
+    items: [
+      {
+        id: "visit",
+        qAr: "كيف يمكنني حجز موعد لمعاينة الكمباوند؟",
+        aAr: "يمكنك التواصل مع فريق خدمة العملاء لتحديد موعد مسبق للمعاينة، حيث يتم تنسيق الزيارة واستقبالك في نقطة الاستقبال المحددة، ثم مرافقتك في جولة للتعرف على الشاليهات والمرافق والخدمات.",
+        qEn: "How do I book a visit to the compound?",
+        aEn: "Contact our customer service team to book a viewing in advance. We arrange the visit, welcome you at the designated reception point, then take you on a tour of the chalets, facilities and services.",
+      },
+      {
+        qAr: "هل يمكنني إجراء معاينة افتراضية للكمباوند عبر مكالمة فيديو؟",
+        aAr: "نعم، يمكنك التنسيق مع فريق خدمة العملاء لإجراء معاينة افتراضية عبر مكالمة فيديو، والتعرف على الشاليه والكمباوند من خلال جولة مباشرة مع الموظف المختص.",
+        qEn: "Can I view the compound virtually over a video call?",
+        aEn: "Yes. Arrange it with our customer service team and get a live video tour of the chalet and the compound with one of our specialists.",
+      },
+    ],
+  },
+  {
+    id: "pricing",
+    titleAr: "الأسعار والتمويل",
+    titleEn: "Prices & Financing",
     items: [
       {
         id: "price",
-        qAr: "ما هو سعر الشاليه في Giving Compound؟",
-        aAr: "جميع الشاليهات بسعر ١٦٨,٠٠٠ دينار أردني. يتوفر خصم ٢٤٪ عند الدفع نقدًا (١٢٨,٠٠٠ دينار).",
-        qEn: "What is the chalet price at Giving Compound?",
-        aEn: "Every chalet is 168,000 JD. A 24% cash discount brings it to 128,000 JD.",
-      },
-      {
-        id: "deed",
-        qAr: "هل أحصل على سند ملكية مستقل؟",
-        aAr: "نعم، كل وحدة لها سند ملكية مستقل (طابو) بمساحة ٥٠٠ م² باسم المشتري.",
-        qEn: "Do I get an independent ownership deed?",
-        aEn: "Yes. Every unit has an independent deed (tabou) for 500 m² in the buyer’s name.",
-      },
-      {
-        id: "interest",
-        qAr: "هل يوجد فوائد على التقسيط؟",
-        aAr: "لا، جميع خطط الدفع بدون فوائد ومباشرة مع الشركة بدون تدخل بنكي.",
-        qEn: "Is there interest on installments?",
-        aEn: "No. All plans are zero-interest and direct with the company. No bank.",
+        qAr: "كيف يمكنني معرفة أسعار الشاليهات المتوفرة؟",
+        aAr: "تختلف الأسعار بحسب الشاليه والمرحلة والعروض المعتمدة. ويمكنك التواصل مع فريق الشركة للحصول على الأسعار الرسمية الحالية والتفاصيل المتعلقة بالشاليه الذي ترغب بشرائه.",
+        qEn: "How can I find out chalet prices?",
+        aEn: "Prices vary by chalet, phase and current offers. Contact our team for the official current prices and the details of the chalet you're interested in.",
       },
       {
         id: "plans",
-        qAr: "ما هي خطط الدفع المتاحة؟",
-        aAr: "خياران: التقسيط بدفعة أولى تختار قيمتها ثم ١٪ من السعر شهريًا (١,٦٨٠ دينار)، وكلما زادت الدفعة الأولى استلمت شاليهك أسرع؛ أو الدفع النقدي بخصم ٢٤٪. قيمة الدفعة وموعد الاستلام نتفق عليهما معك عند زيارتك لمكتب المبيعات.",
-        qEn: "What payment plans are available?",
-        aEn: "Two options: installments, with a down payment you choose and then 1% of the price a month (1,680 JD), where a bigger down payment means an earlier handover; or pay cash at 24% off. The down payment and handover date are agreed with you at our sales office.",
+        qAr: "هل تتوفر خيارات تقسيط أو تمويل بنكي لشراء الشاليه؟",
+        aAr: "نعم، تتوفر خيارات سداد وفق الشروط والعروض المعتمدة من الشركة، كما يمكن بحث إمكانية التمويل العقاري من خلال البنوك أو الجهات التمويلية المناسبة.",
+        qEn: "Are installments or bank financing available?",
+        aEn: "Yes. Payment options are available under the company's approved terms and offers, and mortgage financing can also be explored through banks or suitable financing institutions.",
       },
       {
-        qAr: "هل يمكنني إعادة بيع الوحدة؟",
-        aAr: "نعم، بما أنك تملك سند ملكية مستقل، يمكنك البيع أو التأجير بحرية.",
-        qEn: "Can I resell the unit?",
-        aEn: "Yes. With an independent deed you may sell or rent freely.",
-      },
-    ],
-  },
-  {
-    id: "specs",
-    titleAr: "المواصفات والجودة",
-    titleEn: "Specs & Quality",
-    items: [
-      {
-        qAr: "ما هي مساحة الشاليه؟",
-        aAr: "٥٠٠ م² تشمل ٣ غرف نوم (منها ماستر)، حمامين، جاكوزي خاص، صالة واسعة، مطبخ مجهز، مسبح كبير + مسبح أطفال، كراج لسيارتين، منطقة BBQ وبرجولا.",
-        qEn: "What is the chalet size?",
-        aEn: "500 m² with 3 bedrooms (master), 2 baths, jacuzzi, living room, kitchen, main + kids pools, 2-car garage, BBQ and pergola.",
+        qAr: "ما الإجراءات والمستندات المطلوبة للحصول على موافقة التمويل؟",
+        aAr: "المستندات المطلوبة هي: الهوية أو جواز السفر، وإثبات دخل، وسجل تجاري، ورخصة مهن.",
+        qEn: "What documents are needed for financing approval?",
+        aEn: "Your ID or passport, proof of income, a commercial registration and a trade licence.",
       },
       {
-        qAr: "ما معنى شهادة ISO 9001:2015؟",
-        aAr: "هي شهادة دولية لنظام إدارة الجودة، تضمن أن جميع مراحل البناء والتشطيب تتم وفق معايير عالمية موحدة.",
-        qEn: "What does ISO 9001:2015 mean?",
-        aEn: "An international quality-management certification ensuring construction and finishing follow global standards.",
-      },
-      {
-        qAr: "ما هي مواد البناء المستخدمة؟",
-        aAr: "أساسات خرسانية مسلحة وفق كود البناء الأردني، جدران ثيرموستون للعزل، بورسلان فاخر مع إضاءة LED، دهانات Super Crown/Jotun، أدوات صحية إيطالية، واجهات بعزل إسباني.",
-        qEn: "What materials are used?",
-        aEn: "Jordan-code reinforced concrete, thermostone walls, luxury porcelain with LED, Super Crown/Jotun paints, Italian fixtures, Spanish-insulated facades.",
+        qAr: "هل توجد رسوم إضافية أو رسوم صيانة وخدمات دورية؟",
+        aAr: "توجد رسوم مرتبطة بإدارة وصيانة وتشغيل المرافق والخدمات المشتركة، ويتم توضيح قيمتها وآلية احتسابها وفق النظام والعقد المعتمد. كما يتم توضيح أي رسوم مرتبطة بالشراء أو التسجيل قبل إتمام عملية الشراء.",
+        qEn: "Are there extra fees, or regular maintenance and service fees?",
+        aEn: "Yes, there are fees for managing, maintaining and running the shared facilities and services; their amount and how they're calculated are set out in the approved regulations and contract. Any purchase or registration fees are made clear before the purchase is completed.",
       },
     ],
   },
   {
-    id: "location",
-    titleAr: "الموقع والمرافق",
-    titleEn: "Location & Amenities",
+    id: "ownership",
+    titleAr: "الملكية والإجراءات",
+    titleEn: "Ownership & Process",
     items: [
       {
-        id: "where",
-        qAr: "أين يقع مشروع Giving Compound؟",
-        aAr: "يبعد ٤١ كم (نحو ٥٥ دقيقة) من فندق الرويال باتجاه سحاب الحطمية، ونحو ٣٠ دقيقة من مطار الملكة علياء.",
-        qEn: "Where is Giving Compound located?",
-        aEn: "41 km (about 55 min) from Le Royal Hotel towards Sahab Al-Hatmiyeh, and about 30 min from Queen Alia International Airport.",
+        id: "deed",
+        qAr: "هل يحصل كل شاليه على قوشان مستقل يشمل الأرض والبناء؟",
+        aAr: "يتمتع كل شاليه بملكية مستقلة تشمل الشاليه والأرض التابعة له، بحسب المخططات والوثائق القانونية المعتمدة، ويتم توضيح تفاصيل الملكية قبل إتمام الشراء.",
+        qEn: "Does each chalet get its own deed covering the land and the building?",
+        aEn: "Each chalet is owned independently, the chalet and its land, according to the approved plans and legal documents. The ownership details are explained before the purchase is completed.",
       },
       {
-        qAr: "ما هي المرافق المتوفرة داخل المشروع؟",
-        aAr: "مجتمع مسوّر بحراسة أمنية على مدار الساعة، كاميرات مراقبة، إنترنت ألياف ضوئية، أنظمة تكييف وستلايت، أنظمة مياه بمضخات أوتوماتيكية، فلترة مسابح متطورة، مساحات خضراء وحدائق.",
-        qEn: "What amenities exist on site?",
-        aEn: "Gated 24/7 security, cameras, fiber internet, AC and satellite, automatic water pumps, pool filtration, green spaces and gardens.",
+        qAr: "هل يتم تسجيل الشاليه باسم المشتري، وما إجراءات نقل الملكية؟",
+        aAr: "يتم تنظيم نقل الملكية باسم المشتري وفق الإجراءات القانونية المعتمدة، مع توضيح الوثائق والعقود المتعلقة بالملكية قبل إتمام عملية الشراء.",
+        qEn: "Is the chalet registered in the buyer's name, and how is ownership transferred?",
+        aEn: "Ownership is transferred to the buyer's name through the approved legal procedures, and all ownership documents and contracts are explained before the purchase is completed.",
       },
       {
-        qAr: "هل يوجد حراسة أمنية؟",
-        aAr: "نعم، المشروع مغلق (gated community) مع حراسة أمنية وكاميرات مراقبة على مدار الساعة، وجدران بارتفاع ٣ أمتار لكل وحدة.",
-        qEn: "Is there security?",
-        aEn: "Yes, a gated community with 24/7 guards and cameras, plus 3-meter privacy walls per unit.",
+        id: "steps",
+        qAr: "ما الخطوات التي يمر بها العميل من اختيار الشاليه حتى إتمام عملية الشراء؟",
+        aAr: "تبدأ الإجراءات بحجز موعد لمعاينة الشاليه، تليها زيارة الموقع والتعرف على تفاصيله. بعد المعاينة، يتم تقديم طلب الموافقة على التقسيط، حيث تصدر الموافقة خلال ٣ أيام عمل. وبعد الحصول عليها، يتم تحديد موعد في دائرة الأراضي لإتمام إجراءات التنازل ونقل الملكية والحصول على القوشان باسم المشتري.",
+        qEn: "What are the steps from choosing a chalet to completing the purchase?",
+        aEn: "First, book a viewing, then visit the site and see the chalet for yourself. After the viewing, you apply for installment approval, which is issued within 3 working days. Once approved, an appointment is set at the Department of Lands to complete the transfer of ownership and issue the deed in your name.",
+      },
+      {
+        id: "handover",
+        qAr: "متى يتم تسليم الشاليه، وهل الشاليهات جاهزة للاستلام؟",
+        aAr: "نعم، تتوفر حالياً شاليهات جاهزة للاستلام في كمباوند Giving، وتختلف مواعيد التسليم بحسب الدفعة الأولى والحصول على موافقة التمويل. كما تتوفر إمكانية التسليم الفوري لبعض الشاليهات، وفقاً للشروط والأحكام المعتمدة.",
+        qEn: "When is the chalet handed over, and are chalets ready now?",
+        aEn: "Yes, there are chalets ready for handover at Giving now. Handover dates depend on the down payment and financing approval, and some chalets can be handed over immediately, subject to the approved terms and conditions.",
       },
     ],
   },
   {
-    id: "contact",
-    titleAr: "التواصل",
-    titleEn: "Contact",
+    id: "invest",
+    titleAr: "الاستثمار",
+    titleEn: "Investment",
     items: [
       {
-        qAr: "كيف أتواصل مع فريق المبيعات؟",
-        aAr: "عبر الواتساب أو الاتصال على الرقم +٩٦٢٧٩٠٠٢٩٩٢٨، أو زيارة مكتبنا أيام الأحد–الخميس (٩ صباحًا – ٧ مساءً) والسبت (١٠ صباحًا – ٤ مساءً).",
-        qEn: "How do I reach sales?",
-        aEn: "WhatsApp or call +962790029928, or visit Sun–Thu 9–7 and Sat 10–4.",
+        qAr: "هل يمكن للمالك تأجير الشاليه والاستفادة منه كاستثمار؟",
+        aAr: "نعم، توجد شاليهات مهيأة للاستخدام الاستثماري والتأجير، وذلك بحسب طبيعة الشاليه ونظام التشغيل المعتمد.",
+        qEn: "Can owners rent out their chalet as an investment?",
+        aEn: "Yes. Some chalets are set up for investment and rental use, depending on the chalet and the approved operating system.",
       },
       {
-        qAr: "هل يمكنني زيارة الموقع؟",
-        aAr: "بالتأكيد! يمكنك زيارة مكتبنا للاطلاع على المخططات والتفاصيل، أو ترتيب زيارة للموقع مباشرة.",
-        qEn: "Can I visit the site?",
-        aEn: "Absolutely. Visit our office for plans and details, or arrange a direct site visit.",
+        qAr: "هل توفر Giving خدمات إدارة وتأجير الشاليهات، وكيف يتم تحديد العائد الاستثماري؟",
+        aAr: "نعم، توفر Giving خدمات إدارة وتأجير الشاليهات، بما يتيح للمالكين الاستفادة من شاليهاتهم كفرصة استثمارية. أما العائد الاستثماري، فيتم تحديده بالتنسيق مع الفريق الاستثماري المختص، بعد مراجعة التفاصيل المتعلقة بالشاليه.",
+        qEn: "Does Giving offer chalet management and rental services, and how is the return determined?",
+        aEn: "Yes. Giving manages and rents out chalets so owners can treat theirs as an investment. The return is worked out with our dedicated investment team after reviewing the details of the chalet.",
       },
     ],
   },
 ];
 
-/** Curated home FAQ preview — JG-style numbered accordion (5 items). */
+const byId = (id: string) => faqCategories.flatMap((c) => c.items).find((it) => it.id === id)!;
+
+/** Curated home FAQ preview (5 items). */
 export const homeFaqPreview: FaqItem[] = [
-  faqCategories[2].items[0], // where
-  faqCategories[0].items[0], // price
-  faqCategories[0].items[1], // deed
-  faqCategories[0].items[2], // interest
-  faqCategories[0].items[3], // payment plans
+  byId("where"),
+  byId("size"),
+  byId("deed"),
+  byId("plans"),
+  byId("handover"),
 ];

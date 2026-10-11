@@ -48,7 +48,7 @@ export default async function FinancingPage({ params }: Props) {
   const t = await getTranslations("financing");
   const isAr = locale === "ar";
 
-  const financingFaq = faqCategories.find((c) => c.id === "purchase")?.items ?? [];
+  const financingFaq = faqCategories.find((c) => c.id === "pricing")?.items ?? [];
 
   return (
     <>

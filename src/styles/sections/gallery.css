@@ -66,26 +66,6 @@
   border-bottom: 1px solid var(--line);
 }
 
-/* Phones: one row that scrolls sideways instead of three wrapped rows. */
-@media (max-width: 767px) {
-  .gal-tabs {
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    overflow-x: auto;
-    scrollbar-width: none;
-    margin-inline: calc(-1 * var(--gutter, 1rem));
-    padding-inline: var(--gutter, 1rem);
-  }
-
-  .gal-tabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .gal-tab {
-    flex: 0 0 auto;
-    padding-inline: 0.9rem;
-  }
-}
 
 .gal-tab {
   position: relative;
@@ -122,9 +102,62 @@
   height: 3px;
   background: var(--primary-ink);
   pointer-events: none;
+  transform: translate(var(--x), var(--bottom));
   transition:
     transform 0.6s cubic-bezier(0.65, 0, 0.35, 1),
     width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Phones: every tab visible at once (no sideways scrolling) as equal pills in a 3-column
+   grid; the same indicator becomes a green pill gliding behind the chosen tab (its label
+   turns white). */
+@media (max-width: 767px) {
+  .gal-tabs {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
+    border-bottom: 0;
+  }
+
+  .gal-tab {
+    z-index: 1;
+    min-width: 0;
+    padding: 0.7rem 0.4rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 0.6875rem;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    transition:
+      color 0.35s ease,
+      border-color 0.35s ease;
+  }
+
+  [dir="rtl"] .gal-tab {
+    font-size: var(--fs-small);
+    letter-spacing: 0;
+  }
+
+  .gal-tab.is-active {
+    border-color: transparent;
+    color: var(--on-primary);
+  }
+
+  .gal-tabs-line {
+    top: 0;
+    height: var(--h);
+    border-radius: 999px;
+    background: var(--brand-primary);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--brand-primary) 30%, transparent);
+    transform: translate(var(--x), var(--top));
+  }
+}
+
+/* Very narrow phones: two columns so the longest label ("Construction") fits. */
+@media (max-width: 374px) {
+  .gal-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .gal-grid {

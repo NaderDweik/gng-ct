@@ -111,3 +111,158 @@
 .np-card:hover .lux-arrow-shaft {
   width: 40px;
 }
+
+/* Phones only: the heading (eyebrow, title, lede, "All articles") centred above the cards,
+   the eyebrow framed by two short rules (same treatment as the home FAQ intro). */
+@media (max-width: 767px) {
+  .np-head,
+  .np-head > div {
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .np-head .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .np-head .section-eyebrow::before,
+  .np-head .section-eyebrow::after {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  .np-head .section-title {
+    max-width: none;
+    text-wrap: balance;
+  }
+
+  .np-head .section-sub {
+    max-width: 34ch;
+    margin-inline: auto;
+  }
+
+  .np-head > div:nth-child(2) {
+    gap: 1.5rem;
+  }
+}
+
+/* Topic + date on one line (topic hidden from tablet up: the desktop cards stay as they were). */
+.np-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.np-cat {
+  display: none;
+}
+
+.np-dots {
+  display: none;
+}
+
+/* Phones: the three cards become a swipe row. Each card takes most of the width with the
+   next one peeking in; dots underneath show the position. */
+@media (max-width: 767px) {
+  .np-grid {
+    display: flex;
+    gap: 0.75rem;
+    margin-inline: -1rem;
+    padding: 0.25rem 1rem 0.5rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1rem;
+    scrollbar-width: none;
+  }
+
+  .np-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .np-grid > li {
+    flex: 0 0 84%;
+    scroll-snap-align: center;
+  }
+
+  .np-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .np-media {
+    aspect-ratio: 16 / 10;
+  }
+
+  .np-body {
+    gap: 0.5rem;
+    padding: 1rem 1.1rem 1.15rem;
+  }
+
+  .np-cat {
+    display: block;
+    color: var(--primary-ink);
+    font-size: var(--fs-caption);
+    font-weight: 700;
+  }
+
+  .np-date {
+    color: var(--muted);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  .np-title {
+    font-size: 1.05rem;
+  }
+
+  .np-excerpt {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: var(--fs-small);
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
+
+  .np-dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1.25rem;
+  }
+
+  .np-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    padding: 0;
+    border-radius: 999px;
+    background: var(--line-strong);
+    transition:
+      width 0.4s var(--ease),
+      background-color 0.4s var(--ease);
+  }
+
+  /* A larger tap area around each small dot. */
+  .np-dot {
+    position: relative;
+  }
+
+  .np-dot::after {
+    content: "";
+    position: absolute;
+    inset: -0.75rem -0.35rem;
+  }
+
+  .np-dot.is-on {
+    width: 1.5rem;
+    background: var(--brand-primary);
+  }
+}

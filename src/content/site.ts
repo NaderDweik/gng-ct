@@ -21,6 +21,9 @@ export const site = {
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3385.5!2d35.9301!3d31.9497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDU2JzU5LjAiTiAzNcKwNTUnNDguNCJF!5e0!3m2!1sen!2sjo!4v1",
   locationAr: "٤١ كم من فندق الرويال باتجاه سحاب الحطمية",
   locationEn: "41 km from Le Royal Hotel towards Sahab Al-Hatmiyeh",
+  /** Where the sales office is (footer, register page); not the compound's location. */
+  salesOfficeAr: "فندق الرويال، الطابق الأول",
+  salesOfficeEn: "Le Royal Hotel, First Floor",
   /** Project pin — Al Matabba (Google Maps link above). */
   coordinates: { lat: 31.796929, lng: 36.1855906 },
   hoursAr: {

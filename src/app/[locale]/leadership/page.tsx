@@ -99,12 +99,10 @@ export default async function LeadershipPage({ params }: Props) {
               {principles.map((p, i) => (
                 <li key={p.titleEn} className="leader-principle">
                   <span className="leader-principle-num font-display text-(length:--fs-h2) font-bold leading-none tabular-nums">
-                    <span className="leader-principle-num-ink">{n(i + 1).padStart(isAr ? 0 : 2, "0")}</span>
+                    {n(i + 1).padStart(isAr ? 0 : 2, "0")}
                   </span>
-                  <h3 className="font-display mt-4 text-lg font-bold leading-snug text-on-dark md:mt-5 md:text-xl">
-                    <span className="leader-principle-text">
-                      <span className="leader-principle-ink">{isAr ? p.titleAr : p.titleEn}</span>
-                    </span>
+                  <h3 className="leader-principle-text font-display mt-4 text-lg font-bold leading-snug text-on-dark md:mt-5 md:text-xl">
+                    {isAr ? p.titleAr : p.titleEn}
                   </h3>
                 </li>
               ))}

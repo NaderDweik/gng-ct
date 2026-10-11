@@ -2,7 +2,8 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
-import { getArticle, homeNewsSlugs } from "@/content/news";
+import { getArticle, homeNewsSlugs, newsCategories } from "@/content/news";
+import { NewsDots } from "@/features/news/NewsDots";
 import { HoverAccent } from "@/components/ui/HoverAccent";
 
 /* Home "News & articles": three cards linking into /news (styles: styles/sections/news-preview.css). */
@@ -19,7 +20,7 @@ export async function NewsPreview({ locale }: { locale: string }) {
   return (
     <section className="section bg-surface-alt">
       <div className="container-gc">
-        <div className="sec-head">
+        <div className="sec-head np-head">
           <div>
             <p className="section-eyebrow">{t("title")}</p>
             <h2 className="section-title">{isAr ? "آخر أخبار Giving Compound." : "Latest from Giving Compound."}</h2>
@@ -42,9 +43,12 @@ export async function NewsPreview({ locale }: { locale: string }) {
                   <HoverAccent />
                 </span>
                 <span className="np-body">
-                  <time className="np-date" dateTime={a.date}>
-                    {dateFmt.format(new Date(a.date))}
-                  </time>
+                  <span className="np-meta">
+                    <span className="np-cat">{newsCategories[a.category][isAr ? "ar" : "en"]}</span>
+                    <time className="np-date" dateTime={a.date}>
+                      {dateFmt.format(new Date(a.date))}
+                    </time>
+                  </span>
                   <span className="np-title">{isAr ? a.titleAr : a.titleEn}</span>
                   <span className="np-excerpt">{isAr ? a.excerptAr : a.excerptEn}</span>
                   <span className="np-more">
@@ -56,6 +60,7 @@ export async function NewsPreview({ locale }: { locale: string }) {
             </li>
           ))}
         </ul>
+        <NewsDots labels={items.map((a) => (isAr ? a.titleAr : a.titleEn))} />
       </div>
     </section>
   );

@@ -146,6 +146,76 @@
   margin-top: 1.75rem;
 }
 
+/* Phones only: the intro (eyebrow, title, lede, "See all") centred above the questions,
+   the eyebrow framed by two short rules. The questions themselves are unchanged. */
+@media (max-width: 767px) {
+  /* The list already reserves room for its longest answer; less padding under it. */
+  .section:has(> .container-gc > .hfaq) {
+    padding-bottom: 2rem;
+  }
+
+  .hfaq-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .hfaq-intro .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hfaq-intro .section-eyebrow::before,
+  .hfaq-intro .section-eyebrow::after {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  .hfaq-intro .section-title {
+    max-width: none;
+    text-wrap: balance;
+  }
+
+  .hfaq-lead {
+    max-width: 34ch;
+    margin-inline: auto;
+  }
+
+  .hfaq-all {
+    margin-top: 1.5rem;
+  }
+
+  /* Questions: a fixed number column so every question starts on the same line,
+     slightly tighter rows, and the answer indented to the question text. */
+  .hfaq-q {
+    grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+    gap: 0.85rem;
+    min-height: 0;
+    padding-block: 1.1rem;
+    font-size: 1.0625rem;
+  }
+
+  .hfaq-sign {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  [dir="rtl"] .hfaq-a {
+    padding: 0 2.85rem 1.35rem 0;
+  }
+
+  .hfaq-a {
+    padding: 0 0 1.35rem 2.85rem;
+    font-size: var(--fs-small);
+    line-height: 1.75;
+  }
+}
+
 @media (max-width: 640px) {
   .hfaq-a {
     padding-inline: 0.25rem;

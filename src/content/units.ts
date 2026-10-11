@@ -39,8 +39,8 @@ export const unitFilters: {
 
 export const unitsCopy = {
   ar: {
-    title: "الوحدات المتاحة",
-    subtitle: "من الوحدات المدمجة إلى الفلل الواسعة، كل وحدة بمساحة تقارب ٥٠٠ م².",
+    title: "الوحدات",
+    subtitle: "كل شاليه في الكمباوند على مخطط واحد. اعثر على شاليهك برقمه.",
     filterLabel: "تصفية المخططات",
     filterMeta: "٥ أنواع",
     quickView: "عرض سريع",
@@ -57,8 +57,8 @@ export const unitsCopy = {
     download: "تحميل مخطط الطابق",
   },
   en: {
-    title: "Available units",
-    subtitle: "From compact units to expansive villas, each on about 500 m².",
+    title: "Units",
+    subtitle: "Every chalet in the compound on one plan. Find yours by its number.",
     filterLabel: "Filter Plans",
     filterMeta: "5 Types",
     quickView: "Quick View",
@@ -319,3 +319,62 @@ export const unitPlans: UnitPlan[] = [
     image: "/gallery/resortsPics/fireplace-horse-sculpture.png",
   },
 ];
+
+/**
+ * /units compound explorer (features/units/CompoundPlan.tsx). Deliberately says nothing
+ * about which chalets are taken: every chalet leads to a conversation or a visit.
+ */
+export const compoundCopy = {
+  ar: {
+    label: "مستكشف الكمباوند",
+    eyebrow: "روح العطاء · المخطط العام",
+    title: "اعثر على شاليهك.",
+    lede: "كل شاليه في الكمباوند على خريطة واحدة. اضغط على أي شاليه لتتعرّف عليه.",
+    planAlt: "المخطط العام لكمباوند روح العطاء مع أرقام الشاليهات والمرافق",
+    searchLabel: "رقم الشاليه",
+    searchPlaceholder: "رقم الشاليه، مثل D24",
+    go: "اذهب",
+    notFound: "لم نجد هذا الرقم. جرّب الرقم كاملًا، مثل D24.",
+    surprise: "اختر لي شاليهًا",
+    inside: "ادخل إلى الشاليه",
+    insideSub: "الغرف والتصميم الداخلي والمخطط الكامل",
+    zoomIn: "تكبير",
+    zoomOut: "تصغير",
+    fit: "عرض المخطط كاملًا",
+    hint: "اسحب للتنقل · كبّر بإصبعين",
+    chalet: "شاليه",
+    facts: ["٥٠٠ م²", "٣ غرف نوم", "مسبح خاص وجاكوزي", "سند ملكية مستقل"],
+    pitch: "كل شاليه له قصته. اسألنا عنه، أو تعال وشاهده بنفسك.",
+    ask: (id: string) => `اسأل عن ${id}`,
+    visit: "احجز زيارة",
+    insideLink: "شاهد الشاليه من الداخل",
+    close: "إغلاق",
+    waMessage: (id: string) => `مرحبًا، أود الاستفسار عن الشاليه ${id} في روح العطاء.`,
+  },
+  en: {
+    label: "Compound explorer",
+    eyebrow: "Giving Compound · Master plan",
+    title: "Find your chalet.",
+    lede: "Every chalet in the compound, on one map. Tap any of them to get to know it.",
+    planAlt: "Giving Compound master plan with every chalet number and amenity",
+    searchLabel: "Chalet number",
+    searchPlaceholder: "Chalet number, e.g. D24",
+    go: "Go",
+    notFound: "We couldn't find that one. Try the full number, like D24.",
+    surprise: "Pick one for me",
+    inside: "Step inside a chalet",
+    insideSub: "Rooms, interiors and the full plan",
+    zoomIn: "Zoom in",
+    zoomOut: "Zoom out",
+    fit: "Show the whole plan",
+    hint: "Drag to explore · pinch to zoom",
+    chalet: "Chalet",
+    facts: ["500 m²", "3 bedrooms", "Private pool & jacuzzi", "Independent deed"],
+    pitch: "Every chalet has its own story. Ask us about this one, or come and see it for yourself.",
+    ask: (id: string) => `Ask about ${id}`,
+    visit: "Book a visit",
+    insideLink: "See it from the inside",
+    close: "Close",
+    waMessage: (id: string) => `Hello, I'd like to ask about chalet ${id} at Giving Compound.`,
+  },
+} as const;

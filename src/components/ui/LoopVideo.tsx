@@ -45,8 +45,11 @@ export function LoopVideo({
     return () => io.disconnect();
   }, [src, poster, lazyPoster]);
 
+  // suppressHydrationWarning: video-related browser extensions inject attributes
+  // (e.g. crossorigin) onto <video> before React hydrates.
   return (
     <video
+      suppressHydrationWarning
       ref={ref}
       className={className}
       poster={lazyPoster ? undefined : poster}

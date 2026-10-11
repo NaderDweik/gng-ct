@@ -40,7 +40,7 @@ const copy = {
     welcome: "Welcome! Pick any question and I’ll answer right away, or ask me your own below.",
     placeholder: "Ask your own question…",
     send: "Send on WhatsApp",
-    sentReply: "I’ve opened WhatsApp with your question. Our team usually replies within 2–4 hours.",
+    sentReply: "I’ve opened WhatsApp with your question. Our team will reply as soon as possible.",
     all: "Read all FAQs",
     jd: "JD",
     // visuals
@@ -72,7 +72,7 @@ const copy = {
     welcome: "أهلًا بك! اختر أي سؤال وسأجيبك فورًا، أو اكتب سؤالك في الأسفل.",
     placeholder: "اكتب سؤالك…",
     send: "أرسل عبر واتساب",
-    sentReply: "فتحتُ لك واتساب مع سؤالك. يرد فريقنا عادةً خلال ٢–٤ ساعات.",
+    sentReply: "فتحتُ لك واتساب مع سؤالك. سيرد عليك فريقنا في أقرب وقت ممكن.",
     all: "اقرأ جميع الأسئلة الشائعة",
     jd: "د.أ",
     km: "كم",

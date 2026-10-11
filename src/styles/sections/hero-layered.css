@@ -23,6 +23,17 @@
   filter: brightness(0.8) saturate(1.06);
 }
 
+/* Art-directed slide (HeroArtPhoto): its focus follows whichever file is showing. */
+.hl-photo--art {
+  object-position: var(--hl-focus);
+}
+
+@media (max-aspect-ratio: 3/4) {
+  .hl-photo--art {
+    object-position: var(--hl-mfocus);
+  }
+}
+
 .hl-cutout {
   z-index: 2;
 }

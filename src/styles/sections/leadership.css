@@ -135,9 +135,55 @@
   list-style: none;
 }
 
+/* Each principle: a column with its own divider. On hover the divider draws in green, a
+   faint green wash fills the column, the number lifts with a soft glow, and the other
+   principles step back so the hovered one is in focus. */
 .leader-principle {
+  position: relative;
+  isolation: isolate;
   padding-block: 1.25rem;
-  border-top: 1px solid var(--line-on-dark);
+  transition:
+    opacity 0.5s var(--ease),
+    background-color 0.5s var(--ease);
+}
+
+/* Divider (grey) and its green draw-in; phones: along the top edge. */
+.leader-principle::before,
+.leader-principle::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  pointer-events: none;
+}
+
+.leader-principle::before {
+  background: var(--line-on-dark);
+}
+
+.leader-principle::after {
+  background: var(--brand-accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.7s var(--ease);
+}
+
+[dir="rtl"] .leader-principle::after {
+  transform-origin: 100% 50%;
+}
+
+.leader-principle-num {
+  display: inline-block;
+  color: var(--brand-accent);
+  transition:
+    transform 0.6s var(--ease),
+    text-shadow 0.6s var(--ease);
+}
+
+.leader-principle-text {
+  transition: color 0.4s var(--ease);
 }
 
 @media (min-width: 768px) {
@@ -146,82 +192,61 @@
   }
 
   .leader-principle {
-    padding-block: 0.25rem;
+    padding-block: 1.1rem 1.25rem;
     padding-inline: clamp(1.25rem, 2.5vw, 2rem);
-    border-top: 0;
-    border-inline-start: 1px solid var(--line-on-dark);
+  }
+
+  .leader-principle::before,
+  .leader-principle::after {
+    right: auto;
+    bottom: 0;
+    width: 1px;
+    height: auto;
+  }
+
+  /* 2px so the green reads clearly over the 1px grey divider. */
+  .leader-principle::after {
+    width: 2px;
+    transform: scaleY(0);
+    transform-origin: 50% 0;
+  }
+
+  [dir="rtl"] .leader-principle::before,
+  [dir="rtl"] .leader-principle::after {
+    left: auto;
+    right: 0;
   }
 }
 
-/* Hover: a solid green highlight sweeps over the number (as a padded block) and the text
-   (line after line), in reading direction. Each inner "-ink" span repaints its glyphs
-   (background-clip: text) at the same rate, so they turn black exactly where the highlight
-   has reached. */
-.leader-principle-num,
-.leader-principle-num-ink,
-.leader-principle-text,
-.leader-principle-ink {
-  background-repeat: no-repeat;
-  background-position: 0 0;
-  transition: background-size 0.9s var(--ease);
-}
+@media (hover: hover) {
+  /* The hovered principle comes forward, the others step back. */
+  .leader-principles-list:hover .leader-principle:not(:hover) {
+    opacity: 0.45;
+  }
 
-.leader-principle-num,
-.leader-principle-text {
-  background-image: linear-gradient(var(--brand-accent), var(--brand-accent));
-  background-size: 0% 100%;
-}
+  /* A faint green wash over the hovered column. */
+  .leader-principle:hover {
+    background-color: color-mix(in srgb, var(--brand-accent) 6%, transparent);
+  }
 
-.leader-principle-num-ink,
-.leader-principle-ink {
-  color: transparent;
-  background-size: 0% 100%, 100% 100%;
-  -webkit-background-clip: text;
-  background-clip: text;
-}
+  .leader-principle:hover::after {
+    transform: none;
+  }
 
-.leader-principle-ink {
-  background-image:
-    linear-gradient(var(--black), var(--black)),
-    linear-gradient(var(--on-dark), var(--on-dark));
-}
-
-/* The block's padding is pulled back with negative margins so the digits don't move. */
-.leader-principle-num {
-  display: inline-block;
-  margin: -0.18em -0.28em;
-}
-
-.leader-principle-num-ink {
-  display: block;
-  padding: 0.18em 0.28em;
-  background-image:
-    linear-gradient(var(--black), var(--black)),
-    linear-gradient(var(--brand-accent), var(--brand-accent));
-}
-
-[dir="rtl"] .leader-principle-num,
-[dir="rtl"] .leader-principle-num-ink,
-[dir="rtl"] .leader-principle-text,
-[dir="rtl"] .leader-principle-ink {
-  background-position: 100% 0;
-}
-
-.leader-principle:hover .leader-principle-num,
-.leader-principle:hover .leader-principle-text {
-  background-size: 100% 100%;
-}
-
-.leader-principle:hover .leader-principle-num-ink,
-.leader-principle:hover .leader-principle-ink {
-  background-size: 100% 100%, 100% 100%;
+  .leader-principle:hover .leader-principle-num {
+    transform: translateY(-4px);
+    text-shadow: 0 6px 24px color-mix(in srgb, var(--brand-accent) 55%, transparent);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .leader-principle-num,
-  .leader-principle-num-ink,
-  .leader-principle-text,
-  .leader-principle-ink {
+  .leader-principle,
+  .leader-principle::after,
+  .leader-principle-num {
     transition: none;
+  }
+
+  .leader-principle:hover .leader-principle-num {
+    transform: none;
   }
 }

@@ -103,6 +103,220 @@
   margin-top: 0.75rem;
 }
 
+/* ── Phones only (desktop / tablet untouched) ──
+   Editorial stack: the photo runs edge to edge, and the copy sits on a white card that
+   overlaps its foot. Facts become a quiet ruled panel; the button spans the width. */
+@media (max-width: 767px) {
+  .hi.section {
+    padding-top: 1.5rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .hi-grid {
+    gap: 0;
+  }
+
+  /* Full bleed: .container-gc leaves a 1rem gutter on each side. */
+  .hi-frame {
+    margin-inline: -1rem;
+    aspect-ratio: 4 / 3;
+    box-shadow: none;
+  }
+
+  .hi-copy {
+    position: relative;
+    z-index: 1;
+    margin-top: -2.75rem;
+    padding: 1.5rem 1.25rem 0;
+    background: var(--surface);
+  }
+
+  .hi-copy .section-title {
+    margin-bottom: 1rem;
+    font-size: clamp(1.65rem, 7vw, 2rem);
+    line-height: 1.2;
+  }
+
+  .hi-body {
+    margin-bottom: 1.5rem;
+    font-size: var(--fs-body);
+    line-height: 1.75;
+  }
+
+  .hi-facts {
+    gap: 0;
+    margin-bottom: 1.5rem;
+    padding: 0.25rem 1rem;
+    border-top: 0;
+    background: var(--surface-alt);
+  }
+
+  .hi-facts li {
+    align-items: center;
+    padding-block: 0.8rem;
+    font-size: var(--fs-small);
+  }
+
+  .hi-facts li + li {
+    border-top: 1px solid var(--line);
+  }
+
+  .hi-facts svg {
+    margin-top: 0;
+  }
+
+  .hi-cta {
+    width: 100%;
+    margin-top: 0;
+    justify-content: center;
+  }
+}
+
+/* ── Phones: the editorial sequence (markup + timing: HomeIntro.tsx) ── */
+@media (max-width: 767px) {
+  /* 1 · The photo drifts a little slower than the page while it crosses the screen.
+     The timeline is the frame's (the frame clips, so it would be the photo's own
+     scroller otherwise and never move). */
+  @supports (animation-timeline: view()) {
+    .hi-frame {
+      view-timeline-name: --hi-frame;
+    }
+
+    .hi-frame .hi-photo {
+      animation: hi-drift linear both;
+      animation-timeline: --hi-frame;
+      animation-range: entry 0% exit 100%;
+    }
+
+    @keyframes hi-drift {
+      from {
+        translate: 0 -7%;
+        scale: 1.14;
+      }
+      to {
+        translate: 0 7%;
+        scale: 1.14;
+      }
+    }
+  }
+
+  /* 2 · The title rises line by line from behind a mask. */
+  .hi-line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.08em; /* room for descenders inside the mask */
+  }
+
+  .hi-line-in {
+    display: inline-block;
+    transform: translateY(105%);
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(0.1s + var(--i) * 0.14s);
+  }
+
+  .hi.is-copy-in .hi-line-in {
+    transform: none;
+  }
+
+  .hi-copy .section-eyebrow,
+  .hi-body,
+  .hi-cta {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.8s var(--ease),
+      transform 0.8s var(--ease);
+  }
+
+  .hi-body {
+    transition-delay: 0.35s;
+  }
+
+  .hi-cta {
+    transition-delay: 1.15s;
+  }
+
+  .hi.is-copy-in :is(.hi-copy .section-eyebrow, .hi-body, .hi-cta) {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* 3 · Facts: the green rule draws down, then each row slides in and its check draws. */
+  .hi-facts {
+    position: relative;
+  }
+
+  .hi-facts::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 2px;
+    background: var(--brand-primary);
+    transform: scaleY(0);
+    transform-origin: 50% 0;
+    transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1) 0.45s;
+  }
+
+  [dir="rtl"] .hi-facts::before {
+    left: auto;
+    right: 0;
+  }
+
+  .hi.is-copy-in .hi-facts::before {
+    transform: none;
+  }
+
+  .hi-facts li {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition:
+      opacity 0.6s var(--ease),
+      transform 0.6s var(--ease);
+    transition-delay: calc(0.6s + var(--i) * 0.15s);
+  }
+
+  [dir="rtl"] .hi-facts li {
+    transform: translateX(10px);
+  }
+
+  .hi.is-copy-in .hi-facts li {
+    opacity: 1;
+    transform: none;
+  }
+
+  .hi-facts svg path {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+    transition-delay: calc(0.85s + var(--i) * 0.15s);
+  }
+
+  .hi.is-copy-in .hi-facts svg path {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .hi-frame .hi-photo {
+    animation: none;
+  }
+
+  .hi-line-in,
+  .hi-copy .section-eyebrow,
+  .hi-body,
+  .hi-cta,
+  .hi-facts::before,
+  .hi-facts li,
+  .hi-facts svg path {
+    opacity: 1;
+    transform: none;
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hi-photo,
   .hi.is-in .hi-photo {

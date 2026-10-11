@@ -138,6 +138,16 @@ export default async function ArticlePage({ params }: Props) {
               ))}
             </div>
 
+            {article.gallery.length > 0 && (
+              <div className="article-gallery">
+                {article.gallery.map((src) => (
+                  <figure key={src} className="article-gallery-item">
+                    <Image src={src} alt={title} fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover" />
+                  </figure>
+                ))}
+              </div>
+            )}
+
             <footer className="article-foot">
               <div>
                 <p className="article-foot-brand">Giving Compound</p>

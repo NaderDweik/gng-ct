@@ -222,3 +222,369 @@
   font-size: var(--fs-caption);
   font-weight: 700;
 }
+
+/* ── /news list (markup: app/[locale]/news/page.tsx) ──
+   A timeline: on wide screens each year sits in a
+   sticky column on a thin rail beside its stories; on phones it is a slim sticky bar. */
+.news-year {
+  scroll-margin-top: 6rem;
+}
+
+.news-year + .news-year {
+  margin-top: clamp(3rem, 6vw, 5rem);
+}
+
+/* Phones / tablets: a slim bar that stays under the site header while its year scrolls by. */
+.news-year-head {
+  position: sticky;
+  top: 4rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.news-year-dot {
+  flex: none;
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  box-shadow: 0 0 0 4px var(--brand-primary-soft);
+}
+
+.news-year-title {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.news-year-grid {
+  display: grid;
+  gap: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+@media (min-width: 768px) {
+  .news-year-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Desktop: the year column + rail. */
+@media (min-width: 1024px) {
+  .news-year {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr);
+    gap: 0 clamp(2rem, 4vw, 3.5rem);
+    align-items: start;
+  }
+
+  .news-year-head {
+    top: 7rem;
+    display: grid;
+    gap: 0.6rem;
+    justify-items: start;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+
+  .news-year-title {
+    font-size: clamp(2.5rem, 1.6rem + 2vw, 3.5rem);
+    letter-spacing: -0.03em;
+  }
+
+  /* The rail down the start edge, the length of the year's stories. The dot rides down it
+     and the rail fills green behind the dot as the reader moves through the year; both are
+     driven by transforms from features/news/YearRail.tsx (eased per frame, no layout). */
+  .news-year {
+    position: relative;
+    padding-inline-start: 1.75rem;
+  }
+
+  .news-year-dot {
+    display: none;
+  }
+
+  .news-rail {
+    position: absolute;
+    top: 0.3rem;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    background: linear-gradient(var(--line) 85%, transparent);
+  }
+
+  [dir="rtl"] .news-rail {
+    left: auto;
+    right: 0;
+  }
+
+  .news-rail-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--brand-primary);
+    transform: scaleY(0);
+    transform-origin: 50% 0;
+    will-change: transform;
+  }
+
+  .news-rail-dot {
+    position: absolute;
+    top: 0;
+    left: -0.375rem;
+    width: 0.75rem;
+    height: 0.75rem;
+    margin-left: 0.5px;
+    border-radius: 50%;
+    background: var(--brand-primary);
+    box-shadow: 0 0 0 4px var(--brand-primary-soft);
+    will-change: transform;
+  }
+}
+
+.news-rail {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .news-rail {
+    display: block;
+  }
+}
+
+@media (min-width: 1280px) {
+  .news-year-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ── Article: further photos from the story, under the text ── */
+.article-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.article-gallery-item {
+  position: relative;
+  margin: 0;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+/* ── /news story card ──
+   Defined at rest (hairline frame, topic + date line), and on hover it lifts a
+   touch, casts a soft shadow, draws a green line across its top and eases the photo in. */
+.news-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  transition:
+    transform 0.5s var(--ease),
+    box-shadow 0.5s var(--ease),
+    border-color 0.5s var(--ease);
+}
+
+.news-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px -1px auto;
+  z-index: 4;
+  height: 2px;
+  background: var(--brand-primary);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.6s var(--ease);
+}
+
+[dir="rtl"] .news-card::before {
+  transform-origin: 100% 50%;
+}
+
+.news-card:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--brand-primary) 35%, var(--line));
+  box-shadow: var(--shadow-card);
+}
+
+.news-card:hover::before {
+  transform: scaleX(1);
+}
+
+.news-card:focus-within {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.news-card-media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--surface-alt);
+}
+
+.news-card-img {
+  object-fit: cover;
+  transition: transform 1.1s var(--ease);
+}
+
+.news-card:hover .news-card-img {
+  transform: scale(1.05);
+}
+
+.news-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: clamp(1.25rem, 2vw, 1.6rem);
+}
+
+/* Meta line: topic (green, with a short rule) and date (muted), on one baseline. */
+.news-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  margin: 0 0 0.85rem;
+}
+
+.news-card-date {
+  flex: none;
+  color: var(--muted);
+  font-size: var(--fs-caption);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.news-card-cat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  color: var(--primary-ink);
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .news-card-cat {
+  letter-spacing: 0;
+}
+
+.news-card-cat::before {
+  content: "";
+  width: 1.25rem;
+  height: 1px;
+  background: currentColor;
+}
+
+.news-card-title {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--fs-h4);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+[dir="rtl"] .news-card-title {
+  font-family: var(--font-body);
+}
+
+.news-card-link {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+  transition: color 0.3s var(--ease);
+}
+
+.news-card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+}
+
+.news-card:hover .news-card-link {
+  color: var(--primary-ink);
+}
+
+.news-card-excerpt {
+  display: -webkit-box;
+  margin: 0.6rem 0 1.25rem;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: var(--fs-small);
+  line-height: 1.7;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+/* "Read more", pinned to the foot so it lines up across a row; the arrow slides on hover. */
+.news-card-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  width: 100%;
+  border-top: 1px solid var(--line);
+  color: var(--ink);
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+[dir="rtl"] .news-card-more {
+  letter-spacing: 0;
+}
+
+.news-card-more .lux-arrow {
+  color: var(--primary-ink);
+  transition: translate 0.45s var(--ease);
+}
+
+.news-card:hover .news-card-more .lux-arrow {
+  translate: 4px 0;
+}
+
+[dir="rtl"] .news-card:hover .news-card-more .lux-arrow {
+  translate: -4px 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .news-card,
+  .news-card::before,
+  .news-card-img,
+  .news-card-more .lux-arrow {
+    transition: none;
+  }
+
+  .news-card:hover {
+    transform: none;
+  }
+}
