@@ -15,13 +15,15 @@ type Props = {
   subtitle?: string;
   /** A slightly taller band (main destination pages: units, amenities, financing, gallery). */
   tall?: boolean;
+  /** Phones: a slim band, for pages whose content must start high on the first screen. */
+  compactMobile?: boolean;
 };
 
 import { LoopVideo } from "@/components/ui/LoopVideo";
 
-export function SubpageHeader({ eyebrow, title, subtitle, tall }: Props) {
+export function SubpageHeader({ eyebrow, title, subtitle, tall, compactMobile }: Props) {
   return (
-    <section className={`sh${tall ? " sh--tall" : ""}`}>
+    <section className={`sh${tall ? " sh--tall" : ""}${compactMobile ? " sh--compact-mobile" : ""}`}>
       {/* Faint V-line loop behind the title (Remotion render; source: motion/src/BannerLines.tsx). */}
       <LoopVideo src="/motion/banner-lines-full.mp4" poster="/motion/banner-lines-full.jpg" className="sh-video" />
       <div className="sh-inner">

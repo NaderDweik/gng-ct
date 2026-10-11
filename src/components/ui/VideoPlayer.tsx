@@ -278,6 +278,8 @@ export function VideoPlayer({ title, poster, src, youtubeId, locale, className }
       <div className="vp-stage">
         {src ? (
           <video
+            // Video browser extensions inject attributes (e.g. crossorigin) before hydration.
+            suppressHydrationWarning
             ref={videoRef}
             className="vp-video"
             src={src}

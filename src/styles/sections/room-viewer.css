@@ -694,3 +694,103 @@
     animation: none;
   }
 }
+
+/* Phones: a shorter photo (416px → 19.5rem) with tighter type, so the photo and the plan
+   below fit more comfortably on one screen. */
+@media (max-width: 767px) {
+  .rmv-photo {
+    min-height: 19.5rem;
+  }
+
+  /* The one-line description would cover most of the short photo: label + name only. */
+  .rmv-body {
+    display: none;
+  }
+
+  .rmv-photo-copy,
+  .rmv-size {
+    padding: 0.75rem 1rem;
+  }
+
+  .rmv-zone {
+    font-size: 0.6875rem;
+  }
+
+  .rmv-name {
+    margin-top: 0.15rem;
+    font-size: 1.25rem;
+  }
+
+  .rmv-body {
+    margin-top: 0.25rem;
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .rmv-size-value {
+    font-size: 1.6rem;
+  }
+
+  .rmv-size-label {
+    font-size: var(--fs-small);
+  }
+
+  .rmv-clip {
+    width: 6rem;
+    padding: 0.3rem;
+  }
+}
+
+/* Phones: tighter panel spacing, and the plan drawn a little narrower (still centred), so
+   photo + plan + the button row fit the first screen. */
+@media (max-width: 767px) {
+  .rmv-panel {
+    gap: 0.85rem;
+    padding: 0.85rem 1rem 1rem;
+  }
+
+  .rmv-plan {
+    width: 80%;
+  }
+}
+
+/* Phones: no step bar; one row under the plan with "Register interest" at the start
+   (filling the row) and the prev / next arrows at the end. The counter is hidden. */
+@media (max-width: 767px) {
+  .rmv-steps {
+    display: none;
+  }
+
+  .rmv-foot {
+    flex-direction: row-reverse;
+    gap: 0.6rem;
+    margin-top: 0.25rem;
+  }
+
+  .rmv-arrows {
+    flex: none;
+    gap: 0.5rem;
+  }
+
+  .rmv-count {
+    display: none;
+  }
+
+  .rmv-arrow {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .rmv-cta {
+    flex: 1;
+    justify-content: center;
+    min-height: 3rem;
+    padding-block: 0;
+  }
+}
+
+/* No floating WhatsApp button on the master-plan page: it covered the viewer's buttons.
+   (The page's own "Register interest" stays; other pages keep the float.) */
+body:has(.rmv) .wa-float {
+  display: none;
+}

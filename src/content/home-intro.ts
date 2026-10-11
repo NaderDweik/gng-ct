@@ -7,7 +7,7 @@ export const homeIntro = {
   image: "/home/intro-swimmer-pool-waterfall.jpg",
   /** The 3:2 frame trims the 16:9 photo's sides; this keeps the swimmer in. */
   focus: "80% 50%",
-  href: "/units",
+  href: "/master-plan",
   en: {
     eyebrow: "About Giving Compound",
     title: "One Community. 367 Private Resorts.",
@@ -17,7 +17,7 @@ export const homeIntro = {
       "Independent title deed",
       "Zero-interest plans, direct",
     ],
-    cta: "Explore Resorts",
+    cta: "Explore the Plan",
     alt: "A swimmer in the pool beside the waterfall spout at the Giving Royal clubhouse",
   },
   ar: {
@@ -29,7 +29,7 @@ export const homeIntro = {
       "سند ملكية مستقل",
       "تقسيط مباشر بدون فوائد",
     ],
-    cta: "استكشف الشاليهات",
+    cta: "استكشف المخطط",
     alt: "سبّاح في المسبح بجانب شلال الماء في نادي Giving Royal",
   },
 } as const;

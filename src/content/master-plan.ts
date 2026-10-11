@@ -25,7 +25,7 @@ export const masterPlanCopy = {
     lead: "Considered interiors, a pool at the heart of the courtyard, outdoor living and complete privacy, inside a gated community.",
     mapAlt: "Private resort property map: floor plan and site",
     explorerEyebrow: "Explore the plan",
-    explorerTitle: "Every corner, in its place.",
+    explorerTitle: "A chalet's plan",
     explorerHint: "Hover any space on the plan, or pick one from the list.",
     caption: "Resort unit plan · 500 m² · independent deed",
     reset: "Show the whole plan",
@@ -252,20 +252,20 @@ export const unitPlanPanel = {
  *  and kids' area have no dedicated shot yet, so they borrow the closest scene). */
 const R = "/gallery/resortsPics";
 export const planItemPhotos: Record<string, string> = {
-  living: `${R}/family-living-room.png`,
-  kitchen: `${R}/kitchen-and-laundry.png`,
-  master: `${R}/master-bedroom-pool-view.png`,
-  bedrooms: `${R}/twin-bedroom-pool-view.png`,
-  baths: `${R}/bathroom-jacuzzi-tub.png`,
+  living: `${R}/family-living-room.jpg`,
+  kitchen: `${R}/kitchen-and-laundry.jpg`,
+  master: `${R}/master-bedroom-pool-view.jpg`,
+  bedrooms: `${R}/twin-bedroom-pool-view.jpg`,
+  baths: `${R}/bathroom-jacuzzi-tub.jpg`,
   terraces: `${R}/pool-and-tent-pavilion-hd.jpg`,
-  gardens: `${R}/garden-lounge-kids-swing.png`,
-  pool: `${R}/swimmer-pool-waterfall.png`,
-  lounge: `${R}/family-lounge-under-pergola.png`,
-  bbq: `${R}/father-son-bbq-grill.png`,
-  "garden-dining": `${R}/family-breakfast-poolside-table.png`,
-  kids: `${R}/foosball-kids-pool.png`,
-  chess: `${R}/giant-chess-poolside-royal.png`,
-  parking: `${R}/family-arriving-resort-a9-garage.png`,
+  gardens: `${R}/garden-lounge-kids-swing.jpg`,
+  pool: `${R}/swimmer-pool-waterfall.jpg`,
+  lounge: `${R}/family-lounge-under-pergola.jpg`,
+  bbq: `${R}/father-son-bbq-grill.jpg`,
+  "garden-dining": `${R}/family-breakfast-poolside-table.jpg`,
+  kids: `${R}/foosball-kids-pool.jpg`,
+  chess: `${R}/giant-chess-poolside-royal.jpg`,
+  parking: `${R}/family-arriving-resort-a9-garage.jpg`,
 };
 
 /** Short muted loops cut from the chalet walkthrough video (public/plan-clips/<id>.mp4 + .jpg

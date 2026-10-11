@@ -204,18 +204,66 @@ export function ServicesDirectory({ locale }: { locale: string }) {
   const [index, setIndex] = useState(0);
   const [held, setHeld] = useState(false);
 
+  // Phones: scrolling drives the list instead of a timer. The photo pins at the top
+  // (services-directory.css) and the service passing just under it becomes active.
+  const [phone, setPhone] = useState(false);
   useEffect(() => {
-    if (held || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const mq = matchMedia("(max-width: 767px)");
+    const sync = () => setPhone(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    if (!phone) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const stage = document.querySelector(".svv-stage");
+      const items = document.querySelectorAll<HTMLElement>(".svv-item");
+      if (!stage || !items.length) return;
+      const line = stage.getBoundingClientRect().bottom + 24;
+      let idx = 0;
+      items.forEach((el, i) => {
+        if (el.getBoundingClientRect().top <= line) idx = i;
+      });
+      setIndex(idx);
+    };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      cancelAnimationFrame(frame);
+    };
+  }, [phone]);
+
+  /** Phones: tapping a service scrolls it up under the pinned photo (scroll stays in charge). */
+  const pick = (i: number) => {
+    if (!phone) return setIndex(i);
+    const stage = document.querySelector(".svv-stage");
+    const item = document.querySelectorAll<HTMLElement>(".svv-item")[i];
+    if (!stage || !item) return setIndex(i);
+    const line = stage.getBoundingClientRect().bottom + 24;
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: window.scrollY + item.getBoundingClientRect().top - line + 4, behavior: still ? "auto" : "smooth" });
+  };
+
+  useEffect(() => {
+    if (phone || held || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const t = setInterval(() => setIndex((i) => (i + 1) % shots.length), STEP_MS);
     return () => clearInterval(t);
-  }, [held, index, shots.length]);
+  }, [phone, held, index, shots.length]);
 
   return (
     <>
       <ServicesViewer
         shots={shots}
         index={index}
-        onPick={setIndex}
+        onPick={pick}
         onHold={setHeld}
         isAr={isAr}
         title={copy.available}

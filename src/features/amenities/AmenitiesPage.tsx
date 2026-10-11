@@ -9,6 +9,7 @@ import type { AmenityFeature } from "@/content/amenities";
 import type { CommunityPlace, ServiceLine } from "@/content/amenities-page";
 import { AmenityIcon } from "@/features/amenities/AmenitiesHoverGrid";
 import { HoverAccent } from "@/components/ui/HoverAccent";
+import { ScrollFocus } from "@/components/ui/ScrollFocus";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -19,9 +20,8 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  *                      and the photo column glides to centre that row's photo.
  *   CommunityMosaic  — shared places; tiles rise in as they arrive.
  *   ServiceShowcase  — infrastructure as a list on a dark panel beside a large photo;
- *                      the active line shows its line of copy and its photo, and the
- *                      list steps on by itself while in view (a bar fills on the
- *                      active line). Hover, focus or tap picks one and pauses it.
+ *                      scrolling steps through the lines (the panel pins on desktop,
+ *                      the photo pins on phones); a bar fills on the active line.
  * Reduced motion: no rises or wipes — the content is simply there.
  */
 
@@ -139,6 +139,8 @@ export function CommunityMosaic({ places, isAr }: { places: CommunityPlace[]; is
           </figcaption>
         </figure>
       ))}
+      {/* Touch screens: the tile at mid-screen plays the hover effect (.is-active). */}
+      <ScrollFocus selector=".ap-tile" />
     </div>
   );
 }
@@ -165,7 +167,6 @@ const SERVICE_ICONS: Record<string, ReactNode> = {
   gardens: <path d="M5 19c0-8.3 5.2-14 14-14 0 8.8-5.7 14-14 14zM5 19l7.5-7.5" />,
 };
 
-const STEP_MS = 6000;
 
 function ServiceGlyph({ id, size = 22 }: { id: string; size?: number }) {
   return (
@@ -175,84 +176,141 @@ function ServiceGlyph({ id, size = 22 }: { id: string; size?: number }) {
   );
 }
 
+/**
+ * Scroll drives the showcase (no hover, no timer):
+ *   - desktop (≥1024px): the panel pins under the header while its track scrolls past;
+ *     progress through the track picks the line (and fills its bar);
+ *   - phones / tablets: the photo pins at the top, every line shows its copy, and the
+ *     line crossing just under the photo is the active one (its bar fills as it passes).
+ * Tap / click a line to scroll to it.
+ */
+const PIN_TOP = 104; // px: the desktop panel's sticky top (.ap-svc-track .ap-svc { top })
+
 export function ServiceShowcase({ lines, isAr }: { lines: ServiceLine[]; isAr: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const itemRefs = useRef<(HTMLLIElement | null)[]>([]);
   const [active, setActive] = useState(0);
-  const [held, setHeld] = useState(false);
-  const [inView, setInView] = useState(false);
-  const [still, setStill] = useState(false);
+  const [fill, setFill] = useState(0);
+  const n = lines.length;
 
   useEffect(() => {
-    setStill(reduced());
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(([e]) => setInView(e!.isIntersecting), { threshold: 0.35 });
-    io.observe(el);
-    return () => io.disconnect();
-  }, []);
+    const track = trackRef.current;
+    if (!track) return;
+    const wide = matchMedia("(min-width: 1024px)");
+    let frame = 0;
 
-  const auto = !still;
-  const running = auto && inView && !held;
+    const update = () => {
+      frame = 0;
+      if (wide.matches) {
+        const panel = track.firstElementChild as HTMLElement;
+        const r = track.getBoundingClientRect();
+        const run = r.height - panel.offsetHeight;
+        const p = run > 0 ? Math.min(1, Math.max(0, (PIN_TOP - r.top) / run)) : 0;
+        const idx = Math.min(n - 1, Math.floor(p * n));
+        setActive(idx);
+        setFill(Math.min(1, p * n - idx));
+        return;
+      }
+      // The line just under the pinned photo picks the active row.
+      const stage = stageRef.current;
+      const line = (stage ? stage.getBoundingClientRect().bottom : 0) + 32;
+      let idx = 0;
+      itemRefs.current.forEach((el, i) => {
+        if (el && el.getBoundingClientRect().top <= line) idx = i;
+      });
+      const el = itemRefs.current[idx];
+      const r = el?.getBoundingClientRect();
+      setActive(idx);
+      setFill(r ? Math.min(1, Math.max(0, (line - r.top) / r.height)) : 0);
+    };
+
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    wide.addEventListener("change", schedule);
+    return () => {
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      wide.removeEventListener("change", schedule);
+      cancelAnimationFrame(frame);
+    };
+  }, [n]);
+
+  /** Scroll the page so line `i` becomes the active one. */
+  const goTo = (i: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const behavior: ScrollBehavior = reduced() ? "auto" : "smooth";
+    if (matchMedia("(min-width: 1024px)").matches) {
+      const panel = track.firstElementChild as HTMLElement;
+      const top = track.getBoundingClientRect().top + window.scrollY;
+      const run = track.offsetHeight - panel.offsetHeight;
+      window.scrollTo({ top: top - PIN_TOP + run * ((i + 0.5) / n), behavior });
+      return;
+    }
+    const el = itemRefs.current[i];
+    const stage = stageRef.current;
+    if (!el || !stage) return;
+    const line = stage.getBoundingClientRect().bottom + 32;
+    window.scrollTo({ top: window.scrollY + el.getBoundingClientRect().top - line + 8, behavior });
+  };
 
   return (
-    <div
-      ref={ref}
-      className="ap-svc"
-      onMouseEnter={() => setHeld(true)}
-      onMouseLeave={() => setHeld(false)}
-      onFocus={() => setHeld(true)}
-      onBlur={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setHeld(false);
-      }}
-    >
-      <div className="ap-svc-stage" aria-hidden>
-        {lines.map((l, i) => (
-          <Image
-            key={l.id}
-            src={l.image}
-            alt=""
-            fill
-            sizes="(min-width: 1024px) 55vw, 100vw"
-            className={`ap-svc-img${i === active ? " is-on" : ""}`}
-          />
-        ))}
-      </div>
+    <div ref={trackRef} className="ap-svc-track" style={{ "--n": n } as CSSProperties}>
+      <div className="ap-svc">
+        <div ref={stageRef} className="ap-svc-stage" aria-hidden>
+          {lines.map((l, i) => (
+            <Image
+              key={l.id}
+              src={l.image}
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 55vw, 100vw"
+              className={`ap-svc-img${i === active ? " is-on" : ""}`}
+            />
+          ))}
+        </div>
 
-      <ol className="ap-svc-list">
-        {lines.map((l, i) => {
-          const on = i === active;
-          return (
-            <li key={l.id} className={`ap-svc-item${on ? " is-on" : ""}`}>
-              <button
-                type="button"
-                className="ap-svc-btn"
-                aria-expanded={on}
-                aria-controls={`ap-svc-${l.id}`}
-                onClick={() => setActive(i)}
-                onMouseEnter={() => setActive(i)}
-                onFocus={() => setActive(i)}
+        <ol className="ap-svc-list">
+          {lines.map((l, i) => {
+            const on = i === active;
+            return (
+              <li
+                key={l.id}
+                ref={(el) => {
+                  itemRefs.current[i] = el;
+                }}
+                className={`ap-svc-item${on ? " is-on" : ""}${i < active ? " is-past" : ""}`}
               >
-                <span className="ap-svc-icon">
-                  <ServiceGlyph id={l.id} />
-                </span>
-                <span className="ap-svc-title">{isAr ? l.titleAr : l.titleEn}</span>
-              </button>
-              <div id={`ap-svc-${l.id}`} className="ap-svc-body" aria-hidden={!on}>
-                <p>{isAr ? l.bodyAr : l.bodyEn}</p>
-              </div>
-              {on && auto && (
+                <button
+                  type="button"
+                  className="ap-svc-btn"
+                  aria-expanded={on}
+                  aria-controls={`ap-svc-${l.id}`}
+                  onClick={() => goTo(i)}
+                >
+                  <span className="ap-svc-icon">
+                    <ServiceGlyph id={l.id} />
+                  </span>
+                  <span className="ap-svc-title">{isAr ? l.titleAr : l.titleEn}</span>
+                </button>
+                <div id={`ap-svc-${l.id}`} className="ap-svc-body">
+                  <p>{isAr ? l.bodyAr : l.bodyEn}</p>
+                </div>
                 <span
-                  key={`${l.id}-${active}`}
                   className="ap-svc-progress"
-                  style={{ animationDuration: `${STEP_MS}ms`, animationPlayState: running ? "running" : "paused" }}
-                  onAnimationEnd={() => setActive((a) => (a + 1) % lines.length)}
+                  style={{ transform: `scaleX(${on ? fill : i < active ? 1 : 0})` }}
                   aria-hidden
                 />
-              )}
-            </li>
-          );
-        })}
-      </ol>
+              </li>
+            );
+          })}
+        </ol>
+      </div>
     </div>
   );
 }

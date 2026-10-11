@@ -255,7 +255,8 @@
   transition: scale 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.ap-tile:hover .ap-tile-img {
+.ap-tile:hover .ap-tile-img,
+.ap-tile.is-active .ap-tile-img {
   scale: 1.05;
 }
 
@@ -517,25 +518,77 @@
   padding-bottom: 1.1rem;
 }
 
-/* Auto-advance timer: fills along the active line's bottom edge. */
+/* Scroll progress: fills along the line's bottom edge as the reader moves through it
+   (scale set inline by ServiceShowcase; passed lines stay full). */
 .ap-svc-progress {
   position: absolute;
-  inset-inline-start: 0;
+  left: 0;
   bottom: -1px;
   width: 100%;
   height: 2px;
   background: var(--brand-accent);
+  transform: scaleX(0);
   transform-origin: left;
-  animation: ap-svc-fill linear both;
+  transition: transform 0.15s linear;
+  pointer-events: none;
 }
 
 [dir="rtl"] .ap-svc-progress {
   transform-origin: right;
 }
 
-@keyframes ap-svc-fill {
-  from {
-    transform: scaleX(0);
+/* ── Scroll-driven layout (behaviour: ServiceShowcase) ──
+   Desktop: the panel pins under the header while the track scrolls past it; the track's
+   extra height (one slice per line) is how long it stays pinned. */
+@media (min-width: 1024px) {
+  /* A spacer inside the track (sticky only travels within the content box, not padding). */
+  .ap-svc-track::after {
+    content: "";
+    display: block;
+    height: calc(var(--n) * 32svh);
+  }
+
+  .ap-svc-track .ap-svc {
+    position: sticky;
+    top: 6.5rem; /* = PIN_TOP in AmenitiesPage.tsx */
+  }
+}
+
+/* Phones / tablets: the photo pins under the site bar; every line shows its copy, and the
+   one passing just under the photo lights up. */
+@media (max-width: 1023px) {
+  .ap-svc {
+    box-shadow: none;
+  }
+
+  .ap-svc-stage {
+    position: sticky;
+    top: 4rem;
+    z-index: 2;
+    box-shadow: 0 10px 24px color-mix(in srgb, var(--black) 25%, transparent);
+  }
+
+  .ap-svc-body {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+
+  .ap-svc-body > p {
+    padding-bottom: 1.1rem;
+  }
+
+  .ap-svc-item:not(.is-on) .ap-svc-body > p {
+    opacity: 0.6;
+  }
+
+  .ap-svc-body > p {
+    transition: opacity 0.4s var(--ease);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .ap-svc-stage {
+    top: 5rem;
   }
 }
 
@@ -547,5 +600,116 @@
   .arl-desc,
   .arl-photo img {
     transition: none;
+  }
+}
+
+/* ── Phones: "Serviced daily" heading centred; the four figures as a centred 2 × 2 grid
+   split by a thin cross (desktop unchanged) ── */
+@media (max-width: 767px) {
+  .ap-svc-head {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .ap-svc-head .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .ap-svc-head .section-eyebrow::before,
+  .ap-svc-head .section-eyebrow::after {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  .ap-svc-head .section-title {
+    max-width: none;
+    text-wrap: balance;
+  }
+
+  .ap-svc-head .section-sub {
+    max-width: 34ch;
+    margin-inline: auto;
+  }
+
+  .ap-stats {
+    gap: 0;
+    padding-block: 0;
+    border-block: 0;
+    margin-bottom: 2rem;
+  }
+
+  .ap-stat,
+  .ap-stat:nth-child(2n + 1) {
+    align-items: center;
+    padding: 1.4rem 0.75rem;
+    border: 0;
+    text-align: center;
+  }
+
+  .ap-stat:nth-child(odd) {
+    border-right: 1px solid var(--line);
+  }
+
+  [dir="rtl"] .ap-stat:nth-child(odd) {
+    border-right: 0;
+    border-left: 1px solid var(--line);
+  }
+
+  .ap-stat:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ap-stat dd {
+    font-size: clamp(1.9rem, 9vw, 2.3rem);
+  }
+
+  .ap-stat dt {
+    max-width: 14ch;
+    font-size: var(--fs-small);
+  }
+}
+
+/* Phones: "Across the community" as a compact two-column grid (the first place spans both
+   columns); captions show the title only, and the line under it on the wide tile. */
+@media (max-width: 767px) {
+  .ap-mosaic {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+
+  .ap-tile {
+    min-height: 0;
+    aspect-ratio: 1 / 1.05;
+  }
+
+  /* First place spans both columns; so does the last when it would sit alone. */
+  .ap-tile:first-child,
+  .ap-tile:last-child:nth-child(even) {
+    grid-column: span 2;
+    aspect-ratio: 16 / 10;
+  }
+
+  .ap-tile-cap {
+    inset-inline: 0.85rem;
+    bottom: 0.8rem;
+    gap: 0.2rem;
+  }
+
+  .ap-tile-cap b {
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+
+  .ap-tile:not(:first-child):not(:last-child:nth-child(even)) .ap-tile-cap span {
+    display: none;
+  }
+
+  .ap-tile::after {
+    background: linear-gradient(0deg, color-mix(in srgb, var(--overlay) 82%, transparent) 0%, transparent 60%);
   }
 }

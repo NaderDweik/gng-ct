@@ -92,7 +92,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 4,
     areaSqm: 520,
-    image: "/gallery/resortsPics/pool-and-tent-pavilion.png",
+    image: "/gallery/resortsPics/pool-and-tent-pavilion.jpg",
   },
   {
     id: "2br-type-06",
@@ -108,7 +108,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "no",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/resortsPics/giant-chess-poolside-royal.png",
+    image: "/gallery/resortsPics/giant-chess-poolside-royal.jpg",
   },
   {
     id: "3br-type-03",
@@ -124,7 +124,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/resortsPics/family-lounge-under-pergola.png",
+    image: "/gallery/resortsPics/family-lounge-under-pergola.jpg",
   },
   {
     id: "villa-01",
@@ -140,7 +140,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 3,
     areaSqm: 510,
-    image: "/gallery/resortsPics/swimmer-pool-waterfall.png",
+    image: "/gallery/resortsPics/swimmer-pool-waterfall.jpg",
   },
   {
     id: "4br-type-01",
@@ -156,7 +156,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 3,
     areaSqm: 505,
-    image: "/gallery/resortsPics/family-breakfast-poolside-table.png",
+    image: "/gallery/resortsPics/family-breakfast-poolside-table.jpg",
   },
   {
     id: "3br-type-02",
@@ -172,7 +172,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/resortsPics/foosball-kids-pool.png",
+    image: "/gallery/resortsPics/foosball-kids-pool.jpg",
   },
   {
     id: "3br-type-01-w",
@@ -188,7 +188,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/resortsPics/garden-lounge-kids-swing.png",
+    image: "/gallery/resortsPics/garden-lounge-kids-swing.jpg",
   },
   {
     id: "3br-type-01-e",
@@ -204,7 +204,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/resortsPics/family-arriving-resort-a9-garage.png",
+    image: "/gallery/resortsPics/family-arriving-resort-a9-garage.jpg",
   },
   {
     id: "2br-type-05",
@@ -220,7 +220,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/resortsPics/family-entering-resort-front-door.png",
+    image: "/gallery/resortsPics/family-entering-resort-front-door.jpg",
   },
   {
     id: "2br-type-04",
@@ -236,7 +236,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "dash",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/resortsPics/quad-bike-royal-clubhouse.png",
+    image: "/gallery/resortsPics/quad-bike-royal-clubhouse.jpg",
   },
   {
     id: "2br-type-03",
@@ -252,7 +252,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/resortsPics/father-son-bbq-grill.png",
+    image: "/gallery/resortsPics/father-son-bbq-grill.jpg",
   },
   {
     id: "2br-type-02",
@@ -268,7 +268,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/resortsPics/family-living-room.png",
+    image: "/gallery/resortsPics/family-living-room.jpg",
   },
   {
     id: "2br-type-01",
@@ -284,7 +284,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "yes",
     parking: 2,
     areaSqm: 500,
-    image: "/gallery/resortsPics/master-bedroom-pool-view.png",
+    image: "/gallery/resortsPics/master-bedroom-pool-view.jpg",
   },
   {
     id: "1br-type-02",
@@ -300,7 +300,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "no",
     parking: 1,
     areaSqm: 500,
-    image: "/gallery/resortsPics/twin-bedroom-pool-view.png",
+    image: "/gallery/resortsPics/twin-bedroom-pool-view.jpg",
   },
   {
     id: "1br-type-01",
@@ -316,7 +316,7 @@ export const unitPlans: UnitPlan[] = [
     maidRoom: "no",
     parking: 1,
     areaSqm: 500,
-    image: "/gallery/resortsPics/fireplace-horse-sculpture.png",
+    image: "/gallery/resortsPics/fireplace-horse-sculpture.jpg",
   },
 ];
 

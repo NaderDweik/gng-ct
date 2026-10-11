@@ -53,7 +53,7 @@ export default async function AmenitiesPage({ params }: Props) {
       {/* 1 · Inside your resort */}
       <section id="resort" className="ap-section bg-surface">
         <div className="container-gc">
-          <header className="sec-head">
+          <header className="sec-head ap-svc-head">
             <div>
               <p className="section-eyebrow">{c.resortEyebrow}</p>
               <h2 className="section-title mb-0">{c.resortTitle}</h2>
@@ -68,7 +68,7 @@ export default async function AmenitiesPage({ params }: Props) {
       {/* 2 · Across the community */}
       <section id="community" className="ap-section bg-surface-alt">
         <div className="container-gc">
-          <header className="sec-head">
+          <header className="sec-head ap-svc-head">
             <div>
               <p className="section-eyebrow">{c.communityEyebrow}</p>
               <h2 className="section-title mb-0">{c.communityTitle}</h2>
@@ -82,7 +82,7 @@ export default async function AmenitiesPage({ params }: Props) {
       {/* 3 · Serviced daily */}
       <section id="services" className="ap-section bg-surface">
         <div className="container-gc">
-          <header className="sec-head">
+          <header className="sec-head ap-svc-head">
             <div>
               <p className="section-eyebrow">{c.servicesEyebrow}</p>
               <h2 className="section-title mb-0">{c.servicesTitle}</h2>
@@ -94,7 +94,9 @@ export default async function AmenitiesPage({ params }: Props) {
             {stats.map((s, i) => (
               <div key={s.label} className="ap-stat">
                 <dt>{s.label}</dt>
-                <dd>
+                {/* "367+" and "24/7" must read left to right even in Arabic; unit figures
+                    ("٥٠٠ م²") keep the page direction. */}
+                <dd dir={s.suffix === "+" || s.suffix.includes("/") ? "ltr" : undefined}>
                   <CountUp value={s.value} locale={locale} suffix={s.suffix} delay={i * 120} />
                 </dd>
               </div>

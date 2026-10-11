@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { faqCategories } from "@/content/faq";
@@ -63,6 +63,10 @@ export function FaqExplorer() {
   const total = faqCategories.reduce((sum, c) => sum + c.items.length, 0);
   const shown = groups.reduce((sum, c) => sum + c.items.length, 0);
 
+  /** While a tapped section scrolls into view, the scroll-spy stays quiet (the pill glides
+      straight to the tapped chip instead of chasing every section passed on the way). */
+  const jumping = useRef<number | undefined>(undefined);
+
   useEffect(() => {
     const els = groups
       .map((g) => document.getElementById(`faq-${g.id}`))
@@ -73,7 +77,7 @@ export function FaqExplorer() {
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActive(visible[0].target.id.replace("faq-", ""));
+        if (visible[0] && jumping.current === undefined) setActive(visible[0].target.id.replace("faq-", ""));
       },
       { rootMargin: "-120px 0px -55% 0px" },
     );
@@ -81,8 +85,28 @@ export function FaqExplorer() {
     return () => io.disconnect();
   }, [groups]);
 
+  // Phones: one green pill glides (and resizes) to the active section chip (faq.css).
+  const navRef = useRef<HTMLElement>(null);
+  const [pill, setPill] = useState<{ x: number; y: number; w: number; h: number } | null>(null);
+  useLayoutEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    const measure = () => {
+      const el = nav.querySelector<HTMLElement>(".faq-nav-item.is-active");
+      setPill(el ? { x: el.offsetLeft, y: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight } : null);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(nav);
+    return () => ro.disconnect();
+  }, [active, groups]);
+
   const jump = (id: string) => {
     setActive(id);
+    window.clearTimeout(jumping.current);
+    jumping.current = window.setTimeout(() => {
+      jumping.current = undefined;
+    }, 1200);
     document.getElementById(`faq-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
@@ -103,7 +127,14 @@ export function FaqExplorer() {
           />
         </label>
 
-        <nav aria-label={isAr ? "أقسام الأسئلة" : "FAQ sections"} className="faq-nav">
+        <nav ref={navRef} aria-label={isAr ? "أقسام الأسئلة" : "FAQ sections"} className="faq-nav">
+          {pill && (
+            <span
+              className="faq-nav-pill"
+              style={{ "--x": `${pill.x}px`, "--y": `${pill.y}px`, width: pill.w, height: pill.h } as CSSProperties}
+              aria-hidden
+            />
+          )}
           {faqCategories.map((cat) => {
             const count = groups.find((g) => g.id === cat.id)?.items.length ?? 0;
             const disabled = count === 0;
@@ -142,7 +173,7 @@ export function FaqExplorer() {
       </aside>
 
       <div>
-        <p className="mb-6 text-sm text-muted" aria-live="polite">
+        <p className="mb-6 text-sm text-muted max-md:text-center" aria-live="polite">
           {query
             ? isAr
               ? `${n(shown)} نتيجة من أصل ${n(total)} سؤالًا`

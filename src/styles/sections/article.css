@@ -588,3 +588,235 @@
     transform: none;
   }
 }
+
+/* Touch: the story crossing mid-screen (ScrollFocus) gets the hover look, minus the lift. */
+.news-card.is-active {
+  border-color: color-mix(in srgb, var(--brand-primary) 35%, var(--line));
+}
+
+.news-card.is-active::before {
+  transform: scaleX(1);
+}
+
+.news-card.is-active .news-card-img {
+  transform: scale(1.05);
+}
+
+.news-card.is-active .news-card-link {
+  color: var(--primary-ink);
+}
+
+.news-card.is-active .news-card-more .lux-arrow {
+  translate: 4px 0;
+}
+
+[dir="rtl"] .news-card.is-active .news-card-more .lux-arrow {
+  translate: -4px 0;
+}
+
+/* ── Phones: each story is a compact row (thumbnail beside the text) instead of a tall
+   card; every summary is shown in full (no clamp). ── */
+@media (max-width: 767px) {
+  .news-year-grid {
+    gap: 0.75rem;
+  }
+
+  .news-card {
+    display: grid;
+    grid-template-columns: 6.75rem minmax(0, 1fr);
+  }
+
+  .news-card:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .news-card-media {
+    aspect-ratio: auto;
+    min-height: 100%;
+  }
+
+  .news-card-body {
+    padding: 0.85rem 0.95rem 0.9rem;
+  }
+
+  .news-card-meta {
+    flex-wrap: wrap;
+    gap: 0.15rem 0.6rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .news-card-cat {
+    gap: 0.35rem;
+    font-size: 0.625rem;
+    letter-spacing: 0.12em;
+  }
+
+  .news-card-cat::before {
+    width: 0.75rem;
+  }
+
+  .news-card-date {
+    font-size: 0.6875rem;
+  }
+
+  .news-card-title {
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .news-card-excerpt {
+    display: block;
+    margin: 0.35rem 0 0.7rem;
+    overflow: visible;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    -webkit-line-clamp: unset;
+    line-clamp: none;
+  }
+
+  .news-card-more {
+    padding-top: 0.6rem;
+    font-size: 0.625rem;
+  }
+
+  .news-year + .news-year {
+    margin-top: 2.5rem;
+  }
+}
+
+/* ── Article pages on phones: centred header with a compact meta line, full-bleed cover,
+   comfortable reading text, a 2-up photo grid and calm scroll reveals. Desktop unchanged. ── */
+@media (max-width: 767px) {
+  .article-head {
+    padding-block: calc(4rem + 1.75rem) 1.75rem;
+    text-align: center;
+  }
+
+  .article-title {
+    margin: 1rem auto 0;
+    font-size: 2rem;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  /* Meta: one centred, wrapping line, items separated by small dots. */
+  .article-meta {
+    justify-content: center;
+    gap: 0.35rem 0.9rem;
+    margin-top: 1rem;
+    font-size: var(--fs-caption);
+  }
+
+  .article-meta li {
+    position: relative;
+  }
+
+  /* Date · read time on the first line, the author centred under them. */
+  .article-meta li:nth-child(2) {
+    order: 3;
+    flex-basis: 100%;
+    justify-content: center;
+  }
+
+  .article-meta li:nth-child(3) {
+    order: 2;
+  }
+
+  .article-meta li:nth-child(3)::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: -0.5rem;
+    width: 3px;
+    height: 3px;
+    margin-top: -1.5px;
+    border-radius: 50%;
+    background: var(--line-strong);
+  }
+
+  [dir="rtl"] .article-meta li + li::before {
+    left: auto;
+    right: -0.5rem;
+  }
+
+  .article-meta svg {
+    display: none;
+  }
+
+  /* Cover runs edge to edge, a touch taller. */
+  .article-cover {
+    margin-inline: -1rem;
+    aspect-ratio: 4 / 3;
+  }
+
+  .article-body p {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
+  /* Extra photos: two per row (a single one spans the row). */
+  .article-gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .article-gallery-item {
+    aspect-ratio: 1;
+  }
+
+  .article-gallery-item:only-child,
+  .article-gallery-item:last-child:nth-child(odd) {
+    grid-column: span 2;
+    aspect-ratio: 16 / 10;
+  }
+
+  .article-foot {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .article-foot .btn {
+    width: 100%;
+  }
+
+  .article-aside-title {
+    text-align: center;
+  }
+
+  /* Scroll reveal */
+  .article-body > p,
+  .article-gallery-item,
+  .article-foot,
+  .article-recent {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .article-gallery-item:nth-child(even) {
+    transition-delay: 0.08s;
+  }
+
+  .article-body > p.is-in,
+  .article-gallery-item.is-in,
+  .article-foot.is-in,
+  .article-recent.is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .article-body > p,
+  .article-gallery-item,
+  .article-foot,
+  .article-recent {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

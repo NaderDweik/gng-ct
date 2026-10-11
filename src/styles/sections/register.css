@@ -370,3 +370,186 @@
   border-color: var(--primary-ink);
   background: var(--brand-primary-soft);
 }
+
+/* ── Phones: centred headings and notes (field labels stay aligned for easy scanning),
+   equal time chips, contact details as a centred 2 × 2 grid, and a calm scroll reveal.
+   Desktop unchanged. ── */
+@media (max-width: 767px) {
+  .register-panel-head {
+    text-align: center;
+  }
+
+  .register-group-label,
+  .register-note {
+    text-align: center;
+  }
+
+  .register-times {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .register-times .register-time {
+    justify-content: center;
+    text-align: center;
+  }
+
+  .register-contact {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 0;
+  }
+
+  .register-contact-row,
+  .register-contact-row + .register-contact-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1.25rem 0.75rem;
+    border-top: 0;
+    text-align: center;
+  }
+
+  /* Hairlines between the tiles; an odd last tile (sales office) spans the full row. */
+  .register-contact-row:last-child:nth-child(odd) {
+    grid-column: span 2;
+    border-right: 0;
+    border-left: 0;
+  }
+
+  .register-contact-row:nth-child(odd) {
+    border-right: 1px solid var(--line);
+  }
+
+  [dir="rtl"] .register-contact-row:nth-child(odd) {
+    border-right: 0;
+    border-left: 1px solid var(--line);
+  }
+
+  .register-contact-row:nth-child(n + 3) {
+    border-top: 1px solid var(--line);
+  }
+
+  .register-contact-row .min-w-0 {
+    min-width: 0;
+  }
+
+  .register-contact-value {
+    font-size: var(--fs-small);
+    overflow-wrap: anywhere;
+  }
+
+  /* Scroll reveal */
+  .register-panel,
+  .register-visit,
+  .register-contact-row {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .register-contact-row:nth-child(2) { transition-delay: 0.08s; }
+  .register-contact-row:nth-child(3) { transition-delay: 0.16s; }
+  .register-contact-row:nth-child(4) { transition-delay: 0.24s; }
+
+  .register-panel.is-in,
+  .register-visit.is-in,
+  .register-contact-row.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* The contact icon fills green as its tile arrives. */
+  .register-contact-icon {
+    transition:
+      background-color 0.6s var(--ease) 0.25s,
+      color 0.6s var(--ease) 0.25s;
+  }
+
+  .register-contact-row.is-in .register-contact-icon {
+    background: var(--brand-primary);
+    color: var(--on-primary);
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .register-panel,
+  .register-visit,
+  .register-contact-row {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ── Gliding selection (GlideIndicator): one highlight slides and resizes from the old
+   option to the new; the options themselves keep only their outline. ── */
+.register-glide {
+  position: relative;
+  isolation: isolate;
+}
+
+.register-glide-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transform: translate(var(--x), var(--y));
+  pointer-events: none;
+  transition:
+    transform 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+    width 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+    height 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+    opacity 0.3s ease;
+}
+
+/* Interest: the soft green tile with its green frame. */
+.register-glide-pill--choice {
+  background: var(--brand-primary-soft);
+  box-shadow:
+    inset 0 0 0 1px var(--primary-ink),
+    0 0 0 1px var(--primary-ink);
+}
+
+/* Time: the solid green chip. */
+.register-glide-pill--time {
+  background: var(--brand-primary);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--brand-primary) 30%, transparent);
+}
+
+.register-glide .register-choice,
+.register-glide .register-time {
+  background: transparent;
+}
+
+.register-glide .register-choice.is-active {
+  background: transparent;
+  box-shadow: none;
+}
+
+.register-glide .register-time.is-active {
+  background: transparent;
+  border-color: transparent;
+}
+
+/* Labels change colour as the highlight arrives. */
+.register-glide .register-time {
+  transition:
+    color 0.3s ease 0.15s,
+    border-color 0.3s ease,
+    transform 0.2s var(--ease);
+}
+
+.register-glide .register-choice:active,
+.register-glide .register-time:active {
+  transform: scale(0.97);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .register-glide-pill,
+  .register-glide .register-time {
+    transition: none;
+  }
+}

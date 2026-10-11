@@ -1055,3 +1055,75 @@
     animation: none;
   }
 }
+
+/* ── Phones polish: more map, a lighter search panel, and a compact chalet sheet with a
+   drag-handle cue. (The page header uses SubpageHeader compactMobile.) ── */
+@media (max-width: 767px) {
+  .cx-page {
+    min-height: 34rem;
+  }
+
+  .cx-intro {
+    padding: 0.5rem 0.5rem 0.6rem;
+  }
+
+  .cx-search {
+    height: 2.75rem;
+  }
+
+  .cx-surprise {
+    margin-top: 0.5rem;
+    font-size: var(--fs-caption);
+  }
+
+  .cx-card-inner {
+    max-height: 48svh;
+    padding: 1.4rem 1.1rem calc(1rem + env(safe-area-inset-bottom));
+  }
+
+  /* Handle bar at the top of the sheet. */
+  .cx-card-inner::before {
+    content: "";
+    position: absolute;
+    top: 0.55rem;
+    left: 50%;
+    width: 2.5rem;
+    height: 4px;
+    margin-left: -1.25rem;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--white) 25%, transparent);
+  }
+
+  .cx-card .cx-eyebrow {
+    margin-top: 0.25rem;
+  }
+
+  .cx-card-id {
+    margin-bottom: 0.6rem;
+    font-size: 2.25rem;
+  }
+
+  .cx-facts {
+    gap: 0.3rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .cx-facts li {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.6875rem;
+  }
+
+  .cx-pitch {
+    margin-bottom: 0.75rem;
+    font-size: var(--fs-caption);
+    line-height: 1.5;
+  }
+
+  .cx-btn {
+    min-height: 2.75rem;
+  }
+
+  .cx-card-inside {
+    margin-top: 0.6rem;
+  }
+}

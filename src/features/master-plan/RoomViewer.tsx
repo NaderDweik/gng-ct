@@ -167,6 +167,8 @@ export function RoomViewer({ locale }: { locale: string }) {
               .sort()
               .map((id) => (
                 <video
+                  // Video browser extensions inject attributes (e.g. crossorigin) before hydration.
+                  suppressHydrationWarning
                   key={id}
                   src={`/plan-clips/${id}.mp4`}
                   poster={`/plan-clips/${id}.jpg`}

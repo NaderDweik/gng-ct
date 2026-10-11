@@ -9,6 +9,7 @@ import { routeMetadata } from "@/lib/seo";
 import { HoverAccent } from "@/components/ui/HoverAccent";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { YearRail } from "@/features/news/YearRail";
+import { ScrollFocus } from "@/components/ui/ScrollFocus";
 
 type Props = LocalePageProps;
 
@@ -85,6 +86,8 @@ export default async function NewsPage({ params }: Props) {
         ))}
       </section>
       <YearRail />
+      {/* Phones / touch: the story at mid-screen gets the hover look (.is-active). */}
+      <ScrollFocus selector=".news-card" />
     </>
   );
 }

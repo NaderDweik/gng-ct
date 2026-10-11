@@ -8,6 +8,7 @@ import { formatNumber } from "@/lib/format";
 import type { LocalePageProps } from "@/i18n/types";
 import { PageJsonLd } from "@/components/seo/PageJsonLd";
 import { routeMetadata } from "@/lib/seo";
+import { InViewOnce } from "@/components/ui/InViewOnce";
 
 type Props = LocalePageProps;
 
@@ -62,7 +63,7 @@ export default async function FinancingPage({ params }: Props) {
       </section>
 
       <section className="section on-dark bg-secondary text-on-dark">
-        <div className="container-gc">
+        <div className="container-gc steps-head">
           <p className="section-eyebrow">{isAr ? "كيف يعمل" : "How it works"}</p>
           <h2 className="section-title">
             {isAr ? "أربع خطوات نحو شاليهك." : "Four steps to your chalet."}
@@ -71,7 +72,7 @@ export default async function FinancingPage({ params }: Props) {
           {/* A chalet photo in its own box behind step 04, offset so it peeks out past it. */}
           <div className="steps-photo" aria-hidden>
             <Image
-              src="/gallery/resortsPics/family-entering-resort-front-door.png"
+              src="/gallery/resortsPics/family-entering-resort-front-door.jpg"
               alt=""
               fill
               sizes="(min-width: 1024px) 28vw, 50vw"
@@ -81,13 +82,13 @@ export default async function FinancingPage({ params }: Props) {
           <ol className="steps-grid grid gap-px overflow-hidden border border-line-on-dark bg-fill-on-dark md:grid-cols-2 lg:grid-cols-4">
             {steps.map((s, i) => (
               <li key={s.titleEn} className="step-card">
-                <span className="font-display text-(length:--fs-stat) font-bold leading-none text-accent/80 tabular-nums">
+                <span className="step-num font-display text-(length:--fs-stat) font-bold leading-none text-accent/80 tabular-nums">
                   {formatNumber(i + 1, locale).padStart(isAr ? 0 : 2, "0")}
                 </span>
-                <h3 className="font-display mt-8 text-xl font-bold text-on-dark">
+                <h3 className="step-title font-display mt-8 text-xl font-bold text-on-dark">
                   {isAr ? s.titleAr : s.titleEn}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-on-dark-muted">
+                <p className="step-body mt-3 text-sm leading-relaxed text-on-dark-muted">
                   {isAr ? s.bodyAr : s.bodyEn}
                 </p>
               </li>
@@ -95,6 +96,8 @@ export default async function FinancingPage({ params }: Props) {
           </ol>
           </div>
         </div>
+        {/* Phones: blocks reveal as they scroll in (financing.css, .is-in). */}
+        <InViewOnce selector=".fin-main, .fin-plan, .fin-price, .steps-head > .section-title, .step-card" rootMargin="0px 0px -12% 0px" />
       </section>
 
       {financingFaq.length > 0 && (

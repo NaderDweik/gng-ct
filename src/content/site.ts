@@ -26,14 +26,6 @@ export const site = {
   salesOfficeEn: "Le Royal Hotel, First Floor",
   /** Project pin — Al Matabba (Google Maps link above). */
   coordinates: { lat: 31.796929, lng: 36.1855906 },
-  hoursAr: {
-    weekdays: "الأحد – الخميس: ٩ صباحًا – ٧ مساءً",
-    saturday: "السبت: ١٠ صباحًا – ٤ مساءً",
-  },
-  hoursEn: {
-    weekdays: "Sunday – Thursday: 9:00 AM – 7:00 PM",
-    saturday: "Saturday: 10:00 AM – 4:00 PM",
-  },
   social: {
     instagram: "https://www.instagram.com/spiritgivingdevelopment/",
     facebook: "https://www.facebook.com/SpiritGivingDevelopment/",

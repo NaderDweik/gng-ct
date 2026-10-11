@@ -150,3 +150,25 @@
   color: var(--on-dark-muted);
   font-size: var(--fs-caption);
 }
+
+/* Phones, opt-in (compactMobile): a slim band just under the 64px site bar, so the page's
+   content (e.g. the master-plan photo + plan) starts high on the first screen. */
+@media (max-width: 767px) {
+  .sh.sh--compact-mobile {
+    padding: calc(64px + 1.1rem) 0 1.25rem;
+  }
+
+  .sh--compact-mobile .sh-eyebrow {
+    margin-bottom: 0.4rem;
+  }
+
+  .sh--compact-mobile .sh-title {
+    font-size: 1.65rem;
+    line-height: 1.2;
+  }
+
+  .sh--compact-mobile .sh-sub {
+    margin-top: 0.4rem;
+    font-size: var(--fs-small);
+  }
+}

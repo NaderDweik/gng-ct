@@ -65,17 +65,20 @@
 }
 
 .hv:hover .hv-glow,
+.hv.is-active .hv-glow,
 .hv:focus-visible .hv-glow {
   opacity: 1;
 }
 
 .hv:hover .hv-badge,
+.hv.is-active .hv-badge,
 .hv:focus-visible .hv-badge {
   opacity: 1;
   transform: none;
 }
 
 .hv:hover .hv-sprite,
+.hv.is-active .hv-sprite,
 .hv:focus-visible .hv-sprite {
   animation-play-state: running;
 }
@@ -89,4 +92,9 @@
     transition: opacity 0.3s ease;
     transform: none;
   }
+}
+
+/* Touch screens: a card made .is-active by scroll (ScrollFocus) needs the badge sprite too. */
+.hv.is-active .hv-sprite {
+  background-image: url("/brand/v-3d-logo.webp");
 }

@@ -22,7 +22,7 @@ export default async function MasterPlanPage({ params }: Props) {
   return (
     <>
       <PageJsonLd locale={locale} path="/master-plan" />
-      <SubpageHeader tall eyebrow={copy.eyebrow} title={copy.explorerTitle} subtitle={copy.title} />
+      <SubpageHeader tall compactMobile eyebrow={copy.eyebrow} title={copy.explorerTitle} />
       <UnitPlanFeatures locale={locale} />
     </>
   );

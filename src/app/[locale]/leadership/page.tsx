@@ -8,6 +8,7 @@ import { formatNumber } from "@/lib/format";
 import type { LocalePageProps } from "@/i18n/types";
 import { PageJsonLd } from "@/components/seo/PageJsonLd";
 import { routeMetadata } from "@/lib/seo";
+import { InViewOnce } from "@/components/ui/InViewOnce";
 type Props = LocalePageProps;
 
 export function generateMetadata({ params }: Props) {
@@ -109,6 +110,8 @@ export default async function LeadershipPage({ params }: Props) {
             </ol>
           </div>
         </div>
+        {/* Phones / touch: each principle plays its hover state as it scrolls in. */}
+        <InViewOnce selector=".leader-principle" rootMargin="0px 0px -25% 0px" />
       </section>
     </>
   );

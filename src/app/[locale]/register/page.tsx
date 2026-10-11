@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { site } from "@/content/site";
 import { RegisterForm } from "@/features/register/RegisterForm";
 import type { LocalePageProps } from "@/i18n/types";
+import { InViewOnce } from "@/components/ui/InViewOnce";
 import { PageJsonLd } from "@/components/seo/PageJsonLd";
 import { routeMetadata } from "@/lib/seo";
 
@@ -30,12 +31,6 @@ const CONTACT_ICONS = {
     <>
       <path d="M20 10c0 4.99-5.54 10.19-7.4 11.8a1 1 0 0 1-1.2 0C9.54 20.19 4 14.99 4 10a8 8 0 0 1 16 0" />
       <circle cx="12" cy="10" r="3" />
-    </>
-  ),
-  clock: (
-    <>
-      <circle cx="12" cy="12" r="10" />
-      <path d="M12 6v6l4 2" />
     </>
   ),
 };
@@ -118,13 +113,11 @@ export default async function RegisterPage({ params }: Props) {
               <ContactRow icon="pin" label={isAr ? "مكتب المبيعات" : "Sales office"}>
                 {isAr ? site.salesOfficeAr : site.salesOfficeEn}
               </ContactRow>
-              <ContactRow icon="clock" label={isAr ? "ساعات العمل" : "Opening hours"}>
-                <span className="block">{isAr ? site.hoursAr.weekdays : site.hoursEn.weekdays}</span>
-                <span className="block">{isAr ? site.hoursAr.saturday : site.hoursEn.saturday}</span>
-              </ContactRow>
             </div>
           </aside>
         </div>
+        {/* Phones: panels and contact tiles reveal as they scroll in (register.css). */}
+        <InViewOnce selector=".register-panel, .register-visit, .register-contact-row" rootMargin="0px 0px -10% 0px" />
       </section>
     </>
   );

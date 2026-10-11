@@ -6,6 +6,7 @@ import { articles, getArticle } from "@/content/news";
 import { site } from "@/content/site";
 import type { LocalePageProps } from "@/i18n/types";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { InViewOnce } from "@/components/ui/InViewOnce";
 import { articleJsonLd, articleOgImage, breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
 
 type Props = LocalePageProps<{ slug: string }>;
@@ -191,6 +192,8 @@ export default async function ArticlePage({ params }: Props) {
           </aside>
         </div>
       </div>
+      {/* Phones: text, photos and the recent list rise in as they scroll in (article.css). */}
+      <InViewOnce selector=".article-body > p, .article-gallery-item, .article-foot, .article-recent" rootMargin="0px 0px -8% 0px" />
     </article>
   );
 }

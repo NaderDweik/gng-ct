@@ -8,6 +8,7 @@ import type { LocalePageProps } from "@/i18n/types";
 import { PageJsonLd } from "@/components/seo/PageJsonLd";
 import { routeMetadata } from "@/lib/seo";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
+import { InViewOnce } from "@/components/ui/InViewOnce";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 
 type Props = LocalePageProps;
@@ -139,8 +140,8 @@ export default async function AboutPage({ params }: Props) {
       <section className="section bg-surface">
         <div className="container-gc grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
           <div>
-            <p className="section-eyebrow">{isAr ? "قصتنا" : "Our story"}</p>
-            <h2 className="section-title">
+            <p className="section-eyebrow story-eyebrow">{isAr ? "قصتنا" : "Our story"}</p>
+            <h2 className="section-title story-title">
               {isAr ? site.taglineAr + "." : site.taglineEn + "."}
             </h2>
             <p className="section-sub">{t("story")}</p>
@@ -164,10 +165,10 @@ export default async function AboutPage({ params }: Props) {
 
           <div className="about-collage">
             <div className="about-collage-main">
-              <Image src="/gallery/resortsPics/master-bedroom-pool-view.png" alt={isAr ? "غرفة نوم بإطلالة على المسبح" : "Bedroom with a pool view"} fill sizes="(max-width: 1024px) 90vw, 40vw" className="object-cover" />
+              <Image src="/gallery/resortsPics/master-bedroom-pool-view.jpg" alt={isAr ? "غرفة نوم بإطلالة على المسبح" : "Bedroom with a pool view"} fill sizes="(max-width: 1024px) 90vw, 40vw" className="object-cover" />
             </div>
             <div className="about-collage-side">
-              <Image src="/gallery/resortsPics/family-entering-resort-front-door.png" alt={isAr ? "واجهة شاليه" : "Resort facade"} fill sizes="(max-width: 1024px) 45vw, 20vw" className="object-cover" />
+              <Image src="/gallery/resortsPics/family-entering-resort-front-door.jpg" alt={isAr ? "واجهة شاليه" : "Resort facade"} fill sizes="(max-width: 1024px) 45vw, 20vw" className="object-cover" />
             </div>
             <div className="about-collage-badge">
               <span className="text-(length:--fs-caption) font-bold uppercase tracking-[0.2em] text-accent">
@@ -182,7 +183,7 @@ export default async function AboutPage({ params }: Props) {
       {/* Pillars */}
       <section className="section border-y border-line bg-surface-alt">
         <div className="container-gc">
-          <div className="sec-head">
+          <div className="sec-head pillars-head">
             <div>
               <p className="section-eyebrow">{isAr ? "لماذا Giving Compound" : "Why Giving Compound"}</p>
               <h2 className="section-title mb-0">
@@ -190,26 +191,28 @@ export default async function AboutPage({ params }: Props) {
               </h2>
             </div>
           </div>
-          <div className="grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
-            {pillars.map((p) => (
-              <article key={p.icon} className="pillar-card group">
+          <div className="pillars grid gap-px overflow-hidden border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+            {pillars.map((p, i) => (
+              <article key={p.icon} className="pillar-card group" data-num={String(i + 1).padStart(2, "0")}>
                 <span className="pillar-icon">
                   <Icon name={p.icon} />
                 </span>
-                <h3 className="font-display mt-10 text-xl font-bold text-ink transition-colors duration-300 group-hover:text-on-dark">
+                <h3 className="pillar-title font-display mt-10 text-xl font-bold text-ink transition-colors duration-300 group-hover:text-on-dark">
                   {isAr ? p.titleAr : p.titleEn}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed text-muted transition-colors duration-300 group-hover:text-on-dark-muted">
+                <p className="pillar-body mt-3 text-sm leading-relaxed text-muted transition-colors duration-300 group-hover:text-on-dark-muted">
                   {isAr ? p.bodyAr : p.bodyEn}
                 </p>
               </article>
             ))}
           </div>
+          {/* Phones: each promise's icon fills in as its row scrolls into view (about.css). */}
+          <InViewOnce selector=".pillar-card" />
         </div>
       </section>
 
       {/* Leadership + ISO */}
-      <section className="section on-dark bg-secondary text-on-dark">
+      <section className="about-lead section on-dark bg-secondary text-on-dark">
         {/* The video column is wider than the copy so the ISO film reads at a good size. */}
         <div className="container-gc grid items-center gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-14">
           <div>
@@ -223,7 +226,7 @@ export default async function AboutPage({ params }: Props) {
                 ? "تدير الشركة المطوّرة كل مرحلة وتتابعها بنفسها، بعمليات موثّقة وفق نظام إدارة الجودة ISO 9001:2015، وتتعامل مع المشتري مباشرة، بدون وسطاء أو بنوك."
                 : "The developer runs every stage itself, with processes documented under ISO 9001:2015 quality management, and deals with buyers directly: no brokers, no banks."}
             </p>
-            <div className="mt-10 flex flex-wrap gap-3">
+            <div className="about-lead-cta mt-10 flex flex-wrap gap-3">
               <Link href="/leadership" className="register-cta-btn">
                 {isAr ? "تعرّف على الإدارة" : "Meet the leadership"}
                 <span className="arrow" aria-hidden />

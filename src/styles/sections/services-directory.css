@@ -666,3 +666,63 @@
     opacity: max(var(--fade), 0.75);
   }
 }
+
+/* ── Phones: scroll-driven "Available now" + a calmer "Coming soon" ──
+   The photo pins under the site bar; the whole list shows (no box-in-a-page scrolling);
+   the service passing under the photo lights up (ServicesDirectory). Arrows and the
+   custom scrollbar are dropped. Desktop unchanged. */
+@media (max-width: 767px) {
+  .svv-stage {
+    position: sticky;
+    top: 4rem;
+    z-index: 3;
+    aspect-ratio: 16 / 10;
+    box-shadow: 0 12px 24px -12px color-mix(in srgb, var(--black) 45%, transparent);
+  }
+
+  .svv-arrows,
+  .svv-scroll {
+    display: none;
+  }
+
+  .svv-panel-head {
+    text-align: center;
+  }
+
+  .svv-list {
+    height: auto;
+    overflow: visible;
+    padding-bottom: 35svh; /* lets the last service reach the line under the photo */
+  }
+
+  .svv-item {
+    transition:
+      background-color 0.45s var(--ease),
+      color 0.45s var(--ease),
+      transform 0.45s var(--ease);
+  }
+
+  .svv-item:not(.is-on) {
+    transform: scale(0.98);
+  }
+
+  /* Coming soon: centred head, tiles rise in calmly; a lone last tile spans the row. */
+  .svc-head {
+    text-align: center;
+  }
+
+  .svc-bento > .svc-tile--soon:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .svc-tile-title {
+    text-align: center;
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .svv-item {
+    transition: none;
+    transform: none;
+  }
+}

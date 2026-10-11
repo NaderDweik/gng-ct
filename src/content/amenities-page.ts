@@ -69,7 +69,7 @@ export const communityPlaces: CommunityPlace[] = [
     titleAr: "الاستقبال",
     bodyEn: "Your first welcome: visits, keys and questions, handled on site.",
     bodyAr: "استقبالك الأول: الزيارات والمفاتيح والاستفسارات، في الموقع.",
-    image: `${C}/reception-building.png`,
+    image: `${C}/reception-building.jpg`,
     size: "wide",
   },
   {
@@ -78,7 +78,7 @@ export const communityPlaces: CommunityPlace[] = [
     titleAr: "المسجد",
     bodyEn: "A calm place of prayer within the community.",
     bodyAr: "مكان هادئ للصلاة داخل المجتمع.",
-    image: `${C}/mosque-at-sunset.png`,
+    image: `${C}/mosque-at-sunset.jpg`,
     size: "tall",
   },
   {
@@ -87,7 +87,7 @@ export const communityPlaces: CommunityPlace[] = [
     titleAr: "ميني غولف",
     bodyEn: "A putting green for slow evenings and friendly rivalries.",
     bodyAr: "ملعب غولف مصغّر للأمسيات الهادئة والمنافسات الودية.",
-    image: `${C}/mini-golf-putting-green.png`,
+    image: `${C}/mini-golf-putting-green.jpg`,
     size: "normal",
   },
   {
@@ -96,7 +96,7 @@ export const communityPlaces: CommunityPlace[] = [
     titleAr: "حديقة المجتمع",
     bodyEn: "Landscaped walkways and shade, open to every family.",
     bodyAr: "ممرات منسقة وظلال، مفتوحة لكل العائلات.",
-    image: `${C}/community-park-families.png`,
+    image: `${C}/community-park-families.jpg`,
     size: "normal",
   },
   {
@@ -105,7 +105,7 @@ export const communityPlaces: CommunityPlace[] = [
     titleAr: "متجر Fast Shop",
     bodyEn: "Daily essentials without leaving the gates.",
     bodyAr: "احتياجاتك اليومية دون مغادرة البوابات.",
-    image: `${C}/fast-shop-mini-market.png`,
+    image: `${C}/fast-shop-mini-market.jpg`,
     size: "normal",
   },
   {
@@ -114,7 +114,7 @@ export const communityPlaces: CommunityPlace[] = [
     titleAr: "شوارع آمنة",
     bodyEn: "Quiet internal roads where children ride and play.",
     bodyAr: "طرق داخلية هادئة يلعب فيها الأطفال ويركبون دراجاتهم.",
-    image: `${C}/kids-cycling-community-street.png`,
+    image: `${C}/kids-cycling-community-street.jpg`,
     size: "wide",
   },
   {
@@ -123,7 +123,7 @@ export const communityPlaces: CommunityPlace[] = [
     titleAr: "حراسة على مدار الساعة",
     bodyEn: "Gated entrances, patrols and cameras, day and night.",
     bodyAr: "بوابات مسوّرة ودوريات وكاميرات، ليلًا ونهارًا.",
-    image: `${C}/security-guards-patrol-compound-o.png`,
+    image: `${C}/security-guards-patrol-compound-o.jpg`,
     size: "normal",
   },
   {
@@ -132,7 +132,7 @@ export const communityPlaces: CommunityPlace[] = [
     titleAr: "التدبير المنزلي",
     bodyEn: "An on-site team to keep your resort ready for you.",
     bodyAr: "فريق في الموقع يُبقي شاليهك جاهزًا لك.",
-    image: `${C}/housekeeping-team.png`,
+    image: `${C}/housekeeping-team.jpg`,
     size: "wide",
   },
 ];
@@ -155,7 +155,7 @@ export const serviceLines: ServiceLine[] = [
     titleAr: "أنظمة المياه",
     bodyEn: "Automatic pumps and a reliable supply to every unit.",
     bodyAr: "مضخات أوتوماتيكية وتزويد موثوق لكل وحدة.",
-    image: `${C}/water-tower-billboard.png`,
+    image: `${C}/water-tower-billboard.jpg`,
   },
   {
     id: "pools",
@@ -171,7 +171,7 @@ export const serviceLines: ServiceLine[] = [
     titleAr: "ألياف ضوئية وستلايت",
     bodyEn: "Fiber internet, satellite and AC-ready homes.",
     bodyAr: "إنترنت ألياف ضوئية وستلايت ومنازل جاهزة للتكييف.",
-    image: "/gallery/resortsPics/family-living-room.png",
+    image: "/gallery/resortsPics/family-living-room.jpg",
   },
   {
     id: "power",
@@ -179,7 +179,7 @@ export const serviceLines: ServiceLine[] = [
     titleAr: "الكهرباء والطاقة الشمسية",
     bodyEn: "Completed utility connections, backed by an on-site solar farm.",
     bodyAr: "توصيلات مرافق مكتملة، مدعومة بمحطة طاقة شمسية في الموقع.",
-    image: `${C}/solar-farm-building-store.png`,
+    image: `${C}/solar-farm-building-store.jpg`,
   },
   {
     id: "roads",
@@ -187,7 +187,7 @@ export const serviceLines: ServiceLine[] = [
     titleAr: "الطرق الداخلية",
     bodyEn: "An easy-access road network with golf-cart shuttles.",
     bodyAr: "شبكة طرق سهلة الوصول مع تنقل بعربات الغولف.",
-    image: `${C}/golf-cart-shuttle-street.png`,
+    image: `${C}/golf-cart-shuttle-street.jpg`,
   },
   {
     id: "gardens",
@@ -195,8 +195,8 @@ export const serviceLines: ServiceLine[] = [
     titleAr: "تنسيق الحدائق",
     bodyEn: "Gardeners tending green spaces across 500,000 m².",
     bodyAr: "بستانيون يعتنون بالمساحات الخضراء على ٥٠٠,٠٠٠ م².",
-    image: `${C}/gardeners-landscaping-park.png`,
+    image: `${C}/gardeners-landscaping-park.jpg`,
   },
 ];
 
-export const amenitiesHeroSrc = `${C}/entrance-fountain-and-gatehouse.png`;
+export const amenitiesHeroSrc = `${C}/entrance-fountain-and-gatehouse.jpg`;

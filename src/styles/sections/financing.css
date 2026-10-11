@@ -40,3 +40,182 @@
   }
 }
 
+
+/* ── Phones: centred content + an elegant scroll sequence (markup: financing/page.tsx,
+   features/pricing/PricingShowcase.tsx; .is-in from InViewOnce). Desktop unchanged. ── */
+@media (max-width: 767px) {
+  /* Plans intro */
+  .fin-main {
+    text-align: center;
+  }
+
+  .fin-badge {
+    margin-inline: auto;
+  }
+
+  .fin-title {
+    text-wrap: balance;
+  }
+
+  .fin-plan {
+    text-align: center;
+  }
+
+  .fin-plan-figure {
+    justify-content: center;
+  }
+
+  .fin-plan-rows {
+    text-align: start;
+  }
+
+  .fin-plan-cta {
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* How it works: centred head, compact centred steps with a hairline that draws in */
+  .steps-head {
+    text-align: center;
+  }
+
+  .steps-head .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .steps-head .section-eyebrow::before,
+  .steps-head .section-eyebrow::after {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  .steps-head .section-title {
+    max-width: none;
+    text-wrap: balance;
+  }
+
+  .steps-wrap {
+    margin-top: 2rem;
+  }
+
+  .step-card {
+    position: relative;
+    padding: 1.6rem 1.25rem 1.5rem;
+    text-align: center;
+  }
+
+  .step-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2.5rem;
+    height: 2px;
+    margin-left: -1.25rem;
+    background: var(--brand-accent);
+    transform: scaleX(0);
+    transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1) 0.15s;
+  }
+
+  .step-card.is-in::before {
+    transform: none;
+  }
+
+  .step-num {
+    display: inline-block;
+  }
+
+  .step-card .step-title {
+    margin-top: 0.85rem;
+  }
+
+  .step-card .step-body {
+    max-width: 30ch;
+    margin-inline: auto;
+  }
+
+  /* ── Scroll sequence ── */
+  .fin-main > *,
+  .fin-plan,
+  .fin-price,
+  .steps-head > .section-title,
+  .step-card > * {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* The intro's lines arrive one after another. */
+  .fin-main > :nth-child(2) { transition-delay: 0.08s; }
+  .fin-main > :nth-child(3) { transition-delay: 0.16s; }
+
+  .fin-main.is-in > *,
+  .fin-plan.is-in,
+  .fin-price.is-in,
+  .steps-head > .section-title.is-in,
+  .step-card.is-in > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Inside a plan: the figure settles from a slight scale, then the rows slide in. */
+  .fin-plan .fin-plan-figure {
+    transform: scale(0.9);
+    opacity: 0;
+    transition:
+      opacity 0.8s ease 0.2s,
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.2s;
+  }
+
+  .fin-plan.is-in .fin-plan-figure {
+    transform: none;
+    opacity: 1;
+  }
+
+  .fin-plan .fin-plan-row {
+    opacity: 0;
+    transform: translateX(-12px);
+    transition:
+      opacity 0.6s ease,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  [dir="rtl"] .fin-plan .fin-plan-row {
+    transform: translateX(12px);
+  }
+
+  .fin-plan .fin-plan-row:nth-child(1) { transition-delay: 0.35s; }
+  .fin-plan .fin-plan-row:nth-child(2) { transition-delay: 0.45s; }
+  .fin-plan .fin-plan-row:nth-child(3) { transition-delay: 0.55s; }
+
+  .fin-plan.is-in .fin-plan-row {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* A step: number rises first, then title, then text. */
+  .step-card > :nth-child(2) { transition-delay: 0.1s; }
+  .step-card > :nth-child(3) { transition-delay: 0.2s; }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .fin-main > *,
+  .fin-plan,
+  .fin-price,
+  .steps-head > .section-title,
+  .step-card > *,
+  .fin-plan .fin-plan-figure,
+  .fin-plan .fin-plan-row,
+  .step-card::before {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

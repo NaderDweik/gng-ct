@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { site } from "@/content/site";
+import { GlideIndicator } from "@/components/ui/GlideIndicator";
 import {
   MESSAGE_MAX,
   NAME_MAX,
@@ -243,10 +244,11 @@ export function RegisterForm() {
       </div>
 
       <div>
-        <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-muted">
+        <p className="register-group-label mb-2 text-xs font-bold uppercase tracking-[0.18em] text-muted">
           {isAr ? "أنا مهتم بـ" : "I'm interested in"}
         </p>
-        <div role="radiogroup" aria-label={isAr ? "نوع الاهتمام" : "Interest type"} className="grid grid-cols-2 gap-2">
+        <div role="radiogroup" aria-label={isAr ? "نوع الاهتمام" : "Interest type"} className="register-glide grid grid-cols-2 gap-2">
+          <GlideIndicator watch={interest} className="register-glide-pill register-glide-pill--choice" />
           {interests.map((item) => {
             const active = interest === item.id;
             return (
@@ -312,10 +314,11 @@ export function RegisterForm() {
       </div>
 
       <div>
-        <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-muted">
+        <p className="register-group-label mb-2 text-xs font-bold uppercase tracking-[0.18em] text-muted">
           {t("preferredTime")}
         </p>
-        <div role="radiogroup" aria-label={t("preferredTime")} className="flex flex-wrap gap-2">
+        <div role="radiogroup" aria-label={t("preferredTime")} className="register-times register-glide flex flex-wrap gap-2">
+          <GlideIndicator watch={time} className="register-glide-pill register-glide-pill--time" />
           {times.map((item) => {
             const active = time === item.id;
             return (
@@ -358,7 +361,7 @@ export function RegisterForm() {
 
       {turnstile.enabled && <div ref={turnstile.ref} className="register-turnstile" />}
 
-      <p className="text-sm text-muted">{tc("responseTime")}</p>
+      <p className="register-note text-sm text-muted">{tc("responseTime")}</p>
 
       <div className="space-y-2.5">
         <button type="submit" className="register-submit" disabled={status === "sending"} aria-busy={status === "sending"}>

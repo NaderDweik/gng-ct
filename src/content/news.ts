@@ -1,5 +1,6 @@
 /*
- * News: one entry per slide of the client's news deck (public/news/الاخبار.pdf, 47 slides;
+ * News: one entry per slide of the client's news deck (الاخبار.pdf, 47 slides; not published:
+ * it shows an unblurred national ID;
  * slides 27 and 28 are the same story, so 46 entries). Photos were extracted from the
  * deck into public/news/<slug>(-n).webp; share images are in public/og/news/<slug>.jpg.
  * Newest first. Notes:

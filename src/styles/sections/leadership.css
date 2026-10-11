@@ -250,3 +250,112 @@
     transform: none;
   }
 }
+
+/* ── Phones: centred founder block and principles; each principle plays its hover look
+   (green divider, wash, lifted number) as it scrolls in (.is-in, InViewOnce). ── */
+@media (max-width: 767px) {
+  .leader-hero .container-gc {
+    gap: 2rem;
+  }
+
+  .leader-hero .leader-title,
+  .leader-hero .leader-title + p {
+    text-align: center;
+  }
+
+  .leader-hero .leader-title {
+    font-size: 2.1rem;
+  }
+
+  /* Quote: a short green rule above instead of the side bar (higher specificity than the
+     build's logical-property polyfill). */
+  html .leader-hero .leader-quote {
+    max-width: 32ch;
+    margin: 1.75rem auto 0;
+    padding: 1.25rem 0 0;
+    border: 0;
+    text-align: center;
+    font-size: 1.15rem;
+  }
+
+  html .leader-hero .leader-quote::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2.5rem;
+    height: 2px;
+    margin-left: -1.25rem;
+    background: var(--brand-accent);
+  }
+
+  .leader-principles-head {
+    text-align: center;
+  }
+
+  .leader-principles-head .section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .leader-principles-head .section-eyebrow::before,
+  .leader-principles-head .section-eyebrow::after {
+    content: "";
+    width: 1.5rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.6;
+  }
+
+  .leader-principles-head .section-title {
+    max-width: none;
+    margin-inline: auto;
+  }
+
+  .leader-principle {
+    text-align: center;
+    padding-inline: 0.5rem;
+  }
+
+  /* The top divider draws out from the centre on phones. */
+  .leader-principle::after {
+    transform-origin: 50% 50%;
+  }
+
+  [dir="rtl"] .leader-principle::after {
+    transform-origin: 50% 50%;
+  }
+
+  .leader-principle.is-in::after {
+    transform: none;
+    transition-delay: 0.1s;
+  }
+
+  .leader-principle.is-in {
+    background-color: color-mix(in srgb, var(--brand-accent) 6%, transparent);
+  }
+
+  .leader-principle-num {
+    transform: translateY(8px);
+    opacity: 0.4;
+    transition:
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.8s ease,
+      text-shadow 0.8s ease;
+  }
+
+  .leader-principle.is-in .leader-principle-num {
+    transform: none;
+    opacity: 1;
+    text-shadow: 0 6px 24px color-mix(in srgb, var(--brand-accent) 55%, transparent);
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .leader-principle-num {
+    transform: none;
+    opacity: 1;
+    transition: none;
+  }
+}

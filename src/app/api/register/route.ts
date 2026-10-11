@@ -2,8 +2,9 @@
  * POST /api/register: receives the register-interest form and forwards it as a WhatsApp
  * message to one sales number, through the WhatsApp Cloud API (Meta).
  *
- * Anti-bot / anti-spam, in order: honeypot, minimum fill time, Cloudflare Turnstile
- * (when configured), per-IP rate limit, field validation, per-phone duplicate window.
+ * Anti-bot / anti-spam, in order: same-site origin, honeypot, minimum fill time, per-IP
+ * rate limit, Cloudflare Turnstile (when configured), field validation, per-phone
+ * duplicate window.
  * Bot rejections answer 200 { ok: true } so the bot learns nothing.
  *
  * Env (see .env.example): WHATSAPP_TOKEN, WHATSAPP_PHONE_NUMBER_ID, WHATSAPP_TO,
@@ -19,6 +20,7 @@ import {
   validateLead,
   type LeadPayload,
 } from "@/features/register/leadRules";
+import { clientIp } from "@/lib/clientIp";
 
 export const runtime = "nodejs";
 
@@ -47,6 +49,18 @@ function duplicate(phone: string) {
   if (last && now - last < PHONE_WINDOW_MS) return true;
   phoneSeen.set(phone, now);
   return false;
+}
+
+// Browsers always send Origin on a POST; a different site posting here is someone else's form.
+function sameSite(req: Request) {
+  const origin = req.headers.get("origin");
+  if (!origin) return true;
+  const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host");
+  try {
+    return new URL(origin).host === host;
+  } catch {
+    return false;
+  }
 }
 
 async function turnstileOk(token: string | undefined, ip: string) {
@@ -124,9 +138,10 @@ async function sendWhatsApp(lead: LeadPayload, phone: string) {
 }
 
 export async function POST(req: Request) {
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
+  const ip = clientIp(req.headers);
   const ok = NextResponse.json({ ok: true });
 
+  if (!sameSite(req)) return NextResponse.json({ error: "forbidden" }, { status: 403 });
   if (Number(req.headers.get("content-length") ?? 0) > 8_000) {
     return NextResponse.json({ error: "too_large" }, { status: 413 });
   }

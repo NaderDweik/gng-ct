@@ -123,6 +123,27 @@
   in a 3-column grid (2 columns under 375px) with a gliding green pill. **Client rejects sideways
   scrolling on phones** ("dumb, bad UX") — avoid horizontal scroll rows. (Note: the home news
   preview is still a swipe row from earlier — may need the same treatment if the client objects.)
+- **About page (phones)** (`about/page.tsx`, `about.css`, new `components/ui/InViewOnce.tsx`):
+  "Our story" eyebrow + title centred; four promises = compact numbered rows, icon fills green on
+  scroll-in; leadership block centred with full-width button.
+- **/master-plan on phones** (`room-viewer.css`, `SubpageHeader` new `compactMobile` prop): slim
+  header (title only, EN "A chalet's plan"), photo 11rem with description hidden, plan 80% wide,
+  no step bar/counter; one row = "Register interest" (start) + prev/next arrows (end). Whole viewer
+  fits the first screen (buttons end ≈720px on 390×844). Client kept asking for "more compact".
+- **/amenities** (`AmenitiesPage.tsx`, `amenities/page.tsx`, `amenities-page.css`):
+  "Serviced daily" showcase is now **scroll-driven** (no hover, no 6s timer). Desktop: panel
+  pins (sticky; extra scroll comes from a `::after` spacer — sticky can't travel into padding);
+  phones: photo pins, all lines show copy, the line under the photo lights up. Phones also:
+  centred headings (`.ap-svc-head`), stats as a 2×2 cross grid, community mosaic as a 2-column
+  grid (first + last tile full width, titles only).
+- **/news on phones** (`article.css`, `news/page.tsx`): stories are compact rows (thumbnail +
+  text), full summaries (no clamp), page 24k → ~12k px; hover look plays on scroll via
+  `components/ui/ScrollFocus.tsx` (also used by the amenities community mosaic). Client rule:
+  **never cut content** on mobile; replace hover with scroll everywhere.
+- **Opening hours removed everywhere** (client): register page tile, `site.hoursAr/En`, the
+  `openingHoursSpecification` in `lib/seo.ts`, and the unused `location.hours` message.
+- **Financing + register pages (phones)**: centred content, InViewOnce scroll reveals
+  (`financing.css`, `register.css`); register contact = centred tiles.
 - **Register CTA**: a mobile redesign was made and then **fully reverted** (component and CSS are
   back to original).
 
@@ -143,8 +164,9 @@
 ## Open items / waiting on the client
 
 1. **Restart the dev server** (images stuck) — see gotchas.
-2. Move `public/news/الاخبار.pdf` out of `public/` (unblurred personal data). Awaiting OK.
-3. Delete `public/hero/Gemini_Generated_Image_d4szgyd4szgyd4sz.jpg`? Awaiting answer.
+2. ~~Move `public/news/الاخبار.pdf` out of `public/`~~ Done 2026-10-12 (deleted; still in git
+   history of the public GitHub repo — see the 2026-10-12 section).
+3. ~~Delete the unused Gemini hero image~~ Done 2026-10-12 (all unused files removed).
 4. Confirm with designer: **S19 vs S21** on the compound plan; bike-centre news date.
 5. **Copy that contradicts the new FAQ** (FAQ says prices vary, ask the team; 4 bathrooms; near Ibn
    Sina University & the airport). Still present: 168,000 JD / 0% interest / 24% cash on
@@ -160,3 +182,30 @@
 9. `SOURCE_OF_TRUTH_SUMMARY.md` should be refreshed with this session's changes.
 10. Nothing committed — when asked, commit on a branch (repo convention: branch before committing on
     `main`).
+
+---
+
+## 2026-10-12 — launch hardening (security + weight)
+
+- **Dependencies:** `npm audit fix`; Next 15.5.24 → 15.5.27, sharp patched; `overrides` forces
+  Next's bundled PostCSS to ^8.5.29. `npm audit --omit=dev` = 0. (Remaining dev-only `braces`
+  advisory in eslint-config-next has no fix upstream; not shipped.)
+- **Headers** (`next.config.ts`): CSP (allows Turnstile, YouTube, ArcGIS tiles, OSRM, Cloudflare
+  Web Analytics), HSTS, nosniff, X-Frame-Options DENY, Referrer-Policy, Permissions-Policy, COOP.
+  Public media: `Cache-Control: public, max-age=604800`; `images.minimumCacheTTL` = 31 days.
+  → **New third-party service = add its host to the CSP. Replaced photo = new file name.**
+- **/api/register:** real visitor IP behind Cloudflare (`src/lib/clientIp.ts`: trusts
+  `cf-connecting-ip` only from Cloudflare's IP ranges); rejects cross-site posts (Origin check).
+- **Images:** the 46 gallery PNGs (1672×941 / 1536×1024) → JPEG q90 4:4:4 mozjpeg, same names
+  with `.jpg`, refs updated (135 MB → 23 MB). `motion/cta-loop.mp4` re-encoded 7.7 → 5.8 MB
+  (1080p, CRF 28, same frames/colour range).
+- **Removed every unreferenced file in `public/`** (client: "anything not used just remove"):
+  143 files — the old gallery PNGs, `gallery/img_*.jpg`, Gemini images, `hero/slide-*`,
+  `hero.jpg`, hero cutouts, `home/intro-*-v2.webp`, `plans/unit-plan.svg`, create-next-app SVGs,
+  `logo*.svg`, stray `public/n`, and **`news/الاخبار.pdf`** (privacy). `public/` 288 → 68 MB.
+  All were tracked in git (restorable with `git restore public/<path>` until committed).
+  Re-crawl after removal: no 404s; all 187 referenced asset paths exist.
+- `DEPLOY.md` now has the launch security checklist (Vercel env vars, Turnstile, Cloudflare
+  settings, 2FA).
+- **GitHub repo `NaderDweik/gng-ct` is public** and commit `d3b47de` contains the unblurred PDF →
+  make the repo private (or purge it from history). No secrets found in history.

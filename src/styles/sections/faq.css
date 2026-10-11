@@ -286,3 +286,97 @@
   line-height: 1.8;
   color: var(--muted);
 }
+
+/* Phones: every section visible at once (no sideways scrolling) as a centred 2-column grid
+   of equal chips; label and count sit together in the middle of each chip. */
+@media (max-width: 767px) {
+  .faq-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    overflow: visible;
+  }
+
+  .faq-nav-item {
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.9rem;
+    padding: 0.55rem 0.6rem;
+    border-radius: 999px;
+    text-align: center;
+    font-size: 0.8125rem;
+    line-height: 1.25;
+  }
+
+  .faq-nav-count {
+    flex: none;
+    min-width: 1.4rem;
+    padding: 1px 6px;
+  }
+}
+
+/* The gliding pill (phones only): sits behind the chips, slides and stretches to the
+   active one; the chip's own fill steps aside so only the pill moves. */
+.faq-nav-pill {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .faq-nav {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .faq-nav-pill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    display: block;
+    border-radius: 999px;
+    background: var(--brand-primary);
+    box-shadow: 0 8px 20px color-mix(in srgb, var(--brand-primary) 30%, transparent);
+    transform: translate(var(--x), var(--y));
+    transition:
+      transform 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+      width 0.55s cubic-bezier(0.65, 0, 0.35, 1),
+      height 0.55s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .faq-nav-item {
+    background: transparent;
+    transition:
+      color 0.35s ease 0.1s,
+      border-color 0.35s ease,
+      transform 0.2s var(--ease);
+  }
+
+  .faq-nav-item.is-active {
+    border-color: transparent;
+    background: transparent;
+    color: var(--on-primary);
+  }
+
+  .faq-nav-item.is-active .faq-nav-count {
+    background: color-mix(in srgb, var(--white) 25%, transparent);
+    color: var(--on-primary);
+  }
+
+  .faq-nav-count {
+    transition:
+      background-color 0.35s ease 0.1s,
+      color 0.35s ease 0.1s;
+  }
+
+  .faq-nav-item:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+}
+
+@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
+  .faq-nav-pill,
+  .faq-nav-item,
+  .faq-nav-count {
+    transition: none;
+  }
+}

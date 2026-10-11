@@ -136,20 +136,6 @@ export function siteGraph(locale: Locale) {
         geo,
         hasMap: site.mapsUrl,
         areaServed: { "@type": "Country", name: "Jordan" },
-        openingHoursSpecification: [
-          {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
-            opens: "09:00",
-            closes: "19:00",
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: "Saturday",
-            opens: "10:00",
-            closes: "16:00",
-          },
-        ],
         founder: { "@type": "Person", name: isAr ? site.contact : site.contactEn },
         hasCredential: {
           "@type": "EducationalOccupationalCredential",

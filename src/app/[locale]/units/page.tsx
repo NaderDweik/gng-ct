@@ -21,7 +21,7 @@ export default async function UnitsPage({ params }: Props) {
   return (
     <div className="cx-page">
       <PageJsonLd locale={locale} path="/units" listing />
-      <SubpageHeader eyebrow={copy.eyebrow} title={copy.title} subtitle={copy.lede} />
+      <SubpageHeader compactMobile eyebrow={copy.eyebrow} title={copy.title} subtitle={copy.lede} />
       <CompoundPlan locale={locale} />
     </div>
   );
