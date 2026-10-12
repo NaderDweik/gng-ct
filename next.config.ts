@@ -13,6 +13,9 @@ const nextConfig: NextConfig = {
    * photos). `next dev` stays a normal server so the language middleware runs locally.
    */
   output: isDev ? undefined : "export",
+  // `npm run dev` works in its own folder, so a dev server left running never breaks
+  // `npm run build` (both used to write .next).
+  distDir: isDev ? ".next-dev" : ".next",
   poweredByHeader: false,
   images: {
     // Pages has no image server: photos are resized at build time (src/lib/imageLoader.ts),
