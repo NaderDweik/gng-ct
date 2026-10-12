@@ -12,7 +12,7 @@ export async function RegisterCta({ locale, image, video }: Props) {
   const isAr = locale === "ar";
 
   return (
-    <section className="register-cta on-dark">
+    <section className="register-cta cv-defer cv-defer--cta on-dark">
       <div className="register-cta-bg" aria-hidden>
         {video ? (
           <LoopVideo src={video.src} poster={video.poster} className="register-cta-video" lazyPoster />

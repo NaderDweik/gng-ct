@@ -94,7 +94,7 @@ export function PricingShowcase() {
               ))}
             </dl>
             <p className="fin-plan-note">{p.note}</p>
-            <Link href="/register" className="fin-plan-cta">
+            <Link href="/register" className="fin-plan-cta" data-track-plan={p.id}>
               {p.cta}
               <ArrowIcon />
             </Link>

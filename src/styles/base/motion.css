@@ -66,3 +66,52 @@
     transform: none;
   }
 }
+
+/*
+ * Phones: sections well below the first screen are not styled, laid out or painted (and their
+ * lazy photos not fetched) until they come near the viewport, so the hero gets the phone to
+ * itself. The sizes are each section's measured phone height, kept in place of the skipped
+ * content so the scrollbar doesn't jump; once drawn, the real height is remembered (`auto`).
+ * components/ui/DeferredSectionsRefresh re-measures scroll animations when one is drawn.
+ * Only on sections without pop-ups or fixed-position children (containment would trap them).
+ */
+@media (max-width: 767px) {
+  .cv-defer {
+    content-visibility: auto;
+  }
+  .cv-defer--destinations {
+    contain-intrinsic-size: auto 1360px;
+  }
+  .cv-defer--day {
+    contain-intrinsic-size: auto 1270px;
+  }
+  .cv-defer--amenities {
+    contain-intrinsic-size: auto 1170px;
+  }
+  .cv-defer--services {
+    contain-intrinsic-size: auto 540px;
+  }
+  .cv-defer--location {
+    contain-intrinsic-size: auto 1180px;
+  }
+  .cv-defer--stats {
+    contain-intrinsic-size: auto 340px;
+  }
+  .cv-defer--news {
+    contain-intrinsic-size: auto 800px;
+  }
+  .cv-defer--faq {
+    contain-intrinsic-size: auto 1000px;
+  }
+  .cv-defer--cta {
+    contain-intrinsic-size: auto 400px;
+  }
+  .cv-defer--footer {
+    contain-intrinsic-size: auto 1470px;
+  }
+}
+
+/* The full-screen phone menu sits off-screen until opened: don't lay it out before then. */
+#mobile-menu {
+  content-visibility: auto;
+}

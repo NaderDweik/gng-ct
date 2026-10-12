@@ -82,7 +82,7 @@ export function GalleryDay({ locale, ctaHref }: Props) {
   };
 
   return (
-    <section ref={root} className={`gd${night ? " is-night on-dark" : ""}${inView ? " is-in" : ""}`} aria-label={copy.title}>
+    <section ref={root} className={`gd cv-defer cv-defer--day${night ? " is-night on-dark" : ""}${inView ? " is-in" : ""}`} aria-label={copy.title}>
       {/* Night sky: a crescent slides in from the top-right corner with stars around it. */}
       {/* Day sky: a sun with slowly turning rays rises into the same corner. */}
       <div className="gd-day-sky" aria-hidden>

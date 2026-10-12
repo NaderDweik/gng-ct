@@ -6,6 +6,7 @@ import { flushSync } from "react-dom";
 import { Link } from "@/i18n/navigation";
 import { galleryCategories, galleryCopy, type HomeGalleryPick } from "@/content/gallery";
 import { formatNumber } from "@/lib/format";
+import { track } from "@/lib/analytics";
 import { MOSAIC_MORPH_NAME, MosaicLightbox } from "@/features/gallery/MosaicLightbox";
 
 /*
@@ -154,6 +155,8 @@ export function MosaicGrid({ picks, locale }: Props) {
   const openAt = (i: number, e: MouseEvent<HTMLAnchorElement>) => {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
+    const src = picks[i]?.src ?? "";
+    track("gallery_photo_opened", { photo: src.split("/").pop() || src, source: "home_mosaic" });
     const tile = tileRefs.current[i];
     // Photo aspect ratios from the already-loaded tiles, so the viewer frame hugs each photo.
     const measured = tileRefs.current.map((t) => {

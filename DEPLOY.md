@@ -64,6 +64,53 @@ Skipped for now: Email Routing (Namecheap forwarding kept).
    - Send a test email to an `@giving-estate.com` address to confirm Namecheap forwarding still
      works on Cloudflare DNS. If it doesn't, turn on Cloudflare Email Routing (free).
 
+## Analytics: PostHog (EU cloud)
+
+- **Switched on** by `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` in `.env.local` (set 2026-10-12; read
+  when you run `npm run build`; empty = off). It stays off under `npm run dev` and on localhost,
+  and PostHog ignores bots. It loads only after the page is idle (~94 KB gzipped), so the first
+  screen isn't slowed. Code: `src/lib/analytics.ts` (the full event list is in its header) and
+  `src/components/analytics/Analytics.tsx`.
+- **Automatic:** page views (also in-site navigation), time on page and scroll depth (on
+  `$pageleave` / the next `$pageview`: `$prev_pageview_duration`,
+  `$prev_pageview_max_scroll_percentage`), clicks, rage clicks, unhandled errors.
+- **Named events:**
+  - Register: `register_cta_click` (placement: hero, header_button, mobile_menu, action_bar,
+    register_banner, financing + plan, compound_map + chalet…), `register_started`,
+    `register_error` (fields), `register_sent` (interest, time). The last three carry
+    `from_page` and `from_placement`.
+  - Contact: `whatsapp_click`, `call_click`, `directions_click` (with placement).
+  - Compound map: `chalet_viewed` (chalet, method), `chalet_searched` (query, found).
+  - Chalet page: `chalet_room_viewed`. Location: `nearby_place_viewed`.
+  - Gallery: `gallery_tab`, `gallery_photo_opened`.
+  - Video: `video_started`, `video_progress` (25/50/75/100).
+  - FAQ: `faq_opened`, `faq_search_no_results`.
+  - Language: `language_switch`.
+
+  Never name, phone or message.
+- **Where to read the four main questions in PostHog:**
+  1. Time per page: Product analytics → New insight → Trends → event `$pageleave`, measured
+     as the average of property `$prev_pageview_duration`, broken down by
+     `$prev_pageview_pathname`.
+  2. Where people leave: Web analytics → Paths → **End paths** (exit pages), plus each page's
+     bounce rate.
+  3. Most and least used pages: Web analytics → Paths (views per page). For interactions:
+     Trends → `$autocapture`, broken down by `$pathname`; or open the Toolbar on the live site
+     for heatmaps.
+  4. What leads to the form: Trends → `register_cta_click`, broken down by `$pathname` and
+     `placement`. Funnel: `register_cta_click` → `register_started` → `register_sent`, broken
+     down by `from_placement`.
+- **In PostHog → Project settings:** keep Autocapture and Heatmaps on. Session replay is
+  optional (typed text is masked).
+- **Privacy:** PostHog stores an anonymous visitor ID in the browser. Consider a short privacy
+  note on the site (Jordan's Personal Data Protection Law, 2023).
+- **Ad blockers** hide some visitors (mostly desktop): the site has no proxy, so it stays 100% static.
+- The PostHog setup wizard was run once on 2026-10-12. Its changes were merged into the above,
+  and its eager `instrumentation-client.ts` and log helper were removed. Event names it used
+  (`compound_unit_selected`, `faq_question_selected`, `location_place_selected`, `map_opened`,
+  `plan_area_selected`) were renamed or dropped. Any PostHog dashboard tiles it made with those
+  names will stay empty.
+
 ## Notes on the Cloudflare settings
 
 - **Web Analytics** is on for the whole zone, so it covers the real domain. Don't also switch it

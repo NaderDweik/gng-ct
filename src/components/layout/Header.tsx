@@ -107,6 +107,7 @@ export function Header() {
           */}
           <Link
             href="/register"
+            data-track-placement="header_button"
             className={`nav-cta relative hidden isolate overflow-hidden px-5 py-2.5 text-sm font-semibold tracking-[0.18em] uppercase transition min-[1100px]:inline-flex ${
               solid
                 ? "nav-cta--solid border border-white/30 bg-primary/75 text-on-dark backdrop-blur-sm hover:bg-primary/90"
@@ -145,6 +146,7 @@ export function Header() {
         aria-modal="true"
         aria-label="Menu"
         inert={!open}
+        data-track-placement="mobile_menu"
         className={`fixed inset-0 z-10 flex h-dvh flex-col bg-secondary transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] min-[1100px]:hidden ${
           open ? "translate-x-0" : "ltr:translate-x-full rtl:-translate-x-full"
         }`}

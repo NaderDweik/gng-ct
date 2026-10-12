@@ -5,9 +5,11 @@
  *     (scripts/cloudflare-pages.mjs).
  *
  * What the pages may load. Everything is self-hosted except: YouTube (VideoPlayer: IFrame API +
- * privacy-enhanced embed), the location map's tiles (ArcGIS) and driving route (OSRM), and
+ * privacy-enhanced embed), the location map's tiles (ArcGIS) and driving route (OSRM),
  * Cloudflare Web Analytics (on for the zone; Speed Brain's rules come from the site's own
- * /cdn-cgi/). Add a host here before using a new third-party service.
+ * /cdn-cgi/), and PostHog analytics, EU cloud (src/lib/analytics.ts: events to eu.i.posthog.com,
+ * add-ons such as session recording from eu-assets.i.posthog.com). Add a host here before using
+ * a new third-party service.
  * 'unsafe-inline' scripts: Next.js inlines its hydration data and the JSON-LD; the pages are
  * static files, so there is no server to hand out nonces.
  */
@@ -16,12 +18,13 @@
 export function contentSecurityPolicy({ dev }) {
   return [
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""} https://www.youtube.com https://s.ytimg.com https://static.cloudflareinsights.com`,
+    `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""} https://www.youtube.com https://s.ytimg.com https://static.cloudflareinsights.com https://eu-assets.i.posthog.com`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https://server.arcgisonline.com https://i.ytimg.com",
     "font-src 'self' data:",
     "media-src 'self' blob:",
-    `connect-src 'self'${dev ? " ws: wss:" : ""} https://router.project-osrm.org https://cloudflareinsights.com`,
+    `connect-src 'self'${dev ? " ws: wss:" : ""} https://router.project-osrm.org https://cloudflareinsights.com https://eu.i.posthog.com https://eu-assets.i.posthog.com`,
+    "worker-src 'self' blob:",
     "frame-src https://www.youtube-nocookie.com https://www.youtube.com",
     "object-src 'none'",
     "base-uri 'self'",

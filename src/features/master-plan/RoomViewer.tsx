@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { site } from "@/content/site";
 import { useSoftSnap } from "@/lib/useSoftSnap";
+import { track } from "@/lib/analytics";
 import {
   masterPlanMapSize,
   masterPlanMapSrc,
@@ -96,12 +97,18 @@ export function RoomViewer({ locale }: { locale: string }) {
   const firstClip = steps[0] && planItemClips.has(steps[0].item.id) ? steps[0].item.id : null;
   const [clips, setClips] = useState<{ cur: string | null; prev: string | null }>({ cur: firstClip, prev: null });
   const [readyClips, setReadyClips] = useState<ReadonlySet<string>>(() => new Set());
+  /** Spaces already reported to analytics on this visit (chalet_room_viewed, once each). */
+  const seenRooms = useRef(new Set<string>());
   const setIndex = (n: number, d = Math.sign(n - indexRef.current)) => {
     const from = indexRef.current;
     if (n === from) return;
     indexRef.current = n;
     setNav({ index: n, prev: from, dir: d || 1 });
     const id = steps[n]!.item.id;
+    if (!seenRooms.current.has(id)) {
+      seenRooms.current.add(id);
+      track("chalet_room_viewed", { room: id });
+    }
     if (planItemClips.has(id)) setClips((c) => (c.cur === id ? c : { cur: id, prev: c.cur }));
   };
   const hoverTimer = useRef<number | undefined>(undefined);

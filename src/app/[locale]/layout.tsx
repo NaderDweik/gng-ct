@@ -7,6 +7,7 @@ import { isLocale, routing } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ActionBar } from "@/components/layout/ActionBar";
+import { Analytics } from "@/components/analytics/Analytics";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { ScrollMemory } from "@/components/layout/ScrollMemory";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -29,6 +30,8 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-dm-sans",
   display: "swap",
+  // Not preloaded: the Arabic pages' first screen doesn't use it (it still loads when needed).
+  preload: false,
 });
 
 export function generateStaticParams() {
@@ -99,6 +102,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <Footer />
           <ActionBar />
           <WhatsAppFloat />
+          <Analytics />
         </NextIntlClientProvider>
       </body>
     </html>

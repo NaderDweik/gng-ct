@@ -1,7 +1,7 @@
 "use client";
 
 import Image, { getImageProps } from "next/image";
-import { useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useLocale } from "next-intl";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -32,16 +32,19 @@ const PORTRAIT_SIZES = "(max-aspect-ratio: 1536/2752) calc(100vh * 1536 / 2752),
  * elsewhere. Still a single <img data-slide> (inside <picture>), so the slide animations
  * and the first-slide decode wait find it as before.
  */
-function HeroArtPhoto({ slide, index, className }: { slide: HeroSlide; index: number; className: string }) {
+/** `defer`: render the layer without its photo yet (no download until it turns false). */
+function HeroArtPhoto({ slide, index, className, defer }: { slide: HeroSlide; index: number; className: string; defer: boolean }) {
   const common = { alt: "", fill: true, quality: 95, priority: index === 0 } as const;
-  const portrait = getImageProps({ ...common, src: slide.mobileBackground!, sizes: PORTRAIT_SIZES }).props;
-  const { style, ...wide } = getImageProps({ ...common, src: slide.background, sizes: HERO_SIZES }).props;
+  // Phones: the lighter quality step (half the bytes; the first thing a phone downloads).
+  const portrait = getImageProps({ ...common, quality: 75, src: slide.mobileBackground!, sizes: PORTRAIT_SIZES }).props;
+  const { style, src, srcSet, sizes, ...wide } = getImageProps({ ...common, src: slide.background, sizes: HERO_SIZES }).props;
   return (
     <picture>
-      <source media={PORTRAIT} srcSet={portrait.srcSet} sizes={portrait.sizes} />
+      {!defer && <source media={PORTRAIT} srcSet={portrait.srcSet} sizes={portrait.sizes} />}
       {/* eslint-disable-next-line jsx-a11y/alt-text -- alt="" comes in through `wide` (getImageProps) */}
       <img
         {...wide}
+        {...(defer ? {} : { src, srcSet, sizes })}
         data-slide={index}
         className={`${className} hl-photo--art`}
         style={{ ...style, "--hl-focus": slide.focus, "--hl-mfocus": slide.mobileFocus ?? "50% 50%" } as CSSProperties}
@@ -81,6 +84,26 @@ export function HeroLayered() {
   const isAr = locale === "ar";
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
+  /*
+   * Slides 2+ only start downloading once the page has loaded: they first show after the
+   * intro and a full interval (~9 s), and fetching them up front competed with slide 1 and
+   * the page's own files on phones. Until then their layers are in place without a photo;
+   * tapping a dot loads them at once.
+   */
+  const [restReady, setRestReady] = useState(false);
+  useEffect(() => {
+    let idle = 0;
+    const ready = () => {
+      idle = window.setTimeout(() => setRestReady(true), 300);
+    };
+    if (document.readyState === "complete") ready();
+    else window.addEventListener("load", ready, { once: true });
+    return () => {
+      window.removeEventListener("load", ready);
+      window.clearTimeout(idle);
+    };
+  }, []);
+  const deferred = (i: number) => i > 0 && !restReady;
   /** The carousel's go(), for the pagination dots (set inside the GSAP context). */
   const goRef = useRef<(n: number) => void>(() => {});
 
@@ -265,7 +288,10 @@ export function HeroLayered() {
       <div className="hl-stage">
         {slides.map((s, i) =>
           s.mobileBackground ? (
-            <HeroArtPhoto key={s.background} slide={s} index={i} className={`hl-photo hl-layer${first(i)}`} />
+            <HeroArtPhoto key={s.background} slide={s} index={i} className={`hl-photo hl-layer${first(i)}`} defer={deferred(i)} />
+          ) : deferred(i) ? (
+            // eslint-disable-next-line @next/next/no-img-element -- photo comes once loaded
+            <img key={s.background} alt="" data-slide={i} className={`hl-photo hl-layer${first(i)}`} />
           ) : (
             <Image
               key={s.background}
@@ -291,7 +317,10 @@ export function HeroLayered() {
         </p>
 
         {slides.map((s, i) =>
-          s.foreground ? (
+          s.foreground && deferred(i) ? (
+            // eslint-disable-next-line @next/next/no-img-element -- photo comes once loaded
+            <img key={s.foreground} alt="" data-slide={i} className={`hl-photo hl-layer hl-cutout${first(i)}`} />
+          ) : s.foreground ? (
             <Image
               key={s.foreground}
               src={s.foreground}
@@ -338,7 +367,7 @@ export function HeroLayered() {
               ))}
             </h1>
             <div className="hl-ctas hl-fade">
-              <Link href={hero.primaryHref} className="btn btn-primary">
+              <Link href={hero.primaryHref} className="btn btn-primary" data-track-placement="hero">
                 {isAr ? hero.ctaPrimaryAr : hero.ctaPrimaryEn}
               </Link>
               <Link href={hero.secondaryHref} className="hl-link">
@@ -360,7 +389,10 @@ export function HeroLayered() {
               className={`hl-dot${i === active ? " is-on" : ""}`}
               aria-label={`${isAr ? "الشريحة" : "Slide"} ${i + 1} / ${slides.length}`}
               aria-current={i === active || undefined}
-              onClick={() => goRef.current(i)}
+              onClick={() => {
+                setRestReady(true);
+                goRef.current(i);
+              }}
             />
           ))}
         </div>

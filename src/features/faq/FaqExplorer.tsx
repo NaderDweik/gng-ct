@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation";
 import { faqCategories } from "@/content/faq";
 import { site } from "@/content/site";
 import { formatNumber } from "@/lib/format";
+import { track } from "@/lib/analytics";
 
 function PlusMinus({ open }: { open: boolean }) {
   return (
@@ -62,6 +63,14 @@ export function FaqExplorer() {
   }, [query, isAr]);
 
   const total = faqCategories.reduce((sum, c) => sum + c.items.length, 0);
+
+  // A search that found nothing, once the visitor stops typing: what the FAQ is missing.
+  useEffect(() => {
+    const q = query.trim();
+    if (q.length < 3 || groups.length) return;
+    const t = window.setTimeout(() => track("faq_search_no_results", { query: q.slice(0, 80) }), 1500);
+    return () => window.clearTimeout(t);
+  }, [query, groups.length]);
   const shown = groups.reduce((sum, c) => sum + c.items.length, 0);
 
   /** While a tapped section scrolls into view, the scroll-spy stays quiet (the pill glides
@@ -258,7 +267,10 @@ export function FaqExplorer() {
                           type="button"
                           aria-expanded={isOpen}
                           aria-controls={`${item.key}-a`}
-                          onClick={() => setOpen(isOpen ? null : item.key)}
+                          onClick={() => {
+                            if (!isOpen) track("faq_opened", { question: item.key, placement: "faq_page" });
+                            setOpen(isOpen ? null : item.key);
+                          }}
                           className="faq-q"
                         >
                           <span className="faq-num">{pad(i + 1)}</span>

@@ -265,3 +265,43 @@ images, no console/CSP errors. The stash `stash@{0}` is kept as a safety copy; d
 **Sales number set (2026-10-12):** `src/content/site.ts` `phoneAction` / `whatsapp` / `whatsappUrl`
 → 962790029928 (TEMP test number removed; it was the only place). Rebuilt: no test number left
 in `out/`.
+
+**PostHog analytics (2026-10-12), ON** via `NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN` in `.env.local`
+(written by the client's run of the PostHog wizard; key validated). The wizard had made PostHog
+load eagerly (`instrumentation-client.ts`), dropped the dev/localhost guards and added PostHog Logs
+calls; merged back into the lazy setup: `src/lib/analytics.ts` (`track`, `trackError`,
+`startAnalytics`; event list in its header), `src/components/analytics/Analytics.tsx` (idle start
++ one capture-phase click listener → register_cta_click / whatsapp_click / call_click /
+directions_click with `placement` from `data-track-placement` or a selector map, plus any
+`data-track-*` props), `src/components/analytics/registerSource.ts` (sessionStorage →
+from_page / from_placement on register events), `src/app/global-error.tsx` (trackError).
+Component hooks: RegisterForm (started/error/sent), CompoundPlan (chalet_viewed,
+chalet_searched, data-track-chalet), RoomViewer (chalet_room_viewed once per space),
+LocationShowcase (nearby_place_viewed), GalleryGrid / MosaicGrid (gallery_tab,
+gallery_photo_opened), VideoPlayer (video_started, video_progress), FaqExplorer (faq_opened,
+faq_search_no_results), HomeFaqChat (faq_opened, whatsapp_click), PricingShowcase
+(data-track-plan), Header (header_button, mobile_menu), HeroLayered (hero). PlanExplorer reverted
+(unused). Verified end-to-end (Playwright, PostHog traffic intercepted, `navigator.webdriver`
+overridden because PostHog drops bots): every event fired with the right props, time on page and
+scroll on page leaves, no personal data, no CSP errors. Not verifiable headless: video_progress.
+
+**Performance pass (2026-10-12).** The client's Lighthouse run (57 mobile / 70 desktop) was against
+`npm run dev` (localhost:3000), which is meaningless for the real site. On the production build
+(`npm run build && npm run preview`, port 8788), mobile is 77–78 and desktop 87. After the
+changes below, mobile is 77 and desktop 94–96, with SEO 100, Best Practices 100 and
+Accessibility 93.
+- HeroLayered: slides 2–3 keep their layers, but their photos only download after window load
+  (+300 ms), or at once on a dot tap. That's 380 KB less before the first paint on phones.
+  Desktop LCP went 2.1 → 1.4 s.
+- Tried `experimental.inlineCss`: reverted, because Next embeds the CSS in the HTML and the RSC
+  payload, and /en grew from 48 → 147 KB compressed.
+- `scripts/lighthouse.mjs` now defaults to http://localhost:8788/ (the production preview).
+- Mobile LCP (~5 s, simulated slow 4G) is Lantern counting everything fetched before the hero
+  text paints: fonts ~150 KB, JS ~300 KB, the slide-1 photo 222 KB (828w q90), CSS 53 KB, and
+  lazy photos just below the hero. Options offered to the client, not done: slide-1 phone
+  photo at q75 (−113 KB), font preload changes, per-page CSS.
+- Accessibility (client decision, not done): white on teal `.btn-primary` is 2.4:1; the hero
+  dots are 8×8 px targets.
+- Also found: on modern phones (iPhone 13, Pixel 7: tall screens, DPR 2.6–3), the portrait hero
+  photo is fetched at 1536 px (574 KB, q90). `PORTRAIT_SIZES` is `100vh × 1536/2752` at full
+  DPR. Capping it near 2× would cut it to ~333 KB, but it's a client quality call; not done.

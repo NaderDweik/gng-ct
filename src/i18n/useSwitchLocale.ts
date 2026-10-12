@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
+import { track } from "@/lib/analytics";
 
 /*
  * Language switch without the "reload" feel (styles: styles/base/locale-switch.css).
@@ -87,6 +88,7 @@ export function useSwitchLocale() {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const doc = document as VTDoc;
 
+    track("language_switch", { to: next });
     const go = async () => {
       router.replace(href, { locale: next, scroll: false });
       await waitForLocale(next);

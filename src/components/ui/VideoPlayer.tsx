@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
+import { track } from "@/lib/analytics";
 
 /*
  * Branded video player (styles: styles/base/video-player.css). Same poster,
@@ -97,6 +98,8 @@ export function VideoPlayer({ title, poster, src, youtubeId, locale, className }
   const [muted, setMuted] = useState(false);
   const [time, setTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  /** Watch milestones already reported for this playback (video_progress). */
+  const reported = useRef(new Set<number>());
   const [chrome, setChrome] = useState(true);
   const [full, setFull] = useState(false);
   const hideTimer = useRef<number | null>(null);
@@ -134,15 +137,21 @@ export function VideoPlayer({ title, poster, src, youtubeId, locale, className }
 
   /** Ended (or about to): back to the poster, rewound. */
   const finish = useCallback(() => {
+    if (!reported.current.has(100)) {
+      reported.current.add(100);
+      track("video_progress", { video: title, percent: 100 });
+    }
     pause();
     if (yt) ytRef.current?.seekTo(0, true);
     else if (videoRef.current) videoRef.current.currentTime = 0;
     setTime(0);
     setPlaying(false);
     setStarted(false);
-  }, [pause, yt]);
+  }, [pause, yt, title]);
 
   const start = () => {
+    track("video_started", { video: title, source_type: yt ? "youtube" : "self_hosted" });
+    reported.current.clear();
     setStarted(true);
     setLoading(true);
     if (!yt) {
@@ -208,6 +217,17 @@ export function VideoPlayer({ title, poster, src, youtubeId, locale, className }
     }, 200);
     return () => window.clearInterval(id);
   }, [yt, playing, finish]);
+
+  // 25 / 50 / 75 % watched (100 % is reported when it ends).
+  useEffect(() => {
+    if (!started || !duration) return;
+    for (const percent of [25, 50, 75]) {
+      if (time / duration >= percent / 100 && !reported.current.has(percent)) {
+        reported.current.add(percent);
+        track("video_progress", { video: title, percent });
+      }
+    }
+  }, [time, duration, started, title]);
 
   useEffect(() => () => ytRef.current?.destroy(), []);
 

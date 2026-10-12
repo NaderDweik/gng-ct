@@ -19,11 +19,13 @@ type Props = {
   compactMobile?: boolean;
   /** Phones only: a different title (the desktop one shows from tablet up). */
   titleMobile?: string;
+  /** Optional content under the tagline, e.g. buttons (404 page). */
+  children?: React.ReactNode;
 };
 
 import { LoopVideo } from "@/components/ui/LoopVideo";
 
-export function SubpageHeader({ eyebrow, title, subtitle, tall, compactMobile, titleMobile }: Props) {
+export function SubpageHeader({ eyebrow, title, subtitle, tall, compactMobile, titleMobile, children }: Props) {
   return (
     <section className={`sh${tall ? " sh--tall" : ""}${compactMobile ? " sh--compact-mobile" : ""}`}>
       {/* Faint V-line loop behind the title (Remotion render; source: motion/src/BannerLines.tsx). */}
@@ -41,6 +43,7 @@ export function SubpageHeader({ eyebrow, title, subtitle, tall, compactMobile, t
           )}
         </h1>
         {subtitle && <p className="sh-sub">{subtitle}</p>}
+        {children}
       </div>
     </section>
   );

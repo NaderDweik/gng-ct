@@ -4,6 +4,7 @@ import Image from "next/image";
 import { StickyBar, StickyPills } from "@/components/ui/StickyBar";
 import { type CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useLocale } from "next-intl";
+import { track } from "@/lib/analytics";
 import {
   galleryCategories,
   galleryCopy,
@@ -82,6 +83,7 @@ export function GalleryGrid() {
   // new ones rise in. Reduced motion swaps straight away.
   const pick = (next: GalleryCategoryId, fromBar = false) => {
     if (next === tab) return;
+    track("gallery_tab", { tab: next });
     setTab(next);
     // From the compact bar (phones): start the new set from the top of the gallery.
     if (fromBar && galRef.current) {
@@ -232,7 +234,10 @@ export function GalleryGrid() {
             <button
               key={item.id}
               type="button"
-              onClick={() => setActive(item)}
+              onClick={() => {
+                track("gallery_photo_opened", { photo: item.src.split("/").pop() ?? item.src, tab });
+                setActive(item);
+              }}
               className="gal-tile"
               style={{ animationDelay: `${Math.min(i, 9) * 55}ms` }}
               aria-label={nameLabel(item)}

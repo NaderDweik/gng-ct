@@ -2,13 +2,12 @@
 /**
  * Run Lighthouse for mobile + desktop and write HTML (+ JSON) reports.
  *
- * Usage:
- *   npm run test
- *   LIGHTHOUSE_URL=http://localhost:8788/ npm run test   (production build, Arabic)
+ * Usage (measure the production build; `npm run dev` is unminified and serves full-size
+ * photos, so its scores say nothing about the real site):
+ *   npm run build && npm run preview      (in one terminal, port 8788)
+ *   npm run test                          (Arabic home)
+ *   LIGHTHOUSE_URL=http://localhost:8788/en npm run test
  *   CHROME_PATH=/path/to/chrome npm run test
- *
- * Expects the site to already be running (npm run dev, or npm run build && npm run preview
- * for the production build on port 8788).
  */
 
 import { spawnSync } from "node:child_process";
@@ -16,7 +15,7 @@ import { existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 
-const URL = process.env.LIGHTHOUSE_URL || "http://localhost:3000/en";
+const URL = process.env.LIGHTHOUSE_URL || "http://localhost:8788/";
 const OUT_DIR = join(process.cwd(), "lighthouse-reports");
 const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
 

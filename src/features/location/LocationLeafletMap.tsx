@@ -114,9 +114,29 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
   const rafRef = useRef<number | null>(null);
   const alive = useRef(true);
   const [mapReady, setMapReady] = useState(false);
+  /** Near the viewport: only then are Leaflet, the tiles and the route fetched (the home
+   *  page shows the map far below the hero; loading it up front slowed phones). */
+  const [near, setNear] = useState(false);
   const dir = isAr ? "rtl" : "ltr";
 
   useEffect(() => {
+    const el = containerRef.current;
+    if (!el || near) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setNear(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "600px 0px" },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [near]);
+
+  useEffect(() => {
+    if (!near) return;
     alive.current = true;
     let cancelled = false;
 
@@ -162,7 +182,7 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
       tilesRef.current = [];
       setMapReady(false);
     };
-  }, [projectLabel, dir]);
+  }, [projectLabel, dir, near]);
 
   useEffect(() => {
     if (!mapReady) return;

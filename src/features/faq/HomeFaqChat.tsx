@@ -11,6 +11,7 @@ import { basePriceJd, cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct } from
 import { royalDrive } from "@/content/location";
 import { site } from "@/content/site";
 import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
+import { track } from "@/lib/analytics";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -444,10 +445,11 @@ export function HomeFaqChat({ items }: Props) {
   const currentIndex = current?.item ? items.indexOf(current.item) : -1;
 
   const ask = useCallback(
-    (i: number) => {
+    (i: number, visitorInitiated = false) => {
       const item = items[i];
       if (!item) return;
       seq.current += 1;
+      if (visitorInitiated && item.id) track("faq_opened", { question: item.id, placement: "home_faq_chat" });
       setTurns((t) => [...t, { key: seq.current, item }].slice(-3));
       setAsked((a) => (a.includes(i) ? a : [...a, i]));
     },
@@ -505,6 +507,7 @@ export function HomeFaqChat({ items }: Props) {
     const text = draft.trim();
     if (!text) return;
     window.open(`${site.whatsappUrl}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+    track("whatsapp_click", { placement: "home_faq_chat" });
     seq.current += 1;
     setTurns((t) => [...t, { key: seq.current, text }].slice(-3));
     setDraft("");
@@ -524,7 +527,7 @@ export function HomeFaqChat({ items }: Props) {
               <button
                 type="button"
                 className={`fq-chip${i === currentIndex ? " is-active" : ""}${asked.includes(i) ? " is-asked" : ""}`}
-                onClick={() => ask(i)}
+                onClick={() => ask(i, true)}
                 aria-pressed={i === currentIndex}
               >
                 <span className="fq-chip-text">{isAr ? it.qAr : it.qEn}</span>

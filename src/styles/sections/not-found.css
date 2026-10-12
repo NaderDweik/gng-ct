@@ -1,0 +1,141 @@
+/* ── 404 page. Markup: app/[locale]/404/page.tsx ── */
+
+/* Home + WhatsApp under the header band's tagline; they fade in after it (sh-fade). */
+.nf-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: clamp(1.75rem, 3vw, 2.25rem);
+  animation: sh-fade 0.7s var(--ease) 0.5s both;
+}
+
+/* Phones: stacked, one width, so the pair reads as a set. */
+@media (max-width: 767px) {
+  .nf-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .nf-actions > a {
+    justify-content: center;
+    width: min(100%, 17rem);
+  }
+}
+
+/* Popular pages: a hairline grid, like the about page's promises. */
+.nf-links {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+@media (min-width: 640px) {
+  .nf-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .nf-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.nf-link {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  height: 100%;
+  padding: clamp(1.25rem, 2.4vw, 1.9rem);
+  overflow: hidden;
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+/* The slate sheet that rises on hover (as on the promise cards). */
+.nf-link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--brand-secondary);
+  transform: translateY(101%);
+  transition: transform 0.6s var(--ease);
+}
+
+.nf-link-label {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1.25;
+  transition: color 0.3s var(--ease);
+}
+
+[dir="rtl"] .nf-link-label {
+  font-family: var(--font-body);
+}
+
+.nf-link-hint {
+  display: block;
+  margin-top: 0.3rem;
+  color: var(--muted);
+  font-size: var(--fs-small);
+  transition: color 0.3s var(--ease);
+}
+
+.nf-link-arrow {
+  flex-shrink: 0;
+  color: var(--primary-ink);
+  transition:
+    transform 0.35s var(--ease),
+    color 0.3s var(--ease);
+}
+
+[dir="rtl"] .nf-link-arrow {
+  transform: scaleX(-1);
+}
+
+.nf-link:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+
+/* Mouse only: on phones a tap leaves the page, so a hover look would just flash. */
+@media (hover: hover) {
+  .nf-link:hover::before {
+    transform: translateY(0);
+  }
+
+  .nf-link:hover .nf-link-label {
+    color: var(--on-dark);
+  }
+
+  .nf-link:hover .nf-link-hint {
+    color: var(--on-dark-muted);
+  }
+
+  .nf-link:hover .nf-link-arrow {
+    color: var(--brand-accent);
+    transform: translateX(4px);
+  }
+
+  [dir="rtl"] .nf-link:hover .nf-link-arrow {
+    transform: scaleX(-1) translateX(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nf-actions {
+    animation: none;
+  }
+}

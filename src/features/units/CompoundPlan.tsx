@@ -17,6 +17,7 @@ import { compoundPlanSize as PLAN, compoundUnits, type CompoundUnit } from "@/co
 import { compoundCopy } from "@/content/units";
 import { masterPlanMapSize, masterPlanMapSrc, planItem, unitPlanLineSrc } from "@/content/master-plan";
 import { site } from "@/content/site";
+import { track } from "@/lib/analytics";
 import { useSoftSnap } from "@/lib/useSoftSnap";
 
 /*
@@ -200,17 +201,18 @@ export function CompoundPlan({ locale }: { locale: string }) {
   );
 
   const pick = useCallback(
-    (u: CompoundUnit) => {
+    (u: CompoundUnit, selectionMethod: "map" | "search" | "random") => {
       setSelectedId(u.id);
       setNotFound(false);
       flyTo(u);
+      track("chalet_viewed", { chalet: u.id, method: selectionMethod });
     },
     [flyTo],
   );
 
   const surprise = () => {
     const pool = compoundUnits.filter((u) => u.id !== selectedId);
-    pick(pool[Math.floor(Math.random() * pool.length)]!);
+    pick(pool[Math.floor(Math.random() * pool.length)]!, "random");
   };
 
   const close = useCallback(() => setSelectedId(null), []);
@@ -322,7 +324,7 @@ export function CompoundPlan({ locale }: { locale: string }) {
         best = u;
       }
     }
-    if (best) pick(best);
+    if (best) pick(best, "map");
   };
 
   const onDoubleClick = (e: MouseEvent<HTMLDivElement>) => {
@@ -337,8 +339,9 @@ export function CompoundPlan({ locale }: { locale: string }) {
     if (!q) return;
     const starts = compoundUnits.filter((u) => u.id.startsWith(q));
     const hit = compoundUnits.find((u) => u.id === q) ?? (starts.length === 1 ? starts[0] : undefined);
+    track("chalet_searched", { query: q.slice(0, 12), found: !!hit });
     if (hit) {
-      pick(hit);
+      pick(hit, "search");
       inputRef.current?.blur();
     } else {
       setNotFound(true);
@@ -443,7 +446,7 @@ export function CompoundPlan({ locale }: { locale: string }) {
               aria-pressed={u.id === selectedId}
               onClick={() => {
                 if (gesture.current.moved > DRAG_THRESHOLD) return;
-                pick(u);
+                pick(u, "map");
               }}
               onPointerEnter={(e) => e.pointerType === "mouse" && !dragging && hoverEnter(u.id)}
               onPointerLeave={() => hoverLeave(u.id)}
@@ -586,13 +589,19 @@ export function CompoundPlan({ locale }: { locale: string }) {
             </ul>
             <p className="cx-pitch">{copy.pitch}</p>
             <div className="cx-actions">
-              <a href={waHref(selected.id)} target="_blank" rel="noopener noreferrer" className="cx-btn cx-btn--wa">
+              <a
+                href={waHref(selected.id)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cx-btn cx-btn--wa"
+                data-track-chalet={selected.id}
+              >
                 <svg viewBox="0 0 24 24" aria-hidden fill="currentColor">
                   <path d="M20.5 3.5A11.8 11.8 0 0 0 12.05 0C5.5 0 .15 5.35.15 11.9c0 2.1.55 4.15 1.6 5.95L0 24l6.3-1.65a11.86 11.86 0 0 0 5.75 1.45h.01c6.55 0 11.9-5.35 11.9-11.9 0-3.18-1.24-6.17-3.46-8.4ZM12.05 21.75h-.01a9.84 9.84 0 0 1-5.02-1.37l-.36-.21-3.74.98 1-3.64-.24-.37a9.84 9.84 0 0 1-1.5-5.24c0-5.43 4.42-9.85 9.86-9.85 2.63 0 5.1 1.02 6.96 2.88a9.8 9.8 0 0 1 2.88 6.97c0 5.43-4.42 9.85-9.85 9.85Z" />
                 </svg>
                 {copy.ask(selected.id)}
               </a>
-              <Link href="/register" className="cx-btn cx-btn--ghost">
+              <Link href="/register" className="cx-btn cx-btn--ghost" data-track-chalet={selected.id}>
                 {copy.visit}
               </Link>
             </div>

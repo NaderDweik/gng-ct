@@ -75,7 +75,7 @@ export function Footer() {
   ];
 
   return (
-    <footer className="relative overflow-hidden border-t border-line-on-dark bg-secondary pb-12 pt-16 text-on-dark md:pt-24">
+    <footer className="cv-defer cv-defer--footer relative overflow-hidden border-t border-line-on-dark bg-secondary pb-12 pt-16 text-on-dark md:pt-24">
       <div className="container-gc relative z-10">
         {/* Phones: everything centred; from md up, aligned to the start as before. */}
         <div className="grid grid-cols-2 gap-x-6 gap-y-9 border-b border-line-on-dark pb-11 text-center md:gap-12 md:pb-20 md:text-start lg:grid-cols-4">

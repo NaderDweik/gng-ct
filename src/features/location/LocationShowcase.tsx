@@ -13,6 +13,7 @@ import {
   type NearbyPlace,
 } from "@/content/location";
 import { LocationLeafletMap } from "@/features/location/LocationLeafletMap";
+import { track } from "@/lib/analytics";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -140,6 +141,7 @@ export function LocationShowcase() {
     tookOver.current = true;
     setTouring(false);
     setActiveId(id);
+    track("nearby_place_viewed", { place: id });
   };
 
   return (

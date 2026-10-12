@@ -9,7 +9,8 @@
  *  4. out/_img/: every photo in public/ resized to next/image's widths, as WebP, under the names
  *     src/lib/imageLoader.ts asks for. Encoded files are cached in node_modules/.cache/cf-images,
  *     so a rebuild only encodes new or changed photos.
- *  5. Checks: every resized photo a page asks for exists, and Pages' limits hold.
+ *  5. Checks: every resized photo a page asks for exists, a 404.html is at the root, and Pages'
+ *     limits hold.
  */
 import { createHash } from "node:crypto";
 import { createRequire } from "node:module";
@@ -49,6 +50,8 @@ const exists = (p) => fs.access(p).then(() => true, () => false);
 async function moveArabicToRoot() {
   const ar = path.join(out, "ar");
   if (!(await exists(ar))) throw new Error("out/ar/ is missing: run `next build` first.");
+  // The site's own Arabic 404 (app/[locale]/404) takes the place of Next's plain one.
+  if (await exists(path.join(ar, "404.html"))) await fs.rm(path.join(out, "404.html"), { force: true });
   const moves = [
     [path.join(out, "ar.html"), path.join(out, "index.html")],
     [path.join(out, "ar.txt"), path.join(out, "index.txt")],
@@ -166,6 +169,8 @@ async function check() {
     }
   }
   if (missing.size) throw new Error(`Pages ask for resized photos that weren't made:\n  ${[...missing].slice(0, 20).join("\n  ")}`);
+  // Without a top-level 404.html, Pages answers every unknown path with the home page (status 200).
+  if (!all.includes(path.join(out, "404.html"))) throw new Error("out/404.html is missing");
   if (all.length > MAX_FILES) throw new Error(`out/ has ${all.length} files (Pages allows ${MAX_FILES})`);
   const sizes = await Promise.all(all.map(async (f) => [f, (await fs.stat(f)).size]));
   const big = sizes.filter(([, size]) => size > MAX_FILE_BYTES);

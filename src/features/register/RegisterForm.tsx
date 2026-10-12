@@ -1,9 +1,11 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { site } from "@/content/site";
 import { GlideIndicator } from "@/components/ui/GlideIndicator";
+import { track } from "@/lib/analytics";
+import { registerSource } from "@/components/analytics/registerSource";
 import {
   MESSAGE_MAX,
   NAME_MAX,
@@ -31,6 +33,7 @@ export function RegisterForm() {
   const [interest, setInterest] = useState<Interest>("financing");
   const [errors, setErrors] = useState<Partial<Record<LeadField, string>>>({});
   const [opened, setOpened] = useState(false);
+  const started = useRef(false);
 
   const interests: { id: Interest; labelAr: string; labelEn: string }[] = [
     {
@@ -82,6 +85,7 @@ export function RegisterForm() {
     const found = validateLead({ name, phone, message }, lang);
     setErrors(found);
     if (Object.keys(found).length) {
+      track("register_error", { fields: Object.keys(found).join(","), ...registerSource() });
       setOpened(false);
       const first = Object.keys(found)[0];
       e.currentTarget.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
@@ -90,6 +94,7 @@ export function RegisterForm() {
 
     // Still inside the tap, so the browser lets WhatsApp open; the link below covers the rest.
     window.open(whatsAppUrl(), "_blank", "noopener,noreferrer");
+    track("register_sent", { interest, time, ...registerSource() });
     setOpened(true);
   }
 
@@ -97,7 +102,16 @@ export function RegisterForm() {
   const clearError = (f: LeadField) => errors[f] && setErrors((x) => ({ ...x, [f]: undefined }));
 
   return (
-    <form onSubmit={onSubmit} noValidate className="register-form space-y-5">
+    <form
+      onSubmit={onSubmit}
+      onFocus={() => {
+        if (started.current) return;
+        started.current = true;
+        track("register_started", registerSource());
+      }}
+      noValidate
+      className="register-form space-y-5"
+    >
       <div>
         <p className="register-group-label mb-2 text-xs font-bold uppercase tracking-[0.18em] text-muted">
           {isAr ? "أنا مهتم بـ" : "I'm interested in"}

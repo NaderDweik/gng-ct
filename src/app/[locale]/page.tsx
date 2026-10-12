@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
@@ -21,6 +20,8 @@ import { listingJsonLd, routeMetadata } from "@/lib/seo";
 import { HoverAccent } from "@/components/ui/HoverAccent";
 import { ScrollFocus } from "@/components/ui/ScrollFocus";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { DeferredSectionsRefresh } from "@/components/ui/DeferredSectionsRefresh";
+import { NearImage } from "@/components/ui/NearImage";
 import { HomeServicesStrip } from "@/features/home/HomeServicesStrip";
 
 type Props = LocalePageProps;
@@ -76,9 +77,10 @@ export default async function HomePage({ params }: Props) {
 
       {/* About Giving Compound — annotated photo + intro */}
       <HomeIntro locale={locale} />
+      <DeferredSectionsRefresh />
 
       {/* Destinations / projects overview — expanding cards */}
-      <section className="section overflow-hidden border-b border-line bg-surface-tint">
+      <section className="section cv-defer cv-defer--destinations overflow-hidden border-b border-line bg-surface-tint">
         <div className="container-gc">
           <div className="sec-head sec-head-wide">
             <div>
@@ -101,7 +103,7 @@ export default async function HomePage({ params }: Props) {
           <div className="brands">
             {destinations.map((d) => (
               <Link key={d.href} href={d.href} className="brand-card group hv">
-                <Image
+                <NearImage
                   src={d.img}
                   alt={d.title}
                   fill
@@ -132,7 +134,7 @@ export default async function HomePage({ params }: Props) {
       <GalleryDay locale={locale} ctaHref="/gallery" />
 
       {/* Amenities — all visible, no hover */}
-      <section className="section overflow-hidden border-b border-line bg-surface">
+      <section className="section cv-defer cv-defer--amenities overflow-hidden border-b border-line bg-surface">
         <div className="container-gc space-y-12">
           <div className="sec-head">
             <div>
@@ -164,7 +166,7 @@ export default async function HomePage({ params }: Props) {
       <HomeServicesStrip locale={locale} />
 
       {/* Location showcase */}
-      <section className="section bg-surface-tint">
+      <section className="section cv-defer cv-defer--location bg-surface-tint">
         <div className="container-gc">
           <header className="mx-auto mb-10 max-w-2xl text-center md:mb-12">
             <p className="section-eyebrow">{isAr ? "الطريق إلينا" : "Getting here"}</p>
@@ -180,7 +182,7 @@ export default async function HomePage({ params }: Props) {
       {/* Stats: teal figures and white labels on the charcoal band (AA), each figure centred
           over its label, with the banner's V-line motif in teal at both sides, fading out
           toward the middle */}
-      <section className="stats-band relative overflow-hidden border-y border-line text-on-dark">
+      <section className="stats-band cv-defer cv-defer--stats relative overflow-hidden border-y border-line text-on-dark">
         <VLines />
         <div className="stats-band-grid container-gc relative z-[1] grid grid-cols-2 gap-x-6 gap-y-10 py-12 text-center md:gap-10 md:py-16 lg:grid-cols-4">
           {[
@@ -208,7 +210,7 @@ export default async function HomePage({ params }: Props) {
       <NewsPreview locale={locale} />
 
       {/* FAQ — plain questions */}
-      <section className="section border-y border-line bg-surface">
+      <section className="section cv-defer cv-defer--faq border-y border-line bg-surface">
         <div className="container-gc">
           <HomeFaq items={homeFaqPreview} locale={locale} />
         </div>

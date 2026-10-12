@@ -25,7 +25,7 @@ export async function NewsPreview({ locale }: { locale: string }) {
     .sort((a, b) => b.date.localeCompare(a.date));
 
   return (
-    <section className="section bg-surface-alt">
+    <section className="section cv-defer cv-defer--news bg-surface-alt">
       <div className="container-gc">
         <div className="sec-head np-head">
           <div>

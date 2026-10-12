@@ -56,7 +56,7 @@ export function HomeServicesStrip({ locale }: { locale: string }) {
   );
 
   return (
-    <section className="section hsc-band on-dark bg-secondary text-on-dark">
+    <section className="section cv-defer cv-defer--services hsc-band on-dark bg-secondary text-on-dark">
       <div className="container-gc">
         <div className="sec-head hsc-head">
           <div>
