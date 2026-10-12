@@ -4,10 +4,11 @@
  *
  * Usage:
  *   npm run test
- *   LIGHTHOUSE_URL=http://localhost:3000/ar npm run test
+ *   LIGHTHOUSE_URL=http://localhost:8788/ npm run test   (production build, Arabic)
  *   CHROME_PATH=/path/to/chrome npm run test
  *
- * Expects the site to already be running (npm run dev or npm run start).
+ * Expects the site to already be running (npm run dev, or npm run build && npm run preview
+ * for the production build on port 8788).
  */
 
 import { spawnSync } from "node:child_process";

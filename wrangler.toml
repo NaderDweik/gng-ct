@@ -1,0 +1,5 @@
+# Cloudflare Pages project (see DEPLOY.md). The site is static files only: `npm run build` fills
+# out/, `npm run deploy` uploads it. No Functions, no variables or secrets.
+name = "giving-estate"
+pages_build_output_dir = "./out"
+compatibility_date = "2026-09-26"

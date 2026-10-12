@@ -4,6 +4,9 @@ import { galleryImages } from "@/content/gallery";
 import { seoPages, type SeoRoute } from "@/content/seo";
 import { localeUrl } from "@/lib/seo";
 
+// Static export (Cloudflare Pages): written once at build time.
+export const dynamic = "force-static";
+
 /** Bump when page content changes meaningfully (crawlers trust stable dates over "now"). */
 const CONTENT_UPDATED = "2026-10-12";
 

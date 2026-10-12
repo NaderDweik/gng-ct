@@ -44,6 +44,10 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# cloudflare (wrangler): local state and local secrets for `npm run preview`
+.wrangler/
+.dev.vars*
 .env*
 
 # Remotion project (motion/): dependencies and render cache
@@ -52,4 +56,3 @@ yarn-error.log*
 
 # Remotion project deps (separate package under motion/)
 /motion/node_modules/
-!.env.example

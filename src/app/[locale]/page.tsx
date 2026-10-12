@@ -33,7 +33,6 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations("home");
-  const tc = await getTranslations("common");
   const isAr = locale === "ar";
 
   const destinations = [

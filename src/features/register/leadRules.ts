@@ -1,29 +1,14 @@
 /*
- * Register-interest lead: the shape the form posts and the validation both sides run.
- * The client checks first for instant feedback; /api/register re-checks everything,
- * since a bot can skip the browser entirely.
+ * Register-interest lead: the choices and the checks the form runs before it hands the lead
+ * to WhatsApp.
  */
 
 export type Interest = "financing" | "visit";
 export type TimeSlot = "morning" | "afternoon" | "evening";
 export type LeadField = "name" | "phone" | "message";
 
-export type LeadPayload = {
-  name: string;
-  phone: string;
-  message: string;
-  interest: Interest;
-  time: TimeSlot;
-  locale: "ar" | "en";
-  /** Honeypot. Must arrive empty. */
-  company_website: string;
-  /** ms the form was open before submitting. */
-  elapsedMs: number;
-  /** Cloudflare Turnstile token, when the widget is enabled. */
-  turnstileToken?: string;
-};
+export type Lead = { name: string; phone: string; message: string };
 
-export const MIN_FILL_MS = 3000;
 export const MESSAGE_MAX = 500;
 export const NAME_MAX = 60;
 export const PHONE_MAX = 20;
@@ -61,7 +46,7 @@ const msgs = {
 };
 
 export function validateLead(
-  v: Pick<LeadPayload, "name" | "phone" | "message">,
+  v: Lead,
   locale: "ar" | "en",
 ): Partial<Record<LeadField, string>> {
   const errors: Partial<Record<LeadField, string>> = {};
@@ -70,28 +55,4 @@ export function validateLead(
   if (v.message.length > MESSAGE_MAX) errors.message = msgs.long[locale];
   else if (LINK_RE.test(v.message)) errors.message = msgs.link[locale];
   return errors;
-}
-
-/** Coerce an untrusted JSON body into a LeadPayload, or null if the shape is wrong. */
-export function parseLead(body: unknown): LeadPayload | null {
-  if (!body || typeof body !== "object") return null;
-  const b = body as Record<string, unknown>;
-  const str = (k: string) => (typeof b[k] === "string" ? (b[k] as string) : "");
-  const interest = str("interest");
-  const time = str("time");
-  const locale = str("locale");
-  if (interest !== "financing" && interest !== "visit") return null;
-  if (time !== "morning" && time !== "afternoon" && time !== "evening") return null;
-  if (locale !== "ar" && locale !== "en") return null;
-  return {
-    name: str("name"),
-    phone: str("phone"),
-    message: str("message"),
-    interest,
-    time,
-    locale,
-    company_website: str("company_website"),
-    elapsedMs: typeof b.elapsedMs === "number" ? b.elapsedMs : 0,
-    turnstileToken: str("turnstileToken") || undefined,
-  };
 }

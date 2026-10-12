@@ -209,3 +209,59 @@
   settings, 2FA).
 - **GitHub repo `NaderDweik/gng-ct` is public** and commit `d3b47de` contains the unblurred PDF →
   make the repo private (or purge it from history). No secrets found in history.
+
+---
+
+## 2026-10-12 (later) — hosting moved to Cloudflare Pages, 100% static
+
+Client chose Cloudflare Pages (free) over Vercel, then dropped all server code: **no Meta WhatsApp
+Cloud API, no Turnstile, no Functions, no env vars or secrets.** Built and tested locally only —
+**nothing committed, pushed or deployed**; wait for the client's explicit go. Client steps and
+dashboard status: `DEPLOY.md`.
+
+- `next.config.ts`: `output: "export"` for `next build` only; `next dev` stays a normal server so
+  the language middleware works locally (`src/middleware.ts` is dev-only; the build prints Next's
+  "export disables middleware" warning, expected). `vercel.json` and `.env.example` removed.
+- `scripts/cloudflare-pages.mjs` runs after `next build` (`npm run build`): moves `out/ar/*` to the
+  root (Arabic unprefixed, same URLs as before), writes `out/_redirects` (`/ar/*` → `/:splat` 301)
+  and `out/_headers` (from `hosting.config.mjs`, which next.config also uses in dev), resizes every
+  `public/` photo to next/image's 16 widths × 2 qualities as WebP into `out/_img/` (cache:
+  `node_modules/.cache/cf-images`, first run ~2 min), then checks every `/_img/` URL in the HTML
+  exists and Pages limits hold (6,020 files, 240 MB unique, largest 5.5 MB).
+- `src/lib/imageLoader.ts`: custom next/image loader → `/_img/<path>-<w><s|h>.webp`
+  (h = quality ≥ 85). Dev serves originals (no more stuck dev image optimizer).
+- **Register form** (`src/features/register/RegisterForm.tsx`): validates in the browser
+  (`leadRules.ts`), then `window.open("https://wa.me/<site.whatsapp>?text=<lead>")` inside the
+  submit tap, plus a status line with an "Open it here" link if WhatsApp didn't open. Button text
+  now "أرسل عبر واتساب" / "Send on WhatsApp". Removed: `/api/register` route, Pages Function,
+  `handleRegister.ts`, `clientIp.ts`, Turnstile widget, honeypot, fill-time check, cooldown.
+- CSP (`hosting.config.mjs`): Turnstile hosts removed; Cloudflare Web Analytics kept
+  (`static.cloudflareinsights.com`, `cloudflareinsights.com`). robots.txt: `/api/` disallow removed.
+- Lost vs. the middleware in production: browser-language auto-redirect to /en, and the `?plan=`
+  cleanup (canonical tags cover it).
+- New dev deps (pinned): `wrangler@4.142.0`, `sharp@0.35.5`. Scripts: `preview`
+  (`wrangler pages dev`, port 8788), `deploy` (`wrangler pages deploy` → existing project
+  "giving-estate"); `start` removed.
+- **Numbers:** `src/content/site.ts` `phoneAction` / `whatsapp` / `whatsappUrl` = 962788121796
+  (Nader's personal test number) — **switch to 962790029928 before attaching the custom domain**.
+  `phone` (displayed) is already 962790029928.
+- Cloudflare state: zone Active; Pages project `giving-estate` exists (no deployments); its 4 leftover
+  secrets were deleted (none left); a Turnstile widget + a WAF rule for
+  `/api/register` are left over (all harmless, client may delete).
+- Verified: wrangler pages dev ("No Functions"; routes, 301s, 404, headers), Playwright on iPhone
+  13 / Pixel 7 / 1440 desktop: empty submit → errors and no WhatsApp; valid submit opens
+  `wa.me/962788121796` with the AR/EN lead text; no console or CSP errors on the main pages.
+
+**Pulled the friend's commit `e41a4ce`** (Chalet and Compound pages, new compound map, SEO pass,
+mobile polish) on 2026-10-12: local work stashed → `git pull --ff-only` → stash popped. Only
+conflict: `next.config.ts`. Resolution: the static-export config wins; the friend's
+`images.qualities` dropped (the custom loader takes any quality); his page renames
+(`/units` → `/compound`, `/master-plan` → `/chalet`, + `/en/…`) moved to `movedPages` in
+`hosting.config.mjs` (renamed from `headers.config.mjs`), which feeds next.config `redirects()`
+in dev and `out/_redirects` in the build. Verified after the merge: build clean (one friend-side
+lint warning: `NewsRail.tsx` useEffect missing dep `go`), all routes 200, old URLs 301, form,
+images, no console/CSP errors. The stash `stash@{0}` is kept as a safety copy; drop it once happy.
+
+**Sales number set (2026-10-12):** `src/content/site.ts` `phoneAction` / `whatsapp` / `whatsappUrl`
+→ 962790029928 (TEMP test number removed; it was the only place). Rebuilt: no test number left
+in `out/`.

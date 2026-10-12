@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 import { site } from "@/content/site";
 import { palette } from "@/theme/tokens";
 
+// Static export (Cloudflare Pages): written once at build time.
+export const dynamic = "force-static";
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: `${site.nameAr} | ${site.nameEn}`,

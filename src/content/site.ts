@@ -7,13 +7,10 @@ export const site = {
   taglineEn: "First and largest fully-serviced chalet city in the region",
   /** Shown in the UI (public sales number). */
   phone: "+962790029928",
-  /**
-   * TEMP TEST: actual WhatsApp / dial destination.
-   * Switch back to 962790029928 before shipping.
-   */
-  phoneAction: "+962795898415",
-  whatsapp: "962795898415",
-  whatsappUrl: "https://wa.me/962795898415",
+  /** Where calls, WhatsApp buttons and the register form go (the sales number). */
+  phoneAction: "+962790029928",
+  whatsapp: "962790029928",
+  whatsappUrl: "https://wa.me/962790029928",
   email: "",
   siteUrl: "https://giving-estate.com",
   mapsUrl: "https://maps.app.goo.gl/SBg2mNzHCV7xffLR8",
