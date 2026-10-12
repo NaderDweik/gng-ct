@@ -47,6 +47,14 @@ export function HomeServicesStrip({ locale }: { locale: string }) {
     return [{ id, src, icon: s.icon, title: isAr ? s.titleAr : s.titleEn, body: isAr ? ar : en }];
   });
 
+  // Desktop: in the heading row. Tablets: after the photos. Phones: in the controls row.
+  const servicesLink = (where: string) => (
+    <Link href="/services" className={`gallery-outline-btn ${where}`.trim()}>
+      {isAr ? "استكشف خدمات الكمباوند" : "Explore compound services"}
+      <ArrowIcon className="arrow" />
+    </Link>
+  );
+
   return (
     <section className="section hsc-band on-dark bg-secondary text-on-dark">
       <div className="container-gc">
@@ -55,14 +63,12 @@ export function HomeServicesStrip({ locale }: { locale: string }) {
             <p className="section-eyebrow">{isAr ? "خدمات الكمباوند" : "Compound services"}</p>
             <h2 className="section-title">{isAr ? "كمباوند يعمل من أجلك." : "A compound that works for you."}</h2>
           </div>
-          <div className="flex flex-col items-start gap-6 lg:items-end">
-            <Link href="/services" className="gallery-outline-btn">
-              {isAr ? "استكشف خدمات الكمباوند" : "Explore compound services"}
-              <ArrowIcon className="arrow" />
-            </Link>
-          </div>
+          <div className="hsc-head-cta flex flex-col items-start gap-6 lg:items-end">{servicesLink("")}</div>
         </div>
-        <HomeServicesViewer shots={shots} isAr={isAr} locale={locale} />
+        {/* Phones: the link leads the controls row under the photos (arrows, then count). */}
+        <HomeServicesViewer shots={shots} isAr={isAr} locale={locale} cta={servicesLink("hsc-all--row")} />
+        {/* Tablets: the link closes the section, under the photos. */}
+        {servicesLink("hsc-all--end")}
       </div>
     </section>
   );

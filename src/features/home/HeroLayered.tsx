@@ -81,6 +81,8 @@ export function HeroLayered() {
   const isAr = locale === "ar";
   const root = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
+  /** The carousel's go(), for the pagination dots (set inside the GSAP context). */
+  const goRef = useRef<(n: number) => void>(() => {});
 
   const word = isAr ? hero.wordmarkAr : hero.wordmarkEn;
 
@@ -148,6 +150,8 @@ export function HeroLayered() {
           .set(others(layers, next), { autoAlpha: 0 }, 1.8);
       };
 
+      goRef.current = go;
+
       const syncPause = () => {
         paused = document.hidden || window.scrollY > 40;
         if (!timer) return;
@@ -211,7 +215,9 @@ export function HeroLayered() {
           .to(q(".hl-stage"), { clipPath: "inset(9% 5% 3% 5%)", scale: 0.96 }, 0)
           .to(q(".hl-word"), { yPercent: -18 }, 0)
           .to(q(".hl-content"), { yPercent: -35, autoAlpha: 0 }, 0)
-          .to(q(".hl-cue"), { autoAlpha: 0, duration: 0.2 }, 0);
+          // fromTo: the dots are still fading in when this is built; a plain .to would
+          // record that near-0 opacity as the start and keep them hidden.
+          .fromTo(q(".hl-dots"), { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.2 }, 0);
 
         // After the pin (copy gone, photo framed), on the way down to the About section:
         // a row of V outlines draws on one after another in reading direction, then erases
@@ -344,9 +350,21 @@ export function HeroLayered() {
         </div>
       </div>
 
-      <div className="hl-cue hl-fade" aria-hidden>
-        <span />
-      </div>
+      {/* Pagination: one dot per slide; the current one is a longer pill. */}
+      {slides.length > 1 && (
+        <div className="hl-dots hl-fade">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              type="button"
+              className={`hl-dot${i === active ? " is-on" : ""}`}
+              aria-label={`${isAr ? "الشريحة" : "Slide"} ${i + 1} / ${slides.length}`}
+              aria-current={i === active || undefined}
+              onClick={() => goRef.current(i)}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

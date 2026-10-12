@@ -7,7 +7,7 @@ export const homeIntro = {
   image: "/home/intro-swimmer-pool-waterfall.jpg",
   /** The 3:2 frame trims the 16:9 photo's sides; this keeps the swimmer in. */
   focus: "80% 50%",
-  href: "/master-plan",
+  href: "/chalet",
   en: {
     eyebrow: "About Giving Compound",
     title: "One Community. 367 Private Resorts.",

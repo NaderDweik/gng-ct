@@ -102,7 +102,7 @@ export function GalleryPreview({ locale, eyebrow, title, sub, ctaLabel, ctaHref 
                 onFocus={() => show(i)}
                 onClick={() => show(i)}
               >
-                <Image src={p.src} alt="" fill sizes="(max-width: 1024px) 25vw, 12vw" className="hp-thumb-img" />
+                <Image src={p.src} alt={isAr ? p.captionAr : p.captionEn} fill sizes="(max-width: 1024px) 25vw, 12vw" className="hp-thumb-img" />
               </button>
             ))}
           </div>

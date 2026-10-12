@@ -1,14 +1,15 @@
 import type { MetadataRoute } from "next";
 import { articles } from "@/content/news";
+import { galleryImages } from "@/content/gallery";
 import { seoPages, type SeoRoute } from "@/content/seo";
 import { localeUrl } from "@/lib/seo";
 
 /** Bump when page content changes meaningfully (crawlers trust stable dates over "now"). */
-const CONTENT_UPDATED = "2026-10-05";
+const CONTENT_UPDATED = "2026-10-12";
 
 const priority: Partial<Record<SeoRoute, number>> = {
   "": 1,
-  "/units": 0.9,
+  "/compound": 0.9,
   "/financing": 0.9,
   "/register": 0.8,
   "/gallery": 0.8,
@@ -38,8 +39,10 @@ function entry(path: string, lastModified: string, p: number, images?: string[])
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  // The gallery's photos ride on its entry (an image sitemap), so Google Images finds them.
+  const galleryShots = galleryImages.map((g) => localeUrl("ar", g.src));
   const pages = (Object.keys(seoPages) as SeoRoute[]).flatMap((path) =>
-    entry(path, CONTENT_UPDATED, priority[path] ?? 0.5),
+    entry(path, CONTENT_UPDATED, priority[path] ?? 0.5, path === "/gallery" ? galleryShots : undefined),
   );
   const news = articles.flatMap((a) =>
     entry(`/news/${a.slug}`, a.date, 0.6, [localeUrl("ar", a.image)]),

@@ -514,7 +514,7 @@ const entries: Entry[] = [
     titleAr: "تطوير المدينة",
     titleEn: "Developing the city",
     bodyAr: ["بدأ تطوير مدينة Giving من خلال وضع تصور لمدينة متكاملة، وليس مشروعاً منفرداً، حيث تم العمل على توزيع الأراضي والوحدات والطرق والخدمات والمرافق ضمن مخطط واحد."],
-    bodyEn: ["Development of Giving began with a vision of an integrated city rather than a standalone project, laying out the land, units, roads, services and facilities within a single master plan."],
+    bodyEn: ["Development of Giving began with a vision of an integrated city rather than a standalone project, laying out the land, units, roads, services and facilities within a single plan."],
     image: "/news/developing-the-city.webp",
     gallery: [],
   },

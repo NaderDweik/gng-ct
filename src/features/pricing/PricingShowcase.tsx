@@ -67,7 +67,7 @@ export function PricingShowcase() {
 
   return (
     <div className="fin">
-      <div className="fin-main">
+      <div className="fin-head">
         <p className="fin-badge">{tc("financing")}</p>
         <h2 className="fin-title">{isAr ? "طريقتان لتملّك شاليهك." : "Two ways to own your chalet."}</h2>
         <p className="fin-lead">
@@ -75,34 +75,32 @@ export function PricingShowcase() {
             ? `جميع الشاليهات بسعر ${n(basePriceJd)} ${jd}، بتمويل مباشر من الشركة وبدون فوائد. قسّط شاليهك أو ادفع نقدًا بخصم ${pct(cashDiscountPct)}، ونتفق معك على الدفعة الأولى وموعد الاستلام عند زيارتك لمكتب المبيعات.`
             : `Every chalet is ${n(basePriceJd)} ${jd}, financed directly by the developer with zero interest. Pay in installments, or pay cash and save ${cashDiscountPct}%. We agree the down payment and handover date with you at our sales office.`}
         </p>
-
-        <div className="fin-plans">
-          {plans.map((p) => (
-            <article key={p.id} className="fin-plan">
-              <p className="fin-plan-name">{p.name}</p>
-              <p className="fin-plan-figure">
-                {p.figure}
-                <small>{p.caption}</small>
-              </p>
-              <dl className="fin-plan-rows">
-                {p.rows.map((r) => (
-                  <div key={r.k} className={`fin-plan-row${r.total ? " is-total" : ""}`}>
-                    <dt>{r.k}</dt>
-                    <dd className={r.accent ? "is-accent" : undefined}>{r.v}</dd>
-                  </div>
-                ))}
-              </dl>
-              <p className="fin-plan-note">{p.note}</p>
-              <Link href="/register" className="fin-plan-cta">
-                {p.cta}
-                <ArrowIcon />
-              </Link>
-            </article>
-          ))}
-        </div>
       </div>
 
-      <aside className="fin-aside">
+      <div className="fin-cards">
+        {plans.map((p) => (
+          <article key={p.id} className="fin-plan">
+            <p className="fin-plan-name">{p.name}</p>
+            <p className="fin-plan-figure">
+              {p.figure}
+              <small>{p.caption}</small>
+            </p>
+            <dl className="fin-plan-rows">
+              {p.rows.map((r) => (
+                <div key={r.k} className={`fin-plan-row${r.total ? " is-total" : ""}`}>
+                  <dt>{r.k}</dt>
+                  <dd className={r.accent ? "is-accent" : undefined}>{r.v}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="fin-plan-note">{p.note}</p>
+            <Link href="/register" className="fin-plan-cta">
+              {p.cta}
+              <ArrowIcon />
+            </Link>
+          </article>
+        ))}
+
         <div className="fin-price">
           <p className="fin-price-label">{isAr ? "سعر كل شاليه" : "Every chalet"}</p>
           <p className="fin-price-figure">
@@ -114,11 +112,11 @@ export function PricingShowcase() {
               ? "بدون بنوك أو وسطاء. سند ملكية مستقل باسمك."
               : "No banks, no brokers. An independent title deed in your name."}
           </p>
-          <Link href="/register" className="fin-price-btn">
+          <Link href="/register" className="btn btn-primary fin-price-btn">
             {tc("register")}
           </Link>
         </div>
-      </aside>
+      </div>
     </div>
   );
 }

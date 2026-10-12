@@ -10,7 +10,6 @@ export type SeoRoute =
   | "/about"
   | "/gallery"
   | "/services"
-  | "/master-plan"
   | "/financing"
   | "/leadership"
   | "/amenities"
@@ -18,7 +17,8 @@ export type SeoRoute =
   | "/news"
   | "/faq"
   | "/register"
-  | "/units";
+  | "/chalet"
+  | "/compound";
 
 type SeoCopy = { titleAr: string; titleEn: string; descAr: string; descEn: string };
 
@@ -37,7 +37,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
   },
   "/about": {
     titleAr: "من نحن: شركة العطاء للتطوير والتمويل العمراني",
-    titleEn: "About Us: Al-Ataa City Development & Financing",
+    titleEn: "About Us: Al-Ataa City Development",
     descAr:
       "تعرّف على شركة العطاء للتطوير والتمويل العمراني ومشروع روح العطاء: ٥٠٠,٠٠٠ م²، ٣٦٧+ شاليه بتصميم إسباني، وشهادة جودة ISO 9001:2015.",
     descEn:
@@ -53,19 +53,11 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
   },
   "/services": {
     titleAr: "خدماتنا: تطوير، تمويل مباشر وخدمة ما بعد البيع",
-    titleEn: "Our Services: Development, Financing & Aftercare",
+    titleEn: "Compound Services & Aftercare in Jordan",
     descAr:
       "خدمات شركة العطاء لملاك الشاليهات: تطوير وبناء وتشطيب، تمويل مباشر بدون بنك وبدون فوائد، إدارة العقار، ودعم قانوني لاستخراج سند الملكية.",
     descEn:
       "What Al-Ataa does for chalet owners: development and finishing, direct 0% financing with no bank, property management and legal support for your title deed.",
-  },
-  "/master-plan": {
-    titleAr: "المخطط العام: تصميم الشاليه ٥٠٠ م² في روح العطاء",
-    titleEn: "Master Plan: The 500 m² Chalet Layout",
-    descAr:
-      "اطّلع على مخطط شاليه روح العطاء: ٥٠٠ م² بسند مستقل، ٣ غرف نوم، مسبح كبير ومسبح أطفال، جاكوزي، برجولا ومنطقة شواء داخل مجتمع مسوّر.",
-    descEn:
-      "Explore the Giving Compound chalet plan: 500 m² with its own deed, 3 bedrooms, a main and kids pool, jacuzzi, pergola and BBQ, inside a gated community.",
   },
   "/financing": {
     titleAr: "تقسيط شاليه بدون فوائد وبدون بنك | خطط الدفع",
@@ -89,7 +81,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     descAr:
       "مرافق مجتمع روح العطاء المسوّر: حراسة وكاميرات على مدار الساعة، إنترنت ألياف ضوئية، مسابح مفلترة، حدائق، ملاعب أطفال ومواقف لكل شاليه.",
     descEn:
-      "Inside the gated Giving Compound community: 24/7 guards and cameras, fiber internet, filtered pools, landscaped gardens, kids play areas and parking for every chalet.",
+      "Inside gated Giving Compound: 24/7 guards and cameras, fiber internet, filtered pools, landscaped gardens, kids play areas and parking per chalet.",
   },
   "/location": {
     titleAr: "الموقع: شاليهات قرب عمّان على طريق سحاب",
@@ -101,7 +93,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
   },
   "/news": {
     titleAr: "الأخبار والمقالات: الاستثمار في الشاليهات بالأردن",
-    titleEn: "News & Articles: Chalet Investment in Jordan",
+    titleEn: "News: Chalet Investment in Jordan",
     descAr:
       "مقالات وأخبار روح العطاء: الاستثمار العقاري في الشاليهات، خطط الدفع بدون فوائد، جودة البناء ISO، التصميم الإسباني والحياة داخل المجتمع.",
     descEn:
@@ -117,18 +109,26 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
   },
   "/register": {
     titleAr: "سجّل اهتمامك: احجز زيارة أو استشارة تمويل",
-    titleEn: "Register Interest: Book a Visit or Financing Call",
+    titleEn: "Register Interest: Book a Site Visit",
     descAr:
       "سجّل اهتمامك بشاليه في روح العطاء واحجز زيارة للموقع أو استشارة تمويل. يرد عليك فريق المبيعات في أقرب وقت ممكن عبر واتساب أو الهاتف.",
     descEn:
-      "Register your interest in a Giving Compound chalet and book a site visit or a financing call. Our sales team will get back to you on WhatsApp or by phone as soon as possible.",
+      "Register your interest in a Giving Compound chalet and book a site visit or financing call. Our sales team replies by WhatsApp or phone.",
   },
-  "/units": {
-    titleAr: "الشاليهات المتاحة للبيع: ٥٠٠ م² بمسبح خاص",
-    titleEn: "Chalets for Sale: 500 m² With Private Pool",
+  "/chalet": {
+    titleAr: "الشاليه: تصميم ٥٠٠ م² في روح العطاء",
+    titleEn: "The Chalet: Inside the 500 m² Layout",
     descAr:
-      "شاليهات روح العطاء على المخطط العام: ٥٠٠ م² بسند ملكية مستقل، ٣ غرف نوم، مسبح خاص وجاكوزي، بسعر ١٦٨,٠٠٠ دينار مع تقسيط بدون فوائد.",
+      "اطّلع على مخطط شاليه روح العطاء: ٥٠٠ م² بسند مستقل، ٣ غرف نوم، مسبح كبير ومسبح أطفال، جاكوزي، برجولا ومنطقة شواء داخل مجتمع مسوّر.",
     descEn:
-      "Explore every chalet at Giving Compound on the master plan: 500 m² with an independent deed, 3 bedrooms, private pool and jacuzzi, from 168,000 JD with 0% installments.",
+      "Explore the Giving Compound chalet plan: 500 m² with its own deed, 3 bedrooms, a main and kids pool, jacuzzi, pergola and BBQ, inside a gated community.",
+  },
+  "/compound": {
+    titleAr: "الكمباوند: الشاليهات المتاحة للبيع بمسبح خاص",
+    titleEn: "The Compound: Chalets With Private Pools",
+    descAr:
+      "شاليهات روح العطاء على خريطة الكمباوند: ٥٠٠ م² بسند ملكية مستقل، ٣ غرف نوم، مسبح خاص وجاكوزي، بسعر ١٦٨,٠٠٠ دينار مع تقسيط بدون فوائد.",
+    descEn:
+      "Find your chalet on the Giving Compound map: 500 m² with its own deed, 3 bedrooms, private pool and jacuzzi, from 168,000 JD at 0% interest.",
   },
 };

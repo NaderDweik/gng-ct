@@ -6,6 +6,7 @@ import { Cairo, DM_Sans } from "next/font/google";
 import { isLocale, routing } from "@/i18n/routing";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { ActionBar } from "@/components/layout/ActionBar";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { ScrollMemory } from "@/components/layout/ScrollMemory";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -96,6 +97,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <Header />
           <main>{children}</main>
           <Footer />
+          <ActionBar />
           <WhatsAppFloat />
         </NextIntlClientProvider>
       </body>

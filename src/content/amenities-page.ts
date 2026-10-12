@@ -16,15 +16,6 @@ export const amenitiesPageCopy = {
     communityEyebrow: "Across the community",
     communityTitle: "Shared places, a short walk away.",
     communityLead: "Beyond your walls, a gated community with the everyday essentials (and a few pleasures) within reach.",
-    servicesEyebrow: "Serviced daily",
-    servicesTitle: "The quiet work behind it all.",
-    servicesLead: "Infrastructure and people that keep Giving Compound running, so your time here is only yours.",
-    stats: {
-      security: "Security, every day",
-      walls: "Private walls around every resort",
-      area: "Of private resort, per unit",
-      units: "Private resorts in the community",
-    },
   },
   ar: {
     crumb: "المرافق",
@@ -36,15 +27,6 @@ export const amenitiesPageCopy = {
     communityEyebrow: "عبر المجتمع",
     communityTitle: "أماكن مشتركة، على بُعد خطوات.",
     communityLead: "خلف أسوارك، مجتمع مسوّر يضم أساسيات الحياة اليومية (وبعض المتعة) على مقربة منك.",
-    servicesEyebrow: "خدمة يومية",
-    servicesTitle: "العمل الهادئ خلف كل شيء.",
-    servicesLead: "بنية تحتية وفريق عمل يحافظان على Giving Compound، ليبقى وقتك هنا لك وحدك.",
-    stats: {
-      security: "أمن طوال اليوم",
-      walls: "أسوار خاصة حول كل شاليه",
-      area: "شاليه خاص لكل وحدة",
-      units: "شاليه خاص في المجتمع",
-    },
   },
 } as const;
 
@@ -134,68 +116,6 @@ export const communityPlaces: CommunityPlace[] = [
     bodyAr: "فريق في الموقع يُبقي شاليهك جاهزًا لك.",
     image: `${C}/housekeeping-team.jpg`,
     size: "wide",
-  },
-];
-
-export type ServiceLine = {
-  id: string;
-  titleEn: string;
-  titleAr: string;
-  bodyEn: string;
-  bodyAr: string;
-  /** Shown beside the list when this line is active. */
-  image: string;
-};
-
-/** The infrastructure behind the community (from content/services.ts, reworded). */
-export const serviceLines: ServiceLine[] = [
-  {
-    id: "water",
-    titleEn: "Water systems",
-    titleAr: "أنظمة المياه",
-    bodyEn: "Automatic pumps and a reliable supply to every unit.",
-    bodyAr: "مضخات أوتوماتيكية وتزويد موثوق لكل وحدة.",
-    image: `${C}/water-tower-billboard.jpg`,
-  },
-  {
-    id: "pools",
-    titleEn: "Pool care",
-    titleAr: "صيانة المسابح",
-    bodyEn: "Advanced filtration and routine maintenance.",
-    bodyAr: "فلترة متقدمة وصيانة دورية.",
-    image: "/gallery/resortsPics/pool-and-tent-pavilion-hd.jpg",
-  },
-  {
-    id: "fiber",
-    titleEn: "Fiber & satellite",
-    titleAr: "ألياف ضوئية وستلايت",
-    bodyEn: "Fiber internet, satellite and AC-ready homes.",
-    bodyAr: "إنترنت ألياف ضوئية وستلايت ومنازل جاهزة للتكييف.",
-    image: "/gallery/resortsPics/family-living-room.jpg",
-  },
-  {
-    id: "power",
-    titleEn: "Power & solar",
-    titleAr: "الكهرباء والطاقة الشمسية",
-    bodyEn: "Completed utility connections, backed by an on-site solar farm.",
-    bodyAr: "توصيلات مرافق مكتملة، مدعومة بمحطة طاقة شمسية في الموقع.",
-    image: `${C}/solar-farm-building-store.jpg`,
-  },
-  {
-    id: "roads",
-    titleEn: "Internal roads",
-    titleAr: "الطرق الداخلية",
-    bodyEn: "An easy-access road network with golf-cart shuttles.",
-    bodyAr: "شبكة طرق سهلة الوصول مع تنقل بعربات الغولف.",
-    image: `${C}/golf-cart-shuttle-street.jpg`,
-  },
-  {
-    id: "gardens",
-    titleEn: "Landscaping",
-    titleAr: "تنسيق الحدائق",
-    bodyEn: "Gardeners tending green spaces across 500,000 m².",
-    bodyAr: "بستانيون يعتنون بالمساحات الخضراء على ٥٠٠,٠٠٠ م².",
-    image: `${C}/gardeners-landscaping-park.jpg`,
   },
 ];
 

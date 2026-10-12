@@ -487,10 +487,9 @@
   list-style: none;
 }
 
-@media (min-width: 600px) {
-  .svc-bento {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+/* Phones and tablets: two columns (the bento shapes below). */
+.svc-bento {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 @media (min-width: 1024px) {
@@ -551,7 +550,7 @@
   padding: 1.1rem 1.25rem;
 }
 
-/* Phones (one column): only the height varies. */
+/* Phones / tablets (two columns): tall shapes take 2-3 rows. */
 .svc-tile--soon:is(.is-xl, .is-tall3) {
   grid-row: span 3;
 }
@@ -560,11 +559,9 @@
   grid-row: span 2;
 }
 
-/* Tablets (two columns): wide shapes take the full row. */
-@media (min-width: 600px) {
-  .svc-tile--soon:is(.is-xl, .is-hero, .is-lg, .is-wide3, .is-wide) {
-    grid-column: span 2;
-  }
+/* Phones / tablets (two columns): wide shapes take the full row. */
+.svc-tile--soon:is(.is-xl, .is-hero, .is-lg, .is-wide3, .is-wide) {
+  grid-column: span 2;
 }
 
 /* Desktop (six columns): the full set of shapes. */
@@ -638,35 +635,6 @@
 
 }
 
-/* Phones: a compact two-column list. Every tile one cell, and no tile fades past
-   readable, so the whole set fits in a couple of screens instead of a long dim column. */
-@media (max-width: 599px) {
-  .svc-bento {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: auto;
-    gap: 0.5rem;
-  }
-
-  .svc-tile--soon,
-  .svc-tile--soon:is(.is-xl, .is-hero, .is-lg, .is-wide3, .is-wide, .is-tall3, .is-tall) {
-    grid-column: auto;
-    grid-row: auto;
-    align-items: center;
-    min-height: 3.25rem;
-    padding: 0.7rem 0.85rem;
-  }
-
-  .svc-tile--soon .svc-tile-title,
-  .svc-tile--soon:is(.is-xl, .is-hero, .is-lg, .is-wide3, .is-wide, .is-tall3, .is-tall) .svc-tile-title {
-    font-size: var(--fs-small);
-    line-height: 1.3;
-  }
-
-  .svc-tile--soon.is-in {
-    opacity: max(var(--fade), 0.75);
-  }
-}
-
 /* ── Phones: scroll-driven "Available now" + a calmer "Coming soon" ──
    The photo pins under the site bar; the whole list shows (no box-in-a-page scrolling);
    the service passing under the photo lights up (ServicesDirectory). Arrows and the
@@ -692,7 +660,25 @@
   .svv-list {
     height: auto;
     overflow: visible;
-    padding-bottom: 35svh; /* lets the last service reach the line under the photo */
+  }
+
+  /* A compact label on the pinned photo. */
+  .svv-caption {
+    font-size: 1.05rem;
+    line-height: 1.2;
+  }
+
+  .svv-cap {
+    padding: 0.6rem 0.9rem;
+  }
+
+  .svv-cap-text {
+    gap: 0.15rem;
+  }
+
+  .svv-count {
+    font-size: 0.625rem;
+    letter-spacing: 0.12em;
   }
 
   .svv-item {
@@ -706,23 +692,79 @@
     transform: scale(0.98);
   }
 
-  /* Coming soon: centred head, tiles rise in calmly; a lone last tile spans the row. */
+  /* Coming soon: centred head. */
   .svc-head {
     text-align: center;
   }
 
-  .svc-bento > .svc-tile--soon:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-  }
-
-  .svc-tile-title {
-    text-align: center;
-  }
 }
 
 @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
   .svv-item {
     transition: none;
     transform: none;
+  }
+}
+
+/* ── Key figures (app/[locale]/services/page.tsx), opening the dark band above
+   "Coming soon": each figure in its own thin-lined box; green figures, muted labels. ── */
+.svc-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1.25rem);
+  margin: 0 0 clamp(3rem, 6vw, 4.5rem);
+}
+
+@media (min-width: 1024px) {
+  .svc-stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.svc-stat {
+  display: flex;
+  flex-direction: column-reverse;
+  /* Reversed column: flex-end is the top, so figures line up when labels wrap. */
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: clamp(1.25rem, 2.4vw, 1.75rem);
+  border: 1px solid var(--line-on-dark);
+}
+
+.svc-stat dt {
+  color: var(--on-dark-muted);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+}
+
+.svc-stat dd {
+  margin: 0;
+  color: var(--brand-primary);
+  font-family: var(--font-display);
+  font-size: var(--fs-stat);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Phones: a centred 2 × 2 of boxes. */
+@media (max-width: 767px) {
+  .svc-stats {
+    margin-bottom: 2.5rem;
+  }
+
+  .svc-stat {
+    align-items: center;
+    padding: 1.25rem 0.75rem;
+    text-align: center;
+  }
+
+  .svc-stat dd {
+    font-size: clamp(1.9rem, 9vw, 2.3rem);
+  }
+
+  .svc-stat dt {
+    max-width: 14ch;
   }
 }

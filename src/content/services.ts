@@ -112,3 +112,19 @@ export const servicesCopy = {
     upcomingSub: "Opening in turn as each phase of the project completes.",
   },
 } as const;
+
+/** Key figures under the /services page header (moved from the amenities page). */
+export const serviceStats = {
+  en: {
+    security: "Security, every day",
+    walls: "Private walls around every resort",
+    area: "Of private resort, per unit",
+    units: "Private resorts in the community",
+  },
+  ar: {
+    security: "أمن طوال اليوم",
+    walls: "أسوار خاصة حول كل شاليه",
+    area: "شاليه خاص لكل وحدة",
+    units: "شاليه خاص في المجتمع",
+  },
+} as const;

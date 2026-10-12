@@ -434,3 +434,116 @@
     transition: none;
   }
 }
+
+/* One "Explore all amenities" per screen size: in the heading row on desktop, under the
+   cards on phones / tablets (centred). */
+.am-all-head {
+  display: none;
+}
+
+.am-all--end {
+  display: flex;
+  width: fit-content;
+  margin: clamp(1.75rem, 4vw, 2.5rem) auto 0;
+}
+
+@media (min-width: 1024px) {
+  .am-all-head {
+    display: flex;
+  }
+
+  .am-all--end {
+    display: none;
+  }
+}
+
+/* Phones: two columns of cards, each already in its open look (the whole photo under a
+   shade, light text on it), so nothing toggles while scrolling (AmenitiesScrollFocus is
+   off on phones). Last in the file so it wins over the rules above. */
+@media (max-width: 767px) {
+  .amg {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  .amg-card,
+  .amg-card:hover,
+  .amg-card:focus-visible {
+    min-height: 12.5rem;
+    border-color: var(--line);
+  }
+
+  .amg-photo,
+  [dir="rtl"] .amg-photo {
+    clip-path: inset(0);
+  }
+
+  .amg-frame {
+    translate: 0 0;
+  }
+
+  .amg-img {
+    scale: 1;
+  }
+
+  /* Shade from the top, where the text sits; dark enough over the whole photo that
+     the text reads on bright ones too. */
+  .amg-photo::after,
+  [dir="rtl"] .amg-photo::after {
+    opacity: 1;
+    transform: none;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--overlay) 88%, transparent) 0%,
+      color-mix(in srgb, var(--overlay) 72%, transparent) 55%,
+      color-mix(in srgb, var(--overlay) 50%, transparent) 100%
+    );
+  }
+
+  /* A tap counts as hover on touch screens: the desktop hover slide (text moving to the
+     start edge) must not play here; the cards are already open. */
+  .amg-card:hover :is(.amg-icon, .amg-title, .amg-desc),
+  .amg-card.is-active :is(.amg-icon, .amg-title, .amg-desc),
+  .amg-card:focus-visible :is(.amg-icon, .amg-title, .amg-desc) {
+    translate: none;
+  }
+
+  /* Icon, title and description start at the same point from the top in every card. */
+  .amg-text {
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.25rem;
+    text-align: center;
+    margin-inline-start: 0;
+    padding: 1.1rem 0.85rem 0.85rem;
+  }
+
+  .amg-icon {
+    width: 2.2rem;
+    height: 2.2rem;
+    margin-bottom: 0.25rem;
+    background: color-mix(in srgb, var(--white) 16%, transparent);
+    color: var(--on-dark);
+  }
+
+  .amg-icon svg {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .amg-title,
+  .amg-desc {
+    color: var(--on-dark);
+    text-shadow: 0 1px 12px color-mix(in srgb, var(--black) 40%, transparent);
+  }
+
+  .amg-title {
+    font-size: 0.98rem;
+  }
+
+  .amg-desc {
+    font-size: 0.78rem;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+}

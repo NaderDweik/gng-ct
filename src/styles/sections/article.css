@@ -259,6 +259,61 @@
   box-shadow: 0 0 0 4px var(--brand-primary-soft);
 }
 
+/* Year + chevrons (↑ newer year, ↓ older; dimmed where there is none). Phones/tablets:
+   the year, then both chevrons at the end of the sticky bar. Desktop: one centred column,
+   ↑ above the year and ↓ below it. Bare chevrons, no box. */
+.news-year-stack {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.news-year-stack .news-year-title {
+  order: -1;
+  margin-inline-end: auto;
+}
+
+.news-year-step {
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--brand-primary);
+}
+
+.news-year-step:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.news-year-step.is-off {
+  color: var(--line);
+}
+
+.news-year-step svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: translate 0.25s var(--ease);
+}
+
+.news-year-step.is-up svg {
+  rotate: 180deg;
+}
+
+a.news-year-step.is-down:hover svg {
+  translate: 0 3px;
+}
+
+a.news-year-step.is-up:hover svg {
+  translate: 0 -3px;
+}
+
 .news-year-title {
   margin: 0;
   color: var(--ink);
@@ -301,6 +356,32 @@
     background: none;
     -webkit-backdrop-filter: none;
     backdrop-filter: none;
+  }
+
+  /* Desktop: ↑, the year, ↓ in one column, centred on the year. */
+  .news-year-stack {
+    flex: none;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  .news-year-stack .news-year-title {
+    order: 0;
+    margin-inline-end: 0;
+  }
+
+  .news-year-stack .is-down {
+    order: 1;
+  }
+
+  .news-year-step {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .news-year-step svg {
+    width: 2.25rem;
+    height: 2.25rem;
   }
 
   .news-year-title {
@@ -614,16 +695,17 @@
   translate: -4px 0;
 }
 
-/* ── Phones: each story is a compact row (thumbnail beside the text) instead of a tall
-   card; every summary is shown in full (no clamp). ── */
+/* ── Phones: each story is a full-width card: photo on top, then one meta line, a
+   2-line headline and a 2-line summary at fixed heights, so every card is the same size
+   whatever its text. No animated top line on phones, and the sticky year bar stays
+   above the cards. ── */
 @media (max-width: 767px) {
-  .news-year-grid {
-    gap: 0.75rem;
+  .news-year-head {
+    z-index: 10;
   }
 
-  .news-card {
-    display: grid;
-    grid-template-columns: 6.75rem minmax(0, 1fr);
+  .news-year-grid {
+    gap: 1rem;
   }
 
   .news-card:hover {
@@ -631,53 +713,64 @@
     box-shadow: none;
   }
 
+  .news-card::before {
+    display: none;
+  }
+
   .news-card-media {
-    aspect-ratio: auto;
-    min-height: 100%;
+    aspect-ratio: 16 / 9;
   }
 
   .news-card-body {
-    padding: 0.85rem 0.95rem 0.9rem;
+    padding: 1rem 1.1rem 1.1rem;
   }
 
   .news-card-meta {
-    flex-wrap: wrap;
-    gap: 0.15rem 0.6rem;
-    margin-bottom: 0.4rem;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+    margin-bottom: 0.55rem;
   }
 
   .news-card-cat {
-    gap: 0.35rem;
-    font-size: 0.625rem;
+    overflow: hidden;
+    font-size: 0.6875rem;
     letter-spacing: 0.12em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   .news-card-cat::before {
-    width: 0.75rem;
+    flex: none;
+    width: 0.85rem;
   }
 
   .news-card-date {
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
   }
 
   .news-card-title {
-    font-size: 1rem;
-    line-height: 1.3;
+    display: -webkit-box;
+    min-height: calc(2 * 1.25em);
+    overflow: hidden;
+    font-size: 1.2rem;
+    line-height: 1.25;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
 
   .news-card-excerpt {
-    display: block;
-    margin: 0.35rem 0 0.7rem;
-    overflow: visible;
-    font-size: 0.8125rem;
+    min-height: calc(2 * 1.55em);
+    margin: 0.45rem 0 0.9rem;
+    font-size: 0.9375rem;
     line-height: 1.55;
-    -webkit-line-clamp: unset;
-    line-clamp: none;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
   }
 
   .news-card-more {
-    padding-top: 0.6rem;
-    font-size: 0.625rem;
+    padding-top: 0.75rem;
+    font-size: 0.6875rem;
   }
 
   .news-year + .news-year {

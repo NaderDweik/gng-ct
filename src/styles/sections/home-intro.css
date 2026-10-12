@@ -143,12 +143,12 @@
     line-height: 1.75;
   }
 
+  /* Plain rows on the page: no panel behind them, no side rule. */
   .hi-facts {
     gap: 0;
     margin-bottom: 1.5rem;
-    padding: 0.25rem 1rem;
+    padding: 0;
     border-top: 0;
-    background: var(--surface-alt);
   }
 
   .hi-facts li {
@@ -241,32 +241,7 @@
     transform: none;
   }
 
-  /* 3 · Facts: the green rule draws down, then each row slides in and its check draws. */
-  .hi-facts {
-    position: relative;
-  }
-
-  .hi-facts::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    width: 2px;
-    background: var(--brand-primary);
-    transform: scaleY(0);
-    transform-origin: 50% 0;
-    transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1) 0.45s;
-  }
-
-  [dir="rtl"] .hi-facts::before {
-    left: auto;
-    right: 0;
-  }
-
-  .hi.is-copy-in .hi-facts::before {
-    transform: none;
-  }
+  /* 3 · Facts: each row slides in and its check draws. */
 
   .hi-facts li {
     opacity: 0;
@@ -307,7 +282,6 @@
   .hi-copy .section-eyebrow,
   .hi-body,
   .hi-cta,
-  .hi-facts::before,
   .hi-facts li,
   .hi-facts svg path {
     opacity: 1;

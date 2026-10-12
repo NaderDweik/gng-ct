@@ -9,19 +9,20 @@ import { routeMetadata } from "@/lib/seo";
 type Props = LocalePageProps;
 
 export function generateMetadata({ params }: Props) {
-  return routeMetadata(params, "/units");
+  return routeMetadata(params, "/compound");
 }
 
-/** Page header + the compound explorer, together exactly one screen (styles: compound-plan.css). */
-export default async function UnitsPage({ params }: Props) {
+/** Page header + the compound explorer (was /units), together exactly one screen (styles: compound-plan.css). */
+export default async function CompoundPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
-  const copy = compoundCopy[locale === "ar" ? "ar" : "en"];
+  const isAr = locale === "ar";
+  const copy = compoundCopy[isAr ? "ar" : "en"];
 
   return (
     <div className="cx-page">
-      <PageJsonLd locale={locale} path="/units" listing />
-      <SubpageHeader compactMobile eyebrow={copy.eyebrow} title={copy.title} subtitle={copy.lede} />
+      <PageJsonLd locale={locale} path="/compound" listing />
+      <SubpageHeader compactMobile eyebrow={copy.eyebrow} title={isAr ? "الكمباوند" : "Compound"} subtitle={copy.lede} />
       <CompoundPlan locale={locale} />
     </div>
   );

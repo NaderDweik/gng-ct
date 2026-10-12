@@ -516,7 +516,6 @@
 /* Time: the solid green chip. */
 .register-glide-pill--time {
   background: var(--brand-primary);
-  box-shadow: 0 6px 16px color-mix(in srgb, var(--brand-primary) 30%, transparent);
 }
 
 .register-glide .register-choice,

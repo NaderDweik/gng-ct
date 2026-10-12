@@ -19,6 +19,8 @@
 @import "./base/hover-accent.css";
 @import "./base/v-lines.css";
 @import "./base/video-player.css";
+@import "./base/sticky-bar.css";
+@import "./base/action-bar.css";
 
 @import "./sections/home.css";
 @import "./sections/gallery-mosaic.css";

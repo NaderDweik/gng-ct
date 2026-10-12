@@ -1,0 +1,93 @@
+/* ── Compact filter bar (phones). Markup: components/ui/StickyBar.tsx ──
+   Fixed under the site header (4rem), it slides down into view once the page's own
+   filters have scrolled away. Pills: small, no glow, one sideways-scrolling row. */
+.sticky-bar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .sticky-bar {
+    position: fixed;
+    top: 4rem;
+    inset-inline: 0;
+    z-index: 40;
+    display: block;
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 96%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+    transition:
+      transform 0.35s var(--ease),
+      opacity 0.25s ease;
+  }
+
+  .sticky-bar.is-on {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+}
+
+.sticky-bar-inner {
+  display: grid;
+  gap: 0.5rem;
+  padding-block: 0.6rem;
+}
+
+.sticky-pills {
+  display: flex;
+  gap: 0.4rem;
+  margin-inline: -1rem;
+  padding-inline: 1rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.sticky-pills::-webkit-scrollbar {
+  display: none;
+}
+
+.sticky-pill {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.sticky-pill.is-on {
+  border-color: var(--brand-primary);
+  background: var(--brand-primary);
+  color: var(--on-primary);
+}
+
+.sticky-pill:disabled {
+  opacity: 0.4;
+}
+
+.sticky-pill-count {
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, currentColor 14%, transparent);
+  font-size: 0.6875rem;
+}
+
+/* The search field in the bar: the page's search, a size smaller. */
+.sticky-bar .faq-search input {
+  padding-block: 0.55rem;
+}

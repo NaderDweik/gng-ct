@@ -148,7 +148,6 @@
     height: var(--h);
     border-radius: 999px;
     background: var(--brand-primary);
-    box-shadow: 0 6px 16px color-mix(in srgb, var(--brand-primary) 30%, transparent);
     transform: translate(var(--x), var(--top));
   }
 }

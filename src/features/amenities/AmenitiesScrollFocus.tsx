@@ -10,7 +10,8 @@ import { useEffect } from "react";
  */
 export function AmenitiesScrollFocus() {
   useEffect(() => {
-    const mq = matchMedia("(hover: none), (max-width: 767px)");
+    // Touch tablets only: phones show every card already open (amenities-grid.css).
+    const mq = matchMedia("(hover: none) and (min-width: 768px)");
     let io: IntersectionObserver | null = null;
 
     const start = () => {

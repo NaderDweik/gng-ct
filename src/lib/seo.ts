@@ -26,6 +26,24 @@ export function languageAlternates(locale: Locale, path: string): Metadata["alte
   };
 }
 
+/**
+ * A search-snippet description from free text (e.g. a news excerpt): Google shows about
+ * 150–160 characters, so long text is cut at a word break with "…", and thin text gets
+ * one line of place context so the snippet still says where and what.
+ */
+export function snippet(text: string, locale: Locale) {
+  const clean = text.replace(/\s+/g, " ").trim();
+  if (clean.length > 158) {
+    const cut = clean.slice(0, 155);
+    return `${cut.slice(0, cut.lastIndexOf(" ")).replace(/[\s,،.:;]+$/, "")}…`;
+  }
+  if (clean.length < 110) {
+    const end = /[.!?؟]$/.test(clean) ? clean : `${clean}.`;
+    return `${end} ${locale === "ar" ? "روح العطاء، شاليهات خاصة في سحاب، الأردن." : "Giving Compound, private chalets in Sahab, Jordan."}`;
+  }
+  return clean;
+}
+
 type PageSeo = {
   locale: Locale;
   path: string;
@@ -132,6 +150,13 @@ export function siteGraph(locale: Locale) {
         logo: `${site.siteUrl}/icon-512.png`,
         image: `${site.siteUrl}${DEFAULT_OG_IMAGE}`,
         telephone: site.phone,
+        contactPoint: {
+          "@type": "ContactPoint",
+          telephone: site.phone,
+          contactType: "sales",
+          areaServed: "JO",
+          availableLanguage: ["Arabic", "English"],
+        },
         address: address(locale),
         geo,
         hasMap: site.mapsUrl,

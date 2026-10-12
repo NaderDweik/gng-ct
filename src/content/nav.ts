@@ -9,14 +9,14 @@ export const mainNav: NavItem[] = [
   { href: "/about", labelAr: "من نحن", labelEn: "About" },
   { href: "/gallery", labelAr: "المعرض", labelEn: "Gallery" },
   { href: "/services", labelAr: "خدماتنا", labelEn: "Services" },
-  { href: "/master-plan", labelAr: "المخطط", labelEn: "Master Plan" },
+  { href: "/chalet", labelAr: "الشاليه", labelEn: "Chalet" },
   { href: "/financing", labelAr: "التمويل", labelEn: "Financing" },
   { href: "/leadership", labelAr: "الإدارة", labelEn: "Leadership" },
   { href: "/amenities", labelAr: "مرافق المشروع", labelEn: "Amenities" },
   { href: "/location", labelAr: "الخريطة", labelEn: "Location" },
   { href: "/news", labelAr: "الأخبار", labelEn: "News" },
   { href: "/faq", labelAr: "الأسئلة الشائعة", labelEn: "FAQ" },
-  { href: "/units", labelAr: "خريطة الكمباوند", labelEn: "Units" },
+  { href: "/compound", labelAr: "الكمباوند", labelEn: "Compound" },
   { href: "/register", labelAr: "سجل اهتمامك", labelEn: "Register" },
 ];
 

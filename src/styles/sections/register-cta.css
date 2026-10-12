@@ -130,3 +130,23 @@
 [dir="rtl"] .register-cta-btn:hover .arrow {
   transform: scaleX(-1) translateX(4px);
 }
+
+/* The button pair: equal widths (each as wide as the wider label), centred; side by
+   side, stacked on phones. */
+.register-cta-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  width: fit-content;
+  margin-inline: auto;
+}
+
+.register-cta-actions .register-cta-btn {
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .register-cta-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -146,6 +146,27 @@
   margin-top: 1.75rem;
 }
 
+/* One "See all questions" per screen size: in the intro on desktop, after the
+   questions (centred) on phones / tablets. */
+.hfaq-all--intro {
+  display: none;
+}
+
+.hfaq-all--end {
+  justify-self: center;
+  margin-top: 0;
+}
+
+@media (min-width: 1024px) {
+  .hfaq-all--intro {
+    display: inline-flex;
+  }
+
+  .hfaq-all--end {
+    display: none;
+  }
+}
+
 /* Phones only: the intro (eyebrow, title, lede, "See all") centred above the questions,
    the eyebrow framed by two short rules. The questions themselves are unchanged. */
 @media (max-width: 767px) {
@@ -186,8 +207,8 @@
     margin-inline: auto;
   }
 
-  .hfaq-all {
-    margin-top: 1.5rem;
+  .hfaq-all--end {
+    margin-top: 0;
   }
 
   /* Questions: a fixed number column so every question starts on the same line,

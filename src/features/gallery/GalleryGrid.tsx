@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { StickyBar, StickyPills } from "@/components/ui/StickyBar";
 import { type CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import {
@@ -79,9 +80,14 @@ export function GalleryGrid() {
 
   // Switching tabs: the underline moves at once, the old photos fade out, then the
   // new ones rise in. Reduced motion swaps straight away.
-  const pick = (next: GalleryCategoryId) => {
+  const pick = (next: GalleryCategoryId, fromBar = false) => {
     if (next === tab) return;
     setTab(next);
+    // From the compact bar (phones): start the new set from the top of the gallery.
+    if (fromBar && galRef.current) {
+      const nav = document.querySelector<HTMLElement>("header")?.offsetHeight ?? 64;
+      window.scrollTo({ top: galRef.current.getBoundingClientRect().top + window.scrollY - nav, behavior: "smooth" });
+    }
     if (swapTimer.current) window.clearTimeout(swapTimer.current);
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setShown(next);
@@ -106,6 +112,7 @@ export function GalleryGrid() {
   // since the tabs can wrap). Desktop draws it as an underline, phones as a pill behind
   // the tab in a 3 × 2 grid (gallery.css), so both the tab's top and bottom are measured.
   const tabsRef = useRef<HTMLDivElement>(null);
+  const galRef = useRef<HTMLDivElement>(null);
   const [line, setLine] = useState<{ x: number; top: number; h: number; w: number } | null>(null);
   useLayoutEffect(() => {
     const row = tabsRef.current;
@@ -181,8 +188,12 @@ export function GalleryGrid() {
   const nameLabel = (item: GalleryImage) => (isAr ? item.nameAr : item.nameEn);
 
   return (
-    <div className="gal" dir={isAr ? "rtl" : "ltr"}>
+    <div ref={galRef} className="gal" dir={isAr ? "rtl" : "ltr"}>
       <div className="container-gc">
+        {/* Phones: once these tabs scroll away, a compact pill bar slides in under the header. */}
+        <StickyBar anchor={tabsRef} until={galRef} label={copy.title}>
+          <StickyPills items={tabs.map((t) => ({ id: t.id, label: t.title }))} active={tab} onPick={(id) => pick(id as GalleryCategoryId, true)} />
+        </StickyBar>
         <div ref={tabsRef} className="gal-tabs" role="tablist" aria-label={copy.title}>
           {tabs.map((t) => {
             const on = tab === t.id;
@@ -226,9 +237,11 @@ export function GalleryGrid() {
               style={{ animationDelay: `${Math.min(i, 9) * 55}ms` }}
               aria-label={nameLabel(item)}
             >
+              {/* Alt carries the photo's name for image search; the button's aria-label
+                  (the same name) is what screen readers announce, once. */}
               <Image
                 src={item.src}
-                alt=""
+                alt={nameLabel(item)}
                 fill
                 quality={88}
                 priority={i < 6 && shown === "all"}

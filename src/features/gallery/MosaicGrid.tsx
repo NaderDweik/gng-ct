@@ -201,13 +201,14 @@ export function MosaicGrid({ picks, locale }: Props) {
               href={`/gallery?tab=${pick.categoryId}`}
               onClick={(e) => openAt(i, e)}
               aria-haspopup="dialog"
+              aria-label={label}
               className={`gm-tile gm-${String.fromCharCode(97 + i)}`}
               style={{ "--d": `${REVEAL_DELAYS[i] ?? 0}ms` } as CSSProperties}
             >
               <span className="gm-media">
                 <Image
                   src={pick.src}
-                  alt=""
+                  alt={label}
                   fill
                   sizes={i === 0 ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 50vw, 25vw"}
                   className="gm-img"

@@ -13,7 +13,7 @@ import { homeIntro as intro } from "@/content/home-intro";
  * Phones add a quiet editorial sequence (all CSS-gated to max-width: 767px):
  *   - the photo drifts slower than the page (scroll-driven, where supported);
  *   - the title rises line by line from behind a mask;
- *   - the facts' green rule draws down and each check draws itself, one after another.
+ *   - the facts slide in and each check draws itself, one after another.
  * Reduced motion: everything is shown in its final state.
  */
 

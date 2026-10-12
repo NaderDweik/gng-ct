@@ -359,3 +359,10 @@
     transition: none;
   }
 }
+
+/* Phones: space between the three principles, so each reads as its own block. */
+@media (max-width: 767px) {
+  .leader-principles-list {
+    row-gap: 1rem;
+  }
+}

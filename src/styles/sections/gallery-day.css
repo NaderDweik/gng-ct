@@ -19,6 +19,11 @@
   margin-bottom: clamp(1.25rem, 3vh, 2rem);
 }
 
+/* The shared 20ch cap would break this short title in two; wrap only when it must. */
+.gd .section-title {
+  max-width: none;
+}
+
 .gd-aside {
   display: flex;
 }
@@ -287,7 +292,7 @@
 .gd-bento {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-auto-rows: clamp(150px, 42vw, 240px);
+  grid-auto-rows: clamp(170px, 47vw, 270px);
   gap: clamp(8px, 1vw, 14px);
   margin: 0;
   padding: 0;
@@ -307,8 +312,9 @@
       "e f f g";
     /* Bottom row a little taller than the two above it. */
     grid-template-rows: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.35fr);
-    /* Viewport minus nav, padding and heading: the whole section fits one screen. */
-    height: clamp(440px, calc(100svh - 23rem), 680px);
+    /* Viewport minus nav and heading, a little taller than one screen's leftover so the
+       photos have room (the section runs just past the fold). */
+    height: clamp(500px, calc(100svh - 18rem), 760px);
   }
 
   .gd-tile:first-child {
@@ -443,19 +449,31 @@
 }
 
 /*
- * Caption: the time tag sits in the bottom-start corner. The title is collapsed (no
- * height) until hover / focus, when it opens underneath and lifts the tag; always
- * open on touch.
+ * Caption over the whole tile: the time tag in the top-end corner; the title at the
+ * bottom, collapsed (no height) until hover / focus, always open on touch. The shade
+ * sits at the bottom, under the title.
  */
 .gd-cap {
   position: absolute;
   z-index: 3; /* above the hover glow */
-  inset: auto 0 0;
+  inset: 0;
   display: grid;
-  justify-items: start;
+  grid-template-rows: auto minmax(0, 1fr) auto;
   padding: clamp(0.6rem, 1vw, 0.85rem);
-  background: linear-gradient(0deg, color-mix(in srgb, var(--overlay) 70%, transparent), transparent);
+  background: linear-gradient(0deg, color-mix(in srgb, var(--overlay) 70%, transparent), transparent 45%);
   color: var(--on-dark);
+  pointer-events: none;
+}
+
+.gd-cap .gd-time {
+  grid-row: 1;
+  justify-self: end;
+  align-self: start;
+}
+
+.gd-cap .gd-cap-title {
+  grid-row: 3;
+  justify-self: start;
 }
 
 .gd-time {
@@ -513,5 +531,45 @@
     animation: none !important;
     transition-duration: 0.01ms !important;
     transition-delay: 0s !important;
+  }
+}
+
+/* Phones / tablets: "View the full gallery" centred under the photos, like the other
+   section-closing buttons. */
+@media (max-width: 1023px) {
+  .gd-foot {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+/* Phones: the sun / moon tucked smaller into the top end corner, clear of the centred
+   heading; smaller time tags on the photos. */
+@media (max-width: 767px) {
+  .gd-sun {
+    top: 0.5rem;
+    right: 0.75rem;
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .gd-moon {
+    top: 0.6rem;
+    right: 1.1rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    box-shadow: 0.45rem -0.25rem 0 0 var(--sky-moon);
+  }
+
+  [dir="rtl"] .gd-sun,
+  [dir="rtl"] .gd-moon {
+    right: auto;
+    left: 0.75rem;
+  }
+
+  .gd-time {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.625rem;
+    letter-spacing: 0.1em;
   }
 }

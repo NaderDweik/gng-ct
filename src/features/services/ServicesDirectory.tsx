@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { availableServices, servicePhotos, servicesCopy, upcomingServices } from "@/content/services";
 import { ServicesViewer, type ViewerShot } from "@/features/services/ServicesViewer";
 
 /*
  * /services (styles: styles/sections/services-directory.css): one card with a big
  * photo and the "Available now" list beside it. The list steps through the services
- * slowly on its own (pausing while the pointer is on the card); hovering or tapping a
+ * slowly on its own (pausing while the pointer is on the card); clicking or tapping a
  * service shows its photo. Below, a dark band that tucks under the card holds what is
  * coming, greyed out under a fade.
  */
@@ -41,7 +41,7 @@ const SOON_SIZE: Record<string, SoonSize> = {
   restaurant: "tall",
 };
 
-export function ServicesDirectory({ locale }: { locale: string }) {
+export function ServicesDirectory({ locale, stats }: { locale: string; stats?: ReactNode }) {
   const isAr = locale === "ar";
   const copy = servicesCopy[isAr ? "ar" : "en"];
 
@@ -228,6 +228,10 @@ export function ServicesDirectory({ locale }: { locale: string }) {
       items.forEach((el, i) => {
         if (el.getBoundingClientRect().top <= line) idx = i;
       });
+      // The list has no spare space under it, so the last services can't reach the line:
+      // once the last one is fully on screen, it is the active one.
+      const lastEl = items[items.length - 1]!;
+      if (lastEl.getBoundingClientRect().bottom <= window.innerHeight - 8) idx = items.length - 1;
       setIndex(idx);
     };
     const schedule = () => {
@@ -272,6 +276,8 @@ export function ServicesDirectory({ locale }: { locale: string }) {
 
       <section className="svc on-dark">
         <div className="container-gc">
+          {/* Key figures (from the page) open the dark band, above what's coming. */}
+          {stats}
           <div className="svc-soon">
             <header className="svc-head">
               <p className="svc-soon-badge">{copy.upcoming}</p>

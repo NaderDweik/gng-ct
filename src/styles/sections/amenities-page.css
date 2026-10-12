@@ -5,6 +5,12 @@
   scroll-margin-top: 8rem;
 }
 
+/* "Inside your resort" ends on its edge-to-edge list: no band of padding under it,
+   the next section starts straight after the last row. */
+#resort.ap-section {
+  padding-bottom: 0;
+}
+
 /* ── Inside your resort: list rows + parallax photo column ── */
 
 .arl {
@@ -163,19 +169,13 @@
     background: var(--surface-tint);
   }
 
-  /* The strip glides to the current row's photo (--i of --n, set in ResortChapters),
-     so photo and row always match, and the last photo arrives with the last row. */
+  /* The strip is moved by ResortChapters every frame as the page scrolls (inline
+     transform): the current row's photo stays centred in the frame. */
   .arl-strip {
     --h: min(100svh - 5rem, 56rem);
     --gap: 0.75rem;
     display: grid;
     row-gap: var(--gap);
-    /* First photo flush with the top, last flush with the bottom, the rest stepping
-       evenly between, so the frame never shows empty space at either end. */
-    transform: translateY(
-      calc(var(--i, 0) / (var(--n, 2) - 1) * var(--h) * 0.38 - var(--i, 0) * (var(--h) * 0.62 + var(--gap)))
-    );
-    transition: transform 0.9s cubic-bezier(0.65, 0, 0.35, 1);
     will-change: transform;
   }
 
@@ -192,12 +192,6 @@
 
   .arl-photo.is-on img {
     filter: none;
-  }
-}
-
-@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
-  .arl-strip {
-    transition: none;
   }
 }
 
@@ -288,7 +282,8 @@
   font-family: var(--font-body);
 }
 
-/* The line under the title reveals on hover (always shown on touch). */
+/* The line under the title reveals on hover (always shown on touch). Hidden, it takes
+   no height, so the title sits at the bottom and lifts only as the line opens. */
 .ap-tile-cap span {
   max-width: 28rem;
   color: var(--on-dark-muted);
@@ -297,304 +292,30 @@
 }
 
 @media (hover: hover) {
+  .ap-tile-cap {
+    gap: 0;
+  }
+
   .ap-tile-cap span {
-    display: grid;
-    grid-template-rows: 0fr;
+    max-height: 0;
+    overflow: hidden;
     opacity: 0;
-    transition: opacity 0.4s var(--ease), translate 0.5s var(--ease);
-    translate: 0 6px;
+    transition:
+      max-height 0.45s var(--ease),
+      margin-top 0.45s var(--ease),
+      opacity 0.3s var(--ease);
   }
 
-  .ap-tile:hover .ap-tile-cap span {
+  .ap-tile:hover .ap-tile-cap span,
+  .ap-tile.is-active .ap-tile-cap span {
+    max-height: 5em;
+    margin-top: 0.3rem;
     opacity: 1;
-    translate: 0 0;
-  }
-}
-
-/* ── Serviced daily ── */
-
-/* Stats: big green figures on the page itself, split by hairlines (no boxes). */
-.ap-stats {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.75rem 0;
-  margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
-  padding-block: clamp(1.5rem, 3vw, 2rem);
-  border-block: 1px solid var(--line);
-}
-
-@media (min-width: 1024px) {
-  .ap-stats {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-}
-
-.ap-stat {
-  display: flex;
-  flex-direction: column-reverse;
-  /* Reversed column: flex-end is the top, so figures line up when labels wrap. */
-  justify-content: flex-end;
-  gap: 0.6rem;
-  padding-inline: clamp(1rem, 2.4vw, 2rem);
-  border-inline-start: 1px solid var(--line);
-}
-
-.ap-stat:nth-child(2n + 1) {
-  padding-inline-start: 0;
-  border-inline-start: 0;
-}
-
-@media (min-width: 1024px) {
-  .ap-stat:nth-child(2n + 1) {
-    padding-inline-start: clamp(1rem, 2.4vw, 2rem);
-    border-inline-start: 1px solid var(--line);
-  }
-
-  .ap-stat:first-child {
-    padding-inline-start: 0;
-    border-inline-start: 0;
-  }
-}
-
-.ap-stat dt {
-  color: var(--muted);
-  font-size: var(--fs-small);
-  line-height: 1.4;
-}
-
-.ap-stat dd {
-  margin: 0;
-  color: var(--primary-ink);
-  font-family: var(--font-display);
-  font-size: var(--fs-stat);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Showcase: a large photo on the start side, a dark panel with the list on the end side. */
-.ap-svc {
-  display: grid;
-  box-shadow: var(--shadow-card-lg);
-}
-
-@media (min-width: 1024px) {
-  .ap-svc {
-    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-    min-height: clamp(32rem, 42vw, 38rem);
-  }
-}
-
-.ap-svc-stage {
-  position: relative;
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
-  background: var(--surface-tint);
-}
-
-@media (min-width: 1024px) {
-  .ap-svc-stage {
-    aspect-ratio: auto;
-  }
-}
-
-.ap-svc-img {
-  object-fit: cover;
-  opacity: 0;
-  transform: scale(1.05);
-  transition:
-    opacity 0.8s var(--ease),
-    transform 1.6s var(--ease);
-}
-
-.ap-svc-img.is-on {
-  opacity: 1;
-  transform: scale(1);
-}
-
-.ap-svc-list {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0;
-  padding: clamp(1.25rem, 3vw, 2.5rem);
-  list-style: none;
-  background: linear-gradient(160deg, var(--brand-secondary-light), var(--brand-secondary-deep));
-  color: var(--on-dark);
-}
-
-.ap-svc-item {
-  position: relative;
-  border-bottom: 1px solid var(--line-on-dark);
-}
-
-.ap-svc-item:last-child {
-  border-bottom: 0;
-}
-
-.ap-svc-btn {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  padding: 0.95rem 0;
-  border: 0;
-  background: none;
-  color: inherit;
-  text-align: start;
-  cursor: pointer;
-}
-
-.ap-svc-btn:focus-visible {
-  outline: 2px solid var(--brand-accent);
-  outline-offset: 2px;
-}
-
-.ap-svc-icon {
-  display: grid;
-  flex-shrink: 0;
-  place-items: center;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 1px solid var(--line-on-dark);
-  color: var(--on-dark-muted);
-  transition:
-    background-color 0.4s var(--ease),
-    border-color 0.4s var(--ease),
-    color 0.4s var(--ease);
-}
-
-.ap-svc-title {
-  color: var(--on-dark-muted);
-  font-family: var(--font-display);
-  font-size: var(--fs-h4);
-  font-weight: 700;
-  line-height: 1.3;
-  transition: color 0.4s var(--ease);
-}
-
-[dir="rtl"] .ap-svc-title {
-  font-family: var(--font-body);
-}
-
-.ap-svc-item.is-on .ap-svc-icon {
-  border-color: var(--brand-accent);
-  background: var(--brand-accent);
-  color: var(--white);
-}
-
-.ap-svc-item.is-on .ap-svc-title,
-.ap-svc-btn:hover .ap-svc-title {
-  color: var(--on-dark);
-}
-
-/* The active line opens to show its copy. */
-.ap-svc-body {
-  display: grid;
-  grid-template-rows: 0fr;
-  opacity: 0;
-  transition:
-    grid-template-rows 0.5s var(--ease),
-    opacity 0.4s var(--ease);
-}
-
-.ap-svc-body > p {
-  min-height: 0;
-  overflow: hidden;
-  margin: 0;
-  padding-inline-start: calc(2.75rem + 1rem);
-  color: var(--on-dark-muted);
-  font-size: var(--fs-body);
-  line-height: 1.65;
-}
-
-.ap-svc-item.is-on .ap-svc-body {
-  grid-template-rows: 1fr;
-  opacity: 1;
-}
-
-.ap-svc-item.is-on .ap-svc-body > p {
-  padding-bottom: 1.1rem;
-}
-
-/* Scroll progress: fills along the line's bottom edge as the reader moves through it
-   (scale set inline by ServiceShowcase; passed lines stay full). */
-.ap-svc-progress {
-  position: absolute;
-  left: 0;
-  bottom: -1px;
-  width: 100%;
-  height: 2px;
-  background: var(--brand-accent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.15s linear;
-  pointer-events: none;
-}
-
-[dir="rtl"] .ap-svc-progress {
-  transform-origin: right;
-}
-
-/* ── Scroll-driven layout (behaviour: ServiceShowcase) ──
-   Desktop: the panel pins under the header while the track scrolls past it; the track's
-   extra height (one slice per line) is how long it stays pinned. */
-@media (min-width: 1024px) {
-  /* A spacer inside the track (sticky only travels within the content box, not padding). */
-  .ap-svc-track::after {
-    content: "";
-    display: block;
-    height: calc(var(--n) * 32svh);
-  }
-
-  .ap-svc-track .ap-svc {
-    position: sticky;
-    top: 6.5rem; /* = PIN_TOP in AmenitiesPage.tsx */
-  }
-}
-
-/* Phones / tablets: the photo pins under the site bar; every line shows its copy, and the
-   one passing just under the photo lights up. */
-@media (max-width: 1023px) {
-  .ap-svc {
-    box-shadow: none;
-  }
-
-  .ap-svc-stage {
-    position: sticky;
-    top: 4rem;
-    z-index: 2;
-    box-shadow: 0 10px 24px color-mix(in srgb, var(--black) 25%, transparent);
-  }
-
-  .ap-svc-body {
-    grid-template-rows: 1fr;
-    opacity: 1;
-  }
-
-  .ap-svc-body > p {
-    padding-bottom: 1.1rem;
-  }
-
-  .ap-svc-item:not(.is-on) .ap-svc-body > p {
-    opacity: 0.6;
-  }
-
-  .ap-svc-body > p {
-    transition: opacity 0.4s var(--ease);
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .ap-svc-stage {
-    top: 5rem;
+    transition-delay: 0s, 0s, 0.1s;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ap-svc-img,
-  .ap-svc-body,
   .ap-tile-img,
   .arl-row,
   .arl-desc,
@@ -603,8 +324,7 @@
   }
 }
 
-/* ── Phones: "Serviced daily" heading centred; the four figures as a centred 2 × 2 grid
-   split by a thin cross (desktop unchanged) ── */
+/* ── Phones: section headings (.ap-svc-head) centred (desktop unchanged) ── */
 @media (max-width: 767px) {
   .ap-svc-head {
     justify-items: center;
@@ -634,43 +354,6 @@
   .ap-svc-head .section-sub {
     max-width: 34ch;
     margin-inline: auto;
-  }
-
-  .ap-stats {
-    gap: 0;
-    padding-block: 0;
-    border-block: 0;
-    margin-bottom: 2rem;
-  }
-
-  .ap-stat,
-  .ap-stat:nth-child(2n + 1) {
-    align-items: center;
-    padding: 1.4rem 0.75rem;
-    border: 0;
-    text-align: center;
-  }
-
-  .ap-stat:nth-child(odd) {
-    border-right: 1px solid var(--line);
-  }
-
-  [dir="rtl"] .ap-stat:nth-child(odd) {
-    border-right: 0;
-    border-left: 1px solid var(--line);
-  }
-
-  .ap-stat:nth-child(-n + 2) {
-    border-bottom: 1px solid var(--line);
-  }
-
-  .ap-stat dd {
-    font-size: clamp(1.9rem, 9vw, 2.3rem);
-  }
-
-  .ap-stat dt {
-    max-width: 14ch;
-    font-size: var(--fs-small);
   }
 }
 
@@ -711,5 +394,59 @@
 
   .ap-tile::after {
     background: linear-gradient(0deg, color-mix(in srgb, var(--overlay) 82%, transparent) 0%, transparent 60%);
+  }
+}
+
+/* Phones: the number sits on the title's line (end side); the tagline under them is a
+   distinct small green caps line; the description runs the full width, a touch smaller. */
+@media (max-width: 767px) {
+  .arl-row-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 1rem;
+  }
+
+  .arl-row-text {
+    display: contents;
+  }
+
+  .arl-title {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .arl-num {
+    grid-column: 2;
+    grid-row: 1;
+    font-size: 1.75rem;
+  }
+
+  .arl-sub,
+  .arl-row.is-on .arl-sub {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin-top: 0.5rem;
+    color: var(--primary-ink);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .arl-row.is-on .arl-sub {
+    color: var(--brand-primary);
+  }
+
+  [dir="rtl"] .arl-sub {
+    font-size: var(--fs-caption);
+    letter-spacing: 0;
+  }
+
+  .arl-desc > p {
+    max-width: none;
+    padding-inline: var(--arl-pad);
+    font-size: 0.9375rem;
+    line-height: 1.6;
   }
 }

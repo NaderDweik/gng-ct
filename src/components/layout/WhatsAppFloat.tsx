@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import { site } from "@/content/site";
 
+/** Tablets / desktop only: phones have the bottom action bar (ActionBar) instead. */
 export function WhatsAppFloat() {
   const t = useTranslations("common");
 
@@ -11,7 +12,7 @@ export function WhatsAppFloat() {
       href={site.whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
-      className="wa-float fixed bottom-5 z-50 inline-flex items-center gap-2 rounded-full bg-whatsapp px-4 py-3 text-sm font-semibold text-on-dark shadow-lg transition hover:scale-[1.03] end-5"
+      className="wa-float fixed bottom-5 z-50 hidden md:inline-flex items-center gap-2 rounded-full bg-whatsapp px-4 py-3 text-sm font-semibold text-on-dark shadow-lg transition hover:scale-[1.03] end-5"
       aria-label={t("whatsapp")}
     >
       <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden>

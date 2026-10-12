@@ -218,29 +218,44 @@
 }
 
 /* Scroll cue: a hairline with a light running down it. */
-.hl-cue {
+/* Pagination dots, centred at the bottom of the hero; the current slide's dot is a pill. */
+.hl-dots {
   position: absolute;
-  bottom: 0;
+  bottom: clamp(1.25rem, 3.5vh, 2rem);
   left: 50%;
   z-index: 4;
-  width: 1px;
-  height: clamp(2.5rem, 7vh, 4rem);
-  overflow: hidden;
-  background: var(--line-on-dark);
+  display: flex;
+  gap: 0.5rem;
+  translate: -50% 0;
 }
 
-.hl-cue > span {
+.hl-dot {
+  position: relative;
+  width: 0.5rem;
+  height: 0.5rem;
+  padding: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--white) 45%, transparent);
+  transition:
+    width 0.4s var(--ease),
+    background-color 0.4s var(--ease);
+}
+
+/* A bigger tap area around each small dot. */
+.hl-dot::after {
+  content: "";
   position: absolute;
-  inset-inline: 0;
-  top: 0;
-  height: 40%;
-  background: var(--brand-accent);
-  animation: hl-cue 2.2s var(--ease) infinite;
+  inset: -0.75rem -0.35rem;
 }
 
-@keyframes hl-cue {
-  from { translate: 0 -100%; }
-  to { translate: 0 260%; }
+.hl-dot.is-on {
+  width: 1.75rem;
+  background: var(--brand-primary);
+}
+
+.hl-dot:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
 }
 
 /*
@@ -260,7 +275,7 @@
 .hl--pre .hl-ctas {
   animation-delay: 0.68s;
 }
-.hl--pre .hl-cue {
+.hl--pre .hl-dots {
   animation-delay: 0.76s;
 }
 /* Wordmark letters (optional) still rise with GSAP; failsafe after 4s. */
@@ -288,7 +303,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hl-cue > span,
   .hl--pre .hl-set.is-first .hl-line > span,
   .hl--pre .hl-fade {
     animation: none;
@@ -320,5 +334,56 @@
 @media (max-width: 767px), (prefers-reduced-motion: reduce) {
   .hl-vs {
     display: none;
+  }
+}
+
+/* Phones: tag and title centred; the two buttons centred and stacked at one width,
+   "Explore amenities" as a bordered secondary button under "Register interest". */
+@media (max-width: 767px) {
+  .hl-main {
+    text-align: center;
+  }
+
+  /* One line on phones: tighter tracking so the tag fits between its two rules. */
+  .hl-eyebrow {
+    justify-content: center;
+    gap: 0.6rem;
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    white-space: nowrap;
+  }
+
+  /* A short rule on both sides of the centred tag. */
+  .hl-eyebrow::before,
+  .hl-eyebrow::after {
+    content: "";
+    flex-shrink: 0;
+    width: 1.25rem;
+    height: 2px;
+    background: var(--brand-primary);
+  }
+
+  .hl-title {
+    justify-items: center;
+  }
+
+  .hl-ctas {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    width: min(100%, 22rem);
+    margin-inline: auto;
+  }
+
+  .hl-ctas > * {
+    justify-content: center;
+    min-height: 3.25rem;
+  }
+
+  .hl-link {
+    margin: 0;
+    padding: 0.85rem 1.6rem;
+    border: 1px solid color-mix(in srgb, var(--white) 45%, transparent);
+    background: color-mix(in srgb, var(--black) 15%, transparent);
   }
 }

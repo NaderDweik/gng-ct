@@ -1,0 +1,56 @@
+/* ── Bottom action bar. Markup: components/layout/ActionBar.tsx ──
+   Phones only. Fixed to the bottom, it slides up once the hero / banner has scrolled away:
+   "Register interest" fills the row, the square WhatsApp button sits at the end. */
+.action-bar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .action-bar {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 45;
+    display: block;
+    border-top: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 96%, transparent);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    transform: translateY(100%);
+    transition: transform 0.35s var(--ease);
+  }
+
+  .action-bar.is-on {
+    transform: none;
+  }
+
+  .action-bar-inner {
+    display: flex;
+    gap: 0.5rem;
+    padding-block: 0.6rem calc(0.6rem + env(safe-area-inset-bottom));
+  }
+
+  .action-bar-register {
+    flex: 1;
+    min-height: 3rem;
+  }
+
+  /* 1:1: as wide as the bar's buttons are tall. */
+  .action-bar-wa {
+    flex: none;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+  }
+
+  /* Room under the footer so the bar never covers its last line. */
+  body:has(.action-bar) footer {
+    padding-bottom: calc(3rem + 4.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .action-bar {
+    transition: none;
+  }
+}

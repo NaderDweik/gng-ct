@@ -17,16 +17,17 @@ import { compoundPlanSize as PLAN, compoundUnits, type CompoundUnit } from "@/co
 import { compoundCopy } from "@/content/units";
 import { masterPlanMapSize, masterPlanMapSrc, planItem, unitPlanLineSrc } from "@/content/master-plan";
 import { site } from "@/content/site";
+import { useSoftSnap } from "@/lib/useSoftSnap";
 
 /*
- * /units: the compound plan explorer, filling the screen under the page header (styles: styles/sections/compound-plan.css;
+ * /compound: the compound plan explorer, filling the screen under the page header (styles: styles/sections/compound-plan.css;
  * data: content/compound-units.ts). Page header + map share one screen (no scroll needed):
  *   - the plan fills the stage; a blurred copy of it fills any letterbox around it;
  *   - every chalet's number tag is a button: tap one and the map flies to it, drops a pin
  *     and opens its card (WhatsApp question, visit booking, step inside);
  *   - "Pick one for me" flies to a random chalet, for visitors who just want to wander;
- *   - "Step inside a chalet" leads to /master-plan (rooms, interiors, the chalet plan);
- *   - zoom: buttons, double-click, pinch, ctrl/trackpad wheel; drag to pan. A small map in
+ *   - "Step inside a chalet" leads to /chalet (rooms, interiors, the chalet plan);
+ *   - zoom: buttons, double-click, pinch, the wheel (once the map is settled), ctrl+wheel; drag to pan. A small map in
  *     the corner shows where you are once zoomed in.
  * Nothing here says which chalets are taken: every chalet leads to a conversation.
  *
@@ -40,13 +41,15 @@ const MAX_ZOOM = 9;
 const FOCUS_ZOOM_DESKTOP = 3.4;
 const FOCUS_ZOOM_PHONE = 4.5;
 const DRAG_THRESHOLD = 5;
+/** Share of the plan image (from the top) that holds the drawing; below it is faded ground. */
+const DRAWN_H = 0.96;
 /** A tap this close (px) to a chalet's tag picks it: tags are small at the opening zoom. */
 const TAP_RADIUS = 26;
 
 type View = { s: number; x: number; y: number };
 type Box = { w: number; h: number };
 
-/** "Step inside" thumbnail: the chalet's line plan with the pool in colour, as on /master-plan. */
+/** "Step inside" thumbnail: the chalet's line plan with the pool in colour, as on /chalet. */
 const THUMB_AREA = planItem("pool")!.areas[0];
 const pct = (v: number, of: number) => `${(v / of) * 100}%`;
 const thumbArea = {
@@ -68,6 +71,8 @@ export function CompoundPlan({ locale }: { locale: string }) {
 
   const stageRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  // Scrolling near the map settles it in the screen under the nav (every width).
+  useSoftSnap(stageRef, 0);
   const [box, setBox] = useState<Box | null>(null);
   const [view, setView] = useState<View>({ s: 1, x: 0, y: 0 });
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -122,12 +127,17 @@ export function CompoundPlan({ locale }: { locale: string }) {
     };
   }, []);
 
-  /** The opening view: the whole plan on wide screens, the plan filling the screen on phones. */
+  /** The opening view: the whole drawing as large as fits on wide screens (the faded ground
+   *  below it may run off the bottom), the plan filling the screen on phones. */
   const homeView = useCallback(
     (b: Box): View => {
       const { cw, ch } = base(b);
-      const s = b.w < b.h ? Math.max(b.w / cw, b.h / ch) : 1;
-      return clamp({ s, x: (b.w - cw * s) / 2, y: (b.h - ch * s) / 2 }, b);
+      if (b.w < b.h) {
+        const s = Math.max(b.w / cw, b.h / ch);
+        return clamp({ s, x: (b.w - cw * s) / 2, y: (b.h - ch * s) / 2 }, b);
+      }
+      const s = Math.min(b.w / cw, b.h / (ch * DRAWN_H));
+      return clamp({ s, x: (b.w - cw * s) / 2, y: (b.h - ch * s * DRAWN_H) / 2 }, b);
     },
     [clamp],
   );
@@ -210,19 +220,39 @@ export function CompoundPlan({ locale }: { locale: string }) {
     if (b) setView(homeView(b));
   };
 
-  // Ctrl/⌘ + wheel and trackpad pinch (sent as ctrl+wheel) zoom; a plain wheel is left alone.
+  // Ctrl/⌘ + wheel and trackpad pinch (sent as ctrl+wheel) always zoom. A plain wheel over
+  // the map never scrolls the page once the map is (nearly) in place under the fixed nav:
+  // settled, it zooms, and at the zoom limits it simply stops; still a little off (within
+  // the soft snap's pull), the first wheel finishes the glide into place. Further away the
+  // wheel scrolls the page as usual, so the map can be reached; to leave it, scroll over
+  // the site nav or the page header.
   useEffect(() => {
     const el = stageRef.current;
     if (!el) return;
     const onWheel = (e: WheelEvent) => {
-      if (!e.ctrlKey && !e.metaKey) return;
-      e.preventDefault();
       const r = el.getBoundingClientRect();
-      zoomAt(viewRef.current.s * Math.exp(-e.deltaY * 0.01), e.clientX - r.left, e.clientY - r.top);
+      const at = (s: number) => zoomAt(s, e.clientX - r.left, e.clientY - r.top);
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        at(viewRef.current.s * Math.exp(-e.deltaY * 0.01));
+        return;
+      }
+      const b = boxRef.current;
+      if (!b || isPhone(b) || e.deltaY === 0) return;
+      const off = r.top - 5 * parseFloat(getComputedStyle(document.documentElement).fontSize);
+      if (Math.abs(off) > window.innerHeight / 3) return;
+      e.preventDefault();
+      if (Math.abs(off) > 2) {
+        window.scrollBy({ top: off, behavior: "smooth" });
+        return;
+      }
+      // One mouse-wheel notch (~100) ≈ ×1.28; trackpad scrolls send small steps, so they glide.
+      const dy = Math.max(-100, Math.min(100, e.deltaMode === 1 ? e.deltaY * 33 : e.deltaY));
+      at(Math.max(homeView(b).s, viewRef.current.s * Math.exp(-dy * 0.0025)));
     };
     el.addEventListener("wheel", onWheel, { passive: false });
     return () => el.removeEventListener("wheel", onWheel);
-  }, [zoomAt]);
+  }, [zoomAt, homeView]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -318,8 +348,14 @@ export function CompoundPlan({ locale }: { locale: string }) {
   const { cw, ch } = box ? base(box) : { cw: 0, ch: 0 };
   const home = box ? homeView(box) : view;
   const atHome = Math.abs(view.s - home.s) < 0.01 && Math.abs(view.x - home.x) < 1 && Math.abs(view.y - home.y) < 1;
+  // The "drag / zoom" hint goes for good once the visitor first zooms (any way).
+  const [hintDone, setHintDone] = useState(false);
+  const zoomed = box !== null && Math.abs(view.s - home.s) >= 0.01;
+  useEffect(() => {
+    if (zoomed) setHintDone(true);
+  }, [zoomed]);
   // Zoomed past "the whole plan is on screen": show where you are.
-  const showMini = box ? cw * view.s > box.w + 2 || ch * view.s > box.h + 2 : false;
+  const showMini = box && !atHome ? cw * view.s > box.w + 2 || ch * view.s > box.h + 2 : false;
   const panX = box ? cw * view.s > box.w + 2 : false;
   const panY = box ? ch * view.s > box.h + 2 : false;
   // The browser picks a sharper file as the visitor zooms in.
@@ -346,7 +382,7 @@ export function CompoundPlan({ locale }: { locale: string }) {
 
   return (
     <section
-      className={`cx${selected ? " has-card" : ""}${atHome ? "" : " is-zoomed"}${ready ? " is-ready" : ""}`}
+      className={`cx${selected ? " has-card" : ""}${atHome ? "" : " is-zoomed"}${ready ? " is-ready" : ""}${hintDone ? " hint-done" : ""}`}
       aria-label={copy.label}
     >
       <div
@@ -362,7 +398,7 @@ export function CompoundPlan({ locale }: { locale: string }) {
       >
         <Image
           className="cx-backdrop"
-          src="/plans/compound/compound-plan-1600.webp"
+          src="/plans/compound/compound-map-v2-1600.webp"
           alt=""
           fill
           sizes="40vw"
@@ -384,8 +420,8 @@ export function CompoundPlan({ locale }: { locale: string }) {
           {/* eslint-disable-next-line @next/next/no-img-element -- srcset must follow the zoom, not the layout box */}
           <img
             className="cx-img"
-            src="/plans/compound/compound-plan-2800.webp"
-            srcSet="/plans/compound/compound-plan-1600.webp 1600w, /plans/compound/compound-plan-2800.webp 2800w, /plans/compound/compound-plan-4400.webp 4400w"
+            src="/plans/compound/compound-map-v2-2800.webp"
+            srcSet="/plans/compound/compound-map-v2-1600.webp 1600w, /plans/compound/compound-map-v2-2800.webp 2800w, /plans/compound/compound-map-v2-4400.webp 4400w"
             sizes={sizes}
             width={PLAN.width}
             height={PLAN.height}
@@ -398,7 +434,11 @@ export function CompoundPlan({ locale }: { locale: string }) {
               key={u.id}
               type="button"
               className={`cx-spot${u.id === selectedId ? " is-selected" : ""}`}
-              style={{ left: `${u.x}%`, top: `${u.y}%`, width: `${u.w + 0.6}%`, height: `${u.h + 0.8}%` }}
+              style={
+                u.plot
+                  ? { left: `${u.plot.x}%`, top: `${u.plot.y}%`, width: `${u.plot.w}%`, height: `${u.plot.h}%` }
+                  : { left: `${u.x}%`, top: `${u.y}%`, width: `${u.w + 0.6}%`, height: `${u.h + 0.8}%` }
+              }
               aria-label={`${copy.chalet} ${u.id}`}
               aria-pressed={u.id === selectedId}
               onClick={() => {
@@ -474,7 +514,7 @@ export function CompoundPlan({ locale }: { locale: string }) {
         </button>
       </div>
 
-      <Link href="/master-plan" className="cx-inside">
+      <Link href="/chalet" className="cx-inside">
         <span className="cx-inside-thumb" aria-hidden>
           <Image src={unitPlanLineSrc} alt="" fill sizes="96px" className="cx-inside-lines" />
           <span className="cx-inside-pool" style={thumbArea} />
@@ -483,9 +523,9 @@ export function CompoundPlan({ locale }: { locale: string }) {
           <strong>{copy.inside}</strong>
           <span>{copy.insideSub}</span>
         </span>
-        <span className="cx-inside-arrow" aria-hidden>
-          {isAr ? "←" : "→"}
-        </span>
+        <svg className="cx-inside-arrow" viewBox="0 0 24 24" aria-hidden>
+          <path d={isAr ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"} />
+        </svg>
       </Link>
 
       <div className="cx-zoom">
@@ -515,7 +555,7 @@ export function CompoundPlan({ locale }: { locale: string }) {
           aria-hidden
           dir="ltr"
         >
-          <Image src="/plans/compound/compound-plan-1600.webp" alt="" fill sizes="180px" />
+          <Image src="/plans/compound/compound-map-v2-1600.webp" alt="" fill sizes="180px" />
           <span
             className="cx-mini-view"
             style={{ left: `${mini.left}%`, top: `${mini.top}%`, width: `${mini.width}%`, height: `${mini.height}%` }}
@@ -524,7 +564,7 @@ export function CompoundPlan({ locale }: { locale: string }) {
       )}
 
       <p className="cx-hint" aria-hidden>
-        {copy.hint}
+        {box && !isPhone(box) ? copy.hintWheel : copy.hint}
       </p>
 
       <aside className={`cx-card${selected ? " is-open" : ""}`} aria-live="polite" aria-hidden={!selected}>
@@ -556,7 +596,7 @@ export function CompoundPlan({ locale }: { locale: string }) {
                 {copy.visit}
               </Link>
             </div>
-            <Link href="/master-plan" className="cx-card-inside">
+            <Link href="/chalet" className="cx-card-inside">
               {copy.insideLink}
               <span aria-hidden>{isAr ? "←" : "→"}</span>
             </Link>

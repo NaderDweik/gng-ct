@@ -8,7 +8,7 @@ import type { LocalePageProps } from "@/i18n/types";
 import { PageJsonLd } from "@/components/seo/PageJsonLd";
 import { routeMetadata } from "@/lib/seo";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
-import { InViewOnce } from "@/components/ui/InViewOnce";
+import { ScrollFocus } from "@/components/ui/ScrollFocus";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 
 type Props = LocalePageProps;
@@ -101,7 +101,7 @@ export default async function AboutPage({ params }: Props) {
   const pctSign = isAr ? "٪" : "%";
   const stats = [
     { value: site.stats.units, suffix: "+", label: isAr ? "شاليه خاص" : "Private resorts" },
-    { value: site.stats.areaSqm, unit: isAr ? "م²" : "m²", label: isAr ? "مساحة المشروع" : "Master-plan area" },
+    { value: site.stats.areaSqm, unit: isAr ? "م²" : "m²", label: isAr ? "مساحة المشروع" : "Project area" },
     { value: site.stats.unitAreaSqm, unit: isAr ? "م²" : "m²", label: isAr ? "لكل وحدة" : "Per unit" },
     { value: 0, from: 100, suffix: pctSign, label: isAr ? "فوائد على التقسيط" : "Interest on installments" },
   ];
@@ -207,7 +207,8 @@ export default async function AboutPage({ params }: Props) {
             ))}
           </div>
           {/* Phones: each promise's icon fills in as its row scrolls into view (about.css). */}
-          <InViewOnce selector=".pillar-card" />
+          {/* Touch screens / phones: the card at mid-screen plays the hover look. */}
+          <ScrollFocus selector=".pillar-card" />
         </div>
       </section>
 

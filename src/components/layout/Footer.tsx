@@ -11,8 +11,8 @@ type FooterLink = { href: string; labelAr: string; labelEn: string };
 
 const siteMap: FooterLink[] = [
   { href: "/about", labelAr: "عن المشروع", labelEn: "About the Project" },
-  { href: "/units", labelAr: "خريطة الكمباوند", labelEn: "Units" },
-  { href: "/master-plan", labelAr: "المخطط", labelEn: "Master Plan" },
+  { href: "/compound", labelAr: "الكمباوند", labelEn: "Compound" },
+  { href: "/chalet", labelAr: "الشاليه", labelEn: "Chalet" },
   { href: "/amenities", labelAr: "مرافق المشروع", labelEn: "Amenities & Lifestyle" },
   { href: "/services", labelAr: "خدماتنا", labelEn: "Our Services" },
   { href: "/financing", labelAr: "حلول التمويل", labelEn: "Financing Solutions" },
@@ -76,9 +76,6 @@ export function Footer() {
 
   return (
     <footer className="relative overflow-hidden border-t border-line-on-dark bg-secondary pb-12 pt-16 text-on-dark md:pt-24">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-      <div className="pointer-events-none absolute bottom-0 left-1/2 h-[250px] w-[600px] -translate-x-1/2 rounded-full bg-white/[0.03] blur-[100px]" />
-
       <div className="container-gc relative z-10">
         {/* Phones: everything centred; from md up, aligned to the start as before. */}
         <div className="grid grid-cols-2 gap-x-6 gap-y-9 border-b border-line-on-dark pb-11 text-center md:gap-12 md:pb-20 md:text-start lg:grid-cols-4">

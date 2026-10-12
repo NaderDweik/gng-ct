@@ -19,6 +19,7 @@ import type { LocalePageProps } from "@/i18n/types";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { listingJsonLd, routeMetadata } from "@/lib/seo";
 import { HoverAccent } from "@/components/ui/HoverAccent";
+import { ScrollFocus } from "@/components/ui/ScrollFocus";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { HomeServicesStrip } from "@/features/home/HomeServicesStrip";
 
@@ -37,7 +38,7 @@ export default async function HomePage({ params }: Props) {
 
   const destinations = [
     {
-      href: "/units",
+      href: "/compound",
       title: isAr ? "الشاليهات الخاصة" : "Private Resorts",
       headline: isAr ? "قمة الخصوصية المعاصرة" : "Contemporary privacy, elevated",
       desc: isAr
@@ -94,7 +95,7 @@ export default async function HomePage({ params }: Props) {
             <p className="section-sub">
               {isAr
                 ? "مخطط واحد، ثلاث وجهات. الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في مجتمع Giving Compound."
-                : "One master plan, three destinations. Privacy, lifestyle, and flexible financing meet in Giving Compound."}
+                : "One community, three destinations. Privacy, lifestyle, and flexible financing meet in Giving Compound."}
             </p>
           </div>
 
@@ -122,6 +123,8 @@ export default async function HomePage({ params }: Props) {
                 </div>
               </Link>
             ))}
+            {/* Phones / touch: the card at mid-screen plays the hover effect. */}
+            <ScrollFocus selector=".brand-card" />
           </div>
         </div>
       </section>
@@ -141,8 +144,8 @@ export default async function HomePage({ params }: Props) {
                 {isAr ? amenitiesIntro.titleAr : amenitiesIntro.titleEn}
               </h2>
             </div>
-            {/* The way in, visible as soon as the section is. */}
-            <div className="flex flex-col items-start gap-6 lg:items-end">
+            {/* Desktop: the way in, in the heading row (phones / tablets: under the cards). */}
+            <div className="am-all-head flex flex-col items-start gap-6 lg:items-end">
               <Link href="/amenities" className="gallery-outline-btn">
                 {isAr ? "استكشف كل المرافق" : "Explore all amenities"}
                 <ArrowIcon className="arrow" />
@@ -150,6 +153,11 @@ export default async function HomePage({ params }: Props) {
             </div>
           </div>
           <AmenitiesGrid items={amenityFeatures} isAr={isAr} />
+          {/* Phones / tablets: the link closes the section, under the cards. */}
+          <Link href="/amenities" className="gallery-outline-btn am-all--end">
+            {isAr ? "استكشف كل المرافق" : "Explore all amenities"}
+            <ArrowIcon className="arrow" />
+          </Link>
         </div>
       </section>
 

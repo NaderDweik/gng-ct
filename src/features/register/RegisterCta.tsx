@@ -29,7 +29,8 @@ export async function RegisterCta({ locale, image, video }: Props) {
           <p className="section-sub">
             {tc("responseTime")}
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          {/* Two buttons of one width (the wider label sets it): side by side, stacked on phones. */}
+          <div className="register-cta-actions">
             <Link href="/register" className="register-cta-btn">
               {tc("register")}
               <span className="arrow" aria-hidden />

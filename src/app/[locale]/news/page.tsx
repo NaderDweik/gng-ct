@@ -35,7 +35,14 @@ export default async function NewsPage({ params }: Props) {
       <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
       <section className="section">
         {/* A timeline: the year rides in a sticky column beside its stories. */}
-        {years.map((year) => (
+        {years.map((year, yi) => {
+          // Chevrons under the year: up to the newer year, down to the older one (dimmed
+          // where there is none, so the pair keeps its place on every year).
+          const steps = [
+            { dir: "up", to: years[yi - 1], label: isAr ? "السنة الأحدث" : "Newer year" },
+            { dir: "down", to: years[yi + 1], label: isAr ? "السنة الأقدم" : "Older year" },
+          ] as const;
+          return (
           <div key={year} id={`y${year}`} className="container-gc news-year">
             {/* Desktop rail: fills, and its dot travels, as the year's stories scroll by. */}
             <span className="news-rail" aria-hidden>
@@ -44,7 +51,32 @@ export default async function NewsPage({ params }: Props) {
             </span>
             <header className="news-year-head">
               <span className="news-year-dot" aria-hidden />
-              <h2 className="news-year-title">{yearFmt.format(Number(year))}</h2>
+              {/* Desktop: ↑ newer year, the year, ↓ older year, in one centred column.
+                  Phones/tablets: the year, then both chevrons at the end of the bar. */}
+              <div className="news-year-stack">
+                {steps.map((st) => {
+                  const icon = (
+                    <svg viewBox="0 0 24 24" aria-hidden>
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  );
+                  return st.to ? (
+                    <a
+                      key={st.dir}
+                      href={`#y${st.to}`}
+                      className={`news-year-step is-${st.dir}`}
+                      aria-label={`${st.label}: ${yearFmt.format(Number(st.to))}`}
+                    >
+                      {icon}
+                    </a>
+                  ) : (
+                    <span key={st.dir} className={`news-year-step is-${st.dir} is-off`} aria-hidden>
+                      {icon}
+                    </span>
+                  );
+                })}
+                <h2 className="news-year-title">{yearFmt.format(Number(year))}</h2>
+              </div>
             </header>
             <div className="news-year-grid">
               {inYear(year).map((a) => (
@@ -83,7 +115,8 @@ export default async function NewsPage({ params }: Props) {
               ))}
             </div>
           </div>
-        ))}
+          );
+        })}
       </section>
       <YearRail />
       {/* Phones / touch: the story at mid-screen gets the hover look (.is-active). */}

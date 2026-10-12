@@ -11,8 +11,8 @@ import { LocaleSwitch } from "@/components/layout/LocaleSwitch";
 const primaryNav = [
   { href: "/about", labelAr: "من نحن", labelEn: "About" },
   { href: "/gallery", labelAr: "المعرض", labelEn: "Gallery" },
-  { href: "/units", labelAr: "خريطة الكمباوند", labelEn: "Units" },
-  { href: "/master-plan", labelAr: "المخطط", labelEn: "Master Plan" },
+  { href: "/compound", labelAr: "الكمباوند", labelEn: "Compound" },
+  { href: "/chalet", labelAr: "الشاليه", labelEn: "Chalet" },
   { href: "/amenities", labelAr: "المرافق", labelEn: "Amenities" },
   { href: "/financing", labelAr: "التمويل", labelEn: "Financing" },
 ] as const;
@@ -64,6 +64,15 @@ export function Header() {
           : "bg-transparent"
       }`}
     >
+      {/* Over a hero photo: a soft dark shade behind the logo, links and buttons so they
+          read on bright skies (a touch lighter on desktop); it fades out as the solid bar
+          takes over. */}
+      <span
+        aria-hidden
+        className={`pointer-events-none absolute inset-x-0 top-0 -z-10 h-36 bg-gradient-to-b from-black/55 via-black/25 to-transparent transition-opacity duration-300 min-[1100px]:h-40 min-[1100px]:from-black/45 min-[1100px]:via-black/20 ${
+          solid ? "opacity-0" : "opacity-100"
+        }`}
+      />
       <div className="container-gc flex h-16 items-center justify-between gap-4 md:h-20">
         <Link href="/" className="group flex shrink-0 items-center" aria-label={site.nameEn}>
           <GivingLogo
@@ -151,7 +160,11 @@ export function Header() {
           </button>
         </div>
 
-        <nav className="flex flex-1 flex-col items-center justify-center gap-2 overflow-y-auto px-6 text-center">
+        <nav className="flex flex-1 flex-col items-center justify-center gap-2 overflow-y-auto px-6 pb-[max(2rem,env(safe-area-inset-bottom))] text-center">
+          {/* The logo, centred above the menu items; it leads home. */}
+          <Link href="/" onClick={() => setOpen(false)} aria-label={isAr ? "الرئيسية" : "Home"} className="mb-8">
+            <GivingLogo variant="light" className="h-14 w-auto max-w-[200px]" />
+          </Link>
           {primaryNav.map((item) => {
             const active = pathname === item.href;
             return (
@@ -182,9 +195,6 @@ export function Header() {
           </LocaleSwitch>
         </nav>
 
-        <div className="flex shrink-0 justify-center pb-[max(2rem,env(safe-area-inset-bottom))] pt-6">
-          <GivingLogo variant="light" className="h-12 w-auto max-w-[180px]" />
-        </div>
       </div>
     </header>
   );

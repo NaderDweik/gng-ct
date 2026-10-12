@@ -43,6 +43,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
     formats: ["image/avif", "image/webp"],
+    // Every quality={…} used by an <Image> must be listed (required from Next.js 16).
+    qualities: [75, 88, 90, 92, 95],
     // Keep resized photos for 31 days instead of 60 s: far fewer optimizations (Vercel bills
     // them) and faster pages. To change a photo, save it under a new file name.
     minimumCacheTTL: 2678400,
@@ -70,6 +72,15 @@ const nextConfig: NextConfig = {
         source: "/:path*.:ext(jpg|jpeg|png|webp|avif|gif|svg|ico|mp4|webm|woff2)",
         headers: [{ key: "Cache-Control", value: "public, max-age=604800" }],
       },
+    ];
+  },
+  // Renamed pages: /units is now /compound, /master-plan is now /chalet.
+  async redirects() {
+    return [
+      { source: "/units", destination: "/compound", permanent: true },
+      { source: "/en/units", destination: "/en/compound", permanent: true },
+      { source: "/master-plan", destination: "/chalet", permanent: true },
+      { source: "/en/master-plan", destination: "/en/chalet", permanent: true },
     ];
   },
 };

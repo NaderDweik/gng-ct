@@ -331,3 +331,55 @@
 .register-contact-link {
   display: inline-block;
 }
+
+/* ── Phones: centred section headings and card copy (desktop unchanged) ──
+   Every section's eyebrow, title and lead, and the text and buttons inside cards, sit
+   centred on phones (news cards stay start-aligned). Rows that pair two things (a card's category + date, a plan's label
+   + figure) keep their two ends. */
+@media (max-width: 767px) {
+  .section-eyebrow {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .section-title,
+  .section-sub {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .sec-head,
+  .sec-head > div {
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* Cards: copy and buttons centred. */
+  .brand-card .body,
+  .pillar-card,
+  .step-card,
+  .fin-plan,
+  .social-card,
+  .ap-tile-cap {
+    text-align: center;
+  }
+
+  .amg-text {
+    align-items: center;
+    text-align: center;
+  }
+
+  .ap-tile-cap {
+    justify-items: center;
+  }
+
+  .fin-plan-figure {
+    justify-content: center;
+  }
+
+  .fin-plan-cta {
+    align-self: center;
+  }
+}

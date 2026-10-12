@@ -1,19 +1,8 @@
 import { setRequestLocale } from "next-intl/server";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
-import { CountUp } from "@/components/ui/CountUp";
 import { amenityFeatures } from "@/content/amenities";
-import {
-  amenitiesPageCopy,
-  communityPlaces,
-  resortChapterIds,
-  serviceLines,
-} from "@/content/amenities-page";
-import { site } from "@/content/site";
-import {
-  CommunityMosaic,
-  ResortChapters,
-  ServiceShowcase,
-} from "@/features/amenities/AmenitiesPage";
+import { amenitiesPageCopy, communityPlaces, resortChapterIds } from "@/content/amenities-page";
+import { CommunityMosaic, ResortChapters } from "@/features/amenities/AmenitiesPage";
 import type { LocalePageProps } from "@/i18n/types";
 import { PageJsonLd } from "@/components/seo/PageJsonLd";
 import { routeMetadata } from "@/lib/seo";
@@ -25,8 +14,8 @@ export function generateMetadata({ params }: Props) {
 }
 
 /*
- * Amenities: what's yours (inside the resort), what's shared (across the
- * community) and who keeps it running (serviced daily). Pieces and motion:
+ * Amenities: what's yours (inside the resort) and what's shared (across the
+ * community); the services that keep it running live on /services. Pieces and motion:
  * features/amenities/AmenitiesPage.tsx; styles: styles/sections/amenities-page.css.
  */
 export default async function AmenitiesPage({ params }: Props) {
@@ -37,13 +26,6 @@ export default async function AmenitiesPage({ params }: Props) {
   const chapters = resortChapterIds
     .map((id) => amenityFeatures.find((a) => a.id === id))
     .filter((a): a is (typeof amenityFeatures)[number] => Boolean(a));
-
-  const stats = [
-    { value: 24, suffix: isAr ? "/٧" : "/7", label: c.stats.security },
-    { value: 3, suffix: isAr ? " م" : " m", label: c.stats.walls },
-    { value: site.stats.unitAreaSqm, suffix: isAr ? " م²" : " m²", label: c.stats.area },
-    { value: site.stats.units, suffix: "+", label: c.stats.units },
-  ];
 
   return (
     <>
@@ -76,34 +58,6 @@ export default async function AmenitiesPage({ params }: Props) {
             <p className="section-sub">{c.communityLead}</p>
           </header>
           <CommunityMosaic places={communityPlaces} isAr={isAr} />
-        </div>
-      </section>
-
-      {/* 3 · Serviced daily */}
-      <section id="services" className="ap-section bg-surface">
-        <div className="container-gc">
-          <header className="sec-head ap-svc-head">
-            <div>
-              <p className="section-eyebrow">{c.servicesEyebrow}</p>
-              <h2 className="section-title mb-0">{c.servicesTitle}</h2>
-            </div>
-            <p className="section-sub">{c.servicesLead}</p>
-          </header>
-
-          <dl className="ap-stats">
-            {stats.map((s, i) => (
-              <div key={s.label} className="ap-stat">
-                <dt>{s.label}</dt>
-                {/* "367+" and "24/7" must read left to right even in Arabic; unit figures
-                    ("٥٠٠ م²") keep the page direction. */}
-                <dd dir={s.suffix === "+" || s.suffix.includes("/") ? "ltr" : undefined}>
-                  <CountUp value={s.value} locale={locale} suffix={s.suffix} delay={i * 120} />
-                </dd>
-              </div>
-            ))}
-          </dl>
-
-          <ServiceShowcase lines={serviceLines} isAr={isAr} />
         </div>
       </section>
 

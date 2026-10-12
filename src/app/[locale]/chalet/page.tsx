@@ -9,11 +9,11 @@ import { routeMetadata } from "@/lib/seo";
 type Props = LocalePageProps;
 
 export function generateMetadata({ params }: Props) {
-  return routeMetadata(params, "/master-plan");
+  return routeMetadata(params, "/chalet");
 }
 
-/** The chalet plan: a photo of each space beside the plan, stepped through with arrows. */
-export default async function MasterPlanPage({ params }: Props) {
+/** The chalet plan (was /master-plan): a photo of each space beside the plan, stepped through with arrows. */
+export default async function ChaletPage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const isAr = locale === "ar";
@@ -21,8 +21,14 @@ export default async function MasterPlanPage({ params }: Props) {
 
   return (
     <>
-      <PageJsonLd locale={locale} path="/master-plan" />
-      <SubpageHeader tall compactMobile eyebrow={copy.eyebrow} title={copy.explorerTitle} />
+      <PageJsonLd locale={locale} path="/chalet" listing />
+      <SubpageHeader
+        tall
+        compactMobile
+        eyebrow={copy.eyebrow}
+        title={copy.explorerTitle}
+        titleMobile={isAr ? "مخطط احد الشاليهات" : undefined}
+      />
       <UnitPlanFeatures locale={locale} />
     </>
   );

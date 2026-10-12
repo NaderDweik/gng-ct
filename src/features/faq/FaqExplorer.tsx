@@ -1,5 +1,6 @@
 "use client";
 
+import { StickyBar, StickyPills } from "@/components/ui/StickyBar";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -101,31 +102,69 @@ export function FaqExplorer() {
     return () => ro.disconnect();
   }, [active, groups]);
 
+  // Phones: the chips are one sideways row (faq.css); keep the active one in view,
+  // centred, as the questions scroll by. (Desktop's column never scrolls sideways.)
+  useEffect(() => {
+    const nav = navRef.current;
+    const el = nav?.querySelector<HTMLElement>(".faq-nav-item.is-active");
+    if (!nav || !el || nav.scrollWidth <= nav.clientWidth) return;
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    nav.scrollTo({ left: el.offsetLeft - (nav.clientWidth - el.offsetWidth) / 2, behavior: still ? "auto" : "smooth" });
+  }, [active]);
+
   const jump = (id: string) => {
     setActive(id);
     window.clearTimeout(jumping.current);
     jumping.current = window.setTimeout(() => {
       jumping.current = undefined;
     }, 1200);
-    document.getElementById(`faq-${id}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Land the section under the fixed header, and under the compact bar on phones.
+    const el = document.getElementById(`faq-${id}`);
+    if (!el) return;
+    const phone = matchMedia("(max-width: 767px)").matches;
+    const header = document.querySelector<HTMLElement>("header")?.offsetHeight ?? 64;
+    const bar = document.querySelector<HTMLElement>(".sticky-bar")?.offsetHeight ?? 0;
+    // Desktop keeps its 7rem gap (the section's scroll-mt-28).
+    const offset = phone ? header + bar + 12 : parseFloat(getComputedStyle(el).scrollMarginTop) || 112;
+    const top = el.getBoundingClientRect().top + window.scrollY - offset;
+    window.scrollTo({ top, behavior: "smooth" });
   };
+
+  // Phones: once the search and section chips scroll away, a compact bar with both slides
+  // in under the header (components/ui/StickyBar).
+  const asideRef = useRef<HTMLElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const searchField = (
+          <label className="faq-search">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden>
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-3.5-3.5" />
+            </svg>
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={isAr ? "ابحث في الأسئلة…" : "Search questions…"}
+              aria-label={isAr ? "ابحث في الأسئلة" : "Search questions"}
+            />
+          </label>
+  );
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-10 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-14">
-      <aside className="space-y-5 lg:sticky lg:top-28">
-        <label className="faq-search">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden>
-            <circle cx="11" cy="11" r="7" />
-            <path d="m20 20-3.5-3.5" />
-          </svg>
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder={isAr ? "ابحث في الأسئلة…" : "Search questions…"}
-            aria-label={isAr ? "ابحث في الأسئلة" : "Search questions"}
+      <aside ref={asideRef} className="space-y-5 lg:sticky lg:top-28">
+        <StickyBar anchor={asideRef} until={listRef} label={isAr ? "البحث والأقسام" : "Search and sections"}>
+          {searchField}
+          <StickyPills
+            active={active}
+            onPick={jump}
+            items={faqCategories.map((cat) => {
+              const count = groups.find((g) => g.id === cat.id)?.items.length ?? 0;
+              return { id: cat.id, label: isAr ? cat.titleAr : cat.titleEn, count: n(count), disabled: count === 0 };
+            })}
           />
-        </label>
+        </StickyBar>
+        {searchField}
 
         <nav ref={navRef} aria-label={isAr ? "أقسام الأسئلة" : "FAQ sections"} className="faq-nav">
           {pill && (
@@ -172,7 +211,7 @@ export function FaqExplorer() {
         </div>
       </aside>
 
-      <div>
+      <div ref={listRef}>
         <p className="mb-6 text-sm text-muted max-md:text-center" aria-live="polite">
           {query
             ? isAr
@@ -240,7 +279,7 @@ export function FaqExplorer() {
           </div>
         )}
 
-        <div className="faq-help mt-14 lg:hidden">
+        <div className="faq-help faq-help--end mt-14 lg:hidden">
           <p className="text-(length:--fs-caption) font-bold uppercase tracking-[0.2em] text-accent">
             {isAr ? "لم تجد إجابتك؟" : "Didn't find it?"}
           </p>

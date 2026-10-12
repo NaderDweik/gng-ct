@@ -7,7 +7,7 @@ import { site } from "@/content/site";
 import type { LocalePageProps } from "@/i18n/types";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { InViewOnce } from "@/components/ui/InViewOnce";
-import { articleJsonLd, articleOgImage, breadcrumbJsonLd, buildMetadata } from "@/lib/seo";
+import { articleJsonLd, articleOgImage, breadcrumbJsonLd, buildMetadata, snippet } from "@/lib/seo";
 
 type Props = LocalePageProps<{ slug: string }>;
 
@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: Props) {
     locale,
     path: `/news/${slug}`,
     title: isAr ? article.titleAr : article.titleEn,
-    description: isAr ? article.excerptAr : article.excerptEn,
+    description: snippet(isAr ? article.excerptAr : article.excerptEn, locale),
     image: articleOgImage(slug),
     type: "article",
     publishedTime: article.date,

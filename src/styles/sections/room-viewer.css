@@ -22,8 +22,10 @@
     height: clamp(34rem, calc(100svh - 5rem), 56rem);
   }
 
+  /* Slimmer padding than phones/tablets so the plan gets more of the panel. */
   .rmv .rmv-panel {
     min-height: 0;
+    padding: clamp(1.25rem, 2.5vw, 2.25rem);
   }
 
   /* The plan box keeps the drawing's exact proportions (the space outlines are placed
@@ -354,77 +356,6 @@
   }
 }
 
-/* ── Step bar: a segment per space; the lit thumb glides to the current one ── */
-.rmv-steps {
-  --gap: 4px;
-  --seg: calc((100% - (var(--n) - 1) * var(--gap)) / var(--n));
-
-  position: relative;
-  display: grid;
-  grid-template-columns: repeat(var(--n), 1fr);
-  gap: var(--gap);
-  margin-top: auto;
-}
-
-.rmv-steps + .rmv-foot {
-  margin-top: 0;
-}
-
-.rmv-step {
-  position: relative;
-  height: 16px;
-  padding: 0;
-  background: transparent;
-  cursor: pointer;
-}
-
-.rmv-step::before {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  top: 50%;
-  height: 2px;
-  translate: 0 -50%;
-  border-radius: 2px;
-  background: color-mix(in srgb, var(--white) 16%, transparent);
-  transition:
-    background-color 0.5s var(--ease),
-    height 0.3s var(--ease);
-}
-
-.rmv-step.is-past::before {
-  background: color-mix(in srgb, var(--brand-primary) 45%, transparent);
-}
-
-@media (hover: hover) {
-  .rmv-step:hover::before {
-    height: 4px;
-    background: color-mix(in srgb, var(--white) 45%, transparent);
-  }
-}
-
-.rmv-steps-thumb {
-  position: absolute;
-  top: 50%;
-  left: calc(var(--i) * (var(--seg) + var(--gap)));
-  width: var(--seg);
-  height: 4px;
-  translate: 0 -50%;
-  border-radius: 2px;
-  background: var(--brand-primary);
-  box-shadow: 0 0 12px color-mix(in srgb, var(--brand-primary) 60%, transparent);
-  pointer-events: none;
-  transition:
-    left 0.6s var(--ease),
-    right 0.6s var(--ease);
-}
-
-/* RTL: the grid runs right to left, so the thumb counts from the right. */
-[dir="rtl"] .rmv-steps-thumb {
-  left: auto;
-  right: calc(var(--i) * (var(--seg) + var(--gap)));
-}
-
 .rmv-count-total {
   color: var(--on-dark-subtle);
   font-size: 0.6em;
@@ -678,9 +609,7 @@
   }
 
   .rmv-clip,
-  .rmv-clip video,
-  .rmv-step::before,
-  .rmv-steps-thumb {
+  .rmv-clip video {
     transition: none;
   }
 
@@ -754,13 +683,9 @@
   }
 }
 
-/* Phones: no step bar; one row under the plan with "Register interest" at the start
+/* Phones: one row under the plan with "Register interest" at the start
    (filling the row) and the prev / next arrows at the end. The counter is hidden. */
 @media (max-width: 767px) {
-  .rmv-steps {
-    display: none;
-  }
-
   .rmv-foot {
     flex-direction: row-reverse;
     gap: 0.6rem;
@@ -789,8 +714,7 @@
   }
 }
 
-/* No floating WhatsApp button on the master-plan page: it covered the viewer's buttons.
-   (The page's own "Register interest" stays; other pages keep the float.) */
+/* No floating WhatsApp button on the chalet page: it covered the viewer's buttons. */
 body:has(.rmv) .wa-float {
   display: none;
 }

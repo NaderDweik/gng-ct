@@ -132,7 +132,8 @@
   transition: transform 0.6s var(--ease);
 }
 
-.pillar-card:hover::before {
+.pillar-card:hover::before,
+.pillar-card.is-active::before {
   transform: translateY(0);
 }
 
@@ -148,9 +149,27 @@
   transition: background 0.4s var(--ease), color 0.4s var(--ease);
 }
 
-.pillar-card:hover .pillar-icon {
+.pillar-card:hover .pillar-icon,
+.pillar-card.is-active .pillar-icon {
   color: var(--white);
   background: var(--brand-accent);
+}
+
+/* Touch screens / phones: the card crossing mid-screen (.is-active, ScrollFocus) plays the
+   hover look: the dark sheet rises, the icon turns green, the text turns light. */
+.pillar-card.is-active .pillar-title {
+  color: var(--on-dark);
+}
+
+.pillar-card.is-active .pillar-body {
+  color: var(--on-dark-muted);
+}
+
+/* Phones: the desktop card, stacked; no fixed height, so no empty space under the text. */
+@media (max-width: 767px) {
+  .pillar-card {
+    min-height: 0;
+  }
 }
 
 /* Social cards: a centred heading, then wide, low cards side by side. All three icons sit
@@ -294,105 +313,10 @@
   }
 }
 
-/* ── Phones only: promises + leadership (markup: app/[locale]/about/page.tsx) ──
-   The four promises become compact numbered rows (icon beside the text, no empty card
-   height); each icon fills green as its row scrolls in (.is-in, InViewOnce), standing in
-   for the desktop hover. The leadership block is centred with a full-width button. */
+/* ── Phones only: leadership block (markup: app/[locale]/about/page.tsx) ──
+   Centred with a full-width button. (The four promises keep the desktop card, stacked;
+   see the "promises" rules below.) */
 @media (max-width: 767px) {
-  .pillars-head {
-    justify-items: center;
-    text-align: center;
-  }
-
-  .pillars-head .section-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .pillars-head .section-eyebrow::before,
-  .pillars-head .section-eyebrow::after {
-    content: "";
-    width: 1.75rem;
-    height: 1px;
-    background: currentColor;
-    opacity: 0.6;
-  }
-
-  .pillar-card {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    column-gap: 1rem;
-    align-items: start;
-    min-height: 0;
-    padding: 1.35rem 1.25rem 1.4rem;
-  }
-
-  /* No dark sheet sliding up on tap. */
-  .pillar-card::before {
-    display: none;
-  }
-
-  /* The small index in the top end corner. */
-  .pillar-card::after {
-    content: attr(data-num);
-    position: absolute;
-    top: 1.35rem;
-    right: 1.25rem;
-    color: var(--subtle);
-    font-family: var(--font-display);
-    font-size: var(--fs-caption);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    font-variant-numeric: tabular-nums;
-  }
-
-  [dir="rtl"] .pillar-card::after {
-    right: auto;
-    left: 1.25rem;
-  }
-
-  .pillar-icon {
-    grid-row: span 2;
-    width: 46px;
-    height: 46px;
-    transition:
-      background 0.6s var(--ease),
-      color 0.6s var(--ease),
-      transform 0.6s var(--ease);
-    transform: scale(0.9);
-  }
-
-  .pillar-card.is-in .pillar-icon {
-    background: var(--brand-accent);
-    color: var(--white);
-    transform: none;
-  }
-
-  .pillar-card .pillar-title {
-    margin-top: 0.15rem;
-    padding-right: 2rem; /* clear of the index */
-    font-size: 1.125rem;
-  }
-
-  [dir="rtl"] .pillar-card .pillar-title {
-    padding-right: 0;
-    padding-left: 2rem;
-  }
-
-  .pillar-card .pillar-body {
-    margin-top: 0.4rem;
-  }
-
-  /* Hover colours are off on phones (no dark sheet behind the text). */
-  .pillar-card:hover .pillar-title {
-    color: var(--ink);
-  }
-
-  .pillar-card:hover .pillar-body {
-    color: var(--muted);
-  }
-
   .about-lead .container-gc {
     gap: 2.25rem;
     text-align: center;
@@ -418,12 +342,6 @@
   }
 }
 
-@media (max-width: 767px) and (prefers-reduced-motion: reduce) {
-  .pillar-icon {
-    transition: none;
-    transform: none;
-  }
-}
 
 /* Phones: the "Our story" eyebrow + title centred (the text under them stays aligned). */
 @media (max-width: 767px) {
@@ -448,5 +366,15 @@
     margin-inline: auto;
     text-align: center;
     text-wrap: balance;
+  }
+}
+
+/* Phones: the collage is a narrow square, so the ISO badge sits fully below the main photo
+   (in the free space beside the small photo) instead of half over its bottom edge. */
+@media (max-width: 767px) {
+  .about-collage-badge {
+    inset-block-start: calc(68% + 1rem);
+    inset-block-end: auto;
+    inset-inline-end: 0;
   }
 }

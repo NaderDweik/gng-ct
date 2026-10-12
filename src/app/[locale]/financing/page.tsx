@@ -56,7 +56,7 @@ export default async function FinancingPage({ params }: Props) {
       <PageJsonLd locale={locale} path="/financing" listing />
       <SubpageHeader tall eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
 
-      <section id="plans" className="section scroll-mt-20 bg-surface-alt">
+      <section id="plans" className="section scroll-mt-20 on-dark bg-secondary text-on-dark">
         <div className="container-gc">
           <PricingShowcase />
         </div>
@@ -72,10 +72,20 @@ export default async function FinancingPage({ params }: Props) {
           {/* A chalet photo in its own box behind step 04, offset so it peeks out past it. */}
           <div className="steps-photo" aria-hidden>
             <Image
-              src="/gallery/resortsPics/family-entering-resort-front-door.jpg"
+              src="/gallery/resortsPics/pool-and-tent-pavilion-hd.jpg"
               alt=""
               fill
               sizes="(min-width: 1024px) 28vw, 50vw"
+              className="object-cover"
+            />
+          </div>
+          {/* A smaller photo floating over the big one's top-start corner. */}
+          <div className="steps-float" aria-hidden>
+            <Image
+              src="/gallery/resortsPics/family-lounge-under-pergola.jpg"
+              alt=""
+              fill
+              sizes="(min-width: 1024px) 15vw, 1px"
               className="object-cover"
             />
           </div>
@@ -85,7 +95,7 @@ export default async function FinancingPage({ params }: Props) {
                 <span className="step-num font-display text-(length:--fs-stat) font-bold leading-none text-accent/80 tabular-nums">
                   {formatNumber(i + 1, locale).padStart(isAr ? 0 : 2, "0")}
                 </span>
-                <h3 className="step-title font-display mt-8 text-xl font-bold text-on-dark">
+                <h3 className="step-title font-display mt-5 text-xl font-bold text-on-dark">
                   {isAr ? s.titleAr : s.titleEn}
                 </h3>
                 <p className="step-body mt-3 text-sm leading-relaxed text-on-dark-muted">
@@ -97,7 +107,7 @@ export default async function FinancingPage({ params }: Props) {
           </div>
         </div>
         {/* Phones: blocks reveal as they scroll in (financing.css, .is-in). */}
-        <InViewOnce selector=".fin-main, .fin-plan, .fin-price, .steps-head > .section-title, .step-card" rootMargin="0px 0px -12% 0px" />
+        <InViewOnce selector=".fin-head, .fin-plan, .fin-price, .steps-head > .section-title, .step-card" rootMargin="0px 0px -12% 0px" />
       </section>
 
       {financingFaq.length > 0 && (

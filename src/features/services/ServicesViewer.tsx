@@ -9,7 +9,8 @@ import type { ServiceIconName } from "@/content/services";
  * The card at the top of /services (styles: styles/sections/services-directory.css).
  * Big photo on the start side, the "Available now" list on the end side. Controlled by
  * ServicesDirectory: the list steps through the services on its own and scrolls down
- * with the active one; hovering or tapping a service shows its photo. The dark band
+ * with the active one; clicking or tapping a service shows its photo (hover only pauses
+ * the stepping: picking on hover re-centred the list under the cursor and cycled). The dark band
  * below overlaps the card's bottom edge.
  */
 
@@ -220,7 +221,6 @@ export function ServicesViewer({
                     <button
                       type="button"
                       className={`svv-item${i === index ? " is-on" : ""}`}
-                      onMouseEnter={() => onPick(i)}
                       onFocus={() => onPick(i)}
                       onClick={() => onPick(i)}
                       aria-pressed={i === index}

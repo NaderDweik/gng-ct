@@ -17,11 +17,13 @@ type Props = {
   tall?: boolean;
   /** Phones: a slim band, for pages whose content must start high on the first screen. */
   compactMobile?: boolean;
+  /** Phones only: a different title (the desktop one shows from tablet up). */
+  titleMobile?: string;
 };
 
 import { LoopVideo } from "@/components/ui/LoopVideo";
 
-export function SubpageHeader({ eyebrow, title, subtitle, tall, compactMobile }: Props) {
+export function SubpageHeader({ eyebrow, title, subtitle, tall, compactMobile, titleMobile }: Props) {
   return (
     <section className={`sh${tall ? " sh--tall" : ""}${compactMobile ? " sh--compact-mobile" : ""}`}>
       {/* Faint V-line loop behind the title (Remotion render; source: motion/src/BannerLines.tsx). */}
@@ -29,7 +31,14 @@ export function SubpageHeader({ eyebrow, title, subtitle, tall, compactMobile }:
       <div className="sh-inner">
         <span className="sh-eyebrow">{eyebrow}</span>
         <h1 className="sh-title">
-          <span>{title}</span>
+          {titleMobile ? (
+            <>
+              <span className="max-md:hidden">{title}</span>
+              <span className="md:hidden">{titleMobile}</span>
+            </>
+          ) : (
+            <span>{title}</span>
+          )}
         </h1>
         {subtitle && <p className="sh-sub">{subtitle}</p>}
       </div>

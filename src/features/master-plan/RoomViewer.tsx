@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from "react";
+import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
 import { site } from "@/content/site";
+import { useSoftSnap } from "@/lib/useSoftSnap";
 import {
   masterPlanMapSize,
   masterPlanMapSrc,
@@ -87,6 +88,9 @@ export function RoomViewer({ locale }: { locale: string }) {
   });
   const { index, prev, dir } = nav;
   const indexRef = useRef(0);
+  // Scrolling near the viewer settles it under the nav (every width).
+  const rootRef = useRef<HTMLDivElement>(null);
+  useSoftSnap(rootRef, 0);
   indexRef.current = index;
   /** The last two clips shown (the card keeps the old one under the new until it's ready). */
   const firstClip = steps[0] && planItemClips.has(steps[0].item.id) ? steps[0].item.id : null;
@@ -127,6 +131,7 @@ export function RoomViewer({ locale }: { locale: string }) {
 
   return (
     <div
+      ref={rootRef}
       className="rmv"
       role="region"
       aria-roledescription={isAr ? "عارض الغرف" : "room viewer"}
@@ -262,26 +267,6 @@ export function RoomViewer({ locale }: { locale: string }) {
               aria-hidden
             />
           </div>
-        </div>
-
-        {/* Step bar: one segment per space; the lit segment slides along (and any segment
-            jumps straight to its space). */}
-        <div className="rmv-steps" style={{ "--n": total, "--i": index } as CSSProperties}>
-          {steps.map((s, i) => (
-            <button
-              key={s.item.id}
-              type="button"
-              className={`rmv-step${i < index ? " is-past" : ""}`}
-              aria-label={title(s.item)}
-              aria-current={i === index ? "step" : undefined}
-              onClick={() => {
-                hoverOut();
-                setIndex(i);
-              }}
-              tabIndex={-1}
-            />
-          ))}
-          <span className="rmv-steps-thumb" aria-hidden />
         </div>
 
         <div className="rmv-foot">

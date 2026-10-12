@@ -335,7 +335,6 @@
     display: block;
     border-radius: 999px;
     background: var(--brand-primary);
-    box-shadow: 0 8px 20px color-mix(in srgb, var(--brand-primary) 30%, transparent);
     transform: translate(var(--x), var(--y));
     transition:
       transform 0.55s cubic-bezier(0.65, 0, 0.35, 1),
@@ -379,4 +378,14 @@
   .faq-nav-count {
     transition: none;
   }
+}
+
+/* Phones / tablets: the "Didn't find it?" box that closes the page, its text and buttons
+   centred like the other section-closing buttons. */
+.faq-help--end {
+  text-align: center;
+}
+
+.faq-help--end > div {
+  justify-content: center;
 }

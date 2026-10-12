@@ -38,6 +38,31 @@
   padding-bottom: clamp(1.5rem, 3vw, 2.25rem);
 }
 
+/* The map gets a full screen of its own under the fixed site nav (5rem from tablet up, as
+   the room viewer; 4rem on phones), with the page header above it. */
+@media (max-width: 767px) {
+  .cx-page {
+    height: auto;
+    min-height: 0;
+  }
+
+  .cx-page .cx {
+    flex: none;
+    height: max(28rem, calc(100svh - 4rem));
+  }
+}
+
+@media (min-width: 768px) {
+  .cx-page {
+    height: auto;
+  }
+
+  .cx-page .cx {
+    flex: none;
+    height: max(32rem, calc(100svh - 5rem));
+  }
+}
+
 .cx {
   /* The page header already clears the fixed site nav, so overlays start at the top. */
   --hdr: 0px;
@@ -104,8 +129,8 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: min(100%, (100svh - var(--hdr)) * 7874 / 5906);
-  aspect-ratio: 7874 / 5906;
+  width: min(100%, (100svh - var(--hdr)) * 7874 / 6024);
+  aspect-ratio: 7874 / 6024;
   transform-origin: 0 0;
   transform: translate3d(var(--x), var(--y), 0) scale(var(--s));
   transition:
@@ -575,8 +600,14 @@
 }
 
 .cx-inside-arrow {
-  color: var(--brand-primary);
-  font-size: 1.1rem;
+  flex: none;
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: var(--brand-primary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   transition: translate 0.25s var(--ease);
 }
 
@@ -588,7 +619,7 @@
   translate: -3px 0;
 }
 
-/* ── Zoom controls: end edge, vertically centred on the stage ── */
+/* ── Zoom controls: end edge, vertically centred on the stage (phones; tablet up: beside the search panel) ── */
 .cx-zoom {
   position: absolute;
   z-index: 3;
@@ -826,11 +857,6 @@
     pointer-events: none;
   }
 
-  body:has(.cx.has-card) .wa-float {
-    opacity: 0;
-    pointer-events: none;
-  }
-
   .cx.has-card .cx-zoom {
     opacity: 0;
     pointer-events: none;
@@ -848,12 +874,22 @@
 
 /* ── Tablet up ── */
 @media (min-width: 768px) {
+  /* Same height as the zoom column beside it (3 × 2.75rem buttons, dividers inside them, 2 border
+     lines), bottoms aligned; the search and "pick one" sit centred inside. */
   .cx-intro {
     right: auto;
     top: auto;
     bottom: var(--gap);
     width: 22rem;
-    padding: 1.1rem;
+    height: calc(3 * 2.75rem + 2px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 1.1rem;
+  }
+
+  .cx-intro .cx-surprise {
+    align-self: flex-start;
   }
 
   [dir="rtl"] .cx-intro {
@@ -895,14 +931,19 @@
     pointer-events: none;
   }
 
-  /* Card open: the zoom controls move off the card's edge. */
-  .cx.has-card .cx-zoom {
-    right: calc(var(--card-w) + var(--gap) * 2);
+  /* Zoom controls: beside the search panel at the bottom (start side), clear of the
+     chalet card on the end side. */
+  .cx-zoom {
+    left: calc(var(--gap) * 2 + 22rem);
+    right: auto;
+    top: auto;
+    bottom: var(--gap);
+    translate: none;
   }
 
-  [dir="rtl"] .cx.has-card .cx-zoom {
-    right: auto;
-    left: calc(var(--card-w) + var(--gap) * 2);
+  [dir="rtl"] .cx-zoom {
+    left: auto;
+    right: calc(var(--gap) * 2 + 22rem);
   }
 
   .cx-card {
@@ -948,7 +989,7 @@
     top: calc(var(--hdr) + var(--gap));
     display: block;
     width: 11rem;
-    aspect-ratio: 7874 / 5906;
+    aspect-ratio: 7874 / 6024;
     padding: 0;
     overflow: hidden;
     border: 1px solid var(--glass-line);
@@ -1003,7 +1044,8 @@
     transition: opacity 0.3s ease;
   }
 
-  .cx.has-card .cx-hint {
+  .cx.has-card .cx-hint,
+  .cx.hint-done .cx-hint {
     opacity: 0;
   }
 }
@@ -1125,5 +1167,23 @@
 
   .cx-card-inside {
     margin-top: 0.6rem;
+  }
+}
+
+/* Phones: the zoom controls sit in the top end corner (right; left in Arabic), just under
+   the chalet search panel (about 6.2rem tall on phones). Last in the file so it wins over
+   the placement above. */
+@media (max-width: 767px) {
+  .cx-zoom {
+    top: calc(var(--hdr) + var(--gap) * 2 + 6.2rem);
+    bottom: auto;
+    right: var(--gap);
+    left: auto;
+    translate: none;
+  }
+
+  [dir="rtl"] .cx-zoom {
+    right: auto;
+    left: var(--gap);
   }
 }

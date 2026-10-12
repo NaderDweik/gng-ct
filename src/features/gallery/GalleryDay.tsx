@@ -6,7 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { dayCopy, dayScenes, type DayMode } from "@/content/gallery";
 import { formatNumber } from "@/lib/format";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
-import { HoverBadge, HoverGlow } from "@/components/ui/HoverAccent";
+import { HoverGlow } from "@/components/ui/HoverAccent";
 
 /*
  * Home "A day at Giving Compound" (styles: styles/sections/gallery-day.css).
@@ -152,7 +152,6 @@ export function GalleryDay({ locale, ctaHref }: Props) {
                   </figure>
                 );
               })}
-              <HoverBadge />
               {i === 0 && (
                 <p className={`gd-lede${inView ? " is-in" : ""}`}>
                   <span>{copy.lead}</span>

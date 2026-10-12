@@ -8,6 +8,7 @@ import {
   type CSSProperties,
   type KeyboardEvent,
   type PointerEvent,
+  type ReactNode,
 } from "react";
 import type { ServiceIconName } from "@/content/services";
 import { ServiceIcon } from "@/features/services/ServiceIcon";
@@ -30,6 +31,8 @@ export type HomeServiceShot = {
 };
 
 const STEP_MS = 5000;
+/** The track's slide length (--hsc-dur in home-links.css). */
+const SLIDE_MS = 800;
 
 function Arrow({ dir }: { dir: "prev" | "next" }) {
   return (
@@ -55,10 +58,13 @@ export function HomeServicesViewer({
   shots,
   isAr,
   locale,
+  cta,
 }: {
   shots: HomeServiceShot[];
   isAr: boolean;
   locale: string;
+  /** Phones: shown at the start of the controls row under the photos. */
+  cta?: ReactNode;
 }) {
   const total = shots.length;
   const loop = [...shots, ...shots, ...shots];
@@ -81,14 +87,18 @@ export function HomeServicesViewer({
     setPos((p) => p + step);
   };
 
-  // After a move lands outside the middle copy, jump back into it (same picture, no motion).
-  function onTrackEnd(e: React.TransitionEvent) {
-    if (e.target !== e.currentTarget || e.propertyName !== "transform") return;
-    if (pos >= total * 2 || pos < total) {
+  // After a move lands outside the middle copy, jump back into it (same picture, no
+  // motion). Timed off the slide's length (--hsc-dur, 0.8s) rather than transitionend,
+  // which never fires in a background tab or when a quick second move interrupts the
+  // slide: the position then ran on past the copies into an empty track.
+  useEffect(() => {
+    if (pos < total * 2 && pos >= total) return;
+    const t = setTimeout(() => {
       setAnimate(false);
-      setPos(total + index);
-    }
-  }
+      setPos(total + (((pos % total) + total) % total));
+    }, SLIDE_MS + 60);
+    return () => clearTimeout(t);
+  }, [pos, total]);
 
   useEffect(() => {
     if (!animate) {
@@ -110,11 +120,20 @@ export function HomeServicesViewer({
     return () => io.disconnect();
   }, []);
 
+  // Autoplay: only while on screen, not held, and the tab is visible.
+  const [visible, setVisible] = useState(true);
   useEffect(() => {
-    if (still || held || !inView) return;
+    const sync = () => setVisible(!document.hidden);
+    sync();
+    document.addEventListener("visibilitychange", sync);
+    return () => document.removeEventListener("visibilitychange", sync);
+  }, []);
+
+  useEffect(() => {
+    if (still || held || !inView || !visible) return;
     const t = setTimeout(() => go(1), STEP_MS);
     return () => clearTimeout(t);
-  }, [pos, still, held, inView]);
+  }, [pos, still, held, inView, visible]);
 
   function onKeyDown(e: KeyboardEvent) {
     if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
@@ -155,6 +174,7 @@ export function HomeServicesViewer({
         </p>
 
         <div className="hsc-nav">
+          {cta && <div className="hsc-cta">{cta}</div>}
           <div className="hsc-arrows">
             <span className="hsc-count" aria-hidden>
               {num(index + 1)} <span>/ {num(total)}</span>
@@ -190,7 +210,6 @@ export function HomeServicesViewer({
         <ul
           className={`hsc-track${animate ? "" : " no-anim"}`}
           style={{ "--pos": pos } as CSSProperties}
-          onTransitionEnd={onTrackEnd}
         >
           {loop.map((s, i) => {
             const on = i === pos;

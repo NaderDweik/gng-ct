@@ -300,7 +300,7 @@ export function RegisterForm() {
             autoComplete="tel"
             dir="ltr"
             maxLength={PHONE_MAX}
-            placeholder="+962 7X XXX XXXX"
+            placeholder="+962 70 000 0000"
             value={phone}
             aria-invalid={!!errors.phone}
             aria-describedby={errorId("phone")}

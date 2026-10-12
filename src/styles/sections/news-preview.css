@@ -164,17 +164,46 @@
   display: none;
 }
 
-.np-dots {
+.np-dots,
+.np-fade,
+.np-step {
   display: none;
+}
+
+/* One "All articles" per screen size: in the heading row on desktop, right-aligned under the
+   cards on phones / tablets. */
+.np-all--head {
+  display: none;
+}
+
+.np-all--end {
+  display: flex;
+  width: fit-content;
+  margin: clamp(1.75rem, 4vw, 2.5rem) auto 0;
+}
+
+@media (min-width: 1024px) {
+  .np-all--head {
+    display: inline-flex;
+  }
+
+  .np-all--end {
+    display: none;
+  }
 }
 
 /* Phones: the three cards become a swipe row. Each card takes most of the width with the
    next one peeking in; dots underneath show the position. */
 @media (max-width: 767px) {
+  /* The row runs edge to edge; fades and chevrons sit over its two edges. */
+  .np-rail {
+    position: relative;
+    margin-inline: -1rem;
+  }
+
   .np-grid {
     display: flex;
     gap: 0.75rem;
-    margin-inline: -1rem;
     padding: 0.25rem 1rem 0.5rem;
     overflow-x: auto;
     overscroll-behavior-x: contain;
@@ -264,5 +293,98 @@
   .np-dot.is-on {
     width: 1.5rem;
     background: var(--brand-primary);
+  }
+}
+
+/* Phones: a soft fade on each side of the swipe row (the section's own background), and a
+   round chevron over each fade, centred on the card photos (16:10 of an 84%-wide card). */
+@media (max-width: 767px) {
+  .np-fade {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    display: block;
+    width: 2.25rem;
+    pointer-events: none;
+  }
+
+  .np-fade--start {
+    left: 0;
+    background: linear-gradient(90deg, var(--surface-alt), transparent);
+  }
+
+  .np-fade--end {
+    right: 0;
+    background: linear-gradient(270deg, var(--surface-alt), transparent);
+  }
+
+  .np-step {
+    position: absolute;
+    top: calc(0.25rem + 84vw * 10 / 16 / 2);
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    translate: 0 -50%;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--black) 14%, transparent);
+    transition: opacity 0.3s var(--ease);
+  }
+
+  .np-step--prev {
+    left: 0.5rem;
+  }
+
+  .np-step--next {
+    right: 0.5rem;
+  }
+
+  .np-step svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* LTR: prev points left. RTL: the row runs right to left, so prev sits on the right
+     and points right, next on the left pointing left. */
+  .np-step--prev svg {
+    rotate: 180deg;
+  }
+
+  [dir="rtl"] .np-step--prev {
+    left: auto;
+    right: 0.5rem;
+  }
+
+  [dir="rtl"] .np-step--next {
+    right: auto;
+    left: 0.5rem;
+  }
+
+  [dir="rtl"] .np-step--prev svg {
+    rotate: none;
+  }
+
+  [dir="rtl"] .np-step--next svg {
+    rotate: 180deg;
+  }
+
+  .np-step.is-off {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .np-step:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
   }
 }
