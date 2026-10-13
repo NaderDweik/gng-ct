@@ -93,6 +93,8 @@ export async function startAnalytics() {
     person_profiles: "identified_only",
     capture_exceptions: true,
   });
+  // PostHog keeps its own opt-out from an earlier visit's decline; the visitor has accepted now.
+  if (ph.has_opted_out_capturing()) ph.opt_in_capturing();
   posthog = ph;
   state = "on";
   for (const fn of queue.splice(0)) fn(ph);
