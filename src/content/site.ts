@@ -19,8 +19,8 @@ export const site = {
   locationAr: "٤١ كم من فندق الرويال باتجاه سحاب الحطمية",
   locationEn: "41 km from Le Royal Hotel towards Sahab Al-Hatmiyeh",
   /** Where the sales office is (footer, register page); not the compound's location. */
-  salesOfficeAr: " عمان, الاردن, فندق الرويال، الطابق الأول ",
-  salesOfficeEn: "Amman, Jordan, Le Royal Hotel, First Floor",
+  salesOfficeAr: "فندق الرويال، الطابق الأول، عمّان، الأردن",
+  salesOfficeEn: "Le Royal Hotel, First Floor, Amman, Jordan",
   /** Project pin — Al Matabba (Google Maps link above). */
   coordinates: { lat: 31.796929, lng: 36.1855906 },
   social: {
