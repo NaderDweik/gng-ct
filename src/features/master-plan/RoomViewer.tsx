@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { SmoothImage } from "@/components/ui/SmoothImage";
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
@@ -149,7 +150,7 @@ export function RoomViewer({ locale }: { locale: string }) {
       {/* Photo side */}
       <div className="rmv-photo">
         {steps.map((s, i) => (
-          <Image
+          <SmoothImage
             key={s.item.id}
             src={s.photo}
             alt={i === index ? title(s.item) : ""}
@@ -157,6 +158,8 @@ export function RoomViewer({ locale }: { locale: string }) {
             fill
             sizes="(min-width: 1024px) 55vw, 100vw"
             className={`rmv-img${i === index ? " is-on" : i === prev ? " is-prev" : ""}`}
+            // The photos crossfade on their own: no preview over them.
+            preview={false}
           />
         ))}
         {/* The chalet's size, in the top corner on a few select photos (fades between). */}

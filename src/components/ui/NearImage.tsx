@@ -1,10 +1,11 @@
 "use client";
 
-import Image, { type ImageProps } from "next/image";
+import type { ImageProps } from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { SmoothImage } from "@/components/ui/SmoothImage";
 
 /**
- * next/image that only starts downloading when its box is within `margin` of the screen.
+ * SmoothImage that only starts downloading when its box is within `margin` of the screen.
  * For photos just below the first screen, which the browser's own lazy loading fetches at
  * once on phones. They competed with the hero for bandwidth. Needs a positioned parent (`fill`).
  */
@@ -25,7 +26,14 @@ export function NearImage({ margin = "400px", ...props }: ImageProps & { margin?
     return () => io.disconnect();
   }, [near, margin]);
 
-  // eslint-disable-next-line jsx-a11y/alt-text -- alt comes in through props
-  if (near) return <Image {...props} />;
-  return <span ref={ref} aria-hidden className="absolute inset-0" />;
+  if (near) return <SmoothImage {...props} />;
+  return (
+    <span ref={ref} aria-hidden className="absolute inset-0">
+      {/* Without JavaScript the photo still shows. It also puts the photo's files in the HTML,
+          which is how the build knows to make its AVIF (scripts/cloudflare-pages.mjs). */}
+      <noscript>
+        <SmoothImage {...props} preview={false} />
+      </noscript>
+    </span>
+  );
 }

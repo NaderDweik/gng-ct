@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { SmoothImage } from "@/components/ui/SmoothImage";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "@/i18n/navigation";
 import { dayCopy, dayScenes, type DayMode } from "@/content/gallery";
@@ -135,7 +135,7 @@ export function GalleryDay({ locale, ctaHref }: Props) {
                 return (
                   <figure key={m} className={`gd-scene${shown ? " is-shown" : ""}`} aria-hidden={!shown}>
                     <span className="gd-frame">
-                      <Image
+                      <SmoothImage
                         src={scene.src}
                         alt={isAr ? scene.titleAr : scene.titleEn}
                         fill

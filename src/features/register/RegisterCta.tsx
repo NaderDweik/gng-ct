@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { SmoothImage } from "@/components/ui/SmoothImage";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
@@ -17,7 +17,7 @@ export async function RegisterCta({ locale, image, video }: Props) {
         {video ? (
           <LoopVideo src={video.src} poster={video.poster} className="register-cta-video" lazyPoster />
         ) : (
-          <Image src={image} alt="" fill sizes="100vw" className="object-cover" />
+          <SmoothImage src={image} alt="" fill sizes="100vw" className="object-cover" />
         )}
       </div>
       <div className="container-gc">

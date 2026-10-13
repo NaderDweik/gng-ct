@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { SmoothImage } from "@/components/ui/SmoothImage";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
@@ -57,13 +57,15 @@ export function HomeIntro({ locale }: { locale: string }) {
     <section ref={root} className={`hi section bg-surface${inView ? " is-in" : ""}${copyIn ? " is-copy-in" : ""}`}>
       <div className="container-gc hi-grid">
         <figure className="hi-frame">
-          <Image
+          <SmoothImage
             src={intro.image}
             alt={copy.alt}
             fill
             sizes={IMAGE_SIZES}
             quality={92}
             className="hi-photo"
+            // Its own reveal hides it until in view: no preview over it.
+            preview={false}
             style={{ objectPosition: intro.focus }}
           />
         </figure>

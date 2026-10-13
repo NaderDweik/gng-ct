@@ -5,6 +5,7 @@ import { StickyBar, StickyPills } from "@/components/ui/StickyBar";
 import { type CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { track } from "@/lib/analytics";
+import { avifSrcSet, dropAvifOnError } from "@/components/ui/SmoothImage";
 import {
   galleryCategories,
   galleryCopy,
@@ -78,8 +79,7 @@ const TILE_SIZES = "(max-width: 768px) 50vw, 33vw";
  */
 function TilePhoto({ src, alt, priority, blur }: { src: string; alt: string; priority: boolean; blur?: string }) {
   const { props } = getImageProps({ src, alt, fill: true, priority, sizes: TILE_SIZES });
-  // `next dev` serves the original photos (no .webp), so it skips the AVIF source.
-  const avif = props.srcSet?.replace(/\.webp(?= )/g, ".avif");
+  const avif = avifSrcSet(props.srcSet);
   const shown = (img: HTMLImageElement | null) => {
     // Downloaded before React started: no load event will come.
     if (img?.complete && img.naturalWidth) img.classList.add("is-loaded");
@@ -88,7 +88,7 @@ function TilePhoto({ src, alt, priority, blur }: { src: string; alt: string; pri
     <>
       {blur && <span className="gal-tile-blur" style={{ backgroundImage: `url(${blur})` }} aria-hidden />}
       <picture>
-        {avif !== props.srcSet && <source type="image/avif" srcSet={avif} sizes={props.sizes} />}
+        {avif && <source type="image/avif" srcSet={avif} sizes={props.sizes} />}
         {/* next/image can't render a <picture>; getImageProps gives it the same attributes. */}
         <img
           {...props}
@@ -96,6 +96,7 @@ function TilePhoto({ src, alt, priority, blur }: { src: string; alt: string; pri
           className="gal-tile-img"
           ref={shown}
           onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
+          onError={dropAvifOnError}
         />
       </picture>
     </>

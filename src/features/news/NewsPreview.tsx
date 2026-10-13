@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { SmoothImage } from "@/components/ui/SmoothImage";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
@@ -48,7 +48,7 @@ export async function NewsPreview({ locale }: { locale: string }) {
               <li key={a.slug}>
                 <Link href={`/news/${a.slug}`} className="np-card hv">
                   <span className="np-media">
-                    <Image src={a.image} alt="" fill sizes="(min-width: 900px) 33vw, 100vw" className="np-img" />
+                    <SmoothImage src={a.image} alt="" fill sizes="(min-width: 900px) 33vw, 100vw" className="np-img" />
                     <HoverAccent />
                   </span>
                   <span className="np-body">

@@ -22,6 +22,7 @@
 @import "./base/sticky-bar.css";
 @import "./base/action-bar.css";
 @import "./base/cookie-notice.css";
+@import "./base/smooth-image.css";
 
 @import "./sections/home.css";
 @import "./sections/gallery-mosaic.css";

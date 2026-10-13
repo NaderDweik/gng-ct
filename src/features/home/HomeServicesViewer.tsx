@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { SmoothImage } from "@/components/ui/SmoothImage";
 import {
   useEffect,
   useRef,
@@ -220,7 +220,7 @@ export function HomeServicesViewer({
                 aria-hidden={!on}
                 onClick={() => !on && go(i - pos)}
               >
-                <Image
+                <SmoothImage
                   src={s.src}
                   alt={on ? s.title : ""}
                   fill

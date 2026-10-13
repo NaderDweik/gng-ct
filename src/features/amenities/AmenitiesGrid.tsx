@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { SmoothImage } from "@/components/ui/SmoothImage";
 import { Link } from "@/i18n/navigation";
 import { resortChapterIds } from "@/content/amenities-page";
 import type { AmenityFeature } from "@/content/amenities";
@@ -29,7 +29,7 @@ export function AmenitiesGrid({ items, isAr }: Props) {
           <Link href={chapterHref(it.id)} className="amg-card">
             <span className="amg-photo" aria-hidden>
               <span className="amg-frame">
-                <Image src={it.image} alt="" fill sizes="(min-width: 768px) 50vw, 100vw" className="amg-img" />
+                <SmoothImage src={it.image} alt="" fill sizes="(min-width: 768px) 50vw, 100vw" className="amg-img" />
               </span>
             </span>
             <span className="amg-text">

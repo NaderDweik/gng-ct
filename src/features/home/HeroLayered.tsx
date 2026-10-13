@@ -10,6 +10,7 @@ import { Link } from "@/i18n/navigation";
 import { heroLayered as hero, type HeroSlide } from "@/content/hero";
 import { site } from "@/content/site";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
+import { avifSrcSet, dropAvifOnError } from "@/components/ui/SmoothImage";
 
 /**
  * The photos are 16:9 and `object-cover` a full-height hero (100svh, min 640px). On any
@@ -38,14 +39,22 @@ function HeroArtPhoto({ slide, index, className, defer }: { slide: HeroSlide; in
   // Phones: the lighter quality step (half the bytes; the first thing a phone downloads).
   const portrait = getImageProps({ ...common, quality: 75, src: slide.mobileBackground!, sizes: PORTRAIT_SIZES }).props;
   const { style, src, srcSet, sizes, ...wide } = getImageProps({ ...common, src: slide.background, sizes: HERO_SIZES }).props;
+  // AVIF first where the browser takes it (~40% lighter), WebP otherwise.
+  const portraitAvif = avifSrcSet(portrait.srcSet);
+  const wideAvif = avifSrcSet(srcSet);
   return (
     <picture>
+      {/* The AVIF sources stay in the HTML while deferred (media "not all" never matches), so
+          the build sees them and makes the files (scripts/cloudflare-pages.mjs). */}
+      {portraitAvif && <source media={defer ? "not all" : PORTRAIT} type="image/avif" srcSet={portraitAvif} sizes={portrait.sizes} />}
       {!defer && <source media={PORTRAIT} srcSet={portrait.srcSet} sizes={portrait.sizes} />}
+      {wideAvif && <source media={defer ? "not all" : undefined} type="image/avif" srcSet={wideAvif} sizes={sizes} />}
       {/* eslint-disable-next-line jsx-a11y/alt-text -- alt="" comes in through `wide` (getImageProps) */}
       <img
         {...wide}
         {...(defer ? {} : { src, srcSet, sizes })}
         data-slide={index}
+        onError={dropAvifOnError}
         className={`${className} hl-photo--art`}
         style={{ ...style, "--hl-focus": slide.focus, "--hl-mfocus": slide.mobileFocus ?? "50% 50%" } as CSSProperties}
       />
