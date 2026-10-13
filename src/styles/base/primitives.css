@@ -24,7 +24,7 @@
 }
 
 .btn-primary {
-  background: var(--brand-primary);
+  background: var(--brand-primary-fill);
   /* Labels on the primary fill always use --on-primary (white). */
   color: var(--on-primary);
 }

@@ -121,7 +121,7 @@
 
 .up-chip.is-active {
   border-color: var(--brand-primary);
-  background: var(--brand-primary);
+  background: var(--brand-primary-fill);
   color: var(--on-primary);
 }
 

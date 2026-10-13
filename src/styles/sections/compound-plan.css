@@ -473,7 +473,7 @@
 
 .cx-search button {
   padding-inline: 1.1rem;
-  background: var(--brand-primary);
+  background: var(--brand-primary-fill);
   color: var(--on-primary);
   font-size: var(--fs-small);
   font-weight: 700;
@@ -809,7 +809,7 @@
 }
 
 .cx-btn--wa {
-  background: var(--brand-primary);
+  background: var(--brand-primary-fill);
   color: var(--on-primary);
 }
 

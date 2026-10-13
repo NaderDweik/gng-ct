@@ -201,8 +201,13 @@ export function LocationShowcase() {
             </div>
           )}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+<<<<<<< HEAD
             <div className="loc-card-place flex items-center gap-3">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary text-on-primary">
+=======
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary-fill text-on-primary">
+>>>>>>> f5464c5afcbf3128bdf65e2b8812ee4abec4f249
                 <NavIcon />
               </span>
               <div>
@@ -214,7 +219,7 @@ export function LocationShowcase() {
               href={site.mapsUrl || mapsSearchUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-primary px-4 py-2.5 text-sm font-bold text-on-primary transition hover:bg-primary-hover"
+              className="inline-flex items-center justify-center gap-2 bg-primary-fill px-4 py-2.5 text-sm font-bold text-on-primary transition hover:bg-primary-hover"
             >
               {isAr ? c.openMapAr : c.openMapEn}
               <ExternalArrow />

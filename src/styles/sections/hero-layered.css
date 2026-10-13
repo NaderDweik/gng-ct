@@ -227,32 +227,44 @@
   left: 50%;
   z-index: 4;
   display: flex;
-  gap: 0.5rem;
-  translate: -50% 0;
+  /* The buttons are 24px tall around 8px dots: shift down so the dots sit where they did. */
+  translate: -50% 0.5rem;
 }
 
+/* Each button is a full 24px tap target (accessibility); the visible dot is drawn inside. */
 .hl-dot {
   position: relative;
+<<<<<<< HEAD
   cursor: pointer;
   width: 0.5rem;
   height: 0.5rem;
+=======
+  width: 1.5rem;
+  height: 1.5rem;
+>>>>>>> f5464c5afcbf3128bdf65e2b8812ee4abec4f249
   padding: 0;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--white) 45%, transparent);
-  transition:
-    width 0.4s var(--ease),
-    background-color 0.4s var(--ease);
+  background: none;
+  transition: width 0.4s var(--ease);
 }
 
-/* A bigger tap area around each small dot. */
-.hl-dot::after {
+.hl-dot::before {
   content: "";
   position: absolute;
-  inset: -0.75rem -0.35rem;
+  top: 50%;
+  left: 0.5rem;
+  right: 0.5rem;
+  height: 0.5rem;
+  translate: 0 -50%;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--white) 45%, transparent);
+  transition: background-color 0.4s var(--ease);
 }
 
 .hl-dot.is-on {
-  width: 1.75rem;
+  width: 2.75rem;
+}
+
+.hl-dot.is-on::before {
   background: var(--brand-primary);
 }
 

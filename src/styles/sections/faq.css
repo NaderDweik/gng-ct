@@ -251,7 +251,7 @@
 }
 
 .faq-toggle[data-open="true"] {
-  background: var(--brand-primary);
+  background: var(--brand-primary-fill);
   border-color: var(--brand-primary);
   color: var(--on-primary);
   transform: rotate(180deg);
@@ -334,7 +334,7 @@
     z-index: -1;
     display: block;
     border-radius: 999px;
-    background: var(--brand-primary);
+    background: var(--brand-primary-fill);
     transform: translate(var(--x), var(--y));
     transition:
       transform 0.55s cubic-bezier(0.65, 0, 0.35, 1),

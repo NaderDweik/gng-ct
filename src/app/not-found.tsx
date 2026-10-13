@@ -14,11 +14,26 @@ async function localeParams() {
   return { locale: en ? "en" : "ar" };
 }
 
+/*
+ * Static build: Next renders this fallback alongside every page, and LocaleLayout / the 404
+ * page call setRequestLocale, so rendering them here switched every English page's text to
+ * Arabic. out/404.html is replaced by the real /404 page anyway, so the build gets an empty one.
+ */
+const isDev = process.env.NODE_ENV === "development";
+
 export async function generateMetadata() {
+  if (!isDev) return { robots: { index: false } };
   return notFoundMetadata({ params: localeParams() });
 }
 
 export default function NotFound() {
+  if (!isDev) {
+    return (
+      <html lang="ar" dir="rtl">
+        <body />
+      </html>
+    );
+  }
   const params = localeParams();
   return (
     <LocaleLayout params={params}>
