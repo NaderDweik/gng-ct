@@ -234,14 +234,9 @@
 /* Each button is a full 24px tap target (accessibility); the visible dot is drawn inside. */
 .hl-dot {
   position: relative;
-<<<<<<< HEAD
   cursor: pointer;
-  width: 0.5rem;
-  height: 0.5rem;
-=======
   width: 1.5rem;
   height: 1.5rem;
->>>>>>> f5464c5afcbf3128bdf65e2b8812ee4abec4f249
   padding: 0;
   background: none;
   transition: width 0.4s var(--ease);

@@ -438,20 +438,6 @@
     transform: none;
   }
 
-<<<<<<< HEAD
-=======
-  /* The contact icon fills green as its tile arrives. */
-  .register-contact-icon {
-    transition:
-      background-color 0.6s var(--ease) 0.25s,
-      color 0.6s var(--ease) 0.25s;
-  }
-
-  .register-contact-row.is-in .register-contact-icon {
-    background: var(--brand-primary-fill);
-    color: var(--on-primary);
-  }
->>>>>>> f5464c5afcbf3128bdf65e2b8812ee4abec4f249
 }
 
 @media (max-width: 767px) and (prefers-reduced-motion: reduce) {

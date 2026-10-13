@@ -201,13 +201,8 @@ export function LocationShowcase() {
             </div>
           )}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-<<<<<<< HEAD
             <div className="loc-card-place flex items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary text-on-primary">
-=======
-            <div className="flex items-center gap-3">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary-fill text-on-primary">
->>>>>>> f5464c5afcbf3128bdf65e2b8812ee4abec4f249
                 <NavIcon />
               </span>
               <div>
