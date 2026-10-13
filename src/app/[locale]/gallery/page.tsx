@@ -1,5 +1,6 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { GalleryGrid } from "@/features/gallery/GalleryGrid";
+import { galleryBlurs } from "@/features/gallery/galleryBlurs";
 import { galleryCopy } from "@/content/gallery";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { site } from "@/content/site";
@@ -26,7 +27,7 @@ export default async function GalleryPage({ params }: Props) {
       <PageJsonLd locale={locale} path="/gallery" />
       <SubpageHeader tall eyebrow="Giving Compound" title={copy.title} subtitle={copy.lead} />
 
-      <GalleryGrid />
+      <GalleryGrid blurs={await galleryBlurs()} />
 
       <section className="gal-videos">
         <div className="container-gc">

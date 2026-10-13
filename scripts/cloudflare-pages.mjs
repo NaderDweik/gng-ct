@@ -8,7 +8,8 @@
  *  3. out/_headers: security headers and caching (hosting.config.mjs).
  *  4. out/_img/: every photo in public/ resized to next/image's widths, as WebP, under the names
  *     src/lib/imageLoader.ts asks for. Encoded files are cached in node_modules/.cache/cf-images,
- *     so a rebuild only encodes new or changed photos.
+ *     so a rebuild only encodes new or changed photos. Photos a page asks for as AVIF (a
+ *     <picture> source, e.g. the gallery tiles) are also encoded as AVIF: ~40% smaller.
  *  5. Checks: every resized photo a page asks for exists, a 404.html is at the root, and Pages'
  *     limits hold.
  */
@@ -28,6 +29,8 @@ const cacheDir = path.join(root, "node_modules/.cache/cf-images");
 const { imageConfigDefault } = createRequire(import.meta.url)("next/dist/shared/lib/image-config.js");
 const WIDTHS = [...imageConfigDefault.imageSizes, ...imageConfigDefault.deviceSizes];
 const QUALITY = { s: 75, h: 90 }; // keep the letters in sync with src/lib/imageLoader.ts
+/** AVIF quality that looks like the WebP tier above (AVIF's scale runs lower). */
+const AVIF_QUALITY = { s: 50, h: 65 };
 const RASTER = /\.(jpe?g|png|webp|avif)$/i;
 
 // Cloudflare Pages limits (free plan).
@@ -157,6 +160,41 @@ async function resizePhotos() {
   return { photos: photos.length, files, encoded };
 }
 
+/** AVIF copies of exactly the resized photos the pages ask for (`/_img/<photo>-<width><tier>.avif`). */
+async function avifPhotos() {
+  const wanted = new Set();
+  for (const file of (await walk(out)).filter((f) => f.endsWith(".html"))) {
+    const html = await fs.readFile(file, "utf8");
+    for (const [url] of html.matchAll(/\/_img\/[^\s"',)]+?-\d+[sh]\.avif/g)) wanted.add(decodeURI(url));
+  }
+  let encoded = 0;
+  async function one(url) {
+    const [, rel, width, tier] = url.match(/^\/_img(\/.+)-(\d+)([sh])\.avif$/);
+    const buffer = await fs.readFile(path.join(pub, rel));
+    const hash = createHash("sha1").update(buffer).digest("hex").slice(0, 16);
+    const meta = await sharp(buffer).metadata();
+    const shown = (meta.orientation ?? 1) >= 5 ? meta.height : meta.width;
+    const target = Math.min(Number(width), shown);
+    const cached = path.join(cacheDir, `${hash}-${target}${tier}.avif`);
+    if (!(await exists(cached))) {
+      const avif = await sharp(buffer)
+        .rotate()
+        .resize({ width: target, withoutEnlargement: true })
+        .avif({ quality: AVIF_QUALITY[tier], effort: 4 })
+        .toBuffer();
+      await fs.writeFile(cached, avif);
+      encoded++;
+    }
+    await fs.copyFile(cached, path.join(out, url));
+  }
+  // AVIF encoding is heavier than WebP: fewer at a time.
+  const queue = [...wanted];
+  await Promise.all(Array.from({ length: 2 }, async () => {
+    for (let url; (url = queue.shift()); ) await one(url);
+  }));
+  return { files: wanted.size, encoded };
+}
+
 /* 5. Checks ----------------------------------------------------------------------------- */
 
 async function check() {
@@ -164,7 +202,7 @@ async function check() {
   const missing = new Set();
   for (const file of all.filter((f) => f.endsWith(".html"))) {
     const html = await fs.readFile(file, "utf8");
-    for (const [url] of html.matchAll(/\/_img\/[^\s"',)]+?-\d+[sh]\.webp/g)) {
+    for (const [url] of html.matchAll(/\/_img\/[^\s"',)]+?-\d+[sh]\.(?:webp|avif)/g)) {
       if (!(await exists(path.join(out, decodeURI(url))))) missing.add(url);
     }
   }
@@ -185,9 +223,11 @@ const moved = await moveArabicToRoot();
 await fs.writeFile(path.join(out, "_redirects"), redirects);
 await fs.writeFile(path.join(out, "_headers"), await headersFile());
 const img = await resizePhotos();
+const avif = await avifPhotos();
 const total = await check();
 console.log(
   `cloudflare-pages: ${moved} Arabic files moved to the root; ${img.photos} photos → ${img.files} resized files ` +
-    `(${img.encoded} newly encoded); out/ = ${total.files} files, ${(total.bytes / 1024 ** 2).toFixed(0)} MB; ` +
+    `(${img.encoded} newly encoded) + ${avif.files} AVIF (${avif.encoded} newly encoded); ` +
+    `out/ = ${total.files} files, ${(total.bytes / 1024 ** 2).toFixed(0)} MB; ` +
     `${((Date.now() - started) / 1000).toFixed(0)} s`,
 );

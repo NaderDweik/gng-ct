@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import { StickyBar, StickyPills } from "@/components/ui/StickyBar";
 import { type CSSProperties, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useLocale } from "next-intl";
@@ -69,7 +69,41 @@ const categoryImages = (id: GalleryCategoryId) =>
     ),
   );
 
-export function GalleryGrid() {
+const TILE_SIZES = "(max-width: 768px) 50vw, 33vw";
+
+/**
+ * A tile's photo: AVIF where the browser can show it, WebP otherwise (scripts/cloudflare-pages.mjs
+ * makes both), over a blurred preview. It fades in only once fully downloaded, so it never paints
+ * in strips.
+ */
+function TilePhoto({ src, alt, priority, blur }: { src: string; alt: string; priority: boolean; blur?: string }) {
+  const { props } = getImageProps({ src, alt, fill: true, priority, sizes: TILE_SIZES });
+  // `next dev` serves the original photos (no .webp), so it skips the AVIF source.
+  const avif = props.srcSet?.replace(/\.webp(?= )/g, ".avif");
+  const shown = (img: HTMLImageElement | null) => {
+    // Downloaded before React started: no load event will come.
+    if (img?.complete && img.naturalWidth) img.classList.add("is-loaded");
+  };
+  return (
+    <>
+      {blur && <span className="gal-tile-blur" style={{ backgroundImage: `url(${blur})` }} aria-hidden />}
+      <picture>
+        {avif !== props.srcSet && <source type="image/avif" srcSet={avif} sizes={props.sizes} />}
+        {/* next/image can't render a <picture>; getImageProps gives it the same attributes. */}
+        <img
+          {...props}
+          alt={alt}
+          className="gal-tile-img"
+          ref={shown}
+          onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
+        />
+      </picture>
+    </>
+  );
+}
+
+/** `blurs`: gallery photo src → tiny preview data URL (galleryBlurs.ts, made on the server). */
+export function GalleryGrid({ blurs = {} }: { blurs?: Record<string, string> }) {
   const locale = useLocale();
   const isAr = locale === "ar";
   const copy = isAr ? galleryCopy.ar : galleryCopy.en;
@@ -244,15 +278,11 @@ export function GalleryGrid() {
             >
               {/* Alt carries the photo's name for image search; the button's aria-label
                   (the same name) is what screen readers announce, once. */}
-              <Image
+              <TilePhoto
                 src={item.src}
                 alt={nameLabel(item)}
-                fill
                 priority={i < 6 && shown === "all"}
-                sizes="(max-width: 768px) 50vw, 33vw"
-                className="gal-tile-img"
-                // Shown only once fully downloaded, so a photo never paints in strips.
-                onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
+                blur={blurs[item.src]}
               />
               <span className="gal-tile-hover" aria-hidden>
                 <svg className="gal-tile-zoom" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

@@ -211,6 +211,17 @@
   opacity: 1;
 }
 
+/* The photo's 12 px preview, blurred, under it while it downloads (scaled so the blur's soft
+   edge stays outside the tile). */
+.gal-tile-blur {
+  position: absolute;
+  inset: 0;
+  background-position: center;
+  background-size: cover;
+  filter: blur(14px);
+  transform: scale(1.15);
+}
+
 .gal-tile-hover {
   position: absolute;
   inset: 0;
