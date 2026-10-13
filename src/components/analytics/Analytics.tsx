@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect } from "react";
-import { startAnalytics, track, type Props } from "@/lib/analytics";
+import { startAnalytics, stopAnalytics, track, type Props } from "@/lib/analytics";
 import { rememberRegisterSource } from "@/components/analytics/registerSource";
+import { cookieConsent, CONSENT_EVENT } from "@/components/layout/CookieNotice";
 
 /**
  * Where a tapped link sits, when it has no data-track-placement of its own (or on a parent).
@@ -66,10 +67,19 @@ function eventFor(link: HTMLAnchorElement) {
  */
 export function Analytics() {
   useEffect(() => {
-    const start = () => void startAnalytics();
+    // Only after the visitor accepts analytics in the cookie notice (privacy policy): now if
+    // they already did, or the moment they press Accept.
+    const start = () => {
+      if (cookieConsent() === "accepted") void startAnalytics();
+    };
     const idle = window.requestIdleCallback
       ? window.requestIdleCallback(start, { timeout: 4000 })
       : window.setTimeout(start, 2500);
+    const onConsent = (e: Event) => {
+      if ((e as CustomEvent).detail === "accepted") void startAnalytics();
+      else stopAnalytics();
+    };
+    window.addEventListener(CONSENT_EVENT, onConsent);
 
     const onClick = (e: MouseEvent) => {
       const link = (e.target as Element | null)?.closest?.<HTMLAnchorElement>("a[href]");
@@ -86,6 +96,7 @@ export function Analytics() {
       if (window.cancelIdleCallback) window.cancelIdleCallback(idle);
       else window.clearTimeout(idle);
       document.removeEventListener("click", onClick, { capture: true });
+      window.removeEventListener(CONSENT_EVENT, onConsent);
     };
   }, []);
 

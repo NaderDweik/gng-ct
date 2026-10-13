@@ -96,6 +96,17 @@ const FIT_OPTIONS: FitBoundsOptions = {
   maxZoom: 14,
 };
 
+/** Phones: the map is narrow, so the side room for labels would zoom it far out; keep a
+ *  little at the sides, room at the top for the label, and at the foot for the card. */
+const FIT_OPTIONS_PHONE: FitBoundsOptions = {
+  paddingTopLeft: [28, 70],
+  paddingBottomRight: [28, 230],
+  animate: true,
+  maxZoom: 14,
+};
+
+const fitOptions = () => (window.matchMedia("(max-width: 767px)").matches ? FIT_OPTIONS_PHONE : FIT_OPTIONS);
+
 type Props = {
   active: NearbyPlace | null;
   isAr: boolean;
@@ -220,7 +231,7 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
       [projectCoords.lat, projectCoords.lng],
       [active.coords.lat, active.coords.lng],
     ];
-    map.fitBounds(L.latLngBounds(endpoints), FIT_OPTIONS);
+    map.fitBounds(L.latLngBounds(endpoints), fitOptions());
 
     const ctrl = new AbortController();
     abortRef.current = ctrl;
@@ -252,7 +263,7 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
 
         const latlngs = coords.map(([lng, lat]) => [lat, lng] as [number, number]);
         routeRef.current = L.polyline([], lineStyle).addTo(map);
-        map.fitBounds(L.latLngBounds([...latlngs, ...endpoints]), FIT_OPTIONS);
+        map.fitBounds(L.latLngBounds([...latlngs, ...endpoints]), fitOptions());
 
         let i = 0;
         const step = Math.max(1, Math.floor(latlngs.length / 80));

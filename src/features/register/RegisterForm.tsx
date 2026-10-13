@@ -3,6 +3,7 @@
 import { FormEvent, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { site } from "@/content/site";
+import { Link } from "@/i18n/navigation";
 import { GlideIndicator } from "@/components/ui/GlideIndicator";
 import { track } from "@/lib/analytics";
 import { registerSource } from "@/components/analytics/registerSource";
@@ -38,8 +39,8 @@ export function RegisterForm() {
   const interests: { id: Interest; labelAr: string; labelEn: string }[] = [
     {
       id: "financing",
-      labelAr: "استفسار عن التمويل",
-      labelEn: "Ask about financing",
+      labelAr: "التمويل",
+      labelEn: "Financing",
     },
     {
       id: "visit",
@@ -147,7 +148,7 @@ export function RegisterForm() {
             name="name"
             autoComplete="name"
             maxLength={NAME_MAX}
-            placeholder={isAr ? "مثال: أحمد العبدو" : "e.g. Ahmad Al-Abdo"}
+            placeholder={isAr ? "اسمك الكامل" : "Your full name"}
             value={name}
             aria-invalid={!!errors.name}
             aria-describedby={errorId("name")}
@@ -238,6 +239,22 @@ export function RegisterForm() {
           {t("orCall")}
         </a>
       </div>
+
+      {/* Consent: pressing submit accepts the privacy policy and terms (which set out the
+          purposes, retention and transfers abroad). */}
+      <p className="register-consent">
+        {isAr ? (
+          <>
+            بالضغط على زر «{t("submit")}» فإنك توافق على <Link href="/privacy">سياسة الخصوصية</Link> و
+            <Link href="/terms">شروط الاستخدام</Link>.
+          </>
+        ) : (
+          <>
+            By pressing “{t("submit")}”, you agree to our <Link href="/privacy">Privacy Policy</Link> and{" "}
+            <Link href="/terms">Terms of Use</Link>.
+          </>
+        )}
+      </p>
 
       {opened && (
         <div className="space-y-2 text-center" role="status">

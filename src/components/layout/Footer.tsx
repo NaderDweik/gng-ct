@@ -25,6 +25,9 @@ const quickLinks: FooterLink[] = [
   { href: "/faq", labelAr: "الأسئلة الشائعة", labelEn: "FAQs" },
   { href: "/leadership", labelAr: "الإدارة", labelEn: "Leadership" },
   { href: "/register", labelAr: "سجل اهتمامك", labelEn: "Register Interest" },
+  { href: "/privacy", labelAr: "سياسة الخصوصية", labelEn: "Privacy Policy" },
+  { href: "/terms", labelAr: "شروط الاستخدام", labelEn: "Terms of Use" },
+  { href: "/cookies", labelAr: "سياسة ملفات تعريف الارتباط", labelEn: "Cookie Policy" },
 ];
 
 function FooterColumn({ title, children, wide = false }: { title: string; children: ReactNode; wide?: boolean }) {

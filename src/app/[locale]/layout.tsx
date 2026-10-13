@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/Footer";
 import { ActionBar } from "@/components/layout/ActionBar";
 import { Analytics } from "@/components/analytics/Analytics";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
+import { CookieNotice } from "@/components/layout/CookieNotice";
 import { ScrollMemory } from "@/components/layout/ScrollMemory";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { site } from "@/content/site";
@@ -103,6 +104,7 @@ export default async function LocaleLayout({ children, params }: Props) {
           <ActionBar />
           <WhatsAppFloat />
           <Analytics />
+          <CookieNotice />
         </NextIntlClientProvider>
       </body>
     </html>

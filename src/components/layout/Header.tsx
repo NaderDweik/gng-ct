@@ -191,9 +191,11 @@ export function Header() {
           </Link>
           <LocaleSwitch
             onSwitch={() => setOpen(false)}
-            className="mt-2 px-1 py-2 text-sm font-semibold text-on-dark-subtle hover:text-on-dark"
+            className="mt-3 px-1 py-2 text-lg font-semibold text-on-dark-muted hover:text-on-dark"
           >
-            {(target) => (target === "en" ? "English" : "العربية")}
+            {(target) =>
+              target === "en" ? "English" : <span className="font-[family-name:var(--font-cairo)] text-xl">العربية</span>
+            }
           </LocaleSwitch>
         </nav>
 

@@ -46,8 +46,11 @@
   font-size: var(--fs-caption);
 }
 
+/* overflow hides the title until it rises in; the bottom padding (taken back by the
+   negative margin, so spacing is unchanged) leaves room for descenders (g, p, y). */
 .sh-title {
-  margin: 0;
+  margin: 0 0 -0.2em;
+  padding-bottom: 0.2em;
   overflow: hidden;
   color: var(--on-dark);
   font-family: var(--font-display);

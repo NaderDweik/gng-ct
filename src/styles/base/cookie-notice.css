@@ -1,0 +1,323 @@
+/* ── Cookie consent modal. Markup: components/layout/CookieNotice.tsx ──
+   A centred card over a dark tinted screen that blocks the page until the visitor
+   chooses; on phones it sits at the bottom of the screen. */
+.cookie-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.cookie-modal.is-on {
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.cookie-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.72);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease);
+}
+
+.cookie-modal.is-on .cookie-modal-backdrop {
+  opacity: 1;
+}
+
+.cookie-modal-card {
+  position: relative;
+  display: grid;
+  gap: 1rem;
+  width: min(28rem, 100%);
+  padding: 1.6rem 1.5rem 1.4rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow-card-lg);
+  opacity: 0;
+  transform: translateY(1rem);
+  transition:
+    opacity 0.35s var(--ease),
+    transform 0.35s var(--ease);
+}
+
+.cookie-modal.is-on .cookie-modal-card {
+  opacity: 1;
+  transform: none;
+}
+
+/* Square bordered × in the top end corner. */
+.cookie-modal-close {
+  position: absolute;
+  top: 0.85rem;
+  inset-inline-end: 0.85rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.cookie-modal-close:hover {
+  border-color: var(--ink);
+}
+
+.cookie-modal-close:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.cookie-modal-close svg {
+  width: 1rem;
+  height: 1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.cookie-modal-title {
+  margin: 0;
+  padding-inline-end: 3rem;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+[dir="rtl"] .cookie-modal-title {
+  font-family: var(--font-body);
+}
+
+.cookie-modal-text {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--fs-small);
+  line-height: 1.65;
+}
+
+.cookie-modal-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.cookie-modal-btn {
+  padding: 0.75rem 0.75rem;
+  font-size: var(--fs-caption);
+  text-align: center;
+}
+
+@media (max-width: 767px) {
+  .cookie-modal {
+    align-items: end;
+    padding: 0.75rem 0.75rem calc(0.75rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Cookie policy page: "Cookie settings" accordion with a toggle per kind of cookie. */
+.cookie-settings {
+  margin-top: 1.75rem;
+  border: 1px solid var(--line);
+}
+
+.cookie-settings-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem 1.15rem;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: var(--fs-h4);
+  font-weight: 700;
+  text-align: start;
+}
+
+[dir="rtl"] .cookie-settings-head {
+  font-family: var(--font-body);
+}
+
+.cookie-settings-head:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+
+.cookie-settings-head svg {
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: var(--primary-ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: rotate 0.3s var(--ease);
+}
+
+.cookie-settings.is-open .cookie-settings-head svg {
+  rotate: 180deg;
+}
+
+/* Opens smoothly to its own height. */
+.cookie-settings-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s var(--ease);
+}
+
+.cookie-settings.is-open .cookie-settings-body {
+  grid-template-rows: 1fr;
+}
+
+.cookie-settings-list {
+  min-height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding: 0 1.15rem;
+  list-style: none;
+}
+
+.cookie-settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding-block: 1rem;
+  border-top: 1px solid var(--line);
+}
+
+.cookie-settings-title {
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.cookie-settings-text {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: var(--fs-small);
+  line-height: 1.55;
+}
+
+/* Toggle switch. */
+.cookie-toggle {
+  position: relative;
+  flex: none;
+  width: 2.75rem;
+  height: 1.5rem;
+  padding: 0;
+  border-radius: 999px;
+  background: var(--line-strong);
+  transition: background-color 0.25s ease;
+}
+
+.cookie-toggle.is-on {
+  background: var(--brand-primary);
+}
+
+.cookie-toggle:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.cookie-toggle:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.cookie-toggle-knob {
+  position: absolute;
+  top: 0.1875rem;
+  left: 0.1875rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  background: var(--white);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+  transition: translate 0.25s var(--ease);
+}
+
+.cookie-toggle.is-on .cookie-toggle-knob {
+  translate: 1.25rem 0;
+}
+
+[dir="rtl"] .cookie-toggle-knob {
+  left: auto;
+  right: 0.1875rem;
+}
+
+[dir="rtl"] .cookie-toggle.is-on .cookie-toggle-knob {
+  translate: -1.25rem 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cookie-modal-backdrop,
+  .cookie-modal-card,
+  .cookie-settings-body,
+  .cookie-settings-head svg,
+  .cookie-toggle,
+  .cookie-toggle-knob {
+    transition: none;
+  }
+}
+
+/* Tablet / desktop: a wide card along the bottom of the screen (page width, with space
+   under it): title and text on the start side, the two buttons on the end side. */
+@media (min-width: 768px) {
+  .cookie-modal {
+    align-items: end;
+    padding: 0 1.5rem 3rem;
+  }
+
+  .cookie-modal-card {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "title actions"
+      "text actions";
+    align-items: center;
+    column-gap: 2.5rem;
+    row-gap: 0.35rem;
+    width: min(1280px - 2rem, 100%);
+    padding: 1.6rem 6rem 1.6rem 1.75rem;
+  }
+
+  [dir="rtl"] .cookie-modal-card {
+    padding: 1.6rem 1.75rem 1.6rem 6rem;
+  }
+
+  .cookie-modal-title {
+    grid-area: title;
+    padding-inline-end: 0;
+  }
+
+  .cookie-modal-text {
+    grid-area: text;
+    max-width: 52rem;
+  }
+
+  .cookie-modal-actions {
+    grid-area: actions;
+    grid-template-columns: auto auto;
+  }
+
+  .cookie-modal-btn {
+    padding-inline: 1.5rem;
+    white-space: nowrap;
+  }
+
+  /* × in the top end corner. */
+  .cookie-modal-close {
+    top: 0.85rem;
+    translate: none;
+  }
+}

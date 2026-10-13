@@ -123,12 +123,14 @@
     box-shadow: none;
   }
 
+  /* A soft shadow along the card's bottom edge only (the sides stay clean). */
   .hi-copy {
     position: relative;
     z-index: 1;
     margin-top: -2.75rem;
-    padding: 1.5rem 1.25rem 0;
+    padding: 1.5rem 1.25rem 1.5rem;
     background: var(--surface);
+    box-shadow: 0 16px 22px -16px rgb(0 0 0 / 0.22);
   }
 
   .hi-copy .section-title {

@@ -168,10 +168,12 @@
   display: block;
 }
 
+/* Room under each masked line for descenders (g, p, y), taken back by the margin. */
 .hl-line {
   display: block;
   overflow: hidden;
-  padding-bottom: 0.06em;
+  padding-bottom: 0.22em;
+  margin-bottom: -0.16em;
 }
 
 .hl-line > span {
@@ -231,6 +233,7 @@
 
 .hl-dot {
   position: relative;
+  cursor: pointer;
   width: 0.5rem;
   height: 0.5rem;
   padding: 0;

@@ -1,5 +1,6 @@
 /*
- * Visitor analytics: PostHog, EU cloud. Started by components/analytics/Analytics.tsx.
+ * Visitor analytics: PostHog, EU cloud. Started by components/analytics/Analytics.tsx, and only
+ * once the visitor accepts analytics in the cookie notice (components/layout/CookieNotice.tsx).
  *
  * Off when NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN is empty (it is read from .env.local at build
  * time), and always off under `npm run dev` and on localhost, so test visits never mix with
@@ -61,7 +62,18 @@ export function trackError(error: unknown) {
   run((ph) => ph.captureException(error));
 }
 
+/** The visitor turned analytics off (cookie settings): stop capturing and recording. */
+export function stopAnalytics() {
+  if (posthog) posthog.opt_out_capturing();
+  else if (state === "idle") queue.length = 0;
+}
+
 export async function startAnalytics() {
+  // Turned back on after being turned off this visit.
+  if (posthog) {
+    posthog.opt_in_capturing();
+    return;
+  }
   if (state !== "idle") return;
   const allowed =
     !!POSTHOG_KEY &&

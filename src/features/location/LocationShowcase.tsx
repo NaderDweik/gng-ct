@@ -68,6 +68,14 @@ function ExternalArrow() {
   );
 }
 
+function Chevron({ dir }: { dir: "prev" | "next" }) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d={dir === "prev" ? "M15 6l-6 6 6 6" : "M9 6l6 6-6 6"} />
+    </svg>
+  );
+}
+
 /*
  * Location section (map: LocationLeafletMap; styles: styles/sections/location-map.css).
  *   Layout: a clean map (route + pins) beside one panel: eyebrow, title, the place, then
@@ -76,6 +84,9 @@ function ExternalArrow() {
  *   their own every TOUR_SECONDS, nearest first; a hairline fills across the
  *   active row to show when it moves on. Choosing a place hands control to the
  *   visitor for good. Off-screen the tour pauses.
+ * Phones: the panel's place line becomes a card attached to the top of the map, and the
+ * card inside the map steps through the destinations with ‹ › chevrons (the drive-time
+ * list is hidden); Open map stays under them.
  * Reduced motion: no tour, no counting — the list and map work as before.
  */
 export function LocationShowcase() {
@@ -137,6 +148,12 @@ export function LocationShowcase() {
     };
   }, [touring, activeId]);
 
+  const activeIndex = Math.max(0, nearbyPlaces.findIndex((p) => p.id === activeId));
+  const step = (by: number) => {
+    const n = nearbyPlaces.length;
+    choose(nearbyPlaces[(activeIndex + by + n) % n]!.id);
+  };
+
   const choose = (id: string) => {
     tookOver.current = true;
     setTouring(false);
@@ -146,6 +163,16 @@ export function LocationShowcase() {
 
   return (
     <div ref={rootRef} className={`loc${touring ? " is-touring" : ""}`}>
+      {/* Phones: where it is, in a card attached to the top of the map */}
+      <div className="loc-top">
+        <span className="section-eyebrow flex items-center gap-2">
+          <MapPinIcon />
+          {isAr ? c.eyebrowAr : c.eyebrowEn}
+        </span>
+        <h2 className="loc-top-title">{isAr ? c.titleAr : c.titleEn}</h2>
+        <p className="loc-place">{isAr ? c.mapShortAr : c.mapShortEn}</p>
+      </div>
+
       {/* Map: route + pins only */}
       <div className="loc-map">
         <LocationLeafletMap
@@ -154,9 +181,27 @@ export function LocationShowcase() {
           projectLabel={isAr ? c.projectPinAr : c.projectPinEn}
         />
         {/* Place card pinned to the map's foot, with the way out to Google Maps */}
-        <div className="absolute inset-x-4 bottom-4 z-30 border border-surface/70 bg-surface/95 p-3 shadow-2xl backdrop-blur md:inset-x-5 md:bottom-5 md:p-4">
+        <div className="loc-card absolute inset-x-4 bottom-4 z-30 border border-surface/70 bg-surface/95 p-3 shadow-2xl backdrop-blur md:inset-x-5 md:bottom-5 md:p-4">
+          {/* Phones: step through the destinations */}
+          {active && (
+            <div className="loc-switch">
+              <button type="button" className="loc-switch-btn" aria-label={isAr ? "الوجهة السابقة" : "Previous destination"} onClick={() => step(-1)}>
+                <Chevron dir={isAr ? "next" : "prev"} />
+              </button>
+              <div className="loc-switch-text" aria-live="polite">
+                <p className="loc-switch-count">
+                  {activeIndex + 1} / {nearbyPlaces.length}
+                </p>
+                <p className="loc-switch-name">{isAr ? active.nameAr : active.nameEn}</p>
+                <p className="loc-switch-time">{isAr ? active.distanceAr : active.distanceEn}</p>
+              </div>
+              <button type="button" className="loc-switch-btn" aria-label={isAr ? "الوجهة التالية" : "Next destination"} onClick={() => step(1)}>
+                <Chevron dir={isAr ? "prev" : "next"} />
+              </button>
+            </div>
+          )}
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3">
+            <div className="loc-card-place flex items-center gap-3">
               <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary text-on-primary">
                 <NavIcon />
               </span>

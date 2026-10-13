@@ -438,17 +438,6 @@
     transform: none;
   }
 
-  /* The contact icon fills green as its tile arrives. */
-  .register-contact-icon {
-    transition:
-      background-color 0.6s var(--ease) 0.25s,
-      color 0.6s var(--ease) 0.25s;
-  }
-
-  .register-contact-row.is-in .register-contact-icon {
-    background: var(--brand-primary);
-    color: var(--on-primary);
-  }
 }
 
 @media (max-width: 767px) and (prefers-reduced-motion: reduce) {
@@ -482,12 +471,37 @@
     opacity 0.3s ease;
 }
 
-/* Interest: the soft green tile with its green frame. */
+/* Interest: a solid green tile (the primary colour), like the time chip. */
 .register-glide-pill--choice {
-  background: var(--brand-primary-soft);
-  box-shadow:
-    inset 0 0 0 1px var(--primary-ink),
-    0 0 0 1px var(--primary-ink);
+  background: var(--brand-primary);
+}
+
+/* On the solid tile: white label, white ring and dot. */
+.register-glide .register-choice.is-active {
+  border-color: transparent;
+}
+
+.register-choice.is-active > span:last-child {
+  color: var(--on-primary);
+}
+
+.register-choice.is-active .register-radio {
+  border-color: var(--on-primary);
+  background: transparent;
+}
+
+.register-choice.is-active .register-radio::after {
+  background: var(--on-primary);
+}
+
+.register-glide .register-choice > span:last-child,
+.register-glide .register-radio,
+.register-glide .register-radio::after {
+  transition:
+    color 0.3s ease 0.15s,
+    border-color 0.3s ease 0.15s,
+    background-color 0.3s ease 0.15s,
+    transform 0.25s var(--ease);
 }
 
 /* Time: the solid green chip. */
@@ -528,4 +542,28 @@
   .register-glide .register-time {
     transition: none;
   }
+}
+
+/* No motion on this page's buttons: the green highlight jumps straight to the chosen
+   option (no glide), labels and rings switch colour at once, nothing lifts, scales or
+   slides on hover or press. Plain colour changes on hover stay. */
+.register-glide-pill,
+.register-glide .register-choice,
+.register-glide .register-time,
+.register-glide .register-choice > span:last-child,
+.register-glide .register-radio,
+.register-glide .register-radio::after,
+.register-choice,
+.register-time,
+.register-radio,
+.register-radio::after,
+.register-submit,
+.register-call {
+  transition: none;
+}
+
+.register-submit:hover,
+.register-glide .register-choice:active,
+.register-glide .register-time:active {
+  transform: none;
 }

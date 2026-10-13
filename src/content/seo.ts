@@ -18,7 +18,10 @@ export type SeoRoute =
   | "/faq"
   | "/register"
   | "/chalet"
-  | "/compound";
+  | "/compound"
+  | "/privacy"
+  | "/terms"
+  | "/cookies";
 
 type SeoCopy = { titleAr: string; titleEn: string; descAr: string; descEn: string };
 
@@ -130,5 +133,23 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
       "شاليهات روح العطاء على خريطة الكمباوند: ٥٠٠ م² بسند ملكية مستقل، ٣ غرف نوم، مسبح خاص وجاكوزي، بسعر ١٦٨,٠٠٠ دينار مع تقسيط بدون فوائد.",
     descEn:
       "Find your chalet on the Giving Compound map: 500 m² with its own deed, 3 bedrooms, private pool and jacuzzi, from 168,000 JD at 0% interest.",
+  },
+  "/privacy": {
+    titleAr: "سياسة الخصوصية",
+    titleEn: "Privacy Policy",
+    descAr: "كيف تجمع شركة العطاء للتطوير والتمويل العمراني معلوماتك عند تسجيل اهتمامك بشاليه في روح العطاء، ولماذا تستخدمها، وكيف تحميها، وحقوقك.",
+    descEn: "How Al-Ataa collects, uses and protects your information when you register interest in a Giving Compound chalet, who receives it, and your rights.",
+  },
+  "/terms": {
+    titleAr: "شروط الاستخدام",
+    titleEn: "Terms of Use",
+    descAr: "الشروط التي تنطبق عند استخدام موقع روح العطاء: المعلومات المعروضة، وتسجيل الاهتمام، والملكية الفكرية، والقانون الأردني الحاكم.",
+    descEn: "The terms for using the Giving Compound website: the information shown, registering your interest, intellectual property and Jordanian governing law.",
+  },
+  "/cookies": {
+    titleAr: "سياسة ملفات تعريف الارتباط",
+    titleEn: "Cookie Policy",
+    descAr: "ملفات تعريف الارتباط التي يستخدمها موقع روح العطاء: الضرورية منها، والخاصة بالتحليلات بموافقتك فقط، وكيف تغيّر اختيارك في أي وقت.",
+    descEn: "The cookies the Giving Compound website uses: strictly necessary ones, analytics only with your consent, and how to change your choice at any time.",
   },
 };

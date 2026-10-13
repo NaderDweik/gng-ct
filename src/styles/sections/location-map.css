@@ -307,10 +307,148 @@
   transform-origin: right center;
 }
 
-/* Phones: the map is zoomed out, so the destination label lands on top of the
-   compound's own tag. The card under the pin already names the compound. */
-@media (max-width: 639px) {
-  .gc-marker-label--project {
+/* Phones: no name labels on the map pins. The route card on the map names the
+   destination and its distance, and a label this wide runs off a narrow map. */
+@media (max-width: 767px) {
+  .gc-marker-label {
     display: none;
+  }
+}
+
+/* Phone-only pieces (hidden from 768px up): the place card above the map and the route
+   switcher inside the map card. */
+.loc-top,
+.loc-switch {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  /* The card sits on the map: no gap between them, one shared border line. */
+  .loc {
+    gap: 0;
+  }
+
+  .loc-top {
+    display: block;
+    padding: 1.25rem 1.25rem 1.1rem;
+    border: 1px solid var(--line);
+    border-bottom: 0;
+    background: var(--surface);
+    text-align: center;
+  }
+
+  .loc-top .section-eyebrow {
+    justify-content: center;
+  }
+
+  .loc-top-title {
+    margin: 0.4rem 0 0.35rem;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: var(--fs-h4);
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  [dir="rtl"] .loc-top-title {
+    font-family: var(--font-body);
+  }
+
+  /* The side panel (and its list) is replaced by the pieces above. */
+  .loc-panel {
+    display: none;
+  }
+
+  /* Inside the map card: the switcher replaces the compound's own name line. */
+  .loc-card-place {
+    display: none;
+  }
+
+  .loc-switch {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .loc-switch-btn {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 1px solid var(--line-strong);
+    background: var(--surface);
+    color: var(--ink);
+  }
+
+  .loc-switch-btn:focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  .loc-switch-text {
+    min-width: 0;
+    text-align: center;
+  }
+
+  .loc-switch-text p {
+    margin: 0;
+  }
+
+  .loc-switch-count {
+    color: var(--subtle);
+    font-size: var(--fs-caption);
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Full name, wrapping to two lines when long (room kept for two, so the card
+     never changes height between destinations). */
+  .loc-switch-name {
+    display: grid;
+    align-items: center;
+    min-height: calc(2 * 1.3em);
+    color: var(--primary-ink);
+    font-weight: 700;
+    line-height: 1.3;
+    text-wrap: balance;
+  }
+
+  .loc-switch-time {
+    color: var(--muted);
+    font-size: var(--fs-small);
+  }
+}
+
+/* Phones: a taller map, and a dark route card on it (the brand's dark band). */
+@media (max-width: 767px) {
+  .loc-map {
+    min-height: 520px;
+  }
+
+  .loc-card {
+    border-color: var(--brand-secondary-light);
+    background: var(--brand-secondary);
+    color: var(--on-dark);
+  }
+
+  .loc-switch-btn {
+    border-color: color-mix(in srgb, var(--white) 30%, transparent);
+    background: transparent;
+    color: var(--on-dark);
+  }
+
+  .loc-switch-count {
+    color: var(--on-dark-subtle);
+  }
+
+  .loc-switch-name {
+    color: var(--brand-primary);
+  }
+
+  .loc-switch-time {
+    color: var(--on-dark-muted);
   }
 }

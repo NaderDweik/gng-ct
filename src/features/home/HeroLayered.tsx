@@ -141,8 +141,16 @@ export function HeroLayered() {
         if (paused) timer.pause();
       };
 
+      /** A dot clicked mid-swap: shown as soon as the running swap ends (never dropped). */
+      let queued: number | null = null;
+
       const go = (next: number) => {
-        if (disposed || next === current || busy) return;
+        if (disposed) return;
+        if (busy) {
+          queued = next;
+          return;
+        }
+        if (next === current) return;
         const prev = current;
         current = next;
         setActive(next);
@@ -159,6 +167,11 @@ export function HeroLayered() {
           .timeline({
             onComplete: () => {
               busy = false;
+              if (queued !== null) {
+                const q = queued;
+                queued = null;
+                if (q !== current) return go(q);
+              }
               if (started) runTimer();
             },
           })
@@ -354,7 +367,6 @@ export function HeroLayered() {
       <div className="hl-content container-gc">
         <div className="hl-bottom">
           <div className="hl-main">
-            <p className="hl-eyebrow hl-fade">{isAr ? hero.eyebrowAr : hero.eyebrowEn}</p>
             <h1 className="hl-title">
               {slides.map((s, i) => (
                 <span key={i} data-set={i} className={`hl-set${first(i)}`} aria-hidden={i !== active}>

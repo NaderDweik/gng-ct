@@ -20,6 +20,9 @@ const priority: Partial<Record<SeoRoute, number>> = {
   "/location": 0.7,
   "/faq": 0.7,
   "/about": 0.7,
+  "/privacy": 0.2,
+  "/terms": 0.2,
+  "/cookies": 0.2,
 };
 
 function entry(path: string, lastModified: string, p: number, images?: string[]) {
