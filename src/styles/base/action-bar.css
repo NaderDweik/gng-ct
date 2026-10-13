@@ -27,7 +27,8 @@
   .action-bar-inner {
     display: flex;
     gap: 0.5rem;
-    padding-block: 0.6rem calc(0.6rem + env(safe-area-inset-bottom));
+    /* Extra room underneath: the browser's bottom edge / home indicator overlaps it. */
+    padding-block: 0.75rem calc(1.25rem + env(safe-area-inset-bottom));
   }
 
   .action-bar-register {

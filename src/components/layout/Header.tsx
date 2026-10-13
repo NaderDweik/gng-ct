@@ -10,7 +10,7 @@ import { LocaleSwitch } from "@/components/layout/LocaleSwitch";
 
 const primaryNav = [
   { href: "/about", labelAr: "من نحن", labelEn: "About" },
-  { href: "/gallery", labelAr: "المعرض", labelEn: "Gallery" },
+  { href: "/gallery", labelAr: "الصور", labelEn: "Gallery" },
   { href: "/compound", labelAr: "الكمباوند", labelEn: "Compound" },
   { href: "/chalet", labelAr: "الشاليه", labelEn: "Chalet" },
   { href: "/amenities", labelAr: "المرافق", labelEn: "Amenities" },

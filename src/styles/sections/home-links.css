@@ -428,6 +428,11 @@
     gap: 0.5rem;
   }
 
+  /* Arabic keeps the English order (link on the left, arrows on the right), by request. */
+  [dir="rtl"] .hsc-nav {
+    flex-direction: row-reverse;
+  }
+
   .hsc-cta {
     display: block;
     flex: 1;
@@ -438,9 +443,9 @@
      the narrowest. */
   .hsc-all--row {
     width: 100%;
-    min-height: 2.5rem;
+    min-height: 3rem;
     justify-content: center;
-    padding: 0.55rem 0.45rem;
+    padding: 0.8rem 0.9rem;
     font-size: 0.66rem;
     line-height: 1.3;
     letter-spacing: 0.08em;
@@ -460,8 +465,8 @@
   }
 
   .hsc-arrow {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 3rem;
+    height: 3rem;
   }
 
   /* No count on phones: the link and the arrows share the whole row. */

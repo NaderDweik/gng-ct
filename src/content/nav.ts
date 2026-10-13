@@ -7,7 +7,7 @@ export type NavItem = {
 export const mainNav: NavItem[] = [
   { href: "/", labelAr: "الرئيسية", labelEn: "Home" },
   { href: "/about", labelAr: "من نحن", labelEn: "About" },
-  { href: "/gallery", labelAr: "المعرض", labelEn: "Gallery" },
+  { href: "/gallery", labelAr: "الصور", labelEn: "Gallery" },
   { href: "/services", labelAr: "خدماتنا", labelEn: "Services" },
   { href: "/chalet", labelAr: "الشاليه", labelEn: "Chalet" },
   { href: "/financing", labelAr: "التمويل", labelEn: "Financing" },
@@ -23,7 +23,7 @@ export const mainNav: NavItem[] = [
 export const footerNav: NavItem[] = [
   { href: "/about", labelAr: "من نحن", labelEn: "About" },
   { href: "/financing", labelAr: "التمويل", labelEn: "Financing" },
-  { href: "/gallery", labelAr: "المعرض", labelEn: "Gallery" },
+  { href: "/gallery", labelAr: "الصور", labelEn: "Gallery" },
   { href: "/faq", labelAr: "الأسئلة الشائعة", labelEn: "FAQ" },
   { href: "/register", labelAr: "سجل اهتمامك", labelEn: "Register" },
 ];

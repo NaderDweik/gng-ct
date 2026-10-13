@@ -248,10 +248,11 @@ export function GalleryGrid() {
                 src={item.src}
                 alt={nameLabel(item)}
                 fill
-                quality={88}
                 priority={i < 6 && shown === "all"}
                 sizes="(max-width: 768px) 50vw, 33vw"
                 className="gal-tile-img"
+                // Shown only once fully downloaded, so a photo never paints in strips.
+                onLoad={(e) => e.currentTarget.classList.add("is-loaded")}
               />
               <span className="gal-tile-hover" aria-hidden>
                 <svg className="gal-tile-zoom" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
