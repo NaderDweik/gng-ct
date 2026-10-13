@@ -4,7 +4,7 @@
      (--surface*, --ink, --muted, --subtle, --line*, --*-ink, --shadow-color).
      Below are mixes derived from those — they follow the theme automatically. */
   /* Hover on buttons with a --brand-primary-fill background (white label). */
-  --brand-primary-hover: color-mix(in srgb, var(--brand-primary-fill) 82%, var(--black));
+  --brand-primary-hover: color-mix(in srgb, var(--brand-primary-fill) 78%, var(--black));
   --brand-primary-soft: color-mix(in srgb, var(--primary-ink) 8%, var(--surface));
   --brand-secondary-deep: color-mix(in srgb, var(--brand-secondary) 80%, var(--black));
   --brand-secondary-light: color-mix(in srgb, var(--brand-secondary) 90%, var(--white));

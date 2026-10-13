@@ -37,9 +37,9 @@ export const palette = {
   /** Deeper supporting greens — brand text on light fills (≥4.5:1 on white) and dark detail. */
   primaryDeep: "#017e59",
   primaryDarkest: "#035f46",
-  /** The brand teal a few shades deeper, for fills under white text (buttons, active chips):
-   *  4.6:1 with white, where #2abba3 is 2.4:1. Decorative teal (lines, dots) stays `primary`. */
-  primaryFill: "#128472",
+  /** Fills under white text (buttons, active chips). The brand teal, by the client's choice
+   *  (white on it is 2.4:1, under WCAG AA's 4.5:1); "#128472" was the 4.6:1 accessible version. */
+  primaryFill: "#2abba3",
 
   /** Base of all dark overlays / image scrims. */
   overlay: "#181818",
