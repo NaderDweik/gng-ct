@@ -110,7 +110,7 @@ export function Header() {
             data-track-placement="header_button"
             className={`nav-cta relative hidden isolate overflow-hidden px-5 py-2.5 text-sm font-semibold tracking-[0.18em] uppercase transition min-[1100px]:inline-flex ${
               solid
-                ? "nav-cta--solid border border-white/30 bg-primary/75 text-on-dark backdrop-blur-sm hover:bg-primary/90"
+                ? "nav-cta--solid border border-white/30 bg-primary-fill/75 text-on-dark backdrop-blur-sm hover:bg-primary-fill/90"
                 : "nav-glass text-on-dark"
             }`}
           >

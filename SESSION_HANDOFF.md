@@ -305,3 +305,32 @@ Accessibility 93.
 - Also found: on modern phones (iPhone 13, Pixel 7: tall screens, DPR 2.6–3), the portrait hero
   photo is fetched at 1536 px (574 KB, q90). `PORTRAIT_SIZES` is `100vh × 1536/2752` at full
   DPR. Capping it near 2× would cut it to ~333 KB, but it's a client quality call; not done.
+
+**Mobile performance + accessibility pass (2026-10-13, uncommitted).** Mobile Lighthouse
+(Arabic home, production preview) 77 → 84; desktop 87 → 95; accessibility 89 → 100 (home AR/EN,
+register, FAQ; /compound 96 because its 446 chalet hotspots are below the tap-size guideline).
+- Phones: below-the-fold home sections + footer use `content-visibility: auto` (`.cv-defer` +
+  per-section `contain-intrinsic-size`, styles/base/motion.css). They're verified pixel-identical
+  when drawn. `components/ui/DeferredSectionsRefresh` re-measures ScrollTrigger when one is drawn.
+  `#mobile-menu` is c-v auto too.
+- Location map (Leaflet, tiles, route, 300 KB spinning logo) loads only within 600 px of view
+  (LocationLeafletMap `near`). The map box has role="region" (aria-label needs a role).
+- Destination-card photos: `components/ui/NearImage` (fetch within 400 px). Hero portrait photos
+  use quality 75 (desktop 16:9 keeps 95). DM Sans is not preloaded (unused on the Arabic first
+  screen).
+- Hero dots: 24 px tap targets (dot drawn by ::before; the dots sit 16 px apart instead of 8).
+- Button contrast: new token `--brand-primary-fill` #128472 (palette.primaryFill; Tailwind
+  `bg-primary-fill`) for every teal fill with white text: buttons, active chips/pills, chat
+  bubble, map labels. Decorative teal stays #2abba3. `--brand-primary-hover` derives from it.
+  Client chose this ("B: deeper teal").
+- `next.config.ts`: `distDir` is `.next-dev` under `npm run dev`, so a running dev server can't
+  break `npm run build`.
+- **Bug fixed in the other session's 404 work:** the root `src/app/not-found.tsx` rendered
+  LocaleLayout + the 404 page with locale "ar". Next renders that fallback with every page at
+  build time, so `setRequestLocale("ar")` turned every English page's text Arabic. It now
+  renders an empty page outside `next dev` (out/404.html is replaced by the real /404 anyway).
+- Tried and removed: `experimental.inlineCss` (HTML ×3) and running the Next scripts after the
+  first paint (no score change).
+- What's left on mobile LCP (Lighthouse's simulated slow 4G): render-blocking CSS (~54 KB: every
+  page's styles in one file) and JS evaluated before first paint. The next step would be
+  per-page CSS, a larger change with styling risk; ask the client first.

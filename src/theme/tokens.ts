@@ -37,6 +37,9 @@ export const palette = {
   /** Deeper supporting greens — brand text on light fills (≥4.5:1 on white) and dark detail. */
   primaryDeep: "#017e59",
   primaryDarkest: "#035f46",
+  /** The brand teal a few shades deeper, for fills under white text (buttons, active chips):
+   *  4.6:1 with white, where #2abba3 is 2.4:1. Decorative teal (lines, dots) stays `primary`. */
+  primaryFill: "#128472",
 
   /** Base of all dark overlays / image scrims. */
   overlay: "#181818",
@@ -154,6 +157,7 @@ export const themeCss = `:root {
   --brand-accent: ${palette.accent};
   --brand-primary-deep: ${palette.primaryDeep};
   --brand-primary-darkest: ${palette.primaryDarkest};
+  --brand-primary-fill: ${palette.primaryFill};
   --overlay: ${palette.overlay};
   --white: ${palette.white};
   --black: ${palette.black};

@@ -315,7 +315,7 @@
   justify-content: center;
   gap: 0.65rem;
   padding: 0.85rem 1.35rem;
-  background: var(--brand-primary);
+  background: var(--brand-primary-fill);
   color: var(--on-primary);
   font-size: var(--fs-caption);
   font-weight: 800;
@@ -446,7 +446,7 @@
   }
 
   .register-contact-row.is-in .register-contact-icon {
-    background: var(--brand-primary);
+    background: var(--brand-primary-fill);
     color: var(--on-primary);
   }
 }
@@ -492,7 +492,7 @@
 
 /* Time: the solid green chip. */
 .register-glide-pill--time {
-  background: var(--brand-primary);
+  background: var(--brand-primary-fill);
 }
 
 .register-glide .register-choice,
