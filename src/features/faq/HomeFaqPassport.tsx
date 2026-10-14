@@ -53,7 +53,7 @@ function stampsFor(isAr: boolean, fmt: Fmt): Record<string, Stamp> {
   const min = fmt(royalDrive.minutes);
   return isAr
     ? {
-        where: { shape: "circle", ink: "slate", ring: "من فندق الرويال · إلى Giving Compound ·", big: `${km} كم`, sub: `${min} دقيقة`, at: { x: 27, y: 25, r: -9 } },
+        where: { shape: "circle", ink: "slate", ring: "من فندق الرويال · إلى روح العطاء ·", big: `${km} كم`, sub: `${min} دقيقة`, at: { x: 27, y: 25, r: -9 } },
         price: { shape: "rect", ink: "gold", top: "سعر الشاليه", big: `${fmt(basePriceJd)} د.أ`, sub: `نقدًا −${fmt(cashDiscountPct)}٪ · ${fmt(cashPriceJd)}`, at: { x: 61, y: 22, r: 6 } },
         deed: { shape: "circle", ink: "gold", ring: "سند ملكية مستقل · ٥٠٠ م² · باسمك ·", mark: true, sub: "طابو", at: { x: 33, y: 62, r: -5 } },
         interest: { shape: "oval", ink: "rust", top: "فوائد", big: `${fmt(0)}٪`, sub: "بدون بنك", at: { x: 72, y: 55, r: 11 } },
@@ -93,12 +93,12 @@ const copy = {
     lead: "أكثر الأسئلة التي نسمعها، وكل إجابة تحمل ختمنا.",
     hint: "اضغط على سؤال لتحصل على ختمه",
     collected: (n: string, t: string) => `${n} من ${t} مختومة`,
-    passport: "جواز Giving Compound",
+    passport: "جواز روح العطاء",
     page: "صفحة",
     visas: "تأشيرات",
     empty: "هنا يُطبع ختمك الأول",
     issued: "إجابات صادرة عن شركة العطاء · ISO 9001:2015",
-    approvedRing: "Giving Compound · معتمد · Giving Compound · معتمد ·",
+    approvedRing: "روح العطاء · معتمد · روح العطاء · معتمد ·",
     approvedSub: "جاهز للزيارة",
     doneTitle: "أصبحت تعرف الأساسيات.",
     doneBody: "تعال الآن وشاهده على أرض الواقع.",

@@ -67,7 +67,7 @@ export function RegisterForm() {
       : interest;
 
     const text = [
-      isAr ? "تسجيل اهتمام: Giving Compound" : "Register interest: Giving Compound",
+      isAr ? "تسجيل اهتمام: روح العطاء" : "Register interest: Giving Compound",
       `${isAr ? "الاسم" : "Name"}: ${name.trim()}`,
       `${isAr ? "الهاتف" : "Phone"}: ${phone.trim()}`,
       `${isAr ? "الاهتمام" : "Interest"}: ${interestText}`,

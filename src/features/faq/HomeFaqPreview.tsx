@@ -60,7 +60,7 @@ export function HomeFaqPreview({ items }: Props) {
         </h2>
         <p className="max-w-[34ch] text-base font-light leading-relaxed text-muted md:text-lg">
           {isAr
-            ? "إجابات عن أكثر الأسئلة التي نسمعها حول الحياة في Giving Compound."
+            ? "إجابات عن أكثر الأسئلة التي نسمعها حول الحياة في روح العطاء."
             : "Answers to the questions we hear most about life at Giving Compound."}
         </p>
         <Link

@@ -69,7 +69,7 @@ function formatPhone(phone: string) {
 export function Footer() {
   const locale = useLocale();
   const isAr = locale === "ar";
-  const year = new Date().getFullYear();
+  const year = new Date().getFullYear().toLocaleString(isAr ? "ar-JO" : "en-US", { useGrouping: false });
 
   const socials = [
     { name: "instagram" as const, href: site.social.instagram, label: "Instagram" },

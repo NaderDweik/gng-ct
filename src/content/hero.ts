@@ -30,7 +30,7 @@ export type HeroSlide = {
 export const heroLayered = {
   wordmarkAr: "",
   wordmarkEn: "",
-  eyebrowAr: "Giving Compound · عمّان الكبرى",
+  eyebrowAr: "روح العطاء · عمّان الكبرى",
   eyebrowEn: "Giving Compound · Greater Amman",
   ctaPrimaryAr: "سجّل اهتمامك",
   ctaPrimaryEn: "Register interest",

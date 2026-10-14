@@ -19,7 +19,7 @@ export const availableServices: AvailableService[] = [
   { id: "walls-gates", icon: "gate", titleAr: "الأسوار والبوابات الأمنية", titleEn: "Security walls & gates" },
   { id: "security", icon: "shield", titleAr: "قسم الأمن والكاميرات", titleEn: "Security & CCTV" },
   { id: "planting", icon: "sprout", titleAr: "قسم الزراعة والري", titleEn: "Planting & irrigation" },
-  { id: "housekeeping", icon: "sparkle", titleAr: "قسم نظافة هاوس كيبنغ", titleEn: "Housekeeping" },
+  { id: "housekeeping", icon: "sparkle", titleAr: "قسم النظافة والتدبير المنزلي", titleEn: "Housekeeping" },
   { id: "water", icon: "drop", titleAr: "ضخ المياه على مدار الساعة", titleEn: "24/7 water pumping" },
   { id: "maintenance", icon: "wrench", titleAr: "قسم الصيانة والمتابعة", titleEn: "Maintenance & follow-up" },
   { id: "supermarket", icon: "cart", titleAr: "سوبر ماركت", titleEn: "Supermarket" },

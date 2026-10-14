@@ -7,8 +7,8 @@
  */
 
 type Props = {
-  /** Small line above the title, e.g. "Giving Compound". */
-  eyebrow: string;
+  /** Small line above the title. Defaults to the project name in the page's language. */
+  eyebrow?: string;
   /** The page name — this is the page's h1. */
   title: string;
   /** Optional one-line tagline under the title. */
@@ -23,15 +23,18 @@ type Props = {
   children?: React.ReactNode;
 };
 
+import { getLocale } from "next-intl/server";
 import { LoopVideo } from "@/components/ui/LoopVideo";
+import { site } from "@/content/site";
 
-export function SubpageHeader({ eyebrow, title, subtitle, tall, compactMobile, titleMobile, children }: Props) {
+export async function SubpageHeader({ eyebrow, title, subtitle, tall, compactMobile, titleMobile, children }: Props) {
+  const label = eyebrow ?? ((await getLocale()) === "ar" ? site.nameAr : site.nameEn);
   return (
     <section className={`sh${tall ? " sh--tall" : ""}${compactMobile ? " sh--compact-mobile" : ""}`}>
       {/* Faint V-line loop behind the title (Remotion render; source: motion/src/BannerLines.tsx). */}
       <LoopVideo src="/motion/banner-lines-full.mp4" poster="/motion/banner-lines-full.jpg" className="sh-video" />
       <div className="sh-inner">
-        <span className="sh-eyebrow">{eyebrow}</span>
+        <span className="sh-eyebrow">{label}</span>
         <h1 className="sh-title">
           {titleMobile ? (
             <>

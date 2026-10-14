@@ -32,7 +32,7 @@ export default async function NewsPage({ params }: Props) {
   return (
     <>
       <PageJsonLd locale={locale} path="/news" />
-      <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
+      <SubpageHeader title={t("title")} subtitle={t("subtitle")} />
       <section className="section">
         {/* A timeline: the year rides in a sticky column beside its stories. */}
         {years.map((year, yi) => {

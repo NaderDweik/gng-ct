@@ -19,7 +19,7 @@ export default async function LocationPage({ params }: Props) {
   return (
     <>
       <PageJsonLd locale={locale} path="/location" />
-      <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
+      <SubpageHeader title={t("title")} subtitle={t("subtitle")} />
       <section className="section bg-surface-tint">
         <div className="container-gc">
           <LocationShowcase />

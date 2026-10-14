@@ -28,6 +28,16 @@ body {
   min-height: 100vh;
 }
 
+/* Arabic is a joined script: any letter-spacing pulls the letters apart and breaks their
+   connections. Eyebrows, buttons and labels are tracked for English; in RTL every
+   tracking (Tailwind tracking-*, section CSS) resets to 0. !important so it also beats
+   utility classes and more specific section rules. */
+[dir="rtl"] *,
+[dir="rtl"] *::before,
+[dir="rtl"] *::after {
+  letter-spacing: 0 !important;
+}
+
 [dir="rtl"] body,
 [dir="rtl"] .font-display {
   font-family: var(--font-body);

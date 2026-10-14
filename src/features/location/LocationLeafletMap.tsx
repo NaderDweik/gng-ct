@@ -329,7 +329,7 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
       dir="ltr"
       role="region"
       className="absolute inset-0 z-0 h-full w-full"
-      aria-label={isAr ? "خريطة موقع Giving Compound" : "Giving Compound location map"}
+      aria-label={isAr ? "خريطة موقع روح العطاء" : "Giving Compound location map"}
     />
   );
 }

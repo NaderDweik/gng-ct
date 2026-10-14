@@ -24,7 +24,7 @@ export function LegalPage({
 
   return (
     <>
-      <SubpageHeader compactMobile eyebrow="Giving Compound" title={doc.title} subtitle={doc.lead} />
+      <SubpageHeader compactMobile title={doc.title} subtitle={doc.lead} />
       <section className="section">
         <div className="container-gc legal">
           <p className="legal-updated">

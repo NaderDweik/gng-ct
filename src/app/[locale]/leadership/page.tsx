@@ -41,7 +41,7 @@ export default async function LeadershipPage({ params }: Props) {
   return (
     <>
       <PageJsonLd locale={locale} path="/leadership" />
-      <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
+      <SubpageHeader title={t("title")} subtitle={t("subtitle")} />
 
       <section className="leader-hero">
         <div className="container-gc grid items-start gap-10 pt-12 md:pt-16 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">

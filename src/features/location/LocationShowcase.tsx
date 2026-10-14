@@ -14,6 +14,7 @@ import {
 } from "@/content/location";
 import { LocationLeafletMap } from "@/features/location/LocationLeafletMap";
 import { track } from "@/lib/analytics";
+import { formatNumber } from "@/lib/format";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -190,7 +191,7 @@ export function LocationShowcase() {
               </button>
               <div className="loc-switch-text" aria-live="polite">
                 <p className="loc-switch-count">
-                  {activeIndex + 1} / {nearbyPlaces.length}
+                  {formatNumber(activeIndex + 1, locale)} / {formatNumber(nearbyPlaces.length, locale)}
                 </p>
                 <p className="loc-switch-name">{isAr ? active.nameAr : active.nameEn}</p>
                 <p className="loc-switch-time">{isAr ? active.distanceAr : active.distanceEn}</p>
@@ -206,7 +207,7 @@ export function LocationShowcase() {
                 <NavIcon />
               </span>
               <div>
-                <p className="text-(length:--fs-caption) font-bold uppercase tracking-[0.22em] text-primary-ink/55">{site.nameEn}</p>
+                <p className="text-(length:--fs-caption) font-bold uppercase tracking-[0.22em] text-primary-ink/55">{isAr ? site.nameAr : site.nameEn}</p>
                 <p className="font-semibold text-primary-ink">{isAr ? c.mapShortAr : c.mapShortEn}</p>
               </div>
             </div>

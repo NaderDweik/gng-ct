@@ -378,3 +378,119 @@
     inset-inline-end: 0;
   }
 }
+
+/* Who we are / vision / message (features/home/AboutValues): three cards; hover (and the
+   card at mid-screen on touch) fills the card from below, like the pillars. */
+.av-col {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.75rem, 2.6vw, 2.25rem);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--brand-primary);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.av-col::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--brand-secondary);
+  transform: translateY(101%);
+  transition: transform 0.6s var(--ease);
+}
+
+.av-col:hover::before {
+  transform: translateY(0);
+}
+
+/* Large faded copy of the icon in the top corner. */
+.av-mark {
+  position: absolute;
+  inset-block-start: -1.5rem;
+  inset-inline-end: -1.5rem;
+  z-index: -1;
+  color: var(--brand-primary-soft);
+  line-height: 1;
+  pointer-events: none;
+  transition: color 0.6s var(--ease), opacity 0.6s var(--ease);
+}
+
+.av-mark--quote {
+  inset-block-start: -1rem;
+  inset-inline-end: 0.5rem;
+  font-family: var(--font-display);
+  font-size: 12rem;
+}
+
+.av-col:hover .av-mark {
+  opacity: 0.12;
+}
+
+.av-icon {
+  display: inline-flex;
+  width: 56px;
+  height: 56px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  color: var(--primary-ink);
+  background: var(--brand-primary-soft);
+  transition: background 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+.av-col:hover .av-icon {
+  color: var(--white);
+  background: var(--brand-accent);
+}
+
+.av-title {
+  margin-top: 2rem;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  transition: color 0.3s var(--ease);
+}
+
+[dir="rtl"] .av-title {
+  font-family: var(--font-body);
+}
+
+.av-body {
+  margin: 0.75rem 0 0;
+  line-height: 1.75;
+  color: var(--muted);
+  transition: color 0.3s var(--ease);
+}
+
+.av-col--quote .av-body {
+  font-size: 1.0625rem;
+  color: var(--ink);
+}
+
+.av-sign {
+  margin-top: auto;
+  padding-top: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-ink);
+  transition: color 0.3s var(--ease);
+}
+
+.av-col:hover .av-title { color: var(--on-dark); }
+.av-col:hover .av-body { color: var(--on-dark-muted); }
+.av-col:hover .av-sign { color: var(--brand-accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .av-col::before,
+  .av-mark,
+  .av-icon,
+  .av-title,
+  .av-body,
+  .av-sign {
+    transition: none;
+  }
+}

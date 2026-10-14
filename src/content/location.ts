@@ -6,7 +6,7 @@ export const locationCopy = {
   titleAr: "باتجاه سحاب الحطمية.",
   titleEn: "Towards Sahab Al-Hatmiyeh.",
   subAr:
-    "يقع Giving Compound في المطبّة، على بُعد ٤١ كم من فندق الرويال باتجاه سحاب الحطمية. مجتمع مسوّر بهواء أنظف ومساحة أوسع، مع وصول سهل إلى عمّان والمطار.",
+    "يقع روح العطاء في المطبّة، على بُعد ٤١ كم من فندق الرويال باتجاه سحاب الحطمية. مجتمع مسوّر بهواء أنظف ومساحة أوسع، مع وصول سهل إلى عمّان والمطار.",
   subEn:
     "Giving Compound sits in Al Matabba, 41 km from Le Royal Hotel towards Sahab Al-Hatmiyeh. A gated community with cleaner air and more space, with easy access to Amman and the airport.",
   addressLabelAr: "العنوان",
@@ -25,7 +25,7 @@ export const locationCopy = {
   openMapEn: "Open map",
   mapShortAr: "المطبّة، سحاب، الأردن",
   mapShortEn: "Al Matabba, Sahab, Jordan",
-  projectPinAr: "Giving Compound (روح العطاء)",
+  projectPinAr: "روح العطاء",
   projectPinEn: "Giving Compound",
 } as const;
 

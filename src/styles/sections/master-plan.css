@@ -719,11 +719,3 @@
   }
 }
 
-/* Arabic figures (Amiri) read best a touch larger. */
-[dir="rtl"] .mp-detail-num {
-  font-size: var(--fs-h4);
-}
-
-[dir="rtl"] .mp-item-num {
-  font-size: var(--fs-body);
-}

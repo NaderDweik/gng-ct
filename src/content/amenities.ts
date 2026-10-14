@@ -79,7 +79,7 @@ export const amenityFeatures: AmenityFeature[] = [
     icon: "bbq",
     shortAr: "برجولا وشواء خاص بجانب مسبحك.",
     shortEn: "Your own pergola and grill, by the pool.",
-    titleAr: "برجولات ومناطق BBQ",
+    titleAr: "برجولات ومناطق شواء",
     titleEn: "Pergolas & BBQ",
     tagsAr: ["جلسات خارجية", "شواء خاص"],
     tagsEn: ["Outdoor seating", "Private BBQ"],

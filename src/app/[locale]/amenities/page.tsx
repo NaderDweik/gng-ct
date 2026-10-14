@@ -30,7 +30,7 @@ export default async function AmenitiesPage({ params }: Props) {
   return (
     <>
       <PageJsonLd locale={locale} path="/amenities" />
-      <SubpageHeader tall eyebrow="Giving Compound" title={c.crumb} subtitle={c.heroTitle} />
+      <SubpageHeader tall title={c.crumb} subtitle={c.heroTitle} />
 
       {/* 1 · Inside your resort */}
       <section id="resort" className="ap-section bg-surface">

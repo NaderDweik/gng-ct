@@ -21,9 +21,9 @@ export const homeIntro = {
     alt: "A swimmer in the pool beside the waterfall spout at the Giving Royal clubhouse",
   },
   ar: {
-    eyebrow: "عن Giving Compound",
+    eyebrow: "عن روح العطاء",
     title: "مجتمع واحد. ٣٦٧ شاليهًا خاصًا.",
-    p1: "أهلًا بك في Giving Compound: أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة، على مساحة ٥٠٠,٠٠٠ م² في المطبّة، سحاب.",
+    p1: "أهلًا بك في روح العطاء: أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة، على مساحة ٥٠٠,٠٠٠ م² في المطبّة، سحاب.",
     facts: [
       "شاليه بمساحة ٥٠٠ م² تقريبًا",
       "سند ملكية مستقل",

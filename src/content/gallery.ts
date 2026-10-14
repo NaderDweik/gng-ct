@@ -57,7 +57,7 @@ export const galleryCategories: GalleryCategory[] = [
     id: "construction",
     titleAr: "مراحل الإنشاء",
     titleEn: "Construction",
-    descriptionAr: "مراحل البناء والتطوير في مشروع Giving Compound.",
+    descriptionAr: "مراحل البناء والتطوير في مشروع روح العطاء.",
     descriptionEn: "Construction and development phases at Giving Compound.",
   },
 ];
@@ -262,7 +262,7 @@ export const dayCopy = {
   },
   ar: {
     eyebrow: "المساحات ونمط الحياة.",
-    title: "يوم في Giving Compound.",
+    title: "يوم في روح العطاء.",
     lead: "من فطور بجانب المسبح إلى سهرة بجانب المدفأة. بدّل بين النهار والليل داخل المجتمع.",
     toggleLabel: "وقت اليوم",
     modes: { day: "نهار", night: "ليل" },

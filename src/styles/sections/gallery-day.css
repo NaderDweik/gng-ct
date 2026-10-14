@@ -156,6 +156,14 @@
   pointer-events: none;
 }
 
+/* RTL: the heading sits on the right, so both skies move to the top-left corner. Mirroring
+   the layer flips the sun, moon, stars and their slide-in paths in one go. */
+[dir="rtl"] .gd-night-sky,
+[dir="rtl"] .gd-day-sky {
+  inset: 0 auto auto 0;
+  transform: scaleX(-1);
+}
+
 /* ── Day sky: a warm sun rises into the corner once the section is in view; sets at night ── */
 .gd-day-sky {
   position: absolute;
@@ -559,12 +567,6 @@
     width: 2.2rem;
     height: 2.2rem;
     box-shadow: 0.45rem -0.25rem 0 0 var(--sky-moon);
-  }
-
-  [dir="rtl"] .gd-sun,
-  [dir="rtl"] .gd-moon {
-    right: auto;
-    left: 0.75rem;
   }
 
   .gd-time {

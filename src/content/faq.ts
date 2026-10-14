@@ -14,14 +14,14 @@ export const faqCategories: FaqCategory[] = [
     titleEn: "The Compound",
     items: [
       {
-        qAr: "ما هو كمباوند شاليهات Giving، وما الذي يميّزه عن الكمباوندات العقارية الأخرى؟",
+        qAr: "ما هو كمباوند شاليهات روح العطاء، وما الذي يميّزه عن الكمباوندات العقارية الأخرى؟",
         aAr: "هو مفهوم متكامل لكمباوند شاليهات يجمع بين التملك الخاص والاستجمام والخصوصية ضمن بيئة منظمة. ويتميّز بتوفير شاليهات مستقلة ومرافق وخدمات مشتركة، ليمنح المالك تجربة تتجاوز امتلاك شاليه تقليدي.",
         qEn: "What is the Giving chalet compound, and what sets it apart from other compounds?",
         aEn: "A complete chalet-compound concept that brings together private ownership, leisure and privacy in an organised setting. Independent chalets come with shared facilities and services, giving owners far more than a traditional chalet.",
       },
       {
         id: "where",
-        qAr: "أين يقع كمباوند شاليهات Giving وما أبرز مميزات موقعه؟",
+        qAr: "أين يقع كمباوند شاليهات روح العطاء وما أبرز مميزات موقعه؟",
         aAr: "يقع الكمباوند بالقرب من جامعة ابن سينا والمطار، في موقع يجمع بين سهولة الوصول والهدوء والخصوصية، بعيداً عن الازدحام وبمناخ معتدل وجميل.",
         qEn: "Where is the Giving compound, and what makes the location special?",
         aEn: "Near Ibn Sina University and the airport: easy to reach, yet quiet and private, away from the crowds, with a mild, pleasant climate.",
@@ -48,7 +48,7 @@ export const faqCategories: FaqCategory[] = [
       },
       {
         qAr: "ما المرافق والخدمات المتوفرة داخل الكمباوند؟",
-        aAr: "يضم الكمباوند مجموعة من المرافق والخدمات، تشمل الأمن والحراسة، ومركز الصيانة، وخدمات التدبير المنزلي (Housekeeping) للعناية بالشاليهات، وسوبر ماركت، ومصلى، وملاعب، وحدائق ومساحات خضراء مشتركة.",
+        aAr: "يضم الكمباوند مجموعة من المرافق والخدمات، تشمل الأمن والحراسة، ومركز الصيانة، وخدمات التدبير المنزلي للعناية بالشاليهات، وسوبر ماركت، ومصلى، وملاعب، وحدائق ومساحات خضراء مشتركة.",
         qEn: "What facilities and services are inside the compound?",
         aEn: "Security and guards, a maintenance centre, housekeeping for the chalets, a supermarket, a prayer room, sports courts, and shared gardens and green spaces.",
       },
@@ -141,7 +141,7 @@ export const faqCategories: FaqCategory[] = [
       {
         id: "handover",
         qAr: "متى يتم تسليم الشاليه، وهل الشاليهات جاهزة للاستلام؟",
-        aAr: "نعم، تتوفر حالياً شاليهات جاهزة للاستلام في كمباوند Giving، وتختلف مواعيد التسليم بحسب الدفعة الأولى والحصول على موافقة التمويل. كما تتوفر إمكانية التسليم الفوري لبعض الشاليهات، وفقاً للشروط والأحكام المعتمدة.",
+        aAr: "نعم، تتوفر حالياً شاليهات جاهزة للاستلام في كمباوند روح العطاء، وتختلف مواعيد التسليم بحسب الدفعة الأولى والحصول على موافقة التمويل. كما تتوفر إمكانية التسليم الفوري لبعض الشاليهات، وفقاً للشروط والأحكام المعتمدة.",
         qEn: "When is the chalet handed over, and are chalets ready now?",
         aEn: "Yes, there are chalets ready for handover at Giving now. Handover dates depend on the down payment and financing approval, and some chalets can be handed over immediately, subject to the approved terms and conditions.",
       },
@@ -159,8 +159,8 @@ export const faqCategories: FaqCategory[] = [
         aEn: "Yes. Some chalets are set up for investment and rental use, depending on the chalet and the approved operating system.",
       },
       {
-        qAr: "هل توفر Giving خدمات إدارة وتأجير الشاليهات، وكيف يتم تحديد العائد الاستثماري؟",
-        aAr: "نعم، توفر Giving خدمات إدارة وتأجير الشاليهات، بما يتيح للمالكين الاستفادة من شاليهاتهم كفرصة استثمارية. أما العائد الاستثماري، فيتم تحديده بالتنسيق مع الفريق الاستثماري المختص، بعد مراجعة التفاصيل المتعلقة بالشاليه.",
+        qAr: "هل توفر روح العطاء خدمات إدارة وتأجير الشاليهات، وكيف يتم تحديد العائد الاستثماري؟",
+        aAr: "نعم، توفر روح العطاء خدمات إدارة وتأجير الشاليهات، بما يتيح للمالكين الاستفادة من شاليهاتهم كفرصة استثمارية. أما العائد الاستثماري، فيتم تحديده بالتنسيق مع الفريق الاستثماري المختص، بعد مراجعة التفاصيل المتعلقة بالشاليه.",
         qEn: "Does Giving offer chalet management and rental services, and how is the return determined?",
         aEn: "Yes. Giving manages and rents out chalets so owners can treat theirs as an investment. The return is worked out with our dedicated investment team after reviewing the details of the chalet.",
       },

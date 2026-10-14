@@ -95,7 +95,7 @@ export default async function HomePage({ params }: Props) {
             </div>
             <p className="section-sub">
               {isAr
-                ? "مخطط واحد، ثلاث وجهات. الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في مجتمع Giving Compound."
+                ? "مخطط واحد، ثلاث وجهات. الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في مجتمع روح العطاء."
                 : "One community, three destinations. Privacy, lifestyle, and flexible financing meet in Giving Compound."}
             </p>
           </div>
@@ -186,14 +186,11 @@ export default async function HomePage({ params }: Props) {
         <VLines />
         <div className="stats-band-grid container-gc relative z-[1] grid grid-cols-2 gap-x-6 gap-y-10 py-12 text-center md:gap-10 md:py-16 lg:grid-cols-4">
           {[
-            { v: `${site.stats.units}+`, l: t("statsUnits") },
-            {
-              v: formatNumber(site.stats.areaSqm, "en"), // Latin digits on the home page, both languages
-              l: t("statsArea"),
-            },
-            { v: `${site.stats.unitAreaSqm}`, l: isAr ? "م² لكل وحدة" : "m² per unit" },
+            { v: `${formatNumber(site.stats.units, locale)}+`, l: t("statsUnits") },
+            { v: formatNumber(site.stats.areaSqm, locale), l: t("statsArea") },
+            { v: formatNumber(site.stats.unitAreaSqm, locale), l: isAr ? "م² لكل وحدة" : "m² per unit" },
             // Zero-interest plans direct from the developer: the figure buyers actually weigh.
-            { v: "0%", l: isAr ? "فوائد على خطط الدفع" : "interest on payment plans" },
+            { v: isAr ? `${formatNumber(0, locale)}٪` : "0%", l: isAr ? "فوائد على خطط الدفع" : "interest on payment plans" },
           ].map((s) => (
             <div key={s.l} className="stats-band-cell">
               {/* dir="ltr": keeps "367+" and "0%" in figure order inside Arabic text. */}

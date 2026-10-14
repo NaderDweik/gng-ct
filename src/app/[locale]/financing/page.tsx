@@ -54,7 +54,7 @@ export default async function FinancingPage({ params }: Props) {
   return (
     <>
       <PageJsonLd locale={locale} path="/financing" listing />
-      <SubpageHeader tall eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
+      <SubpageHeader tall title={t("title")} subtitle={t("subtitle")} />
 
       <section id="plans" className="section scroll-mt-20 on-dark bg-secondary text-on-dark">
         <div className="container-gc">

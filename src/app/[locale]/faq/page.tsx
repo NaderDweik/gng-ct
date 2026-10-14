@@ -21,7 +21,7 @@ export default async function FaqPage({ params }: Props) {
     <>
       <PageJsonLd locale={locale} path="/faq" />
       <JsonLd data={faqJsonLd(locale === "en" ? "en" : "ar")} />
-      <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
+      <SubpageHeader title={t("title")} subtitle={t("subtitle")} />
 
       <section className="section bg-surface">
         <div className="container-gc">

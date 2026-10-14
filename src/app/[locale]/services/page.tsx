@@ -30,7 +30,7 @@ export default async function ServicesPage({ params }: Props) {
   return (
     <>
       <PageJsonLd locale={locale} path="/services" />
-      <SubpageHeader eyebrow="Giving Compound" title={t("title")} subtitle={t("subtitle")} />
+      <SubpageHeader title={t("title")} subtitle={t("subtitle")} />
       <ServicesDirectory
         locale={locale}
         stats={

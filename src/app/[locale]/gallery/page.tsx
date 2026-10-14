@@ -25,7 +25,7 @@ export default async function GalleryPage({ params }: Props) {
   return (
     <>
       <PageJsonLd locale={locale} path="/gallery" />
-      <SubpageHeader tall eyebrow="Giving Compound" title={copy.title} subtitle={copy.lead} />
+      <SubpageHeader tall title={copy.title} subtitle={copy.lead} />
 
       <GalleryGrid blurs={await galleryBlurs()} />
 

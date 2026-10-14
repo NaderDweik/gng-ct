@@ -10,6 +10,7 @@ import { routeMetadata } from "@/lib/seo";
 import { VideoPlayer } from "@/components/ui/VideoPlayer";
 import { ScrollFocus } from "@/components/ui/ScrollFocus";
 import { SocialIcon } from "@/components/ui/SocialIcon";
+import { AboutValues } from "@/features/home/AboutValues";
 
 type Props = LocalePageProps;
 
@@ -116,7 +117,6 @@ export default async function AboutPage({ params }: Props) {
     <>
       <PageJsonLd locale={locale} path="/about" />
       <SubpageHeader
-        eyebrow="Giving Compound"
         title={t("title")}
         subtitle={isAr ? "ليس فندقًا، بل استثمار وحياة." : "Not a hotel. An investment, and a way of life."}
       />
@@ -180,12 +180,15 @@ export default async function AboutPage({ params }: Props) {
         </div>
       </section>
 
+      {/* Who we are, vision, message */}
+      <AboutValues locale={locale} />
+
       {/* Pillars */}
       <section className="section border-y border-line bg-surface-alt">
         <div className="container-gc">
           <div className="sec-head pillars-head">
             <div>
-              <p className="section-eyebrow">{isAr ? "لماذا Giving Compound" : "Why Giving Compound"}</p>
+              <p className="section-eyebrow">{isAr ? "لماذا روح العطاء" : "Why Giving Compound"}</p>
               <h2 className="section-title mb-0">
                 {isAr ? "أربعة وعود نلتزم بها." : "Four promises we keep."}
               </h2>
