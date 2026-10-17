@@ -3,8 +3,8 @@ import { site } from "@/content/site";
 export const locationCopy = {
   eyebrowAr: "الموقع",
   eyebrowEn: "Location",
-  titleAr: "باتجاه سحاب الحطمية.",
-  titleEn: "Towards Sahab Al-Hatmiyeh.",
+  titleAr: "25 كم من جامعة الإسراء عبر طريق القسطل",
+  titleEn: "25 km from Isra University via Al-Qastal Road",
   subAr:
     "يقع روح العطاء في المطبّة، على بُعد ٤١ كم من فندق الرويال باتجاه سحاب الحطمية. مجتمع مسوّر بهواء أنظف ومساحة أوسع، مع وصول سهل إلى عمّان والمطار.",
   subEn:
@@ -19,49 +19,41 @@ export const locationCopy = {
   deliveryLabelEn: "Move-in",
   deliveryAr: "حسب الشاليه",
   deliveryEn: "Per chalet",
-  nearbyTitleAr: "على بُعد دقائق من كل ما يهم",
-  nearbyTitleEn: "Minutes from everything that matters",
-  openMapAr: "افتح الخريطة",
-  openMapEn: "Open map",
-  mapShortAr: "المطبّة، سحاب، الأردن",
-  mapShortEn: "Al Matabba, Sahab, Jordan",
-  projectPinAr: "روح العطاء",
-  projectPinEn: "Giving Compound",
+  nearbyTitleAr: "نقاط الاهتمام القريبة",
+  nearbyTitleEn: "Nearby points of interest",
 } as const;
 
 export type NearbyPlace = {
   id: string;
   nameAr: string;
   nameEn: string;
-  /** Road distance (km) from Giving Compound, the company's figure. */
-  km: number;
+  /** Road distance (km), when the company has given a figure. */
+  km?: number;
   distanceAr: string;
   distanceEn: string;
-  /** Where the route ends on the map (OSRM draws the live route there). */
+  /** The pin; its road to the compound is in location-routes.ts (scripts/location-routes.mjs). */
   coords: { lat: number; lng: number };
 };
 
 const place = (p: Omit<NearbyPlace, "distanceAr" | "distanceEn">): NearbyPlace => ({
   ...p,
-  distanceAr: `${p.km.toLocaleString("ar-JO")} كم`,
-  distanceEn: `${p.km} km`,
+  distanceAr: p.km != null ? `${p.km.toLocaleString("ar-JO")} كم` : "",
+  distanceEn: p.km != null ? `${p.km} km` : "",
 });
 
 /**
- * The places and routes we measure from (company figures), in the order the
- * map lists and tours them.
- * Road endpoints sit where each route reaches its road: Al-Qastal on the airport
- * road, the Development Corridor (100 Street) by Al-Dhuhaybah.
+ * Nearby points of interest, in the order the map lists and tours them.
+ * After moving or adding one, run `node scripts/location-routes.mjs` to redraw its road.
  */
 export const nearbyPlaces: NearbyPlace[] = [
-  place({ id: "street100", nameAr: "شارع المية عبر الذهيبة", nameEn: "100 Street via Al-Dhuhaybah", km: 18, coords: { lat: 31.8121, lng: 36.0093 } }),
-  place({ id: "airport", nameAr: "طريق المطار عبر القسطل", nameEn: "Airport Road via Al-Qastal", km: 22, coords: { lat: 31.75, lng: 35.9333 } }),
-  place({ id: "isra", nameAr: "جامعة الإسراء", nameEn: "Isra University", km: 25, coords: { lat: 31.7892, lng: 35.9287 } }),
-  place({ id: "amra", nameAr: "طريق عمرة عبر الحاتمية", nameEn: "Amra Road via Al-Hatimiyah", km: 12, coords: { lat: 31.8065, lng: 36.2808 } }),
+  place({ id: "isra", nameAr: "جامعة الإسراء", nameEn: "Isra University", coords: { lat: 31.7891885, lng: 35.9287065 } }),
+  place({ id: "ikea", nameAr: "ايكيا", nameEn: "IKEA", coords: { lat: 31.8264344, lng: 35.9013632 } }),
+  place({ id: "ibn-sina", nameAr: "جامعة ابن سينا", nameEn: "Ibn Sina University", coords: { lat: 31.741268, lng: 35.943288 } }),
+  place({ id: "hijra", nameAr: "قرية الحجرة", nameEn: "Al-Hijra Village", coords: { lat: 31.721914, lng: 35.952146 } }),
+  place({ id: "airport", nameAr: "مطار الملكة علياء", nameEn: "Queen Alia Airport", coords: { lat: 31.7238024, lng: 36.007237 } }),
 ];
 
 /** Le Royal Hotel: the reference point in the address and the FAQ. */
 export const royalDrive = { km: 41, minutes: 55 } as const;
 
 export const projectCoords = site.coordinates;
-export const mapsSearchUrl = `https://www.google.com/maps/search/?api=1&query=${projectCoords.lat},${projectCoords.lng}`;

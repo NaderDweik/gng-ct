@@ -101,16 +101,6 @@
   border-top-color: currentColor;
 }
 
-.gc-marker-label--project {
-  bottom: 38px;
-  background: var(--brand-primary-fill);
-  color: var(--on-primary);
-}
-
-.gc-marker-label--project::after {
-  border-top-color: var(--brand-primary);
-}
-
 .gc-marker-label--dest {
   bottom: 18px;
   background: var(--surface);
@@ -128,6 +118,56 @@
   font-size: var(--fs-caption);
 }
 
+/* One place at a time (LocationLeafletMap): its pin settles in, its label follows, a soft
+   ring opens once; then the road draws to the compound. The outgoing place fades. */
+.gc-marker--dest .gc-marker-dot {
+  animation: gc-pin-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.gc-marker--dest .gc-marker-dot::after {
+  content: "";
+  position: absolute;
+  inset: -2.5px;
+  border-radius: 999px;
+  border: 2px solid var(--primary-ink);
+  opacity: 0;
+  animation: gc-pin-ring 1.1s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.gc-marker--dest .gc-marker-label {
+  animation: gc-label-in 0.5s 0.12s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes gc-pin-in {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
+@keyframes gc-pin-ring {
+  0% {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3.2);
+  }
+}
+
+@keyframes gc-label-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 6px);
+  }
+}
+
+.gc-leaving {
+  opacity: 0 !important;
+  transition: opacity 0.45s ease;
+}
+
 .leaflet-container .leaflet-control-attribution {
   background: color-mix(in srgb, var(--white) 75%, transparent);
   color: var(--subtle);
@@ -140,21 +180,14 @@
     opacity: 0;
   }
 
-  .gc-marker-spin {
+  .gc-marker-spin,
+  .gc-marker--dest .gc-marker-dot,
+  .gc-marker--dest .gc-marker-dot::after,
+  .gc-marker--dest .gc-marker-label {
     animation: none;
   }
 }
 
-/* ── Behaviour: features/location/LocationShowcase.tsx ── */
-
-/* Glowing car that drives the drawn route. */
-.gc-car {
-  filter:
-    drop-shadow(0 0 4px color-mix(in srgb, var(--brand-accent) 90%, transparent))
-    drop-shadow(0 0 12px color-mix(in srgb, var(--brand-accent) 55%, transparent));
-}
-
-/* Trip readout — top corner of the map. */
 /* ── Location section layout (features/location/LocationShowcase.tsx) ── */
 .loc {
   display: grid;
@@ -322,6 +355,13 @@
   display: none;
 }
 
+/* The map card only holds the phone destination switcher. */
+@media (min-width: 768px) {
+  .loc-card {
+    display: none;
+  }
+}
+
 @media (max-width: 767px) {
   /* The card sits on the map: no gap between them, one shared border line. */
   .loc {
@@ -369,7 +409,6 @@
     grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
     gap: 0.75rem;
-    margin-bottom: 0.85rem;
   }
 
   .loc-switch-btn {
@@ -450,5 +489,33 @@
 
   .loc-switch-time {
     color: var(--on-dark-muted);
+  }
+
+  /* Tour loader under the place name: a hairline that fills until the next place.
+     Fades away once the visitor takes over (no tour). */
+  .loc-switch-track {
+    display: block;
+    width: min(9rem, 70%);
+    height: 2px;
+    margin: 0.45rem auto 0;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--white) 16%, transparent);
+    transition: opacity 0.4s ease;
+  }
+
+  .loc:not(.is-touring) .loc-switch-track {
+    opacity: 0;
+  }
+
+  .loc-switch-fill {
+    display: block;
+    height: 100%;
+    background: var(--brand-primary);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  [dir="rtl"] .loc-switch-fill {
+    transform-origin: right center;
   }
 }

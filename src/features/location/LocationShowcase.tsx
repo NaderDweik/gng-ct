@@ -5,21 +5,16 @@ import { useLocale } from "next-intl";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { site } from "@/content/site";
-import {
-  locationCopy,
-  mapsSearchUrl,
-  nearbyPlaces,
-  type NearbyPlace,
-} from "@/content/location";
+import { locationCopy, nearbyPlaces, type NearbyPlace } from "@/content/location";
 import { LocationLeafletMap } from "@/features/location/LocationLeafletMap";
 import { track } from "@/lib/analytics";
 import { formatNumber } from "@/lib/format";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-/** Seconds each destination stays up while the section tours on its own. */
-const TOUR_SECONDS = 5;
+/** Seconds each destination stays up while the section tours on its own (long enough for
+ *  its pin to pop in and its road to draw to the compound). */
+const TOUR_SECONDS = 7;
 
 function MapPinIcon() {
   return (
@@ -41,34 +36,6 @@ function MapPinIcon() {
   );
 }
 
-function NavIcon() {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      <polygon points="3 11 22 2 13 21 11 13 3 11" />
-    </svg>
-  );
-}
-
-function ExternalArrow() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M7 7h10v10" />
-      <path d="M7 17 17 7" />
-    </svg>
-  );
-}
-
 function Chevron({ dir }: { dir: "prev" | "next" }) {
   return (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
@@ -79,15 +46,15 @@ function Chevron({ dir }: { dir: "prev" | "next" }) {
 
 /*
  * Location section (map: LocationLeafletMap; styles: styles/sections/location-map.css).
- *   Layout: a clean map (route + pins) beside one panel: eyebrow, title, the place, then
- *   the drive-time list on a dark band; the map keeps its place card + Open map button. Kept short and single-purpose.
+ *   Layout: a clean map beside one panel: eyebrow, title, then the places list on a dark
+ *   band. The map shows one place at a time: its pin pops in and its road draws to the V.
  *   Tour: the first time the section is on screen, destinations advance on
- *   their own every TOUR_SECONDS, nearest first; a hairline fills across the
+ *   their own every TOUR_SECONDS, in list order; a hairline fills across the
  *   active row to show when it moves on. Choosing a place hands control to the
  *   visitor for good. Off-screen the tour pauses.
  * Phones: the panel's place line becomes a card attached to the top of the map, and the
  * card inside the map steps through the destinations with ‹ › chevrons (the drive-time
- * list is hidden); Open map stays under them.
+ * list is hidden).
  * Reduced motion: no tour, no counting — the list and map work as before.
  */
 export function LocationShowcase() {
@@ -128,8 +95,12 @@ export function LocationShowcase() {
 
   // The active row's hairline is the tour's clock: when it fills, move on.
   useEffect(() => {
-    const bar = rootRef.current?.querySelector<HTMLElement>(`[data-bar="${activeId}"]`);
-    if (!touring || !bar) return;
+    // The active row's hairline (list) and the loader under the place name (map card).
+    const bar = [
+      rootRef.current?.querySelector<HTMLElement>(`[data-bar="${activeId}"]`),
+      rootRef.current?.querySelector<HTMLElement>(".loc-switch-fill"),
+    ].filter((el): el is HTMLElement => !!el);
+    if (!touring || !bar.length) return;
     const tween = gsap.fromTo(
       bar,
       { scaleX: 0 },
@@ -171,17 +142,12 @@ export function LocationShowcase() {
           {isAr ? c.eyebrowAr : c.eyebrowEn}
         </span>
         <h2 className="loc-top-title">{isAr ? c.titleAr : c.titleEn}</h2>
-        <p className="loc-place">{isAr ? c.mapShortAr : c.mapShortEn}</p>
       </div>
 
-      {/* Map: route + pins only */}
+      {/* Map: the compound, plus the current place and its road to it */}
       <div className="loc-map">
-        <LocationLeafletMap
-          active={active}
-          isAr={isAr}
-          projectLabel={isAr ? c.projectPinAr : c.projectPinEn}
-        />
-        {/* Place card pinned to the map's foot, with the way out to Google Maps */}
+        <LocationLeafletMap active={active} isAr={isAr} />
+        {/* Phones: place card pinned to the map's foot */}
         <div className="loc-card absolute inset-x-4 bottom-4 z-30 border border-surface/70 bg-surface/95 p-3 shadow-2xl backdrop-blur md:inset-x-5 md:bottom-5 md:p-4">
           {/* Phones: step through the destinations */}
           {active && (
@@ -194,33 +160,19 @@ export function LocationShowcase() {
                   {formatNumber(activeIndex + 1, locale)} / {formatNumber(nearbyPlaces.length, locale)}
                 </p>
                 <p className="loc-switch-name">{isAr ? active.nameAr : active.nameEn}</p>
-                <p className="loc-switch-time">{isAr ? active.distanceAr : active.distanceEn}</p>
+                {/* Tour loader: fills over TOUR_SECONDS, then the next place comes in */}
+                <span className="loc-switch-track" aria-hidden>
+                  <span className="loc-switch-fill" />
+                </span>
+                {(isAr ? active.distanceAr : active.distanceEn) && (
+                  <p className="loc-switch-time">{isAr ? active.distanceAr : active.distanceEn}</p>
+                )}
               </div>
               <button type="button" className="loc-switch-btn" aria-label={isAr ? "الوجهة التالية" : "Next destination"} onClick={() => step(1)}>
                 <Chevron dir={isAr ? "prev" : "next"} />
               </button>
             </div>
           )}
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="loc-card-place flex items-center gap-3">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center bg-primary-fill text-on-primary">
-                <NavIcon />
-              </span>
-              <div>
-                <p className="text-(length:--fs-caption) font-bold uppercase tracking-[0.22em] text-primary-ink/55">{isAr ? site.nameAr : site.nameEn}</p>
-                <p className="font-semibold text-primary-ink">{isAr ? c.mapShortAr : c.mapShortEn}</p>
-              </div>
-            </div>
-            <a
-              href={site.mapsUrl || mapsSearchUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 bg-primary-fill px-4 py-2.5 text-sm font-bold text-on-primary transition hover:bg-primary-hover"
-            >
-              {isAr ? c.openMapAr : c.openMapEn}
-              <ExternalArrow />
-            </a>
-          </div>
         </div>
       </div>
 
@@ -231,7 +183,6 @@ export function LocationShowcase() {
           {isAr ? c.eyebrowAr : c.eyebrowEn}
         </span>
         <h2 className="section-title loc-title">{isAr ? c.titleAr : c.titleEn}</h2>
-        <p className="loc-place">{isAr ? c.mapShortAr : c.mapShortEn}</p>
 
         {/* Drive times on the dark band at the foot of the panel */}
         <div className="loc-drive">
@@ -248,7 +199,9 @@ export function LocationShowcase() {
                   className={`loc-row${on ? " is-on" : ""}`}
                 >
                   <span className="loc-row-name">{isAr ? place.nameAr : place.nameEn}</span>
-                  <span className="loc-row-time">{isAr ? place.distanceAr : place.distanceEn}</span>
+                  {(isAr ? place.distanceAr : place.distanceEn) && (
+                    <span className="loc-row-time">{isAr ? place.distanceAr : place.distanceEn}</span>
+                  )}
                 </button>
                 <span className="loc-bar" data-bar={place.id} aria-hidden />
               </li>

@@ -1,18 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type {
-  CircleMarker,
-  FitBoundsOptions,
-  LatLngTuple,
-  Map as LeafletMap,
-  Marker,
-  Polyline,
-  PolylineOptions,
-  TileLayer,
-} from "leaflet";
+import type { FitBoundsOptions, Map as LeafletMap, Marker, Polyline, TileLayer } from "leaflet";
 import type { NearbyPlace } from "@/content/location";
 import { projectCoords } from "@/content/location";
+import { placeRoutes } from "@/content/location-routes";
 import { palette } from "@/theme/tokens";
 import "leaflet/dist/leaflet.css";
 
@@ -34,10 +26,6 @@ const tileUrls = () => [tileUrl("Light", "Base"), tileUrl("Light", "Reference")]
 //   routeRef.current?.setStyle({ color: routeColor() });
 // }, [theme, mapReady]);
 
-/** Route color = `--primary-ink`. */
-const routeColor = () =>
-  getComputedStyle(document.documentElement).getPropertyValue("--primary-ink").trim() || palette.primary;
-
 let leafletPromise: Promise<LeafletModule> | null = null;
 
 /** Leaflet touches `window` on import, so it's loaded on the client only, once. */
@@ -50,15 +38,14 @@ function escapeHtml(s: string) {
   return s.replace(/[&<>"']/g, (ch) => `&#${ch.charCodeAt(0)};`);
 }
 
-/** Zero-size anchor at the exact coordinate; label and pin are positioned around it with CSS. */
-function projectIcon(L: LeafletModule, label: string, dir: "rtl" | "ltr") {
+/** Zero-size anchor at the exact coordinate; the pin is positioned around it with CSS. */
+function projectIcon(L: LeafletModule) {
   return L.divIcon({
     className: "gc-marker",
     iconSize: [0, 0],
     iconAnchor: [0, 0],
     html: `
       <div class="gc-marker-anchor">
-        <span class="gc-marker-label gc-marker-label--project" dir="${dir}">${escapeHtml(label)}</span>
         <span class="gc-marker-avatar">
           <span class="gc-marker-avatar-pulse"></span>
           <span class="gc-marker-avatar-core"><span class="gc-marker-spin"></span></span>
@@ -69,24 +56,31 @@ function projectIcon(L: LeafletModule, label: string, dir: "rtl" | "ltr") {
 
 function destIcon(L: LeafletModule, name: string, time: string, dir: "rtl" | "ltr") {
   return L.divIcon({
-    className: "gc-marker",
+    className: "gc-marker gc-marker--dest",
     iconSize: [0, 0],
     iconAnchor: [0, 0],
     html: `
       <div class="gc-marker-anchor">
         <span class="gc-marker-label gc-marker-label--dest" dir="${dir}">
           <span class="gc-marker-label-name">${escapeHtml(name)}</span>
-          <span class="gc-marker-label-time">${escapeHtml(time)}</span>
+          ${time ? `<span class="gc-marker-label-time">${escapeHtml(time)}</span>` : ""}
         </span>
         <span class="gc-marker-dot"></span>
       </div>`,
   });
 }
 
-/** One run of the glowing "car" along the route, then a short rest. */
-const CAR_RUN_MS = 3400;
-const CAR_REST_MS = 1100;
-const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2);
+/** Route color = `--primary-ink`. */
+const routeColor = () =>
+  getComputedStyle(document.documentElement).getPropertyValue("--primary-ink").trim() || palette.primary;
+
+/** The road draws from the place to the compound over this long, once the map has settled. */
+const DRAW_MS = 1600;
+/** Pin pop-in, then the road starts. */
+const PIN_LEAD_MS = 380;
+/** The outgoing place fades for this long (matches .gc-leaving in location-map.css). */
+const LEAVE_MS = 450;
+const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2);
 
 const FIT_OPTIONS: FitBoundsOptions = {
   // Room for the pin labels (they run ~220px sideways) and the place card at the foot.
@@ -110,24 +104,23 @@ const fitOptions = () => (window.matchMedia("(max-width: 767px)").matches ? FIT_
 type Props = {
   active: NearbyPlace | null;
   isAr: boolean;
-  projectLabel: string;
 };
 
-export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
+/** One place on the map at a time: its pin pops in, then its road draws to the compound. */
+type Shown = { marker: Marker; casing: Polyline; line: Polyline };
+
+export function LocationLeafletMap({ active, isAr }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const leafletRef = useRef<LeafletModule | null>(null);
   const mapRef = useRef<LeafletMap | null>(null);
-  const routeRef = useRef<Polyline | null>(null);
-  const destRef = useRef<Marker | null>(null);
-  const carRef = useRef<CircleMarker | null>(null);
+  const shownRef = useRef<Shown | null>(null);
   const tilesRef = useRef<TileLayer[]>([]);
-  const abortRef = useRef<AbortController | null>(null);
-  const rafRef = useRef<number | null>(null);
-  const alive = useRef(true);
   const [mapReady, setMapReady] = useState(false);
-  /** Near the viewport: only then are Leaflet, the tiles and the route fetched (the home
+  /** Near the viewport: only then are Leaflet and the tiles fetched (the home
    *  page shows the map far below the hero; loading it up front slowed phones). */
   const [near, setNear] = useState(false);
+  /** On screen: only then does the first place pop in and draw (so it isn't missed). */
+  const [seen, setSeen] = useState(false);
   const dir = isAr ? "rtl" : "ltr";
 
   useEffect(() => {
@@ -147,8 +140,23 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
   }, [near]);
 
   useEffect(() => {
+    const el = containerRef.current;
+    if (!el || seen) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setSeen(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [seen]);
+
+  useEffect(() => {
     if (!near) return;
-    alive.current = true;
     let cancelled = false;
 
     loadLeaflet().then((L) => {
@@ -169,7 +177,7 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
         .addTo(map);
 
       L.marker([projectCoords.lat, projectCoords.lng], {
-        icon: projectIcon(L, projectLabel, dir),
+        icon: projectIcon(L),
         keyboard: false,
         interactive: false,
         zIndexOffset: 1000,
@@ -182,146 +190,129 @@ export function LocationLeafletMap({ active, isAr, projectLabel }: Props) {
 
     return () => {
       cancelled = true;
-      alive.current = false;
-      abortRef.current?.abort();
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
       mapRef.current?.remove();
       mapRef.current = null;
-      routeRef.current = null;
-      destRef.current = null;
-      carRef.current = null;
+      shownRef.current = null;
       tilesRef.current = [];
       setMapReady(false);
     };
-  }, [projectLabel, dir, near]);
+  }, [near]);
 
   useEffect(() => {
-    if (!mapReady) return;
+    if (!mapReady || !seen || !active) return;
     const map = mapRef.current;
     const L = leafletRef.current;
     if (!map || !L) return;
 
-    abortRef.current?.abort();
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    routeRef.current?.remove();
-    routeRef.current = null;
-    destRef.current?.remove();
-    destRef.current = null;
-    carRef.current?.remove();
-    carRef.current = null;
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const timers: number[] = [];
+    let raf = 0;
+    const later = (fn: () => void, ms: number) => timers.push(window.setTimeout(fn, ms));
 
-    if (!active) {
-      map.setView([projectCoords.lat, projectCoords.lng], 11, { animate: true });
-      return;
+    // The outgoing place fades out, then leaves the map.
+    const prev = shownRef.current;
+    shownRef.current = null;
+    if (prev) {
+      const els = [prev.marker.getElement(), prev.casing.getElement(), prev.line.getElement()];
+      els.forEach((el) => el?.classList.add("gc-leaving"));
+      const drop = () => [prev.marker, prev.casing, prev.line].forEach((layer) => layer.remove());
+      if (still) drop();
+      else window.setTimeout(drop, LEAVE_MS);
     }
 
-    destRef.current = L.marker([active.coords.lat, active.coords.lng], {
-      icon: destIcon(
-        L,
-        isAr ? active.nameAr : active.nameEn,
-        isAr ? active.distanceAr : active.distanceEn,
-        dir,
-      ),
+    const route: [number, number][] = placeRoutes[active.id] ?? [
+      [active.coords.lat, active.coords.lng],
+      [projectCoords.lat, projectCoords.lng],
+    ];
+    const color = routeColor();
+    const casing = L.polyline([], {
+      color: "#ffffff",
+      weight: 8,
+      opacity: 0.85,
+      lineCap: "round",
+      lineJoin: "round",
+      interactive: false,
+      className: "gc-route-casing",
+    }).addTo(map);
+    const line = L.polyline([], {
+      color,
+      weight: 4,
+      opacity: 0.95,
+      lineCap: "round",
+      lineJoin: "round",
+      interactive: false,
+      className: "gc-route",
+    }).addTo(map);
+    const marker = L.marker([active.coords.lat, active.coords.lng], {
+      icon: destIcon(L, isAr ? active.nameAr : active.nameEn, isAr ? active.distanceAr : active.distanceEn, dir),
       keyboard: false,
       interactive: false,
       zIndexOffset: 900,
-    }).addTo(map);
+    });
+    const shown: Shown = { marker, casing, line };
+    shownRef.current = shown;
 
-    const endpoints: [number, number][] = [
-      [projectCoords.lat, projectCoords.lng],
-      [active.coords.lat, active.coords.lng],
-    ];
-    map.fitBounds(L.latLngBounds(endpoints), fitOptions());
+    // Frame the whole road, then: pin pops in, the road draws from the place to the V.
+    map.fitBounds(L.latLngBounds([...route, [projectCoords.lat, projectCoords.lng]]), {
+      ...fitOptions(),
+      animate: !still,
+      duration: 0.9,
+    });
 
-    const ctrl = new AbortController();
-    abortRef.current = ctrl;
-    const url = `https://router.project-osrm.org/route/v1/driving/${projectCoords.lng},${projectCoords.lat};${active.coords.lng},${active.coords.lat}?overview=full&geometries=geojson`;
-
-    const lineStyle: PolylineOptions = {
-      color: routeColor(),
-      weight: 4,
-      opacity: 0.9,
-      lineCap: "round",
-      lineJoin: "round",
+    const setRoute = (pts: [number, number][]) => {
+      casing.setLatLngs(pts);
+      line.setLatLngs(pts);
     };
 
-    fetch(url, { signal: ctrl.signal })
-      .then((r) => {
-        if (!r.ok) throw new Error("route failed");
-        return r.json();
-      })
-      .then((data) => {
-        if (!alive.current || !mapRef.current) return;
-        const coords = data?.routes?.[0]?.geometry?.coordinates as
-          | [number, number][]
-          | undefined;
+    const draw = () => {
+      if (shownRef.current !== shown) return;
+      if (still) {
+        setRoute(route);
+        return;
+      }
+      const cum = [0];
+      for (let k = 1; k < route.length; k++) cum.push(cum[k - 1]! + map.distance(route[k - 1]!, route[k]!));
+      const total = cum[cum.length - 1] || 1;
+      const t0 = performance.now();
+      let seg = 1;
+      const tick = (now: number) => {
+        if (shownRef.current !== shown) return;
+        const p = Math.min(1, (now - t0) / DRAW_MS);
+        const d = easeInOut(p) * total;
+        while (seg < cum.length - 1 && cum[seg]! < d) seg++;
+        const a = route[seg - 1]!;
+        const b = route[seg]!;
+        const f = Math.min(1, Math.max(0, (d - cum[seg - 1]!) / (cum[seg]! - cum[seg - 1]! || 1)));
+        setRoute([...route.slice(0, seg), [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]]);
+        if (p < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    };
 
-        if (!Array.isArray(coords) || coords.length < 2) {
-          routeRef.current = L.polyline(endpoints, { ...lineStyle, dashArray: "6 8" }).addTo(map);
-          return;
-        }
+    const pop = () => {
+      if (shownRef.current !== shown) return;
+      marker.addTo(map);
+      later(draw, still ? 0 : PIN_LEAD_MS);
+    };
+    // Wait for the camera to settle (moveend), with a fallback when the view doesn't move.
+    let popped = false;
+    const onSettled = () => {
+      if (popped) return;
+      popped = true;
+      pop();
+    };
+    if (still) onSettled();
+    else {
+      map.once("moveend", onSettled);
+      later(onSettled, 1100);
+    }
 
-        const latlngs = coords.map(([lng, lat]) => [lat, lng] as [number, number]);
-        routeRef.current = L.polyline([], lineStyle).addTo(map);
-        map.fitBounds(L.latLngBounds([...latlngs, ...endpoints]), fitOptions());
-
-        let i = 0;
-        const step = Math.max(1, Math.floor(latlngs.length / 80));
-        const draw = () => {
-          if (!alive.current || !routeRef.current) return;
-          i = Math.min(latlngs.length, i + step);
-          routeRef.current.setLatLngs(latlngs.slice(0, i));
-          if (i < latlngs.length) rafRef.current = requestAnimationFrame(draw);
-          else if (!matchMedia("(prefers-reduced-motion: reduce)").matches) drive(latlngs);
-        };
-        rafRef.current = requestAnimationFrame(draw);
-
-        // Once drawn, a glowing car keeps driving the route: ease out of the
-        // project, ease into the destination, fade, rest, again.
-        const drive = (pts: LatLngTuple[]) => {
-          const cum = [0];
-          for (let k = 1; k < pts.length; k++) cum.push(cum[k - 1]! + map.distance(pts[k - 1]!, pts[k]!));
-          const total = cum[cum.length - 1]!;
-          const car = L.circleMarker(pts[0]!, {
-            radius: 6,
-            color: "#ffffff",
-            weight: 2.5,
-            fillColor: routeColor(),
-            fillOpacity: 1,
-            className: "gc-car",
-            interactive: false,
-          }).addTo(map);
-          carRef.current = car;
-          let t0 = performance.now();
-          let seg = 1;
-          const tick = (now: number) => {
-            if (!alive.current || carRef.current !== car) return;
-            let t = now - t0;
-            if (t > CAR_RUN_MS + CAR_REST_MS) {
-              t0 = now;
-              t = 0;
-              seg = 1;
-            }
-            const p = Math.min(1, t / CAR_RUN_MS);
-            const d = easeInOut(p) * total;
-            while (seg < cum.length - 1 && cum[seg]! < d) seg++;
-            const a = pts[seg - 1]!;
-            const b = pts[seg]!;
-            const span = cum[seg]! - cum[seg - 1]! || 1;
-            const f = Math.min(1, Math.max(0, (d - cum[seg - 1]!) / span));
-            car.setLatLng([a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f]);
-            const fade = p < 0.06 ? p / 0.06 : p > 0.94 ? (1 - p) / 0.06 : 1;
-            car.setStyle({ opacity: fade, fillOpacity: fade });
-            rafRef.current = requestAnimationFrame(tick);
-          };
-          rafRef.current = requestAnimationFrame(tick);
-        };
-      })
-      .catch(() => {
-        if (ctrl.signal.aborted || !mapRef.current) return;
-        routeRef.current = L.polyline(endpoints, { ...lineStyle, dashArray: "6 8" }).addTo(map);
-      });
-  }, [active, isAr, dir, mapReady]);
+    return () => {
+      timers.forEach(clearTimeout);
+      cancelAnimationFrame(raf);
+      map.off("moveend", onSettled);
+    };
+  }, [active, isAr, dir, mapReady, seen]);
 
   return (
     <div
