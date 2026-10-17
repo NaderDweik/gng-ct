@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import type { CompoundUnit } from "@/content/compound-units";
 import { compoundCopy } from "@/content/units";
+import { chaletArea } from "@/content/chalet-areas";
 import { formatNumber } from "@/lib/format";
 import { useDragScroll } from "@/lib/useDragScroll";
 
@@ -115,6 +116,12 @@ export function ChaletListings({
   const shown = filter ? units.filter((u) => compoundOf(u.id) === filter) : units;
   const detail = all.find((u) => u.id === detailId) ?? null;
   const detailOn = detail ? isAvailable(detail.id) : false;
+  /** The chalet's facts: its own area first (content/chalet-areas.ts: from the sheet, or the
+   *  nearest chalet's), then the facts every chalet shares (copy.facts, after its generic area). */
+  const factsOf = (id: string) => {
+    const a = chaletArea(id);
+    return [...(a ? [`${n(a)} ${isAr ? "م²" : "m²"}`] : []), ...copy.facts.slice(1)];
+  };
   // Rotate through the photos in list order, so neighbouring cards differ.
   const lead = (u: CompoundUnit) => {
     const i = units.indexOf(u);
@@ -219,7 +226,7 @@ export function ChaletListings({
               </h3>
               <p className="cx-detail-where">{copy.compound(compoundOf(detail.id))}</p>
               <ul className="cx-facts">
-                {copy.facts.map((f) => (
+                {factsOf(detail.id).map((f) => (
                   <li key={f}>{f}</li>
                 ))}
               </ul>
@@ -280,7 +287,7 @@ export function ChaletListings({
                       </span>
                       <span className="cx-shop-where">{copy.compound(compoundOf(u.id))}</span>
                       <span className="cx-shop-facts">
-                        {copy.facts[0]} · {copy.facts[1]}
+                        {factsOf(u.id).slice(0, 2).join(" · ")}
                       </span>
                       <span className="cx-shop-more">
                         {copy.details}

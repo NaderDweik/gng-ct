@@ -83,6 +83,10 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 | `/news` | الأخبار | Thin | Seed articles from `content/news.ts` + `[slug]` |
 | `/news/[slug]` | مقال | Thin | Article template |
 
+**Location (2026-10-17):** the compound's pin is 31.7330683, 36.1140802 (`site.coordinates`, Plus Code 8G3RP4M7+6J; `site.mapsUrl` points there). Places of interest, in the client's order: Isra University 24 km · 3rd Circle (Le Royal Hotel) 41 km · Ibn Sina University 30 km · Luminus College 40 km · Qasr al-Mushatta 12 km · IKEA 29 km (`content/location.ts`; OSRM driving distances, rounded). Roads: `node scripts/location-routes.mjs` after moving the pin or a place.
+
+**Chalet areas:** `content/chalet-areas.ts`, generated from the client's sheet «مساحات شاليهات.xlsx» (392 of 446 chalets); shown on /compound cards and details. A chalet number listed twice is read as the chalet then its "+" chalet; unclear rows are left out (no area shown).
+
 ⚠️ **Services ≠ Amenities:** company offerings vs on-site facilities.
 
 **Transparent header** (scroll → solid): `/`, `/about`, `/register`, `/gallery`.

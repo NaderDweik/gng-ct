@@ -13,7 +13,7 @@ export const site = {
   whatsappUrl: "https://wa.me/962790029928",
   email: "",
   siteUrl: "https://giving-estate.com",
-  mapsUrl: "https://maps.app.goo.gl/SBg2mNzHCV7xffLR8",
+  mapsUrl: "https://www.google.com/maps?q=31.7330683,36.1140802&z=17",
   mapsEmbed:
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3385.5!2d35.9301!3d31.9497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDU2JzU5LjAiTiAzNcKwNTUnNDguNCJF!5e0!3m2!1sen!2sjo!4v1",
   locationAr: "٤١ كم من فندق الرويال باتجاه سحاب الحطمية",
@@ -22,7 +22,7 @@ export const site = {
   salesOfficeAr: "فندق الرويال، الطابق الأول، عمّان، الأردن",
   salesOfficeEn: "Le Royal Hotel, First Floor, Amman, Jordan",
   /** Project pin — Al Matabba (Google Maps link above). */
-  coordinates: { lat: 31.796929, lng: 36.1855906 },
+  coordinates: { lat: 31.7330683, lng: 36.1140802 },
   social: {
     instagram: "https://www.instagram.com/spiritgivingdevelopment/",
     facebook: "https://www.facebook.com/SpiritGivingDevelopment/",

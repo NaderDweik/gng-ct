@@ -162,7 +162,7 @@ export default async function HomePage({ params }: Props) {
             <p className="section-eyebrow">{isAr ? "الطريق إلينا" : "Getting here"}</p>
             {/* Inline margins: .section-title's own margin shorthand outranks mx-auto. */}
             <h2 className="section-title" style={{ marginInline: "auto", marginBottom: 0 }}>
-              {isAr ? "25 كم من جامعة الإسراء عبر طريق القسطل" : "25 km from Isra University via Al-Qastal Road"}
+              {isAr ? "٢٤ كم من جامعة الإسراء عبر طريق القسطل" : "24 km from Isra University via Al-Qastal Road"}
             </h2>
           </header>
           <LocationShowcase />
