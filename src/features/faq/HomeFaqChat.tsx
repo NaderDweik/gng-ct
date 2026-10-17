@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Link } from "@/i18n/navigation";
 import type { FaqItem } from "@/content/faq";
-import { basePriceJd, cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct } from "@/content/pricing";
+import { basePriceJd, cashDiscountPct, cashPriceJd } from "@/content/pricing";
 import { royalDrive } from "@/content/location";
 import { site } from "@/content/site";
 import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
@@ -59,9 +59,9 @@ const copy = {
     stamp: "Tabou",
     interest: "interest",
     noBank: "Direct with the company, no bank in between.",
-    perMonth: "/ month",
+    byTerms: "by down payment & term",
     off: "off",
-    monthly: "Monthly installment",
+    monthly: "Your monthly installment depends on your down payment and term.",
   },
   ar: {
     eyebrow: "الأسئلة الشائعة",
@@ -90,9 +90,9 @@ const copy = {
     stamp: "طابو",
     interest: "فوائد",
     noBank: "مباشرة مع الشركة، بدون أي بنك.",
-    perMonth: "شهريًا",
+    byTerms: "حسب الدفعة والمدة",
     off: "خصم",
-    monthly: "القسط الشهري",
+    monthly: "يعتمد قسطك الشهري على الدفعة الأولى والمدة التي تختارها.",
   },
 } as const;
 
@@ -294,7 +294,7 @@ function PlansVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
   const ref = useRef<HTMLDivElement>(null);
   // Two ways to pay; the bar is what the chalet costs you in total.
   const ways = [
-    { id: "installments", label: c.installments, fill: 100, value: `${fmt(monthlyPct)}%`, note: c.perMonth },
+    { id: "installments", label: c.installments, fill: 100, value: "", note: c.byTerms },
     { id: "cash", label: c.cash, fill: (cashPriceJd / basePriceJd) * 100, value: `${fmt(cashDiscountPct)}%`, note: c.off },
   ];
   useGSAP(
@@ -320,7 +320,7 @@ function PlansVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
         </div>
       ))}
       <p className="fq-plan-foot">
-        {c.monthly} <b>{fmt(monthlyJd)}</b> {c.jd}
+        {c.monthly}
       </p>
     </div>
   );

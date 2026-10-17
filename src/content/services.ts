@@ -10,7 +10,8 @@
 /** Line icons drawn in features/services/ServiceIcon.tsx. */
 export type ServiceIconName =
   | "gate" | "shield" | "sprout" | "sparkle" | "drop" | "wrench" | "cart" | "cup" | "bolt"
-  | "road" | "golf" | "trees" | "bike" | "bell" | "mosque" | "flower" | "crane";
+  | "road" | "golf" | "trees" | "bike" | "bell" | "mosque" | "flower" | "crane"
+  | "lamp" | "filter" | "well" | "hanger" | "bricks";
 
 export type AvailableService = { id: string; icon: ServiceIconName; titleAr: string; titleEn: string };
 export type UpcomingService = { id: string; titleAr: string; titleEn: string };
@@ -33,16 +34,16 @@ export const availableServices: AvailableService[] = [
   { id: "prayer", icon: "mosque", titleAr: "مصلى", titleEn: "Prayer hall" },
   { id: "sidewalks", icon: "flower", titleAr: "زراعة الأرصفة", titleEn: "Planted sidewalks" },
   { id: "development", icon: "crane", titleAr: "قسم تطوير", titleEn: "Development department" },
+  { id: "street-lights", icon: "lamp", titleAr: "إنارة شوارع", titleEn: "Street lighting" },
+  { id: "water-filter", icon: "filter", titleAr: "فلتر مياه", titleEn: "Water filtration" },
+  { id: "well", icon: "well", titleAr: "بئر ارتوازي", titleEn: "Artesian well" },
+  { id: "dry-clean", icon: "hanger", titleAr: "مركز دراي كلين", titleEn: "Dry cleaning" },
+  { id: "building-materials", icon: "bricks", titleAr: "مركز مواد بناء", titleEn: "Building materials" },
 ];
 
 export const upcomingServices: UpcomingService[] = [
   { id: "helipad", titleAr: "مهبط طيران", titleEn: "Helipad" },
-  { id: "water-filter", titleAr: "فلتر مياه", titleEn: "Water filtration" },
-  { id: "well", titleAr: "بئر ارتوازي", titleEn: "Artesian well" },
-  { id: "street-lights", titleAr: "إنارة شوارع", titleEn: "Street lighting" },
-  { id: "dry-clean", titleAr: "مركز دراي كلين", titleEn: "Dry cleaning" },
   { id: "transport", titleAr: "مواصلات", titleEn: "Transport" },
-  { id: "building-materials", titleAr: "مركز مواد بناء", titleEn: "Building materials" },
   { id: "dog-care", titleAr: "مركز عناية بالكلاب", titleEn: "Dog care" },
   { id: "football", titleAr: "ملعب كرة قدم", titleEn: "Football pitch" },
   { id: "fruit-picking", titleAr: "مركز قطف ثمار", titleEn: "Fruit picking" },
@@ -74,9 +75,9 @@ export const upcomingServices: UpcomingService[] = [
 const C = "/gallery/compoundPics";
 
 /**
- * Photo shown in the /services viewer for each available service. Café and
- * 3-phase power have no photo of their own yet, so they use the closest shot
- * (reception building, solar farm); swap these when real photos exist.
+ * Photo shown in the /services viewer for each available service. Café, 3-phase
+ * power, street lighting, water filtration, the well and dry cleaning have no photo
+ * of their own yet, so they use the closest shot; swap these when real photos exist.
  */
 export const servicePhotos: Record<string, string> = {
   "walls-gates": `${C}/main-entrance-gate-sunset.jpg`,
@@ -96,6 +97,11 @@ export const servicePhotos: Record<string, string> = {
   prayer: `${C}/mosque-at-sunset.jpg`,
   sidewalks: `${C}/palm-roundabout-flower-bed-hd.jpg`,
   development: `${C}/construction-crew-building-walls.jpg`,
+  "street-lights": `${C}/women-walking-compound-n.jpg`,
+  "water-filter": `${C}/water-tower-billboard.jpg`,
+  well: `${C}/water-tower-billboard.jpg`,
+  "dry-clean": `${C}/housekeeping-team.jpg`,
+  "building-materials": `${C}/solar-farm-building-store.jpg`,
 };
 
 export const servicesCopy = {
@@ -103,7 +109,7 @@ export const servicesCopy = {
     available: "متاحة الآن",
     availableSub: "خدمات قائمة يستفيد منها السكان والضيوف اليوم.",
     upcoming: "قريبًا",
-    upcomingSub: "تُفتتح تباعًا مع اكتمال مراحل المشروع.",
+    upcomingSub: "تُفتتح تباعًا مع اكتمال مراحل الكمباوند.",
   },
   en: {
     available: "Available now",
@@ -125,6 +131,6 @@ export const serviceStats = {
     security: "أمن طوال اليوم",
     walls: "أسوار خاصة حول كل شاليه",
     area: "شاليه خاص لكل وحدة",
-    units: "شاليه خاص في المجتمع",
+    units: "شاليه خاص في الكمباوند",
   },
 } as const;

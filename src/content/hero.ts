@@ -51,7 +51,7 @@ export const heroLayered = {
       mobileFocus: "85% 50%",
       titleAr: ["عيش فوق", "التوقعات"],
       titleEn: ["Live Above", "Expectations"],
-      descAr: "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة. شاليهات خاصة بسند ملكية مستقل.",
+      descAr: "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة. شاليهات خاصة بسند ملكية مستقل.",
       descEn: "The first and largest fully-serviced chalet city in the region. Private resorts with an independent deed.",
     },
     {

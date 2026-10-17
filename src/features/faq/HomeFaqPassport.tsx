@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Link } from "@/i18n/navigation";
 import type { FaqItem } from "@/content/faq";
-import { basePriceJd, cashDiscountPct, cashPriceJd, monthlyJd, monthlyPct } from "@/content/pricing";
+import { basePriceJd, cashDiscountPct, cashPriceJd } from "@/content/pricing";
 import { royalDrive } from "@/content/location";
 import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
 
@@ -57,14 +57,14 @@ function stampsFor(isAr: boolean, fmt: Fmt): Record<string, Stamp> {
         price: { shape: "rect", ink: "gold", top: "سعر الشاليه", big: `${fmt(basePriceJd)} د.أ`, sub: `نقدًا −${fmt(cashDiscountPct)}٪ · ${fmt(cashPriceJd)}`, at: { x: 61, y: 22, r: 6 } },
         deed: { shape: "circle", ink: "gold", ring: "سند ملكية مستقل · ٥٠٠ م² · باسمك ·", mark: true, sub: "طابو", at: { x: 33, y: 62, r: -5 } },
         interest: { shape: "oval", ink: "rust", top: "فوائد", big: `${fmt(0)}٪`, sub: "بدون بنك", at: { x: 72, y: 55, r: 11 } },
-        plans: { shape: "rect", ink: "teal", top: "قسط شهري", big: `٪${fmt(monthlyPct)}`, sub: `${fmt(monthlyJd)} د.أ · بدفعة أو بدون`, at: { x: 55, y: 85, r: -6 } },
+        plans: { shape: "rect", ink: "teal", top: "قسط شهري", big: "حسب الدفعة", sub: "والمدة التي تختارها", at: { x: 55, y: 85, r: -6 } },
       }
     : {
         where: { shape: "circle", ink: "slate", ring: "LE ROYAL · TO · GIVING COMPOUND ·", big: `${km} km`, sub: `${min} min`, at: { x: 27, y: 25, r: -9 } },
         price: { shape: "rect", ink: "gold", top: "PRICE PER RESORT", big: `${fmt(basePriceJd)} JD`, sub: `CASH −${cashDiscountPct}% · ${fmt(cashPriceJd)}`, at: { x: 61, y: 22, r: 6 } },
         deed: { shape: "circle", ink: "gold", ring: "INDEPENDENT DEED · 500 m² · IN YOUR NAME ·", mark: true, sub: "TABOU", at: { x: 33, y: 62, r: -5 } },
         interest: { shape: "oval", ink: "rust", top: "INTEREST", big: "0%", sub: "NO BANK", at: { x: 72, y: 55, r: 11 } },
-        plans: { shape: "rect", ink: "teal", top: "MONTHLY", big: `${monthlyPct}%`, sub: `${fmt(monthlyJd)} JD · DOWN OPTIONAL`, at: { x: 55, y: 85, r: -6 } },
+        plans: { shape: "rect", ink: "teal", top: "MONTHLY", big: "YOUR TERMS", sub: "DOWN PAYMENT · DURATION", at: { x: 55, y: 85, r: -6 } },
       };
 }
 

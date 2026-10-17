@@ -39,6 +39,8 @@
 }
 
 .register-panel {
+  /* A grid item: may shrink below its content, so the day row scrolls inside it on phones. */
+  min-width: 0;
   --rp-pad: clamp(1.15rem, 2.2vw, 1.75rem);
   padding: var(--rp-pad);
   background: var(--surface);
@@ -174,7 +176,8 @@
     linear-gradient(160deg, var(--brand-secondary-light) 0%, var(--brand-secondary-deep) 100%);
 }
 
-.register-field span {
+/* The field label only (not spans inside the phone control). */
+.register-field > span {
   display: block;
   margin-bottom: 0.5rem;
   font-size: var(--fs-caption);
@@ -566,4 +569,335 @@
 .register-glide .register-choice:active,
 .register-glide .register-time:active {
   transform: none;
+}
+
+/* ── Phone with country code (features/register/CountryPhoneField): flag + code at the
+   start of the field, always left to right; the country list drops under the field. ── */
+.register-field {
+  position: relative;
+}
+
+.register-phone {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.register-phone:focus-within {
+  border-color: var(--primary-ink);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-ink) 12%, transparent);
+}
+
+.register-phone[aria-invalid="true"] {
+  border-color: var(--register-error);
+}
+
+.register-field .register-phone input {
+  min-width: 0;
+  flex: 1;
+  border: 0;
+  box-shadow: none;
+}
+
+.register-field .register-phone input:focus {
+  box-shadow: none;
+}
+
+.register-cc {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0 0.7rem 0 0.8rem;
+  border-right: 1px solid var(--line);
+  color: var(--ink);
+  font-size: var(--fs-small);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.register-cc:hover,
+.register-cc[aria-expanded="true"] {
+  background: var(--brand-primary-soft);
+}
+
+.register-cc:focus-visible {
+  outline: 2px solid var(--primary-ink);
+  outline-offset: -2px;
+}
+
+.register-flag {
+  width: 1.4rem;
+  height: auto;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 12%, transparent);
+}
+
+.register-cc-chev {
+  width: 0.75rem;
+  height: 0.75rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--muted);
+  transition: transform 0.25s var(--ease);
+}
+
+.register-cc[aria-expanded="true"] .register-cc-chev {
+  transform: rotate(180deg);
+}
+
+.register-cc-list {
+  position: absolute;
+  inset-inline: 0;
+  z-index: 20;
+  max-height: 17rem;
+  margin: 0.35rem 0 0;
+  padding: 0.3rem 0;
+  overflow-y: auto;
+  list-style: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: 0 18px 40px -16px color-mix(in srgb, var(--overlay) 35%, transparent);
+}
+
+.register-cc-opt {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.6rem 0.9rem;
+  color: var(--ink);
+  font-size: var(--fs-small);
+  cursor: pointer;
+}
+
+.register-cc-opt.is-focus {
+  background: var(--brand-primary-soft);
+}
+
+.register-cc-opt[aria-selected="true"] {
+  font-weight: 700;
+}
+
+.register-cc-name {
+  flex: 1;
+}
+
+.register-cc-code {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Visit picker (features/register/VisitPicker): six day tiles, then ten hour tiles, each
+   with its status under it. Booked ones stay visible, greyed and struck through. ── */
+.register-days,
+.register-slots {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.register-days {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.register-slots {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Phones: the days scroll sideways in one row (snapping to each tile). */
+@media (max-width: 639px) {
+  .register-days {
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: 6.75rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .register-days::-webkit-scrollbar {
+    display: none;
+  }
+
+  .register-day {
+    scroll-snap-align: start;
+  }
+
+  /* Edge fades + round arrows over the row (VisitPicker); each goes once its end is reached
+     (data-at-start / data-at-end from useDragScroll). */
+  .register-days-wrap {
+    position: relative;
+  }
+
+  .register-days-edge {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    width: 3.5rem;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .register-days-edge.is-start {
+    left: 0;
+    justify-content: flex-start;
+    background: linear-gradient(to right, var(--surface) 35%, transparent);
+  }
+
+  .register-days-edge.is-end {
+    right: 0;
+    justify-content: flex-end;
+    background: linear-gradient(to left, var(--surface) 35%, transparent);
+  }
+
+  [dir="rtl"] .register-days-edge.is-start {
+    right: 0;
+    left: auto;
+    background: linear-gradient(to left, var(--surface) 35%, transparent);
+  }
+
+  [dir="rtl"] .register-days-edge.is-end {
+    left: 0;
+    right: auto;
+    background: linear-gradient(to right, var(--surface) 35%, transparent);
+  }
+
+  .register-days[data-at-start] ~ .register-days-edge.is-start,
+  .register-days[data-at-end] ~ .register-days-edge.is-end {
+    opacity: 0;
+  }
+
+  .register-days[data-at-start] ~ .register-days-edge.is-start button,
+  .register-days[data-at-end] ~ .register-days-edge.is-end button {
+    pointer-events: none;
+  }
+
+  .register-days-edge button {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--black) 14%, transparent);
+    pointer-events: auto;
+  }
+
+  .register-days-edge svg {
+    width: 1rem;
+    height: 1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}
+
+/* Wider screens: all six days fit, so no arrows. */
+@media (min-width: 640px) {
+  .register-days-edge {
+    display: none;
+  }
+}
+
+@media (min-width: 640px) {
+  .register-days {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .register-slots {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.register-day,
+.register-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.6rem 0.4rem;
+  border: 1px solid var(--line);
+  color: var(--ink);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    color 0.3s ease 0.15s,
+    border-color 0.25s ease;
+}
+
+.register-day.is-placeholder {
+  min-height: 3.9rem; /* a day tile's height (name + date), so nothing shifts when they load */
+  border-style: dashed;
+}
+
+.register-day:not(:disabled):hover,
+.register-slot:not(:disabled):hover {
+  border-color: color-mix(in srgb, var(--primary-ink) 35%, transparent);
+}
+
+.register-day-name,
+.register-slot-time {
+  font-size: var(--fs-small);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.register-day-date {
+  font-size: var(--fs-caption);
+  color: var(--muted);
+}
+
+.register-slot-status {
+  font-size: var(--fs-caption);
+  font-weight: 600;
+  color: var(--primary-ink);
+}
+
+/* Chosen: white text on the gliding green tile. */
+.register-day.is-active,
+.register-slot.is-active {
+  border-color: transparent;
+}
+
+.register-day.is-active *,
+.register-slot.is-active * {
+  color: var(--on-primary);
+}
+
+/* Booked («محجوز»): can't be chosen. */
+.register-day.is-booked,
+.register-slot.is-booked {
+  border-style: dashed;
+  background: var(--surface-alt);
+  cursor: not-allowed;
+}
+
+.register-day.is-booked .register-day-name,
+.register-day.is-booked .register-day-date,
+.register-slot.is-booked .register-slot-time {
+  color: var(--subtle);
+  text-decoration: line-through;
+}
+
+.register-day.is-booked .register-slot-status,
+.register-slot.is-booked .register-slot-status {
+  color: var(--muted);
+}
+
+.register-glide .register-day,
+.register-glide .register-slot:not(.is-booked) {
+  background: transparent;
 }

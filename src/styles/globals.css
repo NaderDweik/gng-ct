@@ -26,7 +26,6 @@
 
 @import "./sections/home.css";
 @import "./sections/gallery-mosaic.css";
-@import "./sections/pricing.css";
 @import "./sections/faq.css";
 @import "./sections/legal.css";
 @import "./sections/faq-passport.css";
@@ -37,7 +36,6 @@
 @import "./sections/leadership.css";
 @import "./sections/register.css";
 @import "./sections/about.css";
-@import "./sections/financing.css";
 @import "./sections/register-cta.css";
 @import "./sections/location-map.css";
 @import "./sections/gallery.css";

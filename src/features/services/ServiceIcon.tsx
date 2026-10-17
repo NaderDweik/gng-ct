@@ -24,6 +24,11 @@ const paths: Record<ServiceIconName, ReactNode> = {
   sprout: (<><path d="M12 20v-8" /><path d="M12 12c0-4 3-6.5 7-6.5 0 4-3 6.5-7 6.5z" /><path d="M12 14.5c0-3-2.5-5-6-5 0 3 2.5 5 6 5z" /><path d="M7 20h10" /></>),
   flower: (<><path d="M12 11c-3 0-4.5-2.5-4.5-6l2.2 1.5L12 3.5l2.3 3L16.5 5c0 3.5-1.5 6-4.5 6z" /><path d="M12 11v7" /><path d="M12 15.5c-1.5-2-3.5-2.3-5-1.5 1 2 3 2.5 5 1.5z" /><path d="M3 20h18" /></>),
   crane: (<><path d="M6 21V3" /><path d="M3 21h7" /><path d="M6 3h14" /><path d="M6 7l4-4" /><path d="M17 3v6" /><path d="M15 9h4v3h-4z" /></>),
+  lamp: (<><path d="M8 21V6a3 3 0 0 1 3-3h3" /><path d="M5 21h6" /><path d="M13 6h6l-1.5 3h-3z" /><path d="M16 11.5v1.5" /><path d="M13.5 12.5l-1 1M18.5 12.5l1 1" /></>),
+  filter: (<><path d="M4 4h16l-6 7.5V18l-4 2v-8.5z" /></>),
+  well: (<><path d="M5 12h14v8H5z" /><path d="M5 16h14" /><path d="M6 12V6M18 12V6" /><path d="M4 6h16" /><path d="M12 6v4" /><path d="M10.5 10h3" /></>),
+  hanger: (<><path d="M10 6a2 2 0 1 1 2 2v2" /><path d="M12 10l-8.5 6.5a1 1 0 0 0 .6 1.8h15.8a1 1 0 0 0 .6-1.8z" /></>),
+  bricks: (<><path d="M3 8h18v12H3z" /><path d="M3 12h18M3 16h18" /><path d="M9 8v4M15 8v4M6 12v4M12 12v4M18 12v4M9 16v4M15 16v4" /></>),
 };
 
 export function ServiceIcon({ name, className }: { name: ServiceIconName; className?: string }) {

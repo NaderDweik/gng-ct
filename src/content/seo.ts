@@ -10,7 +10,6 @@ export type SeoRoute =
   | "/about"
   | "/gallery"
   | "/services"
-  | "/financing"
   | "/leadership"
   | "/amenities"
   | "/location"
@@ -34,7 +33,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "روح العطاء | شاليهات خاصة للبيع في الأردن بمسبح خاص",
     titleEn: "Giving Compound | Private Chalets for Sale in Jordan",
     descAr:
-      "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة قرب عمّان. ٣٦٧+ شاليه خاص بمساحة ٥٠٠ م²، مسبح خاص وسند ملكية مستقل، وتقسيط بدون فوائد.",
+      "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة قرب عمّان. ٣٦٧+ شاليه خاص بمساحة ٥٠٠ م²، مسبح خاص وسند ملكية مستقل، وتقسيط بدون فوائد.",
     descEn:
       "The first and largest fully-serviced chalet city in the region, near Amman. 367+ private 500 m² chalets with their own pool, an independent deed and 0% installments.",
   },
@@ -42,7 +41,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "من نحن: شركة العطاء للتطوير العقاري",
     titleEn: "About Us: Al-Ataa City Development",
     descAr:
-      "تعرّف على شركة العطاء للتطوير العقاري ومشروع روح العطاء: ٥٠٠,٠٠٠ م²، ٣٦٧+ شاليه بتصميم إسباني، وشهادة جودة ISO 9001:2015.",
+      "تعرّف على شركة العطاء للتطوير العقاري وكمباوند روح العطاء: ٥٠٠,٠٠٠ م²، ٣٦٧+ شاليه بتصميم إسباني، وشهادة جودة ISO 9001:2015.",
     descEn:
       "Meet Al-Ataa for City Development & Financing, the developer of Giving Compound: 500,000 m², 367+ Spanish-style chalets and ISO 9001:2015 certified quality.",
   },
@@ -62,27 +61,19 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     descEn:
       "What Al-Ataa does for chalet owners: development and finishing, direct 0% financing with no bank, property management and legal support for your title deed.",
   },
-  "/financing": {
-    titleAr: "تقسيط شاليه بدون فوائد وبدون بنك | خطط الدفع",
-    titleEn: "Chalet Financing: 0% Interest, No Bank",
-    descAr:
-      "اشترِ شاليهك مباشرة من الشركة بدون بنك وبدون فوائد: سعر ١٦٨,٠٠٠ دينار، أقساط شهرية ١٪ من السعر، أو خصم ٢٤٪ عند الدفع نقدًا. احسب خطتك الآن.",
-    descEn:
-      "Buy your chalet directly from the developer with no bank and 0% interest: 168,000 JD, monthly installments of 1% of the price, or 24% off for cash. Plan yours now.",
-  },
   "/leadership": {
     titleAr: "الإدارة: د. طارق قازان، مؤسس روح العطاء",
     titleEn: "Leadership: Dr. Tarek Qazan, Founder",
     descAr:
-      "تعرّف على د. طارق قازان مؤسس شركة العطاء للتطوير العقاري، ورؤيته في بناء أول مدينة شاليهات مخدومة بالكامل في المنطقة.",
+      "تعرّف على د. طارق قازان مؤسس شركة العطاء للتطوير العقاري، ورؤيته في بناء أول كمباوند شاليهات مخدوم بالكامل في المنطقة.",
     descEn:
       "Meet Dr. Tarek Qazan, founder of Al-Ataa for City Development & Financing, and the principles behind the region's first fully-serviced chalet city.",
   },
   "/amenities": {
-    titleAr: "مرافق المشروع: أمن ٢٤/٧، مسابح وحدائق",
+    titleAr: "مرافق الكمباوند: أمن ٢٤/٧، مسابح وحدائق",
     titleEn: "Amenities: 24/7 Security, Pools & Gardens",
     descAr:
-      "مرافق مجتمع روح العطاء المسوّر: حراسة وكاميرات على مدار الساعة، إنترنت ألياف ضوئية، مسابح مفلترة، حدائق، ملاعب أطفال ومواقف لكل شاليه.",
+      "مرافق كمباوند روح العطاء المسوّر: حراسة وكاميرات على مدار الساعة، إنترنت ألياف ضوئية، مسابح مفلترة، حدائق، ملاعب أطفال ومواقف لكل شاليه.",
     descEn:
       "Inside gated Giving Compound: 24/7 guards and cameras, fiber internet, filtered pools, landscaped gardens, kids play areas and parking per chalet.",
   },
@@ -98,7 +89,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "الأخبار والمقالات: الاستثمار في الشاليهات بالأردن",
     titleEn: "News: Chalet Investment in Jordan",
     descAr:
-      "مقالات وأخبار روح العطاء: الاستثمار العقاري في الشاليهات، خطط الدفع بدون فوائد، جودة البناء ISO، التصميم الإسباني والحياة داخل المجتمع.",
+      "مقالات وأخبار روح العطاء: الاستثمار العقاري في الشاليهات، خطط الدفع بدون فوائد، جودة البناء ISO، التصميم الإسباني والحياة داخل الكمباوند.",
     descEn:
       "Giving Compound news and guides: chalet investment in Jordan, 0% payment plans, ISO build quality, Spanish design and everyday life in the community.",
   },
@@ -111,18 +102,18 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
       "Clear answers before you buy: chalet price, 0% installment plans, the independent title deed, build specs, location and security at Giving Compound.",
   },
   "/register": {
-    titleAr: "سجّل اهتمامك: احجز زيارة أو استشارة تمويل",
-    titleEn: "Register Interest: Book a Site Visit",
+    titleAr: "احجز زيارتك لمكتب المبيعات",
+    titleEn: "Book a Sales Office Visit",
     descAr:
-      "سجّل اهتمامك بشاليه في روح العطاء واحجز زيارة للموقع أو استشارة تمويل. يرد عليك فريق المبيعات في أقرب وقت ممكن عبر واتساب أو الهاتف.",
+      "احجز موعد زيارتك لمكتب مبيعات روح العطاء في فندق الرويال، من السبت إلى الخميس بين ١٠ صباحًا و٦ مساءً، ونؤكد موعدك عبر واتساب.",
     descEn:
-      "Register your interest in a Giving Compound chalet and book a site visit or financing call. Our sales team replies by WhatsApp or phone.",
+      "Book a visit to the Giving Compound sales office at Le Royal Hotel, Saturday to Thursday between 10 am and 6 pm. We confirm your visit on WhatsApp.",
   },
   "/chalet": {
     titleAr: "الشاليه: تصميم ٥٠٠ م² في روح العطاء",
     titleEn: "The Chalet: Inside the 500 m² Layout",
     descAr:
-      "اطّلع على مخطط شاليه روح العطاء: ٥٠٠ م² بسند مستقل، ٣ غرف نوم، مسبح كبير ومسبح أطفال، جاكوزي، برجولا ومنطقة شواء داخل مجتمع مسوّر.",
+      "اطّلع على مخطط شاليه روح العطاء: ٥٠٠ م² بسند مستقل، ٣ غرف نوم، مسبح كبير ومسبح أطفال، جاكوزي، برجولا ومنطقة شواء داخل كمباوند مسوّر.",
     descEn:
       "Explore the Giving Compound chalet plan: 500 m² with its own deed, 3 bedrooms, a main and kids pool, jacuzzi, pergola and BBQ, inside a gated community.",
   },

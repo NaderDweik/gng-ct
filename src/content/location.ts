@@ -6,7 +6,7 @@ export const locationCopy = {
   titleAr: "25 كم من جامعة الإسراء عبر طريق القسطل",
   titleEn: "25 km from Isra University via Al-Qastal Road",
   subAr:
-    "يقع روح العطاء في المطبّة، على بُعد ٤١ كم من فندق الرويال باتجاه سحاب الحطمية. مجتمع مسوّر بهواء أنظف ومساحة أوسع، مع وصول سهل إلى عمّان والمطار.",
+    "يقع روح العطاء في المطبّة، على بُعد ٤١ كم من فندق الرويال باتجاه سحاب الحطمية. كمباوند مسوّر بهواء أنظف ومساحة أوسع، مع وصول سهل إلى عمّان والمطار.",
   subEn:
     "Giving Compound sits in Al Matabba, 41 km from Le Royal Hotel towards Sahab Al-Hatmiyeh. A gated community with cleaner air and more space, with easy access to Amman and the airport.",
   addressLabelAr: "العنوان",

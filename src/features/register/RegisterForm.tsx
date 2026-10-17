@@ -4,21 +4,17 @@ import { FormEvent, useRef, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { site } from "@/content/site";
 import { Link } from "@/i18n/navigation";
-import { GlideIndicator } from "@/components/ui/GlideIndicator";
 import { track } from "@/lib/analytics";
 import { registerSource } from "@/components/analytics/registerSource";
-import {
-  MESSAGE_MAX,
-  NAME_MAX,
-  PHONE_MAX,
-  validateLead,
-  type Interest,
-  type LeadField,
-  type TimeSlot,
-} from "@/features/register/leadRules";
+import { defaultCountry, type CountryIso } from "@/content/countries";
+import { MESSAGE_MAX, NAME_MAX, normalizePhone, validateLead, type LeadField } from "@/features/register/leadRules";
+import { CountryPhoneField } from "@/features/register/CountryPhoneField";
+import { useChaletParam } from "@/features/register/RegisterHeading";
+import { VisitPicker, dayLabel, hourLabel, type VisitDay } from "@/features/register/VisitPicker";
 
 // No server: the form is checked here, then the visitor's own WhatsApp opens a chat with the
-// sales number (site.whatsapp) with the lead written out, and they press send.
+// sales number (site.whatsapp) with the visit request written out, and they press send.
+// The page books sales-office visits only (no call-back or financing requests).
 
 export function RegisterForm() {
   const t = useTranslations("register");
@@ -28,50 +24,33 @@ export function RegisterForm() {
   const lang = isAr ? "ar" : "en";
 
   const [name, setName] = useState("");
+  const [country, setCountry] = useState<CountryIso>(defaultCountry);
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
-  const [time, setTime] = useState<TimeSlot>("morning");
-  const [interest, setInterest] = useState<Interest>("financing");
+  const [day, setDay] = useState<VisitDay | null>(null);
+  const [hour, setHour] = useState<number | null>(null);
   const [errors, setErrors] = useState<Partial<Record<LeadField, string>>>({});
   const [opened, setOpened] = useState(false);
   const started = useRef(false);
 
-  const interests: { id: Interest; labelAr: string; labelEn: string }[] = [
-    {
-      id: "financing",
-      labelAr: "التمويل",
-      labelEn: "Financing",
-    },
-    {
-      id: "visit",
-      labelAr: "زيارة الموقع",
-      labelEn: "Site visit",
-    },
-  ];
+  const slot = day && hour !== null ? `${day.key} ${hour}:00` : null;
 
-  const times: { id: TimeSlot; label: string }[] = [
-    { id: "morning", label: t("morning") },
-    { id: "afternoon", label: t("afternoon") },
-    { id: "evening", label: t("evening") },
-  ];
+  // Arriving from the compound map (/register?chalet=D24): named in the panel title
+  // (RegisterHeading) and in the WhatsApp message.
+  const chalet = useChaletParam();
 
-
-  /** wa.me chat with the sales number, the lead already typed in. */
+  /** wa.me chat with the sales number, the visit request already typed in. */
   function whatsAppUrl() {
-    const timeLabel = times.find((x) => x.id === time)?.label ?? time;
-    const interestLabel = interests.find((x) => x.id === interest);
-    const interestText = interestLabel
-      ? isAr
-        ? interestLabel.labelAr
-        : interestLabel.labelEn
-      : interest;
+    const full = normalizePhone(country, phone);
+    const when = day && hour !== null ? `${dayLabel(day.date, locale)}، ${hourLabel(hour, locale)}` : "";
 
     const text = [
-      isAr ? "تسجيل اهتمام: روح العطاء" : "Register interest: Giving Compound",
+      isAr ? "طلب زيارة لمكتب المبيعات: روح العطاء" : "Sales office visit request: Giving Compound",
       `${isAr ? "الاسم" : "Name"}: ${name.trim()}`,
-      `${isAr ? "الهاتف" : "Phone"}: ${phone.trim()}`,
-      `${isAr ? "الاهتمام" : "Interest"}: ${interestText}`,
-      `${isAr ? "الوقت المفضل" : "Preferred time"}: ${timeLabel}`,
+      `${isAr ? "الهاتف" : "Phone"}: ${full ? `+${full}` : phone.trim()}`,
+      chalet ? `${isAr ? "الشاليه" : "Chalet"}: ${chalet}` : "",
+      `${isAr ? "موعد الزيارة" : "Visit"}: ${isAr ? when : when.replace("،", ",")}`,
+      `${isAr ? "المكان" : "Place"}: ${isAr ? site.salesOfficeAr : site.salesOfficeEn}`,
       message.trim() ? `${isAr ? "الرسالة" : "Message"}: ${message.trim()}` : "",
     ]
       .filter(Boolean)
@@ -83,19 +62,21 @@ export function RegisterForm() {
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const found = validateLead({ name, phone, message }, lang);
+    const found = validateLead({ name, country, phone, slot, message }, lang);
     setErrors(found);
     if (Object.keys(found).length) {
       track("register_error", { fields: Object.keys(found).join(","), ...registerSource() });
       setOpened(false);
       const first = Object.keys(found)[0];
-      e.currentTarget.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
+      e.currentTarget
+        .querySelector<HTMLElement>(first === "slot" ? ".register-slots button:not(:disabled)" : `[name="${first}"]`)
+        ?.focus();
       return;
     }
 
     // Still inside the tap, so the browser lets WhatsApp open; the link below covers the rest.
     window.open(whatsAppUrl(), "_blank", "noopener,noreferrer");
-    track("register_sent", { interest, time, ...registerSource() });
+    track("register_sent", { visit_day: day?.key ?? "", visit_hour: hour ?? -1, country, chalet: chalet ?? "", ...registerSource() });
     setOpened(true);
   }
 
@@ -113,33 +94,6 @@ export function RegisterForm() {
       noValidate
       className="register-form space-y-5"
     >
-      <div>
-        <p className="register-group-label mb-2 text-xs font-bold uppercase tracking-[0.18em] text-muted">
-          {isAr ? "أنا مهتم بـ" : "I'm interested in"}
-        </p>
-        <div role="radiogroup" aria-label={isAr ? "نوع الاهتمام" : "Interest type"} className="register-glide grid grid-cols-2 gap-2">
-          <GlideIndicator watch={interest} className="register-glide-pill register-glide-pill--choice" />
-          {interests.map((item) => {
-            const active = interest === item.id;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                role="radio"
-                aria-checked={active}
-                onClick={() => setInterest(item.id)}
-                className={`register-choice ${active ? "is-active" : ""}`}
-              >
-                <span className="register-radio" aria-hidden />
-                <span className="block text-sm font-bold text-ink">
-                  {isAr ? item.labelAr : item.labelEn}
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="register-field block">
           <span>{t("name")}</span>
@@ -160,52 +114,42 @@ export function RegisterForm() {
           {errors.name && <em id={errorId("name")} className="register-error">{errors.name}</em>}
         </label>
 
-        <label className="register-field block">
-          <span>{t("phone")}</span>
-          <input
-            required
-            name="phone"
-            type="tel"
-            inputMode="tel"
-            autoComplete="tel"
-            dir="ltr"
-            maxLength={PHONE_MAX}
-            placeholder="+962 70 000 0000"
-            value={phone}
-            aria-invalid={!!errors.phone}
-            aria-describedby={errorId("phone")}
-            onChange={(e) => {
-              setPhone(e.target.value);
-              clearError("phone");
-            }}
-          />
-          {errors.phone && <em id={errorId("phone")} className="register-error">{errors.phone}</em>}
-        </label>
+        <CountryPhoneField
+          label={t("phone")}
+          country={country}
+          phone={phone}
+          isAr={isAr}
+          error={errors.phone}
+          errorId={errorId("phone")}
+          onCountry={(iso) => {
+            setCountry(iso);
+            clearError("phone");
+          }}
+          onPhone={(v) => {
+            setPhone(v);
+            clearError("phone");
+          }}
+        />
       </div>
 
-      <div>
-        <p className="register-group-label mb-2 text-xs font-bold uppercase tracking-[0.18em] text-muted">
-          {t("preferredTime")}
-        </p>
-        <div role="radiogroup" aria-label={t("preferredTime")} className="register-times register-glide flex flex-wrap gap-2">
-          <GlideIndicator watch={time} className="register-glide-pill register-glide-pill--time" />
-          {times.map((item) => {
-            const active = time === item.id;
-            return (
-              <button
-                key={item.id}
-                type="button"
-                role="radio"
-                aria-checked={active}
-                onClick={() => setTime(item.id)}
-                className={`register-time ${active ? "is-active" : ""}`}
-              >
-                {item.label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
+      <VisitPicker
+        locale={locale}
+        day={day}
+        hour={hour}
+        onDay={(d) => {
+          setDay(d);
+          if (hour !== null && d.booked.includes(hour)) setHour(null);
+          clearError("slot");
+        }}
+        onHour={(h) => {
+          setHour(h);
+          clearError("slot");
+        }}
+        dayLabelText={t("visitDay")}
+        hourLabelText={t("visitHour")}
+        error={errors.slot}
+        errorId={errorId("slot")}
+      />
 
       <label className="register-field block">
         <span>{t("message")}</span>

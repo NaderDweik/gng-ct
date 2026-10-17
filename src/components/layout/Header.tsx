@@ -14,7 +14,6 @@ const primaryNav = [
   { href: "/compound", labelAr: "الكمباوند", labelEn: "Compound" },
   { href: "/chalet", labelAr: "الشاليه", labelEn: "Chalet" },
   { href: "/amenities", labelAr: "المرافق", labelEn: "Amenities" },
-  { href: "/financing", labelAr: "التمويل", labelEn: "Financing" },
 ] as const;
 
 export function Header() {

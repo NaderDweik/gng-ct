@@ -11,7 +11,7 @@
 ## 1. Company Overview
 
 ### Identity
-- **Arabic Name:** شركة العطاء للتطوير والتمويل العمراني
+- **Arabic Name:** شركة العطاء للتطوير العقاري
 - **English Name:** Al-Ataa for City Development & Financing
 - **Project/Brand Name:** Giving Compound / Giving Compound Resorts / روح العطاء للتطوير العقاري
 - **Instagram:** [@spiritgivingdevelopment](https://www.instagram.com/spiritgivingdevelopment/)
@@ -194,8 +194,8 @@ The new website will have **13 pages**, agreed upon with Dr. Tarek Qazan. Below 
 - Professional photos of team
 - Company organizational structure (optional)
 
-### Page 7: مرافق المشروع — Project Amenities & Utilities
-**Suggested Arabic name:** "مرافق المشروع" instead of "الخدمات والمرافق" to clearly differentiate from page 3 (خدماتنا).
+### Page 7: مرافق الكمباوند — Project Amenities & Utilities
+**Suggested Arabic name:** "مرافق الكمباوند" instead of "الخدمات والمرافق" to clearly differentiate from page 3 (خدماتنا).
 **Purpose:** Detail the **on-site infrastructure, utilities, and amenities** inside the Giving Compound community itself.
 **Content needed:**
 - Security services (gated community, cameras, 24/7 guards)
@@ -396,7 +396,7 @@ Use these phrases consistently across the website:
 
 | Arabic | English |
 |--------|---------|
-| أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة | First and largest fully-serviced chalet city in the region |
+| أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة | First and largest fully-serviced chalet city in the region |
 | ٣٦٧+ شاليه خاص | 367+ private resorts |
 | ٥٠٠,٠٠٠ متر مربع | 500,000 square meters |
 | سند ملكية مستقل | Independent ownership deed |
@@ -412,7 +412,7 @@ Use these phrases consistently across the website:
 
 - [ ] Logo / brand assets from client
 - [ ] Professional photography (high-res)
-- [x] ~~Confirmation: Are pages 3 and 7 separate or merged?~~ **CONFIRMED: Separate.** Page 3 = company services (خدماتنا), Page 7 = on-site amenities (مرافق المشروع)
+- [x] ~~Confirmation: Are pages 3 and 7 separate or merged?~~ **CONFIRMED: Separate.** Page 3 = company services (خدماتنا), Page 7 = on-site amenities (مرافق الكمباوند)
 - [ ] Master plan image / layout for page 4
 - [ ] Team member details for page 6 (الإدارة)
 - [ ] Available units data for page 13 (which units are sold/available)

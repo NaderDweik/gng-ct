@@ -12,11 +12,10 @@ import {
   type PointerEvent,
 } from "react";
 import Image from "next/image";
-import { Link } from "@/i18n/navigation";
 import { compoundPlanSize as PLAN, compoundUnits, type CompoundUnit } from "@/content/compound-units";
 import { compoundCopy } from "@/content/units";
-import { masterPlanMapSize, masterPlanMapSrc, planItem, unitPlanLineSrc } from "@/content/master-plan";
-import { site } from "@/content/site";
+import { isChaletAvailable } from "@/content/chalet-availability";
+import { AvailableIcon, ChaletListings, UnavailableIcon } from "@/features/units/ChaletListings";
 import { track } from "@/lib/analytics";
 import { useSoftSnap } from "@/lib/useSoftSnap";
 
@@ -25,12 +24,17 @@ import { useSoftSnap } from "@/lib/useSoftSnap";
  * data: content/compound-units.ts). Page header + map share one screen (no scroll needed):
  *   - the plan fills the stage; a blurred copy of it fills any letterbox around it;
  *   - every chalet's number tag is a button: tap one and the map flies to it, drops a pin
- *     and opens its card (WhatsApp question, visit booking, step inside);
+ *     and opens its details in the "Available chalets" sheet (ChaletListings);
  *   - "Pick one for me" flies to a random chalet, for visitors who just want to wander;
- *   - "Step inside a chalet" leads to /chalet (rooms, interiors, the chalet plan);
+ *   - "Step inside a chalet" leads to /chalet (rooms, interiors, the chalet plan); it's the
+ *     first row of the available-chalets list;
  *   - zoom: buttons, double-click, pinch, the wheel (once the map is settled), ctrl+wheel; drag to pan. A small map in
  *     the corner shows where you are once zoomed in.
- * Nothing here says which chalets are taken: every chalet leads to a conversation.
+ *   - availability (content/chalet-availability.ts): chalets on sale are tinted green with a
+ *     check badge and listed in "Available chalets" (ChaletListings: folded, it sits where the
+ *     "step inside" pill was): a bottom sheet on phones, a drawer on the end edge from tablet
+ *     up, with the chalet's details saying "Available" (with "Register interest") or
+ *     "Unavailable" (with a way back to the list).
  *
  * Geometry: the canvas is the plan "contained" in the stage (scale 1); the view is a
  * translate + scale on top of that. Phones (portrait) open at "cover" so the plan fills
@@ -50,20 +54,8 @@ const TAP_RADIUS = 26;
 type View = { s: number; x: number; y: number };
 type Box = { w: number; h: number };
 
-/** "Step inside" thumbnail: the chalet's line plan with the pool in colour, as on /chalet. */
-const THUMB_AREA = planItem("pool")!.areas[0];
-const pct = (v: number, of: number) => `${(v / of) * 100}%`;
-const thumbArea = {
-  left: pct(THUMB_AREA.x, masterPlanMapSize.width),
-  top: pct(THUMB_AREA.y, masterPlanMapSize.height),
-  width: pct(THUMB_AREA.w, masterPlanMapSize.width),
-  height: pct(THUMB_AREA.h, masterPlanMapSize.height),
-  backgroundImage: `url(${masterPlanMapSrc})`,
-  backgroundSize: `${(masterPlanMapSize.width / THUMB_AREA.w) * 100}% ${(masterPlanMapSize.height / THUMB_AREA.h) * 100}%`,
-  backgroundPosition: `${(THUMB_AREA.x / (masterPlanMapSize.width - THUMB_AREA.w)) * 100}% ${(THUMB_AREA.y / (masterPlanMapSize.height - THUMB_AREA.h)) * 100}%`,
-};
-
 const normalize = (q: string) => q.toUpperCase().replace(/[\s-]+/g, "");
+const availableUnits = compoundUnits.filter((u) => isChaletAvailable(u.id));
 const isPhone = (b: Box) => b.w < 768;
 
 export function CompoundPlan({ locale }: { locale: string }) {
@@ -82,6 +74,9 @@ export function CompoundPlan({ locale }: { locale: string }) {
   const [notFound, setNotFound] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [ready, setReady] = useState(false);
+  // "Available chalets" sheet (ChaletListings) and the chalet whose details it shows.
+  const [shopOpen, setShopOpen] = useState(false);
+  const [detailId, setDetailId] = useState<string | null>(null);
 
   const viewRef = useRef(view);
   viewRef.current = view;
@@ -190,9 +185,11 @@ export function CompoundPlan({ locale }: { locale: string }) {
       const s = Math.max(viewRef.current.s, phone ? FOCUS_ZOOM_PHONE : FOCUS_ZOOM_DESKTOP);
       // Card: a side panel on the end edge from tablet up; on phones a bottom sheet, with
       // the intro shrunk to its search bar above.
-      const cardW = phone ? 0 : Math.min(400, b.w * 0.34);
+      // The details open beside it: a drawer on the end edge (26rem), or on phones a sheet
+      // over the lower 62% of the map.
+      const cardW = phone ? 0 : 26 * 16 + 20;
       const top = phone ? 80 : 0;
-      const bottom = phone ? Math.min(400, b.h * 0.5) : 0;
+      const bottom = phone ? b.h * 0.62 : 0;
       const cx = isAr ? cardW + (b.w - cardW) / 2 : (b.w - cardW) / 2;
       const cy = top + (b.h - top - bottom) / 2;
       setView(clamp({ s, x: cx - (u.x / 100) * cw * s, y: cy - (u.y / 100) * ch * s }));
@@ -201,7 +198,10 @@ export function CompoundPlan({ locale }: { locale: string }) {
   );
 
   const pick = useCallback(
-    (u: CompoundUnit, selectionMethod: "map" | "search" | "random") => {
+    (u: CompoundUnit, selectionMethod: "map" | "search" | "random" | "list") => {
+      // Every chalet opens in the sheet's details view, however it was picked.
+      setShopOpen(true);
+      setDetailId(u.id);
       setSelectedId(u.id);
       setNotFound(false);
       flyTo(u);
@@ -215,7 +215,19 @@ export function CompoundPlan({ locale }: { locale: string }) {
     pick(pool[Math.floor(Math.random() * pool.length)]!, "random");
   };
 
-  const close = useCallback(() => setSelectedId(null), []);
+  /** Open or close the sheet; it always opens on the list. */
+  const openShop = useCallback((open: boolean) => {
+    setShopOpen(open);
+    setDetailId(null);
+    setSelectedId(null);
+  }, []);
+
+  /** A chalet's details in the sheet (the map flies to it), or back to the list. */
+  const showDetail = (u: CompoundUnit | null) => {
+    setDetailId(u?.id ?? null);
+    if (u) pick(u, "list");
+    else setSelectedId(null);
+  };
 
   const goHome = () => {
     const b = boxRef.current;
@@ -258,11 +270,11 @@ export function CompoundPlan({ locale }: { locale: string }) {
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape") openShop(false);
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [close]);
+  }, [openShop]);
 
   const onPointerDown = (e: PointerEvent<HTMLDivElement>) => {
     pointers.current.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -381,11 +393,10 @@ export function CompoundPlan({ locale }: { locale: string }) {
     setView(clamp({ s, x: b.w / 2 - fx * cw * s, y: b.h / 2 - fy * ch * s }));
   };
 
-  const waHref = (id: string) => `${site.whatsappUrl}?text=${encodeURIComponent(copy.waMessage(id))}`;
 
   return (
     <section
-      className={`cx${selected ? " has-card" : ""}${atHome ? "" : " is-zoomed"}${ready ? " is-ready" : ""}${hintDone ? " hint-done" : ""}`}
+      className={`cx${shopOpen ? " has-shop" : ""}${atHome ? "" : " is-zoomed"}${ready ? " is-ready" : ""}${hintDone ? " hint-done" : ""}`}
       aria-label={copy.label}
     >
       <div
@@ -436,13 +447,13 @@ export function CompoundPlan({ locale }: { locale: string }) {
             <button
               key={u.id}
               type="button"
-              className={`cx-spot${u.id === selectedId ? " is-selected" : ""}`}
+              className={`cx-spot${u.id === selectedId ? " is-selected" : ""}${isChaletAvailable(u.id) ? " is-available" : ""}${u.id === hoverId ? " is-hover" : ""}`}
               style={
                 u.plot
                   ? { left: `${u.plot.x}%`, top: `${u.plot.y}%`, width: `${u.plot.w}%`, height: `${u.plot.h}%` }
                   : { left: `${u.x}%`, top: `${u.y}%`, width: `${u.w + 0.6}%`, height: `${u.h + 0.8}%` }
               }
-              aria-label={`${copy.chalet} ${u.id}`}
+              aria-label={`${copy.chalet} ${u.id}, ${isChaletAvailable(u.id) ? copy.available : copy.unavailable}`}
               aria-pressed={u.id === selectedId}
               onClick={() => {
                 if (gesture.current.moved > DRAG_THRESHOLD) return;
@@ -453,6 +464,16 @@ export function CompoundPlan({ locale }: { locale: string }) {
             />
           ))}
           {/* Counter-scaled (CSS) so they keep one size at any zoom, and move with the canvas. */}
+          {availableUnits.map((u) => (
+            <span
+              key={u.id}
+              className={`cx-avail${u.id === hoverId ? " is-hover" : ""}${u.id === selectedId ? " is-hidden" : ""}`}
+              style={{ left: `${u.x}%`, top: `${u.y - u.h / 2}%` }}
+              aria-hidden
+            >
+              <AvailableIcon />
+            </span>
+          ))}
           {tip && (
             <span className={`cx-tip${tipOn ? " is-on" : ""}`} style={{ left: `${tip.x}%`, top: `${tip.y}%` }} aria-hidden>
               <span className="cx-tip-body">
@@ -464,8 +485,16 @@ export function CompoundPlan({ locale }: { locale: string }) {
             </span>
           )}
           {selected && (
-            <span className="cx-pin" key={selected.id} style={{ left: `${selected.x}%`, top: `${selected.y}%` }} aria-hidden>
-              <span className="cx-pin-head">{selected.id}</span>
+            <span
+              className={`cx-pin ${isChaletAvailable(selected.id) ? "is-available" : "is-unavailable"}`}
+              key={selected.id}
+              style={{ left: `${selected.x}%`, top: `${selected.y}%` }}
+              aria-hidden
+            >
+              <span className="cx-pin-head">
+                {isChaletAvailable(selected.id) ? <AvailableIcon /> : <UnavailableIcon />}
+                {selected.id}
+              </span>
             </span>
           )}
         </div>
@@ -517,20 +546,6 @@ export function CompoundPlan({ locale }: { locale: string }) {
         </button>
       </div>
 
-      <Link href="/chalet" className="cx-inside">
-        <span className="cx-inside-thumb" aria-hidden>
-          <Image src={unitPlanLineSrc} alt="" fill sizes="96px" className="cx-inside-lines" />
-          <span className="cx-inside-pool" style={thumbArea} />
-        </span>
-        <span className="cx-inside-text">
-          <strong>{copy.inside}</strong>
-          <span>{copy.insideSub}</span>
-        </span>
-        <svg className="cx-inside-arrow" viewBox="0 0 24 24" aria-hidden>
-          <path d={isAr ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"} />
-        </svg>
-      </Link>
-
       <div className="cx-zoom">
         <button type="button" onClick={() => zoomBy(1.7)} disabled={view.s >= MAX_ZOOM} aria-label={copy.zoomIn}>
           <svg viewBox="0 0 24 24" aria-hidden>
@@ -570,48 +585,20 @@ export function CompoundPlan({ locale }: { locale: string }) {
         {box && !isPhone(box) ? copy.hintWheel : copy.hint}
       </p>
 
-      <aside className={`cx-card${selected ? " is-open" : ""}`} aria-live="polite" aria-hidden={!selected}>
-        {selected && (
-          <div className="cx-card-inner" key={selected.id}>
-            <button type="button" className="cx-card-close" onClick={close} aria-label={copy.close}>
-              <svg viewBox="0 0 24 24" aria-hidden>
-                <path d="M6 6l12 12M18 6 6 18" />
-              </svg>
-            </button>
-            <p className="cx-eyebrow">{copy.chalet}</p>
-            <h2 className="cx-card-id" dir="ltr">
-              {selected.id}
-            </h2>
-            <ul className="cx-facts">
-              {copy.facts.map((f) => (
-                <li key={f}>{f}</li>
-              ))}
-            </ul>
-            <p className="cx-pitch">{copy.pitch}</p>
-            <div className="cx-actions">
-              <a
-                href={waHref(selected.id)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cx-btn cx-btn--wa"
-                data-track-chalet={selected.id}
-              >
-                <svg viewBox="0 0 24 24" aria-hidden fill="currentColor">
-                  <path d="M20.5 3.5A11.8 11.8 0 0 0 12.05 0C5.5 0 .15 5.35.15 11.9c0 2.1.55 4.15 1.6 5.95L0 24l6.3-1.65a11.86 11.86 0 0 0 5.75 1.45h.01c6.55 0 11.9-5.35 11.9-11.9 0-3.18-1.24-6.17-3.46-8.4ZM12.05 21.75h-.01a9.84 9.84 0 0 1-5.02-1.37l-.36-.21-3.74.98 1-3.64-.24-.37a9.84 9.84 0 0 1-1.5-5.24c0-5.43 4.42-9.85 9.86-9.85 2.63 0 5.1 1.02 6.96 2.88a9.8 9.8 0 0 1 2.88 6.97c0 5.43-4.42 9.85-9.85 9.85Z" />
-                </svg>
-                {copy.ask(selected.id)}
-              </a>
-              <Link href="/register" className="cx-btn cx-btn--ghost" data-track-chalet={selected.id}>
-                {copy.visit}
-              </Link>
-            </div>
-            <Link href="/chalet" className="cx-card-inside">
-              {copy.insideLink}
-              <span aria-hidden>{isAr ? "←" : "→"}</span>
-            </Link>
-          </div>
-        )}
-      </aside>
+      <ChaletListings
+        units={availableUnits}
+        all={compoundUnits}
+        isAvailable={isChaletAvailable}
+        copy={copy}
+        locale={locale}
+        open={shopOpen}
+        detailId={detailId}
+        hoverId={hoverId}
+        onOpen={openShop}
+        onDetail={showDetail}
+        onHover={(id) => (id ? hoverEnter(id) : hoverId && hoverLeave(hoverId))}
+      />
+
     </section>
   );
 }

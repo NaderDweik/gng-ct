@@ -427,7 +427,7 @@
   line-height: 1.35;
 }
 
-/* ── Coming soon: same tiles, greyed out, fading toward the bottom ── */
+/* ── Coming soon: same tiles, muted but legible ── */
 .svc-soon {
   position: relative;
   margin-top: 0;
@@ -439,9 +439,9 @@
   width: fit-content;
   margin: clamp(2rem, 4vw, 3rem) auto 0;
   padding: clamp(0.9rem, 1.8vw, 1.25rem) clamp(2rem, 4vw, 3.25rem);
-  border: 1px solid color-mix(in srgb, var(--white) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--white) 40%, transparent);
   background: transparent;
-  color: color-mix(in srgb, var(--white) 55%, transparent);
+  color: var(--on-dark);
   font-family: var(--font-display);
   font-size: var(--fs-h2);
   font-weight: 300;
@@ -458,8 +458,8 @@
   display: inline-block;
   margin: 0;
   padding: 0.45rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--white) 22%, transparent);
-  color: var(--on-dark-muted);
+  border: 1px solid var(--brand-accent);
+  color: var(--brand-accent);
   font-size: var(--fs-caption);
   font-weight: 800;
   letter-spacing: 0.22em;
@@ -499,15 +499,14 @@
 }
 
 /*
- * Greyed out: flat, a touch lighter than the band, no border. --fade (rows further
- * down are fainter) and --col (stagger along a row) are measured in ServicesDirectory;
- * tiles fade up into place once they scroll in (.is-in).
+ * Muted next to "Available now" but fully legible: a light fill and hairline border
+ * on the dark band. --col (stagger along a row) is measured in ServicesDirectory;
+ * tiles rise into place once they scroll in (.is-in).
  */
 .svc-tile--soon {
-  --fade: 1;
   --col: 0;
-  border: 0;
-  background: color-mix(in srgb, var(--white) 4%, transparent);
+  border: 1px solid color-mix(in srgb, var(--white) 16%, transparent);
+  background: color-mix(in srgb, var(--white) 9%, transparent);
   opacity: 0;
   transform: translateY(16px);
   transition:
@@ -516,31 +515,8 @@
   transition-delay: calc(var(--col) * 80ms);
 }
 
-/* Traveling border line (driven from ServicesDirectory): one short bright segment
-   that laps a tile's border and moves on along the shortest route to the bottom tile. */
-.svc-tile--soon {
-  position: relative;
-}
-
-.svc-trace {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.svc-trace path {
-  fill: none;
-  stroke: var(--brand-accent);
-  stroke-width: 1.5;
-  stroke-dasharray: 0.2 1;
-  stroke-dashoffset: 0.2;
-}
-
 .svc-tile--soon.is-in {
-  opacity: var(--fade);
+  opacity: 1;
   transform: none;
 }
 
@@ -615,15 +591,15 @@
   transform: none;
 }
 
-/* One light weight for every bento title; only the size changes with the tile. */
+/* One weight for every bento title; only the size changes with the tile. */
 .svc-tile--soon .svc-tile-title {
-  color: var(--on-dark-subtle);
-  font-weight: 300;
+  color: var(--on-dark);
+  font-weight: 400;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .svc-tile--soon {
-    opacity: var(--fade);
+    opacity: 1;
     transform: none;
     transition: none;
   }

@@ -4,7 +4,7 @@
 >
 > **Refresh rule:** After any meaningful product/design/content change, update this file before ending the turn so the next AI session starts current.
 >
-> *Last refreshed: 2026-10-03 (financing simplified, article pages, white labels on primary, no em dashes in copy) · mirrors live codebase under `jordangate-redesign-main/`*
+> *Last refreshed: 2026-10-17 (/financing page removed, Arabic naming: الكمباوند + شركة العطاء للتطوير العقاري, services availability) · mirrors live codebase under `jordangate-redesign-main/`*
 
 ---
 
@@ -12,7 +12,7 @@
 
 | Field | Value |
 |-------|-------|
-| AR company | شركة العطاء للتطوير والتمويل العمراني |
+| AR company | شركة العطاء للتطوير العقاري |
 | EN company | Al-Ataa for City Development & Financing |
 | Brand | Giving Compound / روح العطاء |
 | Contact | د. طارق قازان (Dr. Tarek Qazan) |
@@ -50,16 +50,12 @@ Canonical: `src/content/pricing.ts` (+ mirrored in `site.stats`).
 | | |
 |--|--|
 | Base | **168,000 JD** |
-| Cash | **142,800 JD** (15% off) · immediate move-in |
+| Cash | **128,000 JD** (24% off) |
 | Plans | Direct with company · **0% interest** · no bank |
 
-| Plan | Move-in | Down % | Down JD | Monthly |
-|------|---------|--------|---------|---------|
-| Immediate | 2025 | 35% | 59,000 | from 1,000 JD |
-| Mid-term | 2026 | 25% | 42,000 | from 1,000 JD |
-| Future | 2027 | 15% | 25,000 | from 1,000 JD |
+Installments: **no fixed monthly figure** (the old "1% a month" was removed 2026-10-17 at the client's request). The monthly amount depends on the down payment and the duration the buyer chooses; a calculator where the visitor enters both may come later.
 
-UI: `PricingShowcase` (home/financing) · `PlanCompare`.
+UI: none. The /financing page and `PricingShowcase` were removed 2026-10-17 at the client's request; price figures remain in `content/pricing.ts` for the FAQ and JSON-LD.
 
 ---
 
@@ -67,21 +63,22 @@ UI: `PricingShowcase` (home/financing) · `PlanCompare`.
 
 Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/app/[locale]/`.
 
-**Header primary nav:** About · Gallery · Units · Amenities · Financing (+ Register CTA, locale switch). Full list in `src/content/nav.ts`. Below 1100px the burger opens a full-screen menu that slides in from the burger's side (RTL-aware): centered links, Register, language, logo at the bottom; locks scroll, closes on Escape/route change.
+**Header primary nav:** About · Gallery · Units · Amenities (+ Register CTA, locale switch). Full list in `src/content/nav.ts`. Below 1100px the burger opens a full-screen menu that slides in from the burger's side (RTL-aware): centered links, Register, language, logo at the bottom; locks scroll, closes on Escape/route change.
 
 | Path | AR | Status | Notes |
 |------|----|--------|-------|
-| `/` | الرئيسية | **Polished** | Cinematic layered hero (`features/home/HeroLayered`, GSAP): 3 auto-advancing slides from `content/hero.ts` (tent pavilion + pool · palms + pergola · garden swing), fixed wordmark with per-slide cut-outs in front (`public/hero/*-cutout.webp`, regenerate with `scripts/hero-cutout.mjs`); pins & recedes on scroll. Section order (top → bottom): About intro (`features/home/HomeIntro` — 3:2 crop (sides trimmed) of a 16:9 photo that assembles once in view from `public/home/intro-{sky,walls,chalet,ground,pool}-v2.webp` (sky fades, walls rise, chalet drops, ground rises, pool settles), then two white lines (`seams`, traced from the layer alpha) draw along the chalet's base (edge to edge) and the pool's lower edge, each trailing off; copy in `content/home-intro.ts`) · destinations · "A day at Giving Compound" (`features/gallery/GalleryDay` — static 7-tile bento (taller bottom row; time tag bottom-start, hover title opens under it and lifts it) with a minimal Day/Night switch (by day a sun with turning rays sits in the top-end corner) (night adds a crescent moon + stars sliding in from that corner; RTL mirrors both skies to the top-left) that auto-turns to Night 3.5s after the section is in view (once; a press cancels it), lede inside the big tile, sets in `dayScenes`; fits one screen on desktop; Night set is dusk + lit interiors until real night photos exist) · amenities (`features/amenities/AmenitiesGrid`: 2-up horizontal cards, photo flush on the start side + icon/title/line; hover = primary border, the photo window opens across the card (image glides, never rescales) under a dark tint, text turns light and slides to the start edge) · map (`LocationShowcase`: clean map beside one panel — eyebrow, title, place, drive-time list with the auto tour, one Open map link) · stats bar (367+ resorts · 500,000 m² · 500 m² per unit · 0% interest; teal, with the banner V-line motif live in SVG at both sides, darkest green, masked out toward the middle: `components/ui/VLines` + `styles/base/v-lines.css`) · News & articles (`features/news/NewsPreview`, 3 cards from `homeNewsSlugs`) · FAQ · RegisterCta. Compare-plans cards live on /financing only |
+| `/` | الرئيسية | **Polished** | Cinematic layered hero (`features/home/HeroLayered`, GSAP): 3 auto-advancing slides from `content/hero.ts` (tent pavilion + pool · palms + pergola · garden swing), fixed wordmark with per-slide cut-outs in front (`public/hero/*-cutout.webp`, regenerate with `scripts/hero-cutout.mjs`); pins & recedes on scroll. Section order (top → bottom): About intro (`features/home/HomeIntro` — 3:2 crop (sides trimmed) of a 16:9 photo that assembles once in view from `public/home/intro-{sky,walls,chalet,ground,pool}-v2.webp` (sky fades, walls rise, chalet drops, ground rises, pool settles), then two white lines (`seams`, traced from the layer alpha) draw along the chalet's base (edge to edge) and the pool's lower edge, each trailing off; copy in `content/home-intro.ts`) · destinations · "A day at Giving Compound" (`features/gallery/GalleryDay` — static 7-tile bento (taller bottom row; time tag bottom-start, hover title opens under it and lifts it) with a minimal Day/Night switch (by day a sun with turning rays sits in the top-end corner) (night adds a crescent moon + stars sliding in from that corner; RTL mirrors both skies to the top-left) that auto-turns to Night 3.5s after the section is in view (once; a press cancels it), lede inside the big tile, sets in `dayScenes`; fits one screen on desktop; Night set is dusk + lit interiors until real night photos exist) · amenities (`features/amenities/AmenitiesGrid`: 2-up horizontal cards, photo flush on the start side + icon/title/line; hover = primary border, the photo window opens across the card (image glides, never rescales) under a dark tint, text turns light and slides to the start edge) · map (`LocationShowcase`: clean map beside one panel — eyebrow, title, place, drive-time list with the auto tour, one Open map link) · stats bar (367+ resorts · 500,000 m² · 500 m² per unit · 0% interest; teal, with the banner V-line motif live in SVG at both sides, darkest green, masked out toward the middle: `components/ui/VLines` + `styles/base/v-lines.css`) · News & articles (`features/news/NewsPreview`, 3 cards from `homeNewsSlugs`) · FAQ · RegisterCta. No financing page or plan cards (removed 2026-10-17) |
 | `/about` | من نحن | **Polished** | Full-bleed hero + CountUp stats, collage, who we are / vision / message cards (`features/home/AboutValues`, copy in `messages/*` `about.who*`/`vision*`/`message*`), pillars, ISO video, socials, leadership link, RegisterCta |
 | `/gallery` | المعرض | **Polished** | Cinematic short hero · flush mosaic tabs (tile hover: photo blurs + darkens, centred zoom icon · category · name) · lightbox · 2 YT videos · **no** bottom RegisterCta |
 | `/units` | الوحدات المتاحة | **Built** | `SubpageHeader` → `UnitsPlans` intro → unit plan section (`features/units/UnitPlanFeatures`: `public/plans/unit-plan.webp` in a framed panel on the start side, the 10 rooms/spaces as numbered tiles in two columns (Inside / Outdoors, ids via `unitPlanRows`), then a dark facts bar (plot · ownership · price from · move-in, `unitPlanPanel` in `content/master-plan.ts`) with a Register interest CTA) → "floor plans coming soon" notice |
 | `/amenities` | المرافق | **Built** | `AmenitiesHoverGrid` |
-| `/financing` | التمويل | **Polished** | Header → PricingShowcase picker → Four steps → FAQ |
+| ~~`/financing`~~ | ~~التمويل~~ | **Removed 2026-10-17** | Client asked for the page to go. Old links 301 to `/` via `movedPages` in `hosting.config.mjs`; nav/footer/404/sitemap/SEO entries and the home destination card removed (home now shows two cards) |
 | `/faq` | الأسئلة الشائعة | **Polished** | `FaqExplorer` (search + sticky cats + accordion) · **no** RegisterCta |
-| `/register` | سجل اهتمامك | **Polished** | Compact form → `POST /api/register` → WhatsApp Cloud API template to one sales number (env in `.env.example`; until set, a tap-to-send wa.me fallback). Anti-spam on both sides (`features/register/leadRules.ts`): honeypot, 3s min fill, name/phone/no-links validation, 60s cooldown, per-IP rate limit + per-phone dedupe, optional Turnstile · visit/financing chips · side column: chosen-plan card only when `?plan=` is set (no generic "Prices from" card), then a contact card (`.register-contact`: dark top bar, icon · label · value rows for call, WhatsApp, sales office, hours) and the site-visit note |
+| `/compound` | الكمباوند | **Polished** | Map explorer (`features/units/CompoundPlan`). Availability from `content/chalet-availability.ts` (PLACEHOLDER list of 26 until the client sends theirs): available plots tinted green with a large check badge (white ring, shadow, soft halo). «شاليهات متاحة» button (`ChaletListings`) sits where the old "Step inside a chalet" pill was and opens a shop-style sheet (bottom sheet on phones; end-edge drawer from tablet up that stops above the floating WhatsApp button); one darker glass shared by every map panel. Compound filter chips, photo cards (placeholder resort photos) → details. Tapping ANY chalet on the map (or search / pick one) opens the same details view: photo strip (mouse drag glides to the nearest photo, edge fades, `lib/useDragScroll`), «متاح» / «غير متاح» (grey lock), facts, footer buttons «سجل اهتمامك» (→ `/register?chalet=ID`) or «عرض الشاليهات المتاحة», plus «ادخل إلى الشاليه» (→ /chalet). No separate chalet card any more. |
+| `/register` | احجز زيارتك | **Polished** | Sales-office visit booking only (no financing / call-back choice, 2026-10-17): name · phone with country picker (flag + dial code, `content/countries.ts`, `features/register/CountryPhoneField`) · visit day (next 6 days, Sat to Thu) and hour (10 am to 6 pm), each tile «متاح» / «محجوز» (`features/register/VisitPicker`; availability in `content/visit-slots.ts`: the client's weekly table of booked hours by weekday, 2026-10-17, plus optional per-date overrides) · optional message → opens WhatsApp to the sales number with the request written out (no server). |
 | `/leadership` | الإدارة | **Built** | Founder focus · real portrait at `/leadership/tarek-qazan.jpg` · principles in a dark floating box overlapping the founder section's bottom edge; hover sweeps a green highlight over number (block) and text, text turns black · no ISO/CTA band |
 | `/location` | الخريطة | **Built** | Leaflet + OSRM · `LocationShowcase` / `LocationLeafletMap` |
-| `/services` | خدماتنا | Thin | Simple list from `content/services.ts` — **≠ amenities** |
+| `/services` | خدماتنا (page title AR: «ما بتحتاج إشي من برّا») | **Built** | `features/services/ServicesDirectory`: "Available now" photo viewer + list (22 services, `availableServices` + `servicePhotos`, icons in `ServiceIcon.tsx`), then a dark band with key figures and a "Coming soon" bento (28, `upcomingServices`; sizes in `SOON_SIZE`, packs gap-free at 6 and 2 columns, re-check after list changes). Tiles are full-opacity (no row fade, no traveling line, removed 2026-10-17). Street lighting, water filter, artesian well, dry cleaning and building materials moved to available 2026-10-17 (stand-in photos) — **≠ amenities** |
 | `/master-plan` | المخطط العام | **Built** | Property map hero · unit zones · stats · WA/units CTA |
 | `/news` | الأخبار | Thin | Seed articles from `content/news.ts` + `[slug]` |
 | `/news/[slug]` | مقال | Thin | Article template |
@@ -173,7 +170,7 @@ Design rules of thumb (from build): one composition per first viewport · brand 
 
 | AR | EN |
 |----|----|
-| أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة | First and largest fully-serviced chalet city in the region |
+| أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة | First and largest fully-serviced chalet city in the region |
 | ٣٦٧+ شاليه خاص | 367+ private resorts |
 | ٥٠٠,٠٠٠ متر مربع | 500,000 square meters |
 | سند ملكية مستقل | Independent ownership deed |

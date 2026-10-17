@@ -13,7 +13,6 @@ const CONTENT_UPDATED = "2026-10-12";
 const priority: Partial<Record<SeoRoute, number>> = {
   "": 1,
   "/compound": 0.9,
-  "/financing": 0.9,
   "/register": 0.8,
   "/gallery": 0.8,
   "/amenities": 0.8,

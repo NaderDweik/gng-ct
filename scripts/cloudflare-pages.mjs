@@ -75,7 +75,7 @@ async function moveArabicToRoot() {
 
 const redirects = [
   "# Written by scripts/cloudflare-pages.mjs from hosting.config.mjs; edit that instead.",
-  "# Renamed pages.",
+  "# Renamed or removed pages.",
   ...movedPages.flatMap(({ from, to }) => [`${from} ${to} 301`, `/en${from} /en${to} 301`]),
   "# Arabic lives at the root; old /ar links drop the prefix.",
   "/ar / 301",

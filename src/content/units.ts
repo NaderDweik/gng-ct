@@ -321,8 +321,8 @@ export const unitPlans: UnitPlan[] = [
 ];
 
 /**
- * /units compound explorer (features/units/CompoundPlan.tsx). Deliberately says nothing
- * about which chalets are taken: every chalet leads to a conversation or a visit.
+ * /compound explorer (features/units/CompoundPlan.tsx). Which chalets are on sale comes
+ * from content/chalet-availability.ts.
  */
 export const compoundCopy = {
   ar: {
@@ -351,6 +351,19 @@ export const compoundCopy = {
     insideLink: "شاهد الشاليه من الداخل",
     close: "إغلاق",
     waMessage: (id: string) => `مرحبًا، أود الاستفسار عن الشاليه ${id} في روح العطاء.`,
+    // Availability
+    available: "متاح",
+    unavailable: "غير متاح",
+    unavailableNote: "هذا الشاليه غير متاح حاليًا. تصفّح الشاليهات المتاحة، أو اسألنا عن شاليهات مشابهة.",
+    listTitle: "شاليهات متاحة",
+    listOpenSub: "تصفّح الشاليهات المعروضة للبيع",
+    showAvailable: "عرض الشاليهات المتاحة",
+    register: "سجل اهتمامك",
+    compound: (letter: string) => `كمباوند ${letter}`,
+    filterLabel: "تصفية حسب الكمباوند",
+    all: "الكل",
+    details: "التفاصيل",
+    backToList: "كل الشاليهات",
   },
   en: {
     label: "Compound explorer",
@@ -378,5 +391,18 @@ export const compoundCopy = {
     insideLink: "See it from the inside",
     close: "Close",
     waMessage: (id: string) => `Hello, I'd like to ask about chalet ${id} at Giving Compound.`,
+    // Availability
+    available: "Available",
+    unavailable: "Unavailable",
+    unavailableNote: "This chalet isn't available right now. Browse the available ones, or ask us about similar chalets.",
+    listTitle: "Available chalets",
+    listOpenSub: "Browse the chalets for sale",
+    showAvailable: "Show available chalets",
+    register: "Register interest",
+    compound: (letter: string) => `Compound ${letter}`,
+    filterLabel: "Filter by compound",
+    all: "All",
+    details: "Details",
+    backToList: "All chalets",
   },
 } as const;

@@ -10,12 +10,11 @@ import { SocialIcon } from "@/components/ui/SocialIcon";
 type FooterLink = { href: string; labelAr: string; labelEn: string };
 
 const siteMap: FooterLink[] = [
-  { href: "/about", labelAr: "عن المشروع", labelEn: "About the Project" },
+  { href: "/about", labelAr: "عن الكمباوند", labelEn: "About the Project" },
   { href: "/compound", labelAr: "الكمباوند", labelEn: "Compound" },
   { href: "/chalet", labelAr: "الشاليه", labelEn: "Chalet" },
-  { href: "/amenities", labelAr: "مرافق المشروع", labelEn: "Amenities & Lifestyle" },
+  { href: "/amenities", labelAr: "مرافق الكمباوند", labelEn: "Amenities & Lifestyle" },
   { href: "/services", labelAr: "خدماتنا", labelEn: "Our Services" },
-  { href: "/financing", labelAr: "حلول التمويل", labelEn: "Financing Solutions" },
   { href: "/gallery", labelAr: "معرض الصور", labelEn: "Gallery" },
 ];
 
@@ -88,7 +87,7 @@ export function Footer() {
             </Link>
             <p className="text-sm leading-relaxed text-on-dark-muted">
               {isAr
-                ? "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة. شاليهات خاصة بسند ملكية مستقل، داخل مجتمع مسوّر وبتمويل مباشر بدون فوائد."
+                ? "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة. شاليهات خاصة بسند ملكية مستقل، داخل كمباوند مسوّر وبتمويل مباشر بدون فوائد."
                 : "The region’s first and largest fully-serviced chalet city. Private resorts with independent deeds, inside a gated community with zero-interest direct financing."}
             </p>
             <div className="flex justify-center gap-4 md:justify-start">

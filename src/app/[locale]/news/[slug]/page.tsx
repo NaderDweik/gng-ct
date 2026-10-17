@@ -154,7 +154,7 @@ export default async function ArticlePage({ params }: Props) {
                 <p className="article-foot-brand">Giving Compound</p>
                 <p className="article-foot-line">
                   {isAr
-                    ? "مدينة شاليهات خاصة مخدومة بالكامل، بتمويل مباشر بدون فوائد."
+                    ? "كمباوند شاليهات خاصة مخدوم بالكامل، بتمويل مباشر بدون فوائد."
                     : "A fully serviced city of private resorts, with direct zero-interest financing."}
                 </p>
               </div>

@@ -78,8 +78,8 @@ export default async function LeadershipPage({ params }: Props) {
 
             <blockquote className="leader-quote reveal" style={{ animationDelay: "180ms" }}>
               {isAr
-                ? "رؤيتنا بسيطة: أن يمتلك كل مشترٍ شاليهه الخاص بسند مستقل، داخل مجتمع مخدوم بالكامل، وبتمويل مباشر بدون فوائد."
-                : "Our vision is simple: every buyer owns a private resort with an independent deed, inside a fully serviced community, with direct zero-interest financing."}
+                ? "يسعدني أن ألتقي بكم من خلال روح العطاء، الكمباوند الذي يهدف إلى الراحة وجودة الحياة. رؤيتنا أن نكون من الشركات الرائدة في تطوير الكمباوندات السكنية والسياحية المتكاملة."
+                : "I am delighted to meet you through Giving Compound, built for comfort and a better quality of life. Our vision is to be among the leading developers of integrated residential and tourist compounds."}
             </blockquote>
 
           </div>

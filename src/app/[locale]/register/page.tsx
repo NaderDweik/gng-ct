@@ -3,6 +3,7 @@ import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { site } from "@/content/site";
 import { RegisterForm } from "@/features/register/RegisterForm";
+import { RegisterHeading } from "@/features/register/RegisterHeading";
 import type { LocalePageProps } from "@/i18n/types";
 import { InViewOnce } from "@/components/ui/InViewOnce";
 import { PageJsonLd } from "@/components/seo/PageJsonLd";
@@ -76,9 +77,7 @@ export default async function RegisterPage({ params }: Props) {
         <div className="container-gc grid items-stretch gap-6 lg:grid-cols-[1.2fr_0.8fr] lg:gap-8">
           <div className="register-panel">
             <div className="register-panel-head">
-              <h2 className="font-display text-xl font-bold text-on-dark md:text-2xl">
-                {isAr ? "أخبرنا كيف نتواصل معك." : "Tell us how to reach you."}
-              </h2>
+              <RegisterHeading isAr={isAr} />
             </div>
             <RegisterForm />
           </div>
@@ -89,12 +88,12 @@ export default async function RegisterPage({ params }: Props) {
               <LoopVideo src="/motion/cta-loop.mp4" poster="/motion/cta-loop.jpg" className="register-visit-video" />
               <div className="register-visit-body">
                 <p className="font-display text-xl font-bold text-on-dark md:text-2xl">
-                  {isAr ? "هل تفضّل زيارة مباشرة؟" : "Prefer a site visit?"}
+                  {isAr ? "نلقاك في مكتب المبيعات" : "See you at the sales office"}
                 </p>
                 <p className="mt-2 text-base leading-relaxed text-on-dark-muted">
                   {isAr
-                    ? "اختر «زيارة الموقع» في النموذج وسنرتّب الموعد."
-                    : "Pick “Site visit” in the form and we’ll arrange a time."}
+                    ? "من السبت إلى الخميس، من ١٠ صباحًا حتى ٦ مساءً."
+                    : "Saturday to Thursday, 10 am to 6 pm."}
                 </p>
               </div>
             </div>

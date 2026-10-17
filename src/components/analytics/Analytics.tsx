@@ -16,7 +16,6 @@ const PLACEMENTS: [selector: string, placement: string][] = [
   [".action-bar", "action_bar"],
   [".wa-float", "floating_button"],
   [".cx-page", "compound_map"],
-  [".fin", "financing"],
   [".loc-map, .loc-panel", "location_map"],
   [".pp", "home_faq_passport"],
   [".fq", "home_faq_chat"],

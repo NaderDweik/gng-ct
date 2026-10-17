@@ -3,7 +3,7 @@ export const site = {
   nameEn: "Giving Compound",
   companyAr: "شركة العطاء للتطوير العقاري",
   companyEn: "Al-Ataa for City Development & Financing",
-  taglineAr: "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة",
+  taglineAr: "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة",
   taglineEn: "First and largest fully-serviced chalet city in the region",
   /** Shown in the UI (public sales number). */
   phone: "+962790029928",
@@ -51,7 +51,7 @@ export const site = {
   } as Record<"tour" | "iso", { youtubeId: string; src?: string; poster: string }>,
   copyBank: {
     ar: {
-      firstLargest: "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة",
+      firstLargest: "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة",
       privateResorts: "٣٦٧+ شاليه خاص",
       area: "٥٠٠,٠٠٠ متر مربع",
       deed: "سند ملكية مستقل",

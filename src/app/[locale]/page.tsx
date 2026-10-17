@@ -42,30 +42,20 @@ export default async function HomePage({ params }: Props) {
       title: isAr ? "الشاليهات الخاصة" : "Private Resorts",
       headline: isAr ? "قمة الخصوصية المعاصرة" : "Contemporary privacy, elevated",
       desc: isAr
-        ? "٥٠٠ م² بسند ملكية مستقل: غرف، مسابح، وخصوصية كاملة داخل مجتمع مسوّر."
+        ? "٥٠٠ م² بسند ملكية مستقل: غرف، مسابح، وخصوصية كاملة داخل كمباوند مسوّر."
         : "500 m² with an independent deed: rooms, pools, and full privacy inside a gated community.",
       img: "/gallery/resortsPics/pool-and-tent-pavilion.jpg",
       cta: isAr ? "استكشف الوحدات" : "Explore units",
     },
     {
       href: "/amenities",
-      title: isAr ? "مرافق المجتمع" : "Community amenities",
+      title: isAr ? "مرافق الكمباوند" : "Community amenities",
       headline: isAr ? "مركز كل شيء" : "Everything within reach",
       desc: isAr
         ? "أمن على مدار الساعة، بنية تحتية، ومساحات خضراء مخدومة لأسلوب حياة متكامل."
         : "24/7 security, infrastructure, and serviced green spaces for a complete lifestyle.",
       img: "/gallery/compoundPics/kids-cycling-community-street.jpg",
       cta: isAr ? "اكتشف المرافق" : "Discover amenities",
-    },
-    {
-      href: "/financing",
-      title: isAr ? "التمويل المرن" : "Flexible financing",
-      headline: isAr ? "بدون فوائد، مباشرة مع الشركة" : "Zero interest, direct with us",
-      desc: isAr
-        ? "دفعة أولى تختارها ثم أقساط ١٪ من السعر شهريًا، أو خصم ٢٤٪ نقدًا. تمويل مباشر بدون فوائد بنكية."
-        : "A down payment you choose, then 1% of the price a month, or 24% off in cash. Direct financing with zero bank interest.",
-      img: "/gallery/resortsPics/family-entering-resort-front-door.jpg",
-      cta: isAr ? "خطط الدفع" : "Payment plans",
     },
   ];
 
@@ -85,18 +75,18 @@ export default async function HomePage({ params }: Props) {
           <div className="sec-head sec-head-wide">
             <div>
               <p className="section-eyebrow">
-                {isAr ? "المشاريع الرئيسية" : "Flagship destinations"}
+                {isAr ? "الوجهات الرئيسية" : "Flagship destinations"}
               </p>
               <h2 className="section-title mb-0">
                 {isAr
-                  ? "شاليه خاص، مجتمع مخدوم، وتمويل مرن."
+                  ? "شاليه خاص، كمباوند مخدوم، وتمويل مرن."
                   : "Private resort, serviced community, flexible financing."}
               </h2>
             </div>
             <p className="section-sub">
               {isAr
-                ? "مخطط واحد، ثلاث وجهات. الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في مجتمع روح العطاء."
-                : "One community, three destinations. Privacy, lifestyle, and flexible financing meet in Giving Compound."}
+                ? "مخطط واحد، وجهتان. الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في كمباوند روح العطاء."
+                : "One community, two destinations. Privacy, lifestyle, and flexible financing meet in Giving Compound."}
             </p>
           </div>
 

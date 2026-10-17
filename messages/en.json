@@ -9,7 +9,6 @@
     "register": "Register interest",
     "learnMore": "Learn more",
     "viewGallery": "View gallery",
-    "financing": "Financing plans",
     "comingSoon": "Coming soon",
     "jd": "JD",
     "iso": "ISO 9001:2015",
@@ -36,21 +35,8 @@
     "featureQualityDesc": "Documented build and finish standards",
     "galleryTitle": "From the project",
     "pricingTitle": "Ownership with zero interest",
-    "pricingSub": "168,000 JD at 1% a month, or 128,000 cash",
     "locationTitle": "Location",
     "locationSub": "41 km from Le Royal Hotel towards Sahab Al-Hatmiyeh"
-  },
-  "financing": {
-    "title": "Financing & payment plans",
-    "subtitle": "Direct with the company: no bank, zero interest",
-    "cashTitle": "Cash offer",
-    "cashDesc": "24% off: 128,000 JD",
-    "calculatorTitle": "Down-payment calculator",
-    "calculatorHint": "The down payment depends on the chalet you choose",
-    "downPayment": "Down payment",
-    "monthly": "Monthly installment",
-    "moveIn": "Handover",
-    "basePrice": "Base price"
   },
   "gallery": {
     "title": "Gallery",
@@ -60,16 +46,14 @@
     "isoVideo": "ISO 9001:2015 certificate presentation"
   },
   "register": {
-    "title": "Register your interest",
-    "subtitle": "Fill the form and we will reach you on WhatsApp",
+    "title": "Book your visit",
+    "subtitle": "Pick a day and an hour to visit our sales office, and we'll confirm on WhatsApp",
     "name": "Name",
     "phone": "Phone",
+    "visitDay": "Visit day",
+    "visitHour": "Visit time",
     "message": "Message (optional)",
-    "preferredTime": "Preferred contact time",
-    "morning": "Morning",
-    "afternoon": "Afternoon",
-    "evening": "Evening",
-    "submit": "Send on WhatsApp",
+    "submit": "Book on WhatsApp",
     "orCall": "Call Us Directly"
   },
   "location": {
@@ -85,7 +69,7 @@
   "about": {
     "title": "About us",
     "subtitle": "Al-Ataa for City Development & Financing",
-    "story": "Pending from Dr. Tarek.",
+    "story": "A way of life, designed to bring comfort and privacy together in one place.",
     "founder": "Led by Dr. Tarek Qazan with ISO 9001:2015 commitment.",
     "whoTitle": "Who we are",
     "who": "We are Al-Ataa Real Estate & City Development. We develop integrated residential and tourist cities that combine build quality with ease of living.",

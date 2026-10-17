@@ -27,9 +27,9 @@ export type GalleryImage = {
 export const galleryCategories: GalleryCategory[] = [
   {
     id: "community",
-    titleAr: "المجتمع",
+    titleAr: "الكمباوند",
     titleEn: "Community",
-    descriptionAr: "البوابات والشوارع والكمباوندات والحياة اليومية داخل المجتمع المسوّر.",
+    descriptionAr: "البوابات والشوارع والكمباوندات والحياة اليومية داخل الكمباوند المسوّر.",
     descriptionEn: "Gates, streets, compounds, and everyday life inside the gated community.",
   },
   {
@@ -50,14 +50,14 @@ export const galleryCategories: GalleryCategory[] = [
     id: "amenities",
     titleAr: "المرافق",
     titleEn: "Amenities",
-    descriptionAr: "الاستقبال، المسجد، الميني غولف، المتجر، والخدمات عبر المجتمع.",
+    descriptionAr: "الاستقبال، المسجد، الميني غولف، المتجر، والخدمات عبر الكمباوند.",
     descriptionEn: "Reception, mosque, mini golf, shop, and services across the community.",
   },
   {
     id: "construction",
     titleAr: "مراحل الإنشاء",
     titleEn: "Construction",
-    descriptionAr: "مراحل البناء والتطوير في مشروع روح العطاء.",
+    descriptionAr: "مراحل البناء والتطوير في كمباوند روح العطاء.",
     descriptionEn: "Construction and development phases at Giving Compound.",
   },
 ];
@@ -82,9 +82,9 @@ export const galleryCopy = {
   ar: {
     eyebrow: "روح العطاء",
     title: "الصور",
-    lead: "من الواجهة إلى الأفق، كل زاوية في مدينة العطاء.",
+    lead: "من الواجهة إلى الأفق، كل زاوية في كمباوند روح العطاء.",
     allTitle: "الكل",
-    allDescription: "المجتمع، الشاليهات، الداخل، المرافق، ومراحل الإنشاء.",
+    allDescription: "الكمباوند، الشاليهات، الداخل، المرافق، ومراحل الإنشاء.",
     videosEyebrow: "على الكاميرا",
     videosTitle: "شاهد المكان قبل الزيارة.",
     open: "فتح",
@@ -110,7 +110,7 @@ const shots: Record<Exclude<GalleryCategoryId, "all">, Shot[]> = {
     [`${C}/main-entrance-gate-sunset.jpg`, "Main entrance gate at sunset", "البوابة الرئيسية وقت الغروب"],
     [`${C}/entrance-fountain-and-gatehouse.jpg`, "Entrance fountain & gatehouse", "نافورة المدخل وغرفة الحراسة"],
     [`${C}/palm-roundabout-flower-bed-hd.jpg`, "Palm roundabout", "دوّار النخيل والزهور"],
-    [`${C}/kids-cycling-community-street.jpg`, "Kids cycling through the community", "أطفال يركبون الدراجات في المجتمع"],
+    [`${C}/kids-cycling-community-street.jpg`, "Kids cycling through the community", "أطفال يركبون الدراجات في الكمباوند"],
     [`${C}/family-walk-compound-t.jpg`, "An evening family walk", "نزهة عائلية مسائية"],
     [`${C}/elderly-couple-stroll-compound-e.jpg`, "A quiet stroll by Compound E", "نزهة هادئة عند كمباوند E"],
     [`${C}/women-walking-compound-n.jpg`, "Friends walking past Compound N", "صديقات يتمشين عند كمباوند N"],
@@ -151,7 +151,7 @@ const shots: Record<Exclude<GalleryCategoryId, "all">, Shot[]> = {
     [`${C}/reception-building.jpg`, "Reception", "الاستقبال"],
     [`${C}/mosque-at-sunset.jpg`, "The mosque at sunset", "المسجد وقت الغروب"],
     [`${C}/mini-golf-putting-green.jpg`, "Mini golf", "ميني غولف"],
-    [`${C}/community-park-families.jpg`, "Community park", "حديقة المجتمع"],
+    [`${C}/community-park-families.jpg`, "Community park", "حديقة الكمباوند"],
     [`${C}/fast-shop-mini-market.jpg`, "Fast Shop mini market", "متجر Fast Shop"],
     [`${C}/housekeeping-team.jpg`, "The housekeeping team", "فريق التدبير المنزلي"],
     [`${C}/solar-farm-building-store.jpg`, "Solar farm & building store", "محطة الطاقة الشمسية ومتجر البناء"],
@@ -196,7 +196,7 @@ export const homeGalleryPicks: HomeGalleryPick[] = [
   { src: `${C}/mini-golf-putting-green.jpg`, categoryId: "amenities", captionAr: "ميني غولف", captionEn: "Mini golf" },
   { src: `${R}/family-living-room.jpg`, categoryId: "interiors", captionAr: "معيشة عائلية دافئة", captionEn: "Warm family living" },
   { src: `${C}/kids-cycling-community-street.jpg`, categoryId: "community", captionAr: "شوارع آمنة للأطفال", captionEn: "Safe streets for kids" },
-  { src: `${C}/entrance-fountain-and-gatehouse.jpg`, categoryId: "community", captionAr: "مدخل المجتمع", captionEn: "Community entrance" },
+  { src: `${C}/entrance-fountain-and-gatehouse.jpg`, categoryId: "community", captionAr: "مدخل الكمباوند", captionEn: "Community entrance" },
 ];
 
 /** Home gallery hover-preview — first entry is the default preview. */
@@ -263,7 +263,7 @@ export const dayCopy = {
   ar: {
     eyebrow: "المساحات ونمط الحياة.",
     title: "يوم في روح العطاء.",
-    lead: "من فطور بجانب المسبح إلى سهرة بجانب المدفأة. بدّل بين النهار والليل داخل المجتمع.",
+    lead: "من فطور بجانب المسبح إلى سهرة بجانب المدفأة. بدّل بين النهار والليل داخل الكمباوند.",
     toggleLabel: "وقت اليوم",
     modes: { day: "نهار", night: "ليل" },
     cta: "شاهد الصور ",

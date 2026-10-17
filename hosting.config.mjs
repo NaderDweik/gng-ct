@@ -54,8 +54,10 @@ export function securityHeaders({ dev }) {
 export const mediaExtensions = ["jpg", "jpeg", "png", "webp", "avif", "gif", "svg", "ico", "mp4", "webm", "woff2"];
 export const mediaCacheControl = "public, max-age=604800";
 
-/** Renamed pages: old link → new page (Arabic paths; the English ones under /en follow). */
+/** Renamed or removed pages: old link → new page (Arabic paths; the English ones under /en follow). */
 export const movedPages = [
   { from: "/units", to: "/compound" },
   { from: "/master-plan", to: "/chalet" },
+  // Financing plans page removed (Oct 2026); old links land on the home page.
+  { from: "/financing", to: "/" },
 ];

@@ -68,7 +68,9 @@
   --hdr: 0px;
   --gap: 0.75rem;
   --card-w: 23rem;
-  --glass: color-mix(in srgb, var(--brand-secondary) 80%, transparent);
+  /* One glass for every panel on the map (search, zoom, the chalets sheet); dark enough to
+     read over the busy plan. */
+  --glass: color-mix(in srgb, var(--brand-secondary-deep) 90%, transparent);
   --glass-line: color-mix(in srgb, var(--white) 12%, transparent);
   --glass-shadow: 0 18px 50px color-mix(in srgb, var(--black) 35%, transparent);
 
@@ -347,8 +349,6 @@
 
 /* ── Glass panels (shared) ── */
 .cx-intro,
-.cx-inside,
-.cx-card-inner,
 .cx-zoom,
 .cx-hint {
   background: var(--glass);
@@ -360,16 +360,12 @@
 
 /* Panels arrive one after another (fill "backwards": once in, plain styles such as the
    card-open fades take over again). */
-.cx:not(.is-ready) :is(.cx-intro, .cx-inside, .cx-zoom) {
+.cx:not(.is-ready) :is(.cx-intro, .cx-zoom) {
   opacity: 0;
 }
 
 .is-ready .cx-intro {
   animation: cx-rise 0.8s var(--ease) 0.35s backwards;
-}
-
-.is-ready .cx-inside {
-  animation: cx-rise 0.8s var(--ease) 0.55s backwards;
 }
 
 .is-ready .cx-zoom {
@@ -525,99 +521,7 @@
   rotate: 90deg;
 }
 
-/* ── Step inside: thumbnail of the chalet plan → /master-plan ── */
-.cx-inside {
-  position: absolute;
-  z-index: 3;
-  left: var(--gap);
-  bottom: calc(var(--gap) + 0.25rem);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  max-width: calc(100% - 6.5rem); /* clear of the floating WhatsApp button */
-  padding: 0.5rem 1rem 0.5rem 0.5rem;
-  color: var(--on-dark);
-  text-decoration: none;
-  transition:
-    border-color 0.25s ease,
-    transform 0.25s var(--ease),
-    opacity 0.3s ease;
-}
-
-[dir="rtl"] .cx-inside {
-  left: auto;
-  right: var(--gap);
-  padding: 0.5rem 0.5rem 0.5rem 1rem;
-}
-
-.cx-inside:hover {
-  border-color: var(--brand-primary);
-  transform: translateY(-2px);
-}
-
 /* The chalet plan as on /master-plan: light linework on dark, the pool in colour. */
-.cx-inside-thumb {
-  position: relative;
-  flex: none;
-  width: 2.6rem;
-  aspect-ratio: 952 / 1024;
-  overflow: hidden;
-  background: var(--brand-secondary-deep);
-  transition: scale 0.5s var(--ease);
-}
-
-.cx-inside-lines {
-  object-fit: contain;
-  filter: invert(1) grayscale(1) brightness(1.15) contrast(1.05);
-  mix-blend-mode: lighten;
-  clip-path: inset(1% 0.6% 0.3% 0.3%);
-}
-
-.cx-inside-pool {
-  position: absolute;
-  background-repeat: no-repeat;
-  outline: 1px solid var(--brand-primary);
-}
-
-.cx-inside:hover .cx-inside-thumb {
-  scale: 1.06;
-}
-
-.cx-inside-text {
-  display: grid;
-  min-width: 0;
-}
-
-.cx-inside-text strong {
-  font-size: var(--fs-small);
-  font-weight: 700;
-}
-
-.cx-inside-text span {
-  display: none;
-  color: var(--on-dark-muted);
-  font-size: var(--fs-caption);
-}
-
-.cx-inside-arrow {
-  flex: none;
-  width: 1.15rem;
-  height: 1.15rem;
-  fill: none;
-  stroke: var(--brand-primary);
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: translate 0.25s var(--ease);
-}
-
-.cx-inside:hover .cx-inside-arrow {
-  translate: 3px 0;
-}
-
-[dir="rtl"] .cx-inside:hover .cx-inside-arrow {
-  translate: -3px 0;
-}
 
 /* ── Zoom controls: end edge, vertically centred on the stage (phones; tablet up: beside the search panel) ── */
 .cx-zoom {
@@ -676,80 +580,10 @@
   display: none;
 }
 
-/* ── Chalet card ── */
-.cx-card {
-  position: absolute;
-  z-index: 4;
-  inset-inline: 0;
-  bottom: 0;
-  pointer-events: none;
-}
-
-.cx-card-inner {
-  position: relative;
-  max-height: 55svh;
-  overflow-y: auto;
-  padding: 1.25rem 1.25rem calc(1.25rem + env(safe-area-inset-bottom));
-  border-radius: 1.25rem 1.25rem 0 0;
-  border-bottom: 0;
-  background: color-mix(in srgb, var(--brand-secondary) 92%, transparent);
-  pointer-events: auto;
-  animation: cx-sheet 0.55s var(--ease) both;
-}
-
 @keyframes cx-sheet {
   from {
     transform: translateY(100%);
   }
-}
-
-.cx-card-close {
-  position: absolute;
-  right: 0.75rem;
-  top: 0.75rem;
-  display: grid;
-  place-items: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  color: var(--on-dark-muted);
-  transition: background 0.2s ease, color 0.2s ease;
-}
-
-[dir="rtl"] .cx-card-close {
-  right: auto;
-  left: 0.75rem;
-}
-
-.cx-card-close:hover {
-  background: color-mix(in srgb, var(--white) 10%, transparent);
-  color: var(--on-dark);
-}
-
-.cx-card-close svg {
-  width: 1.1rem;
-  height: 1.1rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2;
-  stroke-linecap: round;
-}
-
-.cx-card .cx-eyebrow {
-  margin-bottom: 0.15rem;
-}
-
-.cx-card-id {
-  margin: 0 0 0.75rem;
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 2rem + 2vw, 3.5rem);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-
-[dir="rtl"] .cx-card-id {
-  text-align: right;
 }
 
 .cx-facts {
@@ -827,47 +661,21 @@
   background: color-mix(in srgb, var(--white) 8%, transparent);
 }
 
-.cx-card-inside {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: 0.9rem;
-  color: var(--brand-primary);
-  font-size: var(--fs-small);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.cx-card-inside span {
-  transition: translate 0.25s var(--ease);
-}
-
-.cx-card-inside:hover span {
-  translate: 3px 0;
-}
-
-[dir="rtl"] .cx-card-inside:hover span {
-  translate: -3px 0;
-}
-
 /* Phones, card open: the sheet takes the bottom; the pill and the floating WhatsApp step aside. */
 @media (max-width: 767px) {
-  .cx.has-card .cx-inside {
-    opacity: 0;
-    pointer-events: none;
-  }
+  
 
-  .cx.has-card .cx-zoom {
+  .cx.has-shop .cx-zoom {
     opacity: 0;
     pointer-events: none;
   }
 
   /* Card open: the intro shrinks to its search bar so the chalet has room. */
-  .cx.has-card .cx-intro {
+  .cx.has-shop .cx-intro {
     padding: 0.5rem;
   }
 
-  .cx.has-card .cx-surprise {
+  .cx.has-shop .cx-surprise {
     display: none;
   }
 }
@@ -897,39 +705,17 @@
     left: auto;
   }
 
-  .cx-inside {
-    left: auto;
-    right: var(--gap);
-    top: calc(var(--hdr) + var(--gap));
-    bottom: auto;
-    max-width: none;
-    padding: 0.6rem 1.25rem 0.6rem 0.6rem;
-    gap: 1rem;
-  }
+  
 
-  [dir="rtl"] .cx-inside {
-    right: auto;
-    left: var(--gap);
-    padding: 0.6rem 0.6rem 0.6rem 1.25rem;
-  }
+  
 
-  .cx-inside-thumb {
-    width: 3.75rem;
-  }
+  
 
-  .cx-inside-text strong {
-    font-size: var(--fs-body);
-  }
+  
 
-  .cx-inside-text span {
-    display: block;
-  }
+  
 
-  .cx.has-card .cx-inside {
-    opacity: 0;
-    transform: translateY(-8px);
-    pointer-events: none;
-  }
+  
 
   /* Zoom controls: beside the search panel at the bottom (start side), clear of the
      chalet card on the end side. */
@@ -946,33 +732,13 @@
     right: calc(var(--gap) * 2 + 22rem);
   }
 
-  .cx-card {
-    left: auto;
-    right: var(--gap);
-    top: calc(var(--hdr) + var(--gap));
-    bottom: var(--gap);
-    display: flex;
-    align-items: center;
-    width: var(--card-w);
-  }
+  
 
-  [dir="rtl"] .cx-card {
-    right: auto;
-    left: var(--gap);
-  }
+  
 
-  .cx-card-inner {
-    width: 100%;
-    max-height: 100%;
-    padding: 1.75rem;
-    border-radius: 0;
-    border-bottom: 1px solid var(--glass-line);
-    animation-name: cx-slide;
-  }
+  
 
-  [dir="rtl"] .cx-card-inner {
-    animation-name: cx-slide-rtl;
-  }
+  
 
   .cx-actions {
     grid-template-columns: 1fr;
@@ -1044,7 +810,7 @@
     transition: opacity 0.3s ease;
   }
 
-  .cx.has-card .cx-hint,
+  .cx.has-shop .cx-hint,
   .cx.hint-done .cx-hint {
     opacity: 0;
   }
@@ -1085,9 +851,7 @@
 
   .is-ready .cx-canvas,
   .is-ready .cx-intro,
-  .is-ready .cx-inside,
   .is-ready .cx-zoom,
-  .cx-card-inner,
   .cx-pin-head {
     animation: none;
     opacity: 1;
@@ -1118,32 +882,14 @@
     font-size: var(--fs-caption);
   }
 
-  .cx-card-inner {
-    max-height: 48svh;
-    padding: 1.4rem 1.1rem calc(1rem + env(safe-area-inset-bottom));
-  }
+  
 
   /* Handle bar at the top of the sheet. */
-  .cx-card-inner::before {
-    content: "";
-    position: absolute;
-    top: 0.55rem;
-    left: 50%;
-    width: 2.5rem;
-    height: 4px;
-    margin-left: -1.25rem;
-    border-radius: 999px;
-    background: color-mix(in srgb, var(--white) 25%, transparent);
-  }
+  
 
-  .cx-card .cx-eyebrow {
-    margin-top: 0.25rem;
-  }
+  
 
-  .cx-card-id {
-    margin-bottom: 0.6rem;
-    font-size: 2.25rem;
-  }
+  
 
   .cx-facts {
     gap: 0.3rem;
@@ -1165,9 +911,7 @@
     min-height: 2.75rem;
   }
 
-  .cx-card-inside {
-    margin-top: 0.6rem;
-  }
+  
 }
 
 /* Phones: the zoom controls sit in the top end corner (right; left in Arabic), just under
@@ -1185,5 +929,798 @@
   [dir="rtl"] .cx-zoom {
     right: auto;
     left: var(--gap);
+  }
+}
+
+/* ── Availability (content/chalet-availability.ts) ──
+   Available chalets: plot tinted green, a check badge over the number tag. The pin and the
+   card say "Available" (green check) or "Unavailable" (grey padlock). */
+.cx-spot.is-available {
+  background: color-mix(in srgb, var(--brand-primary) 22%, transparent);
+  box-shadow: inset 0 0 0 calc(1.5px / var(--s)) var(--brand-primary);
+}
+
+.cx-spot.is-available:hover,
+.cx-spot.is-available.is-hover,
+.cx-spot.is-available.is-selected {
+  background: color-mix(in srgb, var(--brand-primary) 38%, transparent);
+  box-shadow:
+    inset 0 0 0 calc(1.5px / var(--s)) var(--brand-primary),
+    0 0 0 calc(1.5px / var(--s)) var(--white);
+}
+
+.cx-spot.is-hover {
+  box-shadow: 0 0 0 calc(1.5px / var(--s)) var(--white);
+}
+
+/* The check badge: one screen size at any zoom, sitting on the tag's top edge. Big,
+   white-ringed and shadowed so it reads over the busy plan, with a soft halo behind. */
+.cx-avail {
+  position: absolute;
+  z-index: 1;
+  width: 26px;
+  height: 26px;
+  transform-origin: 50% 100%;
+  transform: translate(-50%, -100%) scale(calc(1 / var(--s)));
+  pointer-events: none;
+  transition:
+    opacity 0.2s ease,
+    scale 0.25s var(--ease);
+}
+
+/* Three layers, back to front: a soft halo (::before), the disc with its white ring and
+   drop shadow (::after, a round box: some browsers don't round an SVG's own corners),
+   then the check (svg). */
+.cx-avail::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--brand-primary) 40%, transparent);
+  animation: cx-avail-halo 2.6s ease-in-out infinite;
+}
+
+@keyframes cx-avail-halo {
+  0%,
+  100% {
+    opacity: 0.35;
+    scale: 0.85;
+  }
+  50% {
+    opacity: 0.8;
+    scale: 1.15;
+  }
+}
+
+.cx-avail::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  box-shadow:
+    0 0 0 2px var(--white),
+    0 4px 10px color-mix(in srgb, var(--black) 55%, transparent),
+    0 1px 3px color-mix(in srgb, var(--black) 45%, transparent);
+}
+
+.cx-avail svg {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transition: scale 0.25s var(--ease);
+}
+
+/* The disc is the box itself: only the white check is drawn. */
+.cx-avail svg circle {
+  fill: none;
+  stroke: none;
+}
+
+.cx-avail svg path {
+  stroke-width: 2.2;
+  filter: drop-shadow(0 1px 1px color-mix(in srgb, var(--black) 35%, transparent));
+}
+
+.cx-avail.is-hover {
+  scale: 1.3;
+}
+
+.cx-avail.is-hidden {
+  opacity: 0;
+}
+
+/* Available / unavailable icons (ChaletListings): a filled disc with a white mark. */
+.cx-ic circle {
+  fill: var(--brand-primary);
+  stroke: var(--white);
+  stroke-width: 1.2;
+}
+
+.cx-ic :is(path, rect) {
+  fill: none;
+  stroke: var(--white);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cx-ic--off circle {
+  fill: var(--neutral-500);
+}
+
+.cx-ic {
+  filter: drop-shadow(0 2px 3px color-mix(in srgb, var(--black) 45%, transparent));
+}
+
+.cx-avail .cx-ic {
+  filter: none;
+}
+
+/* Pin: icon before the number; unavailable chalets get a grey pin. */
+.cx-pin-head {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.cx-pin-head svg {
+  width: 1.05rem;
+  height: 1.05rem;
+}
+
+.cx-pin.is-unavailable .cx-pin-head {
+  background: var(--neutral-600);
+  color: var(--white);
+}
+
+/* Card: status line under the number, then the one main action. */
+.cx-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0 0 0.85rem;
+  padding: 0.3rem 0.75rem 0.3rem 0.4rem;
+  border-radius: 999px;
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+[dir="rtl"] .cx-status {
+  padding: 0.3rem 0.4rem 0.3rem 0.75rem;
+}
+
+.cx-status svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.cx-status.is-available {
+  background: color-mix(in srgb, var(--brand-primary) 18%, transparent);
+  color: var(--brand-primary);
+}
+
+.cx-status.is-unavailable {
+  background: color-mix(in srgb, var(--white) 10%, transparent);
+  color: var(--on-dark-muted);
+}
+
+.cx-btn--wide {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.cx-actions > :only-child {
+  grid-column: 1 / -1;
+}
+
+.cx-list-count {
+  min-width: 1.6rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  background: var(--brand-primary);
+  color: var(--on-primary);
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cx-avail::before {
+    animation: none;
+  }
+
+  .cx-shop,
+  .cx-avail,
+  .cx-avail svg {
+    transition: none;
+  }
+
+  
+}
+
+/* ── Available chalets, shop style (features/units/ChaletListings.tsx) ──
+   The open button takes the old "Step inside a chalet" pill's place (bottom start on phones,
+   clear of the floating WhatsApp button; top end from tablet up). The sheet: a bottom sheet
+   on phones, a drawer on the end edge from tablet up; photo cards, then a chalet's details. */
+.cx-shop-open {
+  position: absolute;
+  z-index: 3;
+  left: var(--gap);
+  bottom: calc(var(--gap) + 0.25rem);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: calc(100% - 6.5rem);
+  padding: 0.6rem 1rem 0.6rem 0.75rem;
+  border: 1px solid var(--glass-line);
+  background: var(--glass);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
+  color: var(--on-dark);
+  text-align: start;
+  cursor: pointer;
+  transition:
+    border-color 0.25s ease,
+    transform 0.25s var(--ease),
+    opacity 0.3s ease;
+}
+
+[dir="rtl"] .cx-shop-open {
+  right: var(--gap);
+  left: auto;
+  padding: 0.6rem 0.75rem 0.6rem 1rem;
+}
+
+.cx-shop-open:hover {
+  border-color: var(--brand-primary);
+  transform: translateY(-2px);
+}
+
+.cx:not(.is-ready) .cx-shop-open {
+  opacity: 0;
+}
+
+.is-ready .cx-shop-open {
+  animation: cx-rise 0.8s var(--ease) 0.55s backwards;
+}
+
+.cx.has-shop .cx-shop-open,
+.cx.has-shop .cx-shop-open {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.cx-shop-open-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  flex: none;
+}
+
+.cx-shop-open-text {
+  display: grid;
+  min-width: 0;
+}
+
+.cx-shop-open-text strong {
+  font-size: var(--fs-small);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.cx-shop-open-text span {
+  display: none;
+  color: var(--on-dark-muted);
+  font-size: var(--fs-caption);
+}
+
+.cx-shop-chev {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: none;
+  fill: none;
+  stroke: var(--brand-primary);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* The sheet. */
+.cx-shop {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  height: 86%;
+  border: 1px solid var(--glass-line);
+  border-bottom: 0;
+  border-radius: 1.25rem 1.25rem 0 0;
+  /* The same glass as the map's other panels (search, zoom, the open button). */
+  background: var(--glass);
+  box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
+  color: var(--on-dark);
+  translate: 0 105%;
+  visibility: hidden;
+  transition:
+    translate 0.45s var(--ease),
+    height 0.45s var(--ease),
+    visibility 0s linear 0.45s;
+}
+
+.cx-shop.is-open {
+  translate: none;
+  visibility: visible;
+  transition:
+    translate 0.45s var(--ease),
+    height 0.45s var(--ease);
+}
+
+/* Phones, a chalet's details: a shorter sheet so the chalet shows on the map above. */
+.cx-shop.is-detail {
+  height: 62%;
+}
+
+.cx-shop.is-dragging {
+  transition: none;
+}
+
+.cx-shop-grip {
+  flex: none;
+  height: 1.4rem;
+  touch-action: none;
+  cursor: grab;
+}
+
+.cx-shop-grip::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 4px;
+  margin: 0.55rem auto 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--white) 25%, transparent);
+}
+
+.cx-shop-head {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0 0.75rem 0.6rem 1.1rem;
+}
+
+[dir="rtl"] .cx-shop-head {
+  padding: 0 1.1rem 0.6rem 0.75rem;
+}
+
+.cx-shop-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h4);
+  font-weight: 700;
+}
+
+[dir="rtl"] .cx-shop-title {
+  font-family: var(--font-body);
+}
+
+.cx-shop-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.2rem;
+  color: var(--brand-primary);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+.cx-shop-close {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: none;
+  border-radius: 50%;
+  color: var(--on-dark-muted);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.cx-shop-close:hover {
+  background: color-mix(in srgb, var(--white) 10%, transparent);
+  color: var(--on-dark);
+}
+
+.cx-shop-close svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+@property --fade-bottom {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+.cx-shop-body {
+  --fade-bottom: 3.5rem;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0 1rem calc(1rem + env(safe-area-inset-bottom));
+  /* A soft fade at the bottom while there's more below; gone at the end (data-at-bottom). */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade-bottom)), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--fade-bottom)), transparent);
+  transition: --fade-bottom 0.3s ease;
+  /* A thin scrollbar that still shows up on the dark glass. */
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--white) 45%, transparent) transparent;
+}
+
+.cx-shop-body[data-at-bottom] {
+  --fade-bottom: 0px;
+}
+
+.cx-shop-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cx-shop-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.cx-shop-body::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--white) 45%, transparent);
+}
+
+.cx-shop-body::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--white) 65%, transparent);
+}
+
+/* Compound filters: one row of chips, scrolling sideways. */
+.cx-shop-filters {
+  display: flex;
+  gap: 0.4rem;
+  margin: 0 -1rem 0.9rem;
+  padding: 0 1rem 0.2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.cx-shop-filters::-webkit-scrollbar {
+  display: none;
+}
+
+.cx-chip {
+  flex: none;
+  padding: 0.4rem 0.85rem;
+  border: 1px solid var(--glass-line);
+  border-radius: 999px;
+  color: var(--on-dark-muted);
+  font-size: var(--fs-caption);
+  font-weight: 700;
+  white-space: nowrap;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.cx-chip:hover {
+  border-color: var(--brand-primary);
+  color: var(--on-dark);
+}
+
+.cx-chip.is-on {
+  border-color: var(--brand-primary);
+  background: var(--brand-primary-fill);
+  color: var(--on-primary);
+}
+
+/* Product cards: two per row. */
+.cx-shop-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cx-shop-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--glass-line);
+  background: color-mix(in srgb, var(--white) 4%, transparent);
+  color: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition: border-color 0.25s ease, transform 0.25s var(--ease);
+}
+
+.cx-shop-card:hover,
+.cx-shop-card.is-hover {
+  border-color: var(--brand-primary);
+  transform: translateY(-2px);
+}
+
+.cx-shop-photo {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+.cx-shop-photo img {
+  transition: scale 0.6s var(--ease);
+}
+
+.cx-shop-card:hover .cx-shop-photo img {
+  scale: 1.05;
+}
+
+.cx-shop-badge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.55rem 0.2rem 0.25rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--brand-secondary) 85%, transparent);
+  color: var(--on-dark);
+  font-size: 0.6875rem;
+  font-weight: 700;
+}
+
+[dir="rtl"] .cx-shop-badge {
+  right: 0.5rem;
+  left: auto;
+  padding: 0.2rem 0.25rem 0.2rem 0.55rem;
+}
+
+.cx-shop-badge svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.cx-shop-info {
+  display: grid;
+  gap: 0.15rem;
+  padding: 0.65rem 0.75rem 0.75rem;
+}
+
+.cx-shop-id {
+  font-family: var(--font-display);
+  font-size: var(--fs-body);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+[dir="rtl"] .cx-shop-id {
+  font-family: var(--font-body);
+}
+
+.cx-shop-where,
+.cx-shop-facts {
+  overflow: hidden;
+  color: var(--on-dark-muted);
+  font-size: var(--fs-caption);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cx-shop-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-top: 0.35rem;
+  color: var(--brand-primary);
+  font-size: var(--fs-caption);
+  font-weight: 700;
+}
+
+.cx-shop-more .cx-shop-chev {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+/* A chalet's details. */
+.cx-detail {
+  animation: cx-fade 0.35s ease;
+}
+
+.cx-detail-photos {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 60%;
+  gap: 0.5rem;
+  margin: 0 -1rem 1rem;
+  padding: 0 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1rem;
+  scrollbar-width: none;
+}
+
+.cx-detail-photos::-webkit-scrollbar {
+  display: none;
+}
+
+.cx-detail-photo {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+.cx-detail-id {
+  margin: 0.15rem 0 0.1rem;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+[dir="rtl"] .cx-detail-id {
+  font-family: var(--font-body);
+}
+
+.cx-detail-where {
+  margin: 0 0 0.85rem;
+  color: var(--on-dark-muted);
+  font-size: var(--fs-small);
+}
+
+/* The two buttons: a footer outside the scrolling details, so it sits on the sheet's own
+   glass (no second layer) and stays in view. */
+.cx-detail-actions {
+  display: grid;
+  flex: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem calc(0.9rem + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--glass-line);
+}
+
+/* Sideways rows: soft fades on the edges that still hide something (useDragScroll sets
+   data-at-start / data-at-end), so photos and chips slide out of view instead of being cut. */
+@property --fade-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --fade-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+.cx-shop-filters,
+.cx-detail-photos {
+  --fade-start: 2.25rem;
+  --fade-end: 2.25rem;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--fade-start), #000 calc(100% - var(--fade-end)), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 var(--fade-start), #000 calc(100% - var(--fade-end)), transparent);
+  transition:
+    --fade-start 0.3s ease,
+    --fade-end 0.3s ease;
+}
+
+[dir="rtl"] .cx-shop-filters,
+[dir="rtl"] .cx-detail-photos {
+  -webkit-mask-image: linear-gradient(to left, transparent, #000 var(--fade-start), #000 calc(100% - var(--fade-end)), transparent);
+  mask-image: linear-gradient(to left, transparent, #000 var(--fade-start), #000 calc(100% - var(--fade-end)), transparent);
+}
+
+:is(.cx-shop-filters, .cx-detail-photos)[data-at-start] {
+  --fade-start: 0px;
+}
+
+:is(.cx-shop-filters, .cx-detail-photos)[data-at-end] {
+  --fade-end: 0px;
+}
+
+/* Rows a mouse can drag sideways (lib/useDragScroll). */
+.cx-shop-filters,
+.cx-detail-photos {
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.cx-shop-filters.is-drag-scrolling,
+.cx-detail-photos.is-drag-scrolling {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.cx-detail-photo img {
+  pointer-events: none;
+}
+
+/* Tablet up: the open button at the top end (where the pill was); the sheet becomes a
+   drawer on the end edge, as tall as the map. */
+@media (min-width: 768px) {
+  .cx-shop-open {
+    left: auto;
+    right: var(--gap);
+    top: calc(var(--hdr) + var(--gap));
+    bottom: auto;
+    max-width: none;
+    gap: 1rem;
+    padding: 0.7rem 1.25rem 0.7rem 0.9rem;
+  }
+
+  [dir="rtl"] .cx-shop-open {
+    right: auto;
+    left: var(--gap);
+    padding: 0.7rem 0.9rem 0.7rem 1.25rem;
+  }
+
+  .cx-shop-open-text strong {
+    font-size: var(--fs-body);
+  }
+
+  .cx-shop-open-text span {
+    display: block;
+  }
+
+  .cx-shop,
+  .cx-shop.is-detail {
+    left: auto;
+    right: var(--gap);
+    top: calc(var(--hdr) + var(--gap));
+    bottom: auto;
+    width: 26rem;
+    height: auto;
+    /* Ends above the floating WhatsApp button (1.25rem from the bottom, 3rem tall). */
+    max-height: calc(100% - var(--hdr) - var(--gap) - 5.25rem);
+    border-bottom: 1px solid var(--glass-line);
+    border-radius: 0;
+    translate: calc(100% + 2rem) 0;
+  }
+
+  [dir="rtl"] .cx-shop,
+  [dir="rtl"] .cx-shop.is-detail {
+    right: auto;
+    left: var(--gap);
+    translate: calc(-100% - 2rem) 0;
+  }
+
+  .cx-shop.is-open,
+  [dir="rtl"] .cx-shop.is-open {
+    translate: none;
+  }
+
+  .cx-shop-grip {
+    display: none;
+  }
+
+  .cx-shop-head {
+    padding-top: 0.9rem;
+  }
+
+  .cx-detail-photos {
+    grid-auto-columns: 62%;
   }
 }

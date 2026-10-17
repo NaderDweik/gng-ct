@@ -18,36 +18,29 @@ export function generateMetadata({ params }: Props) {
   return routeMetadata(params, "/about");
 }
 
-type PillarIcon = "deed" | "privacy" | "design" | "finance";
+type PillarIcon = "deed" | "privacy" | "design" | "care";
 
-const pillars: { icon: PillarIcon; titleAr: string; titleEn: string; bodyAr: string; bodyEn: string }[] = [
-  {
-    icon: "deed",
-    titleAr: "بانتظار د. طارق",
-    titleEn: "Waiting on Dr. Tarek",
-    bodyAr: "أربعة وعود.",
-    bodyEn: "Four promises.",
-  },
+/** The four promises (the client's list, in their order). */
+const pillars: { icon: PillarIcon; titleAr: string; titleEn: string }[] = [
   {
     icon: "privacy",
-    titleAr: "بانتظار د. طارق",
-    titleEn: "Waiting on Dr. Tarek",
-    bodyAr: "أربعة وعود.",
-    bodyEn: "Four promises.",
+    titleAr: "الأمان والخصوصية",
+    titleEn: "Safety & privacy",
   },
   {
     icon: "design",
-    titleAr: "بانتظار د. طارق",
-    titleEn: "Waiting on Dr. Tarek",
-    bodyAr: "أربعة وعود.",
-    bodyEn: "Four promises.",
+    titleAr: "جودة البناء",
+    titleEn: "Build quality",
   },
   {
-    icon: "finance",
-    titleAr: "بانتظار د. طارق",
-    titleEn: "Waiting on Dr. Tarek",
-    bodyAr: "أربعة وعود.",
-    bodyEn: "Four promises.",
+    icon: "care",
+    titleAr: "خدمات تهتم براحتك",
+    titleEn: "Services that care for you",
+  },
+  {
+    icon: "deed",
+    titleAr: "الوضوح بالتعامل",
+    titleEn: "Clarity in every dealing",
   },
 ];
 
@@ -86,8 +79,10 @@ function Icon({ name }: { name: PillarIcon }) {
     );
   return (
     <svg {...p}>
-      <circle cx="12" cy="12" r="9" />
-      <path d="M15 9.5c-.5-1-1.6-1.5-3-1.5-1.7 0-3 .9-3 2s1 1.7 3 2 3 .9 3 2-1.3 2-3 2c-1.4 0-2.5-.5-3-1.5M12 6.5v11" />
+      <path d="M4 18h16" />
+      <path d="M5.5 18a6.5 6.5 0 0 1 13 0" />
+      <path d="M12 11.5V9.5M10.5 9.5h3" />
+      <path d="M3 21h18" />
     </svg>
   );
 }
@@ -101,7 +96,7 @@ export default async function AboutPage({ params }: Props) {
 
   const stats = [
     { value: site.stats.units, suffix: "+", label: isAr ? "شاليه خاص" : "Private resorts" },
-    { value: site.stats.areaSqm, unit: isAr ? "م²" : "m²", label: isAr ? "مساحة المشروع" : "Project area" },
+    { value: site.stats.areaSqm, unit: isAr ? "م²" : "m²", label: isAr ? "مساحة الكمباوند" : "Project area" },
     { value: site.stats.unitAreaSqm, unit: isAr ? "م²" : "m²", label: isAr ? "لكل شاليه" : "Per unit" },
   ];
 
@@ -125,7 +120,7 @@ export default async function AboutPage({ params }: Props) {
             <div key={s.label}>
               <dt>{s.label}</dt>
               <dd>
-                <CountUp value={s.value} from={s.from} suffix={s.suffix} locale={locale} delay={300 + i * 150} />
+                <CountUp value={s.value} suffix={s.suffix} locale={locale} delay={300 + i * 150} />
                 {s.unit && <span className="sh-stats-unit">{s.unit}</span>}
               </dd>
             </div>
@@ -139,7 +134,13 @@ export default async function AboutPage({ params }: Props) {
           <div>
             <p className="section-eyebrow story-eyebrow">{isAr ? "قصتنا" : "Our story"}</p>
             <h2 className="section-title story-title">
-              {isAr ? "بانتظار د. طارق." : "Pending from Dr. Tarek."}
+              {isAr ? (
+                <>
+                  كمباوند شاليهات <span dir="ltr">Giving</span>
+                </>
+              ) : (
+                "Giving chalet compound"
+              )}
             </h2>
             <p className="section-sub">{t("story")}</p>
             <div className="mt-10 flex items-center gap-5 border-t border-line pt-8 md:gap-6">
@@ -187,7 +188,7 @@ export default async function AboutPage({ params }: Props) {
             <div>
               <p className="section-eyebrow">{isAr ? "لماذا روح العطاء" : "Why Giving Compound"}</p>
               <h2 className="section-title mb-0">
-                {isAr ? "أربعة وعود بانتظار د. طارق." : "Four promises, waiting on Dr. Tarek."}
+                {isAr ? "أربعة وعود نلتزم بها." : "Four promises we keep."}
               </h2>
             </div>
           </div>
@@ -197,12 +198,9 @@ export default async function AboutPage({ params }: Props) {
                 <span className="pillar-icon">
                   <Icon name={p.icon} />
                 </span>
-                <h3 className="pillar-title font-display mt-10 text-xl font-bold text-ink transition-colors duration-300 group-hover:text-on-dark">
+                <h3 className="pillar-title font-display mt-7 text-2xl font-bold leading-snug lg:text-[1.75rem] text-ink transition-colors duration-300 group-hover:text-on-dark">
                   {isAr ? p.titleAr : p.titleEn}
                 </h3>
-                <p className="pillar-body mt-3 text-sm leading-relaxed text-muted transition-colors duration-300 group-hover:text-on-dark-muted">
-                  {isAr ? p.bodyAr : p.bodyEn}
-                </p>
               </article>
             ))}
           </div>
@@ -256,7 +254,7 @@ export default async function AboutPage({ params }: Props) {
             <h2 className="section-title">{isAr ? "ابقَ على تواصل معنا." : "Stay in touch."}</h2>
             <p className="section-sub">
               {isAr
-                ? "آخر أخبار المشروع وصوره، وفريقنا جاهز للرد على أسئلتك."
+                ? "آخر أخبار الكمباوند وصوره، وفريقنا جاهز للرد على أسئلتك."
                 : "The latest project news and photos, and a team ready to answer your questions."}
             </p>
           </header>

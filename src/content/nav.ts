@@ -10,9 +10,8 @@ export const mainNav: NavItem[] = [
   { href: "/gallery", labelAr: "الصور", labelEn: "Gallery" },
   { href: "/services", labelAr: "خدماتنا", labelEn: "Services" },
   { href: "/chalet", labelAr: "الشاليه", labelEn: "Chalet" },
-  { href: "/financing", labelAr: "التمويل", labelEn: "Financing" },
   { href: "/leadership", labelAr: "الإدارة", labelEn: "Leadership" },
-  { href: "/amenities", labelAr: "مرافق المشروع", labelEn: "Amenities" },
+  { href: "/amenities", labelAr: "مرافق الكمباوند", labelEn: "Amenities" },
   { href: "/location", labelAr: "الخريطة", labelEn: "Location" },
   { href: "/news", labelAr: "الأخبار", labelEn: "News" },
   { href: "/faq", labelAr: "الأسئلة الشائعة", labelEn: "FAQ" },
@@ -22,7 +21,6 @@ export const mainNav: NavItem[] = [
 
 export const footerNav: NavItem[] = [
   { href: "/about", labelAr: "من نحن", labelEn: "About" },
-  { href: "/financing", labelAr: "التمويل", labelEn: "Financing" },
   { href: "/gallery", labelAr: "الصور", labelEn: "Gallery" },
   { href: "/faq", labelAr: "الأسئلة الشائعة", labelEn: "FAQ" },
   { href: "/register", labelAr: "سجل اهتمامك", labelEn: "Register" },

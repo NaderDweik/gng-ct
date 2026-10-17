@@ -116,8 +116,8 @@
 .pillar-card {
   position: relative;
   isolation: isolate;
+  /* Sized by its content (icon + title), no fixed height. */
   padding: clamp(1.75rem, 2.6vw, 2.25rem);
-  min-height: 300px;
   background: var(--surface);
   overflow: hidden;
 }
@@ -161,16 +161,6 @@
   color: var(--on-dark);
 }
 
-.pillar-card.is-active .pillar-body {
-  color: var(--on-dark-muted);
-}
-
-/* Phones: the desktop card, stacked; no fixed height, so no empty space under the text. */
-@media (max-width: 767px) {
-  .pillar-card {
-    min-height: 0;
-  }
-}
 
 /* Social cards: a centred heading, then wide, low cards side by side. All three icons sit
    on the site's dark gradient. The hover is quiet: a lift, a brand-green edge and a shadow. */
