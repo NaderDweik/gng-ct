@@ -12,7 +12,7 @@ export const masterPlanCopy = {
     explorerEyebrow: "استكشف المخطط",
     explorerTitle: "",
     explorerHint: "مرّر فوق أي مساحة في المخطط، أو اخترها من القائمة.",
-    caption: "مخطط وحدة الشاليه · ٥٠٠ م² · سند ملكية مستقل",
+    caption: "مخطط وحدة الشاليه · ٥٠٠ م²",
     reset: "عرض المخطط كاملًا",
     turnHover: "الآن دورك: اكتشف المخطط",
     turnTap: "الآن دورك: المس أي مساحة",
@@ -27,7 +27,7 @@ export const masterPlanCopy = {
     explorerEyebrow: "Explore the plan",
     explorerTitle: "Chalet",
     explorerHint: "Hover any space on the plan, or pick one from the list.",
-    caption: "Resort unit plan · 500 m² · independent deed",
+    caption: "Resort unit plan · 500 m²",
     reset: "Show the whole plan",
     turnHover: "Now it’s your turn: discover the plan",
     turnTap: "Now it’s your turn: tap any space",
@@ -227,7 +227,6 @@ export const unitPlanPanel = {
     outside: "Outdoors",
     facts: [
       { label: "Plot", value: "500 m²" },
-      { label: "Ownership", value: "Independent deed" },
       { label: "Price from", value: "168,000 JD" },
       { label: "Handover", value: "Per chalet" },
     ],
@@ -239,7 +238,6 @@ export const unitPlanPanel = {
     outside: "المساحات الخارجية",
     facts: [
       { label: "المساحة", value: "٥٠٠ م²" },
-      { label: "الملكية", value: "سند ملكية مستقل" },
       { label: "السعر يبدأ من", value: "١٦٨,٠٠٠ د.أ" },
       { label: "التسليم", value: "حسب الشاليه" },
     ],

@@ -6,7 +6,8 @@ import { site } from "@/content/site";
 import { Link } from "@/i18n/navigation";
 import { track } from "@/lib/analytics";
 import { registerSource } from "@/components/analytics/registerSource";
-import { defaultCountry, type CountryIso } from "@/content/countries";
+import { countries, defaultCountry, type CountryIso } from "@/content/countries";
+import { visitRequestsWebAppUrl } from "@/content/sheets";
 import { MESSAGE_MAX, NAME_MAX, normalizePhone, validateLead, type LeadField } from "@/features/register/leadRules";
 import { CountryPhoneField } from "@/features/register/CountryPhoneField";
 import { useChaletParam } from "@/features/register/RegisterHeading";
@@ -38,6 +39,38 @@ export function RegisterForm() {
   // Arriving from the compound map (/register?chalet=D24): named in the panel title
   // (RegisterHeading) and in the WhatsApp message.
   const chalet = useChaletParam();
+
+  // Hidden field only bots fill in; the sheet ignores requests that have it.
+  const [website, setWebsite] = useState("");
+
+  /** Adds the request to the «طلبات الزيارة» Google Sheet (content/sheets.ts), in Arabic, in the
+   *  background: it never holds up WhatsApp, and a failure doesn't reach the visitor. */
+  function saveToSheet() {
+    if (!visitRequestsWebAppUrl) return;
+    const full = normalizePhone(country, phone);
+    const c = countries.find((x) => x.iso === country);
+    const body = {
+      name: name.trim(),
+      phone: full ? `+${full}` : phone.trim(),
+      country: c ? c.ar : country,
+      day: day ? dayLabel(day.date, "ar") : "",
+      time: hour !== null ? hourLabel(hour, "ar") : "",
+      chalet: chalet ?? "",
+      message: message.trim(),
+      language: isAr ? "العربية" : "الإنجليزية",
+      page: registerSource().from_page,
+      website,
+    };
+    // text/plain keeps it a "simple" request (no CORS preflight, which Apps Script can't answer);
+    // no-cors because the reply isn't needed; keepalive so it still goes if WhatsApp takes over.
+    fetch(visitRequestsWebAppUrl, {
+      method: "POST",
+      mode: "no-cors",
+      keepalive: true,
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(body),
+    }).catch(() => {});
+  }
 
   /** wa.me chat with the sales number, the visit request already typed in. */
   function whatsAppUrl() {
@@ -76,6 +109,7 @@ export function RegisterForm() {
 
     // Still inside the tap, so the browser lets WhatsApp open; the link below covers the rest.
     window.open(whatsAppUrl(), "_blank", "noopener,noreferrer");
+    saveToSheet();
     track("register_sent", { visit_day: day?.key ?? "", visit_hour: hour ?? -1, country, chalet: chalet ?? "", ...registerSource() });
     setOpened(true);
   }
@@ -94,6 +128,17 @@ export function RegisterForm() {
       noValidate
       className="register-form space-y-5"
     >
+      {/* Spam trap: hidden from people and screen readers, so only bots fill it in. */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden
+        className="register-trap"
+        value={website}
+        onChange={(e) => setWebsite(e.target.value)}
+      />
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="register-field block">
           <span>{t("name")}</span>

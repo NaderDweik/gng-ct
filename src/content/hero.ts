@@ -51,8 +51,8 @@ export const heroLayered = {
       mobileFocus: "85% 50%",
       titleAr: ["عيش فوق", "التوقعات"],
       titleEn: ["Live Above", "Expectations"],
-      descAr: "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة. شاليهات خاصة بسند ملكية مستقل.",
-      descEn: "The first and largest fully-serviced chalet city in the region. Private resorts with an independent deed.",
+      descAr: "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة.",
+      descEn: "The first and largest fully-serviced chalet city in the region.",
     },
     {
       // Quad bike in front of the Giving Royal clubhouse.
@@ -63,8 +63,8 @@ export const heroLayered = {
       mobileFocus: "100% 50%",
       titleAr: ["عنوان واحد.", "خصوصية تامة."],
       titleEn: ["One Address.", "Complete Privacy."],
-      descAr: "شاليهات ٥٠٠ م² بسند ملكية مستقل وتصميم إسباني فاخر.",
-      descEn: "500 m² private resorts with independent deeds and Spanish design.",
+      descAr: "شاليهات ٥٠٠ م² بتصميم إسباني فاخر.",
+      descEn: "500 m² private resorts with Spanish design.",
     },
     {
       // Giant chess over the pool at the Giving Royal clubhouse.

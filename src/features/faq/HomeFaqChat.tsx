@@ -20,7 +20,7 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  * (styles: styles/sections/faq-chat.css).
  *   Questions are chips; picking one sends it as the visitor's message, the
  *   concierge types, then answers word by word — and each answer carries a
- *   small visual that says it at a glance (route, price, deed seal, 0%, plans).
+ *   small visual that says it at a glance (route, price, 0%, plans).
  *   The first question asks itself when the section comes into view.
  *   "Ask your own" opens WhatsApp with the visitor's question already written.
  * Reduced motion: everything appears at once; nothing counts or draws.
@@ -51,7 +51,6 @@ const copy = {
     home: "Giving Compound",
     installments: "Installments",
     cash: "Cash",
-    deed: "Title deed",
     area: "Area",
     sqm: "m²",
     owner: "Owner",
@@ -82,7 +81,6 @@ const copy = {
     home: "Giving Compound",
     installments: "بالتقسيط",
     cash: "نقدًا",
-    deed: "سند ملكية",
     area: "المساحة",
     sqm: "م²",
     owner: "المالك",
@@ -214,50 +212,6 @@ function PriceVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
   );
 }
 
-function DeedVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  useGSAP(
-    () => {
-      if (reduced()) return;
-      const q = gsap.utils.selector(ref);
-      gsap.from(q(".fq-deed"), { y: 10, rotate: -2, autoAlpha: 0, duration: 0.6, delay, ease: "power3.out" });
-      gsap.from(q(".fq-deed-line"), { scaleX: 0, duration: 0.6, delay: delay + 0.2, stagger: 0.08, ease: "power2.out" });
-      gsap
-        .timeline({ delay: delay + 0.75 })
-        .from(q(".fq-seal"), { scale: 2.2, rotate: -40, autoAlpha: 0, duration: 0.35, ease: "power4.in" })
-        .to(q(".fq-deed"), { y: 2, duration: 0.06, yoyo: true, repeat: 1 })
-        .fromTo(q(".fq-seal-ring"), { scale: 0.8, autoAlpha: 0.8 }, { scale: 1.9, autoAlpha: 0, duration: 0.7, ease: "power2.out" }, "<");
-    },
-    { scope: ref },
-  );
-  return (
-    <div ref={ref} className="fq-vis fq-vis--deed">
-      <div className="fq-deed">
-        <p className="fq-deed-title">{c.deed}</p>
-        <span className="fq-deed-line" />
-        <span className="fq-deed-line" style={{ width: "72%" }} />
-        <dl className="fq-deed-fields">
-          <div>
-            <dt>{c.area}</dt>
-            <dd>
-              {fmt(500)} {c.sqm}
-            </dd>
-          </div>
-          <div>
-            <dt>{c.owner}</dt>
-            <dd>{c.you}</dd>
-          </div>
-        </dl>
-        <span className="fq-seal" aria-hidden>
-          <span className="fq-seal-ring" />
-          <span className="fq-seal-core" dangerouslySetInnerHTML={{ __html: GIVING_MARK_SVG }} />
-          <span className="fq-seal-text">{c.stamp}</span>
-        </span>
-      </div>
-    </div>
-  );
-}
-
 function InterestVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
   const ref = useRef<HTMLDivElement>(null);
   useGSAP(
@@ -329,7 +283,6 @@ function PlansVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
 const visuals: Record<string, typeof WhereVisual> = {
   where: WhereVisual,
   price: PriceVisual,
-  deed: DeedVisual,
   interest: InterestVisual,
   plans: PlansVisual,
 };

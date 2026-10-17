@@ -901,3 +901,12 @@
 .register-glide .register-slot:not(.is-booked) {
   background: transparent;
 }
+
+/* Spam trap field (RegisterForm): off screen, never seen or focused by people. */
+.register-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}

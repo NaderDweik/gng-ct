@@ -6,8 +6,8 @@
  * Newest first. Notes:
  *   - bike-centre: the deck says 10/11/2026 (a future date, out of sequence); listed as
  *     2025-11-10, between the prayer room (Oct 2025) and the rental office (Jan 2026).
- *   - zoning-and-subdivision: the deed photo has the owner's national ID number and the
- *     registrar's name blurred.
+ *   - zoning-and-subdivision: the land-registry photo has the owner's national ID number and
+ *     the registrar's name blurred.
  *   - public-services-centre: the slide has no photo; it uses the landscaping one.
  */
 
@@ -480,8 +480,8 @@ const entries: Entry[] = [
     date: "2024-02-03",
     titleAr: "التنظيم والإفراز",
     titleEn: "Zoning and subdivision",
-    bodyAr: ["تم بحمد الله أخذ الموافقات الحكومية على تنظيم أراضي الكمباوند، وإفراز كل قطعة بمساحة ٥٠٠ متر مربع بقوشان مستقل."],
-    bodyEn: ["Government approvals have been granted to zone the compound's land and subdivide it into 500 m² plots, each with its own deed."],
+    bodyAr: ["تم بحمد الله أخذ الموافقات الحكومية على تنظيم أراضي الكمباوند، وإفراز كل قطعة بمساحة ٥٠٠ متر مربع."],
+    bodyEn: ["Government approvals have been granted to zone the compound's land and subdivide it into 500 m² plots."],
     image: "/news/zoning-and-subdivision.webp",
     gallery: [],
   },

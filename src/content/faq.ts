@@ -36,9 +36,9 @@ export const faqCategories: FaqCategory[] = [
       {
         id: "size",
         qAr: "ما مساحة الأرض والبناء لكل شاليه، وما أبرز مواصفاته؟",
-        aAr: "تبلغ مساحة الأرض للشاليه في النموذج الحالي ٥٠٠ متر مربع بقوشان مستقل، ومساحة البناء ١٢٠ متراً مربعاً بما يعادل ١٨٠ متراً بناء دوبلكس. ويتميّز الشاليه بتصميم من طابق واحد يضم ٣ غرف نوم ماستر وأربعة حمامات ومطبخاً، بالإضافة إلى مسبح خاص ومساحات خارجية.",
+        aAr: "تبلغ مساحة الأرض للشاليه في النموذج الحالي ٥٠٠ متر مربع، ومساحة البناء ١٢٠ متراً مربعاً بما يعادل ١٨٠ متراً بناء دوبلكس. ويتميّز الشاليه بتصميم من طابق واحد يضم ٣ غرف نوم ماستر وأربعة حمامات ومطبخاً، بالإضافة إلى مسبح خاص ومساحات خارجية.",
         qEn: "What are the land and built areas of each chalet, and its main specs?",
-        aEn: "In the current model, each chalet sits on 500 m² of land with its own deed, with 120 m² built (equivalent to 180 m² of duplex build). It is single-storey, with 3 master bedrooms, four bathrooms and a kitchen, plus a private pool and outdoor spaces.",
+        aEn: "In the current model, each chalet sits on 500 m² of land, with 120 m² built (equivalent to 180 m² of duplex build). It is single-storey, with 3 master bedrooms, four bathrooms and a kitchen, plus a private pool and outdoor spaces.",
       },
       {
         qAr: "ما المرافق الخاصة المتوفرة في كل شاليه؟",
@@ -119,13 +119,7 @@ export const faqCategories: FaqCategory[] = [
     titleEn: "Ownership & Process",
     items: [
       {
-        id: "deed",
-        qAr: "هل يحصل كل شاليه على قوشان مستقل يشمل الأرض والبناء؟",
-        aAr: "يتمتع كل شاليه بملكية مستقلة تشمل الشاليه والأرض التابعة له، بحسب المخططات والوثائق القانونية المعتمدة، ويتم توضيح تفاصيل الملكية قبل إتمام الشراء.",
-        qEn: "Does each chalet get its own deed covering the land and the building?",
-        aEn: "Each chalet is owned independently, the chalet and its land, according to the approved plans and legal documents. The ownership details are explained before the purchase is completed.",
-      },
-      {
+        id: "registration",
         qAr: "هل يتم تسجيل الشاليه باسم المشتري، وما إجراءات نقل الملكية؟",
         aAr: "يتم تنظيم نقل الملكية باسم المشتري وفق الإجراءات القانونية المعتمدة، مع توضيح الوثائق والعقود المتعلقة بالملكية قبل إتمام عملية الشراء.",
         qEn: "Is the chalet registered in the buyer's name, and how is ownership transferred?",
@@ -134,9 +128,9 @@ export const faqCategories: FaqCategory[] = [
       {
         id: "steps",
         qAr: "ما الخطوات التي يمر بها العميل من اختيار الشاليه حتى إتمام عملية الشراء؟",
-        aAr: "تبدأ الإجراءات بحجز موعد لمعاينة الشاليه، تليها زيارة الموقع والتعرف على تفاصيله. بعد المعاينة، يتم تقديم طلب الموافقة على التقسيط، حيث تصدر الموافقة خلال ٣ أيام عمل. وبعد الحصول عليها، يتم تحديد موعد في دائرة الأراضي لإتمام إجراءات التنازل ونقل الملكية والحصول على القوشان باسم المشتري.",
+        aAr: "تبدأ الإجراءات بحجز موعد لمعاينة الشاليه، تليها زيارة الموقع والتعرف على تفاصيله. بعد المعاينة، يتم تقديم طلب الموافقة على التقسيط، حيث تصدر الموافقة خلال ٣ أيام عمل. وبعد الحصول عليها، يتم تحديد موعد في دائرة الأراضي لإتمام إجراءات التنازل ونقل الملكية باسم المشتري.",
         qEn: "What are the steps from choosing a chalet to completing the purchase?",
-        aEn: "First, book a viewing, then visit the site and see the chalet for yourself. After the viewing, you apply for installment approval, which is issued within 3 working days. Once approved, an appointment is set at the Department of Lands to complete the transfer of ownership and issue the deed in your name.",
+        aEn: "First, book a viewing, then visit the site and see the chalet for yourself. After the viewing, you apply for installment approval, which is issued within 3 working days. Once approved, an appointment is set at the Department of Lands to complete the transfer of ownership to your name.",
       },
       {
         id: "handover",
@@ -174,7 +168,7 @@ const byId = (id: string) => faqCategories.flatMap((c) => c.items).find((it) => 
 export const homeFaqPreview: FaqItem[] = [
   byId("where"),
   byId("size"),
-  byId("deed"),
+  byId("registration"),
   byId("plans"),
   byId("handover"),
 ];

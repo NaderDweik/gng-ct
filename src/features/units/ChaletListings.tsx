@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Link } from "@/i18n/navigation";
 import type { CompoundUnit } from "@/content/compound-units";
 import { compoundCopy } from "@/content/units";
-import { chaletArea } from "@/content/chalet-areas";
+import type { ChaletInfo } from "@/lib/chaletsSheet";
 import { formatNumber } from "@/lib/format";
 import { useDragScroll } from "@/lib/useDragScroll";
 
@@ -79,6 +79,7 @@ export function ChaletListings({
   units,
   all,
   isAvailable,
+  info,
   copy,
   locale,
   open,
@@ -93,6 +94,8 @@ export function ChaletListings({
   /** Every chalet, for the details of one tapped on the map. */
   all: CompoundUnit[];
   isAvailable: (id: string) => boolean;
+  /** A chalet's details (area, bedrooms, tags, description): built in or from the Chalets sheet. */
+  info: (id: string) => ChaletInfo;
   copy: Copy;
   locale: string;
   open: boolean;
@@ -116,12 +119,24 @@ export function ChaletListings({
   const shown = filter ? units.filter((u) => compoundOf(u.id) === filter) : units;
   const detail = all.find((u) => u.id === detailId) ?? null;
   const detailOn = detail ? isAvailable(detail.id) : false;
-  /** The chalet's facts: its own area first (content/chalet-areas.ts: from the sheet, or the
-   *  nearest chalet's), then the facts every chalet shares (copy.facts, after its generic area). */
+  /** The tags on a chalet's card: area, bedrooms, then the pool tag when it has one. */
   const factsOf = (id: string) => {
-    const a = chaletArea(id);
-    return [...(a ? [`${n(a)} ${isAr ? "م²" : "m²"}`] : []), ...copy.facts.slice(1)];
+    const c = info(id);
+    const beds = isAr
+      ? c.bedrooms === 1
+        ? "غرفة نوم واحدة"
+        : c.bedrooms === 2
+          ? "غرفتا نوم"
+          : `${n(c.bedrooms)} ${c.bedrooms <= 10 ? "غرف نوم" : "غرفة نوم"}`
+      : `${c.bedrooms} bedroom${c.bedrooms === 1 ? "" : "s"}`;
+    return [
+      ...(c.area ? [`${n(c.area)} ${isAr ? "م²" : "m²"}`] : []),
+      beds,
+      ...(c.pool ? [copy.facts[2]] : []),
+    ];
   };
+  /** The chalet's description from the sheet, or the shared line. */
+  const pitchOf = (id: string) => (isAr ? info(id).descAr : info(id).descEn) || copy.pitch;
   // Rotate through the photos in list order, so neighbouring cards differ.
   const lead = (u: CompoundUnit) => {
     const i = units.indexOf(u);
@@ -230,7 +245,7 @@ export function ChaletListings({
                   <li key={f}>{f}</li>
                 ))}
               </ul>
-              <p className="cx-pitch">{detailOn ? copy.pitch : copy.unavailableNote}</p>
+              <p className="cx-pitch">{detailOn ? pitchOf(detail.id) : copy.unavailableNote}</p>
             </div>
             {/* Outside the scrolling body: always in view, on the panel's own glass. */}
             <div className="cx-detail-actions">

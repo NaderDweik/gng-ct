@@ -42,8 +42,8 @@ export default async function HomePage({ params }: Props) {
       title: isAr ? "الشاليهات الخاصة" : "Private Resorts",
       headline: isAr ? "قمة الخصوصية المعاصرة" : "Contemporary privacy, elevated",
       desc: isAr
-        ? "٥٠٠ م² بسند ملكية مستقل: غرف، مسابح، وخصوصية كاملة داخل كمباوند مسوّر."
-        : "500 m² with an independent deed: rooms, pools, and full privacy inside a gated community.",
+        ? "٥٠٠ م²: غرف، مسابح، وخصوصية كاملة داخل كمباوند مسوّر."
+        : "500 m²: rooms, pools, and full privacy inside a gated community.",
       img: "/gallery/resortsPics/pool-and-tent-pavilion.jpg",
       cta: isAr ? "استكشف الوحدات" : "Explore units",
     },

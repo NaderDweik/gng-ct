@@ -14,7 +14,7 @@ import {
 import Image from "next/image";
 import { compoundPlanSize as PLAN, compoundUnits, type CompoundUnit } from "@/content/compound-units";
 import { compoundCopy } from "@/content/units";
-import { isChaletAvailable } from "@/content/chalet-availability";
+import { useChaletData } from "@/lib/chaletsSheet";
 import { AvailableIcon, ChaletListings, UnavailableIcon } from "@/features/units/ChaletListings";
 import { track } from "@/lib/analytics";
 import { useSoftSnap } from "@/lib/useSoftSnap";
@@ -55,7 +55,6 @@ type View = { s: number; x: number; y: number };
 type Box = { w: number; h: number };
 
 const normalize = (q: string) => q.toUpperCase().replace(/[\s-]+/g, "");
-const availableUnits = compoundUnits.filter((u) => isChaletAvailable(u.id));
 const isPhone = (b: Box) => b.w < 768;
 
 export function CompoundPlan({ locale }: { locale: string }) {
@@ -74,6 +73,10 @@ export function CompoundPlan({ locale }: { locale: string }) {
   const [notFound, setNotFound] = useState(false);
   const [dragging, setDragging] = useState(false);
   const [ready, setReady] = useState(false);
+  // Each chalet's status and details: built in, or from the client's Chalets sheet (lib/chaletsSheet.ts).
+  const chalets = useChaletData();
+  const isChaletAvailable = chalets.isAvailable;
+  const availableUnits = compoundUnits.filter((u) => isChaletAvailable(u.id));
   // "Available chalets" sheet (ChaletListings) and the chalet whose details it shows.
   const [shopOpen, setShopOpen] = useState(false);
   const [detailId, setDetailId] = useState<string | null>(null);
@@ -589,6 +592,7 @@ export function CompoundPlan({ locale }: { locale: string }) {
         units={availableUnits}
         all={compoundUnits}
         isAvailable={isChaletAvailable}
+        info={chalets.info}
         copy={copy}
         locale={locale}
         open={shopOpen}

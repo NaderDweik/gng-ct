@@ -18,7 +18,7 @@ export function generateMetadata({ params }: Props) {
   return routeMetadata(params, "/about");
 }
 
-type PillarIcon = "deed" | "privacy" | "design" | "care";
+type PillarIcon = "document" | "privacy" | "design" | "care";
 
 /** The four promises (the client's list, in their order). */
 const pillars: { icon: PillarIcon; titleAr: string; titleEn: string }[] = [
@@ -38,7 +38,7 @@ const pillars: { icon: PillarIcon; titleAr: string; titleEn: string }[] = [
     titleEn: "Services that care for you",
   },
   {
-    icon: "deed",
+    icon: "document",
     titleAr: "الوضوح بالتعامل",
     titleEn: "Clarity in every dealing",
   },
@@ -56,7 +56,7 @@ function Icon({ name }: { name: PillarIcon }) {
     strokeLinejoin: "round" as const,
     "aria-hidden": true,
   };
-  if (name === "deed")
+  if (name === "document")
     return (
       <svg {...p}>
         <path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />

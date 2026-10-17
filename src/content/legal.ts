@@ -9,7 +9,7 @@ import { site } from "@/content/site";
 export type LegalSection = { heading: string; body: string[] };
 export type LegalDoc = { title: string; lead: string; sections: LegalSection[] };
 
-export const legalUpdated = "2026-10-13";
+export const legalUpdated = "2026-10-17";
 
 const phone = site.phone.replace(/^\+962(\d{2})(\d{3})(\d{4})$/, "+962 $1 $2 $3");
 
@@ -27,7 +27,7 @@ export const privacyPolicy: Record<"ar" | "en", LegalDoc> = {
       {
         heading: "What we collect",
         body: [
-          "When you register your interest: your name, your phone number, the options you choose (for example a site visit or a financing call), your preferred contact time and any message you add.",
+          "When you book a visit: your name, your phone number with its country code, the day and time you choose, the chalet you asked about (if you came from the compound map) and any message you add.",
           "When you browse: technical information your browser sends, such as your IP address, device and browser type, and the pages you visit.",
           "If you accept analytics cookies: how you use the site, such as the pages you view, what you click and how you scroll, including recordings of your visit (session recordings). Anything you type into form fields is hidden in these recordings.",
           "If you answer a short survey or leave feedback on the site: your answers.",
@@ -48,7 +48,7 @@ export const privacyPolicy: Record<"ar" | "en", LegalDoc> = {
         heading: "Who receives it",
         body: [
           "Our sales team, who follow up on your enquiry.",
-          "Trusted service providers that run parts of the site on our behalf: a messaging provider that delivers your enquiry to our team, a security provider that protects the site and the form, an analytics provider for visit analytics, session recordings and surveys, and our hosting provider. They may use your data only to provide their service to us, under the same protection duties as ours.",
+          "Trusted service providers that run parts of the site on our behalf: a messaging provider that delivers your enquiry to our team, a spreadsheet service (Google Sheets) where our sales team keeps the enquiries, a security provider that protects the site and the form, an analytics provider for visit analytics, session recordings and surveys, and our hosting provider. They may use your data only to provide their service to us, under the same protection duties as ours.",
           "Competent public authorities, only where the law requires it.",
           "We keep a record of the data we share with these recipients and why.",
         ],
@@ -128,7 +128,7 @@ export const privacyPolicy: Record<"ar" | "en", LegalDoc> = {
       {
         heading: "ما الذي نجمعه",
         body: [
-          "عند تسجيل اهتمامك: اسمك، ورقم هاتفك، والخيارات التي تحددها (مثل زيارة الموقع أو استشارة التمويل)، والوقت المفضّل للتواصل، وأي رسالة تضيفها.",
+          "عند حجز زيارة: اسمك، ورقم هاتفك مع رمز الدولة، واليوم والساعة اللذين تختارهما، والشاليه الذي سألت عنه (إذا وصلت من خريطة الكمباوند)، وأي رسالة تضيفها.",
           "عند تصفحك للموقع: معلومات تقنية يرسلها متصفحك، مثل عنوان IP ونوع الجهاز والمتصفح والصفحات التي تزورها.",
           "إذا وافقت على ملفات تعريف الارتباط الخاصة بالتحليلات: طريقة استخدامك للموقع، مثل الصفحات التي تشاهدها وما تضغط عليه وكيف تتنقل فيها، بما في ذلك تسجيلات لزيارتك (تسجيل الجلسات). ويُخفى أي نص تكتبه في حقول النماذج في هذه التسجيلات.",
           "إذا أجبت عن استبيان قصير أو تركت ملاحظاتك على الموقع: إجاباتك.",
@@ -149,7 +149,7 @@ export const privacyPolicy: Record<"ar" | "en", LegalDoc> = {
         heading: "من يطّلع عليها",
         body: [
           "فريق المبيعات لدينا، لمتابعة طلبك.",
-          "مزوّدو خدمات موثوقون يشغّلون أجزاء من الموقع نيابة عنا: مزوّد خدمة مراسلة يوصل طلبك إلى فريقنا، ومزوّد خدمة أمان يحمي الموقع والنموذج، ومزوّد تحليلات لتحليل الزيارات وتسجيل الجلسات والاستبيانات، ومزوّد الاستضافة. ولا يحق لهم استخدام بياناتك إلا لتقديم خدماتهم لنا، ويخضعون لواجبات الحماية ذاتها المترتبة علينا.",
+          "مزوّدو خدمات موثوقون يشغّلون أجزاء من الموقع نيابة عنا: مزوّد خدمة مراسلة يوصل طلبك إلى فريقنا، وخدمة جداول بيانات (Google Sheets) يحفظ فيها فريق المبيعات الطلبات، ومزوّد خدمة أمان يحمي الموقع والنموذج، ومزوّد تحليلات لتحليل الزيارات وتسجيل الجلسات والاستبيانات، ومزوّد الاستضافة. ولا يحق لهم استخدام بياناتك إلا لتقديم خدماتهم لنا، ويخضعون لواجبات الحماية ذاتها المترتبة علينا.",
           "الجهات الرسمية المختصة، فقط عندما يفرض القانون ذلك.",
           "نحتفظ بسجل للبيانات التي نشاركها مع هذه الجهات والغرض منها.",
         ],
