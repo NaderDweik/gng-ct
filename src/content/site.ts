@@ -1,7 +1,7 @@
 export const site = {
   nameAr: "روح العطاء",
   nameEn: "Giving Compound",
-  companyAr: "شركة العطاء للتطوير والتمويل العمراني",
+  companyAr: "شركة العطاء للتطوير العقاري",
   companyEn: "Al-Ataa for City Development & Financing",
   taglineAr: "أول وأكبر مدينة شاليهات مخدومة بالكامل في المنطقة",
   taglineEn: "First and largest fully-serviced chalet city in the region",

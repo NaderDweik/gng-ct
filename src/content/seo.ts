@@ -39,10 +39,10 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
       "The first and largest fully-serviced chalet city in the region, near Amman. 367+ private 500 m² chalets with their own pool, an independent deed and 0% installments.",
   },
   "/about": {
-    titleAr: "من نحن: شركة العطاء للتطوير والتمويل العمراني",
+    titleAr: "من نحن: شركة العطاء للتطوير العقاري",
     titleEn: "About Us: Al-Ataa City Development",
     descAr:
-      "تعرّف على شركة العطاء للتطوير والتمويل العمراني ومشروع روح العطاء: ٥٠٠,٠٠٠ م²، ٣٦٧+ شاليه بتصميم إسباني، وشهادة جودة ISO 9001:2015.",
+      "تعرّف على شركة العطاء للتطوير العقاري ومشروع روح العطاء: ٥٠٠,٠٠٠ م²، ٣٦٧+ شاليه بتصميم إسباني، وشهادة جودة ISO 9001:2015.",
     descEn:
       "Meet Al-Ataa for City Development & Financing, the developer of Giving Compound: 500,000 m², 367+ Spanish-style chalets and ISO 9001:2015 certified quality.",
   },
@@ -58,7 +58,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "خدماتنا: تطوير، تمويل مباشر وخدمة ما بعد البيع",
     titleEn: "Compound Services & Aftercare in Jordan",
     descAr:
-      "خدمات شركة العطاء لملاك الشاليهات: تطوير وبناء وتشطيب، تمويل مباشر بدون بنك وبدون فوائد، إدارة العقار، ودعم قانوني لاستخراج سند الملكية.",
+      "خدمات شركة العطاء للتطوير العقاري لملاك الشاليهات: تطوير وبناء وتشطيب، تمويل مباشر بدون بنك وبدون فوائد، إدارة العقار، ودعم قانوني لاستخراج سند الملكية.",
     descEn:
       "What Al-Ataa does for chalet owners: development and finishing, direct 0% financing with no bank, property management and legal support for your title deed.",
   },
@@ -74,7 +74,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "الإدارة: د. طارق قازان، مؤسس روح العطاء",
     titleEn: "Leadership: Dr. Tarek Qazan, Founder",
     descAr:
-      "تعرّف على د. طارق قازان مؤسس شركة العطاء للتطوير والتمويل العمراني، ورؤيته في بناء أول مدينة شاليهات مخدومة بالكامل في المنطقة.",
+      "تعرّف على د. طارق قازان مؤسس شركة العطاء للتطوير العقاري، ورؤيته في بناء أول مدينة شاليهات مخدومة بالكامل في المنطقة.",
     descEn:
       "Meet Dr. Tarek Qazan, founder of Al-Ataa for City Development & Financing, and the principles behind the region's first fully-serviced chalet city.",
   },
@@ -137,7 +137,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
   "/privacy": {
     titleAr: "سياسة الخصوصية",
     titleEn: "Privacy Policy",
-    descAr: "كيف تجمع شركة العطاء للتطوير والتمويل العمراني معلوماتك عند تسجيل اهتمامك بشاليه في روح العطاء، ولماذا تستخدمها، وكيف تحميها، وحقوقك.",
+    descAr: "كيف تجمع شركة العطاء للتطوير العقاري معلوماتك عند تسجيل اهتمامك بشاليه في روح العطاء، ولماذا تستخدمها، وكيف تحميها، وحقوقك.",
     descEn: "How Al-Ataa collects, uses and protects your information when you register interest in a Giving Compound chalet, who receives it, and your rights.",
   },
   "/terms": {

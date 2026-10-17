@@ -23,31 +23,31 @@ type PillarIcon = "deed" | "privacy" | "design" | "finance";
 const pillars: { icon: PillarIcon; titleAr: string; titleEn: string; bodyAr: string; bodyEn: string }[] = [
   {
     icon: "deed",
-    titleAr: "سند ملكية مستقل",
-    titleEn: "Independent deed",
-    bodyAr: "كل مشترٍ يمتلك شاليهه الخاص بسند مستقل باسمه: ملكية حقيقية لا حصة في فندق.",
-    bodyEn: "Every buyer owns their private resort with an independent deed: real ownership, not a hotel share.",
+    titleAr: "بانتظار د. طارق",
+    titleEn: "Waiting on Dr. Tarek",
+    bodyAr: "أربعة وعود.",
+    bodyEn: "Four promises.",
   },
   {
     icon: "privacy",
-    titleAr: "خصوصية تامة",
-    titleEn: "Complete privacy",
-    bodyAr: "جدران بارتفاع ٣ أمتار حول كل شاليه، داخل مجتمع مسوّر ومحروس على مدار الساعة.",
-    bodyEn: "3-meter walls around every resort, inside a gated community guarded around the clock.",
+    titleAr: "بانتظار د. طارق",
+    titleEn: "Waiting on Dr. Tarek",
+    bodyAr: "أربعة وعود.",
+    bodyEn: "Four promises.",
   },
   {
     icon: "design",
-    titleAr: "تصميم إسباني فاخر",
-    titleEn: "Luxury Spanish design",
-    bodyAr: "واجهات عصرية وتشطيبات راقية ومسبح خاص في كل وحدة بمساحة ٥٠٠ م².",
-    bodyEn: "Modern facades, refined finishes and a private pool in every 500 m² unit.",
+    titleAr: "بانتظار د. طارق",
+    titleEn: "Waiting on Dr. Tarek",
+    bodyAr: "أربعة وعود.",
+    bodyEn: "Four promises.",
   },
   {
     icon: "finance",
-    titleAr: "تمويل بدون فوائد",
-    titleEn: "Zero-interest financing",
-    bodyAr: "خطط دفع مباشرة مع الشركة بدون بنك وبدون فوائد، أو خصم ٢٤٪ عند الدفع نقدًا.",
-    bodyEn: "Payment plans directly with the developer (no bank, no interest) or 24% off for cash.",
+    titleAr: "بانتظار د. طارق",
+    titleEn: "Waiting on Dr. Tarek",
+    bodyAr: "أربعة وعود.",
+    bodyEn: "Four promises.",
   },
 ];
 
@@ -99,12 +99,10 @@ export default async function AboutPage({ params }: Props) {
   const tc = await getTranslations("common");
   const isAr = locale === "ar";
 
-  const pctSign = isAr ? "٪" : "%";
   const stats = [
     { value: site.stats.units, suffix: "+", label: isAr ? "شاليه خاص" : "Private resorts" },
     { value: site.stats.areaSqm, unit: isAr ? "م²" : "m²", label: isAr ? "مساحة المشروع" : "Project area" },
-    { value: site.stats.unitAreaSqm, unit: isAr ? "م²" : "m²", label: isAr ? "لكل وحدة" : "Per unit" },
-    { value: 0, from: 100, suffix: pctSign, label: isAr ? "فوائد على التقسيط" : "Interest on installments" },
+    { value: site.stats.unitAreaSqm, unit: isAr ? "م²" : "m²", label: isAr ? "لكل شاليه" : "Per unit" },
   ];
 
   const socials = [
@@ -118,7 +116,6 @@ export default async function AboutPage({ params }: Props) {
       <PageJsonLd locale={locale} path="/about" />
       <SubpageHeader
         title={t("title")}
-        subtitle={isAr ? "ليس فندقًا، بل استثمار وحياة." : "Not a hotel. An investment, and a way of life."}
       />
 
       {/* Key figures — a slate band continuing the header (Jordan Gate pattern). */}
@@ -142,7 +139,7 @@ export default async function AboutPage({ params }: Props) {
           <div>
             <p className="section-eyebrow story-eyebrow">{isAr ? "قصتنا" : "Our story"}</p>
             <h2 className="section-title story-title">
-              {isAr ? site.taglineAr + "." : site.taglineEn + "."}
+              {isAr ? "بانتظار د. طارق." : "Pending from Dr. Tarek."}
             </h2>
             <p className="section-sub">{t("story")}</p>
             <div className="mt-10 flex items-center gap-5 border-t border-line pt-8 md:gap-6">
@@ -190,7 +187,7 @@ export default async function AboutPage({ params }: Props) {
             <div>
               <p className="section-eyebrow">{isAr ? "لماذا روح العطاء" : "Why Giving Compound"}</p>
               <h2 className="section-title mb-0">
-                {isAr ? "أربعة وعود نلتزم بها." : "Four promises we keep."}
+                {isAr ? "أربعة وعود بانتظار د. طارق." : "Four promises, waiting on Dr. Tarek."}
               </h2>
             </div>
           </div>
@@ -227,8 +224,8 @@ export default async function AboutPage({ params }: Props) {
             <p className="section-sub">{t("founder")}</p>
             <p className="mt-6 max-w-xl leading-relaxed text-on-dark-muted">
               {isAr
-                ? "تدير الشركة المطوّرة كل مرحلة وتتابعها بنفسها، بعمليات موثّقة وفق نظام إدارة الجودة ISO 9001:2015، وتتعامل مع المشتري مباشرة، بدون وسطاء أو بنوك."
-                : "The developer runs every stage itself, with processes documented under ISO 9001:2015 quality management, and deals with buyers directly: no brokers, no banks."}
+                ? "تدير الشركة المطوّرة كل مرحلة وتتابعها بنفسها، بعمليات موثّقة وفق نظام إدارة الجودة ISO 9001:2015، وتتعامل مع المشتري مباشرة."
+                : "The developer runs every stage itself, with processes documented under ISO 9001:2015 quality management, and deals with buyers directly."}
             </p>
             <div className="about-lead-cta mt-10 flex flex-wrap gap-3">
               <Link href="/leadership" className="register-cta-btn">
@@ -245,7 +242,7 @@ export default async function AboutPage({ params }: Props) {
               className="border border-line-on-dark shadow-card-lg"
             />
             <p className="mt-3 text-xs text-on-dark-subtle">
-              {isAr ? "تقديم شهادة ISO 9001:2015 لشركة العطاء" : "Al-Ataa receiving the ISO 9001:2015 certification"}
+              {isAr ? "تقديم شهادة ISO 9001:2015 لشركة العطاء للتطوير العقاري" : "Al-Ataa receiving the ISO 9001:2015 certification"}
             </p>
           </div>
         </div>
