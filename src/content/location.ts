@@ -1,4 +1,4 @@
-import { site } from "@/content/site";
+  import { site } from "@/content/site";
 
 export const locationCopy = {
   eyebrowAr: "الموقع",
