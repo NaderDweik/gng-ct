@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
-import { AE, AU, BH, CA, DE, EG, FR, GB, IQ, JO, KW, LB, NL, OM, PS, QA, SA, SE, SY, TR, US } from "country-flag-icons/react/3x2";
-import { countries, type CountryIso } from "@/content/countries";
+import { useEffect, useId, useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { countries, otherCountries, pinnedCountries, type Country, type CountryIso } from "@/content/countries";
+import { toLatinDigits } from "@/features/register/leadRules";
 import { PHONE_MAX, splitInternational } from "@/features/register/leadRules";
 
 /*
@@ -10,15 +10,26 @@ import { PHONE_MAX, splitInternational } from "@/features/register/leadRules";
  * listbox under the field; the number stays left to right, in English digits, on Arabic
  * pages too (the client's choice for this field). Pasting a full
  * "+962…" number switches the country and keeps the rest. Styles: styles/sections/register.css.
+ * Every country is listed: the pinned ones first, then the rest alphabetically. A search box
+ * on top of the list filters by name (Arabic or English), code ("+44", "44") or ISO letters.
  */
 
-// Named imports only, so the bundle carries just these flags.
-const FLAGS = { AE, AU, BH, CA, DE, EG, FR, GB, IQ, JO, KW, LB, NL, OM, PS, QA, SA, SE, SY, TR, US } satisfies Record<CountryIso, unknown>;
-
+/** Flags are static files (public/flags), so only the ones in view are loaded. */
 function Flag({ iso }: { iso: CountryIso }) {
-  const F = FLAGS[iso];
-  return <F className="register-flag" aria-hidden />;
+  // eslint-disable-next-line @next/next/no-img-element -- tiny SVG, no optimisation needed
+  return <img src={`/flags/${iso}.svg`} alt="" className="register-flag" loading="lazy" aria-hidden />;
 }
+
+/** Lower case, Latin digits, no Arabic diacritics or hamza variants, for matching. */
+const fold = (v: string) =>
+  toLatinDigits(v)
+    .toLowerCase()
+    .replace(/[\u064B-\u065F\u0670]/g, "")
+    .replace(/[أإآ]/g, "ا")
+    .replace(/ى/g, "ي")
+    .replace(/ة/g, "ه")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
 export function CountryPhoneField({
   label,
@@ -41,11 +52,23 @@ export function CountryPhoneField({
 }) {
   const [open, setOpen] = useState(false);
   const [focus, setFocus] = useState(0);
+  const [query, setQuery] = useState("");
   const wrap = useRef<HTMLDivElement>(null);
   const list = useRef<HTMLUListElement>(null);
+  const search = useRef<HTMLInputElement>(null);
   const listId = useId();
   const current = countries.find((c) => c.iso === country) ?? countries[0]!;
-  const name = (c: (typeof countries)[number]) => (isAr ? c.ar : c.en);
+  const name = (c: Country) => (isAr ? c.ar : c.en);
+
+  // Pinned first, then the rest by name in the page's language; filtered by the search.
+  const shown = useMemo(() => {
+    const rest = [...otherCountries].sort((a, b) => name(a).localeCompare(name(b), isAr ? "ar" : "en"));
+    const all = [...pinnedCountries, ...rest];
+    const q = fold(query.trim()).replace(/^\+|^00/, "");
+    if (!q) return all;
+    return all.filter((c) => fold(`${c.ar} ${c.en}`).includes(q) || c.dial.startsWith(q) || c.iso.toLowerCase() === q);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [query, isAr]);
 
   // Close on a tap outside.
   useEffect(() => {
@@ -62,8 +85,15 @@ export function CountryPhoneField({
     if (open) list.current?.children[focus]?.scrollIntoView({ block: "nearest" });
   }, [open, focus]);
 
+  // The search box takes the typing as soon as the list opens.
+  useEffect(() => {
+    if (open) search.current?.focus({ preventScroll: true });
+  }, [open]);
+
   const show = () => {
-    setFocus(Math.max(0, countries.findIndex((c) => c.iso === country)));
+    setQuery("");
+    const all = [...pinnedCountries, ...[...otherCountries].sort((a, b) => name(a).localeCompare(name(b), isAr ? "ar" : "en"))];
+    setFocus(Math.max(0, all.findIndex((c) => c.iso === country)));
     setOpen(true);
   };
 
@@ -84,15 +114,16 @@ export function CountryPhoneField({
     if (e.key === "Escape") {
       e.preventDefault();
       setOpen(false);
+      wrap.current?.querySelector<HTMLButtonElement>(".register-cc")?.focus();
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
-      setFocus((i) => Math.min(countries.length - 1, i + 1));
+      setFocus((i) => Math.min(shown.length - 1, i + 1));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setFocus((i) => Math.max(0, i - 1));
-    } else if (e.key === "Enter" || e.key === " ") {
+    } else if (e.key === "Enter") {
       e.preventDefault();
-      pick(countries[focus]!.iso);
+      if (shown[focus]) pick(shown[focus]!.iso);
     }
   };
 
@@ -141,8 +172,32 @@ export function CountryPhoneField({
       </div>
 
       {open && (
-        <ul ref={list} id={listId} role="listbox" className="register-cc-list" dir={isAr ? "rtl" : "ltr"} aria-labelledby={`${listId}-label`}>
-          {countries.map((c, i) => (
+        <div className="register-cc-pop" dir={isAr ? "rtl" : "ltr"}>
+          <div className="register-cc-search">
+            <svg viewBox="0 0 24 24" aria-hidden>
+              <circle cx="11" cy="11" r="6.5" />
+              <path d="m16 16 4 4" />
+            </svg>
+            <input
+              ref={search}
+              type="search"
+              value={query}
+              placeholder={isAr ? "ابحث عن دولة أو رمز" : "Search a country or code"}
+              aria-label={isAr ? "ابحث عن دولة" : "Search countries"}
+              aria-controls={listId}
+              aria-activedescendant={shown[focus] ? `${listId}-${focus}` : undefined}
+              autoComplete="off"
+              enterKeyHint="done"
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setFocus(0);
+              }}
+              onKeyDown={onKey}
+            />
+          </div>
+        <ul ref={list} id={listId} role="listbox" className="register-cc-list" aria-labelledby={`${listId}-label`}>
+          {shown.length === 0 && <li className="register-cc-empty">{isAr ? "لا توجد نتائج" : "No matches"}</li>}
+          {shown.map((c, i) => (
             <li
               key={c.iso}
               id={`${listId}-${i}`}
@@ -158,6 +213,7 @@ export function CountryPhoneField({
             </li>
           ))}
         </ul>
+        </div>
       )}
 
       {error && <em id={errorId} className="register-error">{error}</em>}

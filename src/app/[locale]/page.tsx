@@ -57,6 +57,16 @@ export default async function HomePage({ params }: Props) {
       img: "/gallery/compoundPics/kids-cycling-community-street.jpg",
       cta: isAr ? "اكتشف المرافق" : "Discover amenities",
     },
+    {
+      href: "/register",
+      title: isAr ? "التمويل المرن" : "Flexible financing",
+      headline: isAr ? "بدون فوائد، مباشرة مع الشركة" : "Zero interest, direct with us",
+      desc: isAr
+        ? "دفعة أولى تختارها ثم أقساط حسب الدفعة والمدة، أو خصم ٢٤٪ نقدًا. تمويل مباشر بدون فوائد بنكية."
+        : "A down payment you choose, then installments set by the down payment and duration, or 24% off in cash. Direct financing with zero bank interest.",
+      img: "/gallery/resortsPics/family-entering-resort-front-door.jpg",
+      cta: isAr ? "سجل اهتمامك" : "Register interest",
+    },
   ];
 
   return (
@@ -85,8 +95,8 @@ export default async function HomePage({ params }: Props) {
             </div>
             <p className="section-sub">
               {isAr
-                ? "مخطط واحد، وجهتان. الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في كمباوند روح العطاء."
-                : "One community, two destinations. Privacy, lifestyle, and flexible financing meet in Giving Compound."}
+                ? "مخطط واحد، ثلاث وجهات. الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في كمباوند روح العطاء."
+                : "One community, three destinations. Privacy, lifestyle, and flexible financing meet in Giving Compound."}
             </p>
           </div>
 
@@ -162,7 +172,7 @@ export default async function HomePage({ params }: Props) {
             <p className="section-eyebrow">{isAr ? "الطريق إلينا" : "Getting here"}</p>
             {/* Inline margins: .section-title's own margin shorthand outranks mx-auto. */}
             <h2 className="section-title" style={{ marginInline: "auto", marginBottom: 0 }}>
-              {isAr ? "٢٤ كم من جامعة الإسراء عبر طريق القسطل" : "24 km from Isra University via Al-Qastal Road"}
+              {isAr ? "٢٥ كم من جامعة الإسراء عبر طريق القسطل" : "25 km from Isra University via Al-Qastal Road"}
             </h2>
           </header>
           <LocationShowcase />

@@ -3,8 +3,8 @@ import { site } from "@/content/site";
 export const locationCopy = {
   eyebrowAr: "الموقع",
   eyebrowEn: "Location",
-  titleAr: "٢٤ كم من جامعة الإسراء عبر طريق القسطل",
-  titleEn: "24 km from Isra University via Al-Qastal Road",
+  titleAr: "٢٥ كم من جامعة الإسراء عبر طريق القسطل",
+  titleEn: "25 km from Isra University via Al-Qastal Road",
   subAr:
     "يقع روح العطاء في المطبّة، على بُعد ٤١ كم من فندق الرويال باتجاه سحاب الحطمية. كمباوند مسوّر بهواء أنظف ومساحة أوسع، مع وصول سهل إلى عمّان والمطار.",
   subEn:
@@ -48,7 +48,7 @@ const place = (p: Omit<NearbyPlace, "distanceAr" | "distanceEn">): NearbyPlace =
  * After moving or adding one, run `node scripts/location-routes.mjs` to redraw its road.
  */
 export const nearbyPlaces: NearbyPlace[] = [
-  place({ id: "isra", nameAr: "جامعة الإسراء", nameEn: "Isra University", km: 24, coords: { lat: 31.7891885, lng: 35.9287065 } }),
+  place({ id: "isra", nameAr: "جامعة الإسراء", nameEn: "Isra University", km: 25, coords: { lat: 31.7891885, lng: 35.9287065 } }),
   place({ id: "royal", nameAr: "الدوار الثالث (فندق الرويال)", nameEn: "3rd Circle (Le Royal Hotel)", km: 41, coords: { lat: 31.9532892, lng: 35.9087841 } }),
   place({ id: "ibn-sina", nameAr: "جامعة ابن سينا", nameEn: "Ibn Sina University", km: 30, coords: { lat: 31.741268, lng: 35.943288 } }),
   place({ id: "luminus", nameAr: "كلية لومينس", nameEn: "Luminus College", km: 40, coords: { lat: 31.8981392, lng: 35.868694 } }),
