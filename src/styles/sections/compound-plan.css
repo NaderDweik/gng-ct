@@ -1528,13 +1528,6 @@
   text-overflow: ellipsis;
 }
 
-.cx-shop-price {
-  margin-top: 0.2rem;
-  color: var(--on-dark);
-  font-size: var(--fs-small);
-  font-weight: 700;
-}
-
 /* The card's features («المميزات»), as small tags under the price. */
 .cx-shop-feats {
   display: flex;
@@ -1552,25 +1545,7 @@
   line-height: 1.4;
 }
 
-/* Details: the cash price, then the card's features. */
-.cx-price {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  margin: 0 0 0.85rem;
-}
-
-.cx-price span {
-  color: var(--on-dark-muted);
-  font-size: var(--fs-caption);
-}
-
-.cx-price strong {
-  color: var(--on-dark);
-  font-size: var(--fs-h4, 1.25rem);
-  font-weight: 700;
-}
-
+/* Details: the card's features. */
 .cx-features {
   margin: 0 0 1rem;
 }

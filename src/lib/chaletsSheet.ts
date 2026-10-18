@@ -11,7 +11,7 @@ import { chaletsSheetCsvUrl } from "@/content/sheets";
  * visit, in the browser; if it can't be reached, the built-in data stays.
  * Sheet columns, by their Arabic headers (the English ones also work): الشاليه, الحالة
  * (متاح / غير متاح), المساحة (م²), غرف النوم, مسبح خاص وجاكوزي (نعم / لا), الوصف (عربي),
- * الوصف (إنجليزي), السعر كاش (دينار), المميزات, المميزات (إنجليزي). Features are one per
+ * الوصف (إنجليزي), المميزات, المميزات (إنجليزي). Features are one per
  * line (or separated by «،»); English ones missing from the sheet come from the known list.
  */
 
@@ -22,8 +22,6 @@ export type ChaletInfo = {
   pool: boolean;
   descAr?: string;
   descEn?: string;
-  /** Cash price in JD. */
-  priceJd?: number;
   features: ChaletFeature[];
 };
 
@@ -34,7 +32,6 @@ const builtIn = (id: string): ChaletInfo => ({
   area: chaletListings[id]?.area ?? chaletArea(id),
   bedrooms: 3,
   pool: true,
-  priceJd: chaletListings[id]?.priceJd,
   features: chaletListings[id]?.features ?? [],
 });
 
@@ -98,7 +95,6 @@ function readSheet(text: string): Map<string, Row> {
     pool: col("مسبح خاص وجاكوزي", "Private pool & jacuzzi"),
     descAr: col("الوصف (عربي)", "Description (Arabic)"),
     descEn: col("الوصف (إنجليزي)", "Description (English)"),
-    price: col("السعر كاش (دينار)", "Cash price (JD)"),
     featAr: col("المميزات", "Features (Arabic)"),
     featEn: col("المميزات (إنجليزي)", "Features (English)"),
   };
@@ -115,7 +111,6 @@ function readSheet(text: string): Map<string, Row> {
       pool: yes(at(r, c.pool)),
       descAr: at(r, c.descAr) || undefined,
       descEn: at(r, c.descEn) || undefined,
-      priceJd: num(at(r, c.price)),
       features: (() => {
         if (c.featAr < 0) return undefined;
         const en = lines(at(r, c.featEn));
@@ -160,7 +155,6 @@ export function useChaletData() {
       pool: row.pool ?? base.pool,
       descAr: row.descAr,
       descEn: row.descEn,
-      priceJd: row.priceJd ?? base.priceJd,
       features: row.features ?? base.features,
     };
   };
