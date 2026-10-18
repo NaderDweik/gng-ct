@@ -11,13 +11,14 @@
  * Chalets the sheet doesn't cover (or covers unclearly) take the middle area of the three
  * nearest chalets on the plan that have one (`estimatedChaletAreas`); replace them when the
  * client sends real figures (54 of 446).
+ * A3, B13, I22 and N7 were corrected by hand to the sales office's price cards (2026-10-18).
  */
 export const chaletAreas: Record<string, number> = {
   "A1": 507,
   "A1+": 551,
   "A2": 536,
   "A2+": 500,
-  "A3": 500,
+  "A3": 501,
   "A3+": 500,
   "A4": 500,
   "A4+": 500,
@@ -47,7 +48,7 @@ export const chaletAreas: Record<string, number> = {
   "A17+": 500,
   "A19": 501,
   "A19+": 500,
-  "B13": 1122,
+  "B13": 501,
   "B15": 501,
   "C1": 500,
   "C1+": 500,
@@ -140,7 +141,7 @@ export const chaletAreas: Record<string, number> = {
   "I16": 500,
   "I18": 675,
   "I20": 500,
-  "I22": 500,
+  "I22": 675,
   "I24": 660,
   "J1": 500,
   "J1+": 500,
@@ -235,7 +236,7 @@ export const chaletAreas: Record<string, number> = {
   "N3": 500,
   "N3+": 500,
   "N5": 1000,
-  "N7": 571,
+  "N7": 570,
   "N7+": 570,
   "O1": 500,
   "O2": 820,

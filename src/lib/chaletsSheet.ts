@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { isChaletAvailable } from "@/content/chalet-availability";
+import { chaletListings, featureEn, isChaletAvailable, type ChaletFeature } from "@/content/chalet-availability";
 import { chaletArea } from "@/content/chalet-areas";
 import { chaletsSheetCsvUrl } from "@/content/sheets";
 
@@ -11,7 +11,8 @@ import { chaletsSheetCsvUrl } from "@/content/sheets";
  * visit, in the browser; if it can't be reached, the built-in data stays.
  * Sheet columns, by their Arabic headers (the English ones also work): الشاليه, الحالة
  * (متاح / غير متاح), المساحة (م²), غرف النوم, مسبح خاص وجاكوزي (نعم / لا), الوصف (عربي),
- * الوصف (إنجليزي).
+ * الوصف (إنجليزي), السعر كاش (دينار), المميزات, المميزات (إنجليزي). Features are one per
+ * line (or separated by «،»); English ones missing from the sheet come from the known list.
  */
 
 export type ChaletInfo = {
@@ -21,16 +22,27 @@ export type ChaletInfo = {
   pool: boolean;
   descAr?: string;
   descEn?: string;
+  /** Cash price in JD. */
+  priceJd?: number;
+  features: ChaletFeature[];
 };
 
 type Row = Partial<ChaletInfo>;
 
 const builtIn = (id: string): ChaletInfo => ({
   available: isChaletAvailable(id),
-  area: chaletArea(id),
+  area: chaletListings[id]?.area ?? chaletArea(id),
   bedrooms: 3,
   pool: true,
+  priceJd: chaletListings[id]?.priceJd,
+  features: chaletListings[id]?.features ?? [],
 });
+
+const lines = (v: string | undefined) =>
+  (v ?? "")
+    .split(/\n|،|,/)
+    .map((x) => x.trim())
+    .filter(Boolean);
 
 /** A small CSV reader: quoted fields, doubled quotes, commas and line breaks inside quotes. */
 function parseCsv(text: string): string[][] {
@@ -86,6 +98,9 @@ function readSheet(text: string): Map<string, Row> {
     pool: col("مسبح خاص وجاكوزي", "Private pool & jacuzzi"),
     descAr: col("الوصف (عربي)", "Description (Arabic)"),
     descEn: col("الوصف (إنجليزي)", "Description (English)"),
+    price: col("السعر كاش (دينار)", "Cash price (JD)"),
+    featAr: col("المميزات", "Features (Arabic)"),
+    featEn: col("المميزات (إنجليزي)", "Features (English)"),
   };
   if (c.id < 0) return map;
   const at = (r: string[], i: number) => (i >= 0 ? r[i]?.trim() : undefined);
@@ -100,6 +115,12 @@ function readSheet(text: string): Map<string, Row> {
       pool: yes(at(r, c.pool)),
       descAr: at(r, c.descAr) || undefined,
       descEn: at(r, c.descEn) || undefined,
+      priceJd: num(at(r, c.price)),
+      features: (() => {
+        if (c.featAr < 0) return undefined;
+        const en = lines(at(r, c.featEn));
+        return lines(at(r, c.featAr)).map((ar, i) => ({ ar, en: en[i] || featureEn(ar) || ar }));
+      })(),
     });
   }
   return map;
@@ -112,8 +133,13 @@ export function useChaletData() {
   useEffect(() => {
     if (!chaletsSheetCsvUrl) return;
     let alive = true;
-    fetch(chaletsSheetCsvUrl, { cache: "no-store" })
-      .then((r) => (r.ok ? r.text() : Promise.reject(new Error(String(r.status)))))
+    const load = () =>
+      fetch(chaletsSheetCsvUrl, { cache: "no-store" }).then((r) =>
+        r.ok ? r.text() : Promise.reject(new Error(String(r.status))),
+      );
+    // Google now and then bounces a request to its sign-in page; one retry gets through.
+    load()
+      .catch(() => new Promise((ok) => setTimeout(ok, 1500)).then(load))
       .then((t) => alive && setSheet(readSheet(t)))
       .catch(() => {
         // Sheet unreachable: the built-in data stays.
@@ -134,6 +160,8 @@ export function useChaletData() {
       pool: row.pool ?? base.pool,
       descAr: row.descAr,
       descEn: row.descEn,
+      priceJd: row.priceJd ?? base.priceJd,
+      features: row.features ?? base.features,
     };
   };
 

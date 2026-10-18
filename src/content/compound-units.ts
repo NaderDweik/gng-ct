@@ -1,5 +1,5 @@
 /*
- * Every chalet on the compound plan (public/plans/compound/compound-map-v2-*.webp), read
+ * Every chalet on the compound plan (public/plans/compound/compound-map-v3-*.webp), read
  * from the designer's layered file ("design fainal.tif", 7874 x 5906): each chalet's
  * number tag is its own named layer, so x/y are that tag's centre and w/h its size, all
  * in % of the plan. Generated; re-run the extraction rather than hand-editing positions.
@@ -8,6 +8,8 @@
  * 6024px (most of the faded ground below the drawing cut off): the same drawing,
  * top-aligned, without the logo and chalet inset. y and h were rescaled from the
  * original 5906 high plan to 6024 (5906/6024); x and w are unchanged.
+ * The served images (compound-map-v3-*.webp) come from ~/Downloads/compound-map-30mb.jpeg
+ * (4000 x 3400, the same drawing at a cleaner quality), cropped the same way (top 3060px).
  *
  * The plan has two tags reading "S 21"; the eastern one (beside S17) is listed as S19,
  * which is otherwise missing. Confirm with the designer.

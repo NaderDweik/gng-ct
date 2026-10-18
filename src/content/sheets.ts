@@ -11,7 +11,7 @@
  *    sends every request there (as well as opening WhatsApp).
  */
 export const chaletsSheetCsvUrl =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnA-cKTLYs2yoOSLe9XXyX3w0_gRaOQM7R07LmduQK0hqA-fXACDUHLUbWXWOOm2JaXTVAd8abOdRR/pub?gid=747430111&output=csv";
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSnA-cKTLYs2yoOSLe9XXyX3w0_gRaOQM7R07LmduQK0hqA-fXACDUHLUbWXWOOm2JaXTVAd8abOdRR/pub?gid=501350469&single=true&output=csv";
 
 export const visitRequestsWebAppUrl =
   "https://script.google.com/macros/s/AKfycbxUEwhZ3_ARAVk1Z9-h8JCmtIiROynpR4zM5v8-VfM-J6UwmE5HMkNHsjf1mY0xsVETYw/exec";

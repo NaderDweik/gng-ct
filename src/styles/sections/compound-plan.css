@@ -1528,6 +1528,85 @@
   text-overflow: ellipsis;
 }
 
+.cx-shop-price {
+  margin-top: 0.2rem;
+  color: var(--on-dark);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+/* The card's features («المميزات»), as small tags under the price. */
+.cx-shop-feats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-top: 0.4rem;
+}
+
+.cx-shop-feats span {
+  padding: 0.15rem 0.45rem;
+  border: 1px solid var(--glass-line);
+  border-radius: 999px;
+  color: var(--on-dark);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+}
+
+/* Details: the cash price, then the card's features. */
+.cx-price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0 0 0.85rem;
+}
+
+.cx-price span {
+  color: var(--on-dark-muted);
+  font-size: var(--fs-caption);
+}
+
+.cx-price strong {
+  color: var(--on-dark);
+  font-size: var(--fs-h4, 1.25rem);
+  font-weight: 700;
+}
+
+.cx-features {
+  margin: 0 0 1rem;
+}
+
+.cx-features h4 {
+  margin: 0 0 0.4rem;
+  color: var(--on-dark-muted);
+  font-size: var(--fs-caption);
+  font-weight: 600;
+}
+
+.cx-features ul {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cx-features li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--on-dark);
+  font-size: var(--fs-small);
+}
+
+.cx-features li::before {
+  content: "";
+  flex: none;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: var(--brand-primary);
+}
+
 .cx-shop-more {
   display: inline-flex;
   align-items: center;

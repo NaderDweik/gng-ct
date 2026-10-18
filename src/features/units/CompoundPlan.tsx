@@ -415,7 +415,7 @@ export function CompoundPlan({ locale }: { locale: string }) {
       >
         <Image
           className="cx-backdrop"
-          src="/plans/compound/compound-map-v2-1600.webp"
+          src="/plans/compound/compound-map-v3-1600.webp"
           alt=""
           fill
           sizes="40vw"
@@ -437,8 +437,8 @@ export function CompoundPlan({ locale }: { locale: string }) {
           {/* eslint-disable-next-line @next/next/no-img-element -- srcset must follow the zoom, not the layout box */}
           <img
             className="cx-img"
-            src="/plans/compound/compound-map-v2-2800.webp"
-            srcSet="/plans/compound/compound-map-v2-1600.webp 1600w, /plans/compound/compound-map-v2-2800.webp 2800w, /plans/compound/compound-map-v2-4400.webp 4400w"
+            src="/plans/compound/compound-map-v3-2800.webp"
+            srcSet="/plans/compound/compound-map-v3-1600.webp 1600w, /plans/compound/compound-map-v3-2800.webp 2800w, /plans/compound/compound-map-v3-4000.webp 4000w"
             sizes={sizes}
             width={PLAN.width}
             height={PLAN.height}
@@ -576,7 +576,7 @@ export function CompoundPlan({ locale }: { locale: string }) {
           aria-hidden
           dir="ltr"
         >
-          <Image src="/plans/compound/compound-map-v2-1600.webp" alt="" fill sizes="180px" />
+          <Image src="/plans/compound/compound-map-v3-1600.webp" alt="" fill sizes="180px" />
           <span
             className="cx-mini-view"
             style={{ left: `${mini.left}%`, top: `${mini.top}%`, width: `${mini.width}%`, height: `${mini.height}%` }}

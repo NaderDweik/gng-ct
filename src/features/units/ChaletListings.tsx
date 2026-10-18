@@ -135,6 +135,11 @@ export function ChaletListings({
       ...(c.pool ? [copy.facts[2]] : []),
     ];
   };
+  /** "128,000 JD", or null when the chalet has no price. */
+  const priceOf = (id: string) => {
+    const p = info(id).priceJd;
+    return p ? copy.price(n(p)) : null;
+  };
   /** The chalet's description from the sheet, or the shared line. */
   const pitchOf = (id: string) => (isAr ? info(id).descAr : info(id).descEn) || copy.pitch;
   // Rotate through the photos in list order, so neighbouring cards differ.
@@ -240,11 +245,27 @@ export function ChaletListings({
                 {copy.chalet} <span dir="ltr">{detail.id}</span>
               </h3>
               <p className="cx-detail-where">{copy.compound(compoundOf(detail.id))}</p>
+              {detailOn && priceOf(detail.id) && (
+                <p className="cx-price">
+                  <span>{copy.cashPrice}</span>
+                  <strong>{priceOf(detail.id)}</strong>
+                </p>
+              )}
               <ul className="cx-facts">
                 {factsOf(detail.id).map((f) => (
                   <li key={f}>{f}</li>
                 ))}
               </ul>
+              {detailOn && info(detail.id).features.length > 0 && (
+                <div className="cx-features">
+                  <h4>{copy.features}</h4>
+                  <ul>
+                    {info(detail.id).features.map((f) => (
+                      <li key={f.ar}>{isAr ? f.ar : f.en}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               <p className="cx-pitch">{detailOn ? pitchOf(detail.id) : copy.unavailableNote}</p>
             </div>
             {/* Outside the scrolling body: always in view, on the panel's own glass. */}
@@ -304,6 +325,14 @@ export function ChaletListings({
                       <span className="cx-shop-facts">
                         {factsOf(u.id).slice(0, 2).join(" · ")}
                       </span>
+                      {priceOf(u.id) && <span className="cx-shop-price">{priceOf(u.id)}</span>}
+                      {info(u.id).features.length > 0 && (
+                        <span className="cx-shop-feats">
+                          {info(u.id).features.map((f) => (
+                            <span key={f.ar}>{isAr ? f.ar : f.en}</span>
+                          ))}
+                        </span>
+                      )}
                       <span className="cx-shop-more">
                         {copy.details}
                         <Chevron isAr={isAr} />
