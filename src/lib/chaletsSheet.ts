@@ -101,7 +101,8 @@ function readSheet(text: string): Map<string, Row> {
   if (c.id < 0) return map;
   const at = (r: string[], i: number) => (i >= 0 ? r[i]?.trim() : undefined);
   for (const r of rows) {
-    const id = at(r, c.id)?.toUpperCase().replace(/\s+/g, "");
+    // The price card's "N1+" is N1 on the plan (content/chalet-availability.ts).
+    const id = at(r, c.id)?.toUpperCase().replace(/\s+/g, "").replace(/^N1\+$/, "N1");
     if (!id) continue;
     const status = at(r, c.status);
     map.set(id, {

@@ -8,8 +8,8 @@
  * features has an empty list. The Chalets Google Sheet overrides all of this once it loads
  * (lib/chaletsSheet.ts).
  *
- * N1+ has a card but no tag on the plan (the plan has N1, N3, N3+, N5…), so it can't show on
- * the map until the client confirms where it is.
+ * The card "N1+" has no tag of its own on the plan (N1, N3, N3+, N5…), so it is listed as N1;
+ * a sheet row "N1+" is read as N1 too (lib/chaletsSheet.ts).
  */
 
 export type ChaletFeature = { ar: string; en: string };
@@ -66,7 +66,7 @@ export const chaletListings: Record<string, ChaletListing> = {
   L16: { area: 500, features: [] },
   L21: { area: 615, features: [F.twoStreets] },
   M6: { area: 500, features: [F.twoStreets, F.mosque] },
-  "N1+": { area: 500, features: [F.facingGolf, F.restaurants, F.cafes, F.facingPark] },
+  N1: { area: 500, features: [F.facingGolf, F.restaurants, F.cafes, F.facingPark] },
   N7: { area: 570, features: [F.twoStreets, F.facingGolf, F.facingPark] },
   "T15+": { area: 586, features: [F.courts] },
 };
