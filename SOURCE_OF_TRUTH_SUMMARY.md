@@ -4,7 +4,7 @@
 >
 > **Refresh rule:** After any meaningful product/design/content change, update this file before ending the turn so the next AI session starts current.
 >
-> *Last refreshed: 2026-10-17 (/financing page removed, Arabic naming: الكمباوند + شركة العطاء للتطوير العقاري, services availability) · mirrors live codebase under `jordangate-redesign-main/`*
+> *Last refreshed: 2026-10-19 (chalet walkthrough videos in the /chalet room viewer) · 2026-10-18 (blueprint page published; stale identity/deploy lines fixed) · earlier: 2026-10-17 (/financing page removed, Arabic naming: الكمباوند + شركة العطاء للتطوير العقاري, services availability) · mirrors live codebase under `jordangate-redesign-main/`*
 
 ---
 
@@ -17,17 +17,17 @@
 | Brand | Giving Compound / روح العطاء |
 | Contact | د. طارق قازان (Dr. Tarek Qazan) |
 | Phone (display) | `+962790029928` |
-| Phone / WA (actions) | **TEMP test** `+962795898415` → `https://wa.me/962795898415` — switch back to `962790029928` before shipping |
+| Phone / WA (actions) | `+962790029928` → `https://wa.me/962790029928` (production sales number) |
 | Hours | Sun–Thu 9–7 · Sat 10–4 |
 | Cert | ISO 9001:2015 |
 | Old site | https://giving-city.com/ |
 | Live domain | https://giving-estate.com |
 | IG | [@spiritgivingdevelopment](https://www.instagram.com/spiritgivingdevelopment/) |
 | FB | [SpiritGivingDevelopment](https://www.facebook.com/SpiritGivingDevelopment/) |
-| Maps | https://maps.app.goo.gl/PNR3uYsjeDX92fqs7 · ~31.949722, 35.930111 |
+| Maps | `site.mapsUrl` → 31.7330683, 36.1140802 (compound pin, 2026-10-17) |
 | Location | 41 km (~55 min) from Le Royal Hotel → Sahab Al-Hatmiyeh (سحاب الحطمية) · drive times: `content/location.ts` |
 
-**What it is:** First & largest fully-serviced chalet/resort city in the region. Gated residential ownership (NOT a hotel). **367+** private resorts · **500,000 m²** · Spanish style · independent deed (سند ملكية مستقل).
+**What it is:** First & largest fully-serviced chalet/resort city in the region. Gated residential ownership (NOT a hotel). **367+** private resorts · **500,000 m²** · Spanish style. (No "independent deed" anywhere: removed at the client's request 2026-10-17.)
 
 Canonical runtime values: `src/content/site.ts`.
 
@@ -72,9 +72,10 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 | `/gallery` | المعرض | **Polished** | Cinematic short hero · flush mosaic tabs (tile hover: photo blurs + darkens, centred zoom icon · category · name) · lightbox · 2 YT videos · **no** bottom RegisterCta |
 | `/units` | الوحدات المتاحة | **Built** | `SubpageHeader` → `UnitsPlans` intro → unit plan section (`features/units/UnitPlanFeatures`: `public/plans/unit-plan.webp` in a framed panel on the start side, the 10 rooms/spaces as numbered tiles in two columns (Inside / Outdoors, ids via `unitPlanRows`), then a dark facts bar (plot · ownership · price from · move-in, `unitPlanPanel` in `content/master-plan.ts`) with a Register interest CTA) → "floor plans coming soon" notice |
 | `/amenities` | المرافق | **Built** | `AmenitiesHoverGrid` |
-| ~~`/financing`~~ | ~~التمويل~~ | **Removed 2026-10-17** | Client asked for the page to go. Old links 301 to `/` via `movedPages` in `hosting.config.mjs`; nav/footer/404/sitemap/SEO entries and the home destination card removed (home now shows two cards) |
+| ~~`/financing`~~ | ~~التمويل~~ | **Removed 2026-10-17** | Client asked for the page to go. Old links 301 to `/` via `movedPages` in `hosting.config.mjs`; nav/footer/404/sitemap/SEO entries removed; the home "Flexible financing" card came back 2026-10-18, linking to /register |
 | `/faq` | الأسئلة الشائعة | **Polished** | `FaqExplorer` (search + sticky cats + accordion) · **no** RegisterCta |
 | `/compound` | الكمباوند | **Polished** | Map explorer (`features/units/CompoundPlan`). Plan image: `public/plans/compound/compound-map-v3-{1600,2800,4000}.webp`, high-quality WebP from the client's `compound-map-30mb.jpeg` (4000 x 3400, top 3060px). Availability from `content/chalet-availability.ts`: the 31 chalets on the sales office's price cards (2026-10-18), each with area and features («المميزات», word for word, English alongside); the card "N1+" has no tag on the plan, so it is listed as N1 (a sheet row "N1+" is read as N1). Cards show the features as small tags; details show the features list. Prices are NOT shown (client's choice). The Chalets Google Sheet overrides all of it (columns المميزات, المميزات (إنجليزي) added): available plots tinted green with a large check badge (white ring, shadow, soft halo). «شاليهات متاحة» button (`ChaletListings`) sits where the old "Step inside a chalet" pill was and opens a shop-style sheet (bottom sheet on phones; end-edge drawer from tablet up that stops above the floating WhatsApp button); one darker glass shared by every map panel. Compound filter chips, photo cards (placeholder resort photos) → details. Tapping ANY chalet on the map (or search / pick one) opens the same details view: photo strip (mouse drag glides to the nearest photo, edge fades, `lib/useDragScroll`), «متاح» / «غير متاح» (grey lock), facts, footer buttons «سجل اهتمامك» (→ `/register?chalet=ID`) or «عرض الشاليهات المتاحة», plus «ادخل إلى الشاليه» (→ /chalet). No separate chalet card any more. |
+| `/chalet` | مخطط احد الشاليهات | **Polished** | Room viewer (`features/master-plan/RoomViewer`): the space's **walkthrough video** plays edge to edge over its photo (the photo stays as the still until the video has a frame, and for reduced-motion visitors); the line plan beside it with the space outlined; arrows / plan hover step through 14 spaces. Videos: `public/chalet-video/<name>.mp4` (1440 wide, ≤2.5 Mbps) + `<name>-720.mp4` (960 wide, phones), muted H.264, encoded from the client's 4K clips of 2026-10-19 (sender's numbering 1 to 19 on the hand-marked plan; mapping in `planItemVideos`, `content/master-plan.ts`). Spaces with several clips (bedrooms, baths, pool) play them in turn. Giant chess has no clip (photo only). **Not received yet: clips 1, 2, 3 and 5** (IMG_7082, 7057, 7058, 7060). The old corner clip card (`public/plan-clips`) is gone. |
 | `/register` | احجز زيارتك | **Polished** | Sales-office visit booking only (no financing / call-back choice, 2026-10-17): name · phone with country picker (flag + dial code; every country but Israel, 244, pinned Jordan/Gulf/region first then A to Z; search box by name, code or ISO; flags in `public/flags`; `content/countries.ts`, `features/register/CountryPhoneField`) · visit day (next 6 days, Sat to Thu) and hour (10 am to 6 pm), each tile «متاح» / «محجوز» (`features/register/VisitPicker`; availability in `content/visit-slots.ts`: the client's weekly table of booked hours by weekday, 2026-10-17, plus optional per-date overrides) · optional message → opens WhatsApp to the sales number with the request written out (no server). |
 | `/leadership` | الإدارة | **Built** | Founder focus · real portrait at `/leadership/tarek-qazan.jpg` · principles in a dark floating box overlapping the founder section's bottom edge; hover sweeps a green highlight over number (block) and text, text turns black · no ISO/CTA band |
 | `/location` | الخريطة | **Built** | Leaflet + OSRM · `LocationShowcase` / `LocationLeafletMap` |
@@ -103,6 +104,7 @@ Arabic-first · locales `ar` | `en` via **next-intl** · App Router under `src/a
 | Founder | `public/leadership/tarek-qazan.jpg` (Dr. Tarek Qazan portrait — live) |
 | Unit property map | `public/plans/property-map.png` — home about teaser + `/master-plan` |
 | YouTube | Tour `8D8-mb6opx4` · ISO `3Lr4a5EHaRI` (`site.videos`) |
+| Chalet walkthrough clips | `public/chalet-video/*.mp4` (19 clips × 2 renditions, ~67 MB; 4K originals stay in the client's WhatsApp / Downloads, not in the repo) |
 
 Gallery categories: exteriors · interiors · amenities · construction · aerials (+ All).
 
@@ -114,7 +116,7 @@ Gallery categories: exteriors · interiors · amenities · construction · aeria
 - **next-intl** · Arabic default RTL · EN
 - Theme: `src/theme/tokens.ts` → CSS vars injected in locale layout
 - Maps: Leaflet + OSRM (not Google embed as primary)
-- Deploy: **Vercel** · domain `giving-estate.com`
+- Deploy: **Cloudflare Pages** (static `out/`, `npm run build && npm run deploy`; see `DEPLOY.md`, nothing deployed yet as of its last status) · domain `giving-estate.com`
 - SEO: per-page titles/descriptions in `content/seo.ts` → `lib/seo.ts` (`routeMetadata` / `buildMetadata`: canonical, hreflang ar/en/x-default, OG + Twitter). JSON-LD via `components/seo/JsonLd` + `PageJsonLd`: site graph (RealEstateAgent + WebSite + GatedResidenceCommunity) on every page, BreadcrumbList on subpages, RealEstateListing on home/units/financing, FAQPage on /faq, Article on news. OG images: `public/og/default.jpg` + `public/og/news/<slug>.jpg` (1200×630, ~130 KB for WhatsApp previews). Icons: `app/icon.png`, `app/apple-icon.png`, `manifest.ts`. `sitemap.ts` (both locales, hreflang; bump `CONTENT_UPDATED`) · `robots.ts` (blocks `/api/`). Search Console / Bing verification via env `NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION`, `NEXT_PUBLIC_BING_SITE_VERIFICATION`. New page → add its route to `content/seo.ts` + `generateMetadata` + `<PageJsonLd>`
 - i18n strings: `messages/ar.json` · `messages/en.json`
 - Content modules: `src/content/*` (site, gallery, faq, pricing, units, amenities, …)
@@ -177,7 +179,6 @@ Design rules of thumb (from build): one composition per first viewport · brand 
 | أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة | First and largest fully-serviced chalet city in the region |
 | ٣٦٧+ شاليه خاص | 367+ private resorts |
 | ٥٠٠,٠٠٠ متر مربع | 500,000 square meters |
-| سند ملكية مستقل | Independent ownership deed |
 | بدون فوائد — مباشرة مع الشركة | Zero interest — directly with the company |
 | تصميم إسباني فاخر | Luxury Spanish design |
 | حاصل على شهادة ISO 9001:2015 | ISO 9001:2015 Certified |
@@ -238,3 +239,7 @@ Also in `site.copyBank`.
 - Arabic digits: Cairo's own Arabic-Indic figures (the Amiri "GC Digits" override is removed). `--font-display` has Cairo after Optima so Arabic glyphs/digits never fall to a system serif. Arabic pages format every number by locale (`formatNumber`), including the home stats band, counters and the footer year.
 - Brand in Arabic copy is always روح العطاء (`site.nameAr`), never "Giving Compound"/"Giving". Exception: venue names (نادي Giving Royal, Fast Shop). `SubpageHeader` eyebrow defaults to the localized project name.
 - About: who we are / vision / message cards added under the story.
+
+## 2026-10-19 changes
+
+- /chalet: the client's walkthrough videos (19 clips, 4K, 9 to 18 s each; IMG_7064 arrived later the same day and joined the pool sequence) replace the photo in the room viewer; multi-clip spaces play in sequence; phones get a 960-wide rendition. Encode recipe: `ffmpeg -an -vf scale=1440:-2 -c:v libx264 -preset slow -crf 28 -maxrate 2500k -bufsize 5000k -movflags +faststart` (phones: scale=960, crf 29, maxrate 1000k). Clips 1, 2, 3 and 5 of the sender's numbering were not in the hand-over; add them to `planItemVideos` when they arrive.

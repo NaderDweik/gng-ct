@@ -44,7 +44,8 @@
 }
 
 /* ── Photo side ── */
-/* Layers: photos 0–2 (outgoing 1, incoming 2), scrim 3, size / clip / caption 4. */
+/* Layers: photos 0–2 (outgoing 1, incoming 2), videos 2–3, scrim 3 (paints after them),
+   size / caption 4. */
 .rmv-photo {
   position: relative;
   isolation: isolate;
@@ -157,58 +158,50 @@
   }
 }
 
-/* Walkthrough clip: a padded dark card in the photo's top end corner. */
-.rmv-clip {
+/* Walkthrough video: edge to edge over the photo. Layer 2 (above the current photo) while it
+   is the floor being replaced, layer 3 while current; it only shows once it has a frame, so
+   the photo (or the previous video) stays solid beneath until then. */
+.rmv-video {
   position: absolute;
-  top: clamp(0.5rem, 1vw, 0.875rem);
-  inset-inline-end: clamp(0.5rem, 1vw, 0.875rem);
-  z-index: 4;
-  display: grid;
-  width: clamp(11rem, 18vw, 17rem);
-  margin: 0;
-  padding: 0.5rem;
-  background: color-mix(in srgb, var(--brand-secondary) 88%, transparent);
-  backdrop-filter: blur(6px);
-  box-shadow: var(--shadow-card-lg);
-  opacity: 0;
-  transform: translateY(-6px);
+  inset: 0;
+  z-index: 2;
   pointer-events: none;
-  transition:
-    opacity 0.5s var(--ease),
-    transform 0.5s var(--ease);
 }
 
-/* The card stays mounted; it fades out on spaces without a clip and back in after. */
-.rmv-clip.is-on {
-  opacity: 1;
-  transform: none;
-}
-
-/* Clips stack; the new one fades in over the last only once it has a frame to show. */
-.rmv-clip video {
-  grid-area: 1 / 1;
-  display: block;
+.rmv-video video {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: 100%;
   object-fit: cover;
-  background: var(--brand-secondary-deep);
-}
-
-.rmv-clip video.is-cur {
-  z-index: 1;
   opacity: 0;
-  transition: opacity 0.5s var(--ease);
+  transition: opacity 0.7s var(--ease);
 }
 
-.rmv-clip video.is-cur.is-ready {
+/* The clip now playing; in a sequence the next one fades in over the one that just ended. */
+.rmv-video video.is-on {
   opacity: 1;
 }
 
-@media (max-width: 767px) {
-  .rmv-clip {
-    width: 9.5rem;
-    padding: 0.35rem;
-  }
+.rmv-video.is-cur {
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.8s var(--ease);
+}
+
+.rmv-video.is-cur.is-ready {
+  opacity: 1;
+}
+
+/* Replaced by another space's video: stays solid as its floor until that one is ready. */
+.rmv-video.is-prev {
+  opacity: 1;
+}
+
+/* Left for a space without a video: fades back to that space's photo. */
+.rmv-video.is-out {
+  opacity: 0;
+  transition: opacity 0.8s var(--ease);
 }
 
 .rmv-photo-copy {
@@ -608,8 +601,8 @@
     display: none;
   }
 
-  .rmv-clip,
-  .rmv-clip video {
+  .rmv-video,
+  .rmv-video video {
     transition: none;
   }
 
@@ -618,7 +611,6 @@
   }
 
   .rmv-photo-copy,
-  .rmv-clip,
   .rmv-dot {
     animation: none;
   }
@@ -662,11 +654,6 @@
 
   .rmv-size-label {
     font-size: var(--fs-small);
-  }
-
-  .rmv-clip {
-    width: 6rem;
-    padding: 0.3rem;
   }
 }
 

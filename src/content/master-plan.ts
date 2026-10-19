@@ -266,9 +266,32 @@ export const planItemPhotos: Record<string, string> = {
   parking: `${R}/family-arriving-resort-a9-garage.jpg`,
 };
 
-/** Short muted loops cut from the chalet walkthrough video (public/plan-clips/<id>.mp4 + .jpg
- *  poster), shown in a corner card for the spaces the walkthrough actually passes through. */
-export const planItemClips = new Set(["parking", "pool", "living", "baths", "kitchen", "bedrooms", "master"]);
+/**
+ * The client's walkthrough videos (received 2026-10-19, one per numbered space on the hand-marked
+ * plan; 4K originals in Downloads, encoded to 1080p + 720p muted MP4 under public/chalet-video).
+ * The room viewer plays them edge to edge in place of the photo; a space with several clips
+ * plays them one after another, then starts again. Order follows the sender's numbering.
+ * Spaces missing here (giant chess) keep their photo. Not yet received: tags 1, 2, 3, 5.
+ */
+export const planItemVideos: Record<string, readonly string[]> = {
+  living: ["living-room"], // 12
+  kitchen: ["kitchen"], // 15
+  master: ["master-suite"], // 11, dressing room then the bedroom's pool view
+  bedrooms: ["bedroom-twin", "bedroom-pink", "bedroom-ensuite"], // 14, 13, 18
+  baths: ["bathroom-jacuzzi", "bathroom-shower", "bathroom-ensuite"], // 16, 17, 19
+  terraces: ["terrace-umbrella"], // extra: shaded seating by the gym and quad bikes
+  gardens: ["garden-swing"], // 8
+  pool: ["pool", "pool-royal", "pool-dusk"], // 6 + extras: the pool by the Giving Royal lounge, by day then at dusk
+  lounge: ["outdoor-lounge"], // 4, the tent pavilion with its bar and loungers
+  bbq: ["bbq"], // 7
+  "garden-dining": ["garden-dining"], // 10, the table on the walkway by the kitchen window
+  kids: ["kids-lawn"], // 9
+  parking: ["garage-courtyard"], // extra: the garage door and sunken seating
+};
+
+/** Public path of one encoded clip; `small` picks the 720p rendition (phones). */
+export const chaletVideoSrc = (name: string, small: boolean) =>
+  `/chalet-video/${name}${small ? "-720" : ""}.mp4`;
 
 /** The line-drawing plan shown in the room viewer: the same drawing as the colour map at
  *  the same proportions, so `PlanArea` rectangles map onto it by percentage. */

@@ -11,9 +11,10 @@ import { track } from "@/lib/analytics";
 import {
   masterPlanMapSize,
   masterPlanMapSrc,
+  chaletVideoSrc,
   planItem,
-  planItemClips,
   planItemPhotos,
+  planItemVideos,
   unitPlanColumns,
   unitPlanLineSrc,
   unitPlanPanel,
@@ -34,12 +35,16 @@ import {
  *     (no dip to the background mid-change);
  *   - the caption, counter digits and step bar hand over: the old one leaves while the new
  *     one arrives;
- *   - the clip card stays put; each clip fades in over the last only once it has a frame;
+ *   - the walkthrough video of a space fades in over its photo only once it has a frame, and
+ *     the previous space's video stays beneath until then (spaces with several clips play
+ *     them in turn, each fading into the next);
  *   - one outline glides from space to space on the plan.
  */
 
 /** ms the pointer must rest on a space before it becomes current. */
 const HOVER_INTENT = 110;
+/** ms a replaced video stays mounted under the new one after that one is ready (its fade). */
+const VIDEO_HANDOVER = 900;
 
 type Step = { item: PlanItem; zone: string; photo: string };
 
@@ -65,6 +70,68 @@ function Chevron({ dir }: { dir: "prev" | "next" }) {
         d={dir === "prev" ? "M19 12H5M11 6l-6 6 6 6" : "M5 12h14M13 6l6 6-6 6"}
       />
     </svg>
+  );
+}
+
+/**
+ * One space's walkthrough: every clip of the sequence mounted and stacked, only the current
+ * one visible and playing; when it ends the next fades in over it (already buffered), and
+ * after the last the first comes back. `state` "prev": this space was left for one with a
+ * video; it stays as the floor under the newcomer. "out": left for a space without one; fades.
+ */
+function SpaceVideo({
+  id,
+  clips,
+  state,
+  onReady,
+}: {
+  id: string;
+  clips: string[];
+  state: "cur" | "prev" | "out";
+  onReady: (id: string) => void;
+}) {
+  const [i, setI] = useState(0);
+  const [ready, setReady] = useState<ReadonlySet<number>>(() => new Set());
+  const refs = useRef<(HTMLVideoElement | null)[]>([]);
+  const isCur = state === "cur";
+
+  useEffect(() => {
+    refs.current.forEach((v, k) => {
+      if (!v) return;
+      if (k === i && isCur) v.play().catch(() => {});
+      else {
+        v.pause();
+        if (k !== i) v.currentTime = 0;
+      }
+    });
+  }, [i, isCur]);
+
+  const next = (i + 1) % clips.length;
+  return (
+    <div className={`rmv-video is-${state}${ready.has(i) ? " is-ready" : ""}`} aria-hidden>
+      {clips.map((src, k) => (
+        <video
+          // Video browser extensions inject attributes (e.g. crossorigin) before hydration.
+          suppressHydrationWarning
+          key={src}
+          ref={(el) => {
+            refs.current[k] = el;
+          }}
+          src={src}
+          className={k === i ? "is-on" : undefined}
+          muted
+          playsInline
+          loop={clips.length === 1}
+          autoPlay={k === 0 && isCur}
+          preload={k === i || k === next ? "auto" : "metadata"}
+          onLoadedData={() => {
+            setReady((r) => (r.has(k) ? r : new Set(r).add(k)));
+            if (k === i) onReady(id);
+          }}
+          onEnded={() => k === i && clips.length > 1 && setI(next)}
+        />
+      ))}
+    </div>
   );
 }
 
@@ -94,10 +161,14 @@ export function RoomViewer({ locale }: { locale: string }) {
   const rootRef = useRef<HTMLDivElement>(null);
   useSoftSnap(rootRef, 0);
   indexRef.current = index;
-  /** The last two clips shown (the card keeps the old one under the new until it's ready). */
-  const firstClip = steps[0] && planItemClips.has(steps[0].item.id) ? steps[0].item.id : null;
-  const [clips, setClips] = useState<{ cur: string | null; prev: string | null }>({ cur: firstClip, prev: null });
-  const [readyClips, setReadyClips] = useState<ReadonlySet<string>>(() => new Set());
+  /** The space whose video is playing and the one it replaced (kept beneath until the new
+   *  video is ready, then dropped). `cur` is null on spaces without a video. */
+  const firstVideo = steps[0] && planItemVideos[steps[0].item.id] ? steps[0].item.id : null;
+  const [videos, setVideos] = useState<{ cur: string | null; prev: string | null }>({ cur: firstVideo, prev: null });
+  const handoverTimer = useRef<number | undefined>(undefined);
+  /** Phones get the 720p renditions. Decided once on the client (null until then: no video). */
+  const [small, setSmall] = useState<boolean | null>(null);
+  useEffect(() => setSmall(matchMedia("(max-width: 767px)").matches), []);
   /** Spaces already reported to analytics on this visit (chalet_room_viewed, once each). */
   const seenRooms = useRef(new Set<string>());
   const setIndex = (n: number, d = Math.sign(n - indexRef.current)) => {
@@ -110,8 +181,19 @@ export function RoomViewer({ locale }: { locale: string }) {
       seenRooms.current.add(id);
       track("chalet_room_viewed", { room: id });
     }
-    if (planItemClips.has(id)) setClips((c) => (c.cur === id ? c : { cur: id, prev: c.cur }));
+    const next = planItemVideos[id] ? id : null;
+    window.clearTimeout(handoverTimer.current);
+    setVideos((v) => (v.cur === next ? v : { cur: next, prev: v.cur }));
+    // No video to wait for: let the old one fade out, then drop it.
+    if (!next) handoverTimer.current = window.setTimeout(() => setVideos((v) => ({ ...v, prev: null })), VIDEO_HANDOVER);
   };
+  /** The new space's video has a frame: the replaced one can go once covered. */
+  const onVideoReady = (id: string) => {
+    if (id !== videos.cur) return;
+    window.clearTimeout(handoverTimer.current);
+    handoverTimer.current = window.setTimeout(() => setVideos((v) => ({ ...v, prev: null })), VIDEO_HANDOVER);
+  };
+  useEffect(() => () => window.clearTimeout(handoverTimer.current), []);
   const hoverTimer = useRef<number | undefined>(undefined);
   const hoverTo = (i: number) => {
     window.clearTimeout(hoverTimer.current);
@@ -123,7 +205,6 @@ export function RoomViewer({ locale }: { locale: string }) {
   useEffect(() => setStill(matchMedia("(prefers-reduced-motion: reduce)").matches), []);
   const step = steps[index]!;
   const prevStep = prev === null ? null : steps[prev]!;
-  const hasClip = planItemClips.has(step.item.id);
   const go = (d: number) => setIndex((indexRef.current + d + total) % total, d);
   const num = (v: number) =>
     v.toLocaleString(isAr ? "ar-JO" : "en-US", { minimumIntegerDigits: 2 });
@@ -173,31 +254,23 @@ export function RoomViewer({ locale }: { locale: string }) {
             <span className="rmv-size-unit">{isAr ? " م²" : " m²"}</span>
           </span>
         </p>
-        {/* A few seconds of the walkthrough for this space, in a padded card (top end). */}
-        {clips.cur && (
-          <figure className={`rmv-clip${hasClip ? " is-on" : ""}`} aria-hidden>
-            {/* Fixed (sorted) order: a video that is moved in the DOM gets paused. */}
-            {[clips.prev, clips.cur]
-              .filter((id): id is string => Boolean(id))
-              .sort()
-              .map((id) => (
-                <video
-                  // Video browser extensions inject attributes (e.g. crossorigin) before hydration.
-                  suppressHydrationWarning
-                  key={id}
-                  src={`/plan-clips/${id}.mp4`}
-                  poster={`/plan-clips/${id}.jpg`}
-                  className={`${id === clips.cur ? "is-cur" : "is-prev"}${readyClips.has(id) ? " is-ready" : ""}`}
-                  muted
-                  loop
-                  playsInline
-                  autoPlay={!still}
-                  preload="auto"
-                  onLoadedData={() => setReadyClips((r) => (r.has(id) ? r : new Set(r).add(id)))}
-                />
-              ))}
-          </figure>
-        )}
+        {/* The walkthrough video of this space, edge to edge over its photo (which stays as the
+            still until the video has a frame, and for reduced-motion visitors). */}
+        {small !== null &&
+          !still &&
+          [videos.prev, videos.cur]
+            .filter((id): id is string => Boolean(id))
+            // Fixed (sorted) order: a video that is moved in the DOM gets paused.
+            .sort()
+            .map((id) => (
+              <SpaceVideo
+                key={id}
+                id={id}
+                clips={planItemVideos[id]!.map((name) => chaletVideoSrc(name, small))}
+                state={id === videos.cur ? "cur" : videos.cur ? "prev" : "out"}
+                onReady={onVideoReady}
+              />
+            ))}
         {prevStep && (
           <div key={`out-${prevStep.item.id}-${index}`} className="rmv-photo-copy is-out" aria-hidden>
             <p className="rmv-zone">{prevStep.zone}</p>
