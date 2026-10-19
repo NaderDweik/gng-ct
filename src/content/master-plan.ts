@@ -232,7 +232,7 @@ export const masterPlanZones: PlanZone[] = [
 export const unitPlanColumns = [
   [
     { label: "inside", ids: ["living", "kitchen", "master", "bedrooms", "baths"] },
-    { label: "terraces", ids: ["terraces", "gardens"] },
+    { label: "terraces", ids: ["gardens"] },
   ],
   [{ label: "outside", ids: ["pool", "lounge", "bbq", "garden-dining", "kids", "chess", "parking"] }],
 ] as const;
