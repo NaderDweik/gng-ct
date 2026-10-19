@@ -364,6 +364,8 @@ export const compoundCopy = {
     all: "الكل",
     details: "التفاصيل",
     backToList: "كل الشاليهات",
+    cashPrice: "سعر الكاش",
+    price: (v: string) => `${v} دينار`,
     features: "المميزات",
   },
   en: {
@@ -405,6 +407,8 @@ export const compoundCopy = {
     all: "All",
     details: "Details",
     backToList: "All chalets",
+    cashPrice: "Cash price",
+    price: (v: string) => `${v} JD`,
     features: "Features",
   },
 } as const;

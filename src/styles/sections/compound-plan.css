@@ -1528,6 +1528,13 @@
   text-overflow: ellipsis;
 }
 
+.cx-shop-price {
+  margin-top: 0.2rem;
+  color: var(--on-dark);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
 /* The card's features («المميزات»), as small tags under the price. */
 .cx-shop-feats {
   display: flex;
@@ -1545,7 +1552,30 @@
   line-height: 1.4;
 }
 
-/* Details: the card's features. */
+/* Details: the cash price in a bordered box (the glass line, like the fact pills), then the
+   card's features. */
+.cx-price {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0 0 0.85rem;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--glass-line);
+  border-radius: 0.5rem;
+}
+
+.cx-price span {
+  color: var(--on-dark-muted);
+  font-size: var(--fs-caption);
+}
+
+.cx-price strong {
+  color: var(--on-dark);
+  font-size: var(--fs-h4, 1.25rem);
+  font-weight: 700;
+}
+
 .cx-features {
   margin: 0 0 1rem;
 }

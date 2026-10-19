@@ -4,7 +4,7 @@
  * panel); every other chalet shows as unavailable when tapped.
  *
  * From the client's price cards at the sales office (photos of 2026-10-18): each chalet's
- * area and its features («المميزات», word for word). Prices are not shown on the site. A card with no
+ * area, its features («المميزات», word for word) and its cash price. A card with no
  * features has an empty list. The Chalets Google Sheet overrides all of this once it loads
  * (lib/chaletsSheet.ts).
  *
@@ -35,40 +35,42 @@ const F = {
   charging: { ar: "محطة شحن مركبات", en: "EV charging station" },
 } satisfies Record<string, ChaletFeature>;
 
-export type ChaletListing = { area: number; features: ChaletFeature[] };
+export type ChaletListing = { area: number; priceJd: number; features: ChaletFeature[] };
+
+const k = (thousands: number) => thousands * 1000;
 
 export const chaletListings: Record<string, ChaletListing> = {
-  A3: { area: 501, features: [F.facingPark, F.charging] },
-  A5: { area: 500, features: [F.facingPark] },
-  A6: { area: 506, features: [F.besidePark, F.reception, F.prayer] },
-  A7: { area: 590, features: [F.facingPark, F.reception, F.extraArea, F.prayer] },
-  "A11+": { area: 500, features: [F.facingPark] },
-  "A13+": { area: 500, features: [] },
-  "A15+": { area: 500, features: [] },
-  "A17+": { area: 500, features: [] },
-  B13: { area: 501, features: [F.supermarket] },
-  D50: { area: 500, features: [F.facingPark] },
-  D54: { area: 465, features: [F.facingPark] },
-  D58: { area: 454, features: [F.twoStreets, F.facingPark] },
-  E11: { area: 500, features: [F.nearPark, F.nearGolf] },
-  E13: { area: 500, features: [] },
-  "F1+": { area: 588, features: [F.twoStreets, F.facingGolf] },
-  F3: { area: 500, features: [F.courts, F.carPark] },
-  F5: { area: 559, features: [F.twoStreets, F.facingGolf, F.gate] },
-  I18: { area: 675, features: [F.facingPark] },
-  I22: { area: 675, features: [F.facingPark, F.parking] },
-  "J4+": { area: 500, features: [] },
-  "J6+": { area: 500, features: [] },
-  "J8+": { area: 500, features: [] },
-  "J10+": { area: 500, features: [F.nearPark] },
-  L8: { area: 500, features: [] },
-  L12: { area: 500, features: [] },
-  L16: { area: 500, features: [] },
-  L21: { area: 615, features: [F.twoStreets] },
-  M6: { area: 500, features: [F.twoStreets, F.mosque] },
-  N1: { area: 500, features: [F.facingGolf, F.restaurants, F.cafes, F.facingPark] },
-  N7: { area: 570, features: [F.twoStreets, F.facingGolf, F.facingPark] },
-  "T15+": { area: 586, features: [F.courts] },
+  A3: { area: 501, priceJd: k(130), features: [F.facingPark, F.charging] },
+  A5: { area: 500, priceJd: k(130), features: [F.facingPark] },
+  A6: { area: 506, priceJd: k(132), features: [F.besidePark, F.reception, F.prayer] },
+  A7: { area: 590, priceJd: k(134), features: [F.facingPark, F.reception, F.extraArea, F.prayer] },
+  "A11+": { area: 500, priceJd: k(130), features: [F.facingPark] },
+  "A13+": { area: 500, priceJd: k(128), features: [] },
+  "A15+": { area: 500, priceJd: k(128), features: [] },
+  "A17+": { area: 500, priceJd: k(128), features: [] },
+  B13: { area: 501, priceJd: k(130), features: [F.supermarket] },
+  D50: { area: 500, priceJd: k(129), features: [F.facingPark] },
+  D54: { area: 465, priceJd: k(128), features: [F.facingPark] },
+  D58: { area: 454, priceJd: k(128), features: [F.twoStreets, F.facingPark] },
+  E11: { area: 500, priceJd: k(129), features: [F.nearPark, F.nearGolf] },
+  E13: { area: 500, priceJd: k(128), features: [] },
+  "F1+": { area: 588, priceJd: k(133), features: [F.twoStreets, F.facingGolf] },
+  F3: { area: 500, priceJd: k(131), features: [F.courts, F.carPark] },
+  F5: { area: 559, priceJd: k(132), features: [F.twoStreets, F.facingGolf, F.gate] },
+  I18: { area: 675, priceJd: k(134), features: [F.facingPark] },
+  I22: { area: 675, priceJd: k(134), features: [F.facingPark, F.parking] },
+  "J4+": { area: 500, priceJd: k(128), features: [] },
+  "J6+": { area: 500, priceJd: k(128), features: [] },
+  "J8+": { area: 500, priceJd: k(128), features: [] },
+  "J10+": { area: 500, priceJd: k(128), features: [F.nearPark] },
+  L8: { area: 500, priceJd: k(128), features: [] },
+  L12: { area: 500, priceJd: k(128), features: [] },
+  L16: { area: 500, priceJd: k(128), features: [] },
+  L21: { area: 615, priceJd: k(134), features: [F.twoStreets] },
+  M6: { area: 500, priceJd: k(130), features: [F.twoStreets, F.mosque] },
+  N1: { area: 500, priceJd: k(132), features: [F.facingGolf, F.restaurants, F.cafes, F.facingPark] },
+  N7: { area: 570, priceJd: k(118), features: [F.twoStreets, F.facingGolf, F.facingPark] },
+  "T15+": { area: 586, priceJd: k(132), features: [F.courts] },
 };
 
 export const availableChaletIds: readonly string[] = Object.keys(chaletListings);

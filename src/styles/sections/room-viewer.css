@@ -45,7 +45,7 @@
 
 /* ── Photo side ── */
 /* Layers: photos 0–2 (outgoing 1, incoming 2), videos 2–3, scrim 3 (paints after them),
-   size / caption 4. */
+   caption 4. */
 .rmv-photo {
   position: relative;
   isolation: isolate;
@@ -92,70 +92,6 @@
     linear-gradient(180deg, color-mix(in srgb, var(--overlay) 55%, transparent) 0%, transparent 32%),
     linear-gradient(180deg, transparent 40%, color-mix(in srgb, var(--overlay) 82%, transparent) 100%);
   pointer-events: none;
-}
-
-/* Chalet size, top start corner: a quiet label over one big figure. */
-.rmv-size {
-  position: absolute;
-  top: 0;
-  inset-inline-start: 0;
-  z-index: 4;
-  display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: clamp(1.5rem, 4vw, 3.5rem);
-  pointer-events: none;
-  opacity: 0;
-  transform: translateY(-8px);
-  transition:
-    opacity 0.6s var(--ease),
-    transform 0.6s var(--ease);
-}
-
-.rmv-size.is-on {
-  opacity: 1;
-  transform: none;
-}
-
-.rmv-size-label {
-  color: color-mix(in srgb, var(--white) 72%, transparent);
-  font-family: var(--font-display);
-  font-size: var(--fs-h3);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  line-height: 1;
-}
-
-.rmv-size-value {
-  margin-top: 0.4rem;
-  color: var(--on-dark);
-  font-family: var(--font-display);
-  font-size: clamp(3.5rem, 2.4rem + 4.5vw, 6.5rem);
-  font-weight: 700;
-  line-height: 0.9;
-  letter-spacing: -0.03em;
-  font-variant-numeric: tabular-nums;
-}
-
-[dir="rtl"] .rmv-size-label,
-[dir="rtl"] .rmv-size-value {
-  letter-spacing: 0;
-}
-
-.rmv-size-unit {
-  font-size: 0.6em;
-}
-
-/* Phones: the photo is short, so the figure steps down. */
-@media (max-width: 767px) {
-  .rmv-size-value {
-    font-size: clamp(2.75rem, 12vw, 3.5rem);
-  }
-
-  .rmv-size-label {
-    font-size: var(--fs-h4);
-  }
 }
 
 /* Walkthrough video: edge to edge over the photo. Layer 2 (above the current photo) while it
@@ -392,9 +328,9 @@
   z-index: 1;
 }
 
-/* The current space's first rectangle is outlined by the gliding frame; a second
-   rectangle of the same space fades its own outline in. */
-.rmv-area--extra.is-on {
+/* The room being shown is outlined by the gliding frame; another room of the same space
+   that shares the playing clip fades its own outline in. */
+.rmv-area.is-twin {
   outline-color: var(--brand-primary);
 }
 
@@ -406,8 +342,11 @@
   transition: opacity 0.45s var(--ease);
 }
 
-/* Hover previews the space's colour straight away; the photo follows after a short intent. */
-.rmv-area.is-on .rmv-area-img,
+/* Only the room being shown (and a room sharing its clip) is in colour; the other rooms of
+   the space stay as line drawing. Hover previews a room's colour straight away; the video
+   follows after a short intent. */
+.rmv-area.is-focus .rmv-area-img,
+.rmv-area.is-twin .rmv-area-img,
 .rmv-area:hover .rmv-area-img {
   opacity: 1;
 }
@@ -579,7 +518,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rmv-size,
   .rmv-area-img,
   .rmv-img,
   .rmv-dot,
@@ -628,8 +566,7 @@
     display: none;
   }
 
-  .rmv-photo-copy,
-  .rmv-size {
+  .rmv-photo-copy {
     padding: 0.75rem 1rem;
   }
 
@@ -648,13 +585,6 @@
     line-height: 1.5;
   }
 
-  .rmv-size-value {
-    font-size: 1.6rem;
-  }
-
-  .rmv-size-label {
-    font-size: var(--fs-small);
-  }
 }
 
 /* Phones: tighter panel spacing, and the plan drawn a little narrower (still centred), so

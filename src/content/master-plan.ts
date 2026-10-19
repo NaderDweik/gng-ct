@@ -41,7 +41,18 @@ export const masterPlanCopy = {
  * (`masterPlanMapSize`), measured from its walls / edges — so the highlight
  * frames the space exactly.
  */
-export type PlanArea = { x: number; y: number; w: number; h: number };
+export type PlanArea = {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  /**
+   * Walkthrough clip(s) of this room, by the sender's number (`public/chalet-video/clip-NN.mp4`,
+   * see `chaletVideoSrc`). Several clips play one after another. Rooms sharing a clip light up
+   * together while it plays.
+   */
+  clips?: readonly string[];
+};
 
 export type PlanItem = {
   id: string;
@@ -49,8 +60,9 @@ export type PlanItem = {
   titleEn: string;
   bodyAr: string;
   bodyEn: string;
-  /** One or two areas on the map (both light up together). */
-  areas: [PlanArea] | [PlanArea, PlanArea];
+  /** The rooms of this space on the map; the current room is outlined, the others of the
+   *  same space show their colour. */
+  areas: readonly PlanArea[];
 };
 
 export type PlanZone = { id: string; titleAr: string; titleEn: string; items: PlanItem[] };
@@ -67,7 +79,7 @@ export const masterPlanZones: PlanZone[] = [
         titleEn: "Living room",
         bodyAr: "معيشة مفتوحة في قلب البيت، بين جناحي غرف النوم.",
         bodyEn: "Open living at the heart of the house, between the two bedroom wings.",
-        areas: [{ x: 330, y: 195, w: 190, h: 262 }],
+        areas: [{ x: 330, y: 195, w: 190, h: 262, clips: ["12"] }],
       },
       {
         id: "kitchen",
@@ -75,7 +87,7 @@ export const masterPlanZones: PlanZone[] = [
         titleEn: "Kitchen",
         bodyAr: "مطبخ مجهز بالكامل ينفتح على غرفة المعيشة.",
         bodyEn: "A fully equipped kitchen opening straight onto the living room.",
-        areas: [{ x: 330, y: 117, w: 190, h: 78 }],
+        areas: [{ x: 330, y: 117, w: 190, h: 78, clips: ["15"] }],
       },
       {
         id: "master",
@@ -83,7 +95,7 @@ export const masterPlanZones: PlanZone[] = [
         titleEn: "Master suite",
         bodyAr: "غرفة النوم الرئيسية مع شرفتها المطلة على المسبح.",
         bodyEn: "The master bedroom, with its own terrace looking onto the pool.",
-        areas: [{ x: 120, y: 305, w: 210, h: 153 }],
+        areas: [{ x: 120, y: 305, w: 210, h: 153, clips: ["11"] }],
       },
       {
         id: "bedrooms",
@@ -92,8 +104,8 @@ export const masterPlanZones: PlanZone[] = [
         bodyAr: "غرفتان إضافيتان في الجناح الآخر من البيت.",
         bodyEn: "Two further bedrooms in the opposite wing of the house.",
         areas: [
-          { x: 520, y: 117, w: 180, h: 193 },
-          { x: 520, y: 310, w: 180, h: 148 },
+          { x: 520, y: 117, w: 180, h: 193, clips: ["14"] },
+          { x: 520, y: 310, w: 180, h: 148, clips: ["13"] },
         ],
       },
       {
@@ -103,8 +115,14 @@ export const masterPlanZones: PlanZone[] = [
         bodyAr: "حمامان بتشطيبات إيطالية، وجاكوزي خاص.",
         bodyEn: "Two bathrooms with Italian finishes, and a private jacuzzi.",
         areas: [
-          { x: 120, y: 117, w: 210, h: 188 },
-          { x: 700, y: 142, w: 82, h: 270 },
+          // West block: the jacuzzi room (with the shower and toilet under it), then the two
+          // rooms beside it (top: toilet and basin, bottom: the vanity).
+          { x: 120, y: 117, w: 106, h: 188, clips: ["16"] },
+          { x: 226, y: 117, w: 104, h: 110, clips: ["17"] },
+          { x: 226, y: 227, w: 104, h: 78, clips: ["16"] },
+          // East column: the two bedroom bathrooms, upper and lower.
+          { x: 700, y: 142, w: 82, h: 135, clips: ["18"] },
+          { x: 700, y: 277, w: 82, h: 135, clips: ["19"] },
         ],
       },
     ],
@@ -120,7 +138,7 @@ export const masterPlanZones: PlanZone[] = [
         titleEn: "Private pool",
         bodyAr: "المسبح الرئيسي في قلب الساحة، محاط بالحجر.",
         bodyEn: "The main pool at the centre of the courtyard, framed in stone.",
-        areas: [{ x: 182, y: 590, w: 465, h: 205 }],
+        areas: [{ x: 182, y: 590, w: 465, h: 205, clips: ["06", "x64", "x78"] }],
       },
       {
         id: "lounge",
@@ -128,7 +146,7 @@ export const masterPlanZones: PlanZone[] = [
         titleEn: "Outdoor lounge",
         bodyAr: "جلسة واسعة بجانب المسبح للأمسيات.",
         bodyEn: "A generous poolside lounge for long evenings.",
-        areas: [{ x: 720, y: 596, w: 147, h: 194 }],
+        areas: [{ x: 720, y: 596, w: 147, h: 194, clips: ["05"] }],
       },
       {
         id: "terraces",
@@ -137,8 +155,8 @@ export const masterPlanZones: PlanZone[] = [
         bodyAr: "جلسات مظللة أمام كل جناح.",
         bodyEn: "Shaded seating in front of each bedroom wing.",
         areas: [
-          { x: 100, y: 458, w: 230, h: 57 },
-          { x: 520, y: 458, w: 200, h: 57 },
+          { x: 100, y: 458, w: 230, h: 57, clips: ["x80"] },
+          { x: 520, y: 458, w: 200, h: 57, clips: ["x80"] },
         ],
       },
       {
@@ -147,7 +165,7 @@ export const masterPlanZones: PlanZone[] = [
         titleEn: "BBQ & dining",
         bodyAr: "طاولة لثمانية أشخاص بجانب الشواء.",
         bodyEn: "Outdoor dining for eight, right beside the grill.",
-        areas: [{ x: 0, y: 568, w: 135, h: 167 }],
+        areas: [{ x: 0, y: 568, w: 135, h: 167, clips: ["07"] }],
       },
       {
         id: "garden-dining",
@@ -155,15 +173,15 @@ export const masterPlanZones: PlanZone[] = [
         titleEn: "Garden dining",
         bodyAr: "طاولة ثانية على جهة الحديقة قرب المطبخ.",
         bodyEn: "A second table on the garden side, just off the kitchen.",
-        areas: [{ x: 428, y: 28, w: 86, h: 82 }],
+        areas: [{ x: 428, y: 28, w: 86, h: 82, clips: ["10"] }],
       },
       {
         id: "kids",
-        titleAr: "ملعب الأطفال",
-        titleEn: "Kids’ play lawn",
-        bodyAr: "عشب ومنزلق للأطفال على مرأى من المسبح.",
-        bodyEn: "A lawn and slide for the kids, in sight of the pool.",
-        areas: [{ x: 218, y: 845, w: 334, h: 147 }],
+        titleAr: "مساحة خاصة",
+        titleEn: "Private area",
+        bodyAr: "مساحة مظللة لك ولضيوفك بجانب المسبح، للجلسات والأمسيات.",
+        bodyEn: "A shaded space beside the pool for you and your guests, for gatherings and evenings.",
+        areas: [{ x: 218, y: 845, w: 334, h: 147, clips: ["04"] }],
       },
       {
         id: "chess",
@@ -171,7 +189,7 @@ export const masterPlanZones: PlanZone[] = [
         titleEn: "Giant chess",
         bodyAr: "رقعة شطرنج أرضية للعائلة والضيوف.",
         bodyEn: "A garden chessboard for family and guests.",
-        areas: [{ x: 552, y: 844, w: 214, h: 148 }],
+        areas: [{ x: 552, y: 844, w: 214, h: 148, clips: ["20"] }],
       },
       {
         id: "gardens",
@@ -180,8 +198,8 @@ export const masterPlanZones: PlanZone[] = [
         bodyAr: "مسطحات خضراء على جانبي البيت.",
         bodyEn: "Lawns on both sides of the house.",
         areas: [
-          { x: 12, y: 68, w: 106, h: 342 },
-          { x: 782, y: 68, w: 113, h: 342 },
+          { x: 12, y: 68, w: 106, h: 342, clips: ["08"] },
+          { x: 782, y: 68, w: 113, h: 342, clips: ["09"] },
         ],
       },
     ],
@@ -198,8 +216,8 @@ export const masterPlanZones: PlanZone[] = [
         bodyAr: "موقفان داخل حدود الوحدة، خلف جدران الخصوصية بارتفاع ٣ أمتار.",
         bodyEn: "Two bays inside the unit boundary, behind 3-metre privacy walls.",
         areas: [
-          { x: 0, y: 810, w: 148, h: 190 },
-          { x: 767, y: 810, w: 185, h: 190 },
+          { x: 0, y: 810, w: 148, h: 190, clips: ["02"] },
+          { x: 767, y: 810, w: 185, h: 190, clips: ["03"] },
         ],
       },
     ],
@@ -267,31 +285,22 @@ export const planItemPhotos: Record<string, string> = {
 };
 
 /**
- * The client's walkthrough videos (received 2026-10-19, one per numbered space on the hand-marked
- * plan; 4K originals in Downloads, encoded to 1080p + 720p muted MP4 under public/chalet-video).
- * The room viewer plays them edge to edge in place of the photo; a space with several clips
- * plays them one after another, then starts again. Order follows the sender's numbering.
- * Spaces missing here (giant chess) keep their photo. Not yet received: tags 1, 2, 3, 5.
+ * The client's walkthrough videos (received 2026-10-19), numbered 1 to 20 by the sender against
+ * a hand-marked copy of the plan; x64, x78 and x80 are unnumbered extras. 4K originals stay in
+ * Downloads; `public/chalet-video/clip-NN.mp4` (1440 wide) and `clip-NN-720.mp4` (960 wide,
+ * phones) are muted H.264 renditions. Which clip belongs to which room is on the room itself
+ * (`PlanArea.clips` above). Clip 01 (the chalet's front from the street) has no room yet.
  */
-export const planItemVideos: Record<string, readonly string[]> = {
-  living: ["living-room"], // 12
-  kitchen: ["kitchen"], // 15
-  master: ["master-suite"], // 11, dressing room then the bedroom's pool view
-  bedrooms: ["bedroom-twin", "bedroom-pink", "bedroom-ensuite"], // 14, 13, 18
-  baths: ["bathroom-jacuzzi", "bathroom-shower", "bathroom-ensuite"], // 16, 17, 19
-  terraces: ["terrace-umbrella"], // extra: shaded seating by the gym and quad bikes
-  gardens: ["garden-swing"], // 8
-  pool: ["pool", "pool-royal", "pool-dusk"], // 6 + extras: the pool by the Giving Royal lounge, by day then at dusk
-  lounge: ["outdoor-lounge"], // 4, the tent pavilion with its bar and loungers
-  bbq: ["bbq"], // 7
-  "garden-dining": ["garden-dining"], // 10, the table on the walkway by the kitchen window
-  kids: ["kids-lawn"], // 9
-  parking: ["garage-courtyard"], // extra: the garage door and sunken seating
-};
-
 /** Public path of one encoded clip; `small` picks the 720p rendition (phones). */
-export const chaletVideoSrc = (name: string, small: boolean) =>
-  `/chalet-video/${name}${small ? "-720" : ""}.mp4`;
+export const chaletVideoSrc = (clip: string, small: boolean) =>
+  `/chalet-video/clip-${clip}${small ? "-720" : ""}.mp4`;
+
+/** A space's clips in room order, each once (rooms may share one). */
+export function planItemClips(item: PlanItem): string[] {
+  const out: string[] = [];
+  for (const a of item.areas) for (const c of a.clips ?? []) if (!out.includes(c)) out.push(c);
+  return out;
+}
 
 /** The line-drawing plan shown in the room viewer: the same drawing as the colour map at
  *  the same proportions, so `PlanArea` rectangles map onto it by percentage. */

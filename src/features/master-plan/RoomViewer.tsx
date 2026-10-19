@@ -5,7 +5,6 @@ import { SmoothImage } from "@/components/ui/SmoothImage";
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
-import { site } from "@/content/site";
 import { useSoftSnap } from "@/lib/useSoftSnap";
 import { track } from "@/lib/analytics";
 import {
@@ -13,11 +12,12 @@ import {
   masterPlanMapSrc,
   chaletVideoSrc,
   planItem,
+  planItemClips,
   planItemPhotos,
-  planItemVideos,
   unitPlanColumns,
   unitPlanLineSrc,
   unitPlanPanel,
+  type PlanArea,
   type PlanItem,
 } from "@/content/master-plan";
 
@@ -36,8 +36,9 @@ import {
  *   - the caption, counter digits and step bar hand over: the old one leaves while the new
  *     one arrives;
  *   - the walkthrough video of a space fades in over its photo only once it has a frame, and
- *     the previous space's video stays beneath until then (spaces with several clips play
- *     them in turn, each fading into the next);
+ *     the previous space's video stays beneath until then. A space with several rooms plays
+ *     each room's clip in turn (each fading into the next) while the outline on the plan
+ *     glides to the room being shown; hovering or tapping a room jumps to its clip;
  *   - one outline glides from space to space on the plan.
  */
 
@@ -47,9 +48,6 @@ const HOVER_INTENT = 110;
 const VIDEO_HANDOVER = 900;
 
 type Step = { item: PlanItem; zone: string; photo: string };
-
-/** Spaces whose photo carries the chalet size: the opening view and the two widest shots. */
-const SIZE_ON = new Set(["living", "pool", "gardens"]);
 
 const pct = (v: number, of: number) => `${(v / of) * 100}%`;
 
@@ -74,23 +72,26 @@ function Chevron({ dir }: { dir: "prev" | "next" }) {
 }
 
 /**
- * One space's walkthrough: every clip of the sequence mounted and stacked, only the current
- * one visible and playing; when it ends the next fades in over it (already buffered), and
- * after the last the first comes back. `state` "prev": this space was left for one with a
- * video; it stays as the floor under the newcomer. "out": left for a space without one; fades.
+ * One space's walkthrough: every clip of the sequence mounted and stacked, only `clip`
+ * visible and playing; when it ends the parent moves `clip` on and the next fades in over it
+ * (already buffered). `state` "prev": this space was left for one with a video; it stays as
+ * the floor under the newcomer. "out": left for a space without one; fades.
  */
 function SpaceVideo({
   id,
   clips,
+  clip,
   state,
   onReady,
+  onEnded,
 }: {
   id: string;
   clips: string[];
+  clip: number;
   state: "cur" | "prev" | "out";
   onReady: (id: string) => void;
+  onEnded: (id: string, count: number) => void;
 }) {
-  const [i, setI] = useState(0);
   const [ready, setReady] = useState<ReadonlySet<number>>(() => new Set());
   const refs = useRef<(HTMLVideoElement | null)[]>([]);
   const isCur = state === "cur";
@@ -98,17 +99,16 @@ function SpaceVideo({
   useEffect(() => {
     refs.current.forEach((v, k) => {
       if (!v) return;
-      if (k === i && isCur) v.play().catch(() => {});
+      if (k === clip && isCur) v.play().catch(() => {});
       else {
         v.pause();
-        if (k !== i) v.currentTime = 0;
+        if (k !== clip) v.currentTime = 0;
       }
     });
-  }, [i, isCur]);
+  }, [clip, isCur]);
 
-  const next = (i + 1) % clips.length;
   return (
-    <div className={`rmv-video is-${state}${ready.has(i) ? " is-ready" : ""}`} aria-hidden>
+    <div className={`rmv-video is-${state}${ready.has(clip) ? " is-ready" : ""}`} aria-hidden>
       {clips.map((src, k) => (
         <video
           // Video browser extensions inject attributes (e.g. crossorigin) before hydration.
@@ -118,17 +118,19 @@ function SpaceVideo({
             refs.current[k] = el;
           }}
           src={src}
-          className={k === i ? "is-on" : undefined}
+          className={k === clip ? "is-on" : undefined}
           muted
           playsInline
           loop={clips.length === 1}
-          autoPlay={k === 0 && isCur}
-          preload={k === i || k === next ? "auto" : "metadata"}
+          autoPlay={k === clip && isCur}
+          // Every room's clip buffers while the space is current, so a tap on a room
+          // (or the hand-over at a clip's end) shows a frame at once.
+          preload={isCur ? "auto" : "metadata"}
           onLoadedData={() => {
             setReady((r) => (r.has(k) ? r : new Set(r).add(k)));
-            if (k === i) onReady(id);
+            if (k === clip) onReady(id);
           }}
-          onEnded={() => k === i && clips.length > 1 && setI(next)}
+          onEnded={() => k === clip && clips.length > 1 && onEnded(id, clips.length)}
         />
       ))}
     </div>
@@ -161,43 +163,62 @@ export function RoomViewer({ locale }: { locale: string }) {
   const rootRef = useRef<HTMLDivElement>(null);
   useSoftSnap(rootRef, 0);
   indexRef.current = index;
-  /** The space whose video is playing and the one it replaced (kept beneath until the new
-   *  video is ready, then dropped). `cur` is null on spaces without a video. */
-  const firstVideo = steps[0] && planItemVideos[steps[0].item.id] ? steps[0].item.id : null;
-  const [videos, setVideos] = useState<{ cur: string | null; prev: string | null }>({ cur: firstVideo, prev: null });
+  /** The space whose video is playing (and which of its clips), and the one it replaced
+   *  (kept beneath until the new video is ready, then dropped). `cur` is null on spaces
+   *  without a video. */
+  const firstVideo = steps[0] && planItemClips(steps[0].item).length ? steps[0].item.id : null;
+  const [videos, setVideos] = useState<{ cur: string | null; clip: number; prev: string | null }>({
+    cur: firstVideo,
+    clip: 0,
+    prev: null,
+  });
   const handoverTimer = useRef<number | undefined>(undefined);
   /** Phones get the 720p renditions. Decided once on the client (null until then: no video). */
   const [small, setSmall] = useState<boolean | null>(null);
   useEffect(() => setSmall(matchMedia("(max-width: 767px)").matches), []);
   /** Spaces already reported to analytics on this visit (chalet_room_viewed, once each). */
   const seenRooms = useRef(new Set<string>());
-  const setIndex = (n: number, d = Math.sign(n - indexRef.current)) => {
+  /**
+   * Make space `n` current, starting its video at the clip of room `room` (or its first).
+   * On the current space, only the clip changes.
+   */
+  const select = (n: number, d = Math.sign(n - indexRef.current), room?: number) => {
+    const item = steps[n]!.item;
+    const clips = planItemClips(item);
+    const wanted = room === undefined ? undefined : item.areas[room]?.clips?.[0];
+    const clip = Math.max(0, wanted ? clips.indexOf(wanted) : 0);
     const from = indexRef.current;
-    if (n === from) return;
+    if (n === from) {
+      if (wanted) setVideos((v) => (v.clip === clip ? v : { ...v, clip }));
+      return;
+    }
     indexRef.current = n;
     setNav({ index: n, prev: from, dir: d || 1 });
-    const id = steps[n]!.item.id;
-    if (!seenRooms.current.has(id)) {
-      seenRooms.current.add(id);
-      track("chalet_room_viewed", { room: id });
+    if (!seenRooms.current.has(item.id)) {
+      seenRooms.current.add(item.id);
+      track("chalet_room_viewed", { room: item.id });
     }
-    const next = planItemVideos[id] ? id : null;
+    const next = clips.length ? item.id : null;
     window.clearTimeout(handoverTimer.current);
-    setVideos((v) => (v.cur === next ? v : { cur: next, prev: v.cur }));
+    setVideos((v) => (v.cur === next ? { ...v, clip } : { cur: next, clip, prev: v.cur }));
     // No video to wait for: let the old one fade out, then drop it.
     if (!next) handoverTimer.current = window.setTimeout(() => setVideos((v) => ({ ...v, prev: null })), VIDEO_HANDOVER);
   };
+  const setIndex = (n: number, d?: number) => select(n, d);
   /** The new space's video has a frame: the replaced one can go once covered. */
   const onVideoReady = (id: string) => {
     if (id !== videos.cur) return;
     window.clearTimeout(handoverTimer.current);
     handoverTimer.current = window.setTimeout(() => setVideos((v) => ({ ...v, prev: null })), VIDEO_HANDOVER);
   };
+  /** The current clip ended: on to the next room's clip (and round again). */
+  const onClipEnded = (id: string, count: number) =>
+    setVideos((v) => (v.cur === id ? { ...v, clip: (v.clip + 1) % count } : v));
   useEffect(() => () => window.clearTimeout(handoverTimer.current), []);
   const hoverTimer = useRef<number | undefined>(undefined);
-  const hoverTo = (i: number) => {
+  const hoverTo = (i: number, room: number) => {
     window.clearTimeout(hoverTimer.current);
-    hoverTimer.current = window.setTimeout(() => setIndex(i), HOVER_INTENT);
+    hoverTimer.current = window.setTimeout(() => select(i, undefined, room), HOVER_INTENT);
   };
   const hoverOut = () => window.clearTimeout(hoverTimer.current);
   useEffect(() => () => window.clearTimeout(hoverTimer.current), []);
@@ -216,7 +237,11 @@ export function RoomViewer({ locale }: { locale: string }) {
     go(e.key === (isAr ? "ArrowLeft" : "ArrowRight") ? 1 : -1);
   }
 
-  const first = step.item.areas[0];
+  /** The clip now showing and the room(s) it belongs to: the outline sits on the first. */
+  const curClips = planItemClips(step.item);
+  const playing = videos.cur === step.item.id ? curClips[videos.clip] : undefined;
+  const isPlayingRoom = (a: PlanArea) => Boolean(playing && a.clips?.includes(playing));
+  const focus = step.item.areas.find(isPlayingRoom) ?? step.item.areas[0]!;
 
   return (
     <div
@@ -243,17 +268,6 @@ export function RoomViewer({ locale }: { locale: string }) {
             preview={false}
           />
         ))}
-        {/* The chalet's size, in the top corner on a few select photos (fades between). */}
-        <p
-          className={`rmv-size${SIZE_ON.has(step.item.id) ? " is-on" : ""}`}
-          aria-hidden={!SIZE_ON.has(step.item.id)}
-        >
-          <span className="rmv-size-label">{isAr ? "شاليه" : "Chalet"}</span>
-          <span className="rmv-size-value">
-            {site.stats.unitAreaSqm.toLocaleString(isAr ? "ar-JO" : "en-US")}
-            <span className="rmv-size-unit">{isAr ? " م²" : " m²"}</span>
-          </span>
-        </p>
         {/* The walkthrough video of this space, edge to edge over its photo (which stays as the
             still until the video has a frame, and for reduced-motion visitors). */}
         {small !== null &&
@@ -266,9 +280,11 @@ export function RoomViewer({ locale }: { locale: string }) {
               <SpaceVideo
                 key={id}
                 id={id}
-                clips={planItemVideos[id]!.map((name) => chaletVideoSrc(name, small))}
+                clips={planItemClips(planItem(id)!).map((clip) => chaletVideoSrc(clip, small))}
+                clip={id === videos.cur ? videos.clip : 0}
                 state={id === videos.cur ? "cur" : videos.cur ? "prev" : "out"}
                 onReady={onVideoReady}
+                onEnded={onClipEnded}
               />
             ))}
         {prevStep && (
@@ -304,7 +320,9 @@ export function RoomViewer({ locale }: { locale: string }) {
                 <button
                   key={`${s.item.id}-${k}`}
                   type="button"
-                  className={`rmv-area${k > 0 ? " rmv-area--extra" : ""}${i === index ? " is-on" : ""}`}
+                  className={`rmv-area${i === index ? " is-on" : ""}${a === focus && i === index ? " is-focus" : ""}${
+                    i === index && a !== focus && isPlayingRoom(a) ? " is-twin" : ""
+                  }`}
                   style={{
                     left: pct(a.x, W),
                     top: pct(a.y, H),
@@ -316,13 +334,13 @@ export function RoomViewer({ locale }: { locale: string }) {
                   tabIndex={k === 0 ? 0 : -1}
                   onClick={() => {
                     hoverOut();
-                    setIndex(i);
+                    select(i, undefined, k);
                   }}
-                  onPointerEnter={(e) => e.pointerType === "mouse" && hoverTo(i)}
+                  onPointerEnter={(e) => e.pointerType === "mouse" && hoverTo(i, k)}
                   onPointerLeave={hoverOut}
                 >
-                  {/* The colour plan, cropped to exactly this space (the area rectangles
-                      are measured on that image), shown while the space is current. */}
+                  {/* The colour plan, cropped to exactly this room (the area rectangles are
+                      measured on that image), shown while the room is the one being shown. */}
                   <span
                     className="rmv-area-img"
                     style={{
@@ -335,17 +353,17 @@ export function RoomViewer({ locale }: { locale: string }) {
                 </button>
               )),
             )}
-            {/* One frame that glides from space to space (the outline of the current one). */}
+            {/* One frame that glides from room to room (the outline of the one being shown). */}
             <span
               className="rmv-frame"
-              style={{ left: pct(first.x, W), top: pct(first.y, H), width: pct(first.w, W), height: pct(first.h, H) }}
+              style={{ left: pct(focus.x, W), top: pct(focus.y, H), width: pct(focus.w, W), height: pct(focus.h, H) }}
               aria-hidden
             />
             <span
               className="rmv-dot"
               style={{
-                left: pct(first.x + first.w / 2, W),
-                top: pct(first.y + first.h / 2, H),
+                left: pct(focus.x + focus.w / 2, W),
+                top: pct(focus.y + focus.h / 2, H),
               }}
               aria-hidden
             />
