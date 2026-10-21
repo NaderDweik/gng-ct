@@ -34,12 +34,12 @@ export const amenityFeatures: AmenityFeature[] = [
     icon: "pool",
     shortAr: "مسبح رئيسي ومسبح أطفال في كل وحدة.",
     shortEn: "A main pool and kids’ pool in every unit.",
-    titleAr: "مسبح خاص لكل وحدة",
+    titleAr: "مسبح خاص لكل شاليه",
     titleEn: "Private pool per unit",
-    tagsAr: ["مساحة الوحدة: ٥٠٠ م²", "مسبح كبير + مسبح أطفال"],
+    tagsAr: ["مساحة الشاليه: 500 م²", "مسبح كبير + مسبح أطفال مدفأ"],
     tagsEn: ["Unit area: 500 m²", "Main pool + kids’ pool"],
     descAr:
-      "كل شاليه يتضمن مسبحاً خاصاً ومسبح أطفال. خصوصية كاملة داخل وحدتك، لا مشاركة مع الجيران.",
+      "كل شاليه يتضمن مسبحاً خاصاً ومسبح أطفال. خصوصية كاملة داخل شاليهك، لا مشاركة مع الجيران.",
     descEn:
       "Every resort includes a private main pool and kids’ pool. Full privacy inside your unit, never shared with neighbors.",
     image: "/gallery/resortsPics/swimmer-pool-waterfall.jpg",
@@ -49,12 +49,12 @@ export const amenityFeatures: AmenityFeature[] = [
     icon: "interior",
     shortAr: "مدفأة ومطبخ مجهّز وغرف تطل على المسبح.",
     shortEn: "A fireplace, fitted kitchen, rooms onto the pool.",
-    titleAr: "تصميم داخلي فاخر",
+    titleAr: "تصميم داخلي عصري",
     titleEn: "Refined interiors",
-    tagsAr: ["تشطيبات فاخرة", "مدفأة ومطبخ مجهز"],
+    tagsAr: ["تشطيبات فاخرة", "مطبخ مجهز"],
     tagsEn: ["Premium finishes", "Fireplace & fitted kitchen"],
     descAr:
-      "غرف معيشة دافئة بمدفأة، مطبخ مجهز بالكامل، وغرف نوم تطل على المسبح. تشطيبات فاخرة وضوء طبيعي في كل زاوية.",
+      "غرفة معيشة عصرية، مطبخ مجهز بالكامل، وغرف نوم تطل على المسبح. تشطيبات فاخرة وضوء طبيعي في كل زاوية.",
     descEn:
       "Warm living rooms with a fireplace, a fully fitted kitchen, and bedrooms that open onto the pool. Premium finishes and natural light throughout.",
     image: "/gallery/resortsPics/family-living-room.jpg",
@@ -69,7 +69,7 @@ export const amenityFeatures: AmenityFeature[] = [
     tagsAr: ["جاكوزي خاص", "تشطيبات إيطالية"],
     tagsEn: ["Private jacuzzi", "Italian finishes"],
     descAr:
-      "جاكوزي خاص في الجناح الرئيسي، وحمامات بتشطيبات إيطالية، لاسترخاء دون مغادرة البيت.",
+      "جاكوزي خاص في الجناح الرئيسي، وحمامات بتشطيبات إيطالية، لاسترخاء دون مغادرة الشاليه.",
     descEn:
       "A private jacuzzi in the master suite and bathrooms with Italian finishes: unwind without leaving home.",
     image: "/gallery/resortsPics/bathroom-jacuzzi-tub.jpg",
@@ -84,7 +84,7 @@ export const amenityFeatures: AmenityFeature[] = [
     tagsAr: ["جلسات خارجية", "شواء خاص"],
     tagsEn: ["Outdoor seating", "Private BBQ"],
     descAr:
-      "برجولا وشواء خاص وطاولة لثمانية أشخاص بجانب مسبحك، أسلوب حياة خارجي داخل شاليهك.",
+      "برجولا وشواء خاص وطاولة لثمانية أشخاص بجانب مسبحك، أسلوب حياة راقي وممتع.",
     descEn:
       "Your own pergola, grill and a table for eight beside your pool: outdoor living inside your chalet.",
     image: "/gallery/resortsPics/father-son-bbq-grill.jpg",
@@ -96,10 +96,10 @@ export const amenityFeatures: AmenityFeature[] = [
     shortEn: "A lawn and slide for the kids, in sight of the pool.",
     titleAr: "ركن أطفال خاص",
     titleEn: "Kids’ own corner",
-    tagsAr: ["عشب ومنزلق", "شطرنج عملاق"],
+    tagsAr: ["عشب", "شطرنج عملاق"],
     tagsEn: ["Lawn & slide", "Giant chess"],
     descAr:
-      "ملعب عشب بمنزلق ورقعة شطرنج عملاقة داخل شاليهك، يلعب فيها الأطفال وأنت تراهم من المسبح.",
+      "ملعب عشب ورقعة شطرنج عملاقة داخل شاليهك، يلعب فيها الأطفال وأنت تراهم من المسبح.",
     descEn:
       "A lawn with a slide and a giant chessboard inside your chalet, where the kids play in sight of the pool.",
     image: "/gallery/resortsPics/foosball-kids-pool.jpg",
@@ -122,14 +122,14 @@ export const amenityFeatures: AmenityFeature[] = [
   {
     id: "walls",
     icon: "walls",
-    shortAr: "جدران بارتفاع ٣ أمتار حول كل وحدة.",
+    shortAr: "جدران بارتفاع 3 أمتار حول كل وحدة.",
     shortEn: "3-metre walls around every unit.",
     titleAr: "خصوصية تامة",
     titleEn: "Complete privacy",
-    tagsAr: ["جدران بارتفاع ٣ أمتار"],
+    tagsAr: ["نظام بناء طابق واحد لكامل الكمباوند", "أسوار بارتفاع 3 أمتار حول كل شاليه"],
     tagsEn: ["3-meter perimeter walls"],
     descAr:
-      "جدران بارتفاع ٣ أمتار حول كل وحدة: خصوصية بصرية وصوتية تجعل شاليهك عالماً خاصاً بك.",
+      "أسوار بارتفاع 3 أمتار حول كل شاليه: خصوصية بصرية وصوتية تجعل شاليهك عالماً خاصاً بك.",
     descEn:
       "Three-meter walls around every unit: visual and acoustic privacy that makes your resort truly yours.",
     image: "/gallery/resortsPics/family-entering-resort-front-door.jpg",
@@ -141,10 +141,10 @@ export const amenityFeatures: AmenityFeature[] = [
     shortEn: "A 2-car garage inside the chalet’s walls.",
     titleAr: "مواقف السيارات",
     titleEn: "Parking",
-    tagsAr: ["كراج لسيارتين", "داخل الأسوار"],
+    tagsAr: ["كراج لسيارتين", "ضمن حدود الشاليه"],
     tagsEn: ["2-car garage", "Inside the walls"],
     descAr:
-      "كراج لسيارتين ضمن حدود الشاليه، خلف جدران الخصوصية، تصل منه إلى بيتك مباشرة.",
+      "كراج لسيارتين ضمن حدود الشاليه، تصل منه إلى شاليهك مباشرة.",
     descEn:
       "A two-car garage within the chalet’s boundary, behind the privacy walls, straight to your front door.",
     image: "/gallery/resortsPics/family-arriving-resort-a9-garage.jpg",

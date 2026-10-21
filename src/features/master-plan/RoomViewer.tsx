@@ -228,7 +228,7 @@ export function RoomViewer({ locale }: { locale: string }) {
   const prevStep = prev === null ? null : steps[prev]!;
   const go = (d: number) => setIndex((indexRef.current + d + total) % total, d);
   const num = (v: number) =>
-    v.toLocaleString(isAr ? "ar-JO" : "en-US", { minimumIntegerDigits: 2 });
+    v.toLocaleString(isAr ? "ar-JO-u-nu-latn" : "en-US", { minimumIntegerDigits: 2 });
   const title = (it: PlanItem) => (isAr ? it.titleAr : it.titleEn);
 
   function onKeyDown(e: KeyboardEvent) {
@@ -403,10 +403,21 @@ export function RoomViewer({ locale }: { locale: string }) {
               <span className="rmv-count-total">/{num(total)}</span>
             </p>
           </div>
-          <Link href={unitPlanPanel.href} className="rmv-cta">
-            {panel.cta}
-            <ArrowIcon />
-          </Link>
+          {/* Chalet amenities (secondary, outlined) beside Register (primary, filled). */}
+          <div className="rmv-ctas">
+            {/* data-scroll-fresh: always opens at the top (components/layout/ScrollMemory). */}
+            <Link href="/chalet/amenities" className="rmv-cta" data-scroll-fresh>
+              {panel.amenities}
+              <svg className="rmv-cta-icon" viewBox="0 0 24 24" aria-hidden>
+                <path d="M4 20V10l8-6 8 6v10z" />
+                <path d="M9.5 20v-5.5h5V20" />
+              </svg>
+            </Link>
+            <Link href={unitPlanPanel.href} className="rmv-cta rmv-cta--fill">
+              {panel.cta}
+              <ArrowIcon />
+            </Link>
+          </div>
         </div>
       </div>
     </div>

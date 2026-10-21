@@ -805,17 +805,8 @@
     background: linear-gradient(to left, var(--surface) 35%, transparent);
   }
 
-  [dir="rtl"] .register-days-edge.is-start {
-    right: 0;
-    left: auto;
-    background: linear-gradient(to left, var(--surface) 35%, transparent);
-  }
-
-  [dir="rtl"] .register-days-edge.is-end {
-    left: 0;
-    right: auto;
-    background: linear-gradient(to right, var(--surface) 35%, transparent);
-  }
+  /* The day row is always left to right (VisitPicker sets dir="ltr" on its wrap), so the
+     edges need no RTL swap. */
 
   .register-days[data-at-start] ~ .register-days-edge.is-start,
   .register-days[data-at-end] ~ .register-days-edge.is-end {

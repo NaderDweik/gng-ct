@@ -77,13 +77,13 @@ export function RegisterForm() {
     const full = normalizePhone(country, phone);
     const when = day && hour !== null ? `${dayLabel(day.date, locale)}، ${hourLabel(hour, locale)}` : "";
 
+    // No heading line, and the place is the compound itself, not the sales office (Oct 2026).
     const text = [
-      isAr ? "طلب زيارة لمكتب المبيعات: روح العطاء" : "Sales office visit request: Giving Compound",
       `${isAr ? "الاسم" : "Name"}: ${name.trim()}`,
       `${isAr ? "الهاتف" : "Phone"}: ${full ? `+${full}` : phone.trim()}`,
       chalet ? `${isAr ? "الشاليه" : "Chalet"}: ${chalet}` : "",
       `${isAr ? "موعد الزيارة" : "Visit"}: ${isAr ? when : when.replace("،", ",")}`,
-      `${isAr ? "المكان" : "Place"}: ${isAr ? site.salesOfficeAr : site.salesOfficeEn}`,
+      `${isAr ? "المكان" : "Place"}: ${isAr ? "كمباوند شاليهات روح العطاء، عمّان، الأردن" : "Giving Compound chalets, Amman, Jordan"}`,
       message.trim() ? `${isAr ? "الرسالة" : "Message"}: ${message.trim()}` : "",
     ]
       .filter(Boolean)

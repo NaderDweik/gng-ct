@@ -79,11 +79,11 @@ export default async function ArticlePage({ params }: Props) {
   const title = isAr ? article.titleAr : article.titleEn;
   const body = isAr ? article.bodyAr : article.bodyEn;
 
-  const dateFmt = new Intl.DateTimeFormat(isAr ? "ar-JO" : "en-US", { day: "numeric", month: "long", year: "numeric" });
+  const dateFmt = new Intl.DateTimeFormat(isAr ? "ar-JO-u-nu-latn" : "en-US", { day: "numeric", month: "long", year: "numeric" });
   const words = body.join(" ").split(/\s+/).length;
   const minutes = Math.max(1, Math.round(words / 200));
   const readTime = isAr
-    ? `${new Intl.NumberFormat("ar-JO").format(minutes)} دقيقة قراءة`
+    ? `${new Intl.NumberFormat("ar-JO-u-nu-latn").format(minutes)} دقيقة قراءة`
     : `${minutes} min read`;
 
   const recent = articles

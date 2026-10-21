@@ -25,7 +25,7 @@ export async function RegisterCta({ locale, image, video }: Props) {
           <p className="section-eyebrow">
             {tc("register")}
           </p>
-          <h2 className="section-title">{isAr ? "سجّل اهتمامك." : "Register your interest."}</h2>
+          <h2 className="section-title">{isAr ? "احجز زيارتك." : "Register your interest."}</h2>
           <p className="section-sub">
             {tc("responseTime")}
           </p>

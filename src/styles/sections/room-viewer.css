@@ -508,6 +508,22 @@
     color 0.3s var(--ease);
 }
 
+.rmv-ctas {
+  display: flex;
+  gap: 0.6rem;
+}
+
+/* Chalet amenities' icon (a house, not the arrow), hairline like the arrow. */
+.rmv-cta-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+
 [dir="rtl"] .rmv-cta {
   letter-spacing: 0;
 }
@@ -515,6 +531,19 @@
 .rmv-cta:hover {
   background: var(--fill-light);
   color: var(--ink-on-light);
+}
+
+/* Register: the primary, in solid brand fill; Chalet amenities beside it stays outlined. */
+.rmv-cta--fill {
+  border-color: var(--brand-primary-fill);
+  background: var(--brand-primary-fill);
+  color: var(--white);
+}
+
+.rmv-cta--fill:hover {
+  border-color: var(--brand-primary-deep);
+  background: var(--brand-primary-deep);
+  color: var(--white);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -623,11 +652,25 @@
     height: 3rem;
   }
 
+  /* Two buttons (Chalet amenities + Register) don't fit beside the arrows: they take
+     their own full row above them. */
+  .rmv-foot {
+    flex-wrap: wrap;
+  }
+
+  .rmv-ctas {
+    order: -1;
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+
   .rmv-cta {
     flex: 1;
     justify-content: center;
     min-height: 3rem;
     padding-block: 0;
+    padding-inline: 0.75rem;
+    white-space: nowrap;
   }
 }
 

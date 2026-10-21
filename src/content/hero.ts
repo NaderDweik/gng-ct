@@ -32,12 +32,12 @@ export const heroLayered = {
   wordmarkEn: "",
   eyebrowAr: "روح العطاء · عمّان الكبرى",
   eyebrowEn: "Giving Compound · Greater Amman",
-  ctaPrimaryAr: "سجّل اهتمامك",
+  ctaPrimaryAr: "احجز زيارتك",
   ctaPrimaryEn: "Register interest",
   ctaSecondaryAr: "استكشف المرافق",
   ctaSecondaryEn: "Explore amenities",
   primaryHref: "/register",
-  secondaryHref: "/amenities",
+  secondaryHref: "/chalet/amenities",
   /** Time each slide stays up before advancing. */
   intervalMs: 7000,
   slides: [
@@ -63,7 +63,7 @@ export const heroLayered = {
       mobileFocus: "100% 50%",
       titleAr: ["عنوان واحد.", "خصوصية تامة."],
       titleEn: ["One Address.", "Complete Privacy."],
-      descAr: "شاليهات ٥٠٠ م² بتصميم إسباني فاخر.",
+      descAr: "شاليهات 500 م² بتصميم إسباني فاخر.",
       descEn: "500 m² private resorts with Spanish design.",
     },
     {

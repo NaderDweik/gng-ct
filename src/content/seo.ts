@@ -11,7 +11,8 @@ export type SeoRoute =
   | "/gallery"
   | "/services"
   | "/leadership"
-  | "/amenities"
+  | "/chalet/amenities"
+  | "/compound/amenities"
   | "/location"
   | "/news"
   | "/faq"
@@ -33,7 +34,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "روح العطاء | شاليهات خاصة للبيع في الأردن بمسبح خاص",
     titleEn: "Giving Compound | Private Chalets for Sale in Jordan",
     descAr:
-      "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة قرب عمّان. ٣٦٧+ شاليه خاص بمساحة ٥٠٠ م² ومسبح خاص، وتقسيط بدون فوائد.",
+      "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة قرب عمّان. 367+ شاليه خاص بمساحة 500 م² ومسبح خاص، وتقسيط بدون فوائد.",
     descEn:
       "The first and largest fully-serviced chalet city in the region, near Amman. 367+ private 500 m² chalets with their own pool and 0% installments.",
   },
@@ -41,7 +42,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "من نحن: شركة العطاء للتطوير العقاري",
     titleEn: "About Us: Al-Ataa City Development",
     descAr:
-      "تعرّف على شركة العطاء للتطوير العقاري وكمباوند روح العطاء: ٥٠٠,٠٠٠ م²، ٣٦٧+ شاليه بتصميم إسباني، وشهادة جودة ISO 9001:2015.",
+      "تعرّف على شركة العطاء للتطوير العقاري وكمباوند روح العطاء: 500,000 م²، 367+ شاليه بتصميم إسباني، وشهادة جودة ISO 9001:2015.",
     descEn:
       "Meet Al-Ataa for City Development & Financing, the developer of Giving Compound: 500,000 m², 367+ Spanish-style chalets and ISO 9001:2015 certified quality.",
   },
@@ -69,8 +70,16 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     descEn:
       "Meet Dr. Tarek Qazan, founder of Al-Ataa for City Development & Financing, and the principles behind the region's first fully-serviced chalet city.",
   },
-  "/amenities": {
-    titleAr: "مرافق الكمباوند: أمن ٢٤/٧، مسابح وحدائق",
+  "/chalet/amenities": {
+    titleAr: "مرافق الشاليه: مسبح خاص، جاكوزي وحديقة",
+    titleEn: "Chalet Amenities: Private Pool, Jacuzzi & Garden",
+    descAr:
+      "ما في كل شاليه بمساحة 500 م² في روح العطاء: مسبح خاص ومسبح أطفال، جاكوزي، برغولة وشواء، حدائق، وموقف لسيارتين خلف أسوار بارتفاع 3 م.",
+    descEn:
+      "What every 500 m² chalet at Giving Compound has: a private pool and kids pool, jacuzzi, pergola and BBQ, gardens and a 2-car garage behind 3 m walls.",
+  },
+  "/compound/amenities": {
+    titleAr: "مرافق الكمباوند: أمن 24/7، مسابح وحدائق",
     titleEn: "Amenities: 24/7 Security, Pools & Gardens",
     descAr:
       "مرافق كمباوند روح العطاء المسوّر: حراسة وكاميرات على مدار الساعة، إنترنت ألياف ضوئية، مسابح مفلترة، حدائق، ملاعب أطفال ومواقف لكل شاليه.",
@@ -81,7 +90,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "الموقع: شاليهات قرب عمّان على طريق سحاب",
     titleEn: "Location: Chalets Near Amman, Jordan",
     descAr:
-      "روح العطاء على بُعد ٤١ كم (حوالي ٥٥ دقيقة) من فندق الرويال باتجاه سحاب الحطمية. خريطة تفاعلية، اتجاهات القيادة وأوقات الوصول من عمّان.",
+      "روح العطاء على بُعد 41 كم (حوالي 55 دقيقة) من فندق الرويال باتجاه سحاب الحطمية. خريطة تفاعلية، اتجاهات القيادة وأوقات الوصول من عمّان.",
     descEn:
       "Giving Compound is 41 km (about 55 minutes) from Le Royal Hotel towards Sahab Al-Hatmiyeh. Interactive map, driving directions and travel times from Amman.",
   },
@@ -105,15 +114,15 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "احجز زيارتك لمكتب المبيعات",
     titleEn: "Book a Sales Office Visit",
     descAr:
-      "احجز موعد زيارتك لمكتب مبيعات روح العطاء في فندق الرويال، من السبت إلى الخميس بين ١٠ صباحًا و٦ مساءً، ونؤكد موعدك عبر واتساب.",
+      "احجز موعد زيارتك لمكتب مبيعات روح العطاء في فندق الرويال، من السبت إلى الخميس بين 10 صباحًا و6 مساءً، ونؤكد موعدك عبر واتساب.",
     descEn:
       "Book a visit to the Giving Compound sales office at Le Royal Hotel, Saturday to Thursday between 10 am and 6 pm. We confirm your visit on WhatsApp.",
   },
   "/chalet": {
-    titleAr: "الشاليه: تصميم ٥٠٠ م² في روح العطاء",
+    titleAr: "الشاليه: تصميم 500 م² في روح العطاء",
     titleEn: "The Chalet: Inside the 500 m² Layout",
     descAr:
-      "اطّلع على مخطط شاليه روح العطاء: ٥٠٠ م²، ٣ غرف نوم، مسبح كبير ومسبح أطفال، جاكوزي، برجولا ومنطقة شواء داخل كمباوند مسوّر.",
+      "اطّلع على مخطط شاليه روح العطاء: 500 م²، 3 غرف نوم، مسبح كبير ومسبح أطفال، جاكوزي، برجولا ومنطقة شواء داخل كمباوند مسوّر.",
     descEn:
       "Explore the Giving Compound chalet plan: 500 m², 3 bedrooms, a main and kids pool, jacuzzi, pergola and BBQ, inside a gated community.",
   },
@@ -121,7 +130,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "الكمباوند: الشاليهات المتاحة للبيع بمسبح خاص",
     titleEn: "The Compound: Chalets With Private Pools",
     descAr:
-      "شاليهات روح العطاء على خريطة الكمباوند: ٥٠٠ م²، ٣ غرف نوم، مسبح خاص وجاكوزي، بسعر ١٦٨,٠٠٠ دينار مع تقسيط بدون فوائد.",
+      "شاليهات روح العطاء على خريطة الكمباوند: 500 م²، 3 غرف نوم، مسبح خاص وجاكوزي، بسعر 168,000 دينار مع تقسيط بدون فوائد.",
     descEn:
       "Find your chalet on the Giving Compound map: 500 m², 3 bedrooms, private pool and jacuzzi, from 168,000 JD at 0% interest.",
   },

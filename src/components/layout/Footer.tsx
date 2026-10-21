@@ -13,7 +13,7 @@ const siteMap: FooterLink[] = [
   { href: "/about", labelAr: "عن الكمباوند", labelEn: "About the Project" },
   { href: "/compound", labelAr: "الكمباوند", labelEn: "Compound" },
   { href: "/chalet", labelAr: "الشاليه", labelEn: "Chalet" },
-  { href: "/amenities", labelAr: "مرافق الكمباوند", labelEn: "Amenities & Lifestyle" },
+  { href: "/compound/amenities", labelAr: "مرافق الكمباوند", labelEn: "Compound amenities" },
   { href: "/services", labelAr: "خدماتنا", labelEn: "Our Services" },
   { href: "/gallery", labelAr: "معرض الصور", labelEn: "Gallery" },
 ];
@@ -23,7 +23,7 @@ const quickLinks: FooterLink[] = [
   { href: "/news", labelAr: "الأخبار والمقالات", labelEn: "Insights & News" },
   { href: "/faq", labelAr: "الأسئلة الشائعة", labelEn: "FAQs" },
   { href: "/leadership", labelAr: "الإدارة", labelEn: "Leadership" },
-  { href: "/register", labelAr: "سجل اهتمامك", labelEn: "Register Interest" },
+  { href: "/register", labelAr: "احجز زيارتك", labelEn: "Register Interest" },
   { href: "/privacy", labelAr: "سياسة الخصوصية", labelEn: "Privacy Policy" },
   { href: "/terms", labelAr: "شروط الاستخدام", labelEn: "Terms of Use" },
   { href: "/cookies", labelAr: "سياسة ملفات تعريف الارتباط", labelEn: "Cookie Policy" },
@@ -68,7 +68,7 @@ function formatPhone(phone: string) {
 export function Footer() {
   const locale = useLocale();
   const isAr = locale === "ar";
-  const year = new Date().getFullYear().toLocaleString(isAr ? "ar-JO" : "en-US", { useGrouping: false });
+  const year = new Date().getFullYear().toLocaleString(isAr ? "ar-JO-u-nu-latn" : "en-US", { useGrouping: false });
 
   const socials = [
     { name: "instagram" as const, href: site.social.instagram, label: "Instagram" },

@@ -41,14 +41,14 @@ function upcomingDays(): VisitDay[] {
   return days;
 }
 
-/** "10 am" / «١٠ صباحًا». */
+/** "10 am" / «10 صباحًا». */
 export function hourLabel(h: number, locale: string) {
   const h12 = h % 12 || 12;
   if (locale !== "ar") return `${h12} ${h < 12 ? "am" : "pm"}`;
   return `${formatNumber(h12, "ar")} ${h < 12 ? "صباحًا" : h === 12 ? "ظهرًا" : "مساءً"}`;
 }
 
-/** "Saturday 18 October" / «السبت ١٨ تشرين الأول». */
+/** "Saturday 18 October" / «السبت 18 تشرين الأول». */
 export function dayLabel(date: Date, locale: string) {
   const tag = localeTag(locale);
   return `${date.toLocaleDateString(tag, { weekday: "long" })} ${date.toLocaleDateString(tag, { day: "numeric", month: "long" })}`;
@@ -104,7 +104,10 @@ export function VisitPicker({
         <p className="register-group-label mb-2 text-xs font-bold uppercase tracking-[0.18em] text-muted">
           {dayLabelText}
         </p>
-        <div className="register-days-wrap">
+        {/* Days run earliest-first from the left in both languages (client's request, Oct
+            2026), so the row, its scrolling and the edge arrows are always left to right; each
+            tile keeps its own text direction. */}
+        <div className="register-days-wrap" dir="ltr">
         <div ref={daysRef} role="radiogroup" aria-label={dayLabelText} className="register-days register-glide" data-snap>
           <GlideIndicator watch={`${day?.key}-${days?.length}`} className="register-glide-pill register-glide-pill--time" />
           {(days ?? Array.from({ length: visitDaysAhead }, () => null)).map((d, i) => {
@@ -120,6 +123,7 @@ export function VisitPicker({
                 disabled={d.closed}
                 onClick={() => onDay(d)}
                 className={`register-day${active ? " is-active" : ""}${d.closed ? " is-booked" : ""}`}
+                dir={locale === "ar" ? "rtl" : undefined}
               >
                 <span className="register-day-name">{d.date.toLocaleDateString(tag, { weekday: "long" })}</span>
                 <span className="register-day-date">{d.date.toLocaleDateString(tag, { day: "numeric", month: "short" })}</span>
@@ -134,7 +138,7 @@ export function VisitPicker({
           <span key={dir} className={`register-days-edge ${dir < 0 ? "is-start" : "is-end"}`}>
             <button type="button" tabIndex={-1} onClick={() => page(dir)} aria-label={dir < 0 ? copy.prevDays : copy.nextDays}>
               <svg viewBox="0 0 24 24" aria-hidden>
-                <path d={(dir < 0) !== (locale === "ar") ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"} />
+                <path d={dir < 0 ? "M15 5l-7 7 7 7" : "M9 5l7 7-7 7"} />
               </svg>
             </button>
           </span>

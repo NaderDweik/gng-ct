@@ -54,6 +54,16 @@ export function AvailableIcon({ className }: { className?: string }) {
   );
 }
 
+/** Red location pin: an available chalet's marker on the compound map, and the open-list button. */
+export function AvailablePinIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={`cx-loc${className ? ` ${className}` : ""}`} aria-hidden>
+      <path d="M12 23 5.97 12.75A7 7 0 1 1 18.03 12.75Z" />
+      <circle cx="12" cy="9.2" r="2.6" />
+    </svg>
+  );
+}
+
 /** Padlock in a circle: "unavailable". */
 export function UnavailableIcon({ className }: { className?: string }) {
   return (
@@ -184,7 +194,7 @@ export function ChaletListings({
   return (
     <>
       <button type="button" className="cx-shop-open" onClick={() => onOpen(true)} aria-haspopup="dialog" aria-expanded={open}>
-        <AvailableIcon className="cx-shop-open-icon" />
+        <AvailablePinIcon className="cx-shop-open-icon" />
         <span className="cx-shop-open-text">
           <strong>{copy.listTitle}</strong>
           <span>{copy.listOpenSub}</span>
@@ -325,7 +335,11 @@ export function ChaletListings({
                       <span className="cx-shop-facts">
                         {factsOf(u.id).slice(0, 2).join(" · ")}
                       </span>
-                      {priceOf(u.id) && <span className="cx-shop-price">{priceOf(u.id)}</span>}
+                      {priceOf(u.id) && (
+                        <span className="cx-shop-price">
+                          <span className="cx-shop-price-label">{copy.instalment}:</span> {priceOf(u.id)}
+                        </span>
+                      )}
                       {info(u.id).features.length > 0 && (
                         <span className="cx-shop-feats">
                           {info(u.id).features.map((f) => (

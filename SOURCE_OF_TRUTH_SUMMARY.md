@@ -4,7 +4,7 @@
 >
 > **Refresh rule:** After any meaningful product/design/content change, update this file before ending the turn so the next AI session starts current.
 >
-> *Last refreshed: 2026-10-19 (chalet walkthrough videos in the /chalet room viewer) · 2026-10-18 (blueprint page published; stale identity/deploy lines fixed) · earlier: 2026-10-17 (/financing page removed, Arabic naming: الكمباوند + شركة العطاء للتطوير العقاري, services availability) · mirrors live codebase under `jordangate-redesign-main/`*
+> *Last refreshed: 2026-10-21 (see "2026-10-21 changes" at the end; the route table above it is partly older) · 2026-10-19 (chalet walkthrough videos in the /chalet room viewer) · 2026-10-18 (blueprint page published; stale identity/deploy lines fixed) · earlier: 2026-10-17 (/financing page removed, Arabic naming: الكمباوند + شركة العطاء للتطوير العقاري, services availability) · mirrors live codebase under `jordangate-redesign-main/`*
 
 ---
 
@@ -27,7 +27,7 @@
 | Maps | `site.mapsUrl` → 31.7330683, 36.1140802 (compound pin, 2026-10-17) |
 | Location | 41 km (~55 min) from Le Royal Hotel → Sahab Al-Hatmiyeh (سحاب الحطمية) · drive times: `content/location.ts` |
 
-**What it is:** First & largest fully-serviced chalet/resort city in the region. Gated residential ownership (NOT a hotel). **367+** private resorts · **500,000 m²** · Spanish style. (No "independent deed" anywhere: removed at the client's request 2026-10-17.)
+**What it is:** First & largest fully-serviced chalet/resort city in the region. Gated residential ownership (NOT a hotel). **367+** private resorts · **500,000 m²** · Spanish style. (Independent deed: removed site-wide 2026-10-17 at the client's request; one line back on 2026-10-21 by request, as the /chalet banner subtitle «كل شاليه بقوشان مستقل مع الأرض والبناء», Arabic only.)
 
 Canonical runtime values: `src/content/site.ts`.
 
@@ -245,3 +245,19 @@ Also in `site.copyBank`.
 - /chalet: the client's walkthrough videos (23 clips, 4K, 9 to 18 s each) replace the photo in the room viewer. Files are named by the sender's number (`clip-NN`); the client corrected the first mapping the same evening: 2 parking · 4 kids' lawn · 5 outdoor lounge · 8 west garden · 9 east garden · 11 master · 13 lower bedroom · 14 upper bedroom · 16 jacuzzi room + its lower neighbour · 17 upper west bathroom · 18 upper east bathroom · 19 lower east bathroom · 20 giant chess; 3 (garage from the street) on the second garage, extras x64/x78 with the pool, x80 on the terraces; 01 unplaced. Rooms of one space are separate `PlanArea`s with their own clips (bathrooms split 2 → 5). Encode recipe: `ffmpeg -an -vf scale=1440:-2 -c:v libx264 -preset slow -crf 28 -maxrate 2500k -bufsize 5000k -movflags +faststart` (phones: scale=960, crf 29, maxrate 1000k).
 - /chalet: the «شاليه ٥٠٠ م²» size label over the photo is removed.
 - /compound: cash prices are back on the chalet cards and in the details («سعر الكاش» in a bordered box), from `content/chalet-availability.ts` or the sheet column السعر كاش (دينار) (hidden 2026-10-18, restored 2026-10-19 at the client's request).
+
+## 2026-10-21 changes
+
+- **Digits:** English (Latin) digits everywhere, Arabic pages included (Intl tag `ar-JO-u-nu-latn` in `lib/format.ts`; hard-coded ١٢٣ converted). `leadRules.ts` still turns typed Arabic digits into Latin.
+- **Nav (header):** About · Gallery · Compound (AR «الكمباوند») · Chalet («الشاليه») · Location («الموقع»); no Amenities. Register button is «احجز زيارتك» everywhere (was سجل اهتمامك). Desktop (1100px+): a WhatsApp-green square beside it replaces the floating WhatsApp button (tablets keep the float). Phones' bottom bar: «احجز زيارتك» · plain «أو» · WhatsApp (icon + «تواصل عبر واتساب», EN "WhatsApp") at half the row.
+- **Amenities split:** `/amenities` is gone (301 → `/chalet/amenities`). `/chalet/amenities` («مرافق الشاليه»): the resort chapters + RegisterCta, opened from the /chalet viewer's outlined button beside «احجز زيارتك». `/compound/amenities` («مرافق الكمباوند»): shows the /services content (`features/services/ServicesPageBody`, shared with /services); the old shared-places section is kept commented out in the page. Opened from the /compound map's «مرافق الكمباوند» button (next to «اختر لي شاليهًا»). Neither is in the nav.
+- **/compound:** price = monthly instalment «القسط الشهري» from the Chalets sheet column «القسط الشهري (دينار)» only (no hardcoded prices; empty cell = no price); cards say «القسط: N دينار». Available chalets marked with a red location pin (`--map-pin`, `palette.mapPin`), also on the «شاليهات متاحة» button. «اختر لي شاليهًا» picks only available chalets. Banner «اختر الشاليه» · eyebrow «مخطط الكمباوند» · «…على مخطط واحد».
+- **/chalet:** banner subtitle «كل شاليه بقوشان مستقل مع الأرض والبناء» (AR only; independent-deed wording back by request in this one place).
+- **Services list:** supermarket + café merged («سوبر ماركت وكافيه»), water filter removed (20 available); «إنارة ليلية» with its own night photo; reception uses the reception-building photo; stat «مساحة كل شاليه».
+- **/location:** places (nearest first, drive minutes set by the client, not measured): قصر المشتى 10 · جامعة الإسراء 20 · مطار الملكة علياء 23 · ايكيا 28 · الدوار السابع 42 · بوليفارد العبدلي 47. Roads regenerated (`scripts/location-routes.mjs`).
+- **/leadership:** quote shortened; department heads (`content/team.ts`, 15, honorifics م. / أ.) in the home services slider (`HomeServicesViewer` with per-slide `node` cards): department photo (blurred, tinted) + frosted inner card; when focused the near-black corner square fills the card and the text turns white.
+- **/register:** WhatsApp message has no heading line; place = «كمباوند شاليهات روح العطاء، عمّان، الأردن». Day row runs left to right in Arabic too.
+- **/about:** the three cards' copy (من نحن / رؤيتنا / الرسالة, `messages/ar.json`); ISO paragraph removed in AR.
+- **FAQ:** instalments answer, documents («إثبات شخصي، ونكتفي بالتنازل والرهن»), deed («وإصدار قوشان…»), purchase steps (project engineer → finance officer), handover, rental via compound management; the management/ROI question removed.
+- **News:** owners' association uses the land registry certificate; public services centre uses the storefront photo.
+

@@ -61,7 +61,7 @@ export function ServicesViewer({
 }: Props) {
   const shot = shots[index]!;
   const total = shots.length;
-  const pad = (n: number) => n.toLocaleString(isAr ? "ar-JO" : "en-US", { minimumIntegerDigits: 2 });
+  const pad = (n: number) => n.toLocaleString(isAr ? "ar-JO-u-nu-latn" : "en-US", { minimumIntegerDigits: 2 });
   const list = useRef<HTMLOListElement>(null);
   // Custom scroll indicator (always faintly visible; native bars auto-hide on macOS).
   const [thumb, setThumb] = useState({ top: 0, size: 1 });

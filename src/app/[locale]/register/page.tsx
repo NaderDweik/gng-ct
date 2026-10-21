@@ -92,7 +92,7 @@ export default async function RegisterPage({ params }: Props) {
                 </p>
                 <p className="mt-2 text-base leading-relaxed text-on-dark-muted">
                   {isAr
-                    ? "من السبت إلى الخميس، من ١٠ صباحًا حتى ٦ مساءً."
+                    ? "من السبت إلى الخميس، من 10 صباحًا حتى 6 مساءً."
                     : "Saturday to Thursday, 10 am to 6 pm."}
                 </p>
               </div>

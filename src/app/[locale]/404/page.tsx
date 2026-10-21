@@ -26,7 +26,7 @@ const places = [
   { href: "/compound", labelAr: "الكمباوند", labelEn: "Compound", hintAr: "خريطة الشاليهات", hintEn: "The chalet map" },
   { href: "/chalet", labelAr: "الشاليه", labelEn: "Chalet", hintAr: "المخطط والمساحات", hintEn: "The layout, room by room" },
   { href: "/gallery", labelAr: "الصور", labelEn: "Gallery", hintAr: "صور وفيديو", hintEn: "Photos and video" },
-  { href: "/amenities", labelAr: "المرافق", labelEn: "Amenities", hintAr: "أمن، مسابح وحدائق", hintEn: "Security, pools and gardens" },
+  { href: "/compound/amenities", labelAr: "مرافق الكمباوند", labelEn: "Compound amenities", hintAr: "أمن، مسابح وحدائق", hintEn: "Security, pools and gardens" },
   { href: "/location", labelAr: "الموقع", labelEn: "Location", hintAr: "سحاب، قرب عمّان", hintEn: "Sahab, near Amman" },
 ] as const;
 

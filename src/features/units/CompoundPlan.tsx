@@ -12,10 +12,11 @@ import {
   type PointerEvent,
 } from "react";
 import Image from "next/image";
+import { Link } from "@/i18n/navigation";
 import { compoundPlanSize as PLAN, compoundUnits, type CompoundUnit } from "@/content/compound-units";
 import { compoundCopy } from "@/content/units";
 import { useChaletData } from "@/lib/chaletsSheet";
-import { AvailableIcon, ChaletListings, UnavailableIcon } from "@/features/units/ChaletListings";
+import { AvailableIcon, AvailablePinIcon, ChaletListings, UnavailableIcon } from "@/features/units/ChaletListings";
 import { track } from "@/lib/analytics";
 import { useSoftSnap } from "@/lib/useSoftSnap";
 
@@ -213,9 +214,11 @@ export function CompoundPlan({ locale }: { locale: string }) {
     [flyTo],
   );
 
+  /** "Pick one for me": a random available chalet (never the one already open). */
   const surprise = () => {
-    const pool = compoundUnits.filter((u) => u.id !== selectedId);
-    pick(pool[Math.floor(Math.random() * pool.length)]!, "random");
+    const pool = availableUnits.filter((u) => u.id !== selectedId);
+    const from = pool.length ? pool : availableUnits;
+    if (from.length) pick(from[Math.floor(Math.random() * from.length)]!, "random");
   };
 
   /** Open or close the sheet; it always opens on the list. */
@@ -474,7 +477,7 @@ export function CompoundPlan({ locale }: { locale: string }) {
               style={{ left: `${u.x}%`, top: `${u.y - u.h / 2}%` }}
               aria-hidden
             >
-              <AvailableIcon />
+              <AvailablePinIcon />
             </span>
           ))}
           {tip && (
@@ -538,15 +541,26 @@ export function CompoundPlan({ locale }: { locale: string }) {
             {copy.notFound}
           </p>
         )}
-        <button type="button" className="cx-surprise" onClick={surprise}>
-          <svg viewBox="0 0 24 24" aria-hidden>
-            <rect x="3.5" y="3.5" width="17" height="17" rx="3.5" />
-            <circle cx="8.5" cy="8.5" r="1.3" />
-            <circle cx="15.5" cy="15.5" r="1.3" />
-            <circle cx="12" cy="12" r="1.3" />
-          </svg>
-          {copy.surprise}
-        </button>
+        <div className="cx-intro-row">
+          <button type="button" className="cx-surprise" onClick={surprise}>
+            <svg viewBox="0 0 24 24" aria-hidden>
+              <rect x="3.5" y="3.5" width="17" height="17" rx="3.5" />
+              <circle cx="8.5" cy="8.5" r="1.3" />
+              <circle cx="15.5" cy="15.5" r="1.3" />
+              <circle cx="12" cy="12" r="1.3" />
+            </svg>
+            {copy.surprise}
+          </button>
+          {/* Compound amenities: its own page, not in the navbar; this is the way in.
+              data-scroll-fresh: always opens at the top (components/layout/ScrollMemory). */}
+          <Link href="/compound/amenities" className="cx-amen-link" data-scroll-fresh>
+            <svg viewBox="0 0 24 24" aria-hidden>
+              <path d="M4 20V10l8-6 8 6v10z" />
+              <path d="M9.5 20v-5.5h5V20" />
+            </svg>
+            {copy.amenities}
+          </Link>
+        </div>
       </div>
 
       <div className="cx-zoom">

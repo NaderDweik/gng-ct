@@ -11,7 +11,7 @@ import { AmenitiesScrollFocus } from "@/features/amenities/AmenitiesScrollFocus"
  * full descriptions live on /amenities. Hover / focus: the border turns primary, the photo's
  * window opens across the card (the image glides into place, never rescales) under a dark
  * tint, and the text turns light and slides back to the card's start edge, all on one easing.
- * Each card links to its chapter on /amenities (or the page top if it has none).
+ * Each card links to its chapter on /chalet/amenities (shared places: /compound/amenities).
  * Touch screens / phones have no hover: AmenitiesScrollFocus opens the card crossing the
  * middle of the screen instead (`.is-active`, same styles as hover).
  */
@@ -19,7 +19,7 @@ import { AmenitiesScrollFocus } from "@/features/amenities/AmenitiesScrollFocus"
 type Props = { items: AmenityFeature[]; isAr: boolean };
 
 const chapterHref = (id: string) =>
-  (resortChapterIds as readonly string[]).includes(id) ? `/amenities#amenity-${id}` : "/amenities";
+  (resortChapterIds as readonly string[]).includes(id) ? `/chalet/amenities#amenity-${id}` : "/compound/amenities";
 
 export function AmenitiesGrid({ items, isAr }: Props) {
   return (

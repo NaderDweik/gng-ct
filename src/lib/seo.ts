@@ -200,7 +200,7 @@ export function listingJsonLd(locale: Locale, path: string) {
   return {
     "@context": "https://schema.org",
     "@type": "RealEstateListing",
-    name: isAr ? "شاليه خاص ٥٠٠ م² في روح العطاء" : "Private 500 m² chalet at Giving Compound",
+    name: isAr ? "شاليه خاص 500 م² في روح العطاء" : "Private 500 m² chalet at Giving Compound",
     description: isAr ? copy.descAr : copy.descEn,
     url: localeUrl(locale, path),
     image: `${site.siteUrl}${DEFAULT_OG_IMAGE}`,

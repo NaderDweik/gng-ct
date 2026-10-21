@@ -21,7 +21,7 @@ export function FaqAccordion({ items, locale }: Props) {
   const [open, setOpen] = useState<number | null>(0);
   const [reserve, setReserve] = useState<number | undefined>(undefined);
 
-  const n = (v: number) => formatNumber(v, locale).padStart(2, isAr ? "٠" : "0");
+  const n = (v: number) => formatNumber(v, locale).padStart(2, isAr ? "0" : "0");
 
   // Reserve: all question rows + the tallest answer. Re-measured on resize.
   useLayoutEffect(() => {

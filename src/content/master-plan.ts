@@ -6,18 +6,18 @@ export const masterPlanMapSize = { width: 952, height: 1024 } as const;
 export const masterPlanCopy = {
   ar: {
     eyebrow: "المخطط",
-    title: "٥٠٠ م² من الشاليه الخاص، مخطّطة بعناية.",
+    title: "500 م² من الشاليه الخاص، مخطّطة بعناية.",
     lead: "داخلٌ مدروس، ومسبح في قلب الساحة، ومعيشة خارجية، وخصوصية تامة، داخل كمباوند مسوّر.",
     mapAlt: "مخطط الشاليه الخاص: الطابق والموقع",
     explorerEyebrow: "استكشف المخطط",
     explorerTitle: "",
     explorerHint: "مرّر فوق أي مساحة في المخطط، أو اخترها من القائمة.",
-    caption: "مخطط وحدة الشاليه · ٥٠٠ م²",
+    caption: "مخطط وحدة الشاليه · 500 م²",
     reset: "عرض المخطط كاملًا",
     turnHover: "الآن دورك: اكتشف المخطط",
     turnTap: "الآن دورك: المس أي مساحة",
     turnSub: "كل مساحة تُضاء وتحكي قصتها.",
-    dims: "٥٠٠ م² · شاليه خاص",
+    dims: "500 م² · شاليه خاص",
   },
   en: {
     eyebrow: "The plan",
@@ -213,7 +213,7 @@ export const masterPlanZones: PlanZone[] = [
         id: "parking",
         titleAr: "موقف لسيارتين",
         titleEn: "Two-car parking",
-        bodyAr: "موقفان داخل حدود الوحدة، خلف جدران الخصوصية بارتفاع ٣ أمتار.",
+        bodyAr: "موقفان داخل حدود الوحدة، خلف جدران الخصوصية بارتفاع 3 أمتار.",
         bodyEn: "Two bays inside the unit boundary, behind 3-metre privacy walls.",
         areas: [
           { x: 0, y: 810, w: 148, h: 190, clips: ["02"] },
@@ -249,17 +249,19 @@ export const unitPlanPanel = {
       { label: "Handover", value: "Per chalet" },
     ],
     cta: "Register interest",
+    amenities: "Chalet amenities",
   },
   ar: {
     inside: "داخل المنزل",
     terraces: "الشرفات والحدائق",
     outside: "المساحات الخارجية",
     facts: [
-      { label: "المساحة", value: "٥٠٠ م²" },
-      { label: "السعر يبدأ من", value: "١٦٨,٠٠٠ د.أ" },
+      { label: "المساحة", value: "500 م²" },
+      { label: "القسط يبدأ من", value: "168,000 د.أ" },
       { label: "التسليم", value: "حسب الشاليه" },
     ],
-    cta: "سجل اهتمامك",
+    cta: "احجز زيارتك",
+    amenities: "مرافق الشاليه",
   },
   href: "/register",
 } as const;

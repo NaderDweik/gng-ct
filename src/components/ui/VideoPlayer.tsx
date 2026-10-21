@@ -78,10 +78,10 @@ function loadYouTubeApi(): Promise<YTNamespace> {
 /** Stop this close to the end (s) so YouTube's end screen never shows. */
 const END_GUARD = 0.35;
 
-const clock = (t: number, locale: string) => {
+/** "1:05": English digits in both languages. */
+const clock = (t: number) => {
   const s = Math.max(0, Math.floor(t));
-  const text = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
-  return locale === "ar" ? text.replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[Number(d)]!) : text;
+  return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 };
 
 export function VideoPlayer({ title, poster, src, youtubeId, locale, className }: Props) {
@@ -355,7 +355,7 @@ export function VideoPlayer({ title, poster, src, youtubeId, locale, className }
             aria-valuemin={0}
             aria-valuemax={Math.round(duration)}
             aria-valuenow={Math.round(time)}
-            aria-valuetext={`${clock(time, locale)} / ${clock(duration, locale)}`}
+            aria-valuetext={`${clock(time)} / ${clock(duration)}`}
             onPointerDown={(e) => {
               e.currentTarget.setPointerCapture(e.pointerId);
               scrubTo(e);
@@ -367,7 +367,7 @@ export function VideoPlayer({ title, poster, src, youtubeId, locale, className }
           </div>
 
           <span className="vp-time">
-            {clock(time, locale)} <i>/</i> {clock(duration, locale)}
+            {clock(time)} <i>/</i> {clock(duration)}
           </span>
 
           <button type="button" className="vp-btn" onClick={() => setMute(!muted)} aria-label={muted ? t.unmute : t.mute}>

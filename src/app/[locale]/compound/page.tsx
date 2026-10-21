@@ -22,7 +22,7 @@ export default async function CompoundPage({ params }: Props) {
   return (
     <div className="cx-page">
       <PageJsonLd locale={locale} path="/compound" listing />
-      <SubpageHeader compactMobile eyebrow={copy.eyebrow} title={isAr ? "الكمباوند" : "Compound"} subtitle={copy.lede} />
+      <SubpageHeader compactMobile eyebrow={copy.eyebrow} title={isAr ? "اختر الشاليه" : "Compound"} subtitle={copy.lede} />
       <CompoundPlan locale={locale} />
     </div>
   );

@@ -23,9 +23,8 @@ export const availableServices: AvailableService[] = [
   { id: "housekeeping", icon: "sparkle", titleAr: "قسم النظافة والتدبير المنزلي", titleEn: "Housekeeping" },
   { id: "water", icon: "drop", titleAr: "ضخ المياه على مدار الساعة", titleEn: "24/7 water pumping" },
   { id: "maintenance", icon: "wrench", titleAr: "قسم الصيانة والمتابعة", titleEn: "Maintenance & follow-up" },
-  { id: "supermarket", icon: "cart", titleAr: "سوبر ماركت", titleEn: "Supermarket" },
-  { id: "cafe", icon: "cup", titleAr: "كافيه", titleEn: "Café" },
-  { id: "power", icon: "bolt", titleAr: "كهرباء ٣ فاز لكل شاليه", titleEn: "3-phase power per chalet" },
+  { id: "supermarket", icon: "cart", titleAr: "سوبر ماركت وكافيه", titleEn: "Supermarket & café" },
+  { id: "power", icon: "bolt", titleAr: "كهرباء 3 فاز لكل شاليه", titleEn: "3-phase power per chalet" },
   { id: "streets", icon: "road", titleAr: "شوارع معبّدة", titleEn: "Paved streets" },
   { id: "golf", icon: "golf", titleAr: "ملعب جولف", titleEn: "Golf course" },
   { id: "gardens", icon: "trees", titleAr: "حدائق عامة", titleEn: "Public gardens" },
@@ -34,8 +33,7 @@ export const availableServices: AvailableService[] = [
   { id: "prayer", icon: "mosque", titleAr: "مصلى", titleEn: "Prayer hall" },
   { id: "sidewalks", icon: "flower", titleAr: "زراعة الأرصفة", titleEn: "Planted sidewalks" },
   { id: "development", icon: "crane", titleAr: "قسم تطوير", titleEn: "Development department" },
-  { id: "street-lights", icon: "lamp", titleAr: "إنارة شوارع", titleEn: "Street lighting" },
-  { id: "water-filter", icon: "filter", titleAr: "فلتر مياه", titleEn: "Water filtration" },
+  { id: "street-lights", icon: "lamp", titleAr: "إنارة ليلية", titleEn: "Night lighting" },
   { id: "well", icon: "well", titleAr: "بئر ارتوازي", titleEn: "Artesian well" },
   { id: "dry-clean", icon: "hanger", titleAr: "مركز دراي كلين", titleEn: "Dry cleaning" },
   { id: "building-materials", icon: "bricks", titleAr: "مركز مواد بناء", titleEn: "Building materials" },
@@ -75,8 +73,8 @@ export const upcomingServices: UpcomingService[] = [
 const C = "/gallery/compoundPics";
 
 /**
- * Photo shown in the /services viewer for each available service. Café, 3-phase
- * power, street lighting, water filtration, the well and dry cleaning have no photo
+ * Photo shown in the /services viewer for each available service. 3-phase
+ * power, the well and dry cleaning have no photo
  * of their own yet, so they use the closest shot; swap these when real photos exist.
  */
 export const servicePhotos: Record<string, string> = {
@@ -87,18 +85,16 @@ export const servicePhotos: Record<string, string> = {
   water: `${C}/water-tower-billboard.jpg`,
   maintenance: `${C}/engineers-site-office.jpg`,
   supermarket: `${C}/fast-shop-mini-market.jpg`,
-  cafe: `${C}/reception-building.jpg`,
   power: `${C}/solar-farm-building-store.jpg`,
   streets: `${C}/golf-cart-shuttle-street.jpg`,
   golf: `${C}/mini-golf-putting-green.jpg`,
   gardens: `${C}/community-park-families.jpg`,
   bikes: `${C}/kids-cycling-community-street.jpg`,
-  reception: `${C}/entrance-fountain-and-gatehouse.jpg`,
+  reception: `${C}/reception-building.jpg`,
   prayer: `${C}/mosque-at-sunset.jpg`,
   sidewalks: `${C}/palm-roundabout-flower-bed-hd.jpg`,
   development: `${C}/construction-crew-building-walls.jpg`,
-  "street-lights": `${C}/women-walking-compound-n.jpg`,
-  "water-filter": `${C}/water-tower-billboard.jpg`,
+  "street-lights": `${C}/street-lights-night.jpg`,
   well: `${C}/water-tower-billboard.jpg`,
   "dry-clean": `${C}/housekeeping-team.jpg`,
   "building-materials": `${C}/solar-farm-building-store.jpg`,
@@ -130,7 +126,7 @@ export const serviceStats = {
   ar: {
     security: "أمن طوال اليوم",
     walls: "أسوار خاصة حول كل شاليه",
-    area: "شاليه خاص لكل وحدة",
+    area: "مساحة كل شاليه",
     units: "شاليه خاص في الكمباوند",
   },
 } as const;

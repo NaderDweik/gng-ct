@@ -54,8 +54,8 @@ function stampsFor(isAr: boolean, fmt: Fmt): Record<string, Stamp> {
   return isAr
     ? {
         where: { shape: "circle", ink: "slate", ring: "من فندق الرويال · إلى روح العطاء ·", big: `${km} كم`, sub: `${min} دقيقة`, at: { x: 27, y: 25, r: -9 } },
-        price: { shape: "rect", ink: "gold", top: "سعر الشاليه", big: `${fmt(basePriceJd)} د.أ`, sub: `نقدًا −${fmt(cashDiscountPct)}٪ · ${fmt(cashPriceJd)}`, at: { x: 61, y: 22, r: 6 } },
-        interest: { shape: "oval", ink: "rust", top: "فوائد", big: `${fmt(0)}٪`, sub: "بدون بنك", at: { x: 72, y: 55, r: 11 } },
+        price: { shape: "rect", ink: "gold", top: "سعر الشاليه", big: `${fmt(basePriceJd)} د.أ`, sub: `نقدًا −${fmt(cashDiscountPct)}% · ${fmt(cashPriceJd)}`, at: { x: 61, y: 22, r: 6 } },
+        interest: { shape: "oval", ink: "rust", top: "فوائد", big: `${fmt(0)}%`, sub: "بدون بنك", at: { x: 72, y: 55, r: 11 } },
         plans: { shape: "rect", ink: "teal", top: "قسط شهري", big: "حسب الدفعة", sub: "والمدة التي تختارها", at: { x: 55, y: 85, r: -6 } },
       }
     : {
@@ -207,7 +207,7 @@ export function HomeFaqPassport({ items }: Props) {
   const shownRef = useRef(-1);
   const pendingStamp = useRef<number | null>(null);
 
-  const fmt: Fmt = useCallback((v) => v.toLocaleString(isAr ? "ar-JO" : "en-US"), [isAr]);
+  const fmt: Fmt = useCallback((v) => v.toLocaleString(isAr ? "ar-JO-u-nu-latn" : "en-US"), [isAr]);
   const stamps = stampsFor(isAr, fmt);
   const idOf = (i: number) => items[i]?.id ?? "";
   const total = items.length;

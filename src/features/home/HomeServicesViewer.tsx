@@ -28,6 +28,12 @@ export type HomeServiceShot = {
   icon: ServiceIconName;
   title: string;
   body: string;
+  /** Optional: drawn in the corner card's icon box instead of `icon` (e.g. a person). */
+  iconNode?: ReactNode;
+  /** Optional: a second line under the title in the corner card (e.g. a department). */
+  sub?: string;
+  /** Optional: a ready-made card shown in place of the photo and corner card. */
+  node?: ReactNode;
 };
 
 const STEP_MS = 5000;
@@ -59,12 +65,15 @@ export function HomeServicesViewer({
   isAr,
   locale,
   cta,
+  label,
 }: {
   shots: HomeServiceShot[];
   isAr: boolean;
   locale: string;
   /** Phones: shown at the start of the controls row under the photos. */
   cta?: ReactNode;
+  /** The carousel's accessible name (default: compound services). */
+  label?: string;
 }) {
   const total = shots.length;
   const loop = [...shots, ...shots, ...shots];
@@ -80,7 +89,7 @@ export function HomeServicesViewer({
   const index = ((pos % total) + total) % total;
   const shot = shots[index]!;
   const num = (v: number) =>
-    v.toLocaleString(isAr ? "ar-JO" : "en-US", { minimumIntegerDigits: 2 });
+    v.toLocaleString(isAr ? "ar-JO-u-nu-latn" : "en-US", { minimumIntegerDigits: 2 });
 
   const go = (step: number) => {
     setAnimate(true);
@@ -155,7 +164,7 @@ export function HomeServicesViewer({
       className="hsc"
       role="region"
       aria-roledescription={isAr ? "عارض صور" : "carousel"}
-      aria-label={isAr ? "خدمات الكمباوند" : "Compound services"}
+      aria-label={label ?? (isAr ? "خدمات الكمباوند" : "Compound services")}
       tabIndex={0}
       lang={locale}
       onKeyDown={onKeyDown}
@@ -170,7 +179,7 @@ export function HomeServicesViewer({
       <div className="hsc-top">
         {/* Screen-reader announcement of the focused service (its card is on the photo). */}
         <p className="sr-only" aria-live="polite">
-          {shot.title}: {shot.body}
+          {shot.title}: {shot.sub ?? shot.body}
         </p>
 
         <div className="hsc-nav">
@@ -220,20 +229,31 @@ export function HomeServicesViewer({
                 aria-hidden={!on}
                 onClick={() => !on && go(i - pos)}
               >
-                <SmoothImage
-                  src={s.src}
-                  alt={on ? s.title : ""}
-                  fill
-                  sizes="(min-width: 1024px) 45vw, 80vw"
-                  className="hsc-img"
-                />
-                {/* White corner card on the focused photo: icon + name. */}
-                <span className="hsc-cap" aria-hidden>
-                  <span className="hsc-icon">
-                    <ServiceIcon name={s.icon} />
-                  </span>
-                  <span className="hsc-title">{s.title}</span>
-                </span>
+                {s.node ?? (
+                  <>
+                    <SmoothImage
+                      src={s.src}
+                      alt={on ? s.title : ""}
+                      fill
+                      sizes="(min-width: 1024px) 45vw, 80vw"
+                      className="hsc-img"
+                    />
+                    {/* White corner card on the focused photo: icon + name. */}
+                    <span className="hsc-cap" aria-hidden>
+                      <span className="hsc-icon">
+                        {s.iconNode ?? <ServiceIcon name={s.icon} />}
+                      </span>
+                      {s.sub ? (
+                        <span className="hsc-title-wrap">
+                          <span className="hsc-title">{s.title}</span>
+                          <span className="hsc-sub">{s.sub}</span>
+                        </span>
+                      ) : (
+                        <span className="hsc-title">{s.title}</span>
+                      )}
+                    </span>
+                  </>
+                )}
               </li>
             );
           })}

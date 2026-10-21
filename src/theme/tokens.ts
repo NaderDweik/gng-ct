@@ -47,6 +47,9 @@ export const palette = {
   white: "#ffffff",
   black: "#000000",
 
+  /** Location pins on available chalets (/compound map): map-pin red, so they read as places. */
+  mapPin: "#e53935",
+
   /** Neutral ramp — light-theme backgrounds, borders, body text. */
   neutral: {
     50: "#f7f7f7",
@@ -161,6 +164,7 @@ export const themeCss = `:root {
   --overlay: ${palette.overlay};
   --white: ${palette.white};
   --black: ${palette.black};
+  --map-pin: ${palette.mapPin};
   --whatsapp: ${palette.whatsapp};
   ${Object.entries(palette.sky).map(([k, v]) => `--sky-${kebab(k)}: ${v};`).join("\n  ")}
   ${neutralVars}

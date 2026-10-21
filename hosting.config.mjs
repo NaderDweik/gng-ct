@@ -62,4 +62,6 @@ export const movedPages = [
   { from: "/master-plan", to: "/chalet" },
   // Financing plans page removed (Oct 2026); old links land on the home page.
   { from: "/financing", to: "/" },
+  // One amenities page split in two (Oct 2026): chalet and compound.
+  { from: "/amenities", to: "/chalet/amenities" },
 ];

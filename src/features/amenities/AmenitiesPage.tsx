@@ -23,7 +23,7 @@ gsap.registerPlugin(useGSAP, ScrollTrigger);
  */
 
 const reduced = () => typeof window !== "undefined" && matchMedia("(prefers-reduced-motion: reduce)").matches;
-const num = (i: number, isAr: boolean) => (i + 1).toLocaleString(isAr ? "ar-JO" : "en-US").padStart(isAr ? 0 : 2, "0");
+const num = (i: number, isAr: boolean) => (i + 1).toLocaleString(isAr ? "ar-JO-u-nu-latn" : "en-US").padStart(isAr ? 0 : 2, "0");
 
 // ── Inside your resort: chapters + pinned frame ───────────────────
 

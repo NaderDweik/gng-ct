@@ -11,8 +11,9 @@ import { chaletsSheetCsvUrl } from "@/content/sheets";
  * visit, in the browser; if it can't be reached, the built-in data stays.
  * Sheet columns, by their Arabic headers (the English ones also work): الشاليه, الحالة
  * (متاح / غير متاح), المساحة (م²), غرف النوم, مسبح خاص وجاكوزي (نعم / لا), الوصف (عربي),
- * الوصف (إنجليزي), السعر كاش (دينار), المميزات, المميزات (إنجليزي). Features are one per
+ * الوصف (إنجليزي), القسط الشهري (دينار), المميزات, المميزات (إنجليزي). Features are one per
  * line (or separated by «،»); English ones missing from the sheet come from the known list.
+ * The monthly instalment comes from the sheet only: no sheet value, no price shown.
  */
 
 export type ChaletInfo = {
@@ -22,7 +23,7 @@ export type ChaletInfo = {
   pool: boolean;
   descAr?: string;
   descEn?: string;
-  /** Cash price in JD. */
+  /** Monthly instalment in JD. */
   priceJd?: number;
   features: ChaletFeature[];
 };
@@ -34,7 +35,6 @@ const builtIn = (id: string): ChaletInfo => ({
   area: chaletListings[id]?.area ?? chaletArea(id),
   bedrooms: 3,
   pool: true,
-  priceJd: chaletListings[id]?.priceJd,
   features: chaletListings[id]?.features ?? [],
 });
 
@@ -98,7 +98,7 @@ function readSheet(text: string): Map<string, Row> {
     pool: col("مسبح خاص وجاكوزي", "Private pool & jacuzzi"),
     descAr: col("الوصف (عربي)", "Description (Arabic)"),
     descEn: col("الوصف (إنجليزي)", "Description (English)"),
-    price: col("السعر كاش (دينار)", "Cash price (JD)"),
+    price: col("القسط الشهري (دينار)", "Monthly instalment (JD)"),
     featAr: col("المميزات", "Features (Arabic)"),
     featEn: col("المميزات (إنجليزي)", "Features (English)"),
   };
@@ -161,7 +161,7 @@ export function useChaletData() {
       pool: row.pool ?? base.pool,
       descAr: row.descAr,
       descEn: row.descEn,
-      priceJd: row.priceJd ?? base.priceJd,
+      priceJd: row.priceJd,
       features: row.features ?? base.features,
     };
   };

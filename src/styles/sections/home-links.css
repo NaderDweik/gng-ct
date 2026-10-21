@@ -160,6 +160,18 @@
   font-family: var(--font-body);
 }
 
+/* Optional second line under the title (leadership: the department). */
+.hsc-title-wrap {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.hsc-sub {
+  color: var(--muted);
+  font-size: var(--fs-small);
+  line-height: 1.4;
+}
+
 .hsc-nav {
   display: flex;
   justify-content: flex-end;

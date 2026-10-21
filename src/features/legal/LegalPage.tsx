@@ -18,7 +18,7 @@ export function LegalPage({
   children?: React.ReactNode;
 }) {
   const isAr = locale === "ar";
-  const date = new Intl.DateTimeFormat(isAr ? "ar-JO" : "en-GB", { day: "numeric", month: "long", year: "numeric" }).format(
+  const date = new Intl.DateTimeFormat(isAr ? "ar-JO-u-nu-latn" : "en-GB", { day: "numeric", month: "long", year: "numeric" }).format(
     new Date(legalUpdated),
   );
 

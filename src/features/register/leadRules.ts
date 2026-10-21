@@ -52,7 +52,7 @@ export function splitInternational(raw: string, current: CountryIso): { country:
 const msgs = {
   name: { ar: "يرجى إدخال اسم صحيح (أحرف فقط).", en: "Please enter a real name (letters only)." },
   phone: {
-    ar: "يرجى إدخال رقم هاتف صحيح، مثال: ٠٧٩١٢٣٤٥٦٧",
+    ar: "يرجى إدخال رقم هاتف صحيح، مثال: 0791234567",
     en: "Please enter a valid phone number, e.g. 79 123 4567",
   },
   slot: { ar: "يرجى اختيار يوم وساعة متاحين للزيارة.", en: "Please choose an available day and hour for your visit." },

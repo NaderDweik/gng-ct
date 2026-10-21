@@ -76,7 +76,7 @@ export function GalleryDay({ locale, ctaHref }: Props) {
   /** 12-hour clock: "8:05 AM" — ص / م in Arabic. */
   const clock = (m: number) => {
     const h = Math.floor(m / 60) % 24;
-    const min = formatNumber(m % 60, locale).padStart(2, isAr ? "٠" : "0");
+    const min = formatNumber(m % 60, locale).padStart(2, isAr ? "0" : "0");
     const mer = h >= 12 ? (isAr ? "م" : "PM") : isAr ? "ص" : "AM";
     return `${formatNumber(h % 12 || 12, locale)}:${min} ${mer}`;
   };

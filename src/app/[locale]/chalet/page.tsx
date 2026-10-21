@@ -27,6 +27,7 @@ export default async function ChaletPage({ params }: Props) {
         compactMobile
         eyebrow={copy.eyebrow}
         title={copy.explorerTitle}
+        subtitle={isAr ? "كل شاليه بقوشان مستقل مع الأرض والبناء" : undefined}
         titleMobile={isAr ? "مخطط احد الشاليهات" : undefined}
       />
       <UnitPlanFeatures locale={locale} />

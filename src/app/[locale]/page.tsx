@@ -42,13 +42,13 @@ export default async function HomePage({ params }: Props) {
       title: isAr ? "الشاليهات الخاصة" : "Private Resorts",
       headline: isAr ? "قمة الخصوصية المعاصرة" : "Contemporary privacy, elevated",
       desc: isAr
-        ? "٥٠٠ م²: غرف، مسابح، وخصوصية كاملة داخل كمباوند مسوّر."
+        ? "500 م²: غرف، مسابح، وخصوصية كاملة داخل كمباوند مسوّر."
         : "500 m²: rooms, pools, and full privacy inside a gated community.",
       img: "/gallery/resortsPics/pool-and-tent-pavilion.jpg",
       cta: isAr ? "استكشف الوحدات" : "Explore units",
     },
     {
-      href: "/amenities",
+      href: "/compound/amenities",
       title: isAr ? "مرافق الكمباوند" : "Community amenities",
       headline: isAr ? "مركز كل شيء" : "Everything within reach",
       desc: isAr
@@ -62,10 +62,10 @@ export default async function HomePage({ params }: Props) {
       title: isAr ? "التمويل المرن" : "Flexible financing",
       headline: isAr ? "بدون فوائد، مباشرة مع الشركة" : "Zero interest, direct with us",
       desc: isAr
-        ? "دفعة أولى تختارها ثم أقساط حسب الدفعة والمدة، أو خصم ٢٤٪ نقدًا. تمويل مباشر بدون فوائد بنكية."
+        ? "دفعة أولى تختارها ثم أقساط حسب الدفعة والمدة، أو خصم 24% نقدًا. تمويل مباشر بدون فوائد بنكية."
         : "A down payment you choose, then installments set by the down payment and duration, or 24% off in cash. Direct financing with zero bank interest.",
       img: "/gallery/resortsPics/family-entering-resort-front-door.jpg",
-      cta: isAr ? "سجل اهتمامك" : "Register interest",
+      cta: isAr ? "احجز زيارتك" : "Register interest",
     },
   ];
 
@@ -147,7 +147,7 @@ export default async function HomePage({ params }: Props) {
             </div>
             {/* Desktop: the way in, in the heading row (phones / tablets: under the cards). */}
             <div className="am-all-head flex flex-col items-start gap-6 lg:items-end">
-              <Link href="/amenities" className="gallery-outline-btn">
+              <Link href="/chalet/amenities" className="gallery-outline-btn">
                 {isAr ? "استكشف كل المرافق" : "Explore all amenities"}
                 <ArrowIcon className="arrow" />
               </Link>
@@ -155,7 +155,7 @@ export default async function HomePage({ params }: Props) {
           </div>
           <AmenitiesGrid items={amenityFeatures} isAr={isAr} />
           {/* Phones / tablets: the link closes the section, under the cards. */}
-          <Link href="/amenities" className="gallery-outline-btn am-all--end">
+          <Link href="/chalet/amenities" className="gallery-outline-btn am-all--end">
             {isAr ? "استكشف كل المرافق" : "Explore all amenities"}
             <ArrowIcon className="arrow" />
           </Link>
@@ -172,7 +172,7 @@ export default async function HomePage({ params }: Props) {
             <p className="section-eyebrow">{isAr ? "الطريق إلينا" : "Getting here"}</p>
             {/* Inline margins: .section-title's own margin shorthand outranks mx-auto. */}
             <h2 className="section-title" style={{ marginInline: "auto", marginBottom: 0 }}>
-              {isAr ? "٢٥ كم من جامعة الإسراء عبر طريق القسطل" : "25 km from Isra University via Al-Qastal Road"}
+              {isAr ? "25 كم من جامعة الإسراء عبر طريق القسطل" : "25 km from Isra University via Al-Qastal Road"}
             </h2>
           </header>
           <LocationShowcase />
@@ -190,7 +190,7 @@ export default async function HomePage({ params }: Props) {
             { v: formatNumber(site.stats.areaSqm, locale), l: t("statsArea") },
             { v: formatNumber(site.stats.unitAreaSqm, locale), l: isAr ? "م² لكل وحدة" : "m² per unit" },
             // Zero-interest plans direct from the developer: the figure buyers actually weigh.
-            { v: isAr ? `${formatNumber(0, locale)}٪` : "0%", l: isAr ? "فوائد على خطط الدفع" : "interest on payment plans" },
+            { v: isAr ? `${formatNumber(0, locale)}%` : "0%", l: isAr ? "فوائد على خطط الدفع" : "interest on payment plans" },
           ].map((s) => (
             <div key={s.l} className="stats-band-cell">
               {/* dir="ltr": keeps "367+" and "0%" in figure order inside Arabic text. */}

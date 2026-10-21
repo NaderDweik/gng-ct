@@ -22,9 +22,9 @@ export default async function NewsPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("news");
   const isAr = locale === "ar";
-  const tag = isAr ? "ar-JO" : "en-GB";
+  const tag = isAr ? "ar-JO-u-nu-latn" : "en-GB";
   const dateFmt = new Intl.DateTimeFormat(tag, { day: "numeric", month: "long", year: "numeric" });
-  const yearFmt = new Intl.NumberFormat(isAr ? "ar-JO" : "en-US", { useGrouping: false });
+  const yearFmt = new Intl.NumberFormat(isAr ? "ar-JO-u-nu-latn" : "en-US", { useGrouping: false });
   // Newest first (content/news.ts), one block per year.
   const years = [...new Set(articles.map((a) => a.date.slice(0, 4)))];
   const inYear = (year: string) => articles.filter((a) => a.date.startsWith(year));

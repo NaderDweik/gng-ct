@@ -220,11 +220,11 @@ export default async function AboutPage({ params }: Props) {
               {isAr ? "رؤية واضحة، ومعايير عالمية." : "A clear vision, global standards."}
             </h2>
             <p className="section-sub">{t("founder")}</p>
-            <p className="mt-6 max-w-xl leading-relaxed text-on-dark-muted">
-              {isAr
-                ? "تدير الشركة المطوّرة كل مرحلة وتتابعها بنفسها، بعمليات موثّقة وفق نظام إدارة الجودة ISO 9001:2015، وتتعامل مع المشتري مباشرة."
-                : "The developer runs every stage itself, with processes documented under ISO 9001:2015 quality management, and deals with buyers directly."}
-            </p>
+            {!isAr && (
+              <p className="mt-6 max-w-xl leading-relaxed text-on-dark-muted">
+                The developer runs every stage itself, with processes documented under ISO 9001:2015 quality management, and deals with buyers directly.
+              </p>
+            )}
             <div className="about-lead-cta mt-10 flex flex-wrap gap-3">
               <Link href="/leadership" className="register-cta-btn">
                 {isAr ? "تعرّف على الإدارة" : "Meet the leadership"}

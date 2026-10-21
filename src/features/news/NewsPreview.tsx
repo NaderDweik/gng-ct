@@ -18,7 +18,7 @@ export async function NewsPreview({ locale }: { locale: string }) {
       <ArrowIcon className="arrow" />
     </Link>
   );
-  const dateFmt = new Intl.DateTimeFormat(isAr ? "ar-JO" : "en-GB", { day: "numeric", month: "short", year: "numeric" });
+  const dateFmt = new Intl.DateTimeFormat(isAr ? "ar-JO-u-nu-latn" : "en-GB", { day: "numeric", month: "short", year: "numeric" });
   const items = homeNewsSlugs
     .map(getArticle)
     .filter((a) => a !== undefined)

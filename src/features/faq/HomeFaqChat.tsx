@@ -390,7 +390,7 @@ export function HomeFaqChat({ items }: Props) {
 
   const fmt: Fmt = useCallback(
     (v, digits = 0) =>
-      v.toLocaleString(isAr ? "ar-JO" : "en-US", { minimumFractionDigits: digits, maximumFractionDigits: digits }),
+      v.toLocaleString(isAr ? "ar-JO-u-nu-latn" : "en-US", { minimumFractionDigits: digits, maximumFractionDigits: digits }),
     [isAr],
   );
 

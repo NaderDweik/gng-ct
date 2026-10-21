@@ -6,6 +6,7 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { site } from "@/content/site";
 import { GivingLogo } from "@/components/brand/GivingLogo";
 import { LocaleSwitch } from "@/components/layout/LocaleSwitch";
+import { WhatsAppIcon } from "@/components/layout/WhatsAppFloat";
 // Light/dark mode disabled: import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 const primaryNav = [
@@ -13,7 +14,7 @@ const primaryNav = [
   { href: "/gallery", labelAr: "الصور", labelEn: "Gallery" },
   { href: "/compound", labelAr: "الكمباوند", labelEn: "Compound" },
   { href: "/chalet", labelAr: "الشاليه", labelEn: "Chalet" },
-  { href: "/amenities", labelAr: "المرافق", labelEn: "Amenities" },
+  { href: "/location", labelAr: "الموقع", labelEn: "Location" },
 ] as const;
 
 export function Header() {
@@ -82,7 +83,7 @@ export function Header() {
 
         <nav className="ms-auto me-4 hidden items-center gap-7 min-[1100px]:flex">
           {primaryNav.map((item) => {
-            const active = pathname === item.href;
+            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
                 key={item.href}
@@ -115,6 +116,18 @@ export function Header() {
           >
             {t("register")}
           </Link>
+          {/* Desktop: WhatsApp as a square beside the register button (it replaces the
+              floating WhatsApp button there). */}
+          <a
+            href={site.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-track-placement="header_whatsapp"
+            className="wa-square hidden min-[1100px]:inline-grid"
+            aria-label={t("whatsapp")}
+          >
+            <WhatsAppIcon size={20} />
+          </a>
           <LocaleSwitch className={`lang-square${solid ? "" : " nav-glass"}`}>
             {(target) => (
               <>
@@ -167,7 +180,7 @@ export function Header() {
             <GivingLogo variant="light" className="h-14 w-auto max-w-[200px]" />
           </Link>
           {primaryNav.map((item) => {
-            const active = pathname === item.href;
+            const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
                 key={item.href}

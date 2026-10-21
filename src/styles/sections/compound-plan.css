@@ -521,6 +521,57 @@
   rotate: 90deg;
 }
 
+/* "Pick one for me" and the Compound amenities button share one row, so the panel keeps
+   the zoom column's height on tablet up. */
+.cx-intro-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+/* Beats the tablet-up `.cx-intro .cx-surprise { align-self: flex-start }`: both items
+   share one centre line. */
+.cx-intro .cx-intro-row .cx-surprise {
+  margin-top: 0;
+  align-self: center;
+}
+
+/* Link to /compound/amenities: a compact outlined button at the end of that row. */
+.cx-amen-link {
+  display: inline-flex;
+  flex: none;
+  height: 2.2rem;
+  align-items: center;
+  gap: 0.5rem;
+  padding-inline: 0.8rem;
+  border: 1px solid color-mix(in srgb, var(--white) 55%, transparent);
+  color: var(--on-dark);
+  font-size: var(--fs-small);
+  font-weight: 700;
+  text-decoration: none;
+  transition:
+    background-color 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    color 0.25s var(--ease);
+}
+
+.cx-amen-link svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.cx-amen-link:hover {
+  border-color: var(--fill-light);
+  background: var(--fill-light);
+  color: var(--ink-on-light);
+}
+
 /* The chalet plan as on /master-plan: light linework on dark, the pool in colour. */
 
 /* ── Zoom controls: end edge, vertically centred on the stage (phones; tablet up: beside the search panel) ── */
@@ -953,8 +1004,8 @@
   box-shadow: 0 0 0 calc(1.5px / var(--s)) var(--white);
 }
 
-/* The check badge: one screen size at any zoom, sitting on the tag's top edge. Big,
-   white-ringed and shadowed so it reads over the busy plan, with a soft halo behind. */
+/* The location pin: one screen size at any zoom, its tip on the tag's top edge. A red pin
+   on its own (no disc), with a drop shadow so it reads over the busy plan. */
 .cx-avail {
   position: absolute;
   z-index: 1;
@@ -968,60 +1019,24 @@
     scale 0.25s var(--ease);
 }
 
-/* Three layers, back to front: a soft halo (::before), the disc with its white ring and
-   drop shadow (::after, a round box: some browsers don't round an SVG's own corners),
-   then the check (svg). */
-.cx-avail::before {
-  content: "";
-  position: absolute;
-  inset: -6px;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--brand-primary) 40%, transparent);
-  animation: cx-avail-halo 2.6s ease-in-out infinite;
-}
-
-@keyframes cx-avail-halo {
-  0%,
-  100% {
-    opacity: 0.35;
-    scale: 0.85;
-  }
-  50% {
-    opacity: 0.8;
-    scale: 1.15;
-  }
-}
-
-.cx-avail::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  background: var(--brand-primary);
-  box-shadow:
-    0 0 0 2px var(--white),
-    0 4px 10px color-mix(in srgb, var(--black) 55%, transparent),
-    0 1px 3px color-mix(in srgb, var(--black) 45%, transparent);
-}
-
 .cx-avail svg {
-  position: relative;
-  z-index: 1;
   display: block;
   width: 100%;
   height: 100%;
+  filter: drop-shadow(0 1px 1px color-mix(in srgb, var(--black) 60%, transparent));
   transition: scale 0.25s var(--ease);
 }
 
-/* The disc is the box itself: only the white check is drawn. */
-.cx-avail svg circle {
-  fill: none;
-  stroke: none;
+/* The red location pin (AvailablePinIcon): on the map markers and the open-list button. */
+.cx-loc path {
+  fill: var(--map-pin);
+  stroke: var(--white);
+  stroke-width: 1;
+  stroke-linejoin: miter;
 }
 
-.cx-avail svg path {
-  stroke-width: 2.2;
-  filter: drop-shadow(0 1px 1px color-mix(in srgb, var(--black) 35%, transparent));
+.cx-loc circle {
+  fill: var(--white);
 }
 
 .cx-avail.is-hover {
@@ -1533,6 +1548,10 @@
   color: var(--on-dark);
   font-size: var(--fs-small);
   font-weight: 700;
+}
+
+.cx-shop-price-label {
+  font-weight: 400;
 }
 
 /* The card's features («المميزات»), as small tags under the price. */

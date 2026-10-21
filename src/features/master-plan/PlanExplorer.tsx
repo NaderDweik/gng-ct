@@ -134,7 +134,7 @@ export function PlanExplorer({ locale, variant = "list", defaultId }: Props) {
   }, [selected]);
 
   const n = (v: number) =>
-    tiles ? formatNumber(v, locale).padStart(2, isAr ? "٠" : "0") : formatNumber(v, locale).padStart(isAr ? 0 : 2, "0");
+    tiles ? formatNumber(v, locale).padStart(2, isAr ? "0" : "0") : formatNumber(v, locale).padStart(isAr ? 0 : 2, "0");
   const title = (it: PlanItem) => (isAr ? it.titleAr : it.titleEn);
   const num = (it: PlanItem) => n(numberOf.get(it.id) ?? 0);
 

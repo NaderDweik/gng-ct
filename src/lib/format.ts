@@ -1,6 +1,6 @@
 /** Map next-intl locale codes to BCP-47 tags safe for Intl / toLocaleString. */
 export function localeTag(locale: string): string {
-  return locale === "ar" ? "ar-JO" : "en-US";
+  return locale === "ar" ? "ar-JO-u-nu-latn" : "en-US";
 }
 
 export function formatNumber(value: number, locale: string): string {
