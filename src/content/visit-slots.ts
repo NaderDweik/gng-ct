@@ -3,7 +3,7 @@
  * Visits run Saturday to Thursday (Friday closed), on the hour from 10 am to 6 pm.
  * The form offers the next six working days, starting tomorrow.
  *
- * Availability is the client's weekly table (handwritten, 2026-10-17): the same booked
+ * Availability is the client's weekly table (updated 2026-10-21): the same booked
  * hours every week, by weekday. To change it:
  *   - `bookedByWeekday`: the weekly pattern;
  *   - `bookedByDate`: one-off changes for a given date ("2026-10-18": [15, 16]), which
@@ -23,12 +23,12 @@ export const visitDaysAhead = 6;
 
 /** Booked hours each week, by JS weekday (0 = Sunday … 6 = Saturday). */
 export const bookedByWeekday: Record<number, number[]> = {
-  6: [10, 11, 14, 16, 18], // Saturday
-  0: [12, 13, 15, 17], // Sunday
-  1: [10, 15, 16], // Monday
-  2: [10, 11, 12, 14, 17], // Tuesday
-  3: [10, 12, 15], // Wednesday
-  4: [10, 11, 12, 14, 16], // Thursday
+  6: [11, 14, 15, 17], // Saturday
+  0: [10, 12, 15, 18], // Sunday
+  1: [11, 13, 14, 15, 17], // Monday
+  2: [12, 14, 15, 17], // Tuesday
+  3: [10, 13, 15, 16], // Wednesday
+  4: [10, 11, 14, 17, 18], // Thursday
 };
 
 export const bookedByDate: Record<string, number[]> = {};

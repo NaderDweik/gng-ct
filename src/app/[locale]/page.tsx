@@ -44,13 +44,13 @@ export default async function HomePage({ params }: Props) {
       desc: isAr
         ? "500 م²: غرف، مسابح، وخصوصية كاملة داخل كمباوند مسوّر."
         : "500 m²: rooms, pools, and full privacy inside a gated community.",
-      img: "/gallery/resortsPics/pool-and-tent-pavilion.jpg",
-      cta: isAr ? "استكشف الوحدات" : "Explore units",
+      img: "/gallery/resortsPics/quad-bike-royal-clubhouse.jpg",
+      cta: isAr ? "استكشف الشاليهات" : "Explore units",
     },
     {
       href: "/compound/amenities",
       title: isAr ? "مرافق الكمباوند" : "Community amenities",
-      headline: isAr ? "مركز كل شيء" : "Everything within reach",
+      headline: isAr ? "ما بتحتاج إشي من برّا" : "Everything within reach",
       desc: isAr
         ? "أمن على مدار الساعة، بنية تحتية، ومساحات خضراء مخدومة لأسلوب حياة متكامل."
         : "24/7 security, infrastructure, and serviced green spaces for a complete lifestyle.",
@@ -61,10 +61,13 @@ export default async function HomePage({ params }: Props) {
       href: "/register",
       title: isAr ? "التمويل المرن" : "Flexible financing",
       headline: isAr ? "بدون فوائد، مباشرة مع الشركة" : "Zero interest, direct with us",
+      // Arabic: no description, the headline stands alone.
       desc: isAr
-        ? "دفعة أولى تختارها ثم أقساط حسب الدفعة والمدة، أو خصم 24% نقدًا. تمويل مباشر بدون فوائد بنكية."
+        ? ""
         : "A down payment you choose, then installments set by the down payment and duration, or 24% off in cash. Direct financing with zero bank interest.",
-      img: "/gallery/resortsPics/family-entering-resort-front-door.jpg",
+      img: "/home/financing-installments.jpg",
+      // Portrait poster with its title at the top: keep the title in when cropped.
+      pos: "50% 15%",
       cta: isAr ? "احجز زيارتك" : "Register interest",
     },
   ];
@@ -89,15 +92,16 @@ export default async function HomePage({ params }: Props) {
               </p>
               <h2 className="section-title mb-0">
                 {isAr
-                  ? "شاليه خاص، كمباوند مخدوم، وتمويل مرن."
+                  ? "شاليهك المستقل، بقسط 1% في كمباوند Giving."
                   : "Private resort, serviced community, flexible financing."}
               </h2>
             </div>
-            <p className="section-sub">
-              {isAr
-                ? "مخطط واحد، ثلاث وجهات. الخصوصية، أسلوب الحياة، والتمويل المرن تلتقي في كمباوند روح العطاء."
-                : "One community, three destinations. Privacy, lifestyle, and flexible financing meet in Giving Compound."}
-            </p>
+            {/* Arabic: the heading stands alone. */}
+            {!isAr && (
+              <p className="section-sub">
+                One community, three destinations. Privacy, lifestyle, and flexible financing meet in Giving Compound.
+              </p>
+            )}
           </div>
 
           <div className="brands">
@@ -109,12 +113,13 @@ export default async function HomePage({ params }: Props) {
                   fill
                   className="select-none"
                   sizes="(max-width:1024px) 100vw, 40vw"
+                  style={d.pos ? { objectPosition: d.pos } : undefined}
                 />
                 <HoverAccent />
                 <div className="body text-start">
                   <div className="kicker">{d.title}</div>
                   <h3>{d.headline}</h3>
-                  <p>{d.desc}</p>
+                  {d.desc && <p>{d.desc}</p>}
                   <span className="btn-ghost-light">
                     {d.cta}
                     <span className="arrow" aria-hidden>

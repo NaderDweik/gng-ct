@@ -1,7 +1,7 @@
 import { LoopVideo } from "@/components/ui/LoopVideo";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { site } from "@/content/site";
+import { site, whatsappChatUrl } from "@/content/site";
 import { RegisterForm } from "@/features/register/RegisterForm";
 import { RegisterHeading } from "@/features/register/RegisterHeading";
 import type { LocalePageProps } from "@/i18n/types";
@@ -105,7 +105,7 @@ export default async function RegisterPage({ params }: Props) {
                 </a>
               </ContactRow>
               <ContactRow icon="chat" label={isAr ? "واتساب" : "WhatsApp"}>
-                <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer" className="register-contact-link">
+                <a href={whatsappChatUrl(locale)} target="_blank" rel="noopener noreferrer" className="register-contact-link">
                   {tc("whatsapp")}
                 </a>
               </ContactRow>

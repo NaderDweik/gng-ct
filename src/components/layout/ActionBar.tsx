@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { site } from "@/content/site";
+import { whatsappChatUrl } from "@/content/site";
 
 /*
  * Phones: bottom action bar (styles: styles/base/action-bar.css), on every page except
@@ -69,7 +69,7 @@ export function ActionBar() {
           {locale === "ar" ? "أو" : "OR"}
         </span>
         <a
-          href={site.whatsappUrl}
+          href={whatsappChatUrl(locale)}
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-ghost-dark action-bar-wa"

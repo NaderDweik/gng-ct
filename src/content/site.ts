@@ -72,3 +72,12 @@ export const site = {
     },
   },
 } as const;
+
+/** WhatsApp buttons and icons: the chat opens with the source line in the page's language
+ *  and a new line, so the visitor types their message under it and sales can tell the
+ *  lead came from the site. (The register form and FAQ chat add their own text to
+ *  site.whatsappUrl.) */
+export const whatsappChatUrl = (locale: string) =>
+  `${site.whatsappUrl}?text=${encodeURIComponent(
+    locale === "ar" ? "المصدر: الموقع الإلكتروني\n" : "Source: Website\n",
+  )}`;

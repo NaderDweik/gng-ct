@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { site } from "@/content/site";
+import { site, whatsappChatUrl } from "@/content/site";
 import { CountUp } from "@/components/ui/CountUp";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import type { LocalePageProps } from "@/i18n/types";
@@ -103,7 +103,7 @@ export default async function AboutPage({ params }: Props) {
   const socials = [
     { name: "instagram" as const, href: site.social.instagram, label: "Instagram", handle: "@spiritgivingdevelopment" },
     { name: "facebook" as const, href: site.social.facebook, label: "Facebook", handle: "SpiritGivingDevelopment" },
-    { name: "whatsapp" as const, href: site.whatsappUrl, label: "WhatsApp", handle: tc("whatsapp") },
+    { name: "whatsapp" as const, href: whatsappChatUrl(locale), label: "WhatsApp", handle: tc("whatsapp") },
   ];
 
   return (

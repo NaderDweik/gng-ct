@@ -10,7 +10,7 @@ export const homeIntro = {
   href: "/chalet",
   en: {
     eyebrow: "About Giving Compound",
-    title: "One Community. 367 Private Resorts.",
+    title: "One Community. 367+ Private Resorts.",
     p1: "Welcome to Giving Compound: the first and largest fully-serviced chalet community in the region, across 500,000 m² in Al Matabba, Sahab.",
     facts: [
       "About 500 m² per chalet",
@@ -21,8 +21,8 @@ export const homeIntro = {
   },
   ar: {
     eyebrow: "عن روح العطاء",
-    title: "كمباوند واحد. 367 شاليهًا خاصًا.",
-    p1: "أهلًا بك في روح العطاء: أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة، على مساحة 500,000 م² في المطبّة، سحاب.",
+    title: "كمباوند شاليهات Giving",
+    p1: "هو أسلوب حياة صُمّم ليجمع الراحة والخصوصية بمكان واحد.",
     facts: [
       "شاليه بمساحة 500 م² تقريبًا",
       "تقسيط مباشر بدون فوائد",

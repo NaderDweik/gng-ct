@@ -3,7 +3,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
-import { site } from "@/content/site";
+import { site, whatsappChatUrl } from "@/content/site";
 import { GivingLogo } from "@/components/brand/GivingLogo";
 import { LocaleSwitch } from "@/components/layout/LocaleSwitch";
 import { WhatsAppIcon } from "@/components/layout/WhatsAppFloat";
@@ -119,7 +119,7 @@ export function Header() {
           {/* Desktop: WhatsApp as a square beside the register button (it replaces the
               floating WhatsApp button there). */}
           <a
-            href={site.whatsappUrl}
+            href={whatsappChatUrl(locale)}
             target="_blank"
             rel="noopener noreferrer"
             data-track-placement="header_whatsapp"

@@ -17,6 +17,9 @@ const nextConfig: NextConfig = {
   // `npm run build` (both used to write .next).
   distDir: isDev ? ".next-dev" : ".next",
   poweredByHeader: false,
+  // Lets a Cloudflare quick tunnel (`cloudflared tunnel --url http://localhost:3000`) load dev
+  // assets and hot reload, so a public link shows local changes without deploying.
+  allowedDevOrigins: ["*.trycloudflare.com"],
   images: {
     // Pages has no image server: photos are resized at build time (src/lib/imageLoader.ts),
     // so any quality={…} works.

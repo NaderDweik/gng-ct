@@ -3,7 +3,7 @@
 import type { ReactNode } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { site } from "@/content/site";
+import { site, whatsappChatUrl } from "@/content/site";
 import { GivingLogo } from "@/components/brand/GivingLogo";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 
@@ -73,7 +73,7 @@ export function Footer() {
   const socials = [
     { name: "instagram" as const, href: site.social.instagram, label: "Instagram" },
     { name: "facebook" as const, href: site.social.facebook, label: "Facebook" },
-    { name: "whatsapp" as const, href: site.whatsappUrl, label: "WhatsApp" },
+    { name: "whatsapp" as const, href: whatsappChatUrl(locale), label: "WhatsApp" },
   ];
 
   return (
@@ -132,7 +132,7 @@ export function Footer() {
                 </a>
                 <span className="h-4 w-px bg-white/25 md:hidden" aria-hidden />
                 <a
-                  href={site.whatsappUrl}
+                  href={whatsappChatUrl(locale)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex w-fit items-center gap-1.5 py-2 font-bold text-on-dark transition-colors hover:text-on-dark-muted md:block lg:py-0"

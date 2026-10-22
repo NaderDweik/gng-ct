@@ -19,7 +19,7 @@ import { homeIntro as intro } from "@/content/home-intro";
 
 const IMAGE_SIZES = "(min-width: 1024px) 55vw, 100vw";
 
-/** "One Community. 367 Private Resorts." → ["One Community.", "367 Private Resorts."] */
+/** "One Community. 367+ Private Resorts." → ["One Community.", "367+ Private Resorts."] */
 const lines = (title: string) => title.split(/(?<=\.)\s+/);
 
 export function HomeIntro({ locale }: { locale: string }) {

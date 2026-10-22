@@ -1,7 +1,7 @@
 import { SmoothImage } from "@/components/ui/SmoothImage";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { site } from "@/content/site";
+import { whatsappChatUrl } from "@/content/site";
 import { LoopVideo } from "@/components/ui/LoopVideo";
 
 /** `video` (a Remotion loop in public/motion) replaces the still `image` when given; `image` stays the fallback. */
@@ -36,7 +36,7 @@ export async function RegisterCta({ locale, image, video }: Props) {
               <span className="arrow" aria-hidden />
             </Link>
             <a
-              href={site.whatsappUrl}
+              href={whatsappChatUrl(locale)}
               target="_blank"
               rel="noopener noreferrer"
               className="register-cta-btn register-cta-btn--ghost"

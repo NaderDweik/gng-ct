@@ -1,7 +1,7 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import { site } from "@/content/site";
+import { useLocale, useTranslations } from "next-intl";
+import { whatsappChatUrl } from "@/content/site";
 
 /** WhatsApp glyph, shared by this button and the header's WhatsApp square. */
 export function WhatsAppIcon({ size }: { size: number }) {
@@ -16,10 +16,11 @@ export function WhatsAppIcon({ size }: { size: number }) {
  *  has the WhatsApp square in the header next to the register button. */
 export function WhatsAppFloat() {
   const t = useTranslations("common");
+  const locale = useLocale();
 
   return (
     <a
-      href={site.whatsappUrl}
+      href={whatsappChatUrl(locale)}
       target="_blank"
       rel="noopener noreferrer"
       className="wa-float fixed bottom-5 z-50 hidden md:inline-flex items-center gap-2 rounded-full bg-whatsapp px-4 py-3 text-sm font-semibold text-on-dark shadow-lg transition hover:scale-[1.03] end-5"

@@ -5,7 +5,7 @@ import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperti
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { faqCategories } from "@/content/faq";
-import { site } from "@/content/site";
+import { site, whatsappChatUrl } from "@/content/site";
 import { formatNumber } from "@/lib/format";
 import { track } from "@/lib/analytics";
 
@@ -210,7 +210,7 @@ export function FaqExplorer() {
           </p>
           <p className="mt-2 text-sm text-on-dark-muted">{tc("responseTime")}</p>
           <div className="mt-5 space-y-2">
-            <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer" className="faq-help-btn faq-help-btn--solid">
+            <a href={whatsappChatUrl(locale)} target="_blank" rel="noopener noreferrer" className="faq-help-btn faq-help-btn--solid">
               {tc("whatsapp")}
             </a>
             <a href={`tel:${site.phoneAction}`} className="faq-help-btn" dir="ltr">
@@ -243,7 +243,7 @@ export function FaqExplorer() {
               <button type="button" onClick={() => setQuery("")} className="btn btn-ghost-dark">
                 {isAr ? "مسح البحث" : "Clear search"}
               </button>
-              <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+              <a href={whatsappChatUrl(locale)} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
                 {tc("whatsapp")}
               </a>
             </div>
@@ -299,7 +299,7 @@ export function FaqExplorer() {
             {isAr ? "تحدّث مع فريق المبيعات." : "Talk to our sales team."}
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
-            <a href={site.whatsappUrl} target="_blank" rel="noopener noreferrer" className="faq-help-btn faq-help-btn--solid">
+            <a href={whatsappChatUrl(locale)} target="_blank" rel="noopener noreferrer" className="faq-help-btn faq-help-btn--solid">
               {tc("whatsapp")}
             </a>
             <Link href="/register" className="faq-help-btn">

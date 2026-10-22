@@ -10,7 +10,6 @@ import { PageJsonLd } from "@/components/seo/PageJsonLd";
 import { routeMetadata } from "@/lib/seo";
 import { InViewOnce } from "@/components/ui/InViewOnce";
 import { departmentHeads } from "@/content/team";
-import { HomeServicesViewer } from "@/features/home/HomeServicesViewer";
 type Props = LocalePageProps;
 
 export function generateMetadata({ params }: Props) {
@@ -116,47 +115,29 @@ export default async function LeadershipPage({ params }: Props) {
         <InViewOnce selector=".leader-principle" rootMargin="0px 0px -25% 0px" />
       </section>
 
-      {/* Department heads (content/team.ts) in the home services slider (same band, arrows,
-          counter, progress line and motion); each slide is the department card. */}
-      <section className="section hsc-band leader-team on-dark bg-secondary text-on-dark">
+      {/* Department heads (content/team.ts): simple cards, three per row (two on phones). */}
+      <section className="section leader-team on-dark bg-secondary text-on-dark">
         <div className="container-gc">
-          <div className="sec-head hsc-head">
+          <div className="sec-head">
             <div>
               <p className="section-eyebrow">{isAr ? "فريق الإدارة" : "Our team"}</p>
               <h2 className="section-title">{isAr ? "رؤساء الأقسام." : "Department heads."}</h2>
             </div>
           </div>
-          <HomeServicesViewer
-            isAr={isAr}
-            locale={locale}
-            label={isAr ? "رؤساء الأقسام" : "Department heads"}
-            shots={departmentHeads.map((p) => {
+          <ul className="leader-team-list">
+            {departmentHeads.map((p) => {
               const title = isAr ? p.titleAr : p.titleEn;
-              const name = isAr ? p.nameAr : p.nameEn;
-              const dept = isAr ? p.departmentAr : p.departmentEn;
-              return {
-                id: p.nameEn,
-                src: p.photo,
-                icon: "bell" as const,
-                title: title ? `${title} ${name}` : name,
-                sub: dept,
-                body: "",
-                // The department card: its photo, tinted, behind a frosted inner card.
-                node: (
-                  <div className="leader-team-card">
-                    <Image src={p.photo} alt="" fill sizes="(min-width: 1024px) 45vw, 80vw" className="leader-team-photo" />
-                    <div className="leader-team-inner">
-                      <h3 className="leader-team-name">
-                        {title && <span className="leader-team-honorific">{title} </span>}
-                        {name}
-                      </h3>
-                      <p className="leader-team-dept">{dept}</p>
-                    </div>
-                  </div>
-                ),
-              };
+              return (
+                <li key={p.nameEn} className="leader-team-card">
+                  <h3 className="leader-team-name">
+                    {title && <span className="leader-team-honorific">{title} </span>}
+                    {isAr ? p.nameAr : p.nameEn}
+                  </h3>
+                  <p className="leader-team-dept">{isAr ? p.departmentAr : p.departmentEn}</p>
+                </li>
+              );
             })}
-          />
+          </ul>
         </div>
       </section>
     </>

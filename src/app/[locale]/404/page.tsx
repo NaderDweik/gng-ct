@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { site } from "@/content/site";
+import { whatsappChatUrl } from "@/content/site";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import type { LocalePageProps } from "@/i18n/types";
 
@@ -54,7 +54,7 @@ export default async function NotFoundPage({ params }: Props) {
             <span className="arrow" aria-hidden />
           </Link>
           <a
-            href={site.whatsappUrl}
+            href={whatsappChatUrl(locale)}
             target="_blank"
             rel="noopener noreferrer"
             data-track-placement="not_found"
