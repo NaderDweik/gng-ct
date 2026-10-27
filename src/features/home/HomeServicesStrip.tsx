@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
+import { UiIcon } from "@/components/ui/UiIcon";
 import { availableServices, servicePhotos } from "@/content/services";
 import { HomeServicesViewer } from "@/features/home/HomeServicesViewer";
 
@@ -50,6 +51,7 @@ export function HomeServicesStrip({ locale }: { locale: string }) {
   // Desktop: in the heading row. Tablets: after the photos. Phones: in the controls row.
   const servicesLink = (where: string) => (
     <Link href="/services" className={`gallery-outline-btn ${where}`.trim()}>
+      <UiIcon name="bell" />
       {isAr ? "استكشف خدمات الكمباوند" : "Explore compound services"}
       <ArrowIcon className="arrow" />
     </Link>
@@ -60,7 +62,7 @@ export function HomeServicesStrip({ locale }: { locale: string }) {
       <div className="container-gc">
         <div className="sec-head hsc-head">
           <div>
-            <p className="section-eyebrow">{isAr ? "خدمات الكمباوند" : "Compound services"}</p>
+            <p className="section-eyebrow section-eyebrow--icon"><UiIcon name="bell" />{isAr ? "خدمات الكمباوند" : "Compound services"}</p>
             <h2 className="section-title">{isAr ? "كمباوند يعمل من أجلك." : "A compound that works for you."}</h2>
           </div>
           <div className="hsc-head-cta flex flex-col items-start gap-6 lg:items-end">{servicesLink("")}</div>

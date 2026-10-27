@@ -10,6 +10,7 @@ import { Link } from "@/i18n/navigation";
 import { heroLayered as hero, type HeroSlide } from "@/content/hero";
 import { site } from "@/content/site";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
+import { UiIcon } from "@/components/ui/UiIcon";
 import { avifSrcSet, dropAvifOnError } from "@/components/ui/SmoothImage";
 
 /**
@@ -389,9 +390,11 @@ export function HeroLayered() {
             </h1>
             <div className="hl-ctas hl-fade">
               <Link href={hero.primaryHref} className="btn btn-primary" data-track-placement="hero">
+                <UiIcon name="calendar" />
                 {isAr ? hero.ctaPrimaryAr : hero.ctaPrimaryEn}
               </Link>
               <Link href={hero.secondaryHref} className="hl-link">
+                <UiIcon name="pool" />
                 {isAr ? hero.ctaSecondaryAr : hero.ctaSecondaryEn}
                 <ArrowIcon />
               </Link>

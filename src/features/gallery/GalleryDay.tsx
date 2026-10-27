@@ -6,6 +6,7 @@ import { Link } from "@/i18n/navigation";
 import { dayCopy, dayScenes, type DayMode } from "@/content/gallery";
 import { formatNumber } from "@/lib/format";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
+import { UiIcon } from "@/components/ui/UiIcon";
 import { HoverGlow } from "@/components/ui/HoverAccent";
 
 /*
@@ -100,7 +101,7 @@ export function GalleryDay({ locale, ctaHref }: Props) {
       <div className="container-gc">
         <header className="sec-head">
           <div>
-            <p className="section-eyebrow">{copy.eyebrow}</p>
+            <p className="section-eyebrow section-eyebrow--icon"><UiIcon name="camera" />{copy.eyebrow}</p>
             <h2 className="section-title">{copy.title}</h2>
             <p className="section-sub gd-lede-phone">{copy.lead}</p>
           </div>
@@ -163,6 +164,7 @@ export function GalleryDay({ locale, ctaHref }: Props) {
 
         <div className="gd-foot">
           <Link href={ctaHref} className="gallery-outline-btn gd-cta">
+            <UiIcon name="image" />
             {copy.cta}
             <ArrowIcon />
           </Link>

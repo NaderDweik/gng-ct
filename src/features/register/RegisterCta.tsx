@@ -3,6 +3,8 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { whatsappChatUrl } from "@/content/site";
 import { LoopVideo } from "@/components/ui/LoopVideo";
+import { SocialIcon } from "@/components/ui/SocialIcon";
+import { UiIcon } from "@/components/ui/UiIcon";
 
 /** `video` (a Remotion loop in public/motion) replaces the still `image` when given; `image` stays the fallback. */
 type Props = { locale: string; image: string; video?: { src: string; poster: string } };
@@ -22,7 +24,8 @@ export async function RegisterCta({ locale, image, video }: Props) {
       </div>
       <div className="container-gc">
         <div className="register-cta-inner">
-          <p className="section-eyebrow">
+          <p className="section-eyebrow section-eyebrow--icon">
+            <UiIcon name="calendar" />
             {tc("register")}
           </p>
           <h2 className="section-title">{isAr ? "احجز زيارتك." : "Register your interest."}</h2>
@@ -32,6 +35,7 @@ export async function RegisterCta({ locale, image, video }: Props) {
           {/* Two buttons of one width (the wider label sets it): side by side, stacked on phones. */}
           <div className="register-cta-actions">
             <Link href="/register" className="register-cta-btn">
+              <UiIcon name="calendar" />
               {tc("register")}
               <span className="arrow" aria-hidden />
             </Link>
@@ -41,6 +45,7 @@ export async function RegisterCta({ locale, image, video }: Props) {
               rel="noopener noreferrer"
               className="register-cta-btn register-cta-btn--ghost"
             >
+              <SocialIcon name="whatsapp" className="ui-icon" />
               {tc("whatsapp")}
             </a>
           </div>

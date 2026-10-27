@@ -8,7 +8,7 @@ import { useGSAP } from "@gsap/react";
 import { Link } from "@/i18n/navigation";
 import type { FaqItem } from "@/content/faq";
 import { basePriceJd, cashDiscountPct, cashPriceJd } from "@/content/pricing";
-import { royalDrive } from "@/content/location";
+import { ammanDrive } from "@/content/location";
 import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -49,17 +49,17 @@ type Stamp = {
 type Fmt = (v: number) => string;
 
 function stampsFor(isAr: boolean, fmt: Fmt): Record<string, Stamp> {
-  const km = fmt(royalDrive.km);
-  const min = fmt(royalDrive.minutes);
+  const km = fmt(ammanDrive.km);
+  const min = fmt(ammanDrive.minutes);
   return isAr
     ? {
-        where: { shape: "circle", ink: "slate", ring: "من فندق الرويال · إلى روح العطاء ·", big: `${km} كم`, sub: `${min} دقيقة`, at: { x: 27, y: 25, r: -9 } },
+        where: { shape: "circle", ink: "slate", ring: "من الدوار السابع · إلى روح العطاء ·", big: `${km} كم`, sub: `${min} دقيقة`, at: { x: 27, y: 25, r: -9 } },
         price: { shape: "rect", ink: "gold", top: "سعر الشاليه", big: `${fmt(basePriceJd)} د.أ`, sub: `نقدًا −${fmt(cashDiscountPct)}% · ${fmt(cashPriceJd)}`, at: { x: 61, y: 22, r: 6 } },
         interest: { shape: "oval", ink: "rust", top: "فوائد", big: `${fmt(0)}%`, sub: "بدون بنك", at: { x: 72, y: 55, r: 11 } },
         plans: { shape: "rect", ink: "teal", top: "قسط شهري", big: "حسب الدفعة", sub: "والمدة التي تختارها", at: { x: 55, y: 85, r: -6 } },
       }
     : {
-        where: { shape: "circle", ink: "slate", ring: "LE ROYAL · TO · GIVING COMPOUND ·", big: `${km} km`, sub: `${min} min`, at: { x: 27, y: 25, r: -9 } },
+        where: { shape: "circle", ink: "slate", ring: "7TH CIRCLE · TO · GIVING COMPOUND ·", big: `${km} km`, sub: `${min} min`, at: { x: 27, y: 25, r: -9 } },
         price: { shape: "rect", ink: "gold", top: "PRICE PER RESORT", big: `${fmt(basePriceJd)} JD`, sub: `CASH −${cashDiscountPct}% · ${fmt(cashPriceJd)}`, at: { x: 61, y: 22, r: 6 } },
         interest: { shape: "oval", ink: "rust", top: "INTEREST", big: "0%", sub: "NO BANK", at: { x: 72, y: 55, r: 11 } },
         plans: { shape: "rect", ink: "teal", top: "MONTHLY", big: "YOUR TERMS", sub: "DOWN PAYMENT · DURATION", at: { x: 55, y: 85, r: -6 } },

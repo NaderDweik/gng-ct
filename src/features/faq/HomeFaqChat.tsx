@@ -8,7 +8,7 @@ import { useGSAP } from "@gsap/react";
 import { Link } from "@/i18n/navigation";
 import type { FaqItem } from "@/content/faq";
 import { basePriceJd, cashDiscountPct, cashPriceJd } from "@/content/pricing";
-import { royalDrive } from "@/content/location";
+import { ammanDrive } from "@/content/location";
 import { site } from "@/content/site";
 import { GIVING_MARK_SVG } from "@/components/brand/givingMark";
 import { track } from "@/lib/analytics";
@@ -47,7 +47,7 @@ const copy = {
     // visuals
     km: "km",
     min: "min",
-    royal: "Le Royal",
+    from: "7th Circle",
     home: "Giving Compound",
     installments: "Installments",
     cash: "Cash",
@@ -77,7 +77,7 @@ const copy = {
     jd: "د.أ",
     km: "كم",
     min: "دقيقة",
-    royal: "فندق الرويال",
+    from: "الدوار السابع",
     home: "Giving Compound",
     installments: "بالتقسيط",
     cash: "نقدًا",
@@ -116,8 +116,8 @@ function countTo(el: Element | null, from: number, to: number, fmt: Fmt, delay: 
 
 function WhereVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const km = royalDrive.km;
-  const min = royalDrive.minutes;
+  const km = ammanDrive.km;
+  const min = ammanDrive.minutes;
   useGSAP(
     () => {
       const q = gsap.utils.selector(ref);
@@ -157,7 +157,7 @@ function WhereVisual({ c, fmt, delay }: { c: Copy; fmt: Fmt; delay: number }) {
           <circle className="fq-route-end" cx="258" cy="26" r="6" />
           <circle className="fq-route-car" cx="22" cy="62" r="3.5" />
         </svg>
-        <span className="fq-route-label fq-route-label--a">{c.royal}</span>
+        <span className="fq-route-label fq-route-label--a">{c.from}</span>
         <span className="fq-route-label fq-route-label--b">{c.home}</span>
       </div>
       <p className="fq-figs">

@@ -409,3 +409,16 @@
   }
 
 }
+
+/* Line icons in buttons and eyebrows (components/ui/UiIcon). */
+.ui-icon {
+  width: 1.4em;
+  height: 1.4em;
+  flex-shrink: 0;
+}
+
+.section-eyebrow--icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+}

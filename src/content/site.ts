@@ -16,11 +16,11 @@ export const site = {
   mapsUrl: "https://www.google.com/maps?q=31.7330683,36.1140802&z=17",
   mapsEmbed:
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3385.5!2d35.9301!3d31.9497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDU2JzU5LjAiTiAzNcKwNTUnNDguNCJF!5e0!3m2!1sen!2sjo!4v1",
-  locationAr: "41 كم من فندق الرويال باتجاه سحاب الحطمية",
-  locationEn: "41 km from Le Royal Hotel towards Sahab Al-Hatmiyeh",
-  /** Where the sales office is (footer, register page); not the compound's location. */
-  salesOfficeAr: "فندق الرويال، الطابق الأول، عمّان، الأردن",
-  salesOfficeEn: "Le Royal Hotel, First Floor, Amman, Jordan",
+  locationAr: "المطبّة، باتجاه سحاب الحطمية",
+  locationEn: "Al Matabba, towards Sahab Al-Hatmiyeh",
+  /** Where the sales office is (footer, register page): the company HQ, at the compound since Oct 2026. */
+  salesOfficeAr: "الكمباوند، المطبّة، باتجاه سحاب الحطمية، الأردن",
+  salesOfficeEn: "The compound, Al Matabba, towards Sahab Al-Hatmiyeh, Jordan",
   /** Project pin — Al Matabba (Google Maps link above). */
   coordinates: { lat: 31.7330683, lng: 36.1140802 },
   social: {
@@ -46,7 +46,8 @@ export const site = {
    * the YouTube video plays with all of YouTube's interface hidden.
    */
   videos: {
-    tour: { youtubeId: "8D8-mb6opx4", poster: "/gallery/resortsPics/pool-and-tent-pavilion-hd.jpg" },
+    // Self-hosted since 2026-10-27 (IMG_7221, encoded to 1080p; the old YouTube id stays as a fallback).
+    tour: { youtubeId: "8D8-mb6opx4", src: "/videos/tour.mp4", poster: "/videos/tour-poster.jpg" },
     iso: { youtubeId: "3Lr4a5EHaRI", poster: "/videos/iso-poster.webp" },
   } as Record<"tour" | "iso", { youtubeId: string; src?: string; poster: string }>,
   copyBank: {

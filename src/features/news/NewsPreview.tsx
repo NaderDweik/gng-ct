@@ -2,6 +2,7 @@ import { SmoothImage } from "@/components/ui/SmoothImage";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
+import { UiIcon } from "@/components/ui/UiIcon";
 import { getArticle, homeNewsSlugs, newsCategories } from "@/content/news";
 import { NewsRail } from "@/features/news/NewsRail";
 import { HoverAccent } from "@/components/ui/HoverAccent";
@@ -14,6 +15,7 @@ export async function NewsPreview({ locale }: { locale: string }) {
   // Desktop: in the heading row. Phones / tablets: after the cards.
   const allArticles = (where: string) => (
     <Link href="/news" className={`gallery-outline-btn np-all ${where}`}>
+      <UiIcon name="newspaper" />
       {isAr ? "كل المقالات" : "All articles"}
       <ArrowIcon className="arrow" />
     </Link>
@@ -29,7 +31,7 @@ export async function NewsPreview({ locale }: { locale: string }) {
       <div className="container-gc">
         <div className="sec-head np-head">
           <div>
-            <p className="section-eyebrow">{t("title")}</p>
+            <p className="section-eyebrow section-eyebrow--icon"><UiIcon name="newspaper" />{t("title")}</p>
             <h2 className="section-title">{isAr ? "آخر أخبار روح العطاء." : "Latest from Giving Compound."}</h2>
           </div>
           <div className="flex flex-col items-start gap-6 lg:items-end">
@@ -61,6 +63,7 @@ export async function NewsPreview({ locale }: { locale: string }) {
                     <span className="np-title">{isAr ? a.titleAr : a.titleEn}</span>
                     <span className="np-excerpt">{isAr ? a.excerptAr : a.excerptEn}</span>
                     <span className="np-more">
+                      <UiIcon name="book" />
                       {t("readMore")}
                       <ArrowIcon />
                     </span>

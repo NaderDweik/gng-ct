@@ -2,6 +2,7 @@ import { Link } from "@/i18n/navigation";
 import type { FaqItem } from "@/content/faq";
 import { FaqAccordion } from "@/features/faq/FaqAccordion";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
+import { UiIcon } from "@/components/ui/UiIcon";
 
 /*
  * Home FAQ — deliberately plain (styles: styles/sections/home-faq.css).
@@ -17,6 +18,7 @@ export function HomeFaq({ items, locale }: Props) {
   // Desktop: in the intro beside the questions. Phones / tablets: after the questions.
   const seeAll = (where: string) => (
     <Link href="/faq" className={`gallery-outline-btn hfaq-all ${where}`}>
+      <UiIcon name="question" />
       {isAr ? "كل الأسئلة" : "See all questions"}
       <ArrowIcon className="arrow" />
     </Link>
@@ -25,7 +27,7 @@ export function HomeFaq({ items, locale }: Props) {
   return (
     <div className="hfaq">
       <div className="hfaq-intro">
-        <p className="section-eyebrow">{isAr ? "أسئلة شائعة" : "Questions"}</p>
+        <p className="section-eyebrow section-eyebrow--icon"><UiIcon name="question" />{isAr ? "أسئلة شائعة" : "Questions"}</p>
         <h2 className="section-title mb-0">{isAr ? "قبل أن تقرر." : "Before you decide."}</h2>
         <p className="section-sub hfaq-lead">
           {isAr

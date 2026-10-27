@@ -25,7 +25,7 @@
 | IG | [@spiritgivingdevelopment](https://www.instagram.com/spiritgivingdevelopment/) |
 | FB | [SpiritGivingDevelopment](https://www.facebook.com/SpiritGivingDevelopment/) |
 | Maps | `site.mapsUrl` → 31.7330683, 36.1140802 (compound pin, 2026-10-17) |
-| Location | 41 km (~55 min) from Le Royal Hotel → Sahab Al-Hatmiyeh (سحاب الحطمية) · drive times: `content/location.ts` |
+| Location | Al Matabba, towards Sahab Al-Hatmiyeh (سحاب الحطمية) · drive times: `content/location.ts` · sales office / HQ is at the compound (Le Royal Hotel dropped 2026-10-27; FAQ drive figure = 7th Circle, `ammanDrive`) |
 
 **What it is:** First & largest fully-serviced chalet/resort city in the region. Gated residential ownership (NOT a hotel). **367+** private resorts · **500,000 m²** · Spanish style. (Independent deed: removed site-wide 2026-10-17 at the client's request; one line back on 2026-10-21 by request, as the /chalet banner subtitle «كل شاليه بقوشان مستقل مع الأرض والبناء», Arabic only.)
 
@@ -261,3 +261,4 @@ Also in `site.copyBank`.
 - **FAQ:** instalments answer, documents («إثبات شخصي، ونكتفي بالتنازل والرهن»), deed («وإصدار قوشان…»), purchase steps (project engineer → finance officer), handover, rental via compound management; the management/ROI question removed.
 - **News:** owners' association uses the land registry certificate; public services centre uses the storefront photo.
 
+**2026-10-27:** Le Royal Hotel removed site-wide: the company HQ / sales office is now at the compound (`site.salesOffice*`), addresses drop the "41 km from Le Royal" reference, and the FAQ "where" visuals measure from Amman's 7th Circle (`ammanDrive` in `content/location.ts`). Gallery tour video is self-hosted: `public/videos/tour.mp4` (IMG_7221, 1080p H.264, ~37 MB) + `tour-poster.jpg` (`site.videos.tour.src`). Home page CTAs and section eyebrows carry line icons from `components/ui/UiIcon.tsx` (eyebrows use `.section-eyebrow--icon`).

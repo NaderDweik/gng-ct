@@ -4,6 +4,7 @@ import { SmoothImage } from "@/components/ui/SmoothImage";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Link } from "@/i18n/navigation";
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
+import { UiIcon } from "@/components/ui/UiIcon";
 import { homeIntro as intro } from "@/content/home-intro";
 
 /*
@@ -71,7 +72,7 @@ export function HomeIntro({ locale }: { locale: string }) {
         </figure>
 
         <div ref={copyRef} className="hi-copy">
-          <p className="section-eyebrow">{copy.eyebrow}</p>
+          <p className="section-eyebrow section-eyebrow--icon"><UiIcon name="home" />{copy.eyebrow}</p>
           <h2 className="section-title">
             {lines(copy.title).map((line, i) => (
               <span key={line} className="hi-line" style={{ "--i": i } as CSSProperties}>
@@ -91,6 +92,7 @@ export function HomeIntro({ locale }: { locale: string }) {
             ))}
           </ul>
           <Link href={intro.href} className="btn btn-primary hi-cta">
+            <UiIcon name="plan" />
             {copy.cta}
             <ArrowIcon />
           </Link>

@@ -90,9 +90,9 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "الموقع: شاليهات قرب عمّان على طريق سحاب",
     titleEn: "Location: Chalets Near Amman, Jordan",
     descAr:
-      "روح العطاء على بُعد 41 كم (حوالي 55 دقيقة) من فندق الرويال باتجاه سحاب الحطمية. خريطة تفاعلية، اتجاهات القيادة وأوقات الوصول من عمّان.",
+      "روح العطاء في المطبّة، حوالي 42 دقيقة من الدوار السابع باتجاه سحاب الحطمية. خريطة تفاعلية، اتجاهات القيادة وأوقات الوصول من عمّان.",
     descEn:
-      "Giving Compound is 41 km (about 55 minutes) from Le Royal Hotel towards Sahab Al-Hatmiyeh. Interactive map, driving directions and travel times from Amman.",
+      "Giving Compound is in Al Matabba, about 42 minutes from Amman's 7th Circle towards Sahab Al-Hatmiyeh. Interactive map, driving directions and travel times from Amman.",
   },
   "/news": {
     titleAr: "الأخبار والمقالات: الاستثمار في الشاليهات بالأردن",
@@ -114,9 +114,9 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "احجز زيارتك لمكتب المبيعات",
     titleEn: "Book a Sales Office Visit",
     descAr:
-      "احجز موعد زيارتك لمكتب مبيعات روح العطاء في فندق الرويال، من السبت إلى الخميس بين 10 صباحًا و6 مساءً، ونؤكد موعدك عبر واتساب.",
+      "احجز موعد زيارتك لمكتب مبيعات روح العطاء في الكمباوند، من السبت إلى الخميس بين 10 صباحًا و6 مساءً، ونؤكد موعدك عبر واتساب.",
     descEn:
-      "Book a visit to the Giving Compound sales office at Le Royal Hotel, Saturday to Thursday between 10 am and 6 pm. We confirm your visit on WhatsApp.",
+      "Book a visit to the Giving Compound sales office at the compound, Saturday to Thursday between 10 am and 6 pm. We confirm your visit on WhatsApp.",
   },
   "/chalet": {
     titleAr: "الشاليه: تصميم 500 م² في روح العطاء",

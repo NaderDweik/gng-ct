@@ -1,4 +1,5 @@
 import { ArrowIcon } from "@/components/ui/ArrowIcon";
+import { UiIcon, type UiIconName } from "@/components/ui/UiIcon";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { site } from "@/content/site";
@@ -45,6 +46,8 @@ export default async function HomePage({ params }: Props) {
         ? "500 م²: غرف، مسابح، وخصوصية كاملة داخل كمباوند مسوّر."
         : "500 m²: rooms, pools, and full privacy inside a gated community.",
       img: "/gallery/resortsPics/quad-bike-royal-clubhouse.jpg",
+      icon: "key" as UiIconName,
+      kickerIcon: "home" as UiIconName,
       cta: isAr ? "استكشف الشاليهات" : "Explore units",
     },
     {
@@ -55,6 +58,8 @@ export default async function HomePage({ params }: Props) {
         ? "أمن على مدار الساعة، بنية تحتية، ومساحات خضراء مخدومة لأسلوب حياة متكامل."
         : "24/7 security, infrastructure, and serviced green spaces for a complete lifestyle.",
       img: "/gallery/compoundPics/kids-cycling-community-street.jpg",
+      icon: "pool" as UiIconName,
+      kickerIcon: "trees" as UiIconName,
       cta: isAr ? "اكتشف المرافق" : "Discover amenities",
     },
     {
@@ -68,6 +73,8 @@ export default async function HomePage({ params }: Props) {
       img: "/home/financing-installments.jpg",
       // Portrait poster with its title at the top: keep the title in when cropped.
       pos: "50% 15%",
+      icon: "calendar" as UiIconName,
+      kickerIcon: "coins" as UiIconName,
       cta: isAr ? "احجز زيارتك" : "Register interest",
     },
   ];
@@ -87,7 +94,8 @@ export default async function HomePage({ params }: Props) {
         <div className="container-gc">
           <div className="sec-head sec-head-wide">
             <div>
-              <p className="section-eyebrow">
+              <p className="section-eyebrow section-eyebrow--icon">
+                <UiIcon name="compass" />
                 {isAr ? "الوجهات الرئيسية" : "Flagship destinations"}
               </p>
               <h2 className="section-title mb-0">
@@ -117,10 +125,14 @@ export default async function HomePage({ params }: Props) {
                 />
                 <HoverAccent />
                 <div className="body text-start">
-                  <div className="kicker">{d.title}</div>
+                  <div className="kicker flex items-center gap-2">
+                    <UiIcon name={d.kickerIcon} />
+                    {d.title}
+                  </div>
                   <h3>{d.headline}</h3>
                   {d.desc && <p>{d.desc}</p>}
                   <span className="btn-ghost-light">
+                    <UiIcon name={d.icon} />
                     {d.cta}
                     <span className="arrow" aria-hidden>
                       →
@@ -143,7 +155,8 @@ export default async function HomePage({ params }: Props) {
         <div className="container-gc space-y-12">
           <div className="sec-head">
             <div>
-              <p className="section-eyebrow">
+              <p className="section-eyebrow section-eyebrow--icon">
+                <UiIcon name="pool" />
                 {isAr ? amenitiesIntro.eyebrowAr : amenitiesIntro.eyebrowEn}
               </p>
               <h2 className="section-title">
@@ -153,6 +166,7 @@ export default async function HomePage({ params }: Props) {
             {/* Desktop: the way in, in the heading row (phones / tablets: under the cards). */}
             <div className="am-all-head flex flex-col items-start gap-6 lg:items-end">
               <Link href="/chalet/amenities" className="gallery-outline-btn">
+                <UiIcon name="pool" />
                 {isAr ? "استكشف كل المرافق" : "Explore all amenities"}
                 <ArrowIcon className="arrow" />
               </Link>
@@ -161,6 +175,7 @@ export default async function HomePage({ params }: Props) {
           <AmenitiesGrid items={amenityFeatures} isAr={isAr} />
           {/* Phones / tablets: the link closes the section, under the cards. */}
           <Link href="/chalet/amenities" className="gallery-outline-btn am-all--end">
+            <UiIcon name="pool" />
             {isAr ? "استكشف كل المرافق" : "Explore all amenities"}
             <ArrowIcon className="arrow" />
           </Link>
@@ -174,7 +189,10 @@ export default async function HomePage({ params }: Props) {
       <section className="section cv-defer cv-defer--location bg-surface-tint">
         <div className="container-gc">
           <header className="mx-auto mb-10 max-w-2xl text-center md:mb-12">
-            <p className="section-eyebrow">{isAr ? "الطريق إلينا" : "Getting here"}</p>
+            <p className="section-eyebrow section-eyebrow--icon">
+              <UiIcon name="pin" />
+              {isAr ? "الطريق إلينا" : "Getting here"}
+            </p>
             {/* Inline margins: .section-title's own margin shorthand outranks mx-auto. */}
             <h2 className="section-title" style={{ marginInline: "auto", marginBottom: 0 }}>
               {isAr ? "25 كم من جامعة الإسراء عبر طريق القسطل" : "25 km from Isra University via Al-Qastal Road"}

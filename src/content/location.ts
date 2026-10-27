@@ -6,13 +6,13 @@ export const locationCopy = {
   titleAr: "25 كم من جامعة الإسراء عبر طريق القسطل",
   titleEn: "25 km from Isra University via Al-Qastal Road",
   subAr:
-    "يقع روح العطاء في المطبّة، على بُعد 41 كم من فندق الرويال باتجاه سحاب الحطمية. كمباوند مسوّر بهواء أنظف ومساحة أوسع، مع وصول سهل إلى عمّان والمطار.",
+    "يقع روح العطاء في المطبّة، باتجاه سحاب الحطمية. كمباوند مسوّر بهواء أنظف ومساحة أوسع، مع وصول سهل إلى عمّان والمطار.",
   subEn:
-    "Giving Compound sits in Al Matabba, 41 km from Le Royal Hotel towards Sahab Al-Hatmiyeh. A gated community with cleaner air and more space, with easy access to Amman and the airport.",
+    "Giving Compound sits in Al Matabba, towards Sahab Al-Hatmiyeh. A gated community with cleaner air and more space, with easy access to Amman and the airport.",
   addressLabelAr: "العنوان",
   addressLabelEn: "Address",
-  addressAr: "المطبّة، 41 كم من فندق الرويال\nباتجاه سحاب الحطمية، الأردن",
-  addressEn: "Al Matabba, 41 km from Le Royal Hotel\ntowards Sahab Al-Hatmiyeh, Jordan",
+  addressAr: "المطبّة\nباتجاه سحاب الحطمية، الأردن",
+  addressEn: "Al Matabba\ntowards Sahab Al-Hatmiyeh, Jordan",
   phoneLabelAr: "الهاتف",
   phoneLabelEn: "Phone",
   deliveryLabelAr: "الاستلام",
@@ -47,9 +47,6 @@ const place = (p: Omit<NearbyPlace, "distanceAr" | "distanceEn">): NearbyPlace =
   distanceEn: p.minutes != null ? `${p.minutes} min` : "",
 });
 
-/** Le Royal Hotel: the reference point in the address and the FAQ. */
-export const royalDrive = { km: 41, minutes: 55 } as const;
-
 /**
  * Nearby points of interest (the client's list of 2026-10-21), nearest first by drive time, which the map lists and
  * tours them in. Each one's road runs to the compound's pin (site.coordinates).
@@ -63,5 +60,9 @@ export const nearbyPlaces: NearbyPlace[] = [
   place({ id: "seventh-circle", nameAr: "الدوار السابع", nameEn: "7th Circle", km: 48, minutes: 42, coords: { lat: 31.9593988, lng: 35.8575522 } }),
   place({ id: "abdali", nameAr: "بوليفارد العبدلي", nameEn: "Abdali Boulevard", km: 44, minutes: 47, coords: { lat: 31.9648636, lng: 35.9040935 } }),
 ];
+
+/** The FAQ's drive from Amman: the 7th Circle entry above (Le Royal Hotel was dropped in Oct 2026). */
+const seventh = nearbyPlaces.find((p) => p.id === "seventh-circle")!;
+export const ammanDrive = { km: seventh.km!, minutes: seventh.minutes! } as const;
 
 export const projectCoords = site.coordinates;

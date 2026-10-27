@@ -103,7 +103,7 @@ export const privacyPolicy: Record<"ar" | "en", LegalDoc> = {
       {
         heading: "Contact us",
         body: [
-          `For any privacy request or question, call or message us on WhatsApp at ${phone}, or visit our sales office: ${site.salesOfficeEn}, Amman, Jordan.`,
+          `For any privacy request or question, call or message us on WhatsApp at ${phone}, or visit our sales office: ${site.salesOfficeEn}.`,
         ],
       },
       {
@@ -204,7 +204,7 @@ export const privacyPolicy: Record<"ar" | "en", LegalDoc> = {
       {
         heading: "تواصل معنا",
         body: [
-          `لأي طلب أو استفسار يتعلق بالخصوصية، اتصل بنا أو راسلنا عبر واتساب على الرقم ${phone}، أو زر مكتب المبيعات: ${site.salesOfficeAr}، عمّان، الأردن.`,
+          `لأي طلب أو استفسار يتعلق بالخصوصية، اتصل بنا أو راسلنا عبر واتساب على الرقم ${phone}، أو زر مكتب المبيعات: ${site.salesOfficeAr}.`,
         ],
       },
       {
