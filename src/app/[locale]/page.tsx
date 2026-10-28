@@ -11,6 +11,7 @@ import { AmenitiesGrid } from "@/features/amenities/AmenitiesGrid";
 import { VLines } from "@/components/ui/VLines";
 import { HomeFaq } from "@/features/faq/HomeFaq";
 import { LocationShowcase } from "@/features/location/LocationShowcase";
+import { locationCopy } from "@/content/location";
 import { HomeIntro } from "@/features/home/HomeIntro";
 import { GalleryDay } from "@/features/gallery/GalleryDay";
 import { RegisterCta } from "@/features/register/RegisterCta";
@@ -195,7 +196,7 @@ export default async function HomePage({ params }: Props) {
             </p>
             {/* Inline margins: .section-title's own margin shorthand outranks mx-auto. */}
             <h2 className="section-title" style={{ marginInline: "auto", marginBottom: 0 }}>
-              {isAr ? "الأردن، عمّان، القسطل، قصر المشتى" : "Jordan, Amman, Al-Qastal, Qasr al-Mushatta"}
+              {isAr ? locationCopy.titleAr : locationCopy.titleEn}
             </h2>
           </header>
           <LocationShowcase />
