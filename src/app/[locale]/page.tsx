@@ -195,7 +195,7 @@ export default async function HomePage({ params }: Props) {
             </p>
             {/* Inline margins: .section-title's own margin shorthand outranks mx-auto. */}
             <h2 className="section-title" style={{ marginInline: "auto", marginBottom: 0 }}>
-              {isAr ? "25 كم من جامعة الإسراء عبر طريق القسطل" : "25 km from Isra University via Al-Qastal Road"}
+              {isAr ? "الأردن، عمّان، القسطل، قصر المشتى" : "Jordan, Amman, Al-Qastal, Qasr al-Mushatta"}
             </h2>
           </header>
           <LocationShowcase />

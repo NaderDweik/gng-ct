@@ -3,8 +3,8 @@
 export const locationCopy = {
   eyebrowAr: "الموقع",
   eyebrowEn: "Location",
-  titleAr: "25 كم من جامعة الإسراء عبر طريق القسطل",
-  titleEn: "25 km from Isra University via Al-Qastal Road",
+  titleAr: "الأردن، عمّان، القسطل، قصر المشتى",
+  titleEn: "Jordan, Amman, Al-Qastal, Qasr al-Mushatta",
   subAr:
     "يقع روح العطاء في المطبّة، باتجاه سحاب الحطمية. كمباوند مسوّر بهواء أنظف ومساحة أوسع، مع وصول سهل إلى عمّان والمطار.",
   subEn:
