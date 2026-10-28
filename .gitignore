@@ -58,3 +58,6 @@ yarn-error.log*
 # Remotion project deps (separate package under motion/)
 /motion/node_modules/
 !.env.example
+
+# Chatbot POC: the full 512 MB source model (tools/prune-model.mjs input)
+chatbot-poc/.cache/

@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>روح العطاء · المساعد (POC)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap">
+<style>
+  /* Tokens from src/theme/tokens.ts + base/fonts.css */
+  @font-face { font-family: Optima; src: url("/fonts/optima-regular.woff2") format("woff2"); font-weight: 400; }
+  @font-face { font-family: Optima; src: url("/fonts/optima-bold.woff2") format("woff2"); font-weight: 700; }
+  :root {
+    --primary: #2abba3; --accent: #05ab7d; --deep: #017e59; --darkest: #035f46;
+    --secondary: #181818; --surface: #fff; --alt: #f7f7f7; --tint: #f2f4f3;
+    --line: #e5e5e5; --muted: #737373; --ink: #181818;
+    --display: Optima, "Optima Nova", Cairo, serif; --body: Cairo, system-ui, sans-serif;
+    --ease: cubic-bezier(.22, 1, .36, 1);
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: var(--body); color: var(--ink); background: var(--surface); -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- Wireframe home ---------- */
+  .poc-tag { position: fixed; top: 14px; left: 14px; z-index: 30; font-size: 11px; letter-spacing: .08em;
+    background: rgba(255,255,255,.9); color: var(--deep); border: 1px solid var(--primary); padding: 3px 10px; border-radius: 999px; }
+  header { position: absolute; inset: 0 0 auto; z-index: 5; }
+  header .wrap { height: 84px; display: flex; align-items: center; justify-content: space-between; }
+  header img { height: 52px; }
+  nav { display: flex; gap: 28px; color: #fff; font-size: 15px; }
+  nav span { opacity: .9; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 11px 24px; font: 600 15px var(--body);
+    border: 0; background: var(--primary); color: #fff; }
+  .btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,.6); }
+  .hero { position: relative; height: min(92vh, 760px); color: #fff; display: flex; align-items: flex-end;
+    background: linear-gradient(to top, rgba(24,24,24,.85), rgba(24,24,24,.15) 60%), url("/hero/entrance-fountain-and-gatehouse-4k.jpg") center/cover; }
+  .hero .wrap { padding-bottom: 72px; width: 100%; }
+  .eyebrow { color: var(--primary); font-weight: 600; font-size: 14px; letter-spacing: .04em; }
+  h1 { font: 700 clamp(34px, 5.4vw, 64px)/1.15 var(--display); margin: 10px 0 14px; max-width: 14ch; }
+  .hero p { max-width: 46ch; font-size: 17px; line-height: 1.8; color: rgba(255,255,255,.82); margin: 0 0 28px; }
+  section.block { padding: 88px 0; }
+  section.alt { background: var(--alt); }
+  h2 { font: 700 clamp(26px, 3.4vw, 40px)/1.25 var(--display); margin: 8px 0 32px; }
+  h2::after { content: ""; display: block; width: 44px; height: 3px; background: var(--primary); border-radius: 2px; margin-top: 14px; }
+  .sk { background: linear-gradient(100deg, var(--tint) 30%, #fafbfa 50%, var(--tint) 70%); background-size: 300% 100%;
+    animation: shimmer 2.4s linear infinite; border-radius: 18px; }
+  @keyframes shimmer { to { background-position: -150% 0; } }
+  .line { height: 12px; border-radius: 6px; margin-top: 10px; }
+  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+  .card { border: 1px solid var(--line); border-radius: 22px; overflow: hidden; background: #fff; }
+  .card .sk.img { height: 210px; border-radius: 0; }
+  .card .body { padding: 20px; }
+  .card h3 { font: 700 20px var(--display); margin: 0; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+  .stat { border-inline-start: 3px solid var(--primary); padding: 6px 16px; }
+  .stat b { display: block; font: 700 32px var(--display); color: var(--deep); }
+  .stat span { color: var(--muted); font-size: 14px; }
+  .split { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; }
+  .split .sk { height: 340px; }
+  footer { background: var(--secondary); color: rgba(255,255,255,.7); padding: 56px 0 90px; }
+  footer .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 28px; }
+  footer img { height: 56px; }
+  footer .sk { background: rgba(255,255,255,.08); animation: none; }
+  @media (max-width: 760px) {
+    nav, header .btn { display: none; }
+    .split { grid-template-columns: 1fr; }
+    section.block { padding: 64px 0; }
+  }
+
+  /* ---------- Chat ---------- */
+  .launcher { position: fixed; bottom: 22px; left: 22px; z-index: 40; width: 64px; height: 64px; border-radius: 50%; border: 0;
+    cursor: pointer; color: #fff; background: linear-gradient(135deg, var(--primary), var(--deep));
+    box-shadow: 0 12px 30px rgba(1,126,89,.38); display: grid; place-items: center; transition: transform .35s var(--ease); }
+  .launcher:hover { transform: translateY(-2px) scale(1.04); }
+  .launcher::before { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid var(--primary); animation: ping 2.6s var(--ease) infinite; }
+  .launcher.open::before { display: none; }
+  @keyframes ping { 0% { transform: scale(1); opacity: .7; } 80%, 100% { transform: scale(1.55); opacity: 0; } }
+  .launcher svg { transition: transform .35s var(--ease), opacity .2s; position: absolute; }
+  .launcher .x { opacity: 0; transform: rotate(-90deg); }
+  .launcher.open .chat { opacity: 0; transform: rotate(90deg); }
+  .launcher.open .x { opacity: 1; transform: none; }
+  .hint { position: fixed; bottom: 36px; left: 98px; z-index: 39; background: #fff; color: var(--ink); font-size: 14px; font-weight: 600;
+    padding: 9px 14px; border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.12); transition: .3s var(--ease); }
+  .hint.gone { opacity: 0; transform: translateX(-8px); pointer-events: none; }
+
+  .panel { position: fixed; z-index: 40; bottom: 100px; left: 22px; width: min(400px, calc(100vw - 32px)); height: min(620px, calc(100dvh - 130px));
+    background: #fff; border-radius: 24px; overflow: hidden; display: flex; flex-direction: column;
+    box-shadow: 0 24px 70px rgba(24,24,24,.24); transform-origin: bottom left;
+    opacity: 0; transform: translateY(16px) scale(.96); pointer-events: none; transition: .4s var(--ease); }
+  .panel.open { opacity: 1; transform: none; pointer-events: auto; }
+  .head { background: var(--secondary); color: #fff; padding: 16px 18px; display: flex; align-items: center; gap: 12px; }
+  .avatar { width: 42px; height: 42px; border-radius: 50%; background: #fff; display: grid; place-items: center; flex: none; overflow: hidden; }
+  .avatar img { width: 34px; }
+  .head b { font: 700 17px var(--display); display: block; }
+  .head small { color: rgba(255,255,255,.65); font-size: 12px; display: flex; align-items: center; gap: 6px; }
+  .head small::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--primary); }
+  .log { flex: 1; overflow-y: auto; padding: 18px 16px; display: flex; flex-direction: column; gap: 12px; background: var(--alt); scroll-behavior: smooth; }
+  .msg { max-width: 86%; padding: 11px 15px; border-radius: 18px; line-height: 1.75; font-size: 14.5px; white-space: pre-wrap;
+    animation: rise .35s var(--ease) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+  .bot { background: #fff; align-self: flex-start; border: 1px solid var(--line); border-start-start-radius: 6px; }
+  .me { background: var(--primary); color: #fff; align-self: flex-end; border-start-end-radius: 6px; }
+  .src { display: inline-flex; margin-top: 8px; font-size: 12px; color: var(--deep); background: var(--tint); border-radius: 999px; padding: 2px 10px; }
+  .thinking { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 13px; }
+  .dots { display: inline-flex; gap: 4px; }
+  .dots i { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); animation: bounce 1.1s infinite ease-in-out; }
+  .dots i:nth-child(2) { animation-delay: .15s; } .dots i:nth-child(3) { animation-delay: .3s; }
+  @keyframes bounce { 0%, 70%, 100% { transform: translateY(0); opacity: .45; } 35% { transform: translateY(-5px); opacity: 1; } }
+  .chips { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; animation: rise .4s var(--ease) both; }
+  .chips small { color: var(--muted); font-size: 12px; }
+  .chips button { border: 1px solid rgba(42,187,163,.5); color: var(--darkest); background: #fff; border-radius: 14px;
+    padding: 8px 12px; font: 500 13px/1.6 var(--body); cursor: pointer; text-align: right; transition: .2s; }
+  .chips button:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+  form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); background: #fff; }
+  input { flex: 1; border: 1px solid var(--line); border-radius: 999px; padding: 11px 16px; font: 15px var(--body); outline: none; transition: border-color .2s; }
+  input:focus { border-color: var(--primary); }
+  .send { width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--primary); color: #fff; cursor: pointer; display: grid; place-items: center; }
+  .send:disabled { opacity: .5; cursor: default; }
+  .foot { text-align: center; font-size: 11px; color: var(--muted); padding: 0 0 10px; background: #fff; }
+  @media (max-width: 480px) {
+    .panel { left: 8px; right: 8px; width: auto; bottom: 92px; height: calc(100dvh - 110px); }
+    .launcher { left: 16px; bottom: 16px; } .hint { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+  <span class="poc-tag">POC · WIREFRAME</span>
+
+  <header><div class="wrap">
+    <img src="/brand/v-3d-logo.webp" alt="روح العطاء">
+    <nav><span>الرئيسية</span><span>الشاليه</span><span>الكمباوند</span><span>الموقع</span><span>المعرض</span><span>الأخبار</span></nav>
+    <span class="btn">احجز زيارتك</span>
+  </div></header>
+
+  <section class="hero"><div class="wrap">
+    <div class="eyebrow">كمباوند شاليهات · المطبّة</div>
+    <h1>روح العطاء، شاليهك الخاص قرب عمّان</h1>
+    <p>شاليهات مستقلة بمسبح خاص، داخل كمباوند مسوّر بمرافق وخدمات متكاملة.</p>
+    <span class="btn">احجز زيارتك</span> <span class="btn ghost">جولة مصوّرة</span>
+  </div></section>
+
+  <section class="block"><div class="wrap">
+    <div class="eyebrow">عن المشروع</div><h2>أسلوب حياة بين الراحة والخصوصية</h2>
+    <div class="stats">
+      <div class="stat"><b>500 م²</b><span>مساحة الأرض للشاليه</span></div>
+      <div class="stat"><b>42 دقيقة</b><span>من الدوار السابع</span></div>
+      <div class="stat"><b>24/7</b><span>أمن وحراسة</span></div>
+      <div class="stat"><b>قوشان</b><span>مستقل لكل شاليه</span></div>
+    </div>
+  </div></section>
+
+  <section class="block alt"><div class="wrap">
+    <div class="eyebrow">اكتشف</div><h2>الشاليه، الكمباوند، الموقع</h2>
+    <div class="grid3">
+      <div class="card"><div class="sk img"></div><div class="body"><h3>الشاليه</h3><div class="sk line" style="width:85%"></div><div class="sk line" style="width:60%"></div></div></div>
+      <div class="card"><div class="sk img"></div><div class="body"><h3>الكمباوند</h3><div class="sk line" style="width:80%"></div><div class="sk line" style="width:55%"></div></div></div>
+      <div class="card"><div class="sk img"></div><div class="body"><h3>الموقع</h3><div class="sk line" style="width:75%"></div><div class="sk line" style="width:65%"></div></div></div>
+    </div>
+  </div></section>
+
+  <section class="block"><div class="wrap split">
+    <div><div class="eyebrow">المرافق</div><h2>كل ما تحتاجه، داخل الأسوار</h2>
+      <div class="sk line" style="width:90%"></div><div class="sk line" style="width:80%"></div><div class="sk line" style="width:60%"></div></div>
+    <div class="sk"></div>
+  </div></section>
+
+  <footer><div class="wrap">
+    <div><img src="/brand/v-3d-logo.webp" alt=""><div class="sk line" style="width:70%;margin-top:16px"></div></div>
+    <div><b style="color:#fff">خريطة الموقع</b><div class="sk line" style="width:60%"></div><div class="sk line" style="width:45%"></div></div>
+    <div><b style="color:#fff">تواصل معنا</b><div class="sk line" style="width:55%"></div><div class="sk line" style="width:40%"></div></div>
+  </div></footer>
+
+  <div class="hint" id="hint">أهلين! معك ليان، عندك سؤال؟ 👋</div>
+  <button class="launcher" id="launcher" aria-label="افتح المساعد" aria-expanded="false">
+    <svg class="chat" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg>
+    <svg class="x" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+  </button>
+
+  <section class="panel" id="panel" aria-label="مساعد روح العطاء">
+    <div class="head">
+      <div class="avatar"><img src="/brand/v-3d-logo.webp" alt=""></div>
+      <div><b>ليان · روح العطاء</b><small>متصلة الآن · ترد خلال ثوانٍ</small></div>
+    </div>
+    <div class="log" id="log" aria-live="polite"></div>
+    <form id="form">
+      <input id="input" placeholder="اكتب سؤالك هنا…" autocomplete="off">
+      <button class="send" id="send" aria-label="إرسال">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="transform:scaleX(-1)"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+      </button>
+    </form>
+    <div class="foot">نموذج تجريبي · يعمل بالكامل على جهازك</div>
+  </section>
+
+<script type="module">
+  // Everything below runs on the visitor's device: a ~13 MB meaning model (cached by the
+  // browser after the first visit), the knowledge base, and the conversation engine.
+  import { createEmbedder } from "/lib/embed.mjs";
+  import { createSearch } from "/lib/core.mjs";
+  import { createBrain } from "/brain.mjs";
+
+  const $ = (id) => document.getElementById(id);
+  const log = $("log"), panel = $("panel"), input = $("input"), launcher = $("launcher");
+  const history = [];
+  let state = {};
+  let started = false, busy = false;
+  const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+  const scroll = () => (log.scrollTop = log.scrollHeight);
+
+  let loading = null;
+  let progress = 0;
+  async function fetchBytes(url, total) {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(url);
+    const reader = res.body.getReader();
+    const out = new Uint8Array(total);
+    let at = 0;
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      out.set(value, at); at += value.length;
+      progress = Math.min(99, Math.round((100 * at) / total));
+    }
+    return out.buffer;
+  }
+  function loadBrain() {
+    return (loading ??= (async () => {
+      const [vocab, kb] = await Promise.all(["/model/vocab.json", "/model/kb.json"].map((u) => fetch(u).then((r) => r.json())));
+      let embedder = null;
+      try { embedder = createEmbedder(vocab, await fetchBytes("/model/vectors.bin", vocab.tokens.length * (vocab.dim + 4))); }
+      catch (e) { console.warn("Meaning model unavailable, matching by wording only", e); }
+      progress = 100;
+      return { brain: createBrain(createSearch(kb.docs, embedder), { phone: "0790029928", starters: kb.starters }), starters: kb.starters };
+    })());
+  }
+
+  function bubble(cls) {
+    const el = document.createElement("div");
+    el.className = "msg " + cls; log.append(el); scroll(); return el;
+  }
+  // Reveal the reply word by word so it reads like it's being written.
+  async function typeOut(el, text) {
+    const words = text.split(/(\s+)/);
+    for (let i = 0; i < words.length; i++) {
+      el.textContent += words[i];
+      if (i % 2 === 0) { scroll(); await wait(18 + Math.random() * 30); }
+    }
+  }
+  function chips(list, label) {
+    if (!list?.length) return;
+    const box = document.createElement("div"); box.className = "chips";
+    if (label) box.innerHTML = `<small>${label}</small>`;
+    list.forEach((q) => {
+      const b = document.createElement("button"); b.type = "button"; b.textContent = q;
+      b.onclick = () => { box.remove(); send(q); }; box.append(b);
+    });
+    log.append(box); scroll();
+  }
+  function thinking(quiet) {
+    const el = bubble("bot");
+    const dots = '<span class="dots"><i></i><i></i><i></i></span>';
+    if (quiet) { el.innerHTML = `<span class="thinking">${dots}</span>`; return () => el.remove(); }
+    el.innerHTML = `<span class="thinking">${dots}<span class="t">ليان تكتب…</span></span>`;
+    const steps = ["ليان تكتب…", "تتأكد من المعلومة…", "تكتب…"];
+    // First open on a slow connection: show the model download instead.
+    let i = 0; const timer = setInterval(() => (el.querySelector(".t").textContent = loading && progress < 100 ? `ليان تجهّز نفسها… ${progress}%` : steps[Math.floor(++i / 3) % steps.length]), 300);
+    return () => { clearInterval(timer); el.remove(); };
+  }
+
+  async function start() {
+    if (started) return; started = true;
+    const ready = loadBrain();
+    const stop = thinking(); await wait(700); stop();
+    await typeOut(bubble("bot"), "أهلين فيك بروح العطاء 👋");
+    const pause = thinking(true); await wait(800); pause();
+    await typeOut(bubble("bot"), "معك ليان 😊 اسألني عن أي إشي: الشاليهات، الخدمات، الموقع، أو التقسيط.");
+    chips((await ready).starters, "أسئلة شائعة");
+  }
+
+  async function send(text) {
+    text = text.trim();
+    if (!text || busy) return;
+    busy = true; $("send").disabled = true;
+    log.querySelectorAll(".chips").forEach((c) => c.remove());
+    bubble("me").textContent = text;
+    history.push({ role: "user", content: text });
+    const stop = thinking();
+    const t0 = Date.now();
+    let data;
+    try {
+      const { brain } = await loadBrain();
+      data = brain.reply(text, state);
+    } catch (e) { console.error(e); data = { parts: ["سامحني، صار عندي خلل بسيط 🙏 جرّب مرة ثانية، أو احكي مع الفريق على 0790029928."] }; }
+    state = data.state || {};
+    const parts = data.parts || [data.reply];
+    // Read the question, think a moment (longer for longer answers), then reply.
+    await wait(Math.max(0, Math.min(900 + parts.join("").length * 3, 2200) - (Date.now() - t0)));
+    stop();
+    // Several short messages with a typing pause between them, like a person writing.
+    // The source tag goes on the message that holds the actual answer.
+    const answerAt = parts.length > 2 ? 1 : 0;
+    for (let i = 0; i < parts.length; i++) {
+      if (i) { const pause = thinking(true); await wait(500 + Math.min(parts[i].length * 6, 1100)); pause(); }
+      const el = bubble("bot");
+      await typeOut(el, parts[i]);
+      if (data.source && i === answerAt) {
+        const s = document.createElement("span"); s.className = "src"; s.textContent = "المصدر: " + data.source.title;
+        el.append(document.createElement("br"), s); scroll();
+      }
+    }
+    history.push({ role: "assistant", content: parts.join("\n\n") });
+    chips(data.suggestions, data.source ? "قد يهمّك أيضًا" : null);
+    busy = false; $("send").disabled = false; input.focus();
+  }
+
+  launcher.onclick = () => {
+    const open = panel.classList.toggle("open");
+    launcher.classList.toggle("open", open); launcher.setAttribute("aria-expanded", open);
+    $("hint").classList.add("gone");
+    if (open) { start(); input.focus(); }
+  };
+  $("form").onsubmit = (e) => { e.preventDefault(); const t = input.value; input.value = ""; send(t); };
+  setTimeout(() => $("hint").classList.add("gone"), 7000);
+</script>
+</body>
+</html>
