@@ -114,12 +114,11 @@ export function Footer() {
             <LinkList items={quickLinks} isAr={isAr} />
           </FooterColumn>
 
-          <FooterColumn wide title={isAr ? "مكتب المبيعات" : "Sales Office"}>
+          <FooterColumn wide title={isAr ? "تواصل معنا" : "Contact Us"}>
             <address className="space-y-4 text-sm not-italic text-on-dark-muted">
-              <p>{isAr ? site.salesOfficeAr : site.salesOfficeEn}</p>
               {/* Phones: number and WhatsApp on one line, a small rule between them, each with
                   its icon; from md up, stacked text links as before. */}
-              <div className="flex items-center justify-center gap-3.5 pt-2 md:block lg:space-y-2">
+              <div className="flex items-center justify-center gap-3.5 md:block lg:space-y-2">
                 <a
                   href={`tel:${site.phoneAction}`}
                   aria-label={`${isAr ? "اتصل بنا" : "Call us"} ${formatPhone(site.phone)}`}

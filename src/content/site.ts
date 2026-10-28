@@ -18,9 +18,6 @@ export const site = {
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3385.5!2d35.9301!3d31.9497!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzHCsDU2JzU5LjAiTiAzNcKwNTUnNDguNCJF!5e0!3m2!1sen!2sjo!4v1",
   locationAr: "المطبّة، باتجاه سحاب الحطمية",
   locationEn: "Al Matabba, towards Sahab Al-Hatmiyeh",
-  /** Where the sales office is (footer, register page): the company HQ, at the compound since Oct 2026. */
-  salesOfficeAr: "الكمباوند، المطبّة، باتجاه سحاب الحطمية، الأردن",
-  salesOfficeEn: "The compound, Al Matabba, towards Sahab Al-Hatmiyeh, Jordan",
   /** Project pin — Al Matabba (Google Maps link above). */
   coordinates: { lat: 31.7330683, lng: 36.1140802 },
   social: {
