@@ -13,7 +13,7 @@ const { docs } = JSON.parse(readFileSync(here("../../public/chatbot/model/kb.jso
 // [question, a word that must appear in the chosen doc's question/title]
 const CASES = [
   ["طيب وين بالضبط مكانكم؟", "يقع"], ["المشروع بأي منطقة", "يقع"], ["كم بدي سواقة من عمان", "يبعد"],
-  ["المطار قريب؟", "يبعد"], ["الشاليه كم متر مربع", "مساحة"], ["كم غرفة بالشاليه", "مساحة|#bedrooms"],
+  ["المطار قريب؟", "يبعد|#nearby"], ["الشاليه كم متر مربع", "مساحة"], ["كم غرفة بالشاليه", "مساحة|#bedrooms"],
   ["في بركة سباحة خاصة؟", "المرافق|#pool"], ["الامن كيف عندكم", "الأمن"], ["في حرس على البوابة؟", "الأمن"],
   ["بدي اعمل معاينة", "موعد"], ["ممكن زيارة يوم الجمعة", "موعد"], ["انا مغترب بقدر اشوفه فيديو", "فيديو"],
   ["الشاليه بكم", "أسعار"], ["عندكم نظام دفعات؟", "تقسيط"], ["بتقبلوا قروض البنوك", "تقسيط"],
@@ -38,7 +38,7 @@ function run(useEmbed, opts, cases = CASES) {
     const hay = `${top?.q ?? ""} ${top?.title ?? ""} ${top?.text?.slice(0, 120) ?? ""}`;
     // "a|b": either target counts (e.g. a qa.json entry or the site's own item saying the same).
     const one = (w) => (w.startsWith("#") ? top?.id === w.slice(1) : hay.includes(w));
-    const pass = want === "?" ? !hit || hit.score < 0.26 : want.split("|").some(one);
+    const pass = want.split("|").some((w) => (w === "?" ? !hit || hit.score < 0.26 : one(w)));
     if (pass) ok++; else misses.push(`${q} → ${top?.id ? "#" + top.id : top?.q ?? top?.title ?? "-"} (${hit?.score.toFixed(2)})`);
   }
   return { ok, misses };

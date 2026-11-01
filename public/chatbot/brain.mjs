@@ -3,6 +3,7 @@
 // back as `parts`, each shown as its own chat bubble. `state` round-trips through the
 // client so follow-ups like "اه أكيد" or "تمام" make sense.
 import { tokens } from "./lib/core.mjs";
+import { CONVO, OFF_TOPIC, UNKNOWN, ON_TOPIC, isNoise, emojiReply } from "./convo.mjs";
 
 // Topic docs carry extra search words after the "؟"; show people only the question.
 const label = (q) => (q.includes("؟") ? q.split("؟")[0] + "؟" : q);
@@ -203,7 +204,9 @@ export function createBrain(kb, { phone, starters }) {
     // 2. Short replies that only make sense against what we said last.
     const short = t.replace(/[؟?!.،,]/g, "").trim();
     let followUp = false;
-    if (state.offer && /^(اه|آه|ايه|إيه|اكيد|أكيد|نعم|يلا|ياريت|يا ريت|ok|اوكي|بحب|ماشي|احكيلي|احكي)/i.test(short))
+    // A yes is only a yes on its own ("اه", "أكيد احكيلي", "يلا احكيلي عنها"), not "احكيلي نكتة".
+    const YES = "اه|آه|ايه|إيه|اكيد|أكيد|نعم|يلا|ياريت|يا ريت|ok|okay|اوكي|اوك|بحب|بحبه|ماشي|احكيلي|احكي|تفضلي|طبعا|طبعًا|اكيد اكيد|يس|yes|sure|please|بليز|عنها|عنه|كمان|اه والله|ليش لا|ليش لأ|تمام";
+    if (state.offer && new RegExp(`^(?:(?:${YES})\\s*)+$`, "i").test(short))
       { t = state.offer; followUp = true; }
     else if (state.offer && /^(لا|لأ|مش هلأ|لا شكرا|خلص)/.test(short))
       return { parts: [pick(["ولا يهمك! 😊", "تمام، على راحتك 🌿"]), "إذا خطر ببالك أي سؤال ثاني أنا هون."] };
@@ -239,6 +242,27 @@ export function createBrain(kb, { phone, starters }) {
       }
     }
 
+    // Not a question about the compound (wanting to ask, off-topic, feelings, holidays...):
+    // answer like a person. A strong site match on a compound word still wins.
+    if (!followUp) {
+      const emo = !/[\p{L}]/u.test(t) ? emojiReply(t) : null;
+      if (emo) return { parts: [...parts, ...emo] };
+      if (isNoise(t) && !parts.length)
+        return { parts: [pick(["ما وصلتني الرسالة واضحة 😅", "ممم ما فهمت عليك 😅"]), "شو حابب تعرف عن روح العطاء؟"], suggestions: starters };
+      const c = CONVO.find((x) => x.re.test(t));
+      // "حابب اعرف كثير عن التقسيط": what's left after the "I want to know" part is the question.
+      const rest = c ? t.replace(c.re, " ").replace(/^\s*(عن|بخصوص|حول)\s+/, "").trim() : "";
+      const restHit = rest && tokens(rest).length ? bestOf(kb.search(rest, 8)) : null;
+      if (c && restHit && restHit.score >= 0.3 && ON_TOPIC.test(rest)) t = rest;
+      else if (c) {
+        const strong = bestOf(kb.search(t, 8));
+        if (!(ON_TOPIC.test(t) && strong?.score >= 0.45)) {
+          for (const opts of c.say) parts.push(pick(opts));
+          return { parts, suggestions: c.starters ? starters : [], state: { offer: c.offer ?? null } };
+        }
+      }
+    }
+
     // Nothing left after the greeting: ask how we can help.
     if (ONLY_FILLER.test(t) || !tokens(t).length) {
       if (!parts.length) parts.push(pick(["أهلين فيك 😊", "يا هلا 🌿"]));
@@ -253,7 +277,7 @@ export function createBrain(kb, { phone, starters }) {
       return { parts, suggestions: ["هل تتوفر خيارات تقسيط لشراء الشاليه؟", "بدي أحجز زيارة"] };
     }
     // Booking happens inside the chat (the site's chat-booking.ts takes over on `action`).
-    if (/زياره|زيارة|موعد|احجز|أحجز|حجز|اشوف الكمباوند|أزور|ازور/.test(t)) {
+    if ((/زياره|زيارة|موعد|احجز|أحجز|حجز|اشوف الكمباوند|أزور|ازور/.test(t) || /معاين/.test(t)) && !/فيديو|افتراض|اونلاين|أونلاين|online|video|كول/i.test(t)) {
       parts.push(pick(["بنتشرّف فيك! 😍 بحجزلك الزيارة من هون، بدون ما تطلع من المحادثة.", "أكيد! 😍 خلّيني أحجزلك زيارة هون بأقل من دقيقة."]));
       return { parts, action: "book" };
     }
@@ -291,9 +315,10 @@ export function createBrain(kb, { phone, starters }) {
     // around 0.15, real matches from ~0.28. In between, ask instead of guessing.
     const sug = [...new Set(hits.filter((h) => h.d.q).map((h) => label(h.d.q)))];
     if (!top || top.score < 0.18) {
-      parts.push(pick(["والله ما متأكدة إني فهمت قصدك 😅", "سامحني، ما وضحت معي الفكرة تمامًا 🙏"]));
-      parts.push(sug.length ? "يمكن بتقصد شي من هدول؟" : `جرّب تسألني بطريقة ثانية، أو ${contact}.`);
-      return { parts, suggestions: sug.length ? sug.slice(0, 3) : starters };
+      // About the compound but not on the site: honest, and the team. Anything else: off topic.
+      const [first, second] = ON_TOPIC.test(t) ? UNKNOWN : OFF_TOPIC;
+      parts.push(pick(first), pick(second));
+      return { parts, suggestions: starters };
     }
     if (top.score < 0.26 && top.d.q && !followUp) {
       const guess = label(top.d.q);
