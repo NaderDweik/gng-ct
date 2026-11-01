@@ -3,7 +3,7 @@
 // back as `parts`, each shown as its own chat bubble. `state` round-trips through the
 // client so follow-ups like "اه أكيد" or "تمام" make sense.
 import { tokens } from "./lib/core.mjs";
-import { CONVO, OFF_TOPIC, UNKNOWN, ON_TOPIC, isNoise, emojiReply } from "./convo.mjs";
+import { CONVO, OFF_TOPIC, UNKNOWN, ENGLISH, ON_TOPIC, isNoise, emojiReply } from "./convo.mjs";
 
 // Topic docs carry extra search words after the "؟"; show people only the question.
 const label = (q) => (q.includes("؟") ? q.split("؟")[0] + "؟" : q);
@@ -314,9 +314,12 @@ export function createBrain(kb, { phone, starters }) {
     // Score bands (lib/core.mjs, checked with tools/eval.mjs): unrelated questions land
     // around 0.15, real matches from ~0.28. In between, ask instead of guessing.
     const sug = [...new Set(hits.filter((h) => h.d.q).map((h) => label(h.d.q)))];
-    if (!top || top.score < 0.18) {
+    // A full English sentence that matched nothing well: answer in English.
+    const latin = (t.match(/[a-z]/gi) ?? []).length, arabic = (t.match(/[\u0600-\u06FF]/g) ?? []).length;
+    const english = latin > 12 && latin > arabic * 2 && t.trim().split(/\s+/).length >= 4;
+    if (!top || top.score < 0.18 || (english && top.score < 0.4)) {
       // About the compound but not on the site: honest, and the team. Anything else: off topic.
-      const [first, second] = ON_TOPIC.test(t) ? UNKNOWN : OFF_TOPIC;
+      const [first, second] = english ? ENGLISH : ON_TOPIC.test(t) ? UNKNOWN : OFF_TOPIC;
       parts.push(pick(first), pick(second));
       return { parts, suggestions: starters };
     }

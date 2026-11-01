@@ -26,7 +26,7 @@ const CASES = [
 
 // The larger held-out set (eval-cases.json). "#id" = that qa.json entry; "?" = not on the site,
 // so the best match must stay below the bot's answer threshold (it asks / refers to the team).
-const { cases: HELD, fresh: FRESH } = JSON.parse(readFileSync(here("eval-cases.json"), "utf8"));
+const { cases: HELD, fresh: FRESH, fresh2: FRESH2 } = JSON.parse(readFileSync(here("eval-cases.json"), "utf8"));
 
 function run(useEmbed, opts, cases = CASES) {
   const { search } = createSearch(docs, useEmbed ? embedder : null, opts);
@@ -48,7 +48,7 @@ if (process.argv[2] === "grid") {
     console.log(semWeight, semFloor, run(true, { semWeight, semFloor }).ok);
   process.exit();
 }
-for (const [name, cases] of [["original 30", CASES], ["held-out 60", HELD], ["fresh 30 (never tuned on)", FRESH]]) {
+for (const [name, cases] of [["original 30", CASES], ["held-out 60", HELD], ["fresh 30", FRESH], ["fresh2 40 (written before the 2nd expansion)", FRESH2]]) {
   console.log(`— ${name}`);
   for (const mode of [false, true]) {
     const { ok, misses } = run(mode, undefined, cases);
