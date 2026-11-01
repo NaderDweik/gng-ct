@@ -1,14 +1,14 @@
 // Scores search on questions written differently from phrasings.json (held out), so the
 // number shows how well the bot generalises. Usage: node chatbot-poc/tools/eval.mjs
 import { readFileSync } from "node:fs";
-import { createEmbedder } from "../lib/embed.mjs";
-import { createSearch } from "../lib/core.mjs";
+import { createEmbedder } from "../../public/chatbot/lib/embed.mjs";
+import { createSearch } from "../../public/chatbot/lib/core.mjs";
 
 const here = (p) => new URL(p, import.meta.url);
-const vocab = JSON.parse(readFileSync(here("../model/vocab.json"), "utf8"));
-const buf = readFileSync(here("../model/vectors.bin"));
+const vocab = JSON.parse(readFileSync(here("../../public/chatbot/model/vocab.json"), "utf8"));
+const buf = readFileSync(here("../../public/chatbot/model/vectors.bin"));
 const embedder = createEmbedder(vocab, buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.length));
-const { docs } = JSON.parse(readFileSync(here("../model/kb.json"), "utf8"));
+const { docs } = JSON.parse(readFileSync(here("../../public/chatbot/model/kb.json"), "utf8"));
 
 // [question, a word that must appear in the chosen doc's question/title]
 const CASES = [

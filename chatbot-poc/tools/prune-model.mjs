@@ -2,11 +2,11 @@
 // tokens Arabic and English visitors use, stored as int8 with a per-row scale.
 // Input: chatbot-poc/.cache/{tokenizer.json, model.safetensors} from
 //   https://huggingface.co/minishlab/potion-multilingual-128M
-// Output: chatbot-poc/model/{vocab.json, vectors.bin}
+// Output: public/chatbot/model/{vocab.json, vectors.bin}
 import { readFileSync, openSync, readSync, writeFileSync, mkdirSync } from "node:fs";
 
 const cache = new URL("../.cache/", import.meta.url);
-const outDir = new URL("../model/", import.meta.url);
+const outDir = new URL("../../public/chatbot/model/", import.meta.url);
 const LATIN_KEEP = Number(process.argv[2]) || 12000;
 
 const vocab = JSON.parse(readFileSync(new URL("tokenizer.json", cache), "utf8")).model.vocab; // [token, score][]

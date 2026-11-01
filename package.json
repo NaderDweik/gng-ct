@@ -9,7 +9,7 @@
     "deploy": "wrangler pages deploy",
     "lint": "eslint",
     "test": "node scripts/lighthouse.mjs",
-    "chatbot": "node --experimental-strip-types --no-warnings chatbot-poc/build.mjs && node chatbot-poc/server.mjs",
+    "chatbot:kb": "node --experimental-strip-types --no-warnings chatbot-poc/build.mjs",
     "chatbot:model": "node chatbot-poc/tools/prune-model.mjs"
   },
   "dependencies": {

@@ -1,0 +1,211 @@
+/*
+ * Layan's conversation loop (DOM side). The "brain" (search + replies) and its ~13 MB meaning
+ * model live in public/chatbot/ as plain browser modules and are only downloaded the first time
+ * the visitor opens the chat. Everything runs on the visitor's device; nothing is sent anywhere.
+ * Knowledge base: public/chatbot/model/kb.json, rebuilt with `npm run chatbot:kb`.
+ */
+
+const BASE = "/chatbot";
+const PHONE = "0790029928";
+
+type Reply = { parts?: string[]; reply?: string; state?: object; source?: { title: string }; suggestions?: string[] };
+type Brain = { reply: (text: string, state: object) => Reply };
+type Loaded = { brain: Brain; starters: string[] };
+
+export type ChatEls = {
+  log: HTMLElement;
+  input: HTMLInputElement;
+  send: HTMLButtonElement;
+};
+
+// Loaded from public/, not bundled: the bundler must leave these imports alone.
+const load = (path: string) => import(/* webpackIgnore: true */ /* turbopackIgnore: true */ `${BASE}${path}`);
+
+export function createChat({ log, input, send: sendBtn }: ChatEls) {
+  let state: object = {};
+  let started = false;
+  let busy = false;
+  let disposed = false;
+  let loading: Promise<Loaded> | null = null;
+  let progress = 0;
+
+  const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
+  const scroll = () => (log.scrollTop = log.scrollHeight);
+
+  async function fetchBytes(url: string, total: number) {
+    const res = await fetch(url);
+    if (!res.ok || !res.body) throw new Error(url);
+    const reader = res.body.getReader();
+    const out = new Uint8Array(total);
+    let at = 0;
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      out.set(value, at);
+      at += value.length;
+      progress = Math.min(99, Math.round((100 * at) / total));
+    }
+    return out.buffer;
+  }
+
+  function loadBrain() {
+    return (loading ??= (async () => {
+      const [{ createEmbedder }, { createSearch }, { createBrain }, vocab, kb] = await Promise.all([
+        load("/lib/embed.mjs"),
+        load("/lib/core.mjs"),
+        load("/brain.mjs"),
+        fetch(`${BASE}/model/vocab.json`).then((r) => r.json()),
+        fetch(`${BASE}/model/kb.json`).then((r) => r.json()),
+      ]);
+      let embedder = null;
+      try {
+        embedder = createEmbedder(vocab, await fetchBytes(`${BASE}/model/vectors.bin`, vocab.tokens.length * (vocab.dim + 4)));
+      } catch (e) {
+        console.warn("Meaning model unavailable, matching by wording only", e);
+      }
+      progress = 100;
+      return { brain: createBrain(createSearch(kb.docs, embedder), { phone: PHONE, starters: kb.starters }), starters: kb.starters };
+    })());
+  }
+
+  function bubble(cls: "bot" | "me") {
+    const el = document.createElement("div");
+    el.className = `cb-msg cb-${cls}`;
+    log.append(el);
+    scroll();
+    return el;
+  }
+
+  // Reveal the reply word by word so it reads like it's being written.
+  async function typeOut(el: HTMLElement, text: string) {
+    const words = text.split(/(\s+)/);
+    for (let i = 0; i < words.length; i++) {
+      if (disposed) return;
+      el.textContent += words[i];
+      if (i % 2 === 0) {
+        scroll();
+        await wait(18 + Math.random() * 30);
+      }
+    }
+  }
+
+  function chips(list: string[] | undefined, label: string | null) {
+    if (!list?.length || disposed) return;
+    const box = document.createElement("div");
+    box.className = "cb-chips";
+    if (label) {
+      const s = document.createElement("small");
+      s.textContent = label;
+      box.append(s);
+    }
+    for (const q of list) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = q;
+      b.onclick = () => {
+        box.remove();
+        void send(q);
+      };
+      box.append(b);
+    }
+    log.append(box);
+    scroll();
+  }
+
+  function thinking(quiet?: boolean) {
+    const el = bubble("bot");
+    const dots = '<span class="cb-dots"><i></i><i></i><i></i></span>';
+    if (quiet) {
+      el.innerHTML = `<span class="cb-thinking">${dots}</span>`;
+      return () => el.remove();
+    }
+    el.innerHTML = `<span class="cb-thinking">${dots}<span class="cb-t">ليان تكتب…</span></span>`;
+    const steps = ["ليان تكتب…", "تتأكد من المعلومة…", "تكتب…"];
+    const t = el.querySelector<HTMLElement>(".cb-t")!;
+    // First open on a slow connection: show the model download instead.
+    let i = 0;
+    const timer = setInterval(
+      () => (t.textContent = loading && progress < 100 ? `ليان تجهّز نفسها… ${progress}%` : steps[Math.floor(++i / 3) % steps.length]),
+      300,
+    );
+    return () => {
+      clearInterval(timer);
+      el.remove();
+    };
+  }
+
+  async function start() {
+    if (started) return;
+    started = true;
+    const ready = loadBrain();
+    const stop = thinking();
+    await wait(700);
+    stop();
+    await typeOut(bubble("bot"), "أهلين فيك بروح العطاء 👋");
+    const pause = thinking(true);
+    await wait(800);
+    pause();
+    await typeOut(bubble("bot"), "معك ليان 😊 اسألني عن أي إشي: الشاليهات، الخدمات، الموقع، أو التقسيط.");
+    try {
+      chips((await ready).starters, "أسئلة شائعة");
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  async function send(raw: string) {
+    const text = raw.trim();
+    if (!text || busy) return;
+    busy = true;
+    sendBtn.disabled = true;
+    log.querySelectorAll(".cb-chips").forEach((c) => c.remove());
+    bubble("me").textContent = text;
+    const stop = thinking();
+    const t0 = Date.now();
+    let data: Reply;
+    try {
+      const { brain } = await loadBrain();
+      data = brain.reply(text, state);
+    } catch (e) {
+      console.error(e);
+      data = { parts: [`سامحني، صار عندي خلل بسيط 🙏 جرّب مرة ثانية، أو احكي مع الفريق على ${PHONE}.`] };
+    }
+    state = data.state || {};
+    const parts = data.parts || [data.reply ?? ""];
+    // Read the question, think a moment (longer for longer answers), then reply.
+    await wait(Math.max(0, Math.min(900 + parts.join("").length * 3, 2200) - (Date.now() - t0)));
+    stop();
+    // Several short messages with a typing pause between them, like a person writing.
+    // The source tag goes on the message that holds the actual answer.
+    const answerAt = parts.length > 2 ? 1 : 0;
+    for (let i = 0; i < parts.length; i++) {
+      if (disposed) return;
+      if (i) {
+        const pause = thinking(true);
+        await wait(500 + Math.min(parts[i].length * 6, 1100));
+        pause();
+      }
+      const el = bubble("bot");
+      await typeOut(el, parts[i]);
+      if (data.source && i === answerAt) {
+        const s = document.createElement("span");
+        s.className = "cb-src";
+        s.textContent = "المصدر: " + data.source.title;
+        el.append(document.createElement("br"), s);
+        scroll();
+      }
+    }
+    chips(data.suggestions, data.source ? "قد يهمّك أيضًا" : null);
+    busy = false;
+    sendBtn.disabled = false;
+    input.focus();
+  }
+
+  return {
+    start,
+    send,
+    dispose() {
+      disposed = true;
+    },
+  };
+}

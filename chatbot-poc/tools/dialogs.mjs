@@ -2,14 +2,14 @@
 // do. Add every conversation that went wrong in testing here, then fix the bot until it
 // passes. Usage: node chatbot-poc/tools/dialogs.mjs  (prints each chat; exits 1 on failure)
 import { readFileSync } from "node:fs";
-import { createEmbedder } from "../lib/embed.mjs";
-import { createSearch } from "../lib/core.mjs";
-import { createBrain } from "../brain.mjs";
+import { createEmbedder } from "../../public/chatbot/lib/embed.mjs";
+import { createSearch } from "../../public/chatbot/lib/core.mjs";
+import { createBrain } from "../../public/chatbot/brain.mjs";
 
 const here = (p) => new URL(p, import.meta.url);
-const vocab = JSON.parse(readFileSync(here("../model/vocab.json"), "utf8"));
-const buf = readFileSync(here("../model/vectors.bin"));
-const kb = JSON.parse(readFileSync(here("../model/kb.json"), "utf8"));
+const vocab = JSON.parse(readFileSync(here("../../public/chatbot/model/vocab.json"), "utf8"));
+const buf = readFileSync(here("../../public/chatbot/model/vectors.bin"));
+const kb = JSON.parse(readFileSync(here("../../public/chatbot/model/kb.json"), "utf8"));
 const search = createSearch(kb.docs, createEmbedder(vocab, buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.length)));
 const brain = createBrain(search, { phone: "0790029928", starters: kb.starters });
 
