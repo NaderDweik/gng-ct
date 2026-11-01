@@ -112,6 +112,7 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
       const b = document.createElement("button");
       b.type = "button";
       b.textContent = q;
+      if (q === BOOK_CHIP) b.dataset.kind = "action";
       b.onclick = () => {
         box.remove();
         void send(q);

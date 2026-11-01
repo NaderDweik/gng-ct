@@ -153,53 +153,57 @@ html[dir="ltr"] .cb-panel { transform-origin: bottom right; }
   0%, 70%, 100% { transform: translateY(0); opacity: 0.45; }
   35% { transform: translateY(-5px); opacity: 1; }
 }
-/* Suggested questions: a quiet list under the answer (heading, then full-width rows with
-   hairlines between them), so it reads as options to tap, not as another message. */
+/* Suggested questions: small question links under the answer (a "?" mark, compact text,
+   sized to the words), so they read as questions to ask, not as replies. */
 .cb-chips {
   align-self: stretch;
   display: flex;
   flex-direction: column;
-  margin: 2px 4px 0;
+  align-items: flex-start;
+  gap: 5px;
+  margin: 0 2px;
   animation: cb-rise 0.45s var(--ease) both 0.1s;
 }
 .cb-chips small {
-  padding-bottom: 4px;
   color: var(--cb-muted);
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
 .cb-chips button {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  width: 100%;
-  padding: 8px 2px;
+  gap: 6px;
+  max-width: 100%;
+  padding: 4px 10px 4px 12px;
   border: 0;
-  border-top: 1px solid var(--cb-line);
-  background: none;
-  color: var(--cb-ink);
-  font: 500 12.5px/1.55 var(--font-cairo), system-ui, sans-serif;
+  border-radius: 999px;
+  background: rgb(24 24 24 / 0.045);
+  color: var(--cb-darkest);
+  font: 500 11.5px/1.5 var(--font-cairo), system-ui, sans-serif;
   text-align: right;
   cursor: pointer;
-  transition: color 0.25s var(--ease);
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
 }
-.cb-chips button:last-child { border-bottom: 1px solid var(--cb-line); }
-/* Arrow at the end of the row (left in Arabic), nudging forward on hover. */
-.cb-chips button::after {
-  content: "";
+.cb-chips button::before {
+  content: "؟";
   flex: none;
-  width: 13px;
-  height: 13px;
-  background: var(--cb-primary);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 12H5M11 6l-6 6 6 6'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 12H5M11 6l-6 6 6 6'/%3E%3C/svg%3E") center / contain no-repeat;
-  transition: transform 0.3s var(--ease);
+  display: grid;
+  place-items: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  font-size: 9.5px;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0.6;
 }
-.cb-chips button:hover { color: var(--cb-deep); }
-.cb-chips button:hover::after { transform: translateX(-3px); }
-.cb-chips button:focus-visible { outline: 2px solid var(--cb-primary); outline-offset: -2px; border-radius: 6px; }
+.cb-chips button:hover { background: rgb(42 187 163 / 0.14); color: var(--cb-deep); }
+/* The «احجز زيارة» action: no question mark, a light green tint. */
+.cb-chips button[data-kind="action"] { background: rgb(42 187 163 / 0.12); color: var(--cb-deep); font-weight: 600; }
+.cb-chips button[data-kind="action"]::before { display: none; }
+.cb-chips button:focus-visible { outline: 2px solid var(--cb-primary); outline-offset: 1px; }
 
 .cb-form { display: flex; gap: 8px; padding: 12px 12px 14px; border-top: 1px solid var(--cb-line); background: #fff; }
 .cb-input {
