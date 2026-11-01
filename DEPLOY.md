@@ -2,22 +2,10 @@
 
 ## How the site runs
 
-- **Static pages.** `npm run build` writes the whole site as plain files to `out/`: every page in
+- **100% static.** `npm run build` writes the whole site as plain files to `out/`: every page in
   both languages, the photos resized for phones (`out/_img/`), the security headers
   (`out/_headers`) and the redirects (`out/_redirects`). `scripts/cloudflare-pages.mjs` does the
-  Cloudflare-specific part.
-- **One Pages Function: the chat assistant** (`functions/api/chat.ts` → `chatbot-server/`).
-  `POST /api/chat` sends the visitor's question with the site's content to Claude and streams the
-  reply back. `npm run deploy` uploads it with the pages. It needs one secret:
-  `ANTHROPIC_API_KEY` (dashboard → Workers & Pages → giving-estate → Settings → Variables and
-  Secrets, type Secret, Production; or `npx wrangler pages secret put ANTHROPIC_API_KEY`).
-  Optional variable `CHAT_MODEL` (default `claude-opus-5-5`). Without the key, or if the AI is
-  down, the chat falls back to the on-device bot, so the site never breaks.
-  After changing site content, run `npm run build`, then `npm run chatbot:kb`, so the assistant
-  knows the new content, then deploy.
-  Abuse guard: the function only answers requests from the site's own pages and caps message
-  size; also add a WAF rate-limiting rule on `/api/chat` (the old "register-form" rule on
-  `/api/register` can be edited to point here, e.g. 20 requests per minute per IP).
+  Cloudflare-specific part. No Functions/Workers, no environment variables, no secrets.
 - **Register form:** checks the fields in the browser, then opens
   `https://wa.me/<number>?text=<the lead>` so the visitor sends it from their own WhatsApp.
   The number is `site.whatsapp` / `site.whatsappUrl` in `src/content/site.ts` (the sales number,
