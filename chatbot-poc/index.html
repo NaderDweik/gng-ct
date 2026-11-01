@@ -19,53 +19,6 @@
   }
   * { box-sizing: border-box; }
   body { margin: 0; font-family: var(--body); color: var(--ink); background: var(--surface); -webkit-font-smoothing: antialiased; }
-  .wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-
-  /* ---------- Wireframe home ---------- */
-  .poc-tag { position: fixed; top: 14px; left: 14px; z-index: 30; font-size: 11px; letter-spacing: .08em;
-    background: rgba(255,255,255,.9); color: var(--deep); border: 1px solid var(--primary); padding: 3px 10px; border-radius: 999px; }
-  header { position: absolute; inset: 0 0 auto; z-index: 5; }
-  header .wrap { height: 84px; display: flex; align-items: center; justify-content: space-between; }
-  header img { height: 52px; }
-  nav { display: flex; gap: 28px; color: #fff; font-size: 15px; }
-  nav span { opacity: .9; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 11px 24px; font: 600 15px var(--body);
-    border: 0; background: var(--primary); color: #fff; }
-  .btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,.6); }
-  .hero { position: relative; height: min(92vh, 760px); color: #fff; display: flex; align-items: flex-end;
-    background: linear-gradient(to top, rgba(24,24,24,.85), rgba(24,24,24,.15) 60%), url("/hero/entrance-fountain-and-gatehouse-4k.jpg") center/cover; }
-  .hero .wrap { padding-bottom: 72px; width: 100%; }
-  .eyebrow { color: var(--primary); font-weight: 600; font-size: 14px; letter-spacing: .04em; }
-  h1 { font: 700 clamp(34px, 5.4vw, 64px)/1.15 var(--display); margin: 10px 0 14px; max-width: 14ch; }
-  .hero p { max-width: 46ch; font-size: 17px; line-height: 1.8; color: rgba(255,255,255,.82); margin: 0 0 28px; }
-  section.block { padding: 88px 0; }
-  section.alt { background: var(--alt); }
-  h2 { font: 700 clamp(26px, 3.4vw, 40px)/1.25 var(--display); margin: 8px 0 32px; }
-  h2::after { content: ""; display: block; width: 44px; height: 3px; background: var(--primary); border-radius: 2px; margin-top: 14px; }
-  .sk { background: linear-gradient(100deg, var(--tint) 30%, #fafbfa 50%, var(--tint) 70%); background-size: 300% 100%;
-    animation: shimmer 2.4s linear infinite; border-radius: 18px; }
-  @keyframes shimmer { to { background-position: -150% 0; } }
-  .line { height: 12px; border-radius: 6px; margin-top: 10px; }
-  .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
-  .card { border: 1px solid var(--line); border-radius: 22px; overflow: hidden; background: #fff; }
-  .card .sk.img { height: 210px; border-radius: 0; }
-  .card .body { padding: 20px; }
-  .card h3 { font: 700 20px var(--display); margin: 0; }
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
-  .stat { border-inline-start: 3px solid var(--primary); padding: 6px 16px; }
-  .stat b { display: block; font: 700 32px var(--display); color: var(--deep); }
-  .stat span { color: var(--muted); font-size: 14px; }
-  .split { display: grid; grid-template-columns: 1.1fr 1fr; gap: 40px; align-items: center; }
-  .split .sk { height: 340px; }
-  footer { background: var(--secondary); color: rgba(255,255,255,.7); padding: 56px 0 90px; }
-  footer .wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 28px; }
-  footer img { height: 56px; }
-  footer .sk { background: rgba(255,255,255,.08); animation: none; }
-  @media (max-width: 760px) {
-    nav, header .btn { display: none; }
-    .split { grid-template-columns: 1fr; }
-    section.block { padding: 64px 0; }
-  }
 
   /* ---------- Chat ---------- */
   .launcher { position: fixed; bottom: 22px; left: 22px; z-index: 40; width: 64px; height: 64px; border-radius: 50%; border: 0;
@@ -125,52 +78,6 @@
 </style>
 </head>
 <body>
-  <span class="poc-tag">POC · WIREFRAME</span>
-
-  <header><div class="wrap">
-    <img src="/brand/v-3d-logo.webp" alt="روح العطاء">
-    <nav><span>الرئيسية</span><span>الشاليه</span><span>الكمباوند</span><span>الموقع</span><span>المعرض</span><span>الأخبار</span></nav>
-    <span class="btn">احجز زيارتك</span>
-  </div></header>
-
-  <section class="hero"><div class="wrap">
-    <div class="eyebrow">كمباوند شاليهات · المطبّة</div>
-    <h1>روح العطاء، شاليهك الخاص قرب عمّان</h1>
-    <p>شاليهات مستقلة بمسبح خاص، داخل كمباوند مسوّر بمرافق وخدمات متكاملة.</p>
-    <span class="btn">احجز زيارتك</span> <span class="btn ghost">جولة مصوّرة</span>
-  </div></section>
-
-  <section class="block"><div class="wrap">
-    <div class="eyebrow">عن المشروع</div><h2>أسلوب حياة بين الراحة والخصوصية</h2>
-    <div class="stats">
-      <div class="stat"><b>500 م²</b><span>مساحة الأرض للشاليه</span></div>
-      <div class="stat"><b>42 دقيقة</b><span>من الدوار السابع</span></div>
-      <div class="stat"><b>24/7</b><span>أمن وحراسة</span></div>
-      <div class="stat"><b>قوشان</b><span>مستقل لكل شاليه</span></div>
-    </div>
-  </div></section>
-
-  <section class="block alt"><div class="wrap">
-    <div class="eyebrow">اكتشف</div><h2>الشاليه، الكمباوند، الموقع</h2>
-    <div class="grid3">
-      <div class="card"><div class="sk img"></div><div class="body"><h3>الشاليه</h3><div class="sk line" style="width:85%"></div><div class="sk line" style="width:60%"></div></div></div>
-      <div class="card"><div class="sk img"></div><div class="body"><h3>الكمباوند</h3><div class="sk line" style="width:80%"></div><div class="sk line" style="width:55%"></div></div></div>
-      <div class="card"><div class="sk img"></div><div class="body"><h3>الموقع</h3><div class="sk line" style="width:75%"></div><div class="sk line" style="width:65%"></div></div></div>
-    </div>
-  </div></section>
-
-  <section class="block"><div class="wrap split">
-    <div><div class="eyebrow">المرافق</div><h2>كل ما تحتاجه، داخل الأسوار</h2>
-      <div class="sk line" style="width:90%"></div><div class="sk line" style="width:80%"></div><div class="sk line" style="width:60%"></div></div>
-    <div class="sk"></div>
-  </div></section>
-
-  <footer><div class="wrap">
-    <div><img src="/brand/v-3d-logo.webp" alt=""><div class="sk line" style="width:70%;margin-top:16px"></div></div>
-    <div><b style="color:#fff">خريطة الموقع</b><div class="sk line" style="width:60%"></div><div class="sk line" style="width:45%"></div></div>
-    <div><b style="color:#fff">تواصل معنا</b><div class="sk line" style="width:55%"></div><div class="sk line" style="width:40%"></div></div>
-  </div></footer>
-
   <div class="hint" id="hint">أهلين! معك ليان، عندك سؤال؟ 👋</div>
   <button class="launcher" id="launcher" aria-label="افتح المساعد" aria-expanded="false">
     <svg class="chat" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M8 12h.01M12 12h.01M16 12h.01"/></svg>
