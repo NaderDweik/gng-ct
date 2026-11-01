@@ -18,6 +18,34 @@ const SOCIAL = [
 ];
 
 const ONLY_FILLER = /^[\s؟?!.,،😊🙏👋🌿]*$/;
+
+// Questions about Layan herself and the chat, answered like a person would. `ask` asks the
+// visitor's name back (the next short message is then taken as their name).
+const PERSONA = [
+  { re: /(شو|ايش|إيش|مين|وش|شنو)\s*(هو\s*)?اسمك|اسمك\s*(شو|ايش|إيش)|^اسمك|ما اسمك|your name|what.?s your name/i, ask: true,
+    say: () => [pick(["اسمي ليان 😊 مساعدة روح العطاء الرقمية.", "أنا ليان 🌿 المساعدة الرقمية لروح العطاء."]), "وانت شو اسمك؟"] },
+  { re: /(انت|إنت|انتي|إنتي)\s*(بوت|روبوت|انسان|إنسان|انسانه|إنسانة|حقيقي|حقيقيه|ذكاء|ai)|ذكاء اصطناعي|chat ?gpt|are you (a )?(bot|human|real)/i,
+    say: () => ["أنا مساعدة رقمية مش إنسانة 😊 بس بعرف كل شي موجود على موقعنا عن الشاليهات والكمباوند.", "وإذا حابب تحكي مع حدا من الفريق، بوصلك فيهم."] },
+  { re: /(انت|إنت|انتي|إنتي)\s*(مين|شو)|مين معي|مين انت|مين حضرتك|عرفيني عن حالك|who are you/i, ask: true,
+    say: () => ["أنا ليان 😊 المساعدة الرقمية لروح العطاء، بجاوبك عن الشاليهات والكمباوند وبحجزلك زيارة كمان.", "وانت شو اسمك؟"] },
+  { re: /كم عمرك|قديش عمرك|how old/i, say: () => ["هههه أنا مساعدة رقمية، عمري من عمر الموقع 😄", "بس بعرف كثير عن روح العطاء، اسألني!"] },
+  { re: /(وين|من وين)\s*(انت|انتي|إنتي|ساكنه|عايشه)|انتي من وين/i, say: () => ["أنا عايشة هون على موقع روح العطاء 😄", "بس الكمباوند نفسه بالقسطل قرب قصر المشتى، بتحب أحكيلك عن موقعه؟"], offer: "أين يقع كمباوند شاليهات روح العطاء وما أبرز مميزات موقعه؟" },
+  { re: /مين (عملك|صممك|برمجك|سواكي|عملكي)|who (made|built) you/i, say: () => ["فريق روح العطاء جهّزني عشان أساعد الزوار 😊", "شو حابب تعرف عن الكمباوند؟"] },
+  { re: /(بدي|ممكن|بحب)\s*(احكي|أحكي|اتواصل|أتواصل|اكلم|أكلم)\s*(مع)?\s*(حدا|موظف|انسان|إنسان|الفريق|المبيعات|مسؤول)|talk to (a )?(human|person|agent)/i, contact: true,
+    say: (c) => [`أكيد 🌿 ${c}، وبكونوا مبسوطين يساعدوك.`] },
+  { re: /(بتحكي|بتفهمي|تحكي)\s*(انجليزي|إنجليزي|انكليزي|english)|do you speak english|speak english/i,
+    say: () => ["بفهم شوية إنجليزي، بس بحكي عربي أحسن 😊", "وفريق المبيعات بيحكي إنجليزي، إذا بتحب تحكي معهم مباشرة."] },
+  { re: /(انتي|إنتي)\s*(حلوه|حلوة|شاطره|شاطرة|ذكيه|ذكية|لطيفه|لطيفة|كثير منيحه|رائعه)|بحبك|حبيتك/i,
+    say: () => [pick(["يسلملي قلبك 😊", "تسلم على ذوقك 🌿"]), "شو كمان بقدر أساعدك فيه؟"] },
+  { re: /غبي|غبيه|حمار|حماره|ما بتفهمي|مش فاهمه|ما فهمتي|سخيف|سخيفه|بلا فايده|useless|stupid/i,
+    say: (c) => ["سامحني إذا ما فهمتك صح 🙏", `جرّب تكتبلي سؤالك بطريقة ثانية، أو ${c}.`] },
+  { re: /(شو|ايش)\s*(بتعملي|بتسوي|بتقدري تعملي)|كيف بتساعديني|شو بتقدري|what can you do/i,
+    say: () => ["بجاوبك عن أي إشي بخص روح العطاء: الشاليهات، المرافق، الموقع، التقسيط والتملك 😊", "وبقدر أحجزلك زيارة للكمباوند من هون بدون ما تطلع من المحادثة."] },
+];
+// "لا" / "مش هيك" + the real question: a correction, not a "no thanks".
+const CORRECTION = /^(?:لا+|لأ|مش هيك|مش هاد|مش هذا|مش قصدي|مو هيك|no)\s*[،,.!]*\s*(?:(?:انا\s*)?(?:بسال|بسأل|بسئل|سالت|سألت|قصدي|اقصد|أقصد|بقصد|كنت بسال|كنت بسأل)\s*(?:عن)?)?\s*/i;
+// The visitor telling us their name after we asked.
+const NAME_LEAD = /^(?:(?:انا|أنا)\s+)?(?:اسمي|إسمي|my name is|i'?m)?\s*/i;
 // Attention-getters and "I have a question" lead-ins, with common spellings (سؤال/سوال).
 const OPENER = /^[\s،,.!]*(?:(?:يا\s*)?ليان|اسمعي(?:ني)?|اسمع(?:ني)?|لو سمحت(?:ي)?|من فضلك|ممكن\s+(?:سؤال|سوال|اسال|اسأل|أسأل|استفسر)|عندي\s+(?:سؤال|سوال|سؤالين|استفسار|كم سؤال)|بدي\s+(?:اسالك|اسألك|أسألك|اسال|اسأل|أسأل|استفسر)|سؤال|سوال|استفسار|ساعديني|ساعدني|بدي مساعد[ةه]|محتاج مساعد[ةه])(?=[\s،,.:!؟?]|$)[\s،,.:!]*/;
 // Small talk that carries no question. Each kind is stripped from the message; if nothing
@@ -116,7 +144,8 @@ export function createBrain(kb, { phone, starters }) {
   function reply(text, state = {}) {
     const seen = { ...(state.seen ?? {}) };
     const out = respond(text, state, seen);
-    return { ...out, state: { ...(out.state ?? {}), seen } };
+    const name = out.state?.name ?? state.name;
+    return { ...out, state: { ...(out.state ?? {}), seen, ...(name && { name }) } };
   }
 
   function respond(text, state, seen) {
@@ -144,6 +173,33 @@ export function createBrain(kb, { phone, starters }) {
       return { parts };
     }
 
+    // A correction ("لا بسأل عن اسمك"): drop the "no" and answer what follows instead.
+    const corrected = t.replace(CORRECTION, "");
+    if (corrected !== t && tokens(corrected).length) {
+      t = corrected;
+      state = { ...state, offer: null };
+    }
+
+    // We asked their name: a short reply with no question in it is their name.
+    if (state.askedName && !/[؟?]/.test(t)) {
+      const name = t.replace(NAME_LEAD, "").replace(/[.!،,😊🌿]+/g, "").trim();
+      const chatty = [...Object.values(CHAT), ...SOCIAL.map((x) => x.re), OPENER, /^(لا|لأ|اه|آه|ايه|إيه|نعم|اكيد|أكيد|مش|ما|بدي|في|شو|كيف)$/]
+        .some((re) => new RegExp(re.source, re.flags.replace("g", "")).test(name));
+      if (name && !chatty && name.split(/\s+/).length <= 3 && /^[\p{L}\s]+$/u.test(name) && !PERSONA.some((p) => p.re.test(t)) && (kb.search(name, 1)[0]?.score ?? 0) < 0.3) {
+        const first = name.split(/\s+/)[0];
+        parts.push(pick([`تشرّفنا يا ${first} 🌿`, `أهلين ${first}، تشرّفت فيك 😊`, `يا هلا ${first} 🌿`]));
+        parts.push(pick(["كيف بقدر أساعدك اليوم؟", "شو حابب تعرف عن روح العطاء؟"]));
+        return { parts, suggestions: starters, state: { name: first } };
+      }
+    }
+
+    // Questions about Layan herself.
+    const persona = PERSONA.find((p) => p.re.test(t));
+    if (persona) {
+      parts.push(...persona.say(contact));
+      return { parts, state: { askedName: !!persona.ask, offer: persona.offer ?? null } };
+    }
+
     // 2. Short replies that only make sense against what we said last.
     const short = t.replace(/[؟?!.،,]/g, "").trim();
     let followUp = false;
@@ -154,10 +210,8 @@ export function createBrain(kb, { phone, starters }) {
     if (/شكر|يعطيك العافيه|يعطيك العافية|مشكور|تسلم|يسلمو|يسلموا|يسلم ايديك|thanks|thank/i.test(short) && tokens(t).length <= 3)
       return { parts: [pick(["العفو، هذا واجبنا 🌿", "ولو! تكرم 🙏", "على الرحب والسعة 😊", "الله يعافيك 🌿"]), pick(["إذا في أي سؤال ثاني أنا موجودة.", "وإذا حاب تشوف الكمباوند على الطبيعة، بنتشرّف بزيارتك بأي وقت."])] };
     if (/مع السلامه|مع السلامة|باي|bye|سلام عليكم وداعا|يلا سلام/i.test(short))
-      return { parts: ["بأمان الله 👋 نوّرتنا، ونتشرّف بزيارتك للكمباوند بأي وقت!"] };
+      return { parts: [`بأمان الله${state.name ? ` يا ${state.name}` : ""} 👋 نوّرتنا، ونتشرّف بزيارتك للكمباوند بأي وقت!`] };
     if (/^(ه{2,}|😂|🤣|lol)/i.test(short)) return { parts: ["😄 كيف بقدر أساعدك كمان؟"] };
-    if (/(انت|إنت|انتي|إنتي) (مين|شو|بوت|روبوت|انسان|إنسان|حقيقي)|مين معي|مين انت|مين حضرتك/.test(short))
-      return { parts: ["أنا المساعدة الرقمية لروح العطاء 😊 مش إنسانة، بس بعرف كل شي موجود على موقعنا عن الشاليهات والكمباوند.", `وإذا حاب تحكي مع حدا من الفريق، ${contact}.`], suggestions: starters };
 
     // Small talk with no question in it ("الحمد الله", "وانتي؟", "حلو كثير", "طيب"): reply like
     // a person would and move the conversation on; never search the site for it.
