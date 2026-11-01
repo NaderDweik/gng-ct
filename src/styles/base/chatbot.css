@@ -175,10 +175,10 @@ html[dir="ltr"] .cb-panel { transform-origin: bottom right; }
   align-items: center;
   gap: 6px;
   max-width: 100%;
-  padding: 4px 10px 4px 12px;
-  border: 0;
+  padding: 3px 10px 3px 12px;
+  border: 1px solid var(--cb-primary);
   border-radius: 999px;
-  background: rgb(24 24 24 / 0.045);
+  background: rgb(42 187 163 / 0.2);
   color: var(--cb-darkest);
   font: 500 11.5px/1.5 var(--font-cairo), system-ui, sans-serif;
   text-align: right;
@@ -199,9 +199,10 @@ html[dir="ltr"] .cb-panel { transform-origin: bottom right; }
   line-height: 1;
   opacity: 0.6;
 }
-.cb-chips button:hover { background: rgb(42 187 163 / 0.14); color: var(--cb-deep); }
-/* The «احجز زيارة» action: no question mark, a light green tint. */
-.cb-chips button[data-kind="action"] { background: rgb(42 187 163 / 0.12); color: var(--cb-deep); font-weight: 600; }
+.cb-chips button:hover { background: var(--cb-primary); color: #fff; }
+/* The «احجز زيارة» action: no question mark, a slightly stronger tint. */
+.cb-chips button[data-kind="action"] { background: rgb(42 187 163 / 0.3); font-weight: 600; }
+.cb-chips button[data-kind="action"]:hover { background: var(--cb-primary); }
 .cb-chips button[data-kind="action"]::before { display: none; }
 .cb-chips button:focus-visible { outline: 2px solid var(--cb-primary); outline-offset: 1px; }
 
