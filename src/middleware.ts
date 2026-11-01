@@ -21,5 +21,6 @@ export default function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/(ar|en)/:path*", "/((?!_next|.*\\..*).*)"],
+  // /api: the chat assistant's dev route (app/api/chat/route.dev.ts), not a page.
+  matcher: ["/", "/(ar|en)/:path*", "/((?!_next|api/|.*\\..*).*)"],
 };

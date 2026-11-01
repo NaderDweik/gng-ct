@@ -16,6 +16,9 @@ const nextConfig: NextConfig = {
   // `npm run dev` works in its own folder, so a dev server left running never breaks
   // `npm run build` (both used to write .next).
   distDir: isDev ? ".next-dev" : ".next",
+  // "*.dev.ts" files are routes only `npm run dev` has: the chat assistant's /api/chat
+  // (app/api/chat/route.dev.ts), which in production is a Cloudflare Pages Function.
+  pageExtensions: isDev ? ["tsx", "ts", "jsx", "js", "dev.ts"] : ["tsx", "ts", "jsx", "js"],
   poweredByHeader: false,
   // Lets a Cloudflare quick tunnel (`cloudflared tunnel --url http://localhost:3000`) load dev
   // assets and hot reload, so a public link shows local changes without deploying.
