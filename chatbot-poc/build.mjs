@@ -18,7 +18,19 @@ const topics = JSON.parse(readFileSync(here("topics.json"), "utf8"));
 // Answers written for the bot, used instead of the site's wording (rotated on repeats).
 const answers = JSON.parse(readFileSync(here("answers.json"), "utf8"));
 
-const docs = (await collectDocs()).map((d) => {
+// Layan's own Q&A (qa.json), written from the site's content.
+const qa = JSON.parse(readFileSync(here("qa.json"), "utf8")).entries.map((e) => ({
+  kind: "faq", id: e.id, title: e.title, url: e.url, q: e.q, text: e.answers[0],
+  phrasings: e.phrasings, answers: e.answers, topic: e.topic,
+}));
+const ids = new Set();
+for (const e of qa) {
+  if (ids.has(e.id)) throw new Error(`qa.json: duplicate id ${e.id}`);
+  ids.add(e.id);
+}
+
+const docs = [...(await collectDocs()), ...qa].map((d) => {
+  if (d.id) return { ...d, vecs: embedTexts(d).map((t) => packVec(embedder.embed(t))) };
   const extra = d.q ? phrasings[label(d.q)] : undefined;
   const topic = d.q && d.kind === "faq" ? topics[label(d.q)] : undefined;
   const own = d.q && d.kind === "faq" ? answers[label(d.q)] : undefined;

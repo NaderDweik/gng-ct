@@ -30,6 +30,22 @@ const CHAT = {
 };
 const strip = (t, re) => t.replace(new RegExp(re.source, re.flags.replace("^", "") + "g"), " ").replace(/^[\s,،.!؟?]+/, "");
 
+// Prefer a curated FAQ answer, then a content item, over a page passage, when close.
+function bestOf(hits) {
+  const best = hits[0];
+  const faq = hits.find((h) => h.d.kind === "faq");
+  const item = hits.find((h) => h.d.kind === "item");
+  return faq && faq.score >= best?.score * 0.8 ? faq : item && item.score >= best?.score * 0.8 ? item : best;
+}
+
+// Splits "كم المساحة وفي مسبح؟ وشو الخدمات" into its questions: at question marks, and at
+// "و" / "،" right before a question word. "مسبح وجاكوزي" (no question word) stays whole.
+const Q_WORDS = "كم|شو|هل|في|فيه|فيش|وين|متى|امتى|كيف|قديش|اديش|بكم|ايش|مين|ليش|عندكم|بقدر|ممكن";
+const SPLIT = new RegExp(`[؟?]+|\\s*[،,]\\s*(?=(?:${Q_WORDS})\\s)|\\s+و(?=(?:${Q_WORDS})\\s)`);
+function splitQuestions(text) {
+  return text.split(SPLIT).map((q) => q.trim()).filter((q) => tokens(q).length > 0);
+}
+
 export function createBrain(kb, { phone, starters }) {
   const contact = `تقدر تحكي مع فريق المبيعات مباشرة على ${phone} أو واتساب`;
 
@@ -192,13 +208,30 @@ export function createBrain(kb, { phone, starters }) {
       return { parts };
     }
 
-    // 4. Look it up.
+    // 4. Two questions in one message ("كم المساحة وفي جاكوزي؟"): answer each, in order.
+    const asked = splitQuestions(t);
+    if (asked.length > 1 && !followUp) {
+      const found = [];
+      for (const q of asked) {
+        const top = bestOf(kb.search(q, 8));
+        if (top && top.score >= 0.3 && !found.some((f) => f.top.d === top.d)) found.push({ top, q });
+      }
+      if (found.length > 1) {
+        found.forEach(({ top, q }, i) => {
+          const key = top.d.q ? label(top.d.q) : top.d.text.slice(0, 40);
+          const times = seen[key] ?? 0;
+          seen[key] = times + 1;
+          const { body } = phrase(top, q, times);
+          parts.push((i ? pick(["وبالنسبة لسؤالك الثاني:\n", "وعن الشق الثاني:\n", "وكمان:\n"]) : opener(raw)) + body);
+        });
+        parts.push(pick(["في إشي ثاني حابب تعرفه؟ 😊", "إذا عندك أي سؤال ثاني، أنا هون 🌿"]));
+        return { parts, source: found[0].top.d, suggestions: [] };
+      }
+    }
+
+    // 5. Look it up.
     const hits = kb.search(t, 8);
-    // Prefer a curated FAQ answer, then a content item, over a page passage, when close.
-    const best = hits[0];
-    const faq = hits.find((h) => h.d.kind === "faq");
-    const item = hits.find((h) => h.d.kind === "item");
-    const top = faq && faq.score >= best?.score * 0.8 ? faq : item && item.score >= best?.score * 0.8 ? item : best;
+    const top = bestOf(hits);
 
     // Score bands (lib/core.mjs, checked with tools/eval.mjs): unrelated questions land
     // around 0.15, real matches from ~0.28. In between, ask instead of guessing.

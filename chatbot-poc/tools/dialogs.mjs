@@ -18,7 +18,7 @@ const brain = createBrain(search, { phone: "0790029928", starters: kb.starters }
 // "say:<a|b>" = the reply must contain one of these words.
 const DIALOGS = [
   [["كيف الحال", "chat"], ["الحمد الله", "chat"]],
-  [["مرحبا كيفك", "chat"], ["تمام", "chat"], ["وين موقعكم", "answer:يقع"]],
+  [["مرحبا كيفك", "chat"], ["تمام", "chat"], ["وين موقعكم", "answer:القسطل"]],
   [["السلام عليكم", "chat"], ["كيفك", "chat"], ["الحمدلله وانتي؟", "chat"]],
   [["اسمعي", "chat"], ["عندي سوال", "chat"], ["في تقسيط؟", "answer:1%"]],
   [["شو الخدمات اللي بتقدموها", "answer:الخدمات"], ["حلو كثير", "chat"], ["اه", "say:زيارة"]],
@@ -27,7 +27,7 @@ const DIALOGS = [
   [["الحمدلله بخير", "chat"]],
   [["يسلمو", "say:العفو|ولو|الرحب|يعافيك"]],
   [["تمام، طيب كم بعيد عن عمان؟", "answer:دقيقة"]],
-  [["في مطاعم", "ask"]],
+  [["في مطاعم", "answer:كافيه"]],
   [["متى التسليم", "answer:تسليم"], ["لا", "chat"]],
   [["عندي سؤال عن التقسيط", "answer:1%"], ["ممتاز", "chat"], ["لا شكرا", "chat"]],
   // Asked again: same meaning, different wording each time, never "من الشركة مباشرة".

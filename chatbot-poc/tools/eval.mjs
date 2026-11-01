@@ -13,25 +13,33 @@ const { docs } = JSON.parse(readFileSync(here("../../public/chatbot/model/kb.jso
 // [question, a word that must appear in the chosen doc's question/title]
 const CASES = [
   ["طيب وين بالضبط مكانكم؟", "يقع"], ["المشروع بأي منطقة", "يقع"], ["كم بدي سواقة من عمان", "يبعد"],
-  ["المطار قريب؟", "يبعد"], ["الشاليه كم متر مربع", "مساحة"], ["كم غرفة بالشاليه", "مساحة"],
-  ["في بركة سباحة خاصة؟", "المرافق"], ["الامن كيف عندكم", "الأمن"], ["في حرس على البوابة؟", "الأمن"],
+  ["المطار قريب؟", "يبعد"], ["الشاليه كم متر مربع", "مساحة"], ["كم غرفة بالشاليه", "مساحة|#bedrooms"],
+  ["في بركة سباحة خاصة؟", "المرافق|#pool"], ["الامن كيف عندكم", "الأمن"], ["في حرس على البوابة؟", "الأمن"],
   ["بدي اعمل معاينة", "موعد"], ["ممكن زيارة يوم الجمعة", "موعد"], ["انا مغترب بقدر اشوفه فيديو", "فيديو"],
   ["الشاليه بكم", "أسعار"], ["عندكم نظام دفعات؟", "تقسيط"], ["بتقبلوا قروض البنوك", "تقسيط"],
   ["شو الاوراق اللي لازم اجيبها", "المستندات"], ["في مصاريف بعد الشراء؟", "رسوم"], ["القوشان باسم مين بطلع", "تسجيل"],
   ["شو اول خطوة للشراء", "الخطوات"], ["امتى بستلم المفتاح", "تسليم"], ["في شي جاهز للسكن", "تسليم"],
   ["بقدر اربح من تأجيره", "تأجير"], ["شو الخدمات المتوفرة هلأ", "الخدمات"], ["شو رح تعملوا بالمستقبل", "القادمة"],
-  ["مين بدير قسم الصيانة", "فريق"], ["شو مميزاتكم", "يميّزه"], ["في مطاعم او كافيه", "المرافق"],
-  ["في مكان للاطفال يلعبوا", "المرافق"], ["في طاقة شمسية", "الطاقة"], ["في بير مي", "مياه"],
+  ["مين بدير قسم الصيانة", "فريق"], ["شو مميزاتكم", "يميّزه"], ["في مطاعم او كافيه", "المرافق|#food"],
+  ["في مكان للاطفال يلعبوا", "المرافق|#kids"], ["في طاقة شمسية", "الطاقة"], ["في بير مي", "مياه"],
 ];
 
-function run(useEmbed, opts) {
+// The larger held-out set (eval-cases.json). "#id" = that qa.json entry; "?" = not on the site,
+// so the best match must stay below the bot's answer threshold (it asks / refers to the team).
+const { cases: HELD, fresh: FRESH } = JSON.parse(readFileSync(here("eval-cases.json"), "utf8"));
+
+function run(useEmbed, opts, cases = CASES) {
   const { search } = createSearch(docs, useEmbed ? embedder : null, opts);
   let ok = 0;
   const misses = [];
-  for (const [q, want] of CASES) {
-    const top = search(q, 1)[0]?.d;
+  for (const [q, want] of cases) {
+    const hit = search(q, 1)[0];
+    const top = hit?.d;
     const hay = `${top?.q ?? ""} ${top?.title ?? ""} ${top?.text?.slice(0, 120) ?? ""}`;
-    if (hay.includes(want)) ok++; else misses.push(`${q} → ${top?.q ?? top?.title ?? "-"}`);
+    // "a|b": either target counts (e.g. a qa.json entry or the site's own item saying the same).
+    const one = (w) => (w.startsWith("#") ? top?.id === w.slice(1) : hay.includes(w));
+    const pass = want === "?" ? !hit || hit.score < 0.26 : want.split("|").some(one);
+    if (pass) ok++; else misses.push(`${q} → ${top?.id ? "#" + top.id : top?.q ?? top?.title ?? "-"} (${hit?.score.toFixed(2)})`);
   }
   return { ok, misses };
 }
@@ -40,8 +48,11 @@ if (process.argv[2] === "grid") {
     console.log(semWeight, semFloor, run(true, { semWeight, semFloor }).ok);
   process.exit();
 }
-for (const mode of [false, true]) {
-  const { ok, misses } = run(mode);
-  console.log(`${mode ? "letters + meaning" : "letters only     "}: ${ok}/${CASES.length} (${Math.round((100 * ok) / CASES.length)}%)`);
-  if (mode) misses.forEach((m) => console.log("   miss:", m));
+for (const [name, cases] of [["original 30", CASES], ["held-out 60", HELD], ["fresh 30 (never tuned on)", FRESH]]) {
+  console.log(`— ${name}`);
+  for (const mode of [false, true]) {
+    const { ok, misses } = run(mode, undefined, cases);
+    console.log(`${mode ? "letters + meaning" : "letters only     "}: ${ok}/${cases.length} (${Math.round((100 * ok) / cases.length)}%)`);
+    if (mode && process.argv[2] === "misses") misses.forEach((m) => console.log("   miss:", m));
+  }
 }
