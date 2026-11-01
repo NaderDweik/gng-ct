@@ -31,24 +31,26 @@ const fold = (v: string) =>
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "");
 
-export function CountryPhoneField({
-  label,
+/**
+ * The country picker itself (flag + code button and the searchable list), shared by the
+ * /register phone field below and the chat assistant's booking (components/chatbot).
+ * `button` goes at the start of the number; `pop` is the open list, placed by the caller.
+ */
+export function useCountryPicker({
   country,
-  phone,
   isAr,
-  error,
-  errorId,
   onCountry,
-  onPhone,
+  afterPick,
+  labelId,
+  popClassName = "",
 }: {
-  label: string;
   country: CountryIso;
-  phone: string;
   isAr: boolean;
-  error?: string;
-  errorId?: string;
   onCountry: (iso: CountryIso) => void;
-  onPhone: (value: string) => void;
+  /** Called after a country is chosen (e.g. to focus the number). */
+  afterPick?: () => void;
+  labelId?: string;
+  popClassName?: string;
 }) {
   const [open, setOpen] = useState(false);
   const [focus, setFocus] = useState(0);
@@ -56,6 +58,7 @@ export function CountryPhoneField({
   const wrap = useRef<HTMLDivElement>(null);
   const list = useRef<HTMLUListElement>(null);
   const search = useRef<HTMLInputElement>(null);
+  const btn = useRef<HTMLButtonElement>(null);
   const listId = useId();
   const current = countries.find((c) => c.iso === country) ?? countries[0]!;
   const name = (c: Country) => (isAr ? c.ar : c.en);
@@ -70,11 +73,12 @@ export function CountryPhoneField({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, isAr]);
 
-  // Close on a tap outside.
+  // Close on a tap outside (the button and the list both count as inside).
   useEffect(() => {
     if (!open) return;
     const away = (e: PointerEvent) => {
-      if (!wrap.current?.contains(e.target as Node)) setOpen(false);
+      const t = e.target as Node;
+      if (!wrap.current?.contains(t) && !btn.current?.contains(t)) setOpen(false);
     };
     document.addEventListener("pointerdown", away);
     return () => document.removeEventListener("pointerdown", away);
@@ -100,7 +104,7 @@ export function CountryPhoneField({
   const pick = (iso: CountryIso) => {
     onCountry(iso);
     setOpen(false);
-    wrap.current?.querySelector<HTMLInputElement>('input[name="phone"]')?.focus();
+    afterPick?.();
   };
 
   const onKey = (e: KeyboardEvent) => {
@@ -114,7 +118,7 @@ export function CountryPhoneField({
     if (e.key === "Escape") {
       e.preventDefault();
       setOpen(false);
-      wrap.current?.querySelector<HTMLButtonElement>(".register-cc")?.focus();
+      btn.current?.focus();
     } else if (e.key === "ArrowDown") {
       e.preventDefault();
       setFocus((i) => Math.min(shown.length - 1, i + 1));
@@ -127,28 +131,111 @@ export function CountryPhoneField({
     }
   };
 
+  const button = (
+    <button
+      ref={btn}
+      type="button"
+      role="combobox"
+      className="register-cc"
+      aria-haspopup="listbox"
+      aria-expanded={open}
+      aria-controls={listId}
+      aria-label={`${isAr ? "رمز الدولة" : "Country code"}: ${name(current)} +${current.dial}`}
+      aria-activedescendant={open ? `${listId}-${focus}` : undefined}
+      onClick={() => (open ? setOpen(false) : show())}
+      onKeyDown={onKey}
+    >
+      <Flag iso={current.iso} />
+      <span className="register-cc-dial">+{current.dial}</span>
+      <svg className="register-cc-chev" viewBox="0 0 12 12" aria-hidden>
+        <path d="M3 4.5 6 7.5 9 4.5" />
+      </svg>
+    </button>
+  );
+
+  const pop = open && (
+    <div ref={wrap} className={`register-cc-pop ${popClassName}`} dir={isAr ? "rtl" : "ltr"}>
+      <div className="register-cc-search">
+        <svg viewBox="0 0 24 24" aria-hidden>
+          <circle cx="11" cy="11" r="6.5" />
+          <path d="m16 16 4 4" />
+        </svg>
+        <input
+          ref={search}
+          type="search"
+          value={query}
+          placeholder={isAr ? "ابحث عن دولة أو رمز" : "Search a country or code"}
+          aria-label={isAr ? "ابحث عن دولة" : "Search countries"}
+          aria-controls={listId}
+          aria-activedescendant={shown[focus] ? `${listId}-${focus}` : undefined}
+          autoComplete="off"
+          enterKeyHint="done"
+          onChange={(e) => {
+            setQuery(e.target.value);
+            setFocus(0);
+          }}
+          onKeyDown={onKey}
+        />
+      </div>
+      <ul ref={list} id={listId} role="listbox" className="register-cc-list" aria-labelledby={labelId}>
+        {shown.length === 0 && <li className="register-cc-empty">{isAr ? "لا توجد نتائج" : "No matches"}</li>}
+        {shown.map((c, i) => (
+          <li
+            key={c.iso}
+            id={`${listId}-${i}`}
+            role="option"
+            aria-selected={c.iso === country}
+            className={`register-cc-opt${i === focus ? " is-focus" : ""}`}
+            onPointerEnter={() => setFocus(i)}
+            onClick={() => pick(c.iso)}
+          >
+            <Flag iso={c.iso} />
+            <span className="register-cc-name">{name(c)}</span>
+            <span className="register-cc-code" dir="ltr">+{c.dial}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  return { button, pop, open };
+}
+
+export function CountryPhoneField({
+  label,
+  country,
+  phone,
+  isAr,
+  error,
+  errorId,
+  onCountry,
+  onPhone,
+}: {
+  label: string;
+  country: CountryIso;
+  phone: string;
+  isAr: boolean;
+  error?: string;
+  errorId?: string;
+  onCountry: (iso: CountryIso) => void;
+  onPhone: (value: string) => void;
+}) {
+  const wrap = useRef<HTMLDivElement>(null);
+  const labelId = `${useId()}-label`;
+  const current = countries.find((c) => c.iso === country) ?? countries[0]!;
+  const picker = useCountryPicker({
+    country,
+    isAr,
+    onCountry,
+    labelId,
+    afterPick: () => wrap.current?.querySelector<HTMLInputElement>('input[name="phone"]')?.focus(),
+  });
+
   return (
     <div className="register-field block" ref={wrap}>
-      <span id={`${listId}-label`}>{label}</span>
+      <span id={labelId}>{label}</span>
       <div className="register-phone" dir="ltr" aria-invalid={!!error}>
-        <button
-          type="button"
-          role="combobox"
-          className="register-cc"
-          aria-haspopup="listbox"
-          aria-expanded={open}
-          aria-controls={listId}
-          aria-label={`${isAr ? "رمز الدولة" : "Country code"}: ${name(current)} +${current.dial}`}
-          aria-activedescendant={open ? `${listId}-${focus}` : undefined}
-          onClick={() => (open ? setOpen(false) : show())}
-          onKeyDown={onKey}
-        >
-          <Flag iso={current.iso} />
-          <span className="register-cc-dial">+{current.dial}</span>
-          <svg className="register-cc-chev" viewBox="0 0 12 12" aria-hidden>
-            <path d="M3 4.5 6 7.5 9 4.5" />
-          </svg>
-        </button>
+        {picker.button}
         <input
           required
           name="phone"
@@ -158,7 +245,7 @@ export function CountryPhoneField({
           maxLength={PHONE_MAX}
           placeholder={current.iso === "JO" ? "79 123 4567" : ""}
           value={phone}
-          aria-labelledby={`${listId}-label`}
+          aria-labelledby={labelId}
           aria-invalid={!!error}
           aria-describedby={errorId}
           onChange={(e) => {
@@ -171,50 +258,7 @@ export function CountryPhoneField({
         />
       </div>
 
-      {open && (
-        <div className="register-cc-pop" dir={isAr ? "rtl" : "ltr"}>
-          <div className="register-cc-search">
-            <svg viewBox="0 0 24 24" aria-hidden>
-              <circle cx="11" cy="11" r="6.5" />
-              <path d="m16 16 4 4" />
-            </svg>
-            <input
-              ref={search}
-              type="search"
-              value={query}
-              placeholder={isAr ? "ابحث عن دولة أو رمز" : "Search a country or code"}
-              aria-label={isAr ? "ابحث عن دولة" : "Search countries"}
-              aria-controls={listId}
-              aria-activedescendant={shown[focus] ? `${listId}-${focus}` : undefined}
-              autoComplete="off"
-              enterKeyHint="done"
-              onChange={(e) => {
-                setQuery(e.target.value);
-                setFocus(0);
-              }}
-              onKeyDown={onKey}
-            />
-          </div>
-        <ul ref={list} id={listId} role="listbox" className="register-cc-list" aria-labelledby={`${listId}-label`}>
-          {shown.length === 0 && <li className="register-cc-empty">{isAr ? "لا توجد نتائج" : "No matches"}</li>}
-          {shown.map((c, i) => (
-            <li
-              key={c.iso}
-              id={`${listId}-${i}`}
-              role="option"
-              aria-selected={c.iso === country}
-              className={`register-cc-opt${i === focus ? " is-focus" : ""}`}
-              onPointerEnter={() => setFocus(i)}
-              onClick={() => pick(c.iso)}
-            >
-              <Flag iso={c.iso} />
-              <span className="register-cc-name">{name(c)}</span>
-              <span className="register-cc-code" dir="ltr">+{c.dial}</span>
-            </li>
-          ))}
-        </ul>
-        </div>
-      )}
+      {picker.pop}
 
       {error && <em id={errorId} className="register-error">{error}</em>}
     </div>

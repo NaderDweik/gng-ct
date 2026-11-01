@@ -5,10 +5,12 @@
  * Knowledge base: public/chatbot/model/kb.json, rebuilt with `npm run chatbot:kb`.
  */
 
+import { createBooking, type ComposerMode } from "./chat-booking";
+
 const BASE = "/chatbot";
 const PHONE = "0790029928";
 
-type Reply = { parts?: string[]; reply?: string; state?: object; source?: { title: string }; suggestions?: string[] };
+type Reply = { parts?: string[]; reply?: string; state?: object; source?: object; suggestions?: string[]; action?: "book" };
 type Brain = { reply: (text: string, state: object) => Reply };
 type Loaded = { brain: Brain; starters: string[] };
 
@@ -16,12 +18,20 @@ export type ChatEls = {
   log: HTMLElement;
   input: HTMLInputElement;
   send: HTMLButtonElement;
+  form: HTMLFormElement;
+  /** The booking progress strip under the header (chat-booking.ts). */
+  bar: HTMLElement;
+  setMode: (mode: ComposerMode) => void;
+  showCountry: (iso: string) => void;
 };
+
+/** Starter chip that opens the in-chat booking (the brain sends «احجز» to it). */
+const BOOK_CHIP = "📅 احجز زيارة";
 
 // Loaded from public/, not bundled: the bundler must leave these imports alone.
 const load = (path: string) => import(/* webpackIgnore: true */ /* turbopackIgnore: true */ `${BASE}${path}`);
 
-export function createChat({ log, input, send: sendBtn }: ChatEls) {
+export function createChat({ log, input, send: sendBtn, form, bar, setMode, showCountry }: ChatEls) {
   let state: object = {};
   let started = false;
   let busy = false;
@@ -138,28 +148,75 @@ export function createChat({ log, input, send: sendBtn }: ChatEls) {
     if (started) return;
     started = true;
     const ready = loadBrain();
-    const stop = thinking();
-    await wait(700);
-    stop();
-    await typeOut(bubble("bot"), "أهلين فيك بروح العطاء 👋");
-    const pause = thinking(true);
-    await wait(800);
-    pause();
-    await typeOut(bubble("bot"), "معك ليان 😊 اسألني عن أي إشي: الشاليهات، الخدمات، الموقع، أو التقسيط.");
+    await run(async () => {
+      const stop = thinking();
+      await wait(700);
+      stop();
+      await typeOut(bubble("bot"), "أهلين فيك بروح العطاء 👋");
+      const pause = thinking(true);
+      await wait(800);
+      pause();
+      await typeOut(bubble("bot"), "معك ليان 😊 اسألني عن أي إشي: الشاليهات، الخدمات، الموقع، أو التقسيط. وبقدر أحجزلك زيارة من هون كمان.");
+    });
     try {
-      chips((await ready).starters, "أسئلة شائعة");
+      const { starters } = await ready;
+      if (!booking.active && !log.querySelector(".cb-me")) chips([BOOK_CHIP, ...starters], "أسئلة شائعة");
     } catch (e) {
       console.error(e);
     }
   }
 
-  async function send(raw: string) {
-    const text = raw.trim();
-    if (!text || busy) return;
+  /** One thing at a time: the composer is locked while Layan is writing. */
+  async function run(fn: () => Promise<void>) {
+    if (busy || disposed) return;
     busy = true;
     sendBtn.disabled = true;
-    log.querySelectorAll(".cb-chips").forEach((c) => c.remove());
-    bubble("me").textContent = text;
+    try {
+      await fn();
+    } finally {
+      busy = false;
+      sendBtn.disabled = false;
+      if (!disposed && matchMedia("(hover: hover)").matches) input.focus({ preventScroll: true });
+    }
+  }
+
+  async function say(text: string, quick?: boolean) {
+    if (disposed) return;
+    const pause = thinking(true);
+    await wait(quick ? 450 : 750);
+    pause();
+    await typeOut(bubble("bot"), text);
+  }
+
+  const booking = createBooking({
+    log,
+    input,
+    form,
+    bar,
+    say,
+    me: (text) => (bubble("me").textContent = text),
+    scroll,
+    run,
+    onEnd: () => {},
+    setMode,
+    showCountry,
+  });
+
+  function send(raw: string) {
+    const text = raw.trim();
+    if (!text || busy) return;
+    return run(async () => {
+      log.querySelectorAll(".cb-chips").forEach((c) => c.remove());
+      bubble("me").textContent = text;
+      // Mid-booking, the text box answers the current question (name, phone, note).
+      const wasBooking = booking.active;
+      if (wasBooking && (await booking.onText(text))) return;
+      await answer(text);
+      if (wasBooking && booking.active) await booking.resume();
+    });
+  }
+
+  async function answer(text: string) {
     const stop = thinking();
     const t0 = Date.now();
     let data: Reply;
@@ -176,8 +233,6 @@ export function createChat({ log, input, send: sendBtn }: ChatEls) {
     await wait(Math.max(0, Math.min(900 + parts.join("").length * 3, 2200) - (Date.now() - t0)));
     stop();
     // Several short messages with a typing pause between them, like a person writing.
-    // The source tag goes on the message that holds the actual answer.
-    const answerAt = parts.length > 2 ? 1 : 0;
     for (let i = 0; i < parts.length; i++) {
       if (disposed) return;
       if (i) {
@@ -185,25 +240,32 @@ export function createChat({ log, input, send: sendBtn }: ChatEls) {
         await wait(500 + Math.min(parts[i].length * 6, 1100));
         pause();
       }
-      const el = bubble("bot");
-      await typeOut(el, parts[i]);
-      if (data.source && i === answerAt) {
-        const s = document.createElement("span");
-        s.className = "cb-src";
-        s.textContent = "المصدر: " + data.source.title;
-        el.append(document.createElement("br"), s);
-        scroll();
-      }
+      await typeOut(bubble("bot"), parts[i]);
     }
-    chips(data.suggestions, data.source ? "قد يهمّك أيضًا" : null);
-    busy = false;
-    sendBtn.disabled = false;
-    input.focus();
+    if (data.action === "book") {
+      if (!booking.active) await booking.start();
+      return;
+    }
+    // Mid-booking, no side suggestions: the booking picks up right after.
+    if (!booking.active) chips(data.suggestions, data.source ? "قد يهمّك أيضًا" : null);
+  }
+
+  /** The header's «احجز زيارة» button. */
+  async function book() {
+    while (busy && !disposed) await wait(120);
+    if (booking.active) return;
+    await run(async () => {
+      log.querySelectorAll(".cb-chips").forEach((c) => c.remove());
+      bubble("me").textContent = "بدي أحجز زيارة";
+      await booking.start();
+    });
   }
 
   return {
     start,
     send,
+    book,
+    setCountry: (iso: string) => booking.setCountry(iso),
     dispose() {
       disposed = true;
     },

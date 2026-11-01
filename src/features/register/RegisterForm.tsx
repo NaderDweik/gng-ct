@@ -6,12 +6,12 @@ import { site } from "@/content/site";
 import { Link } from "@/i18n/navigation";
 import { track } from "@/lib/analytics";
 import { registerSource } from "@/components/analytics/registerSource";
-import { countries, defaultCountry, type CountryIso } from "@/content/countries";
-import { visitRequestsWebAppUrl } from "@/content/sheets";
-import { MESSAGE_MAX, NAME_MAX, normalizePhone, validateLead, type LeadField } from "@/features/register/leadRules";
+import { defaultCountry, type CountryIso } from "@/content/countries";
+import { MESSAGE_MAX, NAME_MAX, validateLead, type LeadField } from "@/features/register/leadRules";
+import { saveVisitRequest, visitWhatsAppUrl } from "@/features/register/visitRequest";
 import { CountryPhoneField } from "@/features/register/CountryPhoneField";
 import { useChaletParam } from "@/features/register/RegisterHeading";
-import { VisitPicker, dayLabel, hourLabel, type VisitDay } from "@/features/register/VisitPicker";
+import { VisitPicker, type VisitDay } from "@/features/register/VisitPicker";
 
 // No server: the form is checked here, then the visitor's own WhatsApp opens a chat with the
 // sales number (site.whatsapp) with the visit request written out, and they press send.
@@ -43,54 +43,9 @@ export function RegisterForm() {
   // Hidden field only bots fill in; the sheet ignores requests that have it.
   const [website, setWebsite] = useState("");
 
-  /** Adds the request to the «طلبات الزيارة» Google Sheet (content/sheets.ts), in Arabic, in the
-   *  background: it never holds up WhatsApp, and a failure doesn't reach the visitor. */
-  function saveToSheet() {
-    if (!visitRequestsWebAppUrl) return;
-    const full = normalizePhone(country, phone);
-    const c = countries.find((x) => x.iso === country);
-    const body = {
-      name: name.trim(),
-      phone: full ? `+${full}` : phone.trim(),
-      country: c ? c.ar : country,
-      day: day ? dayLabel(day.date, "ar") : "",
-      time: hour !== null ? hourLabel(hour, "ar") : "",
-      chalet: chalet ?? "",
-      message: message.trim(),
-      language: isAr ? "العربية" : "الإنجليزية",
-      page: registerSource().from_page,
-      website,
-    };
-    // text/plain keeps it a "simple" request (no CORS preflight, which Apps Script can't answer);
-    // no-cors because the reply isn't needed; keepalive so it still goes if WhatsApp takes over.
-    fetch(visitRequestsWebAppUrl, {
-      method: "POST",
-      mode: "no-cors",
-      keepalive: true,
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify(body),
-    }).catch(() => {});
-  }
-
-  /** wa.me chat with the sales number, the visit request already typed in. */
-  function whatsAppUrl() {
-    const full = normalizePhone(country, phone);
-    const when = day && hour !== null ? `${dayLabel(day.date, locale)}، ${hourLabel(hour, locale)}` : "";
-
-    // No heading line, and the place is the compound itself, not the sales office (Oct 2026).
-    const text = [
-      `${isAr ? "الاسم" : "Name"}: ${name.trim()}`,
-      `${isAr ? "الهاتف" : "Phone"}: ${full ? `+${full}` : phone.trim()}`,
-      chalet ? `${isAr ? "الشاليه" : "Chalet"}: ${chalet}` : "",
-      `${isAr ? "موعد الزيارة" : "Visit"}: ${isAr ? when : when.replace("،", ",")}`,
-      `${isAr ? "المكان" : "Place"}: ${isAr ? "كمباوند شاليهات روح العطاء، عمّان، الأردن" : "Giving Compound chalets, Amman, Jordan"}`,
-      message.trim() ? `${isAr ? "الرسالة" : "Message"}: ${message.trim()}` : "",
-    ]
-      .filter(Boolean)
-      .join("\n");
-
-    return `${site.whatsappUrl}?text=${encodeURIComponent(text)}`;
-  }
+  const request = () => ({ name, country, phone, day, hour, chalet, message, website });
+  const whatsAppUrl = () => visitWhatsAppUrl(request(), locale);
+  const saveToSheet = () => saveVisitRequest(request(), { locale, page: registerSource().from_page });
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
