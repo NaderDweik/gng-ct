@@ -84,7 +84,7 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
       ]);
       let embedder = null;
       try {
-        embedder = createEmbedder(vocab, await fetchBytes(`${BASE}/model/vectors.bin`, vocab.tokens.length * (vocab.dim + 4)));
+        embedder = createEmbedder(vocab, await fetchBytes(`${BASE}/model/vectors.bin`, vocab.bytes ?? vocab.tokens.length * (vocab.dim + 4)));
       } catch (e) {
         console.warn("Meaning model unavailable, matching by wording only", e);
       }

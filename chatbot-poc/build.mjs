@@ -1,18 +1,13 @@
 // Builds public/chatbot/model/kb.json for the in-browser chat: every doc from knowledge.mjs, its extra
-// phrasings (phrasings.json), and precomputed meaning vectors. Needs public/chatbot/model/ from
-// tools/prune-model.mjs. Run with `npm run chatbot:kb` after content changes (reads out/ from `npm run build`).
+// phrasings (phrasings.json), and the bot's own answers (meaning vectors are computed on the phone
+// at load, core.mjs). Run with `npm run chatbot:kb` after content changes (reads out/ from `npm run build`).
 import { readFileSync, writeFileSync } from "node:fs";
 import { collectDocs } from "./knowledge.mjs";
-import { createEmbedder, packVec } from "../public/chatbot/lib/embed.mjs";
-import { embedTexts } from "../public/chatbot/lib/core.mjs";
 import { homeFaqPreview } from "../src/content/faq.ts";
 
 const here = (p) => new URL(p, import.meta.url);
 const label = (q) => (q.includes("؟") ? q.split("؟")[0] + "؟" : q);
 
-const vocab = JSON.parse(readFileSync(here("../public/chatbot/model/vocab.json"), "utf8"));
-const buf = readFileSync(here("../public/chatbot/model/vectors.bin"));
-const embedder = createEmbedder(vocab, buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.length));
 const phrasings = JSON.parse(readFileSync(here("phrasings.json"), "utf8"));
 const topics = JSON.parse(readFileSync(here("topics.json"), "utf8"));
 // Answers written for the bot, used instead of the site's wording (rotated on repeats).
@@ -30,12 +25,13 @@ for (const e of qa) {
 }
 
 const docs = [...(await collectDocs()), ...qa].map((d) => {
-  if (d.id) return { ...d, vecs: embedTexts(d).map((t) => packVec(embedder.embed(t))) };
+  // Meaning vectors are worked out on the phone at load (core.mjs), not shipped: ~1 MB less.
+  if (d.id) return d;
   const extra = d.q ? phrasings[label(d.q)] : undefined;
   const topic = d.q && d.kind === "faq" ? topics[label(d.q)] : undefined;
   const own = d.q && d.kind === "faq" ? answers[label(d.q)] : undefined;
   const doc = { ...d, ...(extra && { phrasings: extra }), ...(topic && { topic }), ...(own && { answers: own }) };
-  return { ...doc, vecs: embedTexts(doc).map((t) => packVec(embedder.embed(t))) };
+  return doc;
 });
 
 const unused = Object.keys(phrasings).filter((k) => !docs.some((d) => d.q && label(d.q) === k));

@@ -35,7 +35,7 @@ export function pieces(text, buckets) {
 }
 
 export function createClassifier(meta, buf, embedder) {
-  const { classes, dim, hidden, overrides, buckets, gdim, grams: gramIds } = meta;
+  const { classes, dim, hidden, overrides, buckets, gdim } = meta;
   const C = classes.length, IN = dim + gdim;
   let at = 0;
   const take = (Type, len) => {
@@ -44,19 +44,41 @@ export function createClassifier(meta, buf, embedder) {
     return a;
   };
   const align = () => (at = Math.ceil(at / 4) * 4);
-  // Fine-tuned token rows, then the spelling vectors in use: int8 with a scale each.
+  // Two signed 4-bit numbers per byte, low nibble first → one per byte.
+  const nibbles = (len) => {
+    const packed = take(Uint8Array, Math.ceil(len / 2)), out = new Int8Array(len);
+    for (let k = 0; k < len; k++) out[k] = (((packed[k >> 1] >> ((k & 1) * 4)) & 15) << 28) >> 28;
+    return out;
+  };
+  // Fine-tuned token rows (if any), then the spelling vectors in use: a scale each, then the rows.
   const oScale = take(Float32Array, overrides.length);
   const oRows = take(Int8Array, overrides.length * dim);
   align();
-  const gScale = take(Float32Array, gramIds.length);
-  const gRows = take(Int8Array, gramIds.length * gdim);
-  align();
-  const W1 = take(Float32Array, hidden * IN);
+  let gramIds, gScale, gRows, W1;
+  if (meta.format === 2) {
+    gramIds = take(Uint16Array, meta.ngrams);
+    align();
+    gScale = take(Float32Array, meta.ngrams);
+    gRows = meta.gbits === 4 ? nibbles(meta.ngrams * gdim) : take(Int8Array, meta.ngrams * gdim);
+    align();
+    if (meta.wbits === 8) {
+      const wScale = take(Float32Array, hidden), wq = take(Int8Array, hidden * IN);
+      W1 = new Float32Array(hidden * IN);
+      for (let i = 0; i < W1.length; i++) W1[i] = wq[i] * wScale[Math.floor(i / IN)];
+    } else W1 = take(Float32Array, hidden * IN);
+    align();
+  } else {
+    gramIds = meta.grams;
+    gScale = take(Float32Array, gramIds.length);
+    gRows = take(Int8Array, gramIds.length * gdim);
+    align();
+    W1 = take(Float32Array, hidden * IN);
+  }
   const b1 = take(Float32Array, hidden);
   const W2 = take(Float32Array, C * hidden);
   const b2 = take(Float32Array, C);
   const tuned = new Map(overrides.map((id, i) => [id, i]));
-  const gram = new Map(gramIds.map((id, i) => [id, i]));
+  const gram = new Map(Array.from(gramIds, (id, i) => [id, i]));
 
   const unit = (v) => {
     let n = 0;

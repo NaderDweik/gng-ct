@@ -8,7 +8,7 @@
 //          → hidden (ReLU, dropout) → classes.
 //   Output: public/chatbot/model/classifier.{json,bin}
 // Usage: node chatbot-poc/tools/train-classifier.mjs [--epochs=20] [--hidden=192] [--aug=3]
-//        [--gdim=64] [--seed=1] [--dev]   (--dev: score chatbot-poc/questions-dev.md each epoch)
+//        [--gdim=64] [--buckets=16 (log2)] [--freeze] [--minfreq=8] [--gbits=4] [--seed=1] [--dev]   (--dev: score chatbot-poc/questions-dev.md each epoch)
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { createEmbedder } from "../../public/chatbot/lib/embed.mjs";
 import { createSearch, labelOf } from "../../public/chatbot/lib/core.mjs";
@@ -18,7 +18,9 @@ import { docTag, isTest, readQuestions } from "./questions-eval.mjs";
 const here = (p) => new URL(p, import.meta.url);
 const arg = (name, def) => Number(process.argv.find((a) => a.startsWith(`--${name}=`))?.split("=")[1] ?? def);
 const EPOCHS = arg("epochs", 20), H = arg("hidden", 192), AUG = arg("aug", 3), GD = arg("gdim", 64);
-const BUCKETS = 1 << 16;
+const BUCKETS = 1 << arg("buckets", 16);
+// --freeze: keep the meaning vectors as they are (no tuned rows to ship with each voter).
+const FREEZE = process.argv.includes("--freeze");
 const SHOW_DEV = process.argv.includes("--dev");
 // --out=classifier-2 writes classifier-2.{json,bin} (ensemble members); default "classifier".
 const OUT = process.argv.find((a) => a.startsWith("--out="))?.slice(6) ?? "classifier";
@@ -238,7 +240,7 @@ function update(batch, eGrad, gGrad) {
       g[i] = 0;
     }
   });
-  sparseStep(E, eAdam, eGrad, ELR, batch);
+  if (!FREEZE) sparseStep(E, eAdam, eGrad, ELR, batch);
   sparseStep(G, gAdam, gGrad, GLR, batch);
 }
 
@@ -262,33 +264,51 @@ for (let epoch = 1; epoch <= EPOCHS; epoch++) {
 }
 
 /* ---------- Export ---------- */
-const quantRows = (table, width, ids) => {
+// Format 2 (classify.mjs): letter-piece ids as uint16 in the .bin, piece rows at --gbits (4 or 8),
+// the first layer as float32 (or int8 with a scale per hidden unit, --wbits=8). Rows: a scale each, values ±7 or ±127.
+const GBITS = arg("gbits", 4);
+const quantRows = (table, width, ids, bits = 8) => {
+  const top = bits === 4 ? 7 : 127;
   const scale = new Float32Array(ids.length), rows = new Int8Array(ids.length * width);
   ids.forEach((id, i) => {
     let m = 0;
     for (let j = 0; j < width; j++) m = Math.max(m, Math.abs(table[id * width + j]));
-    const s = m / 127 || 1;
+    const s = m / top || 1;
     scale[i] = s;
     for (let j = 0; j < width; j++) rows[i * width + j] = Math.round(table[id * width + j] / s);
   });
-  return [scale, rows];
+  if (bits !== 4) return [scale, rows];
+  const packed = new Uint8Array(Math.ceil(rows.length / 2));
+  for (let k = 0; k < rows.length; k++) packed[k >> 1] |= (rows[k] & 15) << ((k & 1) * 4);
+  return [scale, packed];
 };
 const changed = [];
 for (let id = 0; id < N; id++) if (eAdam.t[id]) changed.push(id);
+// --minfreq=k: ship only letter pieces seen in at least k training examples (rare ones are noise).
+const MINF = arg("minfreq", 8);
+const seen = new Int32Array(BUCKETS);
+for (const ex of train) for (const b of new Set(ex.gs)) seen[b]++;
 const usedGrams = [];
-for (let b = 0; b < BUCKETS; b++) if (gAdam.t[b]) usedGrams.push(b);
+for (let b = 0; b < BUCKETS; b++) if (gAdam.t[b] && seen[b] >= MINF) usedGrams.push(b);
 const bytes = [];
 const push = (a) => bytes.push(Buffer.from(a.buffer, a.byteOffset, a.byteLength));
 const align = () => { const len = bytes.reduce((s, b) => s + b.length, 0); if (len % 4) bytes.push(Buffer.alloc(4 - (len % 4))); };
 quantRows(E, D, changed).forEach(push);
 align();
-quantRows(G, GD, usedGrams).forEach(push);
+push(Uint16Array.from(usedGrams));
 align();
-[W1, b1, W2, b2].forEach(push);
+quantRows(G, GD, usedGrams, GBITS).forEach(push);
+align();
+// --wbits=8 stores the first layer as int8 (~180 KB less per voter; cost one dialog turn in testing).
+const WBITS = arg("wbits", 32);
+if (WBITS === 8) quantRows(W1, IN, [...Array(H).keys()]).forEach(push);
+else push(W1);
+align();
+[b1, W2, b2].forEach(push);
 const out = Buffer.concat(bytes);
 writeFileSync(here(`../../public/chatbot/model/${OUT}.bin`), out);
 writeFileSync(
   here(`../../public/chatbot/model/${OUT}.json`),
-  JSON.stringify({ classes, docs, dim: D, hidden: H, gdim: GD, buckets: BUCKETS, overrides: changed, grams: usedGrams }),
+  JSON.stringify({ format: 2, classes, docs, dim: D, hidden: H, gdim: GD, gbits: GBITS, wbits: WBITS, buckets: BUCKETS, overrides: changed, ngrams: usedGrams.length }),
 );
 console.log(`classifier.bin ${(out.length / 1024).toFixed(0)} KB · ${changed.length} tuned tokens · ${usedGrams.length} letter pieces`);

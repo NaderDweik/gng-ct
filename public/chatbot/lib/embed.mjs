@@ -4,10 +4,16 @@
 
 const PUNCT = /([!"#$%&'()*+,\-./:;<=>?@[\\\]^_`{|}~])/g;
 
-export function createEmbedder({ dim, tokens }, vectorsBuf) {
+export function createEmbedder({ dim, tokens, bits = 8 }, vectorsBuf) {
   const n = tokens.length;
   const scales = new Float32Array(vectorsBuf, 0, n);
-  const q = new Int8Array(vectorsBuf, n * 4, n * dim);
+  let q;
+  if (bits === 4) {
+    // Two numbers per byte (low nibble first), -7..7: unpacked once, here.
+    const packed = new Uint8Array(vectorsBuf, n * 4);
+    q = new Int8Array(n * dim);
+    for (let k = 0; k < q.length; k++) q[k] = (((packed[k >> 1] >> ((k & 1) * 4)) & 15) << 28) >> 28;
+  } else q = new Int8Array(vectorsBuf, n * 4, n * dim);
   const vocab = new Map();
   let maxLen = 1, minScore = 0;
   tokens.forEach(([t, s], id) => {

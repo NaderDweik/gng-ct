@@ -135,7 +135,7 @@ export function createSearch(rawDocs, embedder, { semWeight = 0.3, semFloor = 0.
     // Questions and phrasings count three times: they are how people actually ask.
     const asked = [d.q, ...(d.phrasings ?? [])].filter(Boolean).join(" ");
     const words = d.q ? [...tokens(asked), ...tokens(asked), ...tokens(asked), ...tokens(d.text)] : tokens(`${d.title} ${d.text}`);
-    return { ...d, tf: count(grams(words)), words: new Set(words), mvecs: (d.vecs ?? []).map(unpackVec) };
+    return { ...d, tf: count(grams(words)), words: new Set(words), mvecs: d.vecs ? d.vecs.map(unpackVec) : embedder ? embedTexts(d).map(embedder.embed) : [] };
   });
   const df = new Map();
   for (const d of docs) for (const g of d.tf.keys()) df.set(g, (df.get(g) ?? 0) + 1);
