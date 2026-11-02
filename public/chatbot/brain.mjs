@@ -48,6 +48,21 @@ const PERSONA = [
   { re: /(شو|ايش|وش)\s*(بتعملي|بتسوي|بتقدري تعملي|بتعرفي تعملي|بتعرفي)|كيف بتساعديني|شو بتقدري|what can you do/i,
     say: () => ["بجاوبك عن أي إشي بخص روح العطاء: الشاليهات، المرافق، الموقع، التقسيط والتملك 😊", "وبقدر أحجزلك زيارة للكمباوند من هون بدون ما تطلع من المحادثة."] },
 ];
+// "You got me wrong", with nothing else in it: try the next-best answer to the last question.
+const WRONG = /^(?:لا+\s*[،,]?\s*)?(?:مش هيك|مش هاد|مش هذا|مش هذ[اه] قصدي|مش قصدي|مو هيك|مو هذا|مش هاد اللي سألت عنه|مش هاد قصدي|مش هيك قصدي|غلط|خطأ|ما فهمتي(?:ني)?|ما فهمتيني|مش فاهمتني|مش فاهمه علي|ما جاوبتي(?:ني)?|ما جاوبتي على سؤالي|مش جوابي|مش سؤالي|مش هاد سؤالي|you misunderstood|wrong|not what i asked)(?:\s+(?:يا ليان|ليان|والله|قصدي|علي|عليي|عليا|عليه))*\s*[؟?!.😅🙄]*$/i;
+// "Tell me more" about whatever was answered last.
+const MORE = /^(?:طي?ب\s+)?(?:و?ليش|ليه|يعني كيف|يعني شو|كيف يعني|شو يعني|وضح|وضحي|وضحيلي|وضحلي|فسري|فسريلي|احكيلي (?:اكثر|أكثر|اكتر|كمان|عنه|عنها)|تفاصيل (?:اكثر|أكثر|اكتر)|بدي تفاصيل(?: اكثر| أكثر| اكتر)?|بالتفصيل|زيديني|شو كمان|وبعدين|مثل شو|زي ايش|زي شو|كيف هيك|كمل|كملي)\s*[؟?!.]*$/;
+// A follow-up about the chalet just shown («وكم سعره؟», «وين مكانه؟», «متاح؟»): what it asks about.
+const CHALET_ASPECT = [
+  ["price", /سعر|بكم|بكام|قديش حق|كم حق|القسط|قسطه|ثمن/],
+  ["where", /وين|فين|مكان|موقع|خريط|وريني|فرجيني|ورجيني/],
+  ["status", /متاح|فاضي|متوفر|مباع|انباع|محجوز|لسا موجود|لسه موجود|available/i],
+  ["area", /مساح|كم متر|قديش متر|اديش متر|ارضه|أرضه/],
+  ["features", /مميزات|ميزات|شو بميز|شو مميز|شو حلو فيه|شو فيه|ليش هاد/],
+];
+// It refers to "it" / "this chalet" rather than naming something else.
+const IT = /(?:سعر|مكان|موقع|مساحت|حق|قسط|مميزات|ميزات|ارض|أرض|وضع)(?:ه|و)(?=[\s؟?!.،,]|$)|(?:هاد|هذا|هيدا|ها)\s*الشالي[هة]|هالشالي[هة]|الشالي[هة] (?:هاد|هذا|هيدا)|متاح|فاضي|محجوز|انباع/;
+
 // "لا" / "مش هيك" + the real question: a correction, not a "no thanks".
 const CORRECTION = /^(?:لا+|لأ|مش هيك|مش هاد|مش هذا|مش قصدي|مو هيك|no)\s*[،,.!]*\s*(?:(?:انا\s*)?(?:بسال|بسأل|بسئل|سالت|سألت|قصدي|اقصد|أقصد|بقصد|كنت بسال|كنت بسأل)\s*(?:عن)?)?\s*/i;
 // The visitor telling us their name after we asked.
@@ -80,11 +95,43 @@ function splitQuestions(text) {
   return text.split(SPLIT).map((q) => q.trim()).filter((q) => tokens(q).length > 0);
 }
 
+// Chalet numbers said in Arabic: «دال خمسين» → D50, «ان ٧» → N7, «شاليه اي 9» → A9.
+const LETTER_NAMES = [
+  ["A", "ايه|إيه|أيه|اي|الف|ألف"], ["B", "بي|باء"], ["C", "سي"], ["D", "دي|دال"], ["E", "إي|ئي"],
+  ["F", "اف|إف|فاء"], ["J", "جي|جيه|جاي"], ["K", "كي|كاف"], ["L", "إل|ايل|لام"], ["M", "ام|إم|ميم"],
+  ["N", "ان|إن|نون"], ["Q", "كيو"], ["R", "ار|آر|راء"], ["S", "اس|إس|سين"], ["T", "تي|تاء"],
+  ["U", "يو"], ["W", "دبليو"], ["Z", "زد|زي"],
+];
+const UNITS = { واحد: 1, اثنين: 2, تنين: 2, ثنتين: 2, ثلاث: 3, ثلاثه: 3, تلاته: 3, تلات: 3, اربع: 4, اربعه: 4, خمس: 5, خمسه: 5, ست: 6, سته: 6, سبع: 7, سبعه: 7, ثمان: 8, ثمانيه: 8, تمانيه: 8, تسع: 9, تسعه: 9 };
+const TENS = { عشر: 10, عشره: 10, عشرين: 20, ثلاثين: 30, تلاتين: 30, اربعين: 40, خمسين: 50, ستين: 60, سبعين: 70, ثمانين: 80, تمانين: 80, تسعين: 90 };
+const TEENS = { احدعش: 11, حداعش: 11, اطنعش: 12, اثنعش: 12, ثلطعش: 13, تلطعش: 13, اربعطعش: 14, خمسطعش: 15, ستطعش: 16, سبعطعش: 17, ثمنطعش: 18, تمنطعش: 18, تسعطعش: 19 };
+function arabicNumber(words) {
+  // "واحد وخمسين" → 51, "خمسين" → 50, "سبعه" → 7, "١٥" → 15.
+  const w = words.replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x660)).replace(/[ةه]$/u, "ه").trim();
+  if (/^\d{1,3}$/.test(w)) return Number(w);
+  const n = (x) => UNITS[x] ?? UNITS[x.replace(/ه$/, "")] ?? TENS[x] ?? TEENS[x];
+  const m = w.match(/^(\S+)\s+و\s*(\S+)$/);
+  if (m && UNITS[m[1]] && TENS[m[2]]) return UNITS[m[1]] + TENS[m[2]];
+  return n(w) ?? null;
+}
+function arabicChalet(text) {
+  const t = text.replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x660));
+  for (const [L, names] of LETTER_NAMES) {
+    const re = new RegExp(`(?:^|[\\s،,])(?:${names})\\s*-?\\s*((?:\\d{1,3})|(?:[\\u0600-\\u06FF]+(?:\\s+و\\s*[\\u0600-\\u06FF]+)?))(\\s*(?:\\+|بلس))?(?=$|[\\s؟?!.،,])`);
+    const m = t.match(re);
+    if (!m) continue;
+    const num = arabicNumber(m[1]);
+    if (num) return `${t} ${L}${num}${m[2] ? "+" : ""}`;
+  }
+  return t;
+}
+
 export function createBrain(kb, { phone, starters, chalets = [] }) {
   // Chalet numbers on the compound plan («A9», «D50», «A11+»), for questions about one chalet.
   const chaletIds = new Map(chalets.map((id) => [id.toUpperCase(), id]));
   /** The chalet a message names: { id } when it's on the plan, { unknown } when it only looks like one. */
   function chaletIn(text) {
+    text = arabicChalet(text);
     // «A 9» with a space only in an Arabic message: in English, «a 2 bedroom» isn't chalet A2.
     text = text.replace(/\s*(plus|بلس)\b/gi, "+");
     const arabic = /[\u0600-\u06FF]/.test(text) || /^\s*[A-Za-z]\s?-?\s?\d{1,2}\+?\s*[؟?]?\s*$/.test(text);
@@ -156,9 +203,53 @@ export function createBrain(kb, { phone, starters, chalets = [] }) {
   // full the first time and retold in short after that.
   function phrase(top, query, times) {
     const d = top.d;
-    if (d.answers?.length) return { body: d.answers[times % d.answers.length], own: true };
+    if (d.answers?.length) {
+      // A detail the visitor named («شرفة», «مدفأة») picks a variant that mentions it.
+      const general = new Set([...tokens(label(d.q ?? "")), ...tokens(d.topic ?? "")]);
+      const specific = tokens(query, true).filter((w) => !general.has(w) && w.length > 2);
+      const norm = (x) => tokens(x).join(" ");
+      const fit = specific.length ? d.answers.filter((a) => specific.some((w) => norm(a).includes(w))) : [];
+      const pool = fit.length && fit.length < d.answers.length ? fit : d.answers;
+      return { body: pool[times % pool.length], own: true };
+    }
     const body = answerFrom(top, query);
     return times ? { body: retell(d, body), own: true } : { body };
+  }
+
+  /** The doc behind a question label (an FAQ question as Layan shows it). */
+  function byLabel(key) {
+    const hits = kb.search(key, 6);
+    return hits.find((h) => h.d.q && label(h.d.q) === key) ?? null;
+  }
+  /** What to remember about an answer: the question, the answer, and the runners-up. */
+  function remember(q, top, hits) {
+    const key = top.d.q ? label(top.d.q) : null;
+    const alts = [...new Set(hits.filter((h) => h.d !== top.d && h.d.q && h.d.kind !== "page" && h.score > 0.12 && h.d.topic !== top.d.topic).map((h) => label(h.d.q)))].slice(0, 3);
+    return { q, key, score: Math.round(top.score * 100) / 100, alts, tried: key ? [key] : [] };
+  }
+  const sameQuestion = (a, b) => {
+    const x = new Set(tokens(a)), y = new Set(tokens(b));
+    if (!x.size || !y.size) return false;
+    const both = [...x].filter((w) => y.has(w)).length;
+    return both / new Set([...x, ...y]).size >= 0.75;
+  };
+  /** The last answer was wrong: say sorry and give the next-best one, with the others as buttons. */
+  function recover(state, parts) {
+    const L = state.last;
+    const tried = L.tried ?? [];
+    const alts = (L.alts ?? []).filter((a) => !tried.includes(a));
+    const hit = alts.length ? byLabel(alts[0]) : null;
+    if (!hit) {
+      parts.push(pick(["سامحني إني ما فهمت عليك صح 🙏", "آسفة، شكلي ما فهمت قصدك 🙏"]));
+      parts.push(`ممكن تكتبلي سؤالك بكلمات ثانية؟ أو ${contact} وبيجاوبوك على كل إشي.`);
+      return { parts, suggestions: ["بدي احكي مع حدا من الفريق"], last: { ...L, alts: [] } };
+    }
+    const about = hit.d.topic ?? `«${alts[0]}»`;
+    const { body } = phrase(hit, L.q, 0);
+    parts.push(pick([`سامحني 🙏 يمكن قصدك ${about}؟\n`, `آسفة إذا ما فهمت عليك من أول مرة 🙏 إذا قصدك ${about}:\n`]) + body);
+    const rest = alts.slice(1, 3);
+    parts.push(rest.length ? "وإذا قصدك إشي ثاني، اختار من هون 👇" : `وإذا لسا مش هاد، ${contact} 🌿`);
+    return { parts, source: hit.d, suggestions: rest.length ? rest : ["بدي احكي مع حدا من الفريق"], last: { ...L, key: alts[0], score: 0, tried: [...tried, alts[0]] } };
   }
 
   // `state.seen` counts what each question has been answered with, across the whole chat.
@@ -166,9 +257,14 @@ export function createBrain(kb, { phone, starters, chalets = [] }) {
     const seen = { ...(state.seen ?? {}) };
     const out = respond(text, state, seen);
     const name = out.state?.name ?? state.name;
-    // The chalet just shown, so «احجز زيارة» right after its card books that chalet (one turn only).
-    const chalet = out.card?.type === "chalet" ? out.card.id : out.action === "book" ? state.chalet : undefined;
-    return { ...out, state: { ...(out.state ?? {}), seen, ...(name && { name }), ...(chalet && { chalet }) } };
+    // The chalet being talked about stays in focus for a few messages («وكم سعره؟», «احجز زيارة»).
+    const shown = out.card?.type === "chalet" ? out.card.id : null;
+    const age = shown ? 0 : (state.chaletAge ?? 0) + 1;
+    const chalet = shown ?? (state.chalet && age <= 3 && !out.card ? state.chalet : undefined);
+    // The last answer (and its runners-up), for «ليش؟», «لا مش هيك» and a repeated question.
+    const last = out.last === null ? undefined : out.last ?? state.last;
+    const { last: _l, ...rest } = out;
+    return { ...rest, state: { ...(out.state ?? {}), seen, ...(name && { name }), ...(chalet && { chalet, chaletAge: age }), ...(last && { last }) } };
   }
 
   function respond(text, state, seen) {
@@ -214,6 +310,20 @@ export function createBrain(kb, { phone, starters, chalets = [] }) {
         parts.push(pick([`تشرّفنا يا ${first} 🌿`, `أهلين ${first}، تشرّفت فيك 😊`, `يا هلا ${first} 🌿`]));
         parts.push(pick(["كيف بقدر أساعدك اليوم؟", "شو حابب تعرف عن روح العطاء؟"]));
         return { parts, suggestions: starters, state: { name: first } };
+      }
+    }
+
+    // «لا مش هيك», «ما فهمتي»: the last answer missed; offer the next-best one.
+    if (state.last && WRONG.test(t.trim())) return recover(state, parts);
+    // «ليش؟», «وضحيلي», «احكيلي أكثر»: more about the last answer.
+    if (state.last?.key && MORE.test(t.trim())) {
+      const hit = byLabel(state.last.key);
+      if (hit) {
+        const d = hit.d;
+        const longest = d.answers?.length ? [...d.answers].sort((a, b) => b.length - a.length)[0] : answerFrom(hit, state.last.q);
+        parts.push(pick(["بتفصيل أكثر 🌿\n", "خليني أوضحلك أكثر:\n", "تكرم، بالتفصيل:\n"]) + longest);
+        parts.push(pick([`وإذا في إشي مش واضح، ${contact} وبيشرحولك كل التفاصيل 🙏`, "وإذا حابب تشوف هاد كله بعينك، بحجزلك زيارة بأي وقت 😊"]));
+        return { parts, source: d, suggestions: (state.last.alts ?? []).slice(0, 2) };
       }
     }
 
@@ -312,6 +422,11 @@ export function createBrain(kb, { phone, starters, chalets = [] }) {
       parts.push(pick([`أكيد 😊 هاي تفاصيل الشاليه ${chalet.id}، ومكانه بالكمباوند 👇`, `هاد الشاليه ${chalet.id} 🏡 شوف وين موقعه بالضبط 👇`, `تكرم 🌿 هاي كل تفاصيل الشاليه ${chalet.id} 👇`]));
       return { parts, card: { type: "chalet", id: chalet.id }, suggestions: ["ما المرافق داخل الشاليه؟", "📅 احجز زيارة"] };
     }
+    // «وكم سعره؟», «وين مكانه؟», «متاح؟» right after a chalet's card: about that chalet.
+    if (!chalet && state.chalet) {
+      const aspect = CHALET_ASPECT.find(([, re]) => re.test(t));
+      if (aspect && (IT.test(t) || tokens(t).length <= 2)) return { parts, card: { type: "chalet", id: state.chalet, aspect: aspect[0] } };
+    }
     if (chalet?.unknown) {
       parts.push(`ما لقيت شاليه برقم ${chalet.unknown} على مخطط الكمباوند 🤔 ممكن الرقم مكتوب بشكل ثاني؟`);
       parts.push("تقدر تدوّر عليه بنفسك على الخريطة، والشاليهات المتاحة معلّمة عليها 👇");
@@ -327,6 +442,16 @@ export function createBrain(kb, { phone, starters, chalets = [] }) {
     if (/سعر|اسعار|أسعار|كلف|تكلف|قديش سعر|في وحدات/.test(t) || W(/بكم|بقديش|بكام|بكام ده/).test(t) || (/متوفر|متاح/.test(t) && !/خدم|مرافق|نشاط|العاب|ألعاب|رياض|مي |المي|مياه|مي$|كهربا|نت|واي ?فاي|wifi|اكل|مطعم|محل|سوبر|جول[هة]|افتراض|فيديو|زيار/.test(t))) {
       parts.push(pick(["بالنسبة للأسعار والوحدات المتاحة، بتتغيّر باستمرار، فبفضّل يعطيك إياها فريق المبيعات بشكل دقيق 🙏", "الأسعار والوحدات المتوفرة بتختلف حسب الشاليه والموقع، وفريق المبيعات بعطيك آخر التفاصيل أول بأول 🙏"]));
       parts.push(`${contact}، وكمان في تقسيط بقسط شهري 1% بس وبدون فوائد 👌`);
+      // «بكم الشاليه وفي رسوم غيره؟»: answer the other question too.
+      const PRICE = /سعر|اسعار|أسعار|كلف|تكلف|بكم|بقديش|بكام|متوفر|متاح|تقسيط|اقساط|أقساط|قسط/;
+      for (const q of splitQuestions(t.replace(/\s+و(?=(?:في|فيه|كمان|شو|كم|هل)\s)/g, "؟ "))) {
+        if (PRICE.test(q)) continue;
+        const other = bestOf(kb.search(q, 6));
+        if (other && other.score >= 0.3 && other.d.q) {
+          parts.push(pick(["وعن سؤالك الثاني:\n", "وبالنسبة للشق الثاني:\n"]) + phrase(other, q, 0).body);
+          break;
+        }
+      }
       parts.push(pick(["وبهالأثناء، شوف الشاليهات المتاحة على خريطة الكمباوند، واضغط على أي واحد بتشوف تفاصيله 👇", "وإذا حابب، تصفّح الشاليهات المتاحة على الخريطة واختار اللي بعجبك 👇"]));
       return { parts, card: { type: "map" }, suggestions: ["هل تتوفر خيارات تقسيط لشراء الشاليه؟", "📅 احجز زيارة"] };
     }
@@ -393,6 +518,26 @@ export function createBrain(kb, { phone, starters, chalets = [] }) {
       return { parts, suggestions: sug.filter((q) => q !== guess).slice(0, 2), state: { offer: guess } };
     }
 
+    // The same question again after an unsure answer: that answer missed, try the next one.
+    if (!followUp && state.last && state.last.score < 0.4 && sameQuestion(t, state.last.q) && (state.last.alts ?? []).length) return recover(state, parts);
+    // Two answers nearly tied: ask which, with both as buttons, instead of guessing.
+    const rival = hits.find((h) => h.d !== top.d && h.d.kind === "faq" && h.d.topic && h.d.topic !== top.d.topic);
+    if (!followUp && tokens(t).length > 1 && top.d.topic && rival && top.score < 0.42 && rival.score >= top.score - 0.012) {
+      // «امتى التسليم والقوشان؟»: both were asked, joined by «و». Answer both.
+      if (/\sو\S/.test(t)) {
+        [top, rival].forEach((h, i) => {
+          const key = label(h.d.q);
+          const times = seen[key] ?? 0;
+          seen[key] = times + 1;
+          parts.push((i ? pick(["وعن الشق الثاني:\n", "وكمان:\n"]) : opener(raw)) + phrase(h, t, times).body);
+        });
+        parts.push(pick(["في إشي ثاني حابب تعرفه؟ 😊", "إذا عندك أي سؤال ثاني، أنا هون 🌿"]));
+        return { parts, source: top.d, suggestions: [], last: remember(t, top, hits) };
+      }
+      parts.push(pick([`قصدك تسأل عن ${top.d.topic} ولا عن ${rival.d.topic}؟ 🤔`, `بس لأتأكد 🙏 بتسأل عن ${top.d.topic} ولا ${rival.d.topic}؟`]));
+      return { parts, suggestions: [label(top.d.q), label(rival.d.q)], last: null };
+    }
+
     // "How do I book a viewing?": book it right here instead of explaining how.
     if (top.d.q?.startsWith("كيف يمكنني حجز موعد لمعاينة") && !/فيديو|افتراض|اونلاين|online|video|كول/i.test(t)) {
       parts.push(pick(["بنتشرّف فيك! 😍 بحجزلك الزيارة من هون، بدون ما تطلع من المحادثة.", "أكيد! 😍 خلّيني أحجزلك زيارة هون بأقل من دقيقة."]));
@@ -416,7 +561,7 @@ export function createBrain(kb, { phone, starters, chalets = [] }) {
 
     const suggestions = [...new Set(hits.filter((h) => h.d !== top.d && h.d.q && h.d.kind !== "page").map((h) => label(h.d.q)))]
       .filter((q) => q !== offer?.q && q !== label(top.d.q ?? "")).slice(0, 2);
-    return { parts, source: top.d, suggestions, state: { offer: offer && r < 0.55 ? offer.q : null } };
+    return { parts, source: top.d, suggestions, state: { offer: offer && r < 0.55 ? offer.q : null }, last: remember(t, top, hits) };
   }
 
   return { reply };

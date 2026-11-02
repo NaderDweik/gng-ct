@@ -10,7 +10,7 @@ import { createBooking, type ComposerMode } from "./chat-booking";
 const BASE = "/chatbot";
 const PHONE = "0790029928";
 
-type Card = { type: "chalet"; id: string } | { type: "map" };
+type Card = { type: "chalet"; id: string; aspect?: "price" | "where" | "status" | "area" | "features" } | { type: "map" };
 type Reply = { parts?: string[]; reply?: string; state?: { chalet?: string }; source?: object; suggestions?: string[]; action?: "book"; card?: Card };
 type Brain = { reply: (text: string, state: object) => Reply };
 type Loaded = { brain: Brain; starters: string[] };
@@ -265,6 +265,14 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
     const pause = thinking(true);
     await wait(650);
     pause();
+    // A follow-up about one thing of the chalet in focus: answered in a line, its card only for «where».
+    if (card.type === "chalet" && card.aspect) {
+      await typeOut(bubble("bot"), map.chaletLine(card.id, card.aspect, PHONE));
+      if (card.aspect !== "where") {
+        chips([BOOK_CHIP, `تفاصيل الشاليه ${card.id}`], null);
+        return;
+      }
+    }
     const panel = log.closest<HTMLElement>(".cb-panel") ?? log;
     const act = {
       panel,

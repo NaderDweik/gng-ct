@@ -11,11 +11,14 @@ const vocab = JSON.parse(readFileSync(here("../../public/chatbot/model/vocab.jso
 const buf = readFileSync(here("../../public/chatbot/model/vectors.bin"));
 const kb = JSON.parse(readFileSync(here("../../public/chatbot/model/kb.json"), "utf8"));
 const search = createSearch(kb.docs, createEmbedder(vocab, buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.length)));
-const brain = createBrain(search, { phone: "0790029928", starters: kb.starters });
+const units = readFileSync(here("../../src/content/compound-units.ts"), "utf8");
+const chalets = [...units.matchAll(/^\s*\["([A-Z]+\d+\+?)",/gm)].map((m) => m[1]);
+const brain = createBrain(search, { phone: "0790029928", starters: kb.starters, chalets });
 
 // Each turn: [visitor message, check]. Checks: "chat" = small talk, must not quote the site;
 // "answer:<word>" = must answer from the site with <word> in the reply; "ask" = asks to clarify;
-// "say:<a|b>" = the reply must contain one of these words.
+// "say:<a|b>" = the reply must contain one of these words; "card:chalet:D50[:price]" / "card:map" =
+// that card (and follow-up aspect); "book" = starts the booking; "pick:<word>" = a button contains <word>.
 const DIALOGS = [
   [["كيف الحال", "chat"], ["الحمد الله", "chat"]],
   [["مرحبا كيفك", "chat"], ["تمام", "chat"], ["وين موقعكم", "answer:القسطل"]],
@@ -92,6 +95,19 @@ const DIALOGS = [
   [["كم غرفة موجوده داخل الشاليه؟", "answer:غرف"]],
   [["وين المشروغ", "answer:القسطل"]],
   [["شو الخدمات المتوفره بالكمباند", "answer:الخدمات"]],
+  // Memory (2026-11-02): follow-ups about the chalet just shown.
+  [["شو تفاصيل الشاليه D50", "card:chalet:D50"], ["وكم سعره؟", "card:chalet:D50:price"], ["وين مكانه", "card:chalet:D50:where"], ["متاح؟", "card:chalet:D50:status"], ["بدي احجزه", "book"]],
+  [["دال خمسين", "card:chalet:D50"], ["قديش مساحته", "card:chalet:D50:area"]],
+  [["شاليه ان سبعه", "card:chalet:N7"], ["شو مميزاته", "card:chalet:N7:features"]],
+  // ...but a new topic after the card is a new question, not about the chalet.
+  [["A9", "card:chalet:A9"], ["في مسجد بالكمباوند؟", "say:مسجد|مصلى"]],
+  // «ليش؟ / وضحيلي» expands the last answer.
+  [["في تقسيط؟", "answer:1%"], ["وضحيلي", "say:تفصيل|أوضحلك|بالتفصيل"]],
+  // «لا مش هيك» after a wrong answer: sorry + the next-best answer + buttons.
+  [["كم غرفة نوم بالشاليه", "answer:غرف"], ["لا مش هيك", "say:سامحني|آسفة"]],
+  [["كم غرفة نوم بالشاليه", "answer:غرف"], ["ما فهمتي علي", "say:سامحني|آسفة"]],
+  // Asking for the detail picks the variant that has it.
+  [["الغرفة الرئيسية فيها شرفة؟", "say:شرفة"]],
 ];
 
 let failed = 0;
@@ -105,7 +121,11 @@ for (const dialog of DIALOGS) {
     state = r.state || {};
     const text = r.parts.join(" / ").replace(/\n/g, " ");
     const [kind, word] = check.split(":");
+    const card = r.card ? [r.card.type, r.card.id, r.card.aspect].filter(Boolean).join(":") : "";
     const ok =
+      kind === "card" ? card === check.slice(5) :
+      kind === "book" ? r.action === "book" :
+      kind === "pick" ? (r.suggestions ?? []).some((x) => x.includes(word)) :
       kind === "chat" ? !r.source :
       kind === "ask" ? !r.source && /فهمتك|قصدك/.test(text) :
       kind === "say" ? new RegExp(word).test(text) :

@@ -110,6 +110,30 @@ export type MapActions = {
   panel: HTMLElement;
 };
 
+export type ChaletAspect = "price" | "where" | "status" | "area" | "features";
+
+/** A one-message answer about one thing of a chalet («وكم سعره؟» after its card). */
+export function chaletLine(id: string, aspect: ChaletAspect, phone: string) {
+  const c = info(id);
+  const name = `الشاليه ${id}`;
+  switch (aspect) {
+    case "price":
+      return c.available && c.priceJd
+        ? `قسط ${name} الشهري ${nf.format(c.priceJd)} دينار 👌 وبدون فوائد.\nوللتفاصيل الكاملة والدفعة الأولى، فريق المبيعات بيعطيك الأرقام بدقة على ${phone}.`
+        : `سعر ${name} بيعطيك إياه فريق المبيعات بدقة 🙏 على ${phone} أو واتساب، وكمان في تقسيط بقسط شهري 1% بدون فوائد.`;
+    case "status":
+      return c.available ? `إيه 😊 ${name} متاح حاليًا ✓` : `${name} مش متاح حاليًا 🔒 بس في شاليهات متاحة قريبة منه، شوفها على الخريطة.`;
+    case "area":
+      return c.area ? `أرض ${name} ${nf.format(c.area)} م² 🏡 والبناء 120 م² على طابق واحد.` : `${name} على أرض حوالي 500 م²، والبناء 120 م² على طابق واحد 🏡`;
+    case "features":
+      return c.features.length
+        ? `أبرز إشي بميّز ${name}:\n${c.features.map((f) => `• ${f.ar}`).join("\n")}`
+        : `${name} زي كل شاليهات الكمباوند: مسبح خاص وجاكوزي، 3 غرف ماستر، وحديقة 🌿 وموقعه بكمباوند ${compoundOf(id)}.`;
+    case "where":
+      return `${name} بكمباوند ${compoundOf(id)} 📍 هاي مكانه بالضبط 👇`;
+  }
+}
+
 /** One chalet's card for the chat log. */
 export function chaletCard(id: string, act: MapActions) {
   const u = unitOf(id);
