@@ -12,7 +12,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { createEmbedder } from "../../public/chatbot/lib/embed.mjs";
 import { createSearch, labelOf } from "../../public/chatbot/lib/core.mjs";
-import { pieces } from "../../public/chatbot/lib/classify.mjs";
+import { createClassifier, pieces } from "../../public/chatbot/lib/classify.mjs";
 import { docTag, isTest, readQuestions } from "./questions-eval.mjs";
 
 const here = (p) => new URL(p, import.meta.url);
@@ -20,6 +20,8 @@ const arg = (name, def) => Number(process.argv.find((a) => a.startsWith(`--${nam
 const EPOCHS = arg("epochs", 20), H = arg("hidden", 192), AUG = arg("aug", 3), GD = arg("gdim", 64);
 const BUCKETS = 1 << 16;
 const SHOW_DEV = process.argv.includes("--dev");
+// --out=classifier-2 writes classifier-2.{json,bin} (ensemble members); default "classifier".
+const OUT = process.argv.find((a) => a.startsWith("--out="))?.slice(6) ?? "classifier";
 let seed = arg("seed", 1);
 const rand = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
 const pickR = (a) => a[Math.floor(rand() * a.length)];
@@ -88,13 +90,30 @@ function typo(text) {
   return out.join(" ");
 }
 
-const encode = (text) => { const m = prepare(text).meant; return { ids: embedder.tokenize(m), gs: pieces(m, BUCKETS) }; };
+const encode = (text) => { const m = prepare(text).meant; return { m, ids: embedder.tokenize(m), gs: pieces(m, BUCKETS) }; };
 const T = [];
 for (const r of raw) {
   T.push({ ...encode(r.text), c: r.c });
   for (let k = 0; k < AUG; k++) T.push({ ...encode(typo(r.text)), c: r.c });
 }
 const train = T.filter((x) => x.ids.length || x.gs.length);
+
+/* Distillation (--teachers=a,b,c: earlier models' files, without extension): the target becomes
+   half the label, half the teachers' averaged answer, so one model learns what the vote knows. */
+const teacherArg = process.argv.find((a) => a.startsWith("--teachers="))?.slice(11);
+if (teacherArg) {
+  const teachers = teacherArg.split(",").map((f) => {
+    const b = readFileSync(`${f}.bin`);
+    return createClassifier(JSON.parse(readFileSync(`${f}.json`, "utf8")), b.buffer.slice(b.byteOffset, b.byteOffset + b.length), embedder);
+  });
+  const C0 = classes.length;
+  for (const ex of train) {
+    const avg = new Float32Array(C0);
+    for (const t of teachers) { const p = t.predict(ex.m); for (let c = 0; c < C0; c++) avg[c] += p[c] / teachers.length; }
+    ex.soft = avg;
+  }
+  console.log(`distilling from ${teachers.length} teachers`);
+}
 const devPath = here("../questions-dev.md").pathname;
 const DEV = SHOW_DEV && existsSync(devPath)
   ? readQuestions(devPath).map(({ q, tag }) => ({ ...encode(q), c: tagClass(tag) })).filter((x) => x.c !== undefined)
@@ -160,7 +179,10 @@ function forward(ex, training) {
 function backward(ex, f, eGrad, gGrad) {
   const [gW1, gb1, gW2, gb2] = grads;
   const dl = new Float32Array(C);
-  for (let c = 0; c < C; c++) dl[c] = f.p[c] - (SMOOTH / C + (c === ex.c ? 1 - SMOOTH : 0));
+  for (let c = 0; c < C; c++) {
+    const hard = SMOOTH / C + (c === ex.c ? 1 - SMOOTH : 0);
+    dl[c] = f.p[c] - (ex.soft ? 0.5 * hard + 0.5 * ex.soft[c] : hard);
+  }
   const da = new Float32Array(H);
   for (let c = 0; c < C; c++) {
     gb2[c] += dl[c];
@@ -264,9 +286,9 @@ quantRows(G, GD, usedGrams).forEach(push);
 align();
 [W1, b1, W2, b2].forEach(push);
 const out = Buffer.concat(bytes);
-writeFileSync(here("../../public/chatbot/model/classifier.bin"), out);
+writeFileSync(here(`../../public/chatbot/model/${OUT}.bin`), out);
 writeFileSync(
-  here("../../public/chatbot/model/classifier.json"),
+  here(`../../public/chatbot/model/${OUT}.json`),
   JSON.stringify({ classes, docs, dim: D, hidden: H, gdim: GD, buckets: BUCKETS, overrides: changed, grams: usedGrams }),
 );
 console.log(`classifier.bin ${(out.length / 1024).toFixed(0)} KB · ${changed.length} tuned tokens · ${usedGrams.length} letter pieces`);

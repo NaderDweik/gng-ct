@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { createEmbedder } from "../../public/chatbot/lib/embed.mjs";
 import { createSearch } from "../../public/chatbot/lib/core.mjs";
 import { createBrain } from "../../public/chatbot/brain.mjs";
-import { createClassifier } from "../../public/chatbot/lib/classify.mjs";
+import { createClassifier, createEnsemble } from "../../public/chatbot/lib/classify.mjs";
 import { existsSync } from "node:fs";
 
 const here = (p) => new URL(p, import.meta.url);
@@ -101,6 +101,17 @@ export function docTag(d) {
   return d.kind === "page" ? `page:${d.title}` : `other:${q.slice(0, 30) || d.title}`;
 }
 
+/** The voting classifiers listed in model/ensemble.json (MEMBERS=1 to use only the first). */
+export function loadClassifier(embedder) {
+  const ej = here("../../public/chatbot/model/ensemble.json");
+  if (!existsSync(ej)) return null;
+  const names = JSON.parse(readFileSync(ej, "utf8")).members.slice(0, Number(process.env.MEMBERS ?? 99));
+  return createEnsemble(names.map((n) => {
+    const b = readFileSync(here(`../../public/chatbot/model/${n}.bin`));
+    return createClassifier(JSON.parse(readFileSync(here(`../../public/chatbot/model/${n}.json`), "utf8")), b.buffer.slice(b.byteOffset, b.byteOffset + b.length), embedder);
+  }));
+}
+
 export function loadBrain() {
   const vocab = JSON.parse(readFileSync(here("../../public/chatbot/model/vocab.json"), "utf8"));
   const buf = readFileSync(here("../../public/chatbot/model/vectors.bin"));
@@ -109,16 +120,11 @@ export function loadBrain() {
   const chalets = [...units.matchAll(/^\s*\["([A-Z]+\d+\+?)",/gm)].map((m) => m[1]);
   const embedder = createEmbedder(vocab, buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.length));
   // The trained classifier (tools/train-classifier.mjs), unless NO_CLS=1 (to compare without it).
-  let classifier = null;
-  const cj = here("../../public/chatbot/model/classifier.json");
-  if (existsSync(cj) && !process.env.NO_CLS) {
-    const cb = readFileSync(here("../../public/chatbot/model/classifier.bin"));
-    classifier = createClassifier(JSON.parse(readFileSync(cj, "utf8")), cb.buffer.slice(cb.byteOffset, cb.byteOffset + cb.length), embedder);
-  }
+  const classifier = process.env.NO_CLS ? null : loadClassifier(embedder);
   const clsWeight = Number(process.env.CLS_WEIGHT ?? 0.3);
   const search = createSearch(kb.docs, embedder, { classifier, clsWeight });
   const env = (k, d) => Number(process.env[k] ?? d);
-  return createBrain(search, { phone: "0790029928", starters: kb.starters, chalets, trust: env("TRUST", 0.8), offAt: env("OFF_AT", 0.7), chatAt: env("CHAT_AT", 0.85) });
+  return createBrain(search, { phone: "0790029928", starters: kb.starters, chalets, trust: env("TRUST", 0.5), offAt: env("OFF_AT", 0.6), chatAt: env("CHAT_AT", 0.85) });
 }
 
 /** What the reply did: an answer id, a card, booking, chat, a clarifying question. */

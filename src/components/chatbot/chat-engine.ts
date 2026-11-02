@@ -66,7 +66,7 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
 
   function loadBrain() {
     return (loading ??= (async () => {
-      const [{ createEmbedder }, { createSearch }, { createBrain }, { createClassifier }, vocab, kb, map, clsMeta, clsBin] = await Promise.all([
+      const [{ createEmbedder }, { createSearch }, { createBrain }, { createClassifier, createEnsemble }, vocab, kb, map, members] = await Promise.all([
         load("/lib/embed.mjs"),
         load("/lib/core.mjs"),
         load("/brain.mjs"),
@@ -74,9 +74,13 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
         fetch(`${BASE}/model/vocab.json`).then((r) => r.json()),
         fetch(`${BASE}/model/kb.json`).then((r) => r.json()),
         loadMap(),
-        // The trained classifier (chatbot-poc/tools/train-classifier.mjs); optional.
-        fetch(`${BASE}/model/classifier.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null),
-        fetch(`${BASE}/model/classifier.bin`).then((r) => (r.ok ? r.arrayBuffer() : null)).catch(() => null),
+        // The trained classifiers that vote (chatbot-poc/tools/train-classifier.mjs); optional.
+        fetch(`${BASE}/model/ensemble.json`)
+          .then((r) => (r.ok ? r.json() : { members: [] }))
+          .then(({ members }: { members: string[] }) =>
+            Promise.all(members.map((n) => Promise.all([fetch(`${BASE}/model/${n}.json`).then((r) => r.json()), fetch(`${BASE}/model/${n}.bin`).then((r) => r.arrayBuffer())]))),
+          )
+          .catch(() => []),
       ]);
       let embedder = null;
       try {
@@ -85,7 +89,8 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
         console.warn("Meaning model unavailable, matching by wording only", e);
       }
       progress = 100;
-      const classifier = embedder && clsMeta && clsBin ? createClassifier(clsMeta, clsBin, embedder) : null;
+      const voters = embedder ? (members as [object, ArrayBuffer][]).map(([meta, bin]) => createClassifier(meta, bin, embedder)) : [];
+      const classifier = voters.length ? createEnsemble(voters) : null;
       return { brain: createBrain(createSearch(kb.docs, embedder, { classifier, clsWeight: CLS_WEIGHT }), { phone: PHONE, starters: kb.starters, chalets: map.chaletIds }), starters: kb.starters };
     })());
   }

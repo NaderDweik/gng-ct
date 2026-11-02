@@ -113,3 +113,20 @@ export function createClassifier(meta, buf, embedder) {
   // `docs`: each FAQ question (as shown) → its class, so duplicate answers share one class.
   return { classes, docs: meta.docs, predict };
 }
+
+/** Several classifiers trained from different random starts, voting: their answers averaged. */
+export function createEnsemble(members) {
+  const [first] = members;
+  return {
+    classes: first.classes,
+    docs: first.docs,
+    predict(text) {
+      const out = new Float32Array(first.classes.length);
+      for (const m of members) {
+        const p = m.predict(text);
+        for (let c = 0; c < out.length; c++) out[c] += p[c] / members.length;
+      }
+      return out;
+    },
+  };
+}

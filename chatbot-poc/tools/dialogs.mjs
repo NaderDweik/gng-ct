@@ -5,15 +5,14 @@ import { readFileSync } from "node:fs";
 import { createEmbedder } from "../../public/chatbot/lib/embed.mjs";
 import { createSearch } from "../../public/chatbot/lib/core.mjs";
 import { createBrain } from "../../public/chatbot/brain.mjs";
-import { createClassifier } from "../../public/chatbot/lib/classify.mjs";
+import { loadClassifier } from "./questions-eval.mjs";
 
 const here = (p) => new URL(p, import.meta.url);
 const vocab = JSON.parse(readFileSync(here("../../public/chatbot/model/vocab.json"), "utf8"));
 const buf = readFileSync(here("../../public/chatbot/model/vectors.bin"));
 const kb = JSON.parse(readFileSync(here("../../public/chatbot/model/kb.json"), "utf8"));
 const embedder = createEmbedder(vocab, buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.length));
-const cb = readFileSync(here("../../public/chatbot/model/classifier.bin"));
-const classifier = process.env.NO_CLS ? null : createClassifier(JSON.parse(readFileSync(here("../../public/chatbot/model/classifier.json"), "utf8")), cb.buffer.slice(cb.byteOffset, cb.byteOffset + cb.length), embedder);
+const classifier = process.env.NO_CLS ? null : loadClassifier(embedder);
 const search = createSearch(kb.docs, embedder, { classifier, clsWeight: Number(process.env.CLS_WEIGHT ?? 0.3) });
 const units = readFileSync(here("../../src/content/compound-units.ts"), "utf8");
 const chalets = [...units.matchAll(/^\s*\["([A-Z]+\d+\+?)",/gm)].map((m) => m[1]);

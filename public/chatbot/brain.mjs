@@ -27,7 +27,7 @@ const PERSONA = [
     say: () => [pick(["اسمي ليان 😊 مساعدة روح العطاء الرقمية.", "أنا ليان 🌿 المساعدة الرقمية لروح العطاء."]), "وانت شو اسمك؟"] },
   { re: /(انت|إنت|انتي|إنتي)\s*(بوت|روبوت|انسان|إنسان|انسانه|إنسانة|حقيقي|حقيقيه|ذكاء|ai|بني ?ادم|كمبيوتر|برنامج)|ذكاء اصطناعي|chat ?gpt|are you (a )?(bot|human|real)|بتقدري تفكري|بتفكري|بتحسي/i,
     say: () => ["أنا مساعدة رقمية مش إنسانة 😊 بس بعرف كل شي موجود على موقعنا عن الشاليهات والكمباوند.", "وإذا حابب تحكي مع حدا من الفريق، بوصلك فيهم."] },
-  { re: /(انت|إنت|انتي|إنتي)\s*(مين|شو|ايش|وش)|(شو|ايش|وش)\s*(انت|انتي|إنتي)(?=$|[\s؟?!.،,])|مين معي|مين انت|مين حضرتك|عرفيني عن حالك|who are you/i, ask: true,
+  { re: /(انت|إنت|انتي|إنتي)\s*(مين|شو|ايش|وش)|(شو|ايش|وش)\s*(انت|انتي|إنتي)(?=$|[\s؟?!.،,])|مين معي|مين انت|مين حضرتك|عرفيني (?:عن|على|ع) حالك|عرفيني عليكي|who are you|shu esmek|sho ismik|esmek|ismik/i, ask: true,
     say: () => ["أنا ليان 😊 المساعدة الرقمية لروح العطاء، بجاوبك عن الشاليهات والكمباوند وبحجزلك زيارة كمان.", "وانت شو اسمك؟"] },
   { re: /كم عمرك|قديش عمرك|how old/i, say: () => ["هههه أنا مساعدة رقمية، عمري من عمر الموقع 😄", "بس بعرف كثير عن روح العطاء، اسألني!"] },
   { re: /(وين|من وين)\s*(انت|انتي|إنتي|ساكنه|عايشه)|انتي من وين/i, say: () => ["أنا عايشة هون على موقع روح العطاء 😄", "بس الكمباوند نفسه بالقسطل قرب قصر المشتى، بتحب أحكيلك عن موقعه؟"], offer: "أين يقع كمباوند شاليهات روح العطاء وما أبرز مميزات موقعه؟" },
@@ -130,7 +130,7 @@ function arabicChalet(text) {
  * `trust`: the classifier's probability above which its answer wins over plain search;
  * `offAt` / `chatAt`: above which a message is taken as off-topic / small talk.
  */
-export function createBrain(kb, { phone, starters, chalets = [], trust = 0.8, offAt = 0.7, chatAt = 0.85 }) {
+export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, offAt = 0.6, chatAt = 0.85 }) {
   // Chalet numbers on the compound plan («A9», «D50», «A11+»), for questions about one chalet.
   const chaletIds = new Map(chalets.map((id) => [id.toUpperCase(), id]));
   /** The chalet a message names: { id } when it's on the plan, { unknown } when it only looks like one. */
@@ -347,9 +347,9 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.8, of
       { t = state.offer; followUp = true; }
     else if (state.offer && /^(لا|لأ|مش هلأ|لا شكرا|خلص)/.test(short))
       return { parts: [pick(["ولا يهمك! 😊", "تمام، على راحتك 🌿"]), "إذا خطر ببالك أي سؤال ثاني أنا هون."] };
-    if (/شكر|يعطي(?:ك|كي|كم) العافي[هة]|مشكور|تسلم|يسلمو|يسلموا|يسلم ايديك|thanks|thank/i.test(short) && tokens(t).length <= 5 && !/[؟?]/.test(t))
+    if (/شكر|ميرسي|merci|كفو|يعطي(?:ك|كي|كم) العافي[هة]|مشكور|تسلم|يسلمو|يسلموا|يسلم ايديك|thanks|thank/i.test(short) && tokens(t).length <= 5 && !/[؟?]/.test(t))
       return { parts: [pick(["العفو، هذا واجبنا 🌿", "ولو! تكرم 🙏", "على الرحب والسعة 😊", "الله يعافيك 🌿"]), pick(["إذا في أي سؤال ثاني أنا موجودة.", "وإذا حاب تشوف الكمباوند على الطبيعة، بنتشرّف بزيارتك بأي وقت."])] };
-    if (/مع السلامه|مع السلامة|باي|bye|سلام عليكم وداعا|يلا سلام/i.test(short))
+    if (/مع السلامه|مع السلامة|(?:^|\s)(?:باي|bye|byee|باي باي)(?=$|\s)|سلام عليكم وداعا|يلا سلام/i.test(short))
       return { parts: [`بأمان الله${state.name ? ` يا ${state.name}` : ""} 👋 نوّرتنا، ونتشرّف بزيارتك للكمباوند بأي وقت!`] };
     if (/^(ه{2,}|😂|🤣|lol)/i.test(short)) return { parts: ["😄 كيف بقدر أساعدك كمان؟"] };
 
@@ -409,12 +409,28 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.8, of
       return { parts, suggestions: askedHow ? [] : starters, state: { askedHow } };
     }
 
+    // The classifier's reading of the message, before the hand-written rules below: a rule that
+    // keys on one word («سعر», «واتس», «قرض») stands down when the classifier is sure it's
+    // about something else («غير سعر الشاليه، في مصاريف تانيه؟» is about fees).
+    const early = followUp ? null : kb.search(t, 8).cls;
+    const sureOf = (min = 0.8) => (early && early.p >= min ? early.label : null);
+    const elsewhere = (...ok) => { const l = sureOf(); return !!l && !l.startsWith("@") && !ok.includes(l); };
+    if (sureOf(offAt) === "@off" && !STRONG_TOPIC.test(t) && !chaletIn(t)) {
+      parts.push(pick(OFF_TOPIC[0]), pick(OFF_TOPIC[1]));
+      return { parts, suggestions: starters };
+    }
+    if (sureOf(chatAt) === "@chat" && tokens(t).length <= 6 && !STRONG_TOPIC.test(t) && !/[؟?]/.test(t)) {
+      if (!parts.length) parts.push(pick(["تمام 👌", "أكيد 🌿", "حلو 😊"]));
+      parts.push(pick(["شو حابب تعرف عن روح العطاء؟", "إذا عندك أي سؤال عن الشاليهات أو الكمباوند، أنا هون 😊", "خذ راحتك، وأنا هون إذا احتجت إشي 🌿"]));
+      return { parts, suggestions: starters };
+    }
+
     // Clearly not about us (another city's weather, a loan, a car, a job, a link): say so kindly.
     if (!followUp && LINK.test(t) && !STRONG_TOPIC.test(t)) {
       parts.push("ما بقدر أفتح روابط من هون 🙏", "بس إذا عندك سؤال عن الشاليهات أو الكمباوند، أنا جاهزة 😊");
       return { parts, suggestions: starters };
     }
-    if (!followUp && OFF_HINT.test(t) && !STRONG_TOPIC.test(t)) {
+    if (!followUp && OFF_HINT.test(t) && !STRONG_TOPIC.test(t) && !elsewhere()) {
       parts.push(pick(OFF_TOPIC[0]), pick(OFF_TOPIC[1]));
       return { parts, suggestions: starters };
     }
@@ -437,13 +453,13 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.8, of
       return { parts, card: { type: "map" } };
     }
     // The compound map itself.
-    if (/خريط|خارط|خارطه|مخطط|مخطك|\bmap\b|ماب|(شاليه|شاليهات|الشاليهات)\s*(ال)?فاضي|للبيع (هلا|هسا|هلأ|حاليا)|which chalets|available chalets|وين (موقع )?كل شاليه|وين الشاليهات (جوا|داخل)|شاليهات (متاح|متوفر)/i.test(t)) {
+    if (!/اوصل|توصل|بوصل|اتجاهات|ادوخ|لوكيشن|النقط[هة]|الطريق|location/i.test(t) && /خريط|خارط|خارطه|مخطط|مخطك|\bmap\b|ماب|(شاليه|شاليهات|الشاليهات)\s*(ال)?فاضي|للبيع (هلا|هسا|هلأ|حاليا)|which chalets|available chalets|وين (موقع )?كل شاليه|وين الشاليهات (جوا|داخل)|شاليهات (متاح|متوفر)/i.test(t)) {
       parts.push(pick(["أكيد 🗺️ هاي خريطة الكمباوند، والشاليهات المتاحة معلّمة عليها. كبّر واضغط على أي شاليه تشوف تفاصيله 👇", "تفضّل 🗺️ هاي الخريطة كاملة، اضغط على أي شاليه بتعرف كل إشي عنه 👇"]));
       return { parts, card: { type: "map" } };
     }
     // «متوفر/متاح» is about units unless the visitor means services («شو الخدمات المتوفرة»).
     const W = (re) => new RegExp(`(?:^|[\\s،,.!؟?])(?:${re.source})(?=$|[\\s،,.!؟?])`);
-    if (/سعر|اسعار|أسعار|كلف|تكلف|قديش سعر|في وحدات/.test(t) || W(/بكم|بقديش|بكام|بكام ده/).test(t) || (/متوفر|متاح/.test(t) && !/خدم|مرافق|نشاط|العاب|ألعاب|رياض|مي |المي|مياه|مي$|كهربا|نت|واي ?فاي|wifi|اكل|مطعم|محل|سوبر|جول[هة]|افتراض|فيديو|زيار/.test(t))) {
+    if (!elsewhere("prices", "installments") && /سعر|اسعار|أسعار|كلف|تكلف|قديش سعر|في وحدات/.test(t) || !elsewhere("prices", "installments") && W(/بكم|بقديش|بكام|بكام ده/).test(t) || !elsewhere("prices", "installments") && (/متوفر|متاح/.test(t) && !/خدم|مرافق|نشاط|العاب|ألعاب|رياض|مي |المي|مياه|مي$|كهربا|نت|واي ?فاي|wifi|اكل|مطعم|محل|سوبر|جول[هة]|افتراض|فيديو|زيار/.test(t))) {
       parts.push(pick(["بالنسبة للأسعار والوحدات المتاحة، بتتغيّر باستمرار، فبفضّل يعطيك إياها فريق المبيعات بشكل دقيق 🙏", "الأسعار والوحدات المتوفرة بتختلف حسب الشاليه والموقع، وفريق المبيعات بعطيك آخر التفاصيل أول بأول 🙏"]));
       parts.push(`${contact}، وكمان في تقسيط بقسط شهري 1% بس وبدون فوائد 👌`);
       // «بكم الشاليه وفي رسوم غيره؟»: answer the other question too.
@@ -460,11 +476,11 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.8, of
       return { parts, card: { type: "map" }, suggestions: ["هل تتوفر خيارات تقسيط لشراء الشاليه؟", "📅 احجز زيارة"] };
     }
     // Booking happens inside the chat (the site's chat-booking.ts takes over on `action`).
-    if ((/زياره|زيارة|موعد|احجز|أحجز|حجز|اشوف الكمباوند|أزور|ازور|نزوركم|(بدي|بدنا|ممكن|حابب|حابين)\s+(اجي|نيجي|نجي|امرق|نمرق)|نيجي العيل|عالطبيع|على الطبيع|\b(book|booking|appointment|a7jez|ahjez|maw3ed)\b/i.test(t) || /معاين/.test(t)) && !/فيديو|افتراض|اونلاين|أونلاين|online|video|كول/i.test(t)) {
+    if (!elsewhere("visit", "office") && (/زياره|زيارة|موعد|احجز|أحجز|حجز|اشوف الكمباوند|أزور|ازور|نزوركم|(بدي|بدنا|ممكن|حابب|حابين)\s+(اجي|نيجي|نجي|امرق|نمرق)|نيجي العيل|عالطبيع|على الطبيع|\b(book|booking|appointment|a7jez|ahjez|maw3ed)\b/i.test(t) || /معاين/.test(t)) && !/فيديو|افتراض|اونلاين|أونلاين|online|video|كول/i.test(t)) {
       parts.push(pick(["بنتشرّف فيك! 😍 بحجزلك الزيارة من هون، بدون ما تطلع من المحادثة.", "أكيد! 😍 خلّيني أحجزلك زيارة هون بأقل من دقيقة."]));
       return { parts, action: "book" };
     }
-    if (/رقم|تلفون|تلفونات|هاتف|اتصل|يتصل|يرن|واتس|whats|تواصل|موبايل|جوال/i.test(t) && !/رقم (الشاليه|شاليه)/.test(t)) {
+    if (!elsewhere() && /رقم|تلفون|تلفونات|هاتف|اتصل|يتصل|يرن|واتس|whats|تواصل|موبايل|جوال/i.test(t) && !/رقم (الشاليه|شاليه)/.test(t)) {
       parts.push(`أكيد 🌿 ${contact}، وبكونوا مبسوطين يساعدوك.`);
       return { parts };
     }
