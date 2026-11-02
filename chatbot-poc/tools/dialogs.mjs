@@ -2,10 +2,15 @@
 // do. Add every conversation that went wrong in testing here, then fix the bot until it
 // passes. Usage: node chatbot-poc/tools/dialogs.mjs  (prints each chat; exits 1 on failure)
 import { readFileSync } from "node:fs";
+
+// Layan picks wordings at random; a fixed seed makes every run the same (SEED=n to try others).
+let seed = Number(process.env.SEED ?? 1);
+Math.random = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
 import { createEmbedder } from "../../public/chatbot/lib/embed.mjs";
 import { createSearch } from "../../public/chatbot/lib/core.mjs";
 import { createBrain } from "../../public/chatbot/brain.mjs";
-import { loadClassifier } from "./questions-eval.mjs";
+import { judge, loadClassifier } from "./questions-eval.mjs";
+import { existsSync } from "node:fs";
 
 const here = (p) => new URL(p, import.meta.url);
 const vocab = JSON.parse(readFileSync(here("../../public/chatbot/model/vocab.json"), "utf8"));
@@ -72,7 +77,7 @@ const DIALOGS = [
   [["عندي شكوى", "say:آسفة|سامحنا"]],
   [["في وظائف عندكم", "say:موارد بشرية|الموارد البشرية"]],
   [["👍", "say:👍"]],
-  [["asdfgh", "say:واضحة|فهمت"]],
+  [["asdfgh", "say:واضحة|فهمت|كاملة"]],
   [["انتو مرخصين؟", "answer:قوشان"]],
   [["بدي استأجر شاليه ليلة", "answer:إدارة الكمباوند"]],
   [["مناسب لكبار السن؟", "answer:طابق واحد"]],
@@ -97,7 +102,8 @@ const DIALOGS = [
   [["كيف ممكن اوصل للكمباونر؟", "answer:القسطل"]],
   [["كم غرفة موجوده داخل الشاليه؟", "answer:غرف"]],
   [["وين المشروغ", "answer:القسطل"]],
-  [["شو الخدمات المتوفره بالكمباند", "answer:الخدمات"]],
+  // (services or the compound's facilities both fit; every wording of either names «صيانة», the price reply doesn't)
+  [["شو الخدمات المتوفره بالكمباند", "answer:صيانة"]],
   // Memory (2026-11-02): follow-ups about the chalet just shown.
   [["شو تفاصيل الشاليه D50", "card:chalet:D50"], ["وكم سعره؟", "card:chalet:D50:price"], ["وين مكانه", "card:chalet:D50:where"], ["متاح؟", "card:chalet:D50:status"], ["بدي احجزه", "book"]],
   [["دال خمسين", "card:chalet:D50"], ["قديش مساحته", "card:chalet:D50:area"]],
@@ -113,13 +119,33 @@ const DIALOGS = [
   [["الغرفة الرئيسية فيها شرفة؟", "say:شرفة"]],
 ];
 
-let failed = 0;
+// More chats from chatbot-poc/dialogs-extra.md ("## title" then "> message | check" lines). Extra
+// checks there: "topic:<tag>" / "kind:<kind>" (scored like questions-eval.mjs), "name:<Name>" (the
+// reply says it), "sorry" (apologises and tries again), "any" (no check, just context).
+const extraFile = here("../dialogs-extra.md").pathname;
+const CORE = DIALOGS.length; // chats above: must all pass. Chats from the file: scored.
+if (existsSync(extraFile)) {
+  let cur = null;
+  for (const line of readFileSync(extraFile, "utf8").split("\n")) {
+    if (/^##\s/.test(line)) DIALOGS.push((cur = []));
+    const m = line.match(/^>\s*(.+?)\s*\|\s*(\S+)\s*$/);
+    if (m && cur) cur.push([m[1], m[2]]);
+  }
+}
+const only = process.env.ONLY; // ONLY=word: just the chats with a message containing it
+
+let failed = 0, extraTurns = 0, extraFailed = 0, extraChats = 0, extraChatsOk = 0;
 const lastAnswer = new Map();
-for (const dialog of DIALOGS) {
+for (const [di, dialog] of DIALOGS.entries()) {
+  const extra = di >= CORE;
+  let chatOk = true;
+  if (!dialog.length || (only && !dialog.some(([m]) => m.includes(only)))) continue;
   let state = {};
   console.log("—");
   lastAnswer.clear();
+  const replies = new Set();
   for (const [msg, check] of dialog) {
+    const prevOffer = state.offer;
     const r = brain.reply(msg, state);
     state = r.state || {};
     const text = r.parts.join(" / ").replace(/\n/g, " ");
@@ -132,13 +158,25 @@ for (const dialog of DIALOGS) {
       kind === "chat" ? !r.source :
       kind === "ask" ? !r.source && /فهمتك|قصدك/.test(text) :
       kind === "say" ? new RegExp(word).test(text) :
+      kind === "topic" || kind === "kind" ? judge(word, r).ok ||
+        // «تمام/ماشي» right after «بتحب أحكيلك عن…؟» is a yes: answering the offer is right.
+        (word === "chat-ack" && !!prevOffer && !!r.source) :
+      kind === "name" ? text.includes(word) :
+      kind === "sorry" ? /سامحني|آسفة|اسفة/.test(text) :
+      kind === "any" ? true :
       !!r.source && text.includes(word);
     // A repeated question must not come back word for word.
-    const repeat = r.source && lastAnswer.get(r.source.q) === text;
+    // ...and no reply in a chat comes back word for word.
+    const repeat = (r.source && lastAnswer.get(r.source.q) === text) || (!!text && replies.has(text));
     if (r.source) lastAnswer.set(r.source.q, text);
-    if (!ok || repeat || /الشركة مباشرة/.test(text)) failed++;
-    console.log(`${ok ? "✓" : "✗"} ${msg}\n    ${text.slice(0, 150)}`);
+    replies.add(text);
+    const bad = !ok || repeat || /الشركة مباشرة/.test(text);
+    if (extra) { extraTurns++; if (bad) { extraFailed++; chatOk = false; } }
+    else if (bad) failed++;
+    console.log(`${ok && !repeat ? "✓" : "✗"} ${msg}${ok ? "" : `  [${check}${r.kind ? ` · got ${r.kind}` : ""}]`}${repeat ? "  [repeated word for word]" : ""}\n    ${text.slice(0, 150)}`);
   }
+  if (extra && dialog.length) { extraChats++; if (chatOk) extraChatsOk++; }
 }
-console.log(failed ? `\n${failed} failing turn(s)` : "\nall turns pass");
+if (extraChats) console.log(`\nnew chats (dialogs-extra.md): ${extraTurns - extraFailed}/${extraTurns} turns, ${extraChatsOk}/${extraChats} whole chats pass`);
+console.log(failed ? `\n${failed} failing turn(s) in the core chats` : "\ncore chats: all turns pass");
 process.exit(failed ? 1 : 0);

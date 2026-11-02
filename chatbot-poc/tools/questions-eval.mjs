@@ -86,6 +86,14 @@ const SAME = {
   team: ["founder", "company"],
 };
 
+// Reply kinds that are fair answers for each other («راسي بوجعني»: feelings or a request for help).
+const NEAR_KIND = {
+  "chat-feelings": ["off-help"], "off-help": ["chat-feelings"],
+  "off-knowledge": ["off-other-business"], "off-other-business": ["off-knowledge"],
+  // Blessings («الله يعطيكي العافية», «الله يوفقك») are thanks or goodbyes as much as wishes.
+  "chat-wish": ["chat-thanks", "chat-bye"], "chat-thanks": ["chat-wish"],
+};
+
 // A reply from a site page or a rule (no tagged answer) still counts when it's plainly about the topic.
 const SAYS = {
   mosque: /مسجد|مصلى/, location: /القسطل|«الموقع»/, kitchen: /مطبخ/, gym: /نادي|جيم|سبا/, parks: /حديق/,
@@ -147,6 +155,8 @@ export function judge(tag, o) {
     const [a, b] = tag.slice(6).split("+");
     ok = got === a || got === b || (SAME[a] ?? []).includes(got) || (SAME[b] ?? []).includes(got);
   } else if (tag === "chat" || tag === "off") ok = got === "nosource";
+  // Reply kinds (convo.mjs KINDS): no site answer, and the reply is of that kind (or a near one).
+  else if (/^(chat|off)-/.test(tag)) ok = got === "nosource" && (o.kind === tag || (NEAR_KIND[tag] ?? []).includes(o.kind));
   else if (tag === "persona") ok = got === "nosource" && /ليان|Layan|مساعد[ةه] رقمي|أنا |انا |عمري|جهّزني|اختارلي|بجاوبك/.test(text);
   else if (tag === "contact") ok = /0790029928|962 ?79/.test(text.replace(/\s/g, " "));
   // English: an English reply, or the right answer from the site (in Arabic) for a question about it.
@@ -159,6 +169,9 @@ export function judge(tag, o) {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
+  // Fixed seed: the random wordings are the same every run, so scores don't wobble (SEED=n).
+  let seed = Number(process.env.SEED ?? 1);
+  Math.random = () => (seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296;
   const brain = loadBrain();
   const valHash = (s) => { let h = 7; for (const ch of s) h = (h * 31 + ch.codePointAt(0)) >>> 0; return h % 5 === 0; };
   const all = readQuestions(file).filter(({ q }) =>
@@ -170,6 +183,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     const o = brain.reply(q, {});
     const { ok, got, text } = judge(tag, o);
     const key = tag.startsWith("multi:") ? "multi" : tag.startsWith("chalet:") ? "chalet" : tag;
+    if (process.env.SHOW_KIND && /^(chat|off)-/.test(tag) && !ok) console.log(`  ${tag} → ${o.kind ?? "-"} (${got}): ${q}`);
     (byTag[key] ??= { ok: 0, n: 0 }).n++;
     if (ok) byTag[key].ok++;
     else fails.push({ q, tag, got, reply: text.slice(0, 90).replace(/\n/g, " ") });

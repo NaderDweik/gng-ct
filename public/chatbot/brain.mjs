@@ -3,18 +3,28 @@
 // back as `parts`, each shown as its own chat bubble. `state` round-trips through the
 // client so follow-ups like "اه أكيد" or "تمام" make sense.
 import { tokens, labelOf } from "./lib/core.mjs";
-import { CONVO, OFF_TOPIC, UNKNOWN, ENGLISH, ON_TOPIC, STRONG_TOPIC, OFF_HINT, LINK, isNoise, emojiReply } from "./convo.mjs";
+import { CONVO, KINDS, SPAM, OFF_TOPIC, UNKNOWN, ENGLISH, ON_TOPIC, STRONG_TOPIC, OFF_HINT, LINK, isNoise, emojiReply } from "./convo.mjs";
 
 // Topic docs carry extra search words after the "؟"; show people only the question.
 const label = (q) => (q.includes("؟") ? q.split("؟")[0] + "؟" : q);
-const pick = (a) => a[Math.floor(Math.random() * a.length)];
+// Set by respond() when the visitor corrected us («لا، قصدي…»): the reply starts with a sorry.
+let apology = false;
+// What Layan said lately in this chat (set by reply()): a wording she used is skipped while
+// another is left, so she never says the same line twice in a row of messages.
+let said = "";
+const pick = (a) => {
+  const fresh = a.filter((x) => !said.includes(x));
+  if (fresh.length) return fresh[Math.floor(Math.random() * fresh.length)];
+  // All used: the one said longest ago.
+  return a.reduce((best, x) => (said.lastIndexOf(x) < said.lastIndexOf(best) ? x : best));
+};
 const has = (re, t) => re.test(t);
 
 const SOCIAL = [
   { id: "salam", re: /(ال)?سلام عليكم|^سلام\b|^السلام/, say: () => pick(["وعليكم السلام ورحمة الله وبركاته 🌿 يا هلا فيك!", "وعليكم السلام، أهلين وسهلين 😊"]) },
   { id: "morning", re: /صباح (ال)?(خير|نور|ورد|فل)/, say: () => pick(["صباح النور والسرور ☀️", "صباح الورد! ☀️ أهلين فيك"]) },
   { id: "evening", re: /مساء (ال)?(خير|نور|ورد|فل)/, say: () => pick(["مساء النور 🌙 أهلين فيك", "مساء الورد والياسمين 🌙"]) },
-  { id: "hi", re: /^(مرحبا|مرحبتين|مرحبًا|اهلين|أهلين|اهلا|أهلا|هلا|هاي|هلو|hi|hello|hey)/i, say: () => pick(["أهلين وسهلين! 😊", "هلا والله، نوّرت 🌿", "مرحبتين! يا هلا فيك 👋"]) },
+  { id: "hi", re: /^(مرحبا|مرحبتين|مرحبًا|اهلين|أهلين|اهلا|أهلا|هلا|هاي|هلو|hi|hello|hey|mar7aba|mar7ba|marhaba|marhaban|ahlan|ahlen|ahlain|hala)/i, say: () => pick(["أهلين وسهلين! 😊", "هلا والله، نوّرت 🌿", "مرحبتين! يا هلا فيك 👋"]) },
   { id: "how", re: /كيفك|كيفيك|كيفكيف|كيف حالك|كيف الحال|شو اخبارك|شو أخبارك|شو اخبارك|شخبارك|شلونك|كيفكم|كيف الصحة|ازيك|إزيك|عامل[هة]? ايه|how are you/i, say: () => pick(["الحمدلله تمام، تسلم على السؤال 🙏", "بخير الحمدلله، الله يسلمك 🌿"]) },
 ];
 
@@ -23,7 +33,7 @@ const ONLY_FILLER = /^[\s؟?!.,،😊🙏👋🌿]*$/;
 // Questions about Layan herself and the chat, answered like a person would. `ask` asks the
 // visitor's name back (the next short message is then taken as their name).
 const PERSONA = [
-  { re: /(شو|ايش|إيش|مين|وش|شنو)\s*(هو\s*)?اسمك|اسمك\s*(شو|ايش|إيش)|^اسمك|ما اسمك|your name|what.?s your name/i, ask: true,
+  { re: /(شو|ايش|إيش|مين|وش|شنو)\s*(هو\s*)?اسمك|اسمك\s*(شو|ايش|إيش)|^اسمك|ما اسمك|(قولي|قوليلي|تقوليلي|احكيلي|اعرف|أعرف|نعرف)\s*(شو\s*)?اسمك|(^|\s)اسمك\s*[؟?]|your name|what.?s your name/i, ask: true,
     say: () => [pick(["اسمي ليان 😊 مساعدة روح العطاء الرقمية.", "أنا ليان 🌿 المساعدة الرقمية لروح العطاء."]), "وانت شو اسمك؟"] },
   { re: /(انت|إنت|انتي|إنتي)\s*(بوت|روبوت|انسان|إنسان|انسانه|إنسانة|حقيقي|حقيقيه|ذكاء|ai|بني ?ادم|كمبيوتر|برنامج)|ذكاء اصطناعي|chat ?gpt|are you (a )?(bot|human|real)|بتقدري تفكري|بتفكري|بتحسي/i,
     say: () => ["أنا مساعدة رقمية مش إنسانة 😊 بس بعرف كل شي موجود على موقعنا عن الشاليهات والكمباوند.", "وإذا حابب تحكي مع حدا من الفريق، بوصلك فيهم."] },
@@ -35,15 +45,15 @@ const PERSONA = [
   { re: /(بدي|ممكن|بحب|عايز|ابي|أبي|بدنا)\s*(احكي|أحكي|اتواصل|أتواصل|اكلم|أكلم|نحكي)\s*(مع)?\s*(حد|حدا|موظف|انسان|إنسان|الفريق|المبيعات|مسؤول|المسؤول|خدم[هة] العملاء|المدير)|(حدا|حد|موظف|الفريق)\s*(يتصل|يرن|يكلم|يحكي)|يرن (علي|عليي)|اتصلوا (فيي|علي|عليي)|حوليني|بدي (مدير|مسؤول) (المبيعات|البيع)|بدي اكلمه|بدي احكي معهم|talk to (a )?(human|person|agent)|call me/i, contact: true,
     say: (c) => [`أكيد 🌿 ${c}، وبكونوا مبسوطين يساعدوك.`] },
   { re: /(بتفهمي|بتحكي|تحكي)\s*(عربي)/, say: () => ["أكيد! العربي لغتي 😊 ولو كتبت باللهجة أو بأخطاء إملائية بفهم عليك كمان.", "شو حابب تعرف؟"] },
-  { re: /متجوز|متزوج|مخطوب|سنقل|single|بتنامي|بتاكلي|بتشربي|ولد ولا بنت|بنت ولا ولد|ذكر ولا انثى/i,
+  { kind: (t) => (/متجوز|متزوج|مخطوب|سنقل|single/i.test(t) ? "chat-flirt" : "chat-persona"), re: /متجوز|متزوج|مخطوب|سنقل|single|بتنامي|بتاكلي|بتشربي|ولد ولا بنت|بنت ولا ولد|ذكر ولا انثى/i,
     say: () => [pick(["هههه أنا مساعدة رقمية، ما بنام ولا بتزوج 😄", "😄 أنا مساعدة رقمية، حياتي كلها روح العطاء!"]), "بس دايمًا صاحية لأسئلتك عن الشاليهات والكمباوند."] },
   { re: /ليش اسمك|مين سما(ك|كي)|اسمك حلو/, say: () => ["فريق روح العطاء اختارلي اسم ليان 🌿 وبحبه كثير!", "شو حابب تعرف عن الكمباوند؟"] },
   { re: /(انت|انتي|إنتي)\s*موظف|بتشتغلي (عندهم|معهم|عندكم)/, say: (c) => ["أنا مساعدة رقمية لروح العطاء 😊 بجاوب على أسئلتك وبحجزلك زيارة.", `ولما تحب تحكي مع حدا من الفريق، ${c}.`] },
   { re: /(بتحكي|بتفهمي|تحكي)\s*(انجليزي|إنجليزي|انكليزي|english)|do you speak english|speak english/i,
     say: () => ["بفهم شوية إنجليزي، بس بحكي عربي أحسن 😊", "وفريق المبيعات بيحكي إنجليزي، إذا بتحب تحكي معهم مباشرة."] },
-  { re: /(انتي|إنتي)\s*(حلوه|حلوة|شاطره|شاطرة|ذكيه|ذكية|لطيفه|لطيفة|كثير منيحه|رائعه)|بحبك|حبيتك/i,
+  { kind: (t) => (/حلو|بحبك|حبيتك|قمر/.test(t) ? "chat-flirt" : "chat-compliment"), re: /(انتي|إنتي)\s*(حلوه|حلوة|شاطره|شاطرة|ذكيه|ذكية|لطيفه|لطيفة|كثير منيحه|رائعه)|بحبك|حبيتك/i,
     say: () => [pick(["يسلملي قلبك 😊", "تسلم على ذوقك 🌿"]), "شو كمان بقدر أساعدك فيه؟"] },
-  { re: /غبي|غبيه|حمار|حماره|ما بتفهمي|مش فاهمه|ما فهمتي|سخيف|سخيفه|بلا فايده|useless|stupid/i,
+  { kind: "chat-insult", re: /غبي|غبيه|حمار|حماره|ما بتفهمي|مش فاهمه|ما فهمتي|سخيف|سخيفه|بلا فايده|فاشل|فاشله|تافه|useless|stupid/i,
     say: (c) => ["سامحني إذا ما فهمتك صح 🙏", `جرّب تكتبلي سؤالك بطريقة ثانية، أو ${c}.`] },
   { re: /(شو|ايش|وش)\s*(بتعملي|بتسوي|بتقدري تعملي|بتعرفي تعملي|بتعرفي)|كيف بتساعديني|شو بتقدري|what can you do/i,
     say: () => ["بجاوبك عن أي إشي بخص روح العطاء: الشاليهات، المرافق، الموقع، التقسيط والتملك 😊", "وبقدر أحجزلك زيارة للكمباوند من هون بدون ما تطلع من المحادثة."] },
@@ -66,7 +76,7 @@ const IT = /(?:سعر|مكان|موقع|مساحت|حق|قسط|مميزات|مي
 // "لا" / "مش هيك" + the real question: a correction, not a "no thanks".
 const CORRECTION = /^(?:لا+|لأ|مش هيك|مش هاد|مش هذا|مش قصدي|مو هيك|no)\s*[،,.!]*\s*(?:(?:انا\s*)?(?:بسال|بسأل|بسئل|سالت|سألت|قصدي|اقصد|أقصد|بقصد|كنت بسال|كنت بسأل)\s*(?:عن)?)?\s*/i;
 // The visitor telling us their name after we asked.
-const NAME_LEAD = /^(?:(?:انا|أنا)\s+)?(?:اسمي|إسمي|my name is|i'?m)?\s*/i;
+const NAME_LEAD = /^(?:(?:انا|أنا|معك|معاك|معكي|هون|هنا)\s+)?(?:اسمي|إسمي|اسمي هو|my name is|i'?m|name)?\s*/i;
 // Attention-getters and "I have a question" lead-ins, with common spellings (سؤال/سوال).
 const OPENER = /^[\s،,.!]*(?:(?:يا\s*)?ليان|اسمعي(?:ني)?|اسمع(?:ني)?|لو سمحت(?:ي)?|من فضلك|ممكن\s+(?:سؤال|سوال|اسال|اسأل|أسأل|استفسر)|عندي\s+(?:سؤال|سوال|سؤالين|استفسار|كم سؤال)|بدي\s+(?:اسالك|اسألك|أسألك|اسال|اسأل|أسأل|استفسر)|سؤال|سوال|استفسار|ساعديني|ساعدني|بدي مساعد[ةه]|محتاج مساعد[ةه])(?=[\s،,.:!؟?]|$)[\s،,.:!]*/;
 // Small talk that carries no question. Each kind is stripped from the message; if nothing
@@ -256,10 +266,40 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
     return { parts, source: hit.d, suggestions: rest.length ? rest : ["بدي احكي مع حدا من الفريق"], last: { ...L, key: alts[0], score: 0, tried: [...tried, alts[0]] } };
   }
 
+  /** A message that isn't about us, by kind (convo.mjs KINDS): its own words, then back to the compound. */
+  function kindReply(kind, t, state, parts) {
+    // Greeted back already (SOCIAL) and the rest is just an ok/«ليان»: it's a greeting.
+    if ((kind === "chat-ack" || kind === "chat") && parts.length) kind = "chat-greet";
+    const k = KINDS[kind];
+    if (!k) {
+      if (kind === "chat") {
+        if (!parts.length) parts.push(pick(["تمام 👌", "أكيد 🌿", "حلو 😊"]));
+        parts.push(pick(["شو حابب تعرف عن روح العطاء؟", "إذا عندك أي سؤال عن الشاليهات أو الكمباوند، أنا هون 😊", "خذ راحتك، وأنا هون إذا احتجت إشي 🌿"]));
+      } else parts.push(pick(OFF_TOPIC[0]), pick(OFF_TOPIC[1]));
+      return { parts, kind: kind === "chat" ? "chat" : "off", suggestions: starters };
+    }
+    const [first, second] = k.say(t, { name: state.name, contact });
+    // Already greeted back (SOCIAL above): no second hello.
+    if (!(kind === "chat-greet" && parts.length)) parts.push(pick(first));
+    if (second) parts.push(pick(second));
+    return { parts, kind, suggestions: k.starters ? starters : [], state: { offer: k.offer ?? null } };
+  }
+  /** The classifier's reply kind when it leans that way (p ≥ min), else null. */
+  const leaning = (cls, min) => {
+    if (!cls) return null;
+    if (cls.off >= min && cls.off >= cls.chat) return cls.offKind;
+    if (cls.chat >= min) return cls.chatKind;
+    return null;
+  };
+
   // `state.seen` counts what each question has been answered with, across the whole chat.
   function reply(text, state = {}) {
     const seen = { ...(state.seen ?? {}) };
+    said = (state.said ?? []).join("\n");
     const out = respond(text, state, seen);
+    if (apology && out.parts?.length && !/سامحني|آسفة/.test(out.parts.join(" ")))
+      out.parts[0] = pick(["آسفة على اللبس 🙏", "سامحني، هلأ فهمت عليك 🙏", "آه آسفة، قصدك هيك 🙏"]) + "\n" + out.parts[0];
+    said = "";
     const name = out.state?.name ?? state.name;
     // The chalet being talked about stays in focus for a few messages («وكم سعره؟», «احجز زيارة»).
     const shown = out.card?.type === "chalet" ? out.card.id : null;
@@ -268,7 +308,8 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
     // The last answer (and its runners-up), for «ليش؟», «لا مش هيك» and a repeated question.
     const last = out.last === null ? undefined : out.last ?? state.last;
     const { last: _l, ...rest } = out;
-    return { ...rest, state: { ...(out.state ?? {}), seen, ...(name && { name }), ...(chalet && { chalet, chaletAge: age }), ...(last && { last }) } };
+    const recent = [...(state.said ?? []), ...(out.parts ?? [])].slice(-24);
+    return { ...rest, state: { ...(out.state ?? {}), seen, said: recent, ...(name && { name }), ...(chalet && { chalet, chaletAge: age }), ...(last && { last }) } };
   }
 
   function respond(text, state, seen) {
@@ -277,6 +318,12 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
     let t = raw;
     const parts = [];
     let askedHow = false;
+    apology = false;
+
+    // «سلام» / «تمام يوسف، سلام» once the chat is under way is a goodbye, not a hello.
+    const midChat = !!(state.last || state.name || state.said?.length);
+    if (midChat && !/سلام عليكم|السلام/.test(raw) && /(?:^|[\s،,])سلام(?:\s+يا\s+\p{L}+|\s+\p{L}+)?\s*[.!🌿👋]*$/u.test(raw) && tokens(raw).length <= 5)
+      return kindReply("chat-bye", raw, state, parts);
 
     // 1. Small talk the visitor opened with — greet back first, like a person would.
     for (const s of SOCIAL) {
@@ -287,6 +334,8 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
       }
     }
     if (askedHow) parts[parts.length - 1] += " وانت كيفك؟";
+    // They opened with a greeting: whatever small talk follows, the message is a greeting.
+    const greeted = parts.length > 0;
 
     // Openers that only get attention ("اسمعي", "عندي سؤال"): strip them, and if nothing
     // follows, invite the question instead of searching for it.
@@ -294,12 +343,14 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
     for (let m; (m = t.match(OPENER)) && m[0].trim(); ) { t = t.slice(m[0].length); opened = true; }
     if (opened && (ONLY_FILLER.test(t) || !tokens(t).length)) {
       parts.push(pick(["تفضّل، سمعاك 😊 شو سؤالك؟", "أكيد، اسأل اللي بدك ياه 🌿", "تكرم، كلّي آذان صاغية 😊", "أكيد، تفضّل 🌿 شو حابب تعرف؟"]));
-      return { parts };
+      return { parts, kind: greeted ? "chat-greet" : "chat-ack" };
     }
 
     // A correction ("لا بسأل عن اسمك"): drop the "no" and answer what follows instead.
     const corrected = t.replace(CORRECTION, "");
     if (corrected !== t && tokens(corrected).length) {
+      // Our last answer missed: say sorry before the right one (reply() adds it).
+      apology = !!(state.last || state.said?.length);
       t = corrected;
       state = { ...state, offer: null };
     }
@@ -309,7 +360,10 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
       const name = t.replace(NAME_LEAD, "").replace(/[.!،,😊🌿]+/g, "").trim();
       const chatty = [...Object.values(CHAT), ...SOCIAL.map((x) => x.re), OPENER, /^(لا|لأ|اه|آه|ايه|إيه|نعم|اكيد|أكيد|مش|ما|بدي|في|شو|كيف)$/]
         .some((re) => new RegExp(re.source, re.flags.replace("g", "")).test(name));
-      if (name && !chatty && name.split(/\s+/).length <= 3 && /^[\p{L}\s]+$/u.test(name) && !PERSONA.some((p) => p.re.test(t)) && (kb.search(name, 1)[0]?.score ?? 0) < 0.3) {
+      // Right after «وانت شو اسمك؟» a short reply is their name, even one that matches the site
+      // («لمى» ~ «المي», «طارق» = the founder), unless it's plainly a topic word («مسبح», «الموقع»).
+      const topical = ON_TOPIC.test(name) || STRONG_TOPIC.test(name);
+      if (name && !chatty && name.split(/\s+/).length <= 3 && /^[\p{L}\s]+$/u.test(name) && !PERSONA.some((p) => p.re.test(t)) && !topical) {
         const first = name.split(/\s+/)[0];
         parts.push(pick([`تشرّفنا يا ${first} 🌿`, `أهلين ${first}، تشرّفت فيك 😊`, `يا هلا ${first} 🌿`]));
         parts.push(pick(["كيف بقدر أساعدك اليوم؟", "شو حابب تعرف عن روح العطاء؟"]));
@@ -332,10 +386,12 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
     }
 
     // Questions about Layan herself.
-    const persona = PERSONA.find((p) => p.re.test(t));
+    // An insult wins over the rest («انتي بوت غبي» is rude, not a question about bots).
+    const persona = PERSONA.find((p) => p.kind === "chat-insult" && p.re.test(t)) ?? PERSONA.find((p) => p.re.test(t));
     if (persona) {
       parts.push(...persona.say(contact));
-      return { parts, state: { askedName: !!persona.ask, offer: persona.offer ?? null } };
+      const kind = typeof persona.kind === "function" ? persona.kind(t) : persona.kind ?? "chat-persona";
+      return { parts, kind, state: { askedName: !!persona.ask, offer: persona.offer ?? null } };
     }
 
     // 2. Short replies that only make sense against what we said last.
@@ -346,12 +402,13 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
     if (state.offer && new RegExp(`^(?:(?:${YES})\\s*)+$`, "i").test(short))
       { t = state.offer; followUp = true; }
     else if (state.offer && /^(لا|لأ|مش هلأ|لا شكرا|خلص)/.test(short))
-      return { parts: [pick(["ولا يهمك! 😊", "تمام، على راحتك 🌿"]), "إذا خطر ببالك أي سؤال ثاني أنا هون."] };
-    if (/شكر|ميرسي|merci|كفو|يعطي(?:ك|كي|كم) العافي[هة]|مشكور|تسلم|يسلمو|يسلموا|يسلم ايديك|thanks|thank/i.test(short) && tokens(t).length <= 5 && !/[؟?]/.test(t))
-      return { parts: [pick(["العفو، هذا واجبنا 🌿", "ولو! تكرم 🙏", "على الرحب والسعة 😊", "الله يعافيك 🌿"]), pick(["إذا في أي سؤال ثاني أنا موجودة.", "وإذا حاب تشوف الكمباوند على الطبيعة، بنتشرّف بزيارتك بأي وقت."])] };
+      return { parts: [pick(["ولا يهمك! 😊", "تمام، على راحتك 🌿"]), "إذا خطر ببالك أي سؤال ثاني أنا هون."], kind: "chat-ack" };
+    // Leaving (even with a thank-you: «الله يعطيك العافية، باي») is a goodbye.
     if (/مع السلامه|مع السلامة|(?:^|\s)(?:باي|bye|byee|باي باي)(?=$|\s)|سلام عليكم وداعا|يلا سلام/i.test(short))
-      return { parts: [`بأمان الله${state.name ? ` يا ${state.name}` : ""} 👋 نوّرتنا، ونتشرّف بزيارتك للكمباوند بأي وقت!`] };
-    if (/^(ه{2,}|😂|🤣|lol)/i.test(short)) return { parts: ["😄 كيف بقدر أساعدك كمان؟"] };
+      return kindReply("chat-bye", t, state, parts);
+    if (/شكر|ميرسي|merci|كفو|يعطي(?:ك|كي|كم) العافي[هة]|مشكور|تسلم|يسلمو|يسلموا|يسلم ايديك|thanks|thank|thx|tnx|shukran|shokran|shukraan|merci|yslamo|ysalmo/i.test(short) && tokens(t).length <= 5 && !/[؟?]/.test(t))
+      return kindReply("chat-thanks", t, state, parts);
+    if (/^(ه{2,}|😂|🤣|lol)/i.test(short)) return { parts: [pick(["😄 كيف بقدر أساعدك كمان؟", "😄 شو حابب تعرف كمان؟"])], kind: "chat-ack" };
 
     // Small talk with no question in it ("الحمد الله", "وانتي؟", "حلو كثير", "طيب"): reply like
     // a person would and move the conversation on; never search the site for it.
@@ -366,18 +423,20 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
         if (found.askBack) parts.push(pick(["الحمدلله بخير، الله يسلمك 😊", "تمام الحمدلله، تسلم على ذوقك 🌿"]));
         // After "وانت كيفك؟" a plain "تمام" is an answer about how they are, too.
         if (state.askedHow && found.ack) found.wellbeing = true;
+        // «منيح» answers «كيفك؟»; after one of our answers it's just «ok, good».
+        if (found.wellbeing && !state.askedHow && !greeted && state.last) { found.ack = true; found.wellbeing = false; }
         if (!found.askBack && found.wellbeing && (state.askedHow || !parts.length))
           parts.push(pick(["الحمدلله دايمًا 🌿", "يا رب دايمًا بخير 😊", "الحمدلله، يدوم الفرح 🌿"]));
         if (found.compliment) {
           parts.push(pick(["يسعدلي قلبك 😊 فعلًا المكان بستاهل!", "تسلم على هالكلام الحلو 🌿 والمكان على الطبيعة أحلى!"]));
           parts.push("بتحب نرتبلك زيارة تشوف الكمباوند بعينك؟");
-          return { parts, state: { offer: "كيف يمكنني حجز موعد لمعاينة الكمباوند؟" } };
+          return { parts, kind: "chat-compliment", state: { offer: "كيف يمكنني حجز موعد لمعاينة الكمباوند؟" } };
         }
         if (!parts.length) parts.push(pick(["تمام 👌", "حلو 👌", "أكيد 🌿"]));
         parts.push(found.wellbeing || found.askBack
           ? pick(["كيف بقدر أساعدك اليوم؟ بتحب تعرف عن الشاليهات، الخدمات، ولا الموقع؟", "شو حابب تعرف عن روح العطاء؟ 😊"])
           : pick(["إذا في إشي ثاني حابب تعرفه، أنا هون 😊", "في إشي ثاني بقدر أساعدك فيه؟"]));
-        return { parts, suggestions: found.wellbeing || found.askBack ? starters : [] };
+        return { parts, kind: greeted || found.wellbeing || found.askBack ? "chat-greet" : "chat-ack", suggestions: found.wellbeing || found.askBack ? starters : [] };
       }
     }
 
@@ -385,9 +444,8 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
     // answer like a person. A strong site match on a compound word still wins.
     if (!followUp) {
       const emo = !/[\p{L}]/u.test(t) ? emojiReply(t) : null;
-      if (emo) return { parts: [...parts, ...emo] };
-      if (isNoise(t) && !parts.length)
-        return { parts: [pick(["ما وصلتني الرسالة واضحة 😅", "ممم ما فهمت عليك 😅"]), "شو حابب تعرف عن روح العطاء؟"], suggestions: starters };
+      if (emo) return { parts: [...parts, ...emo], kind: /[😢😭😞😔💔]/u.test(t) ? "chat-feelings" : /[😡🤬👎]/u.test(t) ? "chat-insult" : "chat-ack" };
+      if (isNoise(t) && !parts.length) return kindReply("off-spam", t, state, parts);
       const c = CONVO.find((x) => x.re.test(t));
       // "حابب اعرف كثير عن التقسيط": what's left after the "I want to know" part is the question.
       const rest = c ? t.replace(c.re, " ").replace(/^\s*(عن|بخصوص|حول)\s+/, "").trim() : "";
@@ -397,16 +455,19 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
         const strong = bestOf(kb.search(t, 8));
         if (!(ON_TOPIC.test(t) && strong?.score >= 0.45)) {
           for (const opts of c.say) parts.push(pick(opts));
-          return { parts, suggestions: c.starters ? starters : [], state: { offer: c.offer ?? null } };
+          return { parts, kind: greeted && (!c.kind || c.kind === "chat-ack") ? "chat-greet" : c.kind, suggestions: c.starters ? starters : [], state: { offer: c.offer ?? null } };
         }
       }
     }
+
+    // Prize/ad spam («اربح ايفون، ارسلي رقمك»): a spam reply, never a price answer.
+    if (!followUp && SPAM.test(t) && !STRONG_TOPIC.test(t)) return kindReply("off-spam", t, state, parts);
 
     // Nothing left after the greeting: ask how we can help.
     if (ONLY_FILLER.test(t) || !tokens(t).length) {
       if (!parts.length) parts.push(pick(["أهلين فيك 😊", "يا هلا 🌿"]));
       if (!askedHow) parts.push(pick(["كيف بقدر أساعدك اليوم؟", "شو حابب تعرف عن روح العطاء؟ اسألني عن أي شي 😊"]));
-      return { parts, suggestions: askedHow ? [] : starters, state: { askedHow } };
+      return { parts, kind: "chat-greet", suggestions: askedHow ? [] : starters, state: { askedHow } };
     }
 
     // The classifier's reading of the message, before the hand-written rules below: a rule that
@@ -415,24 +476,20 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
     const early = followUp ? null : kb.search(t, 8).cls;
     const sureOf = (min = 0.8) => (early && early.p >= min ? early.label : null);
     const elsewhere = (...ok) => { const l = sureOf(); return !!l && !l.startsWith("@") && !ok.includes(l); };
-    if (sureOf(offAt) === "@off" && !STRONG_TOPIC.test(t) && !chaletIn(t)) {
-      parts.push(pick(OFF_TOPIC[0]), pick(OFF_TOPIC[1]));
-      return { parts, suggestions: starters };
-    }
-    if (sureOf(chatAt) === "@chat" && tokens(t).length <= 6 && !STRONG_TOPIC.test(t) && !/[؟?]/.test(t)) {
-      if (!parts.length) parts.push(pick(["تمام 👌", "أكيد 🌿", "حلو 😊"]));
-      parts.push(pick(["شو حابب تعرف عن روح العطاء؟", "إذا عندك أي سؤال عن الشاليهات أو الكمباوند، أنا هون 😊", "خذ راحتك، وأنا هون إذا احتجت إشي 🌿"]));
-      return { parts, suggestions: starters };
-    }
+    const leansElsewhere = (...ok) => { const l = sureOf(0.5); return !!l && !l.startsWith("@") && !ok.includes(l); };
+    if (sureOf(offAt) === "@off" && !STRONG_TOPIC.test(t) && !chaletIn(t)) return kindReply(early.kind, t, state, parts);
+    // Small talk: short, or a named kind (persona, flirt, a joke…) that may come as a question.
+    const chatty = (cls) => cls.kind !== "chat" ? tokens(t).length <= 12 : tokens(t).length <= 6 && !/[؟?]/.test(t);
+    if (sureOf(chatAt) === "@chat" && chatty(early) && !STRONG_TOPIC.test(t)) return kindReply(early.kind, t, state, parts);
 
     // Clearly not about us (another city's weather, a loan, a car, a job, a link): say so kindly.
     if (!followUp && LINK.test(t) && !STRONG_TOPIC.test(t)) {
-      parts.push("ما بقدر أفتح روابط من هون 🙏", "بس إذا عندك سؤال عن الشاليهات أو الكمباوند، أنا جاهزة 😊");
-      return { parts, suggestions: starters };
+      parts.push("ما بقدر أفتح روابط من هون 🙏", pick(["بس إذا عندك سؤال عن الشاليهات أو الكمباوند، أنا جاهزة 😊", "بس اسألني عن روح العطاء وبجاوبك هون 🌿"]));
+      return { parts, kind: "off-spam", suggestions: starters };
     }
     if (!followUp && OFF_HINT.test(t) && !STRONG_TOPIC.test(t) && !elsewhere()) {
-      parts.push(pick(OFF_TOPIC[0]), pick(OFF_TOPIC[1]));
-      return { parts, suggestions: starters };
+      const k = early && early.off >= 0.3 ? early.offKind : "off";
+      return kindReply(k, t, state, parts);
     }
 
     // 3. Intents with a fixed, human answer.
@@ -459,8 +516,8 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
     }
     // «متوفر/متاح» is about units unless the visitor means services («شو الخدمات المتوفرة»).
     const W = (re) => new RegExp(`(?:^|[\\s،,.!؟?])(?:${re.source})(?=$|[\\s،,.!؟?])`);
-    if (!elsewhere("prices", "installments") && /سعر|اسعار|أسعار|كلف|تكلف|قديش سعر|في وحدات/.test(t) || !elsewhere("prices", "installments") && W(/بكم|بقديش|بكام|بكام ده/).test(t) || !elsewhere("prices", "installments") && (/متوفر|متاح/.test(t) && !/خدم|مرافق|نشاط|العاب|ألعاب|رياض|مي |المي|مياه|مي$|كهربا|نت|واي ?فاي|wifi|اكل|مطعم|محل|سوبر|جول[هة]|افتراض|فيديو|زيار/.test(t))) {
-      parts.push(pick(["بالنسبة للأسعار والوحدات المتاحة، بتتغيّر باستمرار، فبفضّل يعطيك إياها فريق المبيعات بشكل دقيق 🙏", "الأسعار والوحدات المتوفرة بتختلف حسب الشاليه والموقع، وفريق المبيعات بعطيك آخر التفاصيل أول بأول 🙏"]));
+    if (!elsewhere("prices", "installments") && /سعر|اسعار|أسعار|كلف|تكلف|قديش سعر|في وحدات/.test(t) || !elsewhere("prices", "installments") && W(/بكم|بقديش|بكام|بكام ده/).test(t) || !leansElsewhere("prices", "installments", "chalet-count") && (/متوفر|متاح/.test(t) && !/خدم|مرافق|نشاط|العاب|ألعاب|رياض|مي |المي|مياه|مي$|كهربا|نت|واي ?فاي|wifi|اكل|مطعم|محل|سوبر|جول[هة]|افتراض|فيديو|زيار/.test(t))) {
+      parts.push(pick(["بالنسبة للأسعار والوحدات المتاحة، بتتغيّر باستمرار، فبفضّل يعطيك إياها فريق المبيعات بشكل دقيق 🙏", "الأسعار والوحدات المتوفرة بتختلف حسب الشاليه والموقع، وفريق المبيعات بعطيك آخر التفاصيل أول بأول 🙏", "كل شاليه إله سعره حسب موقعه ومرحلته 🏡 وعشان تاخذ الرقم الدقيق والمحدّث، فريق المبيعات هو العنوان 🙏"]));
       parts.push(`${contact}، وكمان في تقسيط بقسط شهري 1% بس وبدون فوائد 👌`);
       // «بكم الشاليه وفي رسوم غيره؟»: answer the other question too.
       const PRICE = /سعر|اسعار|أسعار|كلف|تكلف|بكم|بقديش|بكام|متوفر|متاح|تقسيط|اقساط|أقساط|قسط/;
@@ -472,12 +529,12 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
           break;
         }
       }
-      parts.push(pick(["وبهالأثناء، شوف الشاليهات المتاحة على خريطة الكمباوند، واضغط على أي واحد بتشوف تفاصيله 👇", "وإذا حابب، تصفّح الشاليهات المتاحة على الخريطة واختار اللي بعجبك 👇"]));
+      parts.push(pick(["وبهالأثناء، شوف الشاليهات المتاحة على خريطة الكمباوند، واضغط على أي واحد بتشوف تفاصيله 👇", "وإذا حابب، تصفّح الشاليهات المتاحة على الخريطة واختار اللي بعجبك 👇", "وهاي الخريطة 🗺️ الشاليهات المتاحة معلّمة عليها، اضغط على أي واحد بتشوف سعره ومساحته 👇"]));
       return { parts, card: { type: "map" }, suggestions: ["هل تتوفر خيارات تقسيط لشراء الشاليه؟", "📅 احجز زيارة"] };
     }
     // Booking happens inside the chat (the site's chat-booking.ts takes over on `action`).
     if (!elsewhere("visit", "office") && (/زياره|زيارة|موعد|احجز|أحجز|حجز|اشوف الكمباوند|أزور|ازور|نزوركم|(بدي|بدنا|ممكن|حابب|حابين)\s+(اجي|نيجي|نجي|امرق|نمرق)|نيجي العيل|عالطبيع|على الطبيع|\b(book|booking|appointment|a7jez|ahjez|maw3ed)\b/i.test(t) || /معاين/.test(t)) && !/فيديو|افتراض|اونلاين|أونلاين|online|video|كول/i.test(t)) {
-      parts.push(pick(["بنتشرّف فيك! 😍 بحجزلك الزيارة من هون، بدون ما تطلع من المحادثة.", "أكيد! 😍 خلّيني أحجزلك زيارة هون بأقل من دقيقة."]));
+      parts.push(pick(["بنتشرّف فيك! 😍 بحجزلك الزيارة من هون، بدون ما تطلع من المحادثة.", "أكيد! 😍 خلّيني أحجزلك زيارة هون بأقل من دقيقة.", "يا هلا! 😍 الزيارة ببلاش وبدون التزام، خلّيني أحجزلك إياها هون."]));
       return { parts, action: "book" };
     }
     if (!elsewhere() && /رقم|تلفون|تلفونات|هاتف|اتصل|يتصل|يرن|واتس|whats|تواصل|موبايل|جوال/i.test(t) && !/رقم (الشاليه|شاليه)/.test(t)) {
@@ -486,7 +543,9 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
     }
 
     // 4. Two questions in one message ("كم المساحة وفي جاكوزي؟"): answer each, in order.
-    const asked = splitQuestions(t);
+    // Only parts that ask something count («طيب، كم غرفة؟», «عندي دخل محدود، في تقسيط؟» are one question).
+    const ASKS = /[؟?]|(?:^|\s)(?:شو|كم|في|فيه|هل|وين|متى|امتى|كيف|قديش|بكم|ايش|إيش|وش|ليش|مين|بقدر|ممكن|فين|ازاي|إيه)(?=\s|$)/;
+    const asked = splitQuestions(t).filter((q) => ASKS.test(q));
     if (asked.length > 1 && !followUp) {
       const found = [];
       for (const q of asked) {
@@ -513,15 +572,8 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
     // The trained classifier (lib/classify.mjs), when it's sure: off-topic, small talk, or the answer.
     const cls = hits.cls;
     if (cls && !followUp) {
-      if (cls.label === "@off" && cls.p >= offAt && !STRONG_TOPIC.test(t)) {
-        parts.push(pick(OFF_TOPIC[0]), pick(OFF_TOPIC[1]));
-        return { parts, suggestions: starters };
-      }
-      if (cls.label === "@chat" && cls.p >= chatAt && tokens(t).length <= 4 && !STRONG_TOPIC.test(t)) {
-        if (!parts.length) parts.push(pick(["تمام 👌", "أكيد 🌿", "حلو 😊"]));
-        parts.push(pick(["شو حابب تعرف عن روح العطاء؟", "إذا عندك أي سؤال عن الشاليهات أو الكمباوند، أنا هون 😊"]));
-        return { parts, suggestions: starters };
-      }
+      if (cls.label === "@off" && cls.p >= offAt && !STRONG_TOPIC.test(t)) return kindReply(cls.kind, t, state, parts);
+      if (cls.label === "@chat" && cls.p >= chatAt && (cls.kind !== "chat" ? tokens(t).length <= 12 : tokens(t).length <= 4) && !STRONG_TOPIC.test(t)) return kindReply(cls.kind, t, state, parts);
       if (!cls.label.startsWith("@") && cls.labels.length && cls.p >= trust && (!top?.d.q || !cls.labels.includes(labelOf(top.d.q)))) {
         const sure = hits.find((h) => h.d.q && cls.labels.includes(labelOf(h.d.q))) ?? byLabel(cls.labels[0]);
         if (sure) top = { ...sure, score: Math.max(sure.score, 0.3) };
@@ -533,21 +585,21 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
     const sug = [...new Set(hits.filter((h) => h.d.q).map((h) => label(h.d.q)))];
     // A full English sentence that matched nothing well: answer in English.
     const latin = (t.match(/[a-z]/gi) ?? []).length, arabic = (t.match(/[\u0600-\u06FF]/g) ?? []).length;
-    const english = latin > 12 && latin > arabic * 2 && t.trim().split(/\s+/).length >= 4;
+    // Arabizi («2addesh el shalih», «shu 3andkom») is Arabic: the search already reads it.
+    const arabizi = /[a-z][2375][a-z]|(?:^|\s)[2375][a-z]|(?:^|\s)(?:shu|sho|bdi|baddi|3and\w*|2add?esh|kam|fi|feh|wen|wein|ya3ni|el|lal|mesh|msh)(?=\s|$)/i.test(t);
+    const english = latin > 12 && latin > arabic * 2 && t.trim().split(/\s+/).length >= 4 && !arabizi;
     if (!top || top.score < 0.18 || (english && top.score < 0.4)) {
       // About the compound but not on the site: honest, and the team. Anything else: off topic.
-      const [first, second] = english ? ENGLISH : ON_TOPIC.test(t) ? UNKNOWN : OFF_TOPIC;
+      if (!english && !ON_TOPIC.test(t)) return kindReply(leaning(cls, 0.35) ?? "off", t, state, parts);
+      const [first, second] = english ? ENGLISH : UNKNOWN;
       parts.push(pick(first), pick(second));
       return { parts, suggestions: starters };
     }
     if (top.score < 0.26 && !followUp && !ON_TOPIC.test(t) && !STRONG_TOPIC.test(t)) {
       // Unsure and nothing in it is about us: a short message is small talk, a longer one off-topic.
-      if (tokens(t).length <= 2 && !/[؟?]/.test(t)) {
-        parts.push(pick(["تمام 👌", "أكيد 🌿", "حلو 😊"]), pick(["شو حابب تعرف عن روح العطاء؟", "إذا عندك أي سؤال عن الشاليهات أو الكمباوند، أنا هون 😊"]));
-        return { parts, suggestions: starters };
-      }
-      parts.push(pick(OFF_TOPIC[0]), pick(OFF_TOPIC[1]));
-      return { parts, suggestions: starters };
+      const k = leaning(cls, 0.35);
+      if (k) return kindReply(k, t, state, parts);
+      return kindReply(tokens(t).length <= 2 && !/[؟?]/.test(t) ? "chat" : "off", t, state, parts);
     }
     if (top.score < 0.26 && top.d.q && !followUp) {
       const guess = label(top.d.q);
@@ -578,7 +630,7 @@ export function createBrain(kb, { phone, starters, chalets = [], trust = 0.5, of
 
     // "How do I book a viewing?": book it right here instead of explaining how.
     if (top.d.q?.startsWith("كيف يمكنني حجز موعد لمعاينة") && !/فيديو|افتراض|اونلاين|online|video|كول/i.test(t)) {
-      parts.push(pick(["بنتشرّف فيك! 😍 بحجزلك الزيارة من هون، بدون ما تطلع من المحادثة.", "أكيد! 😍 خلّيني أحجزلك زيارة هون بأقل من دقيقة."]));
+      parts.push(pick(["بنتشرّف فيك! 😍 بحجزلك الزيارة من هون، بدون ما تطلع من المحادثة.", "أكيد! 😍 خلّيني أحجزلك زيارة هون بأقل من دقيقة.", "يا هلا! 😍 الزيارة ببلاش وبدون التزام، خلّيني أحجزلك إياها هون."]));
       return { parts, action: "book" };
     }
 

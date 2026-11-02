@@ -14,6 +14,7 @@ import { createEmbedder } from "../../public/chatbot/lib/embed.mjs";
 import { createSearch, labelOf } from "../../public/chatbot/lib/core.mjs";
 import { createClassifier, pieces } from "../../public/chatbot/lib/classify.mjs";
 import { docTag, isTest, readQuestions } from "./questions-eval.mjs";
+import { KIND_TAGS } from "../../public/chatbot/convo.mjs";
 
 const here = (p) => new URL(p, import.meta.url);
 const arg = (name, def) => Number(process.argv.find((a) => a.startsWith(`--${name}=`))?.split("=")[1] ?? def);
@@ -37,10 +38,14 @@ const { prepare } = createSearch(kb.docs, embedder);
 
 // One class per answer: FAQ docs that are the same answer (same tag) share it.
 const faqs = kb.docs.filter((d) => d.kind === "faq" && d.q);
-const classes = [...new Set(faqs.map((d) => docTag(d))), "@off", "@chat"];
+// Reply kinds for messages that aren't about us (convo.mjs KINDS): each its own class, voting as a
+// group with the generic @off / @chat (lib/core.mjs).
+const classes = [...new Set(faqs.map((d) => docTag(d))), "@off", "@chat", ...KIND_TAGS.map((k) => `@${k}`)];
 const classOf = new Map(classes.map((c, i) => [c, i]));
 const docs = Object.fromEntries(faqs.map((d) => [labelOf(d.q), classOf.get(docTag(d))]));
-const tagClass = (tag) => (tag === "off" ? classOf.get("@off") : tag === "chat" || tag === "persona" ? classOf.get("@chat") : classOf.get(tag));
+const tagClass = (tag) =>
+  tag === "off" ? classOf.get("@off") : tag === "chat" ? classOf.get("@chat") : tag === "persona" ? classOf.get("@chat-persona")
+  : KIND_TAGS.includes(tag) ? classOf.get(`@${tag}`) : classOf.get(tag);
 
 const raw = []; // { text, c }
 for (const d of faqs) for (const t of [labelOf(d.q), ...(d.phrasings ?? [])]) raw.push({ text: t, c: classOf.get(docTag(d)) });
@@ -64,7 +69,12 @@ const OFF_T = [
   () => `${pickR(["شو عاصمه", "كم عدد سكان", "وين بتقع"])} ${pickR(["استراليا", "كندا", "اليابان", "البرازيل"])}`,
   () => pickR(["راسي بوجعني", "عندي امتحان بكرا", "زهقان", "مش عارف شو اعمل بحياتي", "الانترنت عندي بطيء", "جاري مزعج", "سيارتي خربت", "ابني ما بدو يدرس", "شو بتنصحيني اتابع مسلسل", "احكيلي نكته"]),
 ];
-for (let i = 0; i < 400; i++) raw.push({ text: pickR(OFF_T)(), c: classOf.get("@off") });
+// Which reply kind each template is (null: mixed, the generic @off).
+const OFF_KIND = ["off-knowledge", "off-other-business", "off-knowledge", "off-knowledge", null, "off-knowledge", "off-knowledge", "off-knowledge", null];
+for (let i = 0; i < 400; i++) {
+  const k = Math.floor(rand() * OFF_T.length);
+  raw.push({ text: OFF_T[k](), c: classOf.get(OFF_KIND[k] ? `@${OFF_KIND[k]}` : "@off") });
+}
 
 /* Typo augmentation: the mistakes people make on phones. */
 const SWAPS = [["ة", "ه"], ["ه", "ة"], ["ى", "ي"], ["ي", "ى"], ["أ", "ا"], ["إ", "ا"], ["آ", "ا"], ["ض", "ظ"], ["ث", "س"], ["ذ", "ز"], ["ق", "ء"], ["ؤ", "و"], ["ئ", "ي"]];

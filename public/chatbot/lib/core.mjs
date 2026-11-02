@@ -222,7 +222,24 @@ export function createSearch(rawDocs, embedder, { semWeight = 0.3, semFloor = 0.
     if (probs) {
       let best = 0;
       for (let i = 1; i < probs.length; i++) if (probs[i] > probs[best]) best = i;
-      hits.cls = { label: classifier.classes[best], labels: labelsOf[best], p: probs[best], off: probs[clsOf.get("@off")] ?? 0, chat: probs[clsOf.get("@chat")] ?? 0 };
+      // Reply kinds (@off-sensitive, @chat-thanks…) vote as their group: «@off» is the sum of the
+      // generic @off and every @off-* kind, «@chat» likewise. `kind` is the group's leading kind
+      // (the generic class only when it clearly outweighs every specific kind).
+      const group = (g) => {
+        let sum = 0, top = null, gen = 0;
+        classifier.classes.forEach((c, i) => {
+          if (c === g) { sum += probs[i]; gen = probs[i]; }
+          else if (c.startsWith(`${g}-`)) { sum += probs[i]; if (!top || probs[i] > probs[top.i]) top = { i, c }; }
+        });
+        return { sum, kind: top && probs[top.i] * 3 >= gen ? top.c.slice(1) : g.slice(1) };
+      };
+      const off = group("@off"), chat = group("@chat");
+      let label = classifier.classes[best], p = probs[best], kind = null;
+      if (label.startsWith("@") || off.sum > p || chat.sum > p) {
+        const g = off.sum >= chat.sum ? ["@off", off] : ["@chat", chat];
+        if (g[1].sum >= p || label.startsWith("@")) [label, p, kind] = [g[0], g[1].sum, g[1].kind];
+      }
+      hits.cls = { label, labels: label.startsWith("@") ? [] : labelsOf[best], p, kind, off: off.sum, chat: chat.sum, offKind: off.kind, chatKind: chat.kind };
     }
     return hits;
   }
