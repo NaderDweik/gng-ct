@@ -86,6 +86,12 @@ const DIALOGS = [
   [["انا مستعجل", "say:بسرعة|بختصرلك"]],
   [["تصبحي على خير", "say:🌙"]],
   [["Can you tell me something about the weather in London", "say:English|Arabic"]],
+  // Reported 2026-11-02: a typo («الكمباونر») got the security answer; filler words («موجوده داخل»)
+  // got the facilities list instead of the room count; «الخدمات المتوفرة» got the price reply.
+  [["كيف ممكن اوصل للكمباونر؟", "answer:القسطل"]],
+  [["كم غرفة موجوده داخل الشاليه؟", "answer:غرف"]],
+  [["وين المشروغ", "answer:القسطل"]],
+  [["شو الخدمات المتوفره بالكمباند", "answer:الخدمات"]],
 ];
 
 let failed = 0;

@@ -263,8 +263,33 @@ export function isNoise(text) {
   if (/^[a-z]{5,}$/i.test(t) && !/[aeiouy]/i.test(t)) return true; // "sdfghj"
   // Keyboard mashing: "asdfgh", "qwerty", "jkjkjk".
   if (/^[a-z]{4,}$/i.test(t) && /asdf|sdfg|dfgh|fghj|ghjk|hjkl|qwer|wert|erty|rtyu|tyui|yuio|uiop|zxcv|xcvb|cvbn|vbnm|(\w\w)\1\1/i.test(t)) return true;
+  // The same on the Arabic keyboard: four keys in a row ("ضصثق", "شسيبلات").
+  if (/^\p{Script=Arabic}{4,}$/u.test(t)) for (const row of ARABIC_ROWS) for (let i = 0; i + 4 <= row.length; i++) if (t.includes(row.slice(i, i + 4))) return true;
   return false;
 }
+const ARABIC_ROWS = ["ضصثقفغعهخحجد", "شسيبلاتنمكط", "ئءؤرلاىةوزظ"];
+
+/** Clearly about the compound (a word for it, or "you/yours"): never treated as off-topic. */
+export const STRONG_TOPIC = /شالي|شاليه|شالية|كمباوند|كمبوند|كمباند|كومباوند|المشروع|مشروعكم|روح العطاء|عندكم|عندك|عنكم|تبعكم|chalet|compound/i;
+/** Everyday topics that aren't ours: other places' weather, health, jobs, loans, other products
+ *  and companies, politics, homework. Matched only when the message isn't clearly about us. */
+export const OFF_HINT = new RegExp(
+  [
+    "(?:طقس|درج[هة] الحرار|بتشتي|تشتي|مطر|ثلج)[^]{0,20}(?:العقب[هة]|اربد|إربد|الزرقا|دبي|اسطنبول|القاهر[هة]|السلط|لندن)|(?:العقب[هة]|اربد|إربد|دبي|اسطنبول)[^]{0,12}(?:طقس|حرار|بتشتي|تشتي)",
+    "دوا |دوا$|دواء|راسي|بطني|ضغطي|السكري|الكح[هة]|موعد عند الدكتور|بتعيط",
+    "وظيف|وظايف|شاغر|سي ?ڤي|سي ?في|\\bcv\\b|اشتغل عندكم|بدكم موظف|بدكم مهندس|خبر[هة] \\d|راتب",
+    "قرض|سلف[هة]? |سلف[هة]?$|ديون|بورص[هة]|غرام الذهب|عيار|بيتكوين",
+    "تويوتا|كامري|هيونداي|جمرك|ايفون|iphone|سامسونج|بلايستيشن|سيار[هة] كهربا",
+    "ترامب|رئيس الوزر|رءيس|الحكوم[هة]|انتخاب|سياس|حرب",
+    "النشامي|ماتش|مباراة|الدوري|ميسي|رونالدو|برشلون[هة]|ريال مدريد",
+    "عاصم[هة]|الجاذبي[هة]|الجاظبي[هة]|ترجم|تعبير|قصيد[هة]|شعر |نكت[هة]|طبخ[هة]|وصف[هة]|كيك[هة]",
+    "جواز|تذكر[هة] طي|طياره|رحل[هة] ل|غسال[هة]|ثلاج[هة]|جر[هة] غاز|طلبات|ازم[هة]|زحم[هة] بشارع",
+    "اعمار|شرك[هة] عقارات|احسن شرك[هة]|احسن جامع[هة]|توجيهي|امتحان|الواجب",
+  ].join("|"),
+  "i",
+);
+/** A link. */
+export const LINK = /https?:\/\/|www\.|bit\.ly|\.com\b/i;
 
 /** Replies to emoji-only messages, by the emoji's mood. */
 export function emojiReply(text) {

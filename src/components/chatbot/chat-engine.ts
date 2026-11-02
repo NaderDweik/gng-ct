@@ -10,7 +10,8 @@ import { createBooking, type ComposerMode } from "./chat-booking";
 const BASE = "/chatbot";
 const PHONE = "0790029928";
 
-type Reply = { parts?: string[]; reply?: string; state?: object; source?: object; suggestions?: string[]; action?: "book" };
+type Card = { type: "chalet"; id: string } | { type: "map" };
+type Reply = { parts?: string[]; reply?: string; state?: { chalet?: string }; source?: object; suggestions?: string[]; action?: "book"; card?: Card };
 type Brain = { reply: (text: string, state: object) => Reply };
 type Loaded = { brain: Brain; starters: string[] };
 
@@ -32,7 +33,10 @@ const BOOK_CHIP = "📅 احجز زيارة";
 const load = (path: string) => import(/* webpackIgnore: true */ /* turbopackIgnore: true */ `${BASE}${path}`);
 
 export function createChat({ log, input, send: sendBtn, form, bar, setMode, showCountry }: ChatEls) {
-  let state: object = {};
+  // The compound map in the chat (chat-map.ts): its own chunk, loaded with the brain.
+  let mapMod: Promise<typeof import("./chat-map")> | null = null;
+  const loadMap = () => (mapMod ??= import("./chat-map"));
+  let state: { chalet?: string } = {};
   let started = false;
   let busy = false;
   let disposed = false;
@@ -60,12 +64,13 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
 
   function loadBrain() {
     return (loading ??= (async () => {
-      const [{ createEmbedder }, { createSearch }, { createBrain }, vocab, kb] = await Promise.all([
+      const [{ createEmbedder }, { createSearch }, { createBrain }, vocab, kb, map] = await Promise.all([
         load("/lib/embed.mjs"),
         load("/lib/core.mjs"),
         load("/brain.mjs"),
         fetch(`${BASE}/model/vocab.json`).then((r) => r.json()),
         fetch(`${BASE}/model/kb.json`).then((r) => r.json()),
+        loadMap(),
       ]);
       let embedder = null;
       try {
@@ -74,7 +79,7 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
         console.warn("Meaning model unavailable, matching by wording only", e);
       }
       progress = 100;
-      return { brain: createBrain(createSearch(kb.docs, embedder), { phone: PHONE, starters: kb.starters }), starters: kb.starters };
+      return { brain: createBrain(createSearch(kb.docs, embedder), { phone: PHONE, starters: kb.starters, chalets: map.chaletIds }), starters: kb.starters };
     })());
   }
 
@@ -243,29 +248,60 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
       }
       await typeOut(bubble("bot"), parts[i]);
     }
+    if (data.card) await showCard(data.card);
     if (data.action === "book") {
-      if (!booking.active) await booking.start();
+      if (!booking.active) await booking.start(state.chalet);
       return;
     }
     // Mid-booking, no side suggestions: the booking picks up right after.
     if (!booking.active) chips(data.suggestions, data.source ? "قد يهمّك أيضًا" : null);
   }
 
+  /** A chalet's card or the map invite, after a short pause like a person attaching a photo. */
+  async function showCard(card: Card) {
+    const map = await loadMap();
+    await map.ready;
+    if (disposed) return;
+    const pause = thinking(true);
+    await wait(650);
+    pause();
+    const panel = log.closest<HTMLElement>(".cb-panel") ?? log;
+    const act = {
+      panel,
+      onDetails: (id: string) => void sendQuiet(`تفاصيل الشاليه ${id}`, { type: "chalet", id }),
+      onBook: (id?: string) => void book(id),
+    };
+    log.append(card.type === "chalet" ? map.chaletCard(card.id, act) : map.mapInvite(act));
+    scroll();
+  }
+
+  /** A chalet picked on the map: posted as the visitor's message, answered with its card. */
+  function sendQuiet(text: string, card: Card) {
+    return run(async () => {
+      log.querySelectorAll(".cb-chips").forEach((c) => c.remove());
+      bubble("me").textContent = text;
+      if (card.type === "chalet") state = { ...state, chalet: card.id };
+      await say(`هاي تفاصيل الشاليه ${card.type === "chalet" ? card.id : ""} 👇`, true);
+      await showCard(card);
+      chips(["ما المرافق داخل الشاليه؟", BOOK_CHIP], null);
+    });
+  }
+
   /** The header's «احجز زيارة» button. */
-  async function book() {
+  async function book(chalet?: string) {
     while (busy && !disposed) await wait(120);
     if (booking.active) return;
     await run(async () => {
       log.querySelectorAll(".cb-chips").forEach((c) => c.remove());
-      bubble("me").textContent = "بدي أحجز زيارة";
-      await booking.start();
+      bubble("me").textContent = chalet ? `بدي أحجز زيارة للشاليه ${chalet}` : "بدي أحجز زيارة";
+      await booking.start(chalet);
     });
   }
 
   return {
     start,
     send,
-    book,
+    book: () => book(),
     setCountry: (iso: string) => booking.setCountry(iso),
     dispose() {
       disposed = true;

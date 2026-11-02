@@ -254,7 +254,7 @@ export function createBooking(ctx: BookingCtx) {
       row.append(el("dt", undefined, k), dd, edit);
       dl.append(row);
     }
-    const place = el("p", "cb-review-place", "📍 كمباوند شاليهات روح العطاء، عمّان");
+    const place = el("p", "cb-review-place", r.chalet ? `📍 الشاليه ${r.chalet} · كمباوند شاليهات روح العطاء، عمّان` : "📍 كمباوند شاليهات روح العطاء، عمّان");
     const confirm = el("button", "cb-confirm");
     confirm.type = "button";
     confirm.innerHTML = `${svg.wa}<span>احجز عبر واتساب</span>`;
@@ -268,7 +268,7 @@ export function createBooking(ctx: BookingCtx) {
         visit_day: r.day?.key ?? "",
         visit_hour: r.hour ?? -1,
         country: r.country,
-        chalet: "",
+        chalet: r.chalet ?? "",
         from_page: location.pathname,
         from_placement: "chatbot",
       });
@@ -329,8 +329,9 @@ export function createBooking(ctx: BookingCtx) {
       return step !== null && step !== "done";
     },
 
-    async start() {
-      r = { ...blank(), name: r.name, phone: r.phone, country: r.country };
+    /** `chalet`: the chalet the visitor was looking at, carried into the request. */
+    async start(chalet?: string) {
+      r = { ...blank(), name: r.name, phone: r.phone, country: r.country, chalet: chalet ?? null };
       ctx.showCountry(r.country);
       editing = false;
       track("register_started", { from_page: location.pathname, from_placement: "chatbot" });

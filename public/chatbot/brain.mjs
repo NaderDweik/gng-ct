@@ -3,7 +3,7 @@
 // back as `parts`, each shown as its own chat bubble. `state` round-trips through the
 // client so follow-ups like "اه أكيد" or "تمام" make sense.
 import { tokens } from "./lib/core.mjs";
-import { CONVO, OFF_TOPIC, UNKNOWN, ENGLISH, ON_TOPIC, isNoise, emojiReply } from "./convo.mjs";
+import { CONVO, OFF_TOPIC, UNKNOWN, ENGLISH, ON_TOPIC, STRONG_TOPIC, OFF_HINT, LINK, isNoise, emojiReply } from "./convo.mjs";
 
 // Topic docs carry extra search words after the "؟"; show people only the question.
 const label = (q) => (q.includes("؟") ? q.split("؟")[0] + "؟" : q);
@@ -15,7 +15,7 @@ const SOCIAL = [
   { id: "morning", re: /صباح (ال)?(خير|نور|ورد|فل)/, say: () => pick(["صباح النور والسرور ☀️", "صباح الورد! ☀️ أهلين فيك"]) },
   { id: "evening", re: /مساء (ال)?(خير|نور|ورد|فل)/, say: () => pick(["مساء النور 🌙 أهلين فيك", "مساء الورد والياسمين 🌙"]) },
   { id: "hi", re: /^(مرحبا|مرحبتين|مرحبًا|اهلين|أهلين|اهلا|أهلا|هلا|هاي|هلو|hi|hello|hey)/i, say: () => pick(["أهلين وسهلين! 😊", "هلا والله، نوّرت 🌿", "مرحبتين! يا هلا فيك 👋"]) },
-  { id: "how", re: /كيفك|كيف حالك|كيف الحال|شو اخبارك|شو أخبارك|شلونك|كيفكم|كيف الصحة/, say: () => pick(["الحمدلله تمام، تسلم على السؤال 🙏", "بخير الحمدلله، الله يسلمك 🌿"]) },
+  { id: "how", re: /كيفك|كيفيك|كيفكيف|كيف حالك|كيف الحال|شو اخبارك|شو أخبارك|شو اخبارك|شخبارك|شلونك|كيفكم|كيف الصحة|ازيك|إزيك|عامل[هة]? ايه|how are you/i, say: () => pick(["الحمدلله تمام، تسلم على السؤال 🙏", "بخير الحمدلله، الله يسلمك 🌿"]) },
 ];
 
 const ONLY_FILLER = /^[\s؟?!.,،😊🙏👋🌿]*$/;
@@ -25,22 +25,27 @@ const ONLY_FILLER = /^[\s؟?!.,،😊🙏👋🌿]*$/;
 const PERSONA = [
   { re: /(شو|ايش|إيش|مين|وش|شنو)\s*(هو\s*)?اسمك|اسمك\s*(شو|ايش|إيش)|^اسمك|ما اسمك|your name|what.?s your name/i, ask: true,
     say: () => [pick(["اسمي ليان 😊 مساعدة روح العطاء الرقمية.", "أنا ليان 🌿 المساعدة الرقمية لروح العطاء."]), "وانت شو اسمك؟"] },
-  { re: /(انت|إنت|انتي|إنتي)\s*(بوت|روبوت|انسان|إنسان|انسانه|إنسانة|حقيقي|حقيقيه|ذكاء|ai)|ذكاء اصطناعي|chat ?gpt|are you (a )?(bot|human|real)/i,
+  { re: /(انت|إنت|انتي|إنتي)\s*(بوت|روبوت|انسان|إنسان|انسانه|إنسانة|حقيقي|حقيقيه|ذكاء|ai|بني ?ادم|كمبيوتر|برنامج)|ذكاء اصطناعي|chat ?gpt|are you (a )?(bot|human|real)|بتقدري تفكري|بتفكري|بتحسي/i,
     say: () => ["أنا مساعدة رقمية مش إنسانة 😊 بس بعرف كل شي موجود على موقعنا عن الشاليهات والكمباوند.", "وإذا حابب تحكي مع حدا من الفريق، بوصلك فيهم."] },
-  { re: /(انت|إنت|انتي|إنتي)\s*(مين|شو)|مين معي|مين انت|مين حضرتك|عرفيني عن حالك|who are you/i, ask: true,
+  { re: /(انت|إنت|انتي|إنتي)\s*(مين|شو|ايش|وش)|(شو|ايش|وش)\s*(انت|انتي|إنتي)(?=$|[\s؟?!.،,])|مين معي|مين انت|مين حضرتك|عرفيني عن حالك|who are you/i, ask: true,
     say: () => ["أنا ليان 😊 المساعدة الرقمية لروح العطاء، بجاوبك عن الشاليهات والكمباوند وبحجزلك زيارة كمان.", "وانت شو اسمك؟"] },
   { re: /كم عمرك|قديش عمرك|how old/i, say: () => ["هههه أنا مساعدة رقمية، عمري من عمر الموقع 😄", "بس بعرف كثير عن روح العطاء، اسألني!"] },
   { re: /(وين|من وين)\s*(انت|انتي|إنتي|ساكنه|عايشه)|انتي من وين/i, say: () => ["أنا عايشة هون على موقع روح العطاء 😄", "بس الكمباوند نفسه بالقسطل قرب قصر المشتى، بتحب أحكيلك عن موقعه؟"], offer: "أين يقع كمباوند شاليهات روح العطاء وما أبرز مميزات موقعه؟" },
-  { re: /مين (عملك|صممك|برمجك|سواكي|عملكي)|who (made|built) you/i, say: () => ["فريق روح العطاء جهّزني عشان أساعد الزوار 😊", "شو حابب تعرف عن الكمباوند؟"] },
-  { re: /(بدي|ممكن|بحب)\s*(احكي|أحكي|اتواصل|أتواصل|اكلم|أكلم)\s*(مع)?\s*(حدا|موظف|انسان|إنسان|الفريق|المبيعات|مسؤول)|talk to (a )?(human|person|agent)/i, contact: true,
+  { re: /مين (عملك|صممك|برمجك|برمجكي|سواكي|عملكي|سواك|عملك)|who (made|built) you/i, say: () => ["فريق روح العطاء جهّزني عشان أساعد الزوار 😊", "شو حابب تعرف عن الكمباوند؟"] },
+  { re: /(بدي|ممكن|بحب|عايز|ابي|أبي|بدنا)\s*(احكي|أحكي|اتواصل|أتواصل|اكلم|أكلم|نحكي)\s*(مع)?\s*(حد|حدا|موظف|انسان|إنسان|الفريق|المبيعات|مسؤول|المسؤول|خدم[هة] العملاء|المدير)|(حدا|حد|موظف|الفريق)\s*(يتصل|يرن|يكلم|يحكي)|يرن (علي|عليي)|اتصلوا (فيي|علي|عليي)|حوليني|بدي (مدير|مسؤول) (المبيعات|البيع)|بدي اكلمه|بدي احكي معهم|talk to (a )?(human|person|agent)|call me/i, contact: true,
     say: (c) => [`أكيد 🌿 ${c}، وبكونوا مبسوطين يساعدوك.`] },
+  { re: /(بتفهمي|بتحكي|تحكي)\s*(عربي)/, say: () => ["أكيد! العربي لغتي 😊 ولو كتبت باللهجة أو بأخطاء إملائية بفهم عليك كمان.", "شو حابب تعرف؟"] },
+  { re: /متجوز|متزوج|مخطوب|سنقل|single|بتنامي|بتاكلي|بتشربي|ولد ولا بنت|بنت ولا ولد|ذكر ولا انثى/i,
+    say: () => [pick(["هههه أنا مساعدة رقمية، ما بنام ولا بتزوج 😄", "😄 أنا مساعدة رقمية، حياتي كلها روح العطاء!"]), "بس دايمًا صاحية لأسئلتك عن الشاليهات والكمباوند."] },
+  { re: /ليش اسمك|مين سما(ك|كي)|اسمك حلو/, say: () => ["فريق روح العطاء اختارلي اسم ليان 🌿 وبحبه كثير!", "شو حابب تعرف عن الكمباوند؟"] },
+  { re: /(انت|انتي|إنتي)\s*موظف|بتشتغلي (عندهم|معهم|عندكم)/, say: (c) => ["أنا مساعدة رقمية لروح العطاء 😊 بجاوب على أسئلتك وبحجزلك زيارة.", `ولما تحب تحكي مع حدا من الفريق، ${c}.`] },
   { re: /(بتحكي|بتفهمي|تحكي)\s*(انجليزي|إنجليزي|انكليزي|english)|do you speak english|speak english/i,
     say: () => ["بفهم شوية إنجليزي، بس بحكي عربي أحسن 😊", "وفريق المبيعات بيحكي إنجليزي، إذا بتحب تحكي معهم مباشرة."] },
   { re: /(انتي|إنتي)\s*(حلوه|حلوة|شاطره|شاطرة|ذكيه|ذكية|لطيفه|لطيفة|كثير منيحه|رائعه)|بحبك|حبيتك/i,
     say: () => [pick(["يسلملي قلبك 😊", "تسلم على ذوقك 🌿"]), "شو كمان بقدر أساعدك فيه؟"] },
   { re: /غبي|غبيه|حمار|حماره|ما بتفهمي|مش فاهمه|ما فهمتي|سخيف|سخيفه|بلا فايده|useless|stupid/i,
     say: (c) => ["سامحني إذا ما فهمتك صح 🙏", `جرّب تكتبلي سؤالك بطريقة ثانية، أو ${c}.`] },
-  { re: /(شو|ايش)\s*(بتعملي|بتسوي|بتقدري تعملي)|كيف بتساعديني|شو بتقدري|what can you do/i,
+  { re: /(شو|ايش|وش)\s*(بتعملي|بتسوي|بتقدري تعملي|بتعرفي تعملي|بتعرفي)|كيف بتساعديني|شو بتقدري|what can you do/i,
     say: () => ["بجاوبك عن أي إشي بخص روح العطاء: الشاليهات، المرافق، الموقع، التقسيط والتملك 😊", "وبقدر أحجزلك زيارة للكمباوند من هون بدون ما تطلع من المحادثة."] },
 ];
 // "لا" / "مش هيك" + the real question: a correction, not a "no thanks".
@@ -54,8 +59,8 @@ const OPENER = /^[\s،,.!]*(?:(?:يا\s*)?ليان|اسمعي(?:ني)?|اسمع(
 const CHAT = {
   askBack: /(?:^|\s)و?(?:انت|انتي|إنت|إنتي|حضرتك)(?:\s+(?:كيفك|كيف حالك|كيفك انتي|شو اخبارك))?(?=[\s؟?!.،,]|$)|و?(?:كيفك|شو اخبارك) (?:انت|انتي|إنتي)/g,
   wellbeing: /الحمد\s*[اﷲ]?\s*ل?لل?ه|الحمدلل?ه|نشكر الله|بخير|منيح(?:ه|ة)?|كويس(?:ه|ة)?|ماشي الحال|زي الفل|تمام التمام|الله يسلم(?:ك|كي|ج)|الله يخلي(?:ك|كي)|يخلي(?:ك|كي)|\b(?:fine|good|great)\b/gi,
-  compliment: /حلو(?:ه|ة)?|رائع(?:ه|ة)?|ممتاز(?:ه|ة)?|جميل(?:ه|ة)?|روع(?:ه|ة)|واو+|يا سلام|ما شاء الله|ماشاءالله|خرافي|بجنن|\b(?:wow|nice|amazing|cool)\b/gi,
-  ack: /(?:^|\s)(?:طيب|اوكي|أوكي|اوك|ok|okay|ماشي|تمام|فهمت|واضح|ابشر|أبشر|ايوه|ايوا|اه|آه|اوكيه|زين|كثير|جدا|جداً|والله)(?=[\s؟?!.،,]|$)/gi,
+  compliment: /بتجنن|حلو+(?:ه|ة)?|رائع(?:ه|ة)?|ممتاز(?:ه|ة)?|جميل(?:ه|ة)?|روع(?:ه|ة)|واو+|يا سلام|ما شاء الله|ماشاءالله|خرافي|بجنن|\b(?:wow|nice|amazing|cool)\b/gi,
+  ack: /(?:^|\s)(?:طيب+|ماشي|فهمت عليك|فهمت عليكي|خليني اشوف|خليني افكر|بفكر|okay|اوكي|أوكي|اوك|ok|okay|ماشي|تمام|فهمت|واضح|ابشر|أبشر|ايوه|ايوا|اه|آه|اوكيه|زين|كثير|جدا|جداً|والله)(?=[\s؟?!.،,]|$)/gi,
 };
 const strip = (t, re) => t.replace(new RegExp(re.source, re.flags.replace("^", "") + "g"), " ").replace(/^[\s,،.!؟?]+/, "");
 
@@ -75,7 +80,22 @@ function splitQuestions(text) {
   return text.split(SPLIT).map((q) => q.trim()).filter((q) => tokens(q).length > 0);
 }
 
-export function createBrain(kb, { phone, starters }) {
+export function createBrain(kb, { phone, starters, chalets = [] }) {
+  // Chalet numbers on the compound plan («A9», «D50», «A11+»), for questions about one chalet.
+  const chaletIds = new Map(chalets.map((id) => [id.toUpperCase(), id]));
+  /** The chalet a message names: { id } when it's on the plan, { unknown } when it only looks like one. */
+  function chaletIn(text) {
+    // «A 9» with a space only in an Arabic message: in English, «a 2 bedroom» isn't chalet A2.
+    text = text.replace(/\s*(plus|بلس)\b/gi, "+");
+    const arabic = /[\u0600-\u06FF]/.test(text) || /^\s*[A-Za-z]\s?-?\s?\d{1,2}\+?\s*[؟?]?\s*$/.test(text);
+    const short = text.trim().split(/\s+/).length <= 3;
+    const m = text.match(arabic || short ? /(?<![A-Za-z])([A-Za-z])\s?-?\s?(\d{1,3})(\s?\+)?(?!\d)/ : /(?<![A-Za-z])([A-Za-z])-?(\d{1,3})(\+)?(?![\d\w])/);
+    if (!m) return null;
+    const name = `${m[1].toUpperCase()}${m[2]}`;
+    const id = chaletIds.get(name + (m[3] ? "+" : "")) ?? chaletIds.get(name) ?? chaletIds.get(`${name}+`);
+    if (id) return { id };
+    return /شاليه|شالية|رقم|وحده|وحدة|بيت|فيلا|سعر|sa3r|si3r|s3r/i.test(text) ? { unknown: name } : null;
+  }
   const contact = `تقدر تحكي مع فريق المبيعات مباشرة على ${phone} أو واتساب`;
 
   function answerFrom(hit, query) {
@@ -146,11 +166,14 @@ export function createBrain(kb, { phone, starters }) {
     const seen = { ...(state.seen ?? {}) };
     const out = respond(text, state, seen);
     const name = out.state?.name ?? state.name;
-    return { ...out, state: { ...(out.state ?? {}), seen, ...(name && { name }) } };
+    // The chalet just shown, so «احجز زيارة» right after its card books that chalet (one turn only).
+    const chalet = out.card?.type === "chalet" ? out.card.id : out.action === "book" ? state.chalet : undefined;
+    return { ...out, state: { ...(out.state ?? {}), seen, ...(name && { name }), ...(chalet && { chalet }) } };
   }
 
   function respond(text, state, seen) {
-    const raw = text.trim();
+    // Stretched letters ("كتيييير", "طيبب", "يسلموو") read as the plain word.
+    const raw = text.trim().replace(/(\p{L})\1{2,}/gu, "$1").replace(/(\p{Script=Arabic}{3,})(\p{Script=Arabic})\2(?=[\s؟?!.،,]|$)/gu, "$1$2");
     let t = raw;
     const parts = [];
     let askedHow = false;
@@ -210,7 +233,7 @@ export function createBrain(kb, { phone, starters }) {
       { t = state.offer; followUp = true; }
     else if (state.offer && /^(لا|لأ|مش هلأ|لا شكرا|خلص)/.test(short))
       return { parts: [pick(["ولا يهمك! 😊", "تمام، على راحتك 🌿"]), "إذا خطر ببالك أي سؤال ثاني أنا هون."] };
-    if (/شكر|يعطيك العافيه|يعطيك العافية|مشكور|تسلم|يسلمو|يسلموا|يسلم ايديك|thanks|thank/i.test(short) && tokens(t).length <= 3)
+    if (/شكر|يعطي(?:ك|كي|كم) العافي[هة]|مشكور|تسلم|يسلمو|يسلموا|يسلم ايديك|thanks|thank/i.test(short) && tokens(t).length <= 5 && !/[؟?]/.test(t))
       return { parts: [pick(["العفو، هذا واجبنا 🌿", "ولو! تكرم 🙏", "على الرحب والسعة 😊", "الله يعافيك 🌿"]), pick(["إذا في أي سؤال ثاني أنا موجودة.", "وإذا حاب تشوف الكمباوند على الطبيعة، بنتشرّف بزيارتك بأي وقت."])] };
     if (/مع السلامه|مع السلامة|باي|bye|سلام عليكم وداعا|يلا سلام/i.test(short))
       return { parts: [`بأمان الله${state.name ? ` يا ${state.name}` : ""} 👋 نوّرتنا، ونتشرّف بزيارتك للكمباوند بأي وقت!`] };
@@ -222,6 +245,8 @@ export function createBrain(kb, { phone, starters }) {
       const found = {};
       let rest = t;
       for (const [kind, re] of Object.entries(CHAT)) rest = rest.replace(re, () => ((found[kind] = true), " "));
+      // "المكان بجنن", "الويب سايت تبعكم حلو": a compliment about us is still just a compliment.
+      if (found.compliment) rest = rest.replace(/المكان|المشروع|الشاليهات|الشاليه|الكمباوند|الويب ?سايت|الموقع|الصور|تبعكم|عندكم|بصراح[هة]|والله|كتير|كثير|عن جد|اشي|إشي/g, " ");
       const chatOnly = Object.keys(found).length && !tokens(rest.replace(/[^\p{L}\p{N}\s]/gu, " ")).length;
       if (chatOnly) {
         if (found.askBack) parts.push(pick(["الحمدلله بخير، الله يسلمك 😊", "تمام الحمدلله، تسلم على ذوقك 🌿"]));
@@ -270,18 +295,47 @@ export function createBrain(kb, { phone, starters }) {
       return { parts, suggestions: askedHow ? [] : starters, state: { askedHow } };
     }
 
+    // Clearly not about us (another city's weather, a loan, a car, a job, a link): say so kindly.
+    if (!followUp && LINK.test(t) && !STRONG_TOPIC.test(t)) {
+      parts.push("ما بقدر أفتح روابط من هون 🙏", "بس إذا عندك سؤال عن الشاليهات أو الكمباوند، أنا جاهزة 😊");
+      return { parts, suggestions: starters };
+    }
+    if (!followUp && OFF_HINT.test(t) && !STRONG_TOPIC.test(t)) {
+      parts.push(pick(OFF_TOPIC[0]), pick(OFF_TOPIC[1]));
+      return { parts, suggestions: starters };
+    }
+
     // 3. Intents with a fixed, human answer.
-    if (/سعر|اسعار|أسعار|كلف|تكلف|بكم|بقديش|قديش سعر|متوفر|متاح|في وحدات/.test(t)) {
+    // One chalet by its number («شو تفاصيل A9»، «كم سعر D50»): its card, with its place on the map.
+    const chalet = chaletIn(t);
+    if (chalet?.id) {
+      parts.push(pick([`أكيد 😊 هاي تفاصيل الشاليه ${chalet.id}، ومكانه بالكمباوند 👇`, `هاد الشاليه ${chalet.id} 🏡 شوف وين موقعه بالضبط 👇`, `تكرم 🌿 هاي كل تفاصيل الشاليه ${chalet.id} 👇`]));
+      return { parts, card: { type: "chalet", id: chalet.id }, suggestions: ["ما المرافق داخل الشاليه؟", "📅 احجز زيارة"] };
+    }
+    if (chalet?.unknown) {
+      parts.push(`ما لقيت شاليه برقم ${chalet.unknown} على مخطط الكمباوند 🤔 ممكن الرقم مكتوب بشكل ثاني؟`);
+      parts.push("تقدر تدوّر عليه بنفسك على الخريطة، والشاليهات المتاحة معلّمة عليها 👇");
+      return { parts, card: { type: "map" } };
+    }
+    // The compound map itself.
+    if (/خريط|خارط|خارطه|مخطط|مخطك|\bmap\b|ماب|(شاليه|شاليهات|الشاليهات)\s*(ال)?فاضي|للبيع (هلا|هسا|هلأ|حاليا)|which chalets|available chalets|وين (موقع )?كل شاليه|وين الشاليهات (جوا|داخل)|شاليهات (متاح|متوفر)/i.test(t)) {
+      parts.push(pick(["أكيد 🗺️ هاي خريطة الكمباوند، والشاليهات المتاحة معلّمة عليها. كبّر واضغط على أي شاليه تشوف تفاصيله 👇", "تفضّل 🗺️ هاي الخريطة كاملة، اضغط على أي شاليه بتعرف كل إشي عنه 👇"]));
+      return { parts, card: { type: "map" } };
+    }
+    // «متوفر/متاح» is about units unless the visitor means services («شو الخدمات المتوفرة»).
+    const W = (re) => new RegExp(`(?:^|[\\s،,.!؟?])(?:${re.source})(?=$|[\\s،,.!؟?])`);
+    if (/سعر|اسعار|أسعار|كلف|تكلف|قديش سعر|في وحدات/.test(t) || W(/بكم|بقديش|بكام|بكام ده/).test(t) || (/متوفر|متاح/.test(t) && !/خدم|مرافق|نشاط|العاب|ألعاب|رياض|مي |المي|مياه|مي$|كهربا|نت|واي ?فاي|wifi|اكل|مطعم|محل|سوبر|جول[هة]|افتراض|فيديو|زيار/.test(t))) {
       parts.push(pick(["بالنسبة للأسعار والوحدات المتاحة، بتتغيّر باستمرار، فبفضّل يعطيك إياها فريق المبيعات بشكل دقيق 🙏", "الأسعار والوحدات المتوفرة بتختلف حسب الشاليه والموقع، وفريق المبيعات بعطيك آخر التفاصيل أول بأول 🙏"]));
       parts.push(`${contact}، وكمان في تقسيط بقسط شهري 1% بس وبدون فوائد 👌`);
-      return { parts, suggestions: ["هل تتوفر خيارات تقسيط لشراء الشاليه؟", "بدي أحجز زيارة"] };
+      parts.push(pick(["وبهالأثناء، شوف الشاليهات المتاحة على خريطة الكمباوند، واضغط على أي واحد بتشوف تفاصيله 👇", "وإذا حابب، تصفّح الشاليهات المتاحة على الخريطة واختار اللي بعجبك 👇"]));
+      return { parts, card: { type: "map" }, suggestions: ["هل تتوفر خيارات تقسيط لشراء الشاليه؟", "📅 احجز زيارة"] };
     }
     // Booking happens inside the chat (the site's chat-booking.ts takes over on `action`).
-    if ((/زياره|زيارة|موعد|احجز|أحجز|حجز|اشوف الكمباوند|أزور|ازور/.test(t) || /معاين/.test(t)) && !/فيديو|افتراض|اونلاين|أونلاين|online|video|كول/i.test(t)) {
+    if ((/زياره|زيارة|موعد|احجز|أحجز|حجز|اشوف الكمباوند|أزور|ازور|نزوركم|(بدي|بدنا|ممكن|حابب|حابين)\s+(اجي|نيجي|نجي|امرق|نمرق)|نيجي العيل|عالطبيع|على الطبيع|\b(book|booking|appointment|a7jez|ahjez|maw3ed)\b/i.test(t) || /معاين/.test(t)) && !/فيديو|افتراض|اونلاين|أونلاين|online|video|كول/i.test(t)) {
       parts.push(pick(["بنتشرّف فيك! 😍 بحجزلك الزيارة من هون، بدون ما تطلع من المحادثة.", "أكيد! 😍 خلّيني أحجزلك زيارة هون بأقل من دقيقة."]));
       return { parts, action: "book" };
     }
-    if (/رقم|تلفون|هاتف|اتصل|واتس|تواصل/.test(t)) {
+    if (/رقم|تلفون|تلفونات|هاتف|اتصل|يتصل|يرن|واتس|whats|تواصل|موبايل|جوال/i.test(t) && !/رقم (الشاليه|شاليه)/.test(t)) {
       parts.push(`أكيد 🌿 ${contact}، وبكونوا مبسوطين يساعدوك.`);
       return { parts };
     }
@@ -323,11 +377,26 @@ export function createBrain(kb, { phone, starters }) {
       parts.push(pick(first), pick(second));
       return { parts, suggestions: starters };
     }
+    if (top.score < 0.26 && !followUp && !ON_TOPIC.test(t) && !STRONG_TOPIC.test(t)) {
+      // Unsure and nothing in it is about us: a short message is small talk, a longer one off-topic.
+      if (tokens(t).length <= 2 && !/[؟?]/.test(t)) {
+        parts.push(pick(["تمام 👌", "أكيد 🌿", "حلو 😊"]), pick(["شو حابب تعرف عن روح العطاء؟", "إذا عندك أي سؤال عن الشاليهات أو الكمباوند، أنا هون 😊"]));
+        return { parts, suggestions: starters };
+      }
+      parts.push(pick(OFF_TOPIC[0]), pick(OFF_TOPIC[1]));
+      return { parts, suggestions: starters };
+    }
     if (top.score < 0.26 && top.d.q && !followUp) {
       const guess = label(top.d.q);
       const about = top.d.topic ?? `«${guess}»`;
       parts.push(pick([`بس لأتأكد إني فهمتك صح 🙏 بتسأل عن ${about}؟`, `قصدك بتسأل عن ${about}؟`]));
       return { parts, suggestions: sug.filter((q) => q !== guess).slice(0, 2), state: { offer: guess } };
+    }
+
+    // "How do I book a viewing?": book it right here instead of explaining how.
+    if (top.d.q?.startsWith("كيف يمكنني حجز موعد لمعاينة") && !/فيديو|افتراض|اونلاين|online|video|كول/i.test(t)) {
+      parts.push(pick(["بنتشرّف فيك! 😍 بحجزلك الزيارة من هون، بدون ما تطلع من المحادثة.", "أكيد! 😍 خلّيني أحجزلك زيارة هون بأقل من دقيقة."]));
+      return { parts, action: "book" };
     }
 
     const key = top.d.q ? label(top.d.q) : top.d.text.slice(0, 40);
