@@ -122,7 +122,15 @@ function editDistance(a, b, max) {
 export const embedTexts = (d) => [d.q, ...(d.phrasings ?? []), d.kind === "faq" && d.q ? null : d.text].filter(Boolean);
 
 /* ---------- Index ---------- */
-export function createSearch(rawDocs, embedder, { semWeight = 0.3, semFloor = 0.2 } = {}) {
+/** An FAQ doc's question as shown to people (topic docs carry extra words after the "؟"). */
+export const labelOf = (q) => (q.includes("؟") ? q.split("؟")[0] + "؟" : q);
+
+/**
+ * `classifier` (lib/classify.mjs, trained by tools/train-classifier.mjs): which FAQ answer a
+ * message means, as probabilities; each doc's probability is added to its score (× clsWeight).
+ * Results carry `.cls`: the classifier's own reading ({ label, p, off, chat }).
+ */
+export function createSearch(rawDocs, embedder, { semWeight = 0.3, semFloor = 0.2, classifier = null, clsWeight = 0.5 } = {}) {
   const docs = rawDocs.map((d) => {
     // Questions and phrasings count three times: they are how people actually ask.
     const asked = [d.q, ...(d.phrasings ?? [])].filter(Boolean).join(" ");
@@ -159,7 +167,8 @@ export function createSearch(rawDocs, embedder, { semWeight = 0.3, semFloor = 0.
     return out;
   }
 
-  function search(rawQuery, k = 5) {
+  /** The query as the models read it: Arabizi → Arabic, typos → the site's spelling, filler out. */
+  function prepare(rawQuery) {
     // Arabizi ("3ndkom", "shu", "si3r") → Arabic, then misspelt words → the site's spelling,
     // in the query itself so the meaning model sees them fixed too.
     const query = rawQuery.replace(/[a-z0-9']+/gi, (w) => ARABIZI[w.toLowerCase()] ?? w).replace(/[\p{L}\p{N}²]+/gu, (raw) => {
@@ -168,14 +177,26 @@ export function createSearch(rawDocs, embedder, { semWeight = 0.3, semFloor = 0.
       const f = fixWord(w);
       return f === w ? raw : f;
     });
-    const words = tokens(query, true);
-    const qv = words.length ? weigh(count(grams(words)), idf) : null;
     // The meaning model averages every word, so filler («موجوده», «داخل») is left out.
     const meant = query.split(/\s+/).filter((raw) => !FILLER.has(normWord(raw.replace(/[^\p{L}\p{N}²]/gu, "")))).join(" ");
-    const qm = embedder ? embedder.embed(meant || query) : null;
+    return { query, meant: meant || query };
+  }
+
+  // Each FAQ doc's class in the classifier.
+  const clsOf = classifier ? new Map(classifier.classes.map((c, i) => [c, i])) : null;
+  for (const d of docs) d.cls = classifier && d.q ? classifier.docs[labelOf(d.q)] ?? -1 : -1;
+  // Each class's FAQ questions (two FAQ docs can share an answer, hence a class).
+  const labelsOf = classifier ? classifier.classes.map((_, i) => Object.keys(classifier.docs).filter((l) => classifier.docs[l] === i)) : null;
+
+  function search(rawQuery, k = 5) {
+    const { query, meant } = prepare(rawQuery);
+    const words = tokens(query, true);
+    const qv = words.length ? weigh(count(grams(words)), idf) : null;
+    const qm = embedder ? embedder.embed(meant) : null;
+    const probs = classifier ? classifier.predict(meant) : null;
     const asked = tokens(query);
     const askedW = asked.reduce((s, w) => s + widf(w), 0);
-    return docs
+    const hits = docs
       .map((d) => {
         let lex = 0;
         if (qv) {
@@ -192,11 +213,18 @@ export function createSearch(rawDocs, embedder, { semWeight = 0.3, semFloor = 0.
         if (qm) for (const v of d.mvecs) sem = Math.max(sem, cosine(qm, v));
         const semAdj = Math.max(0, (sem - semFloor) / (1 - semFloor));
         const topical = d.list && tokens(d.title).some((w) => words.includes(w)) ? 0.12 : 0;
-        const score = (1 - semWeight) * lex + semWeight * semAdj + (d.kind === "faq" ? 0.04 : 0) + topical;
-        return { d, score, lex, sem };
+        const p = probs && d.cls >= 0 ? probs[d.cls] : 0;
+        const score = (1 - semWeight) * lex + semWeight * semAdj + (d.kind === "faq" ? 0.04 : 0) + topical + clsWeight * p;
+        return { d, score, lex, sem, p };
       })
       .sort((a, b) => b.score - a.score)
       .slice(0, k);
+    if (probs) {
+      let best = 0;
+      for (let i = 1; i < probs.length; i++) if (probs[i] > probs[best]) best = i;
+      hits.cls = { label: classifier.classes[best], labels: labelsOf[best], p: probs[best], off: probs[clsOf.get("@off")] ?? 0, chat: probs[clsOf.get("@chat")] ?? 0 };
+    }
+    return hits;
   }
-  return { search };
+  return { search, prepare };
 }

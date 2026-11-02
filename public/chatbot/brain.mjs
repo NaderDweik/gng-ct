@@ -2,7 +2,7 @@
 // knowledge base, phrased like a person from the sales team would say it. Replies come
 // back as `parts`, each shown as its own chat bubble. `state` round-trips through the
 // client so follow-ups like "اه أكيد" or "تمام" make sense.
-import { tokens } from "./lib/core.mjs";
+import { tokens, labelOf } from "./lib/core.mjs";
 import { CONVO, OFF_TOPIC, UNKNOWN, ENGLISH, ON_TOPIC, STRONG_TOPIC, OFF_HINT, LINK, isNoise, emojiReply } from "./convo.mjs";
 
 // Topic docs carry extra search words after the "؟"; show people only the question.
@@ -126,7 +126,11 @@ function arabicChalet(text) {
   return t;
 }
 
-export function createBrain(kb, { phone, starters, chalets = [] }) {
+/**
+ * `trust`: the classifier's probability above which its answer wins over plain search;
+ * `offAt` / `chatAt`: above which a message is taken as off-topic / small talk.
+ */
+export function createBrain(kb, { phone, starters, chalets = [], trust = 0.8, offAt = 0.7, chatAt = 0.85 }) {
   // Chalet numbers on the compound plan («A9», «D50», «A11+»), for questions about one chalet.
   const chaletIds = new Map(chalets.map((id) => [id.toUpperCase(), id]));
   /** The chalet a message names: { id } when it's on the plan, { unknown } when it only looks like one. */
@@ -488,7 +492,25 @@ export function createBrain(kb, { phone, starters, chalets = [] }) {
 
     // 5. Look it up.
     const hits = kb.search(t, 8);
-    const top = bestOf(hits);
+    let top = bestOf(hits);
+
+    // The trained classifier (lib/classify.mjs), when it's sure: off-topic, small talk, or the answer.
+    const cls = hits.cls;
+    if (cls && !followUp) {
+      if (cls.label === "@off" && cls.p >= offAt && !STRONG_TOPIC.test(t)) {
+        parts.push(pick(OFF_TOPIC[0]), pick(OFF_TOPIC[1]));
+        return { parts, suggestions: starters };
+      }
+      if (cls.label === "@chat" && cls.p >= chatAt && tokens(t).length <= 4 && !STRONG_TOPIC.test(t)) {
+        if (!parts.length) parts.push(pick(["تمام 👌", "أكيد 🌿", "حلو 😊"]));
+        parts.push(pick(["شو حابب تعرف عن روح العطاء؟", "إذا عندك أي سؤال عن الشاليهات أو الكمباوند، أنا هون 😊"]));
+        return { parts, suggestions: starters };
+      }
+      if (!cls.label.startsWith("@") && cls.labels.length && cls.p >= trust && (!top?.d.q || !cls.labels.includes(labelOf(top.d.q)))) {
+        const sure = hits.find((h) => h.d.q && cls.labels.includes(labelOf(h.d.q))) ?? byLabel(cls.labels[0]);
+        if (sure) top = { ...sure, score: Math.max(sure.score, 0.3) };
+      }
+    }
 
     // Score bands (lib/core.mjs, checked with tools/eval.mjs): unrelated questions land
     // around 0.15, real matches from ~0.28. In between, ask instead of guessing.

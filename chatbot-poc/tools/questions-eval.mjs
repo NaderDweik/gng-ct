@@ -7,6 +7,8 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { createEmbedder } from "../../public/chatbot/lib/embed.mjs";
 import { createSearch } from "../../public/chatbot/lib/core.mjs";
 import { createBrain } from "../../public/chatbot/brain.mjs";
+import { createClassifier } from "../../public/chatbot/lib/classify.mjs";
+import { existsSync } from "node:fs";
 
 const here = (p) => new URL(p, import.meta.url);
 const args = process.argv.slice(2);
@@ -105,8 +107,18 @@ export function loadBrain() {
   const kb = JSON.parse(readFileSync(here("../../public/chatbot/model/kb.json"), "utf8"));
   const units = readFileSync(here("../../src/content/compound-units.ts"), "utf8");
   const chalets = [...units.matchAll(/^\s*\["([A-Z]+\d+\+?)",/gm)].map((m) => m[1]);
-  const search = createSearch(kb.docs, createEmbedder(vocab, buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.length)));
-  return createBrain(search, { phone: "0790029928", starters: kb.starters, chalets });
+  const embedder = createEmbedder(vocab, buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.length));
+  // The trained classifier (tools/train-classifier.mjs), unless NO_CLS=1 (to compare without it).
+  let classifier = null;
+  const cj = here("../../public/chatbot/model/classifier.json");
+  if (existsSync(cj) && !process.env.NO_CLS) {
+    const cb = readFileSync(here("../../public/chatbot/model/classifier.bin"));
+    classifier = createClassifier(JSON.parse(readFileSync(cj, "utf8")), cb.buffer.slice(cb.byteOffset, cb.byteOffset + cb.length), embedder);
+  }
+  const clsWeight = Number(process.env.CLS_WEIGHT ?? 0.3);
+  const search = createSearch(kb.docs, embedder, { classifier, clsWeight });
+  const env = (k, d) => Number(process.env[k] ?? d);
+  return createBrain(search, { phone: "0790029928", starters: kb.starters, chalets, trust: env("TRUST", 0.8), offAt: env("OFF_AT", 0.7), chatAt: env("CHAT_AT", 0.85) });
 }
 
 /** What the reply did: an answer id, a card, booking, chat, a clarifying question. */
@@ -142,7 +154,9 @@ export function judge(tag, o) {
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   const brain = loadBrain();
-  const all = readQuestions(file).filter(({ q }) => split === "all" || (split === "test") === isTest(q));
+  const valHash = (s) => { let h = 7; for (const ch of s) h = (h * 31 + ch.codePointAt(0)) >>> 0; return h % 5 === 0; };
+  const all = readQuestions(file).filter(({ q }) =>
+    split === "all" || (split === "val" ? !isTest(q) && valHash(q) : (split === "test") === isTest(q)));
   const byTag = {};
   const fails = [];
   const rows = [];

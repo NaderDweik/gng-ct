@@ -8,6 +8,8 @@
 import { createBooking, type ComposerMode } from "./chat-booking";
 
 const BASE = "/chatbot";
+/** How much the trained classifier counts in search (tuned on chatbot-poc/questions-dev.md). */
+const CLS_WEIGHT = 0.3;
 const PHONE = "0790029928";
 
 type Card = { type: "chalet"; id: string; aspect?: "price" | "where" | "status" | "area" | "features" } | { type: "map" };
@@ -64,13 +66,17 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
 
   function loadBrain() {
     return (loading ??= (async () => {
-      const [{ createEmbedder }, { createSearch }, { createBrain }, vocab, kb, map] = await Promise.all([
+      const [{ createEmbedder }, { createSearch }, { createBrain }, { createClassifier }, vocab, kb, map, clsMeta, clsBin] = await Promise.all([
         load("/lib/embed.mjs"),
         load("/lib/core.mjs"),
         load("/brain.mjs"),
+        load("/lib/classify.mjs"),
         fetch(`${BASE}/model/vocab.json`).then((r) => r.json()),
         fetch(`${BASE}/model/kb.json`).then((r) => r.json()),
         loadMap(),
+        // The trained classifier (chatbot-poc/tools/train-classifier.mjs); optional.
+        fetch(`${BASE}/model/classifier.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null),
+        fetch(`${BASE}/model/classifier.bin`).then((r) => (r.ok ? r.arrayBuffer() : null)).catch(() => null),
       ]);
       let embedder = null;
       try {
@@ -79,7 +85,8 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
         console.warn("Meaning model unavailable, matching by wording only", e);
       }
       progress = 100;
-      return { brain: createBrain(createSearch(kb.docs, embedder), { phone: PHONE, starters: kb.starters, chalets: map.chaletIds }), starters: kb.starters };
+      const classifier = embedder && clsMeta && clsBin ? createClassifier(clsMeta, clsBin, embedder) : null;
+      return { brain: createBrain(createSearch(kb.docs, embedder, { classifier, clsWeight: CLS_WEIGHT }), { phone: PHONE, starters: kb.starters, chalets: map.chaletIds }), starters: kb.starters };
     })());
   }
 

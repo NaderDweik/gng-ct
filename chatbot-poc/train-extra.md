@@ -1,0 +1,4025 @@
+# Training phrasings for Layan's classifier
+
+Written for training only (tools/train-classifier.mjs): indirect, situational, short, dialect, Arabizi and English ways of asking for each answer, plus off-topic and small talk. Never used for scoring; the sealed sets are questions.md (test split) and questions-dev.md.
+
+- قبل ما اضيع وقتي، الموضوع بحدود الخمسين الف ولا اكتر؟ — `prices`
+- معي ميزانيه محدوده وبدي اعرف اذا الشاليهات عندكم بتناسبني ولا لا — `prices`
+- انا مغترب بالسعوديه وحاط مبلغ على جنب، بكفي لشاليه عندكم؟ — `prices`
+- بدي اعرف الرقم قبل ما احكي لزوجتي عن الفكرة — `prices`
+- قديش لازم اكون جامع مصاري عشان افكر بشاليه عندكم — `prices`
+- الشاليه بيكلف كتير ولا معقول للموظف العادي؟ — `prices`
+- اخوي بده يهديني شاليه لعرسي، قديش رح يكلفو تقريبا — `prices`
+- بفكر ابيع ارض وأشتري شاليه، بدي اعرف الحسبة بتزبط ولا لا — `prices`
+- الصراحة خايف تكون الاسعار نار مثل كل المشاريع الجديده — `prices`
+- عنا مبلغ من ورثة الوالد بدنا نحطه بشي، الشاليه بطلع بكم — `prices`
+- شو الرقم اللي لازم احكيه للبنك لو بدي اخد قرض شخصي لشاليه عندكم — `prices`
+- اذا بدي اشتري شاليهين لاخواني الاثنين، الحسبه كم بتطلع — `prices`
+- قارنت مع شاليهات البحر الميت، عندكم ارخص ولا اغلى؟ — `prices`
+- هل الشاليهات كلها بنفس السعر ولا كل واحد اله سعر — `prices`
+- الشاليه اللي عالزاويه بيفرق سعره عن اللي بالنص؟ — `prices`
+- صار في رفع اسعار هالسنه ولا لسا على حالها — `prices`
+- لو بدي اشتري قبل رمضان بلحق السعر الحالي؟ — `prices`
+- ابوي متقاعد وبده يحط تحويشة عمره بشاليه، قديش بدو يدفع — `prices`
+- بس بدي فكرة عن الكلفة الاجمالية عشان اخطط — `prices`
+- ميزانيتي من 60 لـ 80 الف دينار، في شي بهالحدود؟ — `prices`
+- قديش؟؟ — `prices`
+- كم سعرالشاليه — `prices`
+- طب والسعر — `prices`
+- اديش حقه — `prices`
+- بكم الواحد — `prices`
+- الثمن ؟ — `prices`
+- قديش سعرو — `prices`
+- كم سعرة — `prices`
+- الاسعار لو سمحت — `prices`
+- اسعاركم شو — `prices`
+- بكم بتبدا الاسعار — `prices`
+- اقل سعر عندكم — `prices`
+- في خصم؟ — `prices`
+- في عروض هالفتره؟ — `prices`
+- السعر نهائي ولا في مجال نتفاوض — `prices`
+- السعر بالدينار ولا بالدولار — `prices`
+- اغلى شاليه عندكم بكم — `prices`
+- مشان الله قديش سعر الشاليه — `prices`
+- قديش سعر الشاليه الواحد تقريبا؟ — `prices`
+- كيف بقدر اعرف اسعار الشاليهات المتوفره — `prices`
+- وين بلاقي الاسعار، مش مكتوبه عالموقع — `prices`
+- ليش ما بتحطو الاسعار عالموقع؟ — `prices`
+- بس احكيلي الرقم التقريبي وانا بقرر — `prices`
+- كم سعر الشاليه عندكم يا اخوان — `prices`
+- وش سعر الشاليه عندكم؟ — `prices`
+- ابي اعرف الاسعار لو تكرمت — `prices`
+- الشاليه بكام يا جماعة — `prices`
+- عايز اعرف الاسعار بالظبط — `prices`
+- ما هي أسعار الشاليهات المعروضة للبيع؟ — `prices`
+- بكم يُباع الشاليه الواحد؟ — `prices`
+- shu as3ar el chalet — `prices`
+- kam se3r el shalieh — `prices`
+- 2deesh el si3r? — `prices`
+- bkam el chalet 3ndkom — `prices`
+- how much is a chalet — `prices`
+- what's the price — `prices`
+- price range please — `prices`
+- how much do the chalets cost? — `prices`
+- price list? — `prices`
+- any discounts for cash? — `prices`
+- whats the starting price for a chalet — `prices`
+- PRICE?? — `prices`
+- the price بالدينار كم — `prices`
+- شو ال price تبع الشاليه — `prices`
+- ابعتلي price list لو سمحت — `prices`
+- السعر total كم بالزبط — `prices`
+- اذا دفعت كاش قديش بيصير السعر — `prices`
+- في فرق بالسعر بين الشاليهات القريبه من المسجد والبعيده؟ — `prices`
+- سمعت انو الاسعار بتبلش من رقم معين، صحيح؟ — `prices`
+- شو بتكلف الشاليهات تقريبن — `prices`
+- قديش لازم ادفع عشان يصير الشاليه الي — `prices`
+- الشايه قديش سعرها 🤔 — `prices`
+- اسعار الشالييهات كيف — `prices`
+- سعر الشلاليه كم — `prices`
+- بدي اسعار كل الشاليهات المتاحه — `prices`
+- انا بس بسأل عن الرقم، مش ناوي احجز هسا — `prices`
+- راتبي 700 دينار، بقدر اشتري شاليه وادفع شوي شوي؟ — `installments`
+- ما معي المبلغ كامل هسا، في طريقه ادفع على دفعات؟ — `installments`
+- انا موظف حكومه وما بقدر ادفع كاش، شو الحل عندكم — `installments`
+- بدي اشتري بس على راحتي بالدفع، مش مره وحده — `installments`
+- المغترب ممكن يدفع كل شهر من برا؟ — `installments`
+- قديش بطلع القسط الشهري تقريبا — `installments`
+- الدفعه الاولى قديش لازم تكون — `installments`
+- بدي احسب اذا القسط بيزبط مع راتبي ولا لا — `installments`
+- بدي اشتري لبنتي شاليه بس بدي اقسطه على كم سنه — `installments`
+- لو دفعت نص المبلغ والباقي على اشهر بتمشي؟ — `installments`
+- خايف من الفوائد، التقسيط عندكم بفايده ولا لا — `installments`
+- ما بدي بنك ولا ربا، عندكم تقسيط مباشر منكم؟ — `installments`
+- التقسيط حلال يعني بدون فوائد؟ — `installments`
+- كم سنه اقصى مده للتقسيط — `installments`
+- بقبلو شيكات مؤجلة؟ — `installments`
+- اذا تأخرت بقسط شهر شو بصير — `installments`
+- بقدر اسدد بدري قبل ما تخلص مدة الاقساط؟ — `installments`
+- النسبه الشهريه 1% من شو بالزبط — `installments`
+- بدي اعرف شروط الدفع الشهري عندكم — `installments`
+- ممكن ادفع كل ٣ شهور بدل كل شهر؟ — `installments`
+- القسط ثابت ولا بيزيد مع الوقت — `installments`
+- بدي اجمع راتبي وراتب زوجتي ونقسط، بزبط؟ — `installments`
+- لو خلصت الاقساط بعد كم سنه بصير الشاليه تبعي فعليا — `installments`
+- في تقسيط؟ — `installments`
+- تقسيط؟ — `installments`
+- اقساط — `installments`
+- طب والتقسيط — `installments`
+- بالتقسيط بتمشي؟ — `installments`
+- في نظام تقسيط — `installments`
+- كم القسط — `installments`
+- قسط شهري؟ — `installments`
+- الدفع على اشهر؟ — `installments`
+- بدون فوائد صح؟ — `installments`
+- خطط الدفع — `installments`
+- والمقدم كم؟ — `installments`
+- بتقسطو؟ — `installments`
+- التقسيت كيف — `installments`
+- في تقسيظ عندكم — `installments`
+- القسظ الشهري كم — `installments`
+- بقدر اقسظ الشالية؟ — `installments`
+- طرق الدفغ شو — `installments`
+- الدفعه الاولة قديش — `installments`
+- التقسييط لكم سنة — `installments`
+- هل تتوفر خيارات تقسيط لشراء الشاليه؟ — `installments`
+- هل يمكن دفع ثمن الشاليه على أقساط شهرية؟ — `installments`
+- ما هي خطط السداد المتاحة؟ — `installments`
+- عندكم تقسيط يا شباب ولا كاش بس — `installments`
+- وش نظام التقسيط عندكم؟ — `installments`
+- ابي اقسط الشاليه، ينفع؟ — `installments`
+- كم الدفعه المقدمه عندكم؟ — `installments`
+- ينفع ادفع بالتقسيط؟ — `installments`
+- عايز اقسط الشاليه على كام سنة — `installments`
+- التقسيط عندكو ازاي — `installments`
+- fi ta2seet? — `installments`
+- 2ade4 el 2est el shahri — `installments`
+- momken a2aset el chalet — `installments`
+- bdi adfa3 3ala da3fat — `installments`
+- do you offer installments? — `installments`
+- payment plan? — `installments`
+- can i pay monthly — `installments`
+- is there interest on the installments — `installments`
+- what's the down payment — `installments`
+- installment options pls — `installments`
+- how long can I spread the payments over — `installments`
+- monthly payments بدون interest؟ — `installments`
+- في payment plan عندكم؟ — `installments`
+- الـ down payment قديش — `installments`
+- بدي installments على ٥ سنين — `installments`
+- انا بالامارات وبدي احول القسط كل شهر اونلاين، بمشي الحال؟ — `installments`
+- بشهر رمضان المصاريف كتير، في امكانيه اأجل قسط؟ — `installments`
+- الواحد ما بقدر يدفع كل المبلغ مره وحده، اكيد في حل؟ — `installments`
+- الكاش مش متوفر كله، بس بقدر التزم بمبلغ شهري — `installments`
+- اذا الكاش ما بكفي بتقبلو اقساط؟ — `installments`
+- ١٪ شهري يعني قديش بالدينار — `installments`
+- بدون كفيل بتقسطو؟ — `installments`
+- لازم كفيل للتقسيط؟ — `installments`
+- بتقسطو للاجانب كمان ولا للاردنيين بس؟ — `installments`
+- اقسطها كيف وانا اول مره بشتري عقار — `installments`
+- ما بشتري اشي قبل ما اشوفه بعيني، كيف بقدر اجي اشوف المكان؟ — `visit`
+- انا نازل عالاردن بالصيف، بقدر امر اشوف الشاليهات؟ — `visit`
+- بدي اجيب ابوي وامي يشوفو المكان قبل ما نقرر، كيف بنرتب؟ — `visit`
+- الجمعة احنا فاضيين كعيلة، بتستقبلو ناس يتفرجو يوم الجمعة؟ — `visit`
+- لازم موعد مسبق ولا بقدر اطب عليكم فجأه — `visit`
+- لو جيت بدون موعد بفوتوني؟ — `visit`
+- كيف بتصير المعاينة عندكم بالعادة — `visit`
+- المعاينه ببلاش ولا في رسوم؟ — `visit`
+- بدي اشوف شاليه جاهز من جوا قبل ما ادفع اشي — `visit`
+- قديش بتطول الجوله بالكمباوند — `visit`
+- في حدا بيفرجيني المكان لما اوصل ولا بلف لحالي؟ — `visit`
+- ساعات استقبال الزوار للمعاينه شو — `visit`
+- بتفتحو للمعاينه بالمسا؟ بطلع من الدوام الساعه 5 — `visit`
+- برمضان في معاينات؟ وشو الاوقات — `visit`
+- بدي اجي مع خطيبتي نشوف الشاليهات، شو الطريقه — `visit`
+- السبت الجاي ممكن نيجي نتفرج؟ — `visit`
+- ممكن نشوف المسبح والحديقة على الطبيعه؟ — `visit`
+- قبل ما اوقع على اشي بدي اتمشى بالمشروع بنفسي — `visit`
+- بقدر اشوف اكتر من شاليه بنفس الزيارة؟ — `visit`
+- شو المطلوب مني عشان ارتب زيارة للموقع — `visit`
+- زوجي بده يشوف بنفسه، كيف بنحجز موعد الو — `visit`
+- معاينه؟ — `visit`
+- بدي اعاين — `visit`
+- طب والمعاينة — `visit`
+- موعد زيارة؟ — `visit`
+- بقدر اجي؟ — `visit`
+- كيف اجي اشوف — `visit`
+- اوقات الزيارة — `visit`
+- متى بقدر اجي — `visit`
+- زيارة الموقع كيف — `visit`
+- المعاينه بموعد؟ — `visit`
+- بتفتحو الجمعه؟ — `visit`
+- امتى ينفع اجي — `visit`
+- اشوفه على الطبيعه كيف — `visit`
+- المعاينة كيف بتتم — `visit`
+- بدي اشوف الشاليهات عالواقع — `visit`
+- كيف بحجز موعد لمعاينة الكمباوند — `visit`
+- كيف ممكن ارتب زياره للمشروع — `visit`
+- كيف ازور الموقع واشوف الشاليهات — `visit`
+- بقدر اشوف الكمبوند قبل الشراء؟ — `visit`
+- كيف احجز معاينه للشالية — `visit`
+- المعاينة لازمها حجز مسبق؟ — `visit`
+- كيف بحجز معاينه، الرابط مش زابط معي — `visit`
+- موعد معاينه للشاليهات كيف بيتحدد — `visit`
+- بقدر اعاين يوم العطله؟ — `visit`
+- بدي ازور الكمباوند واشوفو بعيوني 👀 — `visit`
+- المعاينه بتكون مع حدا من المبيعات؟ — `visit`
+- ابي ازور المشروع، وش الطريقة؟ — `visit`
+- ودي اشوف الشاليهات على الطبيعة، متى ينفع؟ — `visit`
+- ممكن اجي اتفرج على الشاليهات ازاي؟ — `visit`
+- عايز اشوف المكان بنفسي، المعاد بيتحدد ازاي — `visit`
+- كيف يمكنني زيارة الكمباوند ومعاينة الشاليهات؟ — `visit`
+- هل يمكن معاينة الشاليه قبل الشراء؟ — `visit`
+- ما هي أوقات المعاينة المتاحة؟ — `visit`
+- momken aji ashoof el chalet — `visit`
+- kef b7jez maw3ed mu3ayaneh — `visit`
+- ymkn nzor el compound? — `visit`
+- emta b2dar aji ashoof — `visit`
+- can I visit the compound? — `visit`
+- how do I arrange a site visit — `visit`
+- can we come see the chalets this weekend — `visit`
+- do I need an appointment to visit — `visit`
+- viewing hours? — `visit`
+- is the site visit free — `visit`
+- how to schedule a viewing — `visit`
+- بدي site visit كيف — `visit`
+- الـ viewing بموعد ولا walk in — `visit`
+- بقدر اعمل tour بالكمباوند عالطبيعه؟ — `visit`
+- بدي اجي اشوفه in person — `visit`
+- انا من اربد والطريق طويل، فبدي اتاكد انو في حدا يستقبلني اذا اجيت — `visit`
+- لما اوصل البوابه شو بحكي للحارس عشان اعاين — `visit`
+- بدي اجيب المهندس تبعي يشوف البنا، مسموح؟ — `visit`
+- بقدر افوت اشوف شاليه مأهول ولا بس الفاضيين — `visit`
+- ولادي بدهم يشوفو المسبح قبل ما نشتري، منقدر نيجي كلنا؟ — `visit`
+- المعاينه بتاخد قديش وقت تقريبا عشان ارتب حالي — `visit`
+- نازل اجازه اسبوعين، الحق اعاين؟ — `visit`
+- العيد ممكن نيجي نشوف ولا مسكرين — `visit`
+- اريد معاينة الشاليهات، كيف السبيل؟ — `visit`
+- معاينة الشاليهات بتكون كل يوم؟ — `visit`
+- بدنا نقضي الصيف الجاي فيه، بلحق يكون جاهز؟ — `handover`
+- اذا اشتريت هسا، بقدر انزل عليه بالعيد الجاي؟ — `handover`
+- عرسي بعد ٦ شهور وبدي الشاليه يكون جاهز للحفلة، بزبط؟ — `handover`
+- ما بدي اشتري على المخطط وانطر سنين، في اشي خالص؟ — `handover`
+- بعد ما ادفع قديش لازم استنى لاستلم المفتاح — `handover`
+- يعني لو دفعت اليوم امتى بدخل الشاليه — `handover`
+- المشروع لسا قيد الانشاء ولا خالص؟ — `handover`
+- الشاليهات مبنية فعلا ولا بس ع الورق — `handover`
+- خايف اشتري ويتأخر التسليم مثل ما صار مع صاحبي بمشروع تاني — `handover`
+- في غرامه عليكم اذا تأخر التسليم؟ — `handover`
+- موعد التسليم مكتوب بالعقد؟ — `handover`
+- الشاليه بيتسلم تشطيب كامل ولا عظم — `handover`
+- لما استلم بيكون جاهز للسكن فورا؟ — `handover`
+- بدي اسكن فيه قبل رمضان، في امل؟ — `handover`
+- انا مغترب وراجع نهائي السنه الجايه، بدي اياه جاهز وقتها — `handover`
+- اولادي بدهم مسبح هالصيف، بنلحق؟ — `handover`
+- بس اخلص الاقساط بستلم ولا من الاول؟ — `handover`
+- الاستلام بكون قبل ما اخلص كل الدفعات؟ — `handover`
+- مين بيسلمني الشاليه وكيف بتصير عملية الاستلام — `handover`
+- بقدر افحص الشاليه قبل ما اوقع على الاستلام؟ — `handover`
+- اذا لقيت عيوب وقت الاستلام مين بيصلحها — `handover`
+- التسليم؟ — `handover`
+- جاهز؟ — `handover`
+- جاهز للسكن؟ — `handover`
+- طب والاستلام امتى — `handover`
+- متى بستلم — `handover`
+- التسليم فوري؟ — `handover`
+- جاهزه ولا لسا — `handover`
+- بعد قديش بستلم — `handover`
+- موعد الاستلام؟ — `handover`
+- خالص البنا؟ — `handover`
+- على المخطط؟ — `handover`
+- التسلبم امتى — `handover`
+- متي التسليم — `handover`
+- الشاليهات جاهزه للاستلام؟ — `handover`
+- الشالية جاهز ولا لسه بنبنو — `handover`
+- امتة بتسلمو — `handover`
+- مدة التسليم قديشش — `handover`
+- الاستلام بعد ما اوقع بقديش — `handover`
+- متى يتم تسليم الشاليه؟ — `handover`
+- هل الشاليهات جاهزة للاستلام حاليا؟ — `handover`
+- ما هي مدة التسليم بعد توقيع العقد؟ — `handover`
+- هل التسليم فوري أم بعد فترة؟ — `handover`
+- متى تسلمون الشاليهات؟ — `handover`
+- الشاليه جاهز ولا باقي عليه؟ — `handover`
+- وش موعد التسليم بالضبط — `handover`
+- امتى هستلم الشاليه؟ — `handover`
+- الشاليهات خلصت ولا لسه بتتبني؟ — `handover`
+- هستنى قد ايه لحد ما استلم — `handover`
+- emta el tasleem — `handover`
+- el chalet jahez wala lessa? — `handover`
+- b3d 2adesh bastalem — `handover`
+- when is handover — `handover`
+- are the chalets ready to move in? — `handover`
+- when will I get the keys — `handover`
+- is it off-plan or ready? — `handover`
+- delivery date for the chalets? — `handover`
+- how long until handover after signing — `handover`
+- ready now?? — `handover`
+- الشاليه ready ولا لسا — `handover`
+- الـ handover بعد قديش — `handover`
+- بدي اعرف ال delivery date — `handover`
+- امتى بستلم ال keys — `handover`
+- عنا عزيمه كبيره بالشتوية الجاية، بكون الشاليه بإيدي وقتها؟ — `handover`
+- الشاليهات اللي عالموقع كلها مخلصه ولا في مراحل؟ — `handover`
+- المرحله التانيه امتى بتخلص — `handover`
+- لو اخترت شاليه من اللي لسا بنبنى، امتى بيجهز — `handover`
+- اتسلم المفاتيح نفس يوم الدفع؟ — `handover`
+- بدي اعرف اذا في شاليهات جاهزه فورا بدون انتظار — `handover`
+- اشتري وافوت على طول ولا في فتره — `handover`
+- مستعجل كتير بدي شي جاهز — `handover`
+- كمان كم شهر بتسلموا؟ 🙏 — `handover`
+- بالعادة التسليم بياخد قديش من تاريخ العقد — `handover`
+- الشاليه بيجي مع المسبح معبى وجاهز عند الاستلام؟ — `handover`
+- لما بخلص الدفعه الاولى بقدر استلم؟ — `handover`
+- تاريخ التسليم المتوقع شو — `handover`
+- المفتاح امتى بصير معي — `handover`
+- لسا في شغل بالشاليهات ولا كله تمام — `handover`
+- بدي اشتري واأجره لما ما اكون مستعمله، بزبط؟ — `rent-invest`
+- انا عايش برا وما رح استعمله الا شهر بالسنه، بقدر اطلع منه دخل باقي السنه؟ — `rent-invest`
+- الشاليه استثمار منيح ولا بس للاستجمام — `rent-invest`
+- بدي احط مصاري بشي يرجعلي دخل شهري، الشاليه بنفع؟ — `rent-invest`
+- لو اجرته ويكندات قديش ممكن يجيب — `rent-invest`
+- العائد السنوي على الشاليه كم تقريبا — `rent-invest`
+- بعد كم سنه بيرجعلي راس مالي اذا أجرته — `rent-invest`
+- انتو بتأجروه عني ولا انا لازم ادور على مستأجرين — `rent-invest`
+- في اداره بتهتم بالتأجير للمالكين؟ — `rent-invest`
+- مسموح للمالك يأجر الشاليه للعرسان والحفلات؟ — `rent-invest`
+- في قيود على تأجير الشاليه للغير؟ — `rent-invest`
+- بقدر احطه على Airbnb؟ — `rent-invest`
+- بنقبض نسبه من الايجار ولا الدخل كله الي — `rent-invest`
+- بفكر اشتري اثنين، واحد النا وواحد للتأجير — `rent-invest`
+- سعر الشاليه رح يغلى مع الوقت؟ يعني بربح اذا بعته بعدين — `rent-invest`
+- اذا بدي ابيعه بعد خمس سنين، بقدر؟ — `rent-invest`
+- الايجار بيغطي الاقساط؟ — `rent-invest`
+- بدي القسط يدفع حاله من الإيجار، واقعي؟ — `rent-invest`
+- بالصيف الطلب على الشاليهات عالي، بقدر استغل هالشي؟ — `rent-invest`
+- الصراحه ما بدي اشتري الا اذا بيجيب مردود — `rent-invest`
+- المالك بيقدر يأجره يومي ولا شهري ولا كيف — `rent-invest`
+- استثمار؟ — `rent-invest`
+- طب والتأجير — `rent-invest`
+- العائد كم — `rent-invest`
+- مردوده كيف — `rent-invest`
+- تأجير للمالك؟ — `rent-invest`
+- الربح منه؟ — `rent-invest`
+- بنفع استثمار — `rent-invest`
+- اجره ولا لا — `rent-invest`
+- الشاليه تبعي بيتأجر لما اكون مش فيه؟ — `rent-invest`
+- اجار الشالية للغير — `rent-invest`
+- بقدر اجرو — `rent-invest`
+- استسمار مضمون؟ — `rent-invest`
+- العاءد الشهري — `rent-invest`
+- التاجير ممنوع؟ — `rent-invest`
+- الايجاار كم بجيب — `rent-invest`
+- بقدر ااجر الشاليه تبعي — `rent-invest`
+- هل يمكن للمالك تأجير الشاليه؟ — `rent-invest`
+- هل الشاليه مناسب كاستثمار عقاري؟ — `rent-invest`
+- هل يحق لي تأجير الشاليه بعد شرائه؟ — `rent-invest`
+- ما العائد المتوقع من تأجير الشاليه؟ — `rent-invest`
+- هل تتولى الإدارة تأجير الشاليه نيابة عن المالك؟ — `rent-invest`
+- هل يمكن للمالك ان يأجر الشاليه ويستفيد منه؟ — `rent-invest`
+- اقدر اأجر الشاليه اذا ما استخدمته؟ — `rent-invest`
+- وش العايد لو أجرته؟ — `rent-invest`
+- ينفع اأجره وانا بره؟ — `rent-invest`
+- الشاليه ده استثمار كويس؟ — `rent-invest`
+- لو اشتريت اقدر اأجره ازاي — `rent-invest`
+- عايز اكسب منه لما مش بستعمله — `rent-invest`
+- momken a2ajjer el chalet? — `rent-invest`
+- can owners rent it out? — `rent-invest`
+- rental income how much — `rent-invest`
+- ROI on the chalet? — `rent-invest`
+- do you manage rentals for owners — `rent-invest`
+- can I list it on airbnb — `rent-invest`
+- will it appreciate in value — `rent-invest`
+- I want to buy as an investment, does it make sense? — `rent-invest`
+- الـ ROI كم تقريبا — `rent-invest`
+- بدي اعمل منه passive income — `rent-invest`
+- buy to let بنفع عندكم؟ — `rent-invest`
+- investment wise شو رايك — `rent-invest`
+- rent out للناس مسموح؟ — `rent-invest`
+- b2dar a2ajro lal nas — `rent-invest`
+- el chalet est4mar kwayes? — `rent-invest`
+- 3a2ed el ijar kam — `rent-invest`
+- انا متقاعد وبدي دخل اضافي، الشاليه بيعمللي هالشي؟ — `rent-invest`
+- قارنت مع شقه للتأجير، الشاليه بيجيب اكتر؟ — `rent-invest`
+- لو اجرته للسياح الاجانب بالصيف بنفع؟ — `rent-invest`
+- حدا من المالكين عم يأجر هلأ؟ — `rent-invest`
+- التأجير بيحتاج ترخيص ولا موافقه منكم — `rent-invest`
+- بدي اعرف اذا الشاليه بيحافظ على قيمته — `rent-invest`
+- المستأجرين بيستخدمو مرافق الكمباوند عادي؟ — `rent-invest`
+- بدي اشتري واأجر للعائلات بس، بتسمحو؟ — `rent-invest`
+- اذا ما لقيت مستأجر بتساعدوني؟ — `rent-invest`
+- بدي دخل من الشاليه يغطي مصاريفه — `rent-invest`
+- الشاليه مربح ولا بس مصروف؟ 💸 — `rent-invest`
+- هالشاليهات بتنباع بسهوله اذا بدي اطلع من الاستثمار؟ — `rent-invest`
+- اول مره بسمع فيكم، شو قصتكم بالزبط؟ — `about`
+- صاحبي بعتلي رابطكم، فهمني شو هالمشروع — `about`
+- انا بدور على مكان للعيله، احكيلي شو بتقدمو بشكل عام — `about`
+- شو يعني روح العطاء؟ شو الفكره من المشروع — `about`
+- عندي ٣ كمبوندات بالخيارات، ليش اختاركم انتو؟ — `about`
+- شو اللي بميزكم عن باقي الكمباوندات بالاردن — `about`
+- ليش اشتري عندكم وما اشتري بالبحر الميت — `about`
+- اعطيني فكره سريعه عن المشروع قبل ما نكمل — `about`
+- شو هو هاد الكمباوند اصلا؟ — `about`
+- انتو مشروع شاليهات ولا سكني ولا شو — `about`
+- بس احكيلي باختصار شو الموضوع — `about`
+- ابوي سألني عنكم وما عرفت اشرحله، شو المشروع؟ — `about`
+- شو الشي المختلف عندكم، كل المشاريع بتحكي نفس الحكي — `about`
+- عن المشروع؟ — `about`
+- شو المشروع — `about`
+- مين انتو؟ — `about`
+- نبذه عنكم — `about`
+- شو روح العطاء — `about`
+- عرفني عالمشروع — `about`
+- شو بميزكم — `about`
+- ليش انتو؟ — `about`
+- شو فكرة الكمبوند — `about`
+- المشرووع شو هو — `about`
+- شو هاض الكمباوند — `about`
+- احكيلي عن المشورع — `about`
+- روح العطا شو يعني — `about`
+- ممكن نبزه عن الكمباوند — `about`
+- شو الميزه عندكو عن غيركو — `about`
+- ما هو كمباوند روح العطاء؟ — `about`
+- ما الذي يميز مشروعكم عن غيره؟ — `about`
+- عرّفني بمشروع شاليهات روح العطاء — `about`
+- ما فكرة المشروع وما رؤيته؟ — `about`
+- وش هو مشروعكم بالضبط؟ — `about`
+- وش يميزكم عن غيركم — `about`
+- ايه هو المشروع ده؟ — `about`
+- ايه اللي يميزكم عن الكمبوندات التانية — `about`
+- shu bymayezkom 3an ghairkom — `about`
+- 3arrefni 3al mashroo3 — `about`
+- what is this project — `about`
+- tell me about the compound — `about`
+- what makes you different from other compounds — `about`
+- what is Rouh Al Ataa exactly? — `about`
+- give me an overview of the project — `about`
+- why should I choose your compound — `about`
+- بدي overview عن المشروع — `about`
+- شو الـ concept تبعكم — `about`
+- your compound شو بميزو — `about`
+- انا مستثمر بسمع عنكم من بعيد، شو الصورة العامة للمشروع؟ — `about`
+- شو بيصير جوا الكمباوند، شاليهات خاصه ولا فلل ولا شو؟ — `about`
+- بنفع اسميه منتجع ولا شو الوصف الصحيح — `about`
+- شفت اعلانكم عالانستا، شو المشروع؟ 🤔 — `about`
+- بلشت اقرأ الموقع وضعت، اعطيني الخلاصة — `about`
+- شو قصة الاسم روح العطاء وشو بتقدمو — `about`
+- شو نوع المشروع بالضبط — `about`
+- بدي اوصف الطريق لاهلي، الكمباوند وين بالزبط؟ — `location`
+- احنا ساكنين بالزرقا، المنطقه اللي انتو فيها وين؟ — `location`
+- ابعتلي اللوكيشن عالواتس او حطه هون — `location`
+- الكمباوند بأي منطقة؟ — `location`
+- وين المكان — `location`
+- اللوكيشن؟ — `location`
+- العنوان — `location`
+- وينكم؟ — `location`
+- وين بالزبط — `location`
+- بالقسطل؟ — `location`
+- قريب من قصر المشتى؟ — `location`
+- عطيني pin location — `location`
+- رابط جوجل ماب — `location`
+- وين الموقغ — `location`
+- وبن موقعكم — `location`
+- اللوكيشين لو سمحت — `location`
+- العنوان بالظبط شو — `location`
+- وين المشرروع بالزبط — `location`
+- الكمبوند بانهي منطقه — `location`
+- ابن بقع الكمباوند — `location`
+- وين الكمباوند ع طريق المطار ولا وين — `location`
+- الموقع بأي محافظه — `location`
+- انا مش من عمان وما بعرف المنطقه، وين انتو بالضبط؟ — `location`
+- شو مميزات الموقع تبعكم — `location`
+- ليش اخترتو هالمنطقة للمشروع — `location`
+- المنطقه هاديه ولا عالشارع العام — `location`
+- شو في حوالين الموقع من معالم معروفه — `location`
+- اين يقع الكمباوند؟ — `location`
+- ما هو عنوان المشروع؟ — `location`
+- أين موقع الشاليهات تحديدا؟ — `location`
+- وين مكانكم بالضبط؟ — `location`
+- وش اسم المنطقة اللي فيها المشروع — `location`
+- انتو فين بالظبط؟ — `location`
+- المشروع ده فين — `location`
+- wein el compound — `location`
+- wen mawqe3kom bzabt — `location`
+- weno el location — `location`
+- where is the compound located — `location`
+- send me the location — `location`
+- google maps link? — `location`
+- whats the address — `location`
+- which area is it in — `location`
+- where exactly r u — `location`
+- الـ location وين — `location`
+- ابعتلي ال maps link — `location`
+- the compound وين بالضبط — `location`
+- بدي احط العنوان بالـ waze، شو اكتب؟ — `location`
+- المغتربين ما بيعرفو المناطق، فهمني وين هاد المكان — `location`
+- بدي احكي لسواق التاكسي وين يوديني، شو اقله؟ — `location`
+- الكمباوند جوا عمان ولا برا؟ — `location`
+- بالقسطل وين بالزبط، قبل الجسر ولا بعده — `location`
+- شو الشارع اللي بتطلو عليه — `location`
+- وين بلاقيكم عالخريطه 📍 — `location`
+- في دليل او يافطه عالطريق بتدل عليكم؟ — `location`
+- احنا عيلة كبيرة ٨ اشخاص، الشاليه بوسعنا من ناحية المساحه؟ — `area`
+- بدي اعرف اذا في مجال نعمل عزايم كبيره، قديش المساحه — `area`
+- ساكنه بشقه ١٥٠ متر، الشاليه اكبر ولا اصغر؟ — `area`
+- مساحة الارض كم وكم مبني منها — `area`
+- البنا قديش متر — `area`
+- الارض قديش دونم؟ — `area`
+- الشاليه قديش متر مربع — `area`
+- مواصفات الشاليه بشكل عام شو — `area`
+- كم متر الشاليه — `area`
+- المساحه؟ — `area`
+- مساحة البنا؟ — `area`
+- مساحة الارض؟ — `area`
+- طب والمساحه — `area`
+- قديش متر؟ — `area`
+- كم م² — `area`
+- المساحه الكلية — `area`
+- قديش مساحتو — `area`
+- المساحة المبنيه كم — `area`
+- مساحه الارظ كم — `area`
+- مسااحة الشاليه — `area`
+- الشالية كم مترر — `area`
+- مساحت البناء كم — `area`
+- كم متر الارض ومتر البنا — `area`
+- الشاليه طابق واحد ولا اكتر وقديش مساحته — `area`
+- بدي المواصفات والمساحات بالتفصيل — `area`
+- الحديقه من ضمن مساحة الارض؟ — `area`
+- كل الشاليهات نفس المساحه؟ — `area`
+- الشاليه صغير ولا واسع؟ — `area`
+- الـ 500 متر هي كل الارض؟ — `area`
+- ما مساحة الأرض والبناء لكل شاليه؟ — `area`
+- ما هي المواصفات الأساسية للشاليه؟ — `area`
+- كم تبلغ المساحة المبنية للشاليه؟ — `area`
+- كم مساحة الشاليه بالمتر؟ — `area`
+- وش مساحة الارض والبنا — `area`
+- مساحة الشاليه كام متر؟ — `area`
+- الشاليه ده مساحته اد ايه — `area`
+- 2adesh el mesa7a — `area`
+- kam metr el chalet — `area`
+- mesa7at el ard w el bina — `area`
+- what's the size of each chalet — `area`
+- land area and built up area? — `area`
+- how many square meters — `area`
+- chalet specs? — `area`
+- how big is the plot — `area`
+- sqm? — `area`
+- الـ built up area كم — `area`
+- الـ size تبع الشاليه — `area`
+- المساحة بال square meter كم — `area`
+- بدي اقارن مع شاليه شفته بجرش، قديش مساحة البنا عندكم بالضبط؟ — `area`
+- الولاد بحبو يركضو، في مساحة كافيه حول البيت؟ — `area`
+- بدي اعرف كم من الارض مبني وكم فاضي — `area`
+- مواصفاته ومساحته ببساطة 🙏 — `area`
+- الشاليه بكفي لعيلتين مع بعض؟ المساحة يعني — `area`
+- البيت نفسه قديش مساحته من جوا — `area`
+- المواصفات العامه للشاليه شو هي — `area`
+- بدي اعرف شو رح الاقي جوا الشاليه لما افوت عليه — `chalet-facilities`
+- لو اخدت الولاد بالويكند، شو في بالشاليه يسليهم؟ — `chalet-facilities`
+- شو المرافق اللي بتيجي مع كل شاليه — `chalet-facilities`
+- الشاليه شو فيه؟ — `chalet-facilities`
+- شو بيحتوي الشاليه — `chalet-facilities`
+- كل شاليه شو مرافقه — `chalet-facilities`
+- شو جوا الشاليه — `chalet-facilities`
+- محتويات الشاليه — `chalet-facilities`
+- طب وجوا الشاليه شو في — `chalet-facilities`
+- مرافق الشالية الخاصه — `chalet-facilities`
+- شو بالشايه — `chalet-facilities`
+- مرافقق الشاليه شو — `chalet-facilities`
+- شو في بالشليه من مرافق — `chalet-facilities`
+- محتوبات الشاليه — `chalet-facilities`
+- كل شاليه في الو مسبح وجاكوزي وشواء ولا شو بالضبط — `chalet-facilities`
+- بدي قائمه بكل اشي موجود بالشاليه — `chalet-facilities`
+- الشاليه فيه كل اشي ولا بدو اضافات — `chalet-facilities`
+- شو الخصوصيات اللي بالشاليه نفسه من مرافق — `chalet-facilities`
+- المرافق خاصه بالشاليه ولا مشتركه — `chalet-facilities`
+- بدي اعرف شو المرافق الخاصة لكل وحدة — `chalet-facilities`
+- انا بحب الجلسات برا والشوي، شو مجهز بالشاليه لهيك؟ — `chalet-facilities`
+- بدنا مكان ننبسط فيه بدون ما نطلع منه، الشاليه فيه كل شي؟ — `chalet-facilities`
+- امي كبيرة بالعمر وبدها راحه، شو موجود بالشاليه؟ — `chalet-facilities`
+- بالصيف بدنا نقضي النهار كله بالشاليه، شو فيه نعمل؟ — `chalet-facilities`
+- قارنت مع شاليه تاني، شو المرافق عندكم داخل الشاليه؟ — `chalet-facilities`
+- ما المرافق الخاصة المتوفرة في كل شاليه؟ — `chalet-facilities`
+- ماذا يضم الشاليه من مرافق؟ — `chalet-facilities`
+- ما هي محتويات الشاليه الداخلية والخارجية؟ — `chalet-facilities`
+- وش فيه الشاليه من مرافق؟ — `chalet-facilities`
+- وش يجي مع الشاليه — `chalet-facilities`
+- الشاليه فيه ايه؟ — `chalet-facilities`
+- ايه المرافق اللي جوه الشاليه — `chalet-facilities`
+- shu mara2e2 el chalet — `chalet-facilities`
+- el chalet shu fi 3ndo — `chalet-facilities`
+- what's inside each chalet — `chalet-facilities`
+- chalet amenities? — `chalet-facilities`
+- what comes with the chalet — `chalet-facilities`
+- what facilities does each chalet have — `chalet-facilities`
+- private amenities per chalet — `chalet-facilities`
+- what do i get in the unit — `chalet-facilities`
+- الـ amenities تبعت الشاليه شو — `chalet-facilities`
+- شو الـ features جوا الشاليه — `chalet-facilities`
+- each chalet شو فيه — `chalet-facilities`
+- الشاليه فيه مرافق خاصه كتير؟ عدديلي — `chalet-facilities`
+- بدي تفاصيل المرافق بالشاليه مش بالكمبوند — `chalet-facilities`
+- شو بيميز الشاليه من جوا وبرا — `chalet-facilities`
+- انا مغترب وبدي اعرف قبل ما انزل، شو مجهز بالشاليه؟ — `chalet-facilities`
+- الشاليه بيجي مع شو بالزبط 🏡 — `chalet-facilities`
+- شو مرفقات كل شاليه — `chalet-facilities`
+- لعيله فيها اطفال، شو بقدم الشاليه نفسه؟ — `chalet-facilities`
+- شو المزايا داخل الشالبه — `chalet-facilities`
+- الوحده الواحده شو فيها — `chalet-facilities`
+- مرافق الشاليه الداخليه كيف — `chalet-facilities`
+- اذا زهقنا من الشاليه، شو في بالكمباوند نروح عليه؟ — `compound-facilities`
+- الولاد بدهم يطلعو يلعبو برا الشاليه، شو موجود بالمشروع؟ — `compound-facilities`
+- بدي اعرف الكمبوند فيه حياه ولا بس بيوت جنب بعض — `compound-facilities`
+- لو قعدنا اسبوع كامل، في اشي بالكمباوند نقضي فيه وقت؟ — `compound-facilities`
+- شو المرافق العامه بالكمباوند — `compound-facilities`
+- المرافق المشتركه شو هي — `compound-facilities`
+- شو في بالكمبوند — `compound-facilities`
+- مرافق الكمباوند؟ — `compound-facilities`
+- طب والكمبوند شو فيه — `compound-facilities`
+- مرافق عامه؟ — `compound-facilities`
+- شو في حوالين الشاليهات جوا السور — `compound-facilities`
+- خدمات ومرافق المشروع — `compound-facilities`
+- مرافق الكمبوتد — `compound-facilities`
+- شو في بالكمبوندد — `compound-facilities`
+- المرافق العامه بالمشرع — `compound-facilities`
+- الكمباند شو فيه — `compound-facilities`
+- مرافق الكمبوند كلها شو — `compound-facilities`
+- الكمباوند فيه مسجد وملاعب وسوبرماركت وشو كمان؟ — `compound-facilities`
+- بدي قائمه بكل المرافق اللي بالكمباوند — `compound-facilities`
+- شو بيقدم الكمباوند للساكنين غير الشاليه — `compound-facilities`
+- المرافق اللي برا الشاليهات بس جوا المشروع — `compound-facilities`
+- في اماكن مشتركه للعائلات تقعد فيها؟ — `compound-facilities`
+- ابوي بحب يتمشى ويصلي، شو في بالكمباوند يناسبه؟ — `compound-facilities`
+- ما بدي اضطر اطلع ع عمان لكل شي، شو متوفر جوا الكمباوند؟ — `compound-facilities`
+- قارنت مع كمباوند تاني فيه مرافق كتير، انتو شو عندكم؟ — `compound-facilities`
+- ما المرافق المتوفرة داخل الكمباوند؟ — `compound-facilities`
+- ما هي الخدمات والمرافق العامة في المشروع؟ — `compound-facilities`
+- ماذا يضم الكمباوند من مرافق مشتركة؟ — `compound-facilities`
+- وش المرافق اللي بالكمباوند؟ — `compound-facilities`
+- وش فيه داخل المشروع غير الشاليهات — `compound-facilities`
+- الكمبوند فيه ايه من مرافق؟ — `compound-facilities`
+- ايه الحاجات اللي جوه الكمبوند — `compound-facilities`
+- shu fi bel compound — `compound-facilities`
+- mara2e2 el compound shu — `compound-facilities`
+- el compound fi 3ndo facilities? — `compound-facilities`
+- what facilities are in the compound — `compound-facilities`
+- compound amenities? — `compound-facilities`
+- what's available inside the compound — `compound-facilities`
+- shared facilities? — `compound-facilities`
+- what can we do in the compound besides the chalet — `compound-facilities`
+- what's there for residents in the community — `compound-facilities`
+- الـ facilities بالكمبوند شو — `compound-facilities`
+- شو الـ amenities العامه — `compound-facilities`
+- the compound شو فيه من مرافق — `compound-facilities`
+- بدي اعرف الـ common areas شو فيها — `compound-facilities`
+- بالكمبوند في شي للصغار والكبار؟ عدديلي المرافق — `compound-facilities`
+- غير الشاليهات، شو في بالمشروع؟ — `compound-facilities`
+- بيئة الكمباوند كيف ومرافقه شو — `compound-facilities`
+- شو المرافق برا الشاليه 🌳 — `compound-facilities`
+- في مرافق مشتركه بين السكان؟ — `compound-facilities`
+- كيف الكمباوند من جوا، شو في مرافق — `compound-facilities`
+- انا مغترب وبدي اعرف المشروع متكامل ولا ناقصه اشياء — `compound-facilities`
+- المشروع متكامل بالمرافق؟ — `compound-facilities`
+- شو بلاقي اذا تمشيت جوا الكمباوند — `compound-facilities`
+- المرافق المتاحه للمالكين بالكمبوند — `compound-facilities`
+- عندي بنات وبدي اتطمن ع الامان بالمكان — `security`
+- رح نترك الشاليه فاضي معظم السنه، مين بيحميه؟ — `security`
+- خايف حد يفوت عالشاليه وانا مسافر — `security`
+- بدي خصوصيه تامه، الجيران بيشوفو المسبح تبعي؟ — `security`
+- مراتي محجبه وبدها تسبح براحتها، في خصوصيه بالمسبح؟ — `security`
+- المنطقه برا عمان، بكون امان بالليل؟ — `security`
+- اي حدا بيقدر يفوت ويتمشى بين الشاليهات؟ مين بيضبط هالشي — `security`
+- في حراس؟ — `security`
+- الامن؟ — `security`
+- امان؟ — `security`
+- خصوصيه؟ — `security`
+- طب والحراسه — `security`
+- في كاميرات؟ — `security`
+- حراسة ٢٤ ساعه؟ — `security`
+- الامن كيف — `security`
+- في سكيورتي — `security`
+- الحراسه بالليل — `security`
+- الخصوسيه كيف — `security`
+- الامان عندكو مضبوط؟ — `security`
+- في كميرات مراقبه — `security`
+- الحماية والامن كيب — `security`
+- في حرس عالبوابه؟ — `security`
+- الحراسه دايمه ولا بس بالنهار — `security`
+- كيف بتحمو خصوصية كل شاليه — `security`
+- الاسوار بين الشاليهات عاليه؟ — `security`
+- الزوار الغرب كيف بيفوتو الكمباوند — `security`
+- في نظام دخول للسكان بس؟ — `security`
+- المكان امن للعائلات؟ — `security`
+- لو صار اشي بالليل مين بنتصل فيه بالكمباوند — `security`
+- كيف يتم توفير الخصوصية والامن داخل الكمباوند؟ — `security`
+- هل يوجد أمن وحراسة على مدار الساعة؟ — `security`
+- ما مستوى الخصوصية في الشاليهات؟ — `security`
+- هل الكمباوند مراقب بالكاميرات؟ — `security`
+- وش نظام الامن عندكم؟ — `security`
+- فيه حراسه وخصوصيه؟ — `security`
+- الامن عندكم عامل ازاي؟ — `security`
+- المكان امان ولا لأ — `security`
+- fi 7arasa? — `security`
+- el aman kef 3ndkom — `security`
+- fi kameerat? — `security`
+- is the compound secure — `security`
+- is there 24/7 security — `security`
+- how is privacy handled — `security`
+- are there cameras — `security`
+- can neighbours see into my pool — `security`
+- is it safe for families — `security`
+- guards around the clock? — `security`
+- الـ security كيف عندكم — `security`
+- في privacy بين الشاليهات؟ — `security`
+- الـ guards موجودين 24 ساعه؟ — `security`
+- بنتي بدها تقعد مع صاحباتها لحالهم، المكان آمن؟ — `security`
+- الاغراض بالشاليه بتكون بأمان واحنا مش موجودين؟ 🔒 — `security`
+- مين بيراقب الداخل والطالع — `security`
+- بنعزم ناس كتير، بس بدي اعرف كيف بتضبطو الداخلين — `security`
+- الخصوصيه بالمسابح مضمونه؟ — `security`
+- انا بكندا وما بقدر انزل هالسنه، في طريقه اشوف الشاليه وانا هون؟ — `video-visit`
+- اخوي بالاردن بس انا بألمانيا، بقدر اشاركه بالمعاينه اونلاين؟ — `video-visit`
+- ما عندي وقت اسوق للقسطل، ممكن تفرجوني عن بعد؟ — `video-visit`
+- بدي حدا يلف فيي بالكاميرا جوا الشاليه — `video-visit`
+- ممكن مكالمة فيديو اشوف فيها الشاليه؟ — `video-visit`
+- معاينه اونلاين؟ — `video-visit`
+- فيديو كول؟ — `video-visit`
+- معاينه عن بعد — `video-visit`
+- طب ومعاينه بالفيديو — `video-visit`
+- جوله افتراضيه؟ — `video-visit`
+- بالواتس فيديو بزبط؟ — `video-visit`
+- زوم؟ — `video-visit`
+- معاينه افتراظيه — `video-visit`
+- فيدو كول للمعاينه — `video-visit`
+- معاينة بالفيدبو ممكن — `video-visit`
+- مكالمه فديو اشوف الشالية — `video-visit`
+- في جولة 360 للشاليه — `video-visit`
+- بقدر اشوف الشاليه لايف عالموبايل؟ — `video-visit`
+- بدل ما اجي، اعملولي جوله بالفيديو — `video-visit`
+- المعاينه الافتراضيه بتكون بموعد؟ — `video-visit`
+- قديش بتطول مكالمة الفيديو للمعاينه — `video-visit`
+- بقدر اسأل اسئله خلال جولة الفيديو؟ — `video-visit`
+- امي ما بتقدر تمشي كتير، بنفع نشوف المكان عالشاشه؟ — `video-visit`
+- بالشتا الطريق صعب، في بديل اونلاين للزياره؟ — `video-visit`
+- بدي اقرر قبل ما احجز طياره، فرجوني الشاليه فيديو — `video-visit`
+- هل يمكنني إجراء معاينة افتراضية عبر مكالمة فيديو؟ — `video-visit`
+- هل تتوفر جولة افتراضية للكمباوند؟ — `video-visit`
+- هل يمكن معاينة الشاليه عن بعد؟ — `video-visit`
+- ممكن اشوف الشاليه بمكالمة فيديو؟ انا برا الاردن — `video-visit`
+- ابي جوله بالفيديو، يصير؟ — `video-visit`
+- اقدر اعاين وانا بالسعودية؟ عن طريق فيديو — `video-visit`
+- ينفع نعمل فيديو كول واشوف الشاليه؟ — `video-visit`
+- انا مش في الاردن، اشوف المكان ازاي؟ — `video-visit`
+- momken video call ashoof el chalet — `video-visit`
+- fi mu3ayaneh online? — `video-visit`
+- b2dar ashoofo 3al video — `video-visit`
+- can I do a virtual tour — `video-visit`
+- video call viewing possible? — `video-visit`
+- I live abroad, can you show me the chalet over video — `video-visit`
+- is there a 360 tour online — `video-visit`
+- can we do a facetime walkthrough — `video-visit`
+- remote viewing? — `video-visit`
+- zoom tour of the compound? — `video-visit`
+- بدي virtual tour للشاليه — `video-visit`
+- في online viewing؟ — `video-visit`
+- ممكن video call معاينه — `video-visit`
+- اعملولي walkthrough بالفيديو — `video-visit`
+- الفيديو كول بيكون مع موظف مبيعات؟ — `video-visit`
+- بدي اشوف الشاليه من الجوال، ابعتولي فيديو لايف 📱 — `video-visit`
+- معاينه بالجوال بدون ما اجي — `video-visit`
+- انا مقيم بقطر، الطريقه الوحيده اشوف فيها هي فيديو، بتعملوها؟ — `video-visit`
+- فرجوني عن بعد لو سمحتو — `video-visit`
+- المعاينه بالكاميرا ببلاش؟ — `video-visit`
+- بنفع نعمل المعاينه عالواتساب فيديو بالليل حسب توقيت امريكا؟ — `video-visit`
+- معاينة رقميه متاحه؟ — `video-visit`
+- اول مره بشتري عقار، شو الاوراق اللي بدي جهزها؟ — `documents`
+- بدي اجهز حالي قبل ما انزل عالاردن، شو احضر معي من اوراق؟ — `documents`
+- انا معي جواز بس وهويتي منتهيه، بقدر اكمل الشرا؟ — `documents`
+- الاوراق المطلوبه؟ — `documents`
+- شو المستندات — `documents`
+- الوثائق اللازمه — `documents`
+- طب والاوراق — `documents`
+- شو بدي احضر — `documents`
+- هويه بس؟ — `documents`
+- بدكم كشف راتب؟ — `documents`
+- الاوراق المطلوبة للتملك — `documents`
+- المستندات المطلوبه للشرا — `documents`
+- الاوراق الرسميه شو — `documents`
+- المسنتدات اللازمه — `documents`
+- شو الاوراف المطلوبه — `documents`
+- الورق اللي بدكم ياه — `documents`
+- الاجراات الرسميه شو — `documents`
+- شو الاجرائات المطلوبة لاتملك الشاليه — `documents`
+- لازم اجيب عدم محكوميه؟ — `documents`
+- بدكم صور شخصيه ولا بس الهويه — `documents`
+- المرأه بتقدر تشتري باسمها، شو بدها اوراق؟ — `documents`
+- لو بدي اشتري باسم ابني القاصر شو الاوراق المطلوبه — `documents`
+- بدي اشتري بوكاله لاني برا، شو بدها الوكاله تكون؟ — `documents`
+- الوكاله لازم تكون مصدقه من السفاره؟ — `documents`
+- لو اشترينا انا واخوي شراكه، شو الاوراق؟ — `documents`
+- شركه بتقدر تشتري؟ شو المستندات للشركات — `documents`
+- ما الإجراءات والمستندات المطلوبة لتملك الشاليه؟ — `documents`
+- ما الوثائق اللازمة لإتمام الشراء؟ — `documents`
+- ما هي الأوراق الثبوتية المطلوبة من المشتري؟ — `documents`
+- وش الاوراق المطلوبة للشراء؟ — `documents`
+- وش تبون مني من مستندات — `documents`
+- محتاج اجيب ايه من ورق؟ — `documents`
+- الاوراق المطلوبه عشان اشتري ايه؟ — `documents`
+- shu el awra2 el matlobeh — `documents`
+- shu bdkom mni documents — `documents`
+- el wara2 lal tamalok — `documents`
+- what documents do I need to buy — `documents`
+- required paperwork? — `documents`
+- do i need my passport or ID — `documents`
+- what papers should I bring to sign — `documents`
+- what's needed for ownership docs — `documents`
+- the documents المطلوبه شو — `documents`
+- بدي list بالاوراق — `documents`
+- الـ paperwork كيف عندكم — `documents`
+- لازم power of attorney اذا انا برا؟ — `documents`
+- ابوي كبير وما بقدر يجي، بقدر اخلص الاوراق عنه؟ — `documents`
+- شو الاوراق اللي بتطلبوها يوم توقيع العقد — `documents`
+- بدكم اثبات دخل اذا بدي اقسط؟ — `documents`
+- الاجراءات الورقيه بتطول؟ شو المطلوب مني بالضبط — `documents`
+- انا مغترب بالخليج، بدي اعرف الاوراق قبل ما احجز تذكره ✈️ — `documents`
+- شو لازم يكون معي عشان اكمل التملك — `documents`
+- جواز سفر اجنبي بيمشي بالاوراق؟ — `documents`
+- لو اسمي بالهويه غير عن الجواز بيفرق؟ — `documents`
+- اوراق التملك شو هي بالترتيب — `documents`
+- شو المستندات اللي لازم اصورها وابعتها — `documents`
+- بعد ما اشتري، رح يضل في مصاري بدفعها كل سنه؟ — `fees`
+- بدي احسب المصروف السنوي للشاليه غير ثمنه — `fees`
+- خايف من مصاريف مخفيه تطلع بعدين — `fees`
+- السعر شامل ولا في اشي بندفعه زياده؟ — `fees`
+- في رسوم صيانه شهريه؟ — `fees`
+- رسوم الخدمات قديش بالسنه — `fees`
+- في اشتراك سنوي للكمباوند؟ — `fees`
+- رسوم اضافيه؟ — `fees`
+- رسوم؟ — `fees`
+- رسوم الصيانه؟ — `fees`
+- طب والرسوم السنويه — `fees`
+- في مصاريف تانيه؟ — `fees`
+- رسوم خدمات؟ — `fees`
+- شو التكاليف الجانبيه — `fees`
+- رسوم الصيانه الدوريه كم — `fees`
+- في رسوم اظافيه — `fees`
+- رسزم الخدمات قديش — `fees`
+- الرسوم الشهريه كام — `fees`
+- مصاريف الصيانه السنويه — `fees`
+- رسوم التسجيل والدائرة مين بيدفعها — `fees`
+- في عمولة بدفعها لحدا؟ — `fees`
+- الحراسه والتنظيف بندفعلهم اشي منفصل؟ — `fees`
+- لو ما استعملت الشاليه بدفع رسوم برضو؟ — `fees`
+- رسوم الخدمات بتزيد كل سنه؟ — `fees`
+- المرافق العامه صيانتها على مين؟ — `fees`
+- الرسوم الدوريه بتنحسب على المساحه ولا ثابته؟ — `fees`
+- هل توجد رسوم إضافية بعد الشراء؟ — `fees`
+- هل هناك رسوم صيانة وخدمات دورية؟ — `fees`
+- ما هي التكاليف الإضافية غير سعر الشاليه؟ — `fees`
+- فيه رسوم سنوية؟ — `fees`
+- وش الرسوم الاضافيه عندكم — `fees`
+- في رسوم صيانة كل شهر ولا ايه؟ — `fees`
+- هدفع حاجه زياده غير التمن؟ — `fees`
+- fi rsoom idafieh? — `fees`
+- rsoom el siyane 2adesh — `fees`
+- fi masari zyadeh ba3d el shira? — `fees`
+- are there any extra fees — `fees`
+- annual maintenance fee? — `fees`
+- service charges per year — `fees`
+- hidden costs? — `fees`
+- who pays the registration fees — `fees`
+- monthly HOA fee? — `fees`
+- any recurring costs after buying — `fees`
+- في service charge سنوي؟ — `fees`
+- الـ maintenance fees كم — `fees`
+- في hidden fees ولا كلو واضح — `fees`
+- الاشتراك السنوي للخدمات اجباري؟ — `fees`
+- انا مغترب وبدي اعرف شو المبلغ اللي لازم احوله كل سنه غير القسط — `fees`
+- ميزانيتي محسوبه بالقرش، فبدي اعرف كل المصاريف الثابته بعد الشرا — `fees`
+- صيانة المسبح والحديقة بتدخل ضمن رسوم ولا عليي؟ — `fees`
+- بدي ارقام واضحه للرسوم قبل ما اوقع 🧾 — `fees`
+- في رسوم على الكهربا والمي للمرافق المشتركه؟ — `fees`
+- رسوم الدخول للكمباوند للضيوف؟ — `fees`
+- المصاريف الدورية بعد التسليم شو هي — `fees`
+- بدي اتأكد انو الشاليه رح يصير باسمي رسمي مش بس عقد — `title-deed`
+- الشاليه بنسجل باسمي بدائرة الاراضي؟ — `title-deed`
+- بعطوني قوشان ولا لا — `title-deed`
+- خايف اشتري وما يطلعلي سند تسجيل — `title-deed`
+- سمعت عن مشاريع ما بتعطي قوشان مستقل، انتو كيف؟ — `title-deed`
+- القوشان مستقل لكل شاليه؟ — `title-deed`
+- قوشان؟ — `title-deed`
+- طب والقوشان — `title-deed`
+- سند ملكيه؟ — `title-deed`
+- بتسجل باسمي؟ — `title-deed`
+- نقل الملكيه كيف — `title-deed`
+- الكوشان باسم مين — `title-deed`
+- القوشن مفرز؟ — `title-deed`
+- سند التسجيل بعطوني اياه؟ — `title-deed`
+- نقل الملكيه بياخد قديش — `title-deed`
+- الفراغ بدائرة الاراضي امتى — `title-deed`
+- التسجيل بأسم المشتري ؟ — `title-deed`
+- الشاليه بيتفرغ لاسمي بعد ما اخلص الاقساط ولا من الاول؟ — `title-deed`
+- امتى بستلم سند الملكيه — `title-deed`
+- اذا بدي اسجله باسم مرتي بزبط؟ — `title-deed`
+- بقدر اسجل الشاليه باسم ولادي؟ — `title-deed`
+- لو انا برا الاردن كيف بيتم الفراغ — `title-deed`
+- مين بيروح معي عدائرة الاراضي — `title-deed`
+- الارض مفروزه ومسجله رسمي؟ — `title-deed`
+- بعد الشرا الشاليه ملك الي 100% ولا حق انتفاع؟ — `title-deed`
+- بقدر اورث الشاليه لاولادي بعدين؟ — `title-deed`
+- هل يتم تسجيل الشاليه باسم المشتري؟ — `title-deed`
+- ما هي إجراءات نقل الملكية؟ — `title-deed`
+- هل يحصل المشتري على سند تسجيل مستقل؟ — `title-deed`
+- متى يتم نقل ملكية الشاليه للمشتري؟ — `title-deed`
+- الشاليه يتسجل باسمي؟ — `title-deed`
+- فيه صك باسمي؟ — `title-deed`
+- عقد الملكيه هيبقى باسمي؟ — `title-deed`
+- هاخد عقد مسجل في الشهر العقاري؟ — `title-deed`
+- fi 2oshan? — `title-deed`
+- el chalet byetsajal b esmi? — `title-deed`
+- na2el el mulkiyeh kef — `title-deed`
+- do I get a title deed — `title-deed`
+- is it registered in my name — `title-deed`
+- how does ownership transfer work — `title-deed`
+- freehold or leasehold? — `title-deed`
+- when do i get the deed — `title-deed`
+- is the land officially registered — `title-deed`
+- الـ title deed باسمي؟ — `title-deed`
+- الـ ownership بتنتقل امتى — `title-deed`
+- بدي official deed مش بس contract — `title-deed`
+- الملكيه مضمونه بالقانون يعني؟ — `title-deed`
+- قبل ما ادفع اول دينار بدي اعرف القوشان وين صاير 📜 — `title-deed`
+- بدي اكتب الشاليه باسم امي هديه، بتمشي؟ — `title-deed`
+- صاحبي اشترى بمشروع ولسا ما فرغولو، عندكم نفس القصه؟ — `title-deed`
+- اوراق الطابو كيف — `title-deed`
+- الفراغ بيصير بالدائره ولا عندكم بالمكتب — `title-deed`
+- التسجيل الرسمي بيتم قديش بعد العقد — `title-deed`
+- لو بعته بعدين بنتقل القوشان للمشتري الجديد عادي؟ — `title-deed`
+- رسميا الشاليه بصير باسم مين — `title-deed`
+- عجبني المشروع، من وين ببدأ اذا بدي اشتري؟ — `buy-steps`
+- اول مره بشتري اشي هيك، فهمني الخطوات من الاول للاخر — `buy-steps`
+- لو قررت اليوم، شو اللي بيصير بعدها خطوه خطوه؟ — `buy-steps`
+- بدي اعرف المشوار كله من اختيار الشاليه لحد ما يصير الي — `buy-steps`
+- كيف بتمشي عملية الشرا عندكم — `buy-steps`
+- شو المراحل لحد ما اوقع العقد — `buy-steps`
+- انا مغترب، كيف بتصير عملية الشرا من اولها لاخرها؟ — `buy-steps`
+- بدي احجز شاليه معين قبل ما يروح، شو الخطوه الاولى؟ — `buy-steps`
+- بعد ما اختار الشاليه شو بصير؟ — `buy-steps`
+- بدفع عربون اول ولا بوقع عطول؟ — `buy-steps`
+- العربون كيف بيمشي وبعده شو — `buy-steps`
+- خطوات الشرا؟ — `buy-steps`
+- طب كيف بنبلش — `buy-steps`
+- مراحل الشراء — `buy-steps`
+- الخطوة الجايه شو — `buy-steps`
+- كيف الاجراءات؟ — `buy-steps`
+- بدي اشتري، شو بعمل؟ — `buy-steps`
+- خطوات الشرا بالترتيب — `buy-steps`
+- خطوت الشراء شو — `buy-steps`
+- كيف بشتري الشالية — `buy-steps`
+- مراحل الشرءا — `buy-steps`
+- كيف بتتم عمليه البيع — `buy-steps`
+- طريقه الشرا كيف عندكو — `buy-steps`
+- بدي اشتري خلص قررت، كيف بنكمل؟ 🙌 — `buy-steps`
+- اختار الشاليه وبعدين؟ — `buy-steps`
+- قديش بتاخد عملية الشرا من البدايه للنهايه — `buy-steps`
+- توقيع العقد بيكون بعد المعاينه ولا قبل؟ — `buy-steps`
+- العمليه معقده ولا سهله؟ بدي الخطوات — `buy-steps`
+- انا وزوجي بدنا نشتري سوا، كيف بتمشي الامور من الاول؟ — `buy-steps`
+- ما الخطوات التي يمر بها العميل حتى إتمام الشراء؟ — `buy-steps`
+- كيف تتم عملية شراء الشاليه؟ — `buy-steps`
+- ما هي مراحل التعاقد على الشاليه؟ — `buy-steps`
+- وش خطوات الشراء عندكم؟ — `buy-steps`
+- كيف اشتري شاليه منكم من البداية؟ — `buy-steps`
+- خطوات الشرا ايه بالظبط؟ — `buy-steps`
+- عايز اشتري، ابدأ منين؟ — `buy-steps`
+- kef bshtri chalet — `buy-steps`
+- shu el khatawat lal shira — `buy-steps`
+- bdi ashtri, mn wein bballesh — `buy-steps`
+- how do I buy a chalet — `buy-steps`
+- what are the steps to purchase — `buy-steps`
+- walk me through the buying process — `buy-steps`
+- i want to buy, what's next — `buy-steps`
+- how long does the purchase process take — `buy-steps`
+- is there a reservation deposit step first? — `buy-steps`
+- الـ buying process كيف — `buy-steps`
+- بدي اعرف ال steps لحد ما اوقع — `buy-steps`
+- الـ process تبع الشرا من A to Z — `buy-steps`
+- بدي احجز شاليه وبعدين ادفع، هيك الترتيب؟ — `buy-steps`
+- لو حجزت ورجعت بكلامي شو بصير بالعربون — `buy-steps`
+- مين بيتابع معي من المبيعات لحد ما تخلص العمليه — `buy-steps`
+- بقدر اكمل الشرا كله اونلاين وانا برا؟ — `buy-steps`
+- الترتيب: معاينه، عربون، عقد، ولا كيف بالضبط؟ — `buy-steps`
+- شو بيصير بعد ما ادفع الدفعه الاولى لحد الاستلام والتسجيل — `buy-steps`
+- انا ساكن بخلدا وبدي اعرف اذا بقدر اطلع بعد الدوام واوصل قبل المغرب — `distance`
+- بدي اشي ما ياخد معي اكتر من نص ساعة سواقة من عمان، انتو قراب؟ — `distance`
+- ابوي كبير بالعمر وما بيحمل مشاوير طويلة بالسيارة، الطريق لعندكم طويل؟ — `distance`
+- انا مغترب وبنزل ع المطار، بقدر اروح من الطيارة للشاليه ع طول ولا بعيد؟ — `distance`
+- زوجتي بتشتغل بالعبدلي وكل يوم بدها ترجع، معقول نسكن عندكم بالصيف؟ — `distance`
+- بخاف نكون بآخر الدنيا وكل مشوار ساعة ونص — `distance`
+- اذا طلعنا الخميس العصر بزحمة السير قديش بنضل بالطريق لعندكم — `distance`
+- ابني بجامعة الاسراء، بيقدر يداوم من عندكم؟ — `distance`
+- لو نسينا اغراض ورجعنا ع عمان، المشوار بيطول؟ — `distance`
+- بدنا مكان للويكند بس ما بدنا نقضي نص الويكند بالسيارة — `distance`
+- رمضان بنفطر عند اهلي بعمان وبعدين بدنا نروح عالشاليه، بلحق؟ — `distance`
+- اهلي جايين من الخليج بالطيارة، بعيد عليهم من المطار؟ — `distance`
+- لو صار اشي بالليل واضطرينا نرجع عمان، كم بدها؟ — `distance`
+- بفكر اشتري بس الصراحة المسافة مقلقتني شوي — `distance`
+- كم دقيقه عن الدوار السابع — `distance`
+- كم المسافه — `distance`
+- بعيد؟ — `distance`
+- والمطار قديش بيبعد؟ — `distance`
+- قديش طريق — `distance`
+- طب وعن عمان كم؟ — `distance`
+- كم بدها سواقه — `distance`
+- بعيدين كتيير؟ — `distance`
+- وعن ايكيا؟ — `distance`
+- كم كيلو؟ — `distance`
+- وقت الوصول — `distance`
+- قريبين من المطار؟؟ — `distance`
+- ربع ساعه من المطار؟ — `distance`
+- قديش بتبعدو عن عمان بالسيارة — `distance`
+- اديش بدها طريق من الجبيهه لعندكم — `distance`
+- كم يبعد المشروع عن مطار الملكه علياء — `distance`
+- ما هي المسافة بين الكمباوند ووسط عمّان؟ — `distance`
+- كم تبعد عن عمان بالسياره يا اخوي — `distance`
+- المكان دا بعيد عن عمان قد ايه؟ — `distance`
+- هو بياخد كام دقيقه من المطار — `distance`
+- وش كثر يبعد عن المطار؟ — `distance`
+- 2desh b3eed 3an 3amman? — `distance`
+- kam d2i2a mn el matar — `distance`
+- el masafe kbeere? — `distance`
+- How far is it from Amman? — `distance`
+- driving time from the airport? — `distance`
+- how long is the drive from abdali — `distance`
+- is it close to queen alia airport — `distance`
+- قديش الdrive من عمان — `distance`
+- كم minute من المطار — `distance`
+- far from amman wala la2? — `distance`
+- بدي اعرف الوقت بالسياره من الصويفيه لعندكم تقريبا — `distance`
+- لو بدي اوصل الولاد عالمدرسه بعمان الصبح، بلحق من عندكم؟ — `distance`
+- صاحبي قال انه بعيد كتير عن عمان، صح؟ — `distance`
+- حماتي ساكنه بطبربور، قديش بدها لتوصلكم؟ — `distance`
+- الطريق من البلد للشاليه كم بياخد؟ — `distance`
+- رحلة الطيارة بتوصل الفجر، بنوصل الشاليه بسرعه؟ — `distance`
+- قديش بتبعد عن قصر المشتى — `distance`
+- كم بعد المشروع عن مرج الحمام — `distance`
+- بالويكند الشوارع فاضيه، بنوصل بربع ساعه؟ — `distance`
+- قريب ولا بدي احسب حساب البنزين 😅 — `distance`
+- بدي اجيب الضيوف من عمان وارجعهم بنفس اليوم، المشوار معقول؟ — `distance`
+- كم دقيقة من جامعة الاسراء — `distance`
+- بعيييد عن عمان؟ — `distance`
+- المسافه بالدقايق لو سمحت — `distance`
+- وقت الطريق للمطار تقريبا كم — `distance`
+- لو اشتريت شو بتقدمولي انتو كشركة بعد ما استلم؟ — `services`
+- انا مغترب وما بقدر اتابع الشاليه بنفسي، شو الخدمات اللي عندكم موجوده هسا؟ — `services`
+- بدي افهم شو الاشياء الشغاله حاليا بالكمباوند مش الموعوده — `services`
+- قبل ما ادفع، شو بالزبط متوفر من خدمات اليوم؟ — `services`
+- يعني انا بشتري بس الشاليه ولا في خدمات معه؟ — `services`
+- بدي قائمه بكل الخدمات اللي بتقدموها — `services`
+- اذا سكنت بالصيف كله، شو الخدمات اللي رح استفيد منها؟ — `services`
+- خايف اشتري واكتشف انه ما في اشي جاهز حوالي — `services`
+- اهلي كبار وبدهم كل اشي قريب، شو الخدمات اللي بتوفروها؟ — `services`
+- عائلتي بتحب الراحه، شو بتعملولنا انتو؟ — `services`
+- بشو بتخدموا السكان حاليا؟ — `services`
+- لو قارنتكم بكمباوند تاني، شو الخدمات اللي عندكم فعليا؟ — `services`
+- الخدمات؟ — `services`
+- شو خدماتكم — `services`
+- والخدمات المتوفره؟ — `services`
+- خدمات حاليه — `services`
+- طب شو الخدمات — `services`
+- قائمة الخدمات — `services`
+- الخدمات اللي شغاله؟ — `services`
+- كل الخدمات لو سمحت — `services`
+- شو بتقدمو؟ — `services`
+- وخدمات الكمباوند شو هي — `services`
+- خدمات موجوده هلا — `services`
+- شو الخدمات اللي بتقدموها بالكمبوند؟ — `services`
+- ما هي الخدمات المتوفرة حاليا للملاك؟ — `services`
+- وش الخدمات اللي عندكم؟ — `services`
+- ايه الخدمات اللي بتقدموها للساكنين؟ — `services`
+- عايز اعرف الخدمات الموجوده دلوقتي — `services`
+- اديش في خدمات عندكم بالمشروع — `services`
+- shu el khadamat elli 3ndkom? — `services`
+- khadamat el compound shu hiye — `services`
+- what services do you offer? — `services`
+- which services are available right now — `services`
+- list of services pls — `services`
+- what do you provide for owners — `services`
+- شو الservices عندكم — `services`
+- الخدمات الcurrent شو هي — `services`
+- بدي اعرف كل الخدمات المتوفرة حالياا — `services`
+- في خدمات للمالكين ولا بس بيع؟ — `services`
+- شو اللي بتقدموه بعد البيع — `services`
+- انتو شركة بس بتبني ولا كمان بتخدمو المكان — `services`
+- وش تقدمون للي يشتري عندكم — `services`
+- خدماتكم المتاحه للحين؟ — `services`
+- لو جيت هسا، شو بلاقي خدمات شغاله؟ — `services`
+- هل الخدمات جاهزه ولا لسا؟ — `services`
+- عطيني فكره عن الخدمات الموجوده — `services`
+- بتقدموا خدمات للسكان ولا كل واحد بيدبر حاله؟ — `services`
+- شو بيشمل الكمباوند من خدمات للعائله — `services`
+- خدمات الكمبوند الحاليه كامله — `services`
+- انا بسأل عن الخدمات مش المرافق، شو عندكم؟ — `services`
+- الخدمااات — `services`
+- شو الخدمات اللي بقدر استخدمها من اول يوم؟ — `services`
+- ما هي خدماتكم الحاليه بالتفصيل — `services`
+- بتقدمو خدمات للمغتربين اللي برا البلد؟ — `services`
+- كم خدمه عندكم؟ — `services`
+- what's included in terms of services today — `services`
+- khadamat 7aliyan? — `services`
+- عندكم خدمات شو هي بالضبط — `services`
+- الخدمات الي بتوفروها للملاك شو — `services`
+- بدي الخدمات المتاحه هسه — `services`
+- بدي اشتري هسا بس بهمني شو رح يصير بالمكان بعد كم سنه — `future`
+- اذا استثمرت معكم، شو الخطط الجايه اللي بترفع قيمة المكان؟ — `future`
+- لسا المكان مش مكتمل صح؟ شو ناويين تضيفو؟ — `future`
+- ولادي صغار وبعد سنين بدهم اشياء اكتر، رح تزيدو اشي؟ — `future`
+- بفكر بالمدى البعيد، شو مخطط للكمباوند؟ — `future`
+- سمعت انه في مشاريع جايه بالكمباوند، شو هي؟ — `future`
+- شو الاشياء اللي لسا ما خلصت ورح تنعمل؟ — `future`
+- قبل ما اقرر بدي اعرف شو رح يكون في كمان سنتين — `future`
+- هل في توسعات او مرافق جديده بالخطة؟ — `future`
+- اللي بشتري هلا بيستفيد من الاضافات الجديده بعدين؟ — `future`
+- شو مخبيين للسكان بالمستقبل؟ 😄 — `future`
+- خطة التطوير شو فيها؟ — `future`
+- والمستقبل؟ — `future`
+- شو الجاي؟ — `future`
+- خدمات قادمه — `future`
+- الخطط المستقبليه — `future`
+- طب شو رح تضيفو — `future`
+- مشاريع جايه؟ — `future`
+- والخدمات الجديده؟ — `future`
+- شو بعدين؟ — `future`
+- التطويرات الجايه — `future`
+- شو الخطه الجايه — `future`
+- رح تزيدو خدمات؟ — `future`
+- ما هي الخدمات المستقبلية المخطط لها؟ — `future`
+- شو الخدمات اللي رح تنضاف قريبا؟ — `future`
+- وش بتضيفون مستقبلا في المشروع؟ — `future`
+- ايه اللي هيتعمل بعدين في الكمباوند؟ — `future`
+- هتضيفوا ايه في المرحله الجايه — `future`
+- اديش في مشاريع لسا رح تنفذوها — `future`
+- shu el khadamat el jaye? — `future`
+- shu na2wyeen tdeefo? — `future`
+- what's planned for the future? — `future`
+- upcoming services in the compound — `future`
+- any future developments planned? — `future`
+- what will you add later — `future`
+- الfuture plans تبعتكم شو — `future`
+- الupcoming services؟ — `future`
+- في phase جاي فيه خدمات جديده؟ — `future`
+- شو المخطط للمراحل الجايه — `future`
+- هل الكمباوند رح يتطور اكتر من هيك؟ — `future`
+- اللي ناقص هسا رح تجيبوه بعدين؟ — `future`
+- شو في رؤيه للمستقبل للمشروع — `future`
+- بدي اعرف قائمة الخدمات اللي جايه — `future`
+- عندكم plan لمرافق جديده؟ — `future`
+- الخدمات اللي لسا مش جاهزه شو هي؟ — `future`
+- شو رح يصير بالكمباوند كمان كم سنه — `future`
+- رح يكون في اشياء زياده عن اللي هسا؟ — `future`
+- شو الاضافات المستقبلية — `future`
+- في خطط لمرافق ترفيهيه جديده بعدين؟ — `future`
+- الخطه التطويريه للمشروع؟ — `future`
+- اذا اشتريت هسا وبعدين ضفتو خدمات، بتكون لكل الملاك؟ — `future`
+- شو المرافق اللي ع الطريق؟ — `future`
+- المستقبل بالمكان شو شكله — `future`
+- وش الخدمات الجايه — `future`
+- future services list? — `future`
+- khotat el mosta2bal — `future`
+- what's coming next to the compound — `future`
+- قديش في خدمات رح تنفتح لقدام — `future`
+- مستقبلن شو رح تعملو — `future`
+- شو بعد في؟ رح تضيفو اشي جديد؟ — `future`
+- بحب اعرف مع مين بتعامل قبل ما احط مصاري، مين ماسك الشغل عندكم؟ — `team`
+- اذا صار معي مشكله بالصيانه، مين المسؤول عن هالقسم؟ — `team`
+- مين الاشخاص اللي بيديروا الاقسام بالشركه؟ — `team`
+- بدي اعرف اسماء المدراء عشان اطمن — `team`
+- مين مسؤول المبيعات عندكم بالاسم؟ — `team`
+- مين رئيس قسم الهندسه؟ — `team`
+- اذا بدي احكي عن الامن، مين المدير؟ — `team`
+- مين بيمسك الماليه عندكم؟ — `team`
+- مين مدير خدمة العملاء؟ — `team`
+- ورئيس قسم التسويق مين؟ — `team`
+- مين المسؤولين بالشركه — `team`
+- فريق الاداره — `team`
+- الاداره مين؟ — `team`
+- مين المدراء — `team`
+- رؤساء الاقسام؟ — `team`
+- طب مين الفريق — `team`
+- مين بيدير؟ — `team`
+- فريق العمل — `team`
+- الكادر الاداري — `team`
+- مين مدير الصيانه — `team`
+- مين المسؤول عن الانشاءات — `team`
+- من هم رؤساء الأقسام في الشركة؟ — `team`
+- من يدير الأقسام المختلفة لديكم؟ — `team`
+- وش اسماء المسؤولين عندكم؟ — `team`
+- مين المديرين بتوعكم؟ — `team`
+- عايز اعرف مين بيدير كل قسم — `team`
+- min el mas2oleen 3ndkom? — `team`
+- meen el mudara? — `team`
+- who's on the management team? — `team`
+- who are the department heads — `team`
+- who runs sales and maintenance — `team`
+- management team names pls — `team`
+- مين الheads of departments — `team`
+- الmanagement team مين؟ — `team`
+- بدي اعرف الهيكل الاداري للشركه — `team`
+- مين مدير الموارد البشريه عندكم — `team`
+- مين المسؤول عن العقود والشؤون القانونيه — `team`
+- مين مدير العمليات — `team`
+- مين مسؤول الخدمات والمرافق — `team`
+- قديش في قسم عندكم ومين رئيس كل واحد — `team`
+- بدي اشتكي لمسؤول، مين المدراء عندكم؟ — `team`
+- قبل ما اوقع، بدي اعرف الناس اللي ورا الاداره — `team`
+- مين الناس اللي بيشتغلوا بالاداره عندكم — `team`
+- عندكم فريق اداري واضح ولا شركه صغيره؟ — `team`
+- اسماء رؤساء الاقسام لو سمحت — `team`
+- مين المدير المسؤول عن الامن والحراسه — `team`
+- مين بيتابع المالكين من الاداره؟ — `team`
+- مين مدراء الاقسام — `team`
+- الطاقم الاداري مين — `team`
+- في مدير للتسويق؟ مين هو — `team`
+- min mas2ool el siyane — `team`
+- مين رئيس قسم المبيعات — `team`
+- بحب اعرف الفريق اللي بيشتغل بالمشروع — `team`
+- الادارة مين فيها — `team`
+- leadership team? — `team`
+- مين المدير المالي — `team`
+- مين اللي ماسك كل قسم بالشركه عندكم — `team`
+- عرفني على فريق الاداره — `team`
+- مين المسؤولين عن التشغيل — `team`
+- مين الطاقم — `team`
+- عنا ولاد بحبوا السباحه كتير، الشاليه بيلبي هالشي؟ — `pool`
+- بالصيف الحر بدنا نسبح بدون ما نروح ع نادي، في عندكم؟ — `pool`
+- مرتي محجبه وما بتسبح قدام حدا، السباحه خاصه ولا مشتركه؟ — `pool`
+- قديش طول وعرض المسبح؟ — `pool`
+- ابني عمره 4 سنين، في مكان يسبح فيه بأمان؟ — `pool`
+- بدي اعمل حفلة سباحه للولاد، المسبح كبير كفايه؟ — `pool`
+- المسبح الو ولا مشترك مع الجيران؟ — `pool`
+- بدنا نسبح حتى بالخريف، مسبح الصغار دافي؟ — `pool`
+- المسبح بكفي لعيله كبيره؟ — `pool`
+- لما اغطس بالصيف بدي يكون المسبح الي لحالي — `pool`
+- اكثر اشي بهمني الماي والسباحه، شو وضعه؟ — `pool`
+- المسبح؟ — `pool`
+- قياس المسبح — `pool`
+- والمسبح كم حجمه — `pool`
+- مسبح اطفال؟ — `pool`
+- خاص؟ — `pool`
+- البركه؟ — `pool`
+- حجم البركه — `pool`
+- طب والمسبح؟ — `pool`
+- مسبح خاص ولا عام — `pool`
+- عمقه قديش؟ — `pool`
+- كم حجم المسبح بالشاليه — `pool`
+- في مسبح خاص لكل شاليه؟ — `pool`
+- المسبح مشترك او خاص؟ — `pool`
+- هل يوجد مسبح للأطفال منفصل؟ — `pool`
+- كم مساحة حوض السباحة؟ — `pool`
+- فيه مسبح خاص بالشاليه؟ وش مقاسه — `pool`
+- فيه حمام سباحه خاص؟ — `pool`
+- البيسين كبير ولا صغير؟ — `pool`
+- البسين مقاسه كام — `pool`
+- fe masba7 5as? — `pool`
+- kam 7ajm el masba7 — `pool`
+- masba7 atfal fe? — `pool`
+- is there a private pool? — `pool`
+- pool size? — `pool`
+- is the pool shared with neighbors — `pool`
+- kids pool available? — `pool`
+- الpool خاص؟ — `pool`
+- في pool للاطفال؟ — `pool`
+- المسبح الو تدفئه؟ ولا بس الصغير — `pool`
+- مسبح الاطفال مفصول عن الكبير؟ — `pool`
+- 5 ب 10؟ هيك حجم المسبح؟ — `pool`
+- بدي اسبح لحالي بدون جيران يشوفوني — `pool`
+- المسبحححح كيفه — `pool`
+- السباحه بالشاليه كيف — `pool`
+- كم متر البركه — `pool`
+- في بركه سباحه بكل شاليه — `pool`
+- وش حجم المسبح عندكم — `pool`
+- البيسين فيه مكان للصغار؟ — `pool`
+- الولاد بدهم مسبح صغير مش عميق، في؟ — `pool`
+- بدي اشوف اذا المسبح بيكفي لاعمل laps — `pool`
+- swimming pool dimensions — `pool`
+- masba7 kbeer? — `pool`
+- المسبح 🏊‍♂️؟ — `pool`
+- مسبح خاص يعني ما حدا بيشاركني فيه — `pool`
+- مسبح صغار مدفى؟ — `pool`
+- قديش ابعاد المسبح — `pool`
+- مسبح بالشاليه ولا بالنادي — `pool`
+- حماتي بتحب تسبح الصبح، المسبح خصوصي؟ — `pool`
+- بعد يوم شغل طويل بدي ارتاح بمي سخنه وفقاعات، في عندكم؟ — `jacuzzi`
+- مرتي بتحب السبا، في اشي زي هيك بالحمام الرئيسي؟ — `jacuzzi`
+- ظهري بيوجعني والدكتور نصحني بالمساج المائي، الشاليه فيه؟ — `jacuzzi`
+- بشهر العسل بدنا اشي رومانسي، في جاكوزي بالجناح؟ — `jacuzzi`
+- بالشتا بدي اقعد بمي دافيه، في وايرلبول؟ — `jacuzzi`
+- الجناح الماستر فيه اشي مميز للاسترخاء؟ — `jacuzzi`
+- بدنا نعمل جو استجمام، في جاكوزي ولا لا — `jacuzzi`
+- بعد السباحه بحب اقعد بالجاكوزي، موجود؟ — `jacuzzi`
+- جكوزي — `jacuzzi`
+- والجاكوزي؟ — `jacuzzi`
+- جاكوزي خاص — `jacuzzi`
+- طب في جاكوزي — `jacuzzi`
+- الجاكوزي وين؟ — `jacuzzi`
+- جاكوزي بالماستر؟ — `jacuzzi`
+- وجاكوزي كمان؟ — `jacuzzi`
+- jacuzzi? — `jacuzzi`
+- هل يوجد جاكوزي في الشاليه؟ — `jacuzzi`
+- في جاكوزي بالشاليه ولا بس مسبح — `jacuzzi`
+- الشاليه فيه جاكوزي خاص؟ — `jacuzzi`
+- فيه جاكوزي داخل الشاليه؟ — `jacuzzi`
+- في جكوزي بالحمام؟ — `jacuzzi`
+- الجاكوزي مشترك ولا خاص — `jacuzzi`
+- فيه جاكوزي ولا لأ؟ — `jacuzzi`
+- عندكم جاكوزي في الحمام الرئيسي؟ — `jacuzzi`
+- fe jacuzzi bel chalet? — `jacuzzi`
+- 3ndkom jakuzi? — `jacuzzi`
+- is there a jacuzzi? — `jacuzzi`
+- does the master suite have a jacuzzi — `jacuzzi`
+- hot tub included? — `jacuzzi`
+- private jacuzzi or shared? — `jacuzzi`
+- في jacuzzi بالشاليه؟ — `jacuzzi`
+- الjacuzzi خاص بالماستر؟ — `jacuzzi`
+- في hot tub؟ — `jacuzzi`
+- الجاكوزي بالجناح الرئيسي ولا برا؟ — `jacuzzi`
+- الجاكوزي جوا ولا جنب المسبح؟ — `jacuzzi`
+- حوض مساج — `jacuzzi`
+- حوض استرخاء بالحمام؟ — `jacuzzi`
+- في بانيو جاكوزي؟ — `jacuzzi`
+- البانيو فيه مساج؟ — `jacuzzi`
+- بدي جاكوزي ضروري، موجود؟ — `jacuzzi`
+- جاكوزيي بالشالية؟ — `jacuzzi`
+- جاكوزي ولا بس دوش — `jacuzzi`
+- جاكوزي للشخصين؟ — `jacuzzi`
+- الجاكوزي داخلي؟ — `jacuzzi`
+- شو في بحمام الماستر؟ جاكوزي؟ — `jacuzzi`
+- عندكم جاكوزي زي الفنادق؟ — `jacuzzi`
+- whirlpool bath? — `jacuzzi`
+- spa tub in the master bathroom? — `jacuzzi`
+- jacuzzi 5as? — `jacuzzi`
+- في جاكوزى خاص — `jacuzzi`
+- في جاكوزيي — `jacuzzi`
+- ما في جاكوزي؟ — `jacuzzi`
+- الجاكوزي موجود بكل الشاليهات؟ — `jacuzzi`
+- بقرأ انه في جاكوزي، صح الكلام؟ — `jacuzzi`
+- حابب اعرف عن الجاكوزي — `jacuzzi`
+- جاكوزي😍؟ — `jacuzzi`
+- جاكوزى — `jacuzzi`
+- مرتي اول سؤال سألته: في جاكوزي؟ 😂 — `jacuzzi`
+- شو بالنسبه للجاكوزي — `jacuzzi`
+- احنا عيله 6 اشخاص، الشاليه بيكفينا للنوم؟ — `bedrooms`
+- بدي كل ولد يكون الو غرفه، قديش في غرف؟ — `bedrooms`
+- لو اجو اهلي يناموا عنا، في غرفه زياده؟ — `bedrooms`
+- كل غرفه الها حمامها؟ — `bedrooms`
+- عنا ضيوف كتير بالصيف، قديش حمام في؟ — `bedrooms`
+- انا وخواتي بدنا نشتري سوا، بتكفينا الغرف؟ — `bedrooms`
+- الصبح الكل بدو يدخل الحمام 😅 قديش حمام؟ — `bedrooms`
+- بدي اعرف التوزيع، كم ماستر؟ — `bedrooms`
+- الغرف كلها ماستر ولا وحده بس؟ — `bedrooms`
+- بدي غرفه للحماه وغرفه للولاد، بزبط؟ — `bedrooms`
+- كم غرفه؟ — `bedrooms`
+- غرف النوم — `bedrooms`
+- عدد الغرف — `bedrooms`
+- والحمامات؟ — `bedrooms`
+- كم حمام — `bedrooms`
+- كم ماستر — `bedrooms`
+- غرف وحمامات؟ — `bedrooms`
+- طب الغرف كم — `bedrooms`
+- 3 غرف؟ — `bedrooms`
+- كم غرفة نوم بالشاليه؟ — `bedrooms`
+- كم عدد غرف النوم والحمامات؟ — `bedrooms`
+- قديش غرفه نوم بالشالية — `bedrooms`
+- اديش حمام في بالشاليه — `bedrooms`
+- كم غرفه وكم حمام بالشلاليه — `bedrooms`
+- ما عدد غرف النوم في الشاليه؟ — `bedrooms`
+- كم غرفة نوم فيه؟ — `bedrooms`
+- كام اوضة نوم في الشاليه؟ — `bedrooms`
+- فيه كام حمام؟ — `bedrooms`
+- kam ghorfet nom? — `bedrooms`
+- kam 7ammam fe? — `bedrooms`
+- 3adad el ghoraf? — `bedrooms`
+- how many bedrooms? — `bedrooms`
+- how many bathrooms does it have — `bedrooms`
+- bedrooms and bathrooms count — `bedrooms`
+- are all rooms en suite? — `bedrooms`
+- كم bedroom؟ — `bedrooms`
+- الrooms كلهم master؟ — `bedrooms`
+- كم bathroom بالشاليه — `bedrooms`
+- الغرفه الرئيسيه الها بلكونه؟ — `bedrooms`
+- شرفة غرفة النوم الرئيسيه بتطل ع شو — `bedrooms`
+- في غرفه للضيوف؟ — `bedrooms`
+- 4 حمامات؟ مش كتير؟ — `bedrooms`
+- بدي اعرف كم غرفه نوم بالزبط — `bedrooms`
+- غرف النوم كبار؟ وكم وحده — `bedrooms`
+- كم غرفة نوم ماستر — `bedrooms`
+- كمغرفه نوم — `bedrooms`
+- كم غرفةنوم بالشاليه وكم حمام — `bedrooms`
+- غرف نوم كم وحده — `bedrooms`
+- كم غرفه ماستر بالشالي — `bedrooms`
+- غرفتين ولا تلاته؟ — `bedrooms`
+- وش عدد الغرف؟ — `bedrooms`
+- بيكفي لعيلتين ينامو فيه؟ — `bedrooms`
+- كل غرفه فيها حمام خاص؟ — `bedrooms`
+- حمام للضيوف موجود؟ — `bedrooms`
+- ولادي التلاته بناموا كل واحد بغرفه، في مجال؟ — `bedrooms`
+- en-suite bathrooms? — `bedrooms`
+- three bedroom chalet? — `bedrooms`
+- كم غرفه وحمام؟؟ — `bedrooms`
+- الغرف كيف موزعه وكم عددها — `bedrooms`
+- ghoraf w 7ammamat kam — `bedrooms`
+- مرتي بتحب الطبخ كتير، المطبخ بيساعدها ولا صغير؟ — `kitchen`
+- بالعزايم بدنا نطبخ لعشرين واحد، المطبخ مجهز؟ — `kitchen`
+- بحب اطبخ وانا شايف الولاد، المطبخ مفتوح؟ — `kitchen`
+- لازم اشتري اجهزة مطبخ ولا جاهز؟ — `kitchen`
+- برمضان بنحضر الفطور سوا، في مساحه بالمطبخ؟ — `kitchen`
+- القعده العائليه وين بتكون، في صاله كبيره؟ — `kitchen`
+- بالشتا بدنا نقعد بالصاله ع المدفاه — `kitchen`
+- المطبخ مسكر ولا امريكي؟ — `kitchen`
+- المعيشه وين موقعها بالبيت؟ — `kitchen`
+- بدنا نقعد كلنا سوا بالليل، الليفنج واسع؟ — `kitchen`
+- المطبخ؟ — `kitchen`
+- والمطبخ — `kitchen`
+- مطبخ مجهز؟ — `kitchen`
+- الصاله؟ — `kitchen`
+- المعيشه كيف — `kitchen`
+- ليفنج؟ — `kitchen`
+- مطبخ مفتوح؟ — `kitchen`
+- طب المطبخ كيف — `kitchen`
+- مطبخ امريكي؟ — `kitchen`
+- كيف المطبخ بالشاليه؟ — `kitchen`
+- المطبخ مجهز بالكامل؟ — `kitchen`
+- كيف تصميم المطبخ وغرفة المعيشه — `kitchen`
+- المطبخ مفتوح ع الصاله؟ — `kitchen`
+- كيف هو المطبخ وصالة المعيشة؟ — `kitchen`
+- هل المطبخ مجهز بالأجهزة؟ — `kitchen`
+- وش وضع المطبخ؟ — `kitchen`
+- المطبخ عامل ازاي؟ — `kitchen`
+- الريسبشن والمطبخ شكلهم ايه — `kitchen`
+- el matbakh kef? — `kitchen`
+- is the kitchen fully equipped? — `kitchen`
+- open plan kitchen and living? — `kitchen`
+- how's the living room — `kitchen`
+- does it come with kitchen appliances — `kitchen`
+- الkitchen مجهز؟ — `kitchen`
+- الliving room كيف — `kitchen`
+- open kitchen؟ — `kitchen`
+- المطبخ بنفتح ع المعيشه؟ — `kitchen`
+- في مدفاه بالصاله؟ — `kitchen`
+- الصالون كبير؟ — `kitchen`
+- المطبخ فيه فرن وغاز؟ — `kitchen`
+- المطبخ صغير ولا واسع — `kitchen`
+- المطبحخ مجهز — `kitchen`
+- المطبخخ — `kitchen`
+- كيف المطبح — `kitchen`
+- المعيشة والمطبح مع بعض؟ — `kitchen`
+- المعيشه بالنص بين الغرف؟ — `kitchen`
+- الصاله بتطل ع المسبح؟ — `kitchen`
+- بدي اعرف عن المطبخ والصاله — `kitchen`
+- كيف شكل المعيشه من جوا — `kitchen`
+- بدي اجيب ثلاجتي ولا في؟ — `kitchen`
+- اخر مره اشترينا شاليه والمطبخ كان زباله 😒 هون كيف؟ — `kitchen`
+- المطبخ والقعده الداخليه — `kitchen`
+- matbakh w living — `kitchen`
+- kitchen? — `kitchen`
+- المطبخ جاهز للطبخ من اول يوم؟ — `kitchen`
+- الليفنج روم والمطبخ؟ — `kitchen`
+- في سفره جوا جنب المطبخ؟ — `kitchen`
+- مساحة المعيشه كافيه لعيله كبيره؟ — `kitchen`
+- المطبخ فيه جزيره؟ — `kitchen`
+- الشتا عنا برد كتير، بقدر نقعد بالشاليه بكانون؟ — `heating`
+- بالصيف الحر بيكون الجو خانق، في تبريد؟ — `heating`
+- ابوي مريض ربو وما بيتحمل البرد، الشاليه دافي؟ — `heating`
+- بدنا نستخدمه طول السنه مش بس بالصيف، كيف التدفئه؟ — `heating`
+- بالليل بالصحرا بيبرد، شو بندفى فيه؟ — `heating`
+- الولاد صغار وبخاف يبردوا بالشتا — `heating`
+- بشهر 8 الحراره 40، الشاليه فيه مكيفات؟ — `heating`
+- في نظام تدفئه مركزيه ولا لازم صوبات؟ — `heating`
+- بدي اعمل راس السنه بالشاليه، رح نبرد؟ — `heating`
+- لازم اجيب مكيفات معي ولا موجوده؟ — `heating`
+- التدفئه؟ — `heating`
+- تكييف؟ — `heating`
+- والتدفئة؟ — `heating`
+- مكيفات؟ — `heating`
+- تدفئه مركزيه؟ — `heating`
+- طب والتكييف — `heating`
+- صوبات؟ — `heating`
+- تبريد؟ — `heating`
+- مكيف — `heating`
+- هل في تدفئة بالشاليه؟ — `heating`
+- الشاليه مكيف؟ — `heating`
+- في تكييف بالغرف؟ — `heating`
+- هل يوجد نظام تكييف وتدفئة؟ — `heating`
+- كيف التدفئه بالشتا؟ — `heating`
+- فيه مكيفات في الشاليه؟ — `heating`
+- وش نوع التكييف عندكم — `heating`
+- في تكييف ولا لأ — `heating`
+- الشاليه فيه تدفيه؟ — `heating`
+- fe tadfe2a? — `heating`
+- fe mokayyef? — `heating`
+- tadfe2a markazyeh? — `heating`
+- is there heating? — `heating`
+- does it have AC — `heating`
+- air conditioning in the chalet? — `heating`
+- how is it heated in winter — `heating`
+- في AC بالشاليه؟ — `heating`
+- الheating كيف؟ — `heating`
+- في split units ولا central؟ — `heating`
+- المسبح الصغير مدفى بس الشاليه مدفى؟ — `heating`
+- في مدفأه بس ولا تدفئه كامله؟ — `heating`
+- التدفيه بالغاز ولا كهربا — `heating`
+- بالشتا كيف بتدفو البيت — `heating`
+- التكيف موجود؟ — `heating`
+- تكيييف — `heating`
+- التدفئه والتكييف شو وضعهم — `heating`
+- التدفئة والتكيف؟ — `heating`
+- شو بخصوص التبريد بالصيف — `heating`
+- في انظمه تبريد وتدفئه — `heating`
+- الجو جوا الشاليه بالشتا دافي؟ — `heating`
+- البيت بارد بالشتا ولا لا — `heating`
+- عندكم مكيفات بكل غرفه؟ — `heating`
+- بالصيف رح نشوي 🥵 في مكيف؟ — `heating`
+- بالشتا رح نتجمد 🥶 كيف التدفئه — `heating`
+- ac w heating? — `heating`
+- shu nizam el tadfe2a — `heating`
+- تدفئه ارضيه؟ — `heating`
+- شوفاج؟ — `heating`
+- في شوفاج بالشاليه — `heating`
+- الشاليه بيدفى بالشتي؟ — `heating`
+- اذا بدي اسكن فيه بالشتي كيف التدفئه — `heating`
+- انا مهندس وبهمني جودة المواد، شو مستوى التشطيب؟ — `finishes`
+- ما بدي اشتري واكتشف انه التشطيب تجاري، كيف هو؟ — `finishes`
+- رح اضطر اصرف ع ديكور وتصليحات بعد الاستلام؟ — `finishes`
+- بدي اعرف من وين الحمامات والادوات الصحيه — `finishes`
+- الشاليه بيجي بتشطيب سوبر ديلوكس؟ — `finishes`
+- شفت كمباوندات التشطيب فيها بيخرب بسنه، انتو كيف؟ — `finishes`
+- مرتي بتدقق ع البلاط والسيراميك، شو نوعه؟ — `finishes`
+- التصميم الداخلي مودرن ولا كلاسيك؟ — `finishes`
+- في اضاءه طبيعيه بالبيت ولا معتم؟ — `finishes`
+- بدي اعرف الخامات المستخدمه جوا — `finishes`
+- التشطيب؟ — `finishes`
+- التشطيبات — `finishes`
+- نوع التشطيب — `finishes`
+- طب التشطيب كيف — `finishes`
+- مستوى التشطيب؟ — `finishes`
+- تشطيب فاخر؟ — `finishes`
+- ديلوكس؟ — `finishes`
+- التشطيبات ايطاليه؟ — `finishes`
+- الخامات؟ — `finishes`
+- شو نوع التشطيبات بالشاليه — `finishes`
+- كيف التشطيب من جوا — `finishes`
+- ما نوع التشطيبات المستخدمة؟ — `finishes`
+- ما هي جودة التشطيبات الداخلية؟ — `finishes`
+- وش نوع التشطيب عندكم؟ — `finishes`
+- التشطيب عامل ازاي؟ — `finishes`
+- التشطيب سوبر لوكس ولا ايه — `finishes`
+- shu no3 el tashteeb? — `finishes`
+- tashteeb fa5er? — `finishes`
+- what's the finishing quality? — `finishes`
+- what materials are used inside — `finishes`
+- are the finishes high end — `finishes`
+- italian finishes in bathrooms? — `finishes`
+- الfinishing كيف؟ — `finishes`
+- التشطيب luxury ولا عادي — `finishes`
+- الmaterials شو نوعها — `finishes`
+- الحمامات تشطيبها ايطالي؟ — `finishes`
+- الديكور الداخلي شكله كيف — `finishes`
+- التشطيب جاهز ولا عظم؟ — `finishes`
+- بستلمه مشطب ولا لازم اشطب؟ — `finishes`
+- التشطيب كامل؟ — `finishes`
+- التشتيب كيف — `finishes`
+- التشطبيات شو نوعها — `finishes`
+- التشطيبات فخمه؟ — `finishes`
+- تشطيب الحمامات — `finishes`
+- الارضيات شو نوعها — `finishes`
+- الحمامات تشطيبها مستورد؟ — `finishes`
+- الستايل الداخلي عصري؟ — `finishes`
+- جودة المواد عندكم كيف؟ — `finishes`
+- مستوى الفخامه جوا البيت — `finishes`
+- الصور حلوه بس التشطيب الحقيقي نفسه؟ — `finishes`
+- بدي تشطيب ممتاز مش اي كلام — `finishes`
+- لو جبت مهندس يفحص التشطيب، رح يرتاح؟ 😄 — `finishes`
+- interior design style? — `finishes`
+- tashteebat el 7ammamat — `finishes`
+- الدهانات والبلاط نوعهم — `finishes`
+- الداخل مشطب بشو — `finishes`
+- شو مستوى التشطيبب — `finishes`
+- تشطيب فندقي؟ — `finishes`
+- السيراميك والرخام نوعهم شو — `finishes`
+- كيف جودة التشطيبات؟ ممتازه؟ — `finishes`
+- بحب اعزم الشباب ع مشاوي يوم الجمعه، في مكان للشوي؟ — `outdoor`
+- بدنا نقعد برا بالليل ونتسهر، في قعدات خارجيه؟ — `outdoor`
+- عنا عزايم كبيره، الطاوله برا بتكفي قديش؟ — `outdoor`
+- بالصيف بنحب ناكل جنب المسبح، في مكان؟ — `outdoor`
+- الشمس قويه بالظهر، في مظلات برا؟ — `outdoor`
+- العيله كلها بتحب المنسف والشوي برا 😄 في ترتيب لهيك؟ — `outdoor`
+- ابوي بحب يقعد يشرب قهوه الصبح برا، في جلسه مظلله؟ — `outdoor`
+- برمضان بدنا نفطر برا بالحديقه، في طاولات؟ — `outdoor`
+- بعيد الاضحى بدنا نشوي لحمه، في مكان مخصص؟ — `outdoor`
+- القعده البرا كيف؟ — `outdoor`
+- شوا؟ — `outdoor`
+- منقل؟ — `outdoor`
+- باربكيو؟ — `outdoor`
+- برجولا؟ — `outdoor`
+- جلسات خارجيه — `outdoor`
+- القعدات برا — `outdoor`
+- طب الشوي؟ — `outdoor`
+- مكان شوي — `outdoor`
+- طاوله برا؟ — `outdoor`
+- في شواء بالشاليه؟ — `outdoor`
+- في جلسات خارجيه بالشاليه — `outdoor`
+- هل يوجد مكان مخصص للشواء؟ — `outdoor`
+- ما هي الجلسات الخارجية المتوفرة؟ — `outdoor`
+- فيه مكان للشوي برا؟ — `outdoor`
+- فيه جلسه خارجيه وشوايه؟ — `outdoor`
+- في مكان للشوي والقعده برا؟ — `outdoor`
+- فيه باربيكيو في الشاليه؟ — `outdoor`
+- fe mkan lal shawi? — `outdoor`
+- fe jalsat barra? — `outdoor`
+- bbq area? — `outdoor`
+- is there an outdoor seating area — `outdoor`
+- does it have a pergola and grill — `outdoor`
+- outdoor dining space? — `outdoor`
+- في BBQ؟ — `outdoor`
+- الoutdoor seating كيف؟ — `outdoor`
+- في pergola جنب المسبح؟ — `outdoor`
+- الطاوله الخارجيه بتساع كم شخص؟ — `outdoor`
+- في شرفات مظلله؟ — `outdoor`
+- في برنده برا؟ — `outdoor`
+- في تراس؟ — `outdoor`
+- الباربكيو جنب المسبح ولا الحديقه؟ — `outdoor`
+- الشوايه مبنيه ولا لازم اجيب؟ — `outdoor`
+- لازم اجيب منقل معي؟ — `outdoor`
+- في مكان شوي ثابت — `outdoor`
+- مكان الشواء وين؟ — `outdoor`
+- الشوا والجلسات الخارجيه شو في — `outdoor`
+- في جلسه بره للسهر — `outdoor`
+- البرجولة فيها قعده؟ — `outdoor`
+- جلسات خارجيه وشواء؟؟ — `outdoor`
+- جلسه خارجيه؟ — `outdoor`
+- في مكان ناكل فيه برا بالهوا — `outdoor`
+- الشباب بدهم يعملوا شوي برا 🔥 في مكان؟ — `outdoor`
+- القعده جنب المسبح كيف — `outdoor`
+- outdoor kitchen? — `outdoor`
+- grill area by the pool? — `outdoor`
+- شويي ممكن؟ — `outdoor`
+- في طاولة اكل برا؟ — `outdoor`
+- المساحه الخارجيه للقعده — `outdoor`
+- الجلسات برا الشاليه مظلله؟ — `outdoor`
+- برا البيت شو في للقعده — `outdoor`
+- انا بحب الزراعه واشوف خضار حواليي، في مساحه خضرا؟ — `garden`
+- بدي الولاد يلعبوا ع العشب جوا البيت، في؟ — `garden`
+- مرتي بدها ورد وشجر حوالين البيت — `garden`
+- بالربيع بدنا نقعد ع العشب، في حديقه تبعتنا؟ — `garden`
+- الحديقه خاصه ولا مع الجيران؟ — `garden`
+- في ارجوحه بالحديقه؟ — `garden`
+- بدي ازرع شجرة زيتون عندي، في مكان؟ — `garden`
+- الحديقه داخل الاسوار ولا برا — `garden`
+- بحب اقعد بين الخضره وما حدا يشوفني — `garden`
+- بدي اعرف اذا في نجيل حوالين الشاليه — `garden`
+- حديقه؟ — `garden`
+- الحديقة — `garden`
+- طب الحديقه — `garden`
+- حديقه خاصه؟ — `garden`
+- عشب؟ — `garden`
+- مسطحات خضرا؟ — `garden`
+- ارجوحه؟ — `garden`
+- والحديقة كيف؟ — `garden`
+- هل في حديقه خاصه بالشاليه؟ — `garden`
+- في حديقه حوالين الشاليه؟ — `garden`
+- هل يوجد حديقة خاصة لكل شاليه؟ — `garden`
+- كم مساحة الحديقة الخاصة؟ — `garden`
+- فيه حديقه خاصه؟ — `garden`
+- فيه حوش اخضر؟ — `garden`
+- فيه جنينه خاصه بالشاليه؟ — `garden`
+- الجنينه بتاعة الشاليه شكلها ايه — `garden`
+- fe 7adee2a 5asa? — `garden`
+- fe garden? — `garden`
+- is there a private garden? — `garden`
+- does it have a lawn — `garden`
+- garden around the chalet? — `garden`
+- private green space? — `garden`
+- في garden خاص؟ — `garden`
+- الlandscaping حوالين البيت كيف — `garden`
+- في grass area للولاد؟ — `garden`
+- الحديقه ع جهه وحده ولا جهتين؟ — `garden`
+- في جلسات بالحديقه؟ — `garden`
+- الحديقه الها سور؟ — `garden`
+- الحديقه جاهزه مزروعه؟ — `garden`
+- حديقة خاصه بكل شالية — `garden`
+- الحديقه الخاصه وين — `garden`
+- الحديقة الخصوصيه — `garden`
+- حديقة بالشاليه؟؟ — `garden`
+- في حدايق — `garden`
+- حديقه داخل حدود الشاليه — `garden`
+- في جنينه صغيره؟ — `garden`
+- حديقه 🌿؟ — `garden`
+- مساحه خضراء خاصه — `garden`
+- انا ما بدي حديقة عامه بدي حديقتي لحالي — `garden`
+- شو في حوالين البيت؟ خضره؟ — `garden`
+- الحديقه فيها شجر؟ — `garden`
+- الحديقه كبيره ولا رمزيه؟ — `garden`
+- backyard? — `garden`
+- 7adee2a? — `garden`
+- private yard with swing? — `garden`
+- في ساحه خضرا جنب البيت — `garden`
+- الجنينة فيها مرجوحة؟ — `garden`
+- حديقه خلفيه وامامية؟ — `garden`
+- الشاليه فيه زرع وعشب؟ — `garden`
+- عندي 3 ولاد صغار، شو في الهم يتسلوا فيه؟ — `kids`
+- الولاد بيزهقوا بسرعه، المكان مناسب الهم؟ — `kids`
+- بدي مكان الولاد يلعبوا فيه وانا مرتاح، كيف؟ — `kids`
+- بخاف ع الصغار من السيارات، الشوارع امنه؟ — `kids`
+- بالعطله الصيفيه بدنا الولاد يطلعوا من الشاشات — `kids`
+- ابني بحب البسكليت، بيقدر يلعب جوا؟ — `kids`
+- المكان صديق للعائله والاطفال؟ — `kids`
+- بنتي عمرها 5 سنين، في العاب الها؟ — `kids`
+- بدي اشوف الولاد وانا قاعد عند المسبح، المكان بيسمح؟ — `kids`
+- شو بيعملوا الاطفال طول النهار عندكم؟ — `kids`
+- في زحليقه او العاب بالشاليه؟ — `kids`
+- الاطفال؟ — `kids`
+- للولاد؟ — `kids`
+- العاب اطفال؟ — `kids`
+- ركن اطفال؟ — `kids`
+- زحليقه؟ — `kids`
+- طب والولاد — `kids`
+- للصغار شو في — `kids`
+- ملعب اطفال — `kids`
+- شطرنج كبير؟ — `kids`
+- شو في للأطفال بالكمباوند؟ — `kids`
+- شو في للاطفال بالشاليه؟ — `kids`
+- هل يوجد العاب للاطفال؟ — `kids`
+- ما المتوفر للأطفال في المشروع؟ — `kids`
+- وش فيه للعيال؟ — `kids`
+- فيه شي للاطفال يلعبون فيه؟ — `kids`
+- فيه حاجه للعيال؟ — `kids`
+- shu fe lal wlad? — `kids`
+- fe al3ab atfal? — `kids`
+- is it good for kids? — `kids`
+- what's there for children — `kids`
+- kids play area? — `kids`
+- family friendly for toddlers? — `kids`
+- في kids area؟ — `kids`
+- الkids شو بيعملوا — `kids`
+- في playground للولاد؟ — `kids`
+- الشوارع امان للولاد يركبو بسكليتات؟ — `kids`
+- في حدايق عامه للعيل؟ — `kids`
+- الاطفال بيقدروا يلعبوا برا براحتهم؟ — `kids`
+- الاطقال شو في الهم — `kids`
+- اللاطفال العاب؟ — `kids`
+- شو في للولاد يلعبو — `kids`
+- الوﻻد بدهم يتسلو — `kids`
+- مكان لعب للصغار — `kids`
+- العاب لللاطفال بالشاليه — `kids`
+- الولاد رح ينبسطوا؟ 😄 — `kids`
+- عندي توأم بعمر 6، رح يلاقوا شو يعملوا؟ — `kids`
+- المكان امن للاطفال؟ — `kids`
+- ولادي بدهم يركضوا ويلعبوا، في مساحه؟ — `kids`
+- شو الاشياء اللي للطفال — `kids`
+- كيدز زون؟ — `kids`
+- children activities? — `kids`
+- al3ab lal atfal fe? — `kids`
+- الاولاد بيقدروا يلعبوا بالشارع بامان — `kids`
+- ركن الاطفال شو فيه — `kids`
+- مناسب للعائلات اللي عندها اطفال صغار؟ — `kids`
+- الولاد الصغار شو في الهم بالكمبوند — `kids`
+- بدي مكان آمن للاطفال، عندكم؟ — `kids`
+- المكان حلو للولاد؟ — `kids`
+- عنا سيارتين، وين بنصفهم؟ — `parking`
+- بدي سيارتي تكون جوا وبعيده عن الشمس — `parking`
+- لما يجو الضيوف وين بيصفوا؟ — `parking`
+- بخاف ع السياره تنسرق اذا ضلت برا — `parking`
+- لما نوصل مع الاغراض بدنا ننزلها ع باب البيت، كيف؟ — `parking`
+- الشتا بدي انزل من السياره ع البيت بدون ما اتبهدل — `parking`
+- في مكان مسقوف للسيارات؟ — `parking`
+- الصف بالشارع ولا في مكان خاص؟ — `parking`
+- بدي اجيب قارب/جيت سكي، في مكان؟ — `parking`
+- ابني عنده سياره كمان، بيكفي المكان؟ — `parking`
+- كراج؟ — `parking`
+- مواقف؟ — `parking`
+- الباركنج — `parking`
+- طب السيارات وين — `parking`
+- كراج لكم سياره — `parking`
+- والكراج؟ — `parking`
+- موقف خاص؟ — `parking`
+- صف السياره؟ — `parking`
+- جراج؟ — `parking`
+- في كراج بالشاليه؟ — `parking`
+- في مواقف سيارات خاصه؟ — `parking`
+- هل يوجد موقف سيارات لكل شاليه؟ — `parking`
+- كم سيارة يتسع الكراج؟ — `parking`
+- فيه موقف للسيارات؟ — `parking`
+- فيه جراج للعربيه؟ — `parking`
+- اركن العربيه فين؟ — `parking`
+- وين اوقف سيارتي — `parking`
+- fe garage? — `parking`
+- wen bas6f el sayyara — `parking`
+- fe parking 5as? — `parking`
+- is there parking? — `parking`
+- does the chalet have a garage — `parking`
+- how many cars can I park — `parking`
+- covered parking? — `parking`
+- في parking خاص؟ — `parking`
+- الgarage بيساع سيارتين؟ — `parking`
+- الparking جوا الاسوار؟ — `parking`
+- الكراج داخل حدود الشاليه؟ — `parking`
+- الكراج بيدخل ع البيت مباشره؟ — `parking`
+- الكراج مسكر ولا مكشوف؟ — `parking`
+- مواقف للضيوف؟ — `parking`
+- كراح للسيارات — `parking`
+- كراجج — `parking`
+- الكراح كم سياره — `parking`
+- مواقف سيارت — `parking`
+- في مكان اصف فيه — `parking`
+- الصفات؟ — `parking`
+- كراج لسيارتين؟ 🚗🚗 — `parking`
+- سيارتي الجديده بدها مكان محمي، في؟ — `parking`
+- carport? — `parking`
+- 2 car garage? — `parking`
+- مكان صف السيارات وين بالزبط — `parking`
+- لازم اصف بالشارع ولا في كراج — `parking`
+- الكراج وين بالنسبه للبيت — `parking`
+- موقف السياره بعيد عن البيت؟ — `parking`
+- في كراج خاص خلف السور؟ — `parking`
+- اذا اجا عنا ضيوف كتير وين يصفوا سياراتهم — `parking`
+- كراج مغطى؟ — `parking`
+- parking lal sayarat? — `parking`
+- السيارات بتنصف جوا؟ — `parking`
+- ابوي ما بيقدر يطلع درج، الشاليه فيه درج؟ — `floors`
+- امي ع كرسي متحرك، البيت كله ع مستوى واحد؟ — `floors`
+- بخاف ع الصغار من الدرج، في طوابق؟ — `floors`
+- بحب البيوت اللي كلها ع ارض وحده — `floors`
+- في طابق علوي؟ — `floors`
+- بدي اعرف اذا في جيران فوقي او تحتي — `floors`
+- الجيران بيطلوا علي من طابق عالي؟ — `floors`
+- كبار السن بيرتاحوا بالحركه فيه؟ — `floors`
+- الكمباوند كله بيوت ارضيه؟ — `floors`
+- في سدّه او روف؟ — `floors`
+- طابق؟ — `floors`
+- طابقين؟ — `floors`
+- طابق واحد؟ — `floors`
+- درج؟ — `floors`
+- دوبلكس؟ — `floors`
+- فيلا ولا ارضي؟ — `floors`
+- طب الطوابق — `floors`
+- مستوى واحد؟ — `floors`
+- هل الشاليه طابق واحد؟ — `floors`
+- الشاليه طابق ولا طابقين؟ — `floors`
+- كم طابق الشاليه؟ — `floors`
+- هل الشاليه مكون من طابق واحد أم أكثر؟ — `floors`
+- الشاليه دور واحد ولا دورين؟ — `floors`
+- كم دور فيه؟ — `floors`
+- الشاليه دور واحد؟ — `floors`
+- هو دوبلكس ولا دور واحد؟ — `floors`
+- kam 6abe2? — `floors`
+- 6abe2 wa7ad wala 6ab2een — `floors`
+- fe daraj? — `floors`
+- is it single storey? — `floors`
+- how many floors? — `floors`
+- is it a one-level chalet — `floors`
+- any stairs inside? — `floors`
+- الشاليه one floor؟ — `floors`
+- في stairs؟ — `floors`
+- هو single level ولا duplex — `floors`
+- البيت كله ع الارض؟ — `floors`
+- في سلالم جوا البيت؟ — `floors`
+- الشالية طابق وحد — `floors`
+- كم طابف — `floors`
+- طابقق واحد ولا اكتر — `floors`
+- طوابق كم — `floors`
+- بدي شاليه بدون درج — `floors`
+- ممكن ابني طابق تاني فوق؟ — `floors`
+- ليش عاملينه طابق واحد؟ — `floors`
+- في عماره او شقق فوق الشاليه؟ — `floors`
+- الكمباوند فيه ابراج ولا كله ارضي — `floors`
+- جدتي عمرها 80، الشاليه مريح الها بدون درج؟ — `floors`
+- مستوى الشاليه ارضي؟ — `floors`
+- single floor? — `floors`
+- ground floor only? — `floors`
+- طابق ارضي بس؟ — `floors`
+- الشاليه طابق وحده ولا فيه علوي — `floors`
+- الطابق كم — `floors`
+- طابقين او طابق — `floors`
+- في طلوع ونزول درج جوا؟ — `floors`
+- البيت على دور واحد كله؟ — `floors`
+- الشاليه مرتفع ولا ارضي — `floors`
+- بدي اطمن انه ما حدا غريب بيفوت ع الكمباوند — `gated`
+- لو جيت زائر بدون ما اكون مالك، بخلوني افوت؟ — `gated`
+- المكان مفتوح للناس ولا بس للسكان؟ — `gated`
+- بخاف المكان يصير متنزه عام ويجي ناس كتير — `gated`
+- بحب الخصوصيه وما بدي ناس غريبه تتمشى قدام بيتي — `gated`
+- اذا ولادي لحالهم بالشاليه، في ناس غريبه بتدخل؟ — `gated`
+- الكمباوند الو بوابه ولا اي حدا بيدخل؟ — `gated`
+- صاحبي بده يزورني، كيف بيفوت؟ — `gated`
+- اي حد بيقدر يجي يتمشى جوا؟ — `gated`
+- الكمباوند مسور من كل الجهات؟ — `gated`
+- الدخول للملاك بس؟ — `gated`
+- مغلق؟ — `gated`
+- بوابه؟ — `gated`
+- مين بيدخل؟ — `gated`
+- طب الدخول — `gated`
+- بوابات؟ — `gated`
+- كمباوند مغلق — `gated`
+- سور؟ — `gated`
+- مفتوح ولا مسكر؟ — `gated`
+- هل الكمباوند مغلق؟ — `gated`
+- هل الكمباوند مسوّر؟ — `gated`
+- مين مسموحله يدخل الكمباوند؟ — `gated`
+- هل الدخول مقتصر على المالكين؟ — `gated`
+- هل المجمع مغلق أمام العامة؟ — `gated`
+- الكمباوند مقفل وش يدخله؟ — `gated`
+- فيه بوابه للمجمع؟ — `gated`
+- الكمبوند مقفول ولا اي حد يدخل؟ — `gated`
+- اللي يدخل لازم يكون ساكن؟ — `gated`
+- el compound msakkar? — `gated`
+- meen bifout 3al compound? — `gated`
+- fe bawwabe? — `gated`
+- is it a gated compound? — `gated`
+- who can enter the compound — `gated`
+- is access restricted to owners — `gated`
+- is it open to the public — `gated`
+- الcompound gated؟ — `gated`
+- الaccess بس للowners؟ — `gated`
+- في gate عند المدخل؟ — `gated`
+- الكمبوند مسكر ع الملاك — `gated`
+- الكمباوند مسووور؟ — `gated`
+- الكمبواند مغلق — `gated`
+- الكمباند مسور ولا لا — `gated`
+- الدخول الو ضوابط؟ — `gated`
+- الزوار بيدخلوا عادي ولا بدهم اذن؟ — `gated`
+- في حراسه ع البوابه؟ — `gated`
+- مدخل الكمباوند عليه حراس؟ — `gated`
+- لازم بطاقه لادخل؟ — `gated`
+- هل الناس العاديه بتقدر تفوت تشوف المكان — `gated`
+- ممكن اي حدا يفوت يسبح عندكم؟ — `gated`
+- المكان خاص بالمالكين؟ — `gated`
+- gated community? — `gated`
+- owners only? — `gated`
+- مجمع مغلق؟ 🔒 — `gated`
+- الكمباوند الو اسوار وبوابات؟ — `gated`
+- اللي مش مالك ما بيدخل صح؟ — `gated`
+- كيف التحكم بالدخول للكمباوند — `gated`
+- مسكر ع الغرب؟ — `gated`
+- الكمباوند مقفل ع الناس من برا؟ — `gated`
+- الدخول مسموح للزوار؟ — `gated`
+- بالصيف عنا بعمان المي بتنقطع اسبوع، عندكم نفس القصة ولا؟ — `water`
+- قبل ما اشتري بدي اتطمن انه المسبح والبيت ما رح يضلوا بلا مي — `water`
+- اهلي كبار بالعمر وما بيتحملوا قصص التنكات، كيف الوضع عندكم؟ — `water`
+- بشتري تنك كل جمعة بعمان، هناك رح اضطر اعمل هيك؟ — `water`
+- انا مغترب ومش رح اكون موجود، مين بيضمن انه الخزانات بتعبى؟ — `water`
+- الشاليه بمنطقة صحراوية شوي، من وين بتجيبو المي اصلا — `water`
+- بدي اعبي المسبح كل اسبوع للولاد، رح يكفي الدور ولا بدي صهريج؟ — `water`
+- برمضان بنكون ٢٠ نفر بالعزايم، بتخلص المي ولا لا — `water`
+- ع قد ما سمعت القسطل ما فيها شبكة مياه منيحة، صح الحكي؟ — `water`
+- في بير خاص ولا معتمدين ع سلطة المياه — `water`
+- الضخ كل قديش يوم بيجي — `water`
+- اذا انقطعت المي فجأة في احتياطي؟ — `water`
+- زوجتي اول سؤال سألته: في مي دايما؟ 😅 — `water`
+- بدنا نعمل حديقة كبيرة ونزرع، الري رح يكون مشكلة؟ — `water`
+- والمي؟ — `water`
+- طب والمية — `water`
+- المي مضمونه؟ — `water`
+- مياه الشرب كيف — `water`
+- خزانات المي — `water`
+- بير ارتوازي؟ — `water`
+- والمياة 24 ساعه؟ — `water`
+- طيب والمي؟؟ — `water`
+- انقطاع المي عندكو؟ — `water`
+- شو وضع الميه — `water`
+- قديش كمية الضخ باليوم — `water`
+- كيف وضع المياة بالكمباوند — `water`
+- المي بتيجي من البلدية ولا من بير؟ — `water`
+- في شبكة توزيع مي داخلية بين الشاليهات؟ — `water`
+- وش وضع الماي عندكم؟ — `water`
+- الموية متوفرة دايم ولا تنقطع؟ — `water`
+- المية بتقطع عندكم ولا ماشية تمام؟ — `water`
+- ما هو مصدر المياه في المجمع؟ — `water`
+- هل يوجد مخزون مياه احتياطي للطوارئ؟ — `water`
+- shu wad3 el mayy 3ndkom — `water`
+- el mai bt2ta3? — `water`
+- fi bir mayy bel compound? — `water`
+- is there a water supply problem? — `water`
+- water 24/7 or cuts? — `water`
+- where does the water come from — `water`
+- do you have a private well — `water`
+- الwater supply عندكم ثابت؟ — `water`
+- is the water tank enough for a pool every week — `water`
+- المية للمسبح بعبيها من الشبكه ولا بجيب تنك؟ — `water`
+- بدي اعرف بس اذا رح نعاني بالصيف من ناحية المي — `water`
+- ابوي بيسألني دغري عن المي قبل الكهربا 😂 — `water`
+- في ضغط مي منيح ولا بدها ماتور؟ — `water`
+- الكمباوند بيشتري مي ولا عنده بيره الخاص — `water`
+- تعبنا من الدور بعمان، عندكم دور مي؟ — `water`
+- كم متر مكعب بتضخو باليوم — `water`
+- المي واصله لكل شاليه طول الوقت؟ — `water`
+- الصهاريج ولا بير؟ — `water`
+- water source pls — `water`
+- اول ما نوصل الويكند بنلاقي مي ولا بدنا نتصل ع تنك — `water`
+- بالاغسطس الحر والكل بيعبي مسابح، بتقطع المي؟ — `water`
+- كيف بتضمنو الميا لكل هالشاليهات — `water`
+- فاتورة الكهربا رح تكون ع اسمي ولا مقسومة ع الكل؟ — `electricity`
+- ما بدي ادفع كهربا جيراني، كل واحد بيدفع لحاله؟ — `electricity`
+- بدنا نشغل مكيفات وسخان المسبح، الكهربا بتحمل؟ — `electricity`
+- المسبح والجاكوزي بدهم باور عالي، العداد 3 فاز؟ — `electricity`
+- بالليل الشوارع بتكون عتمه ولا منورة؟ الولاد بيلعبو برا — `electricity`
+- لو اجرت الشاليه، المستأجر بيدفع الكهربا من عداده؟ — `electricity`
+- كنت بشاليه بالبحر الميت والكهربا مشتركة وصارت مشاكل، عندكم كيف — `electricity`
+- بفكر احط شواحن ومكيفات بكل غرفة، العداد بيستوعب؟ — `electricity`
+- الكهربا مستقلة؟ — `electricity`
+- والكهربا؟ — `electricity`
+- طب والعداد — `electricity`
+- عداد مستقل؟ — `electricity`
+- ثلاثي الفاز؟ — `electricity`
+- العداد لحاله ولا مشترك — `electricity`
+- الكهربا مين بيدفعها — `electricity`
+- عداد كهربا خاص؟؟ — `electricity`
+- والكهرباء كيف؟ — `electricity`
+- انارة الشوارع — `electricity`
+- الكهربا بتقطع عندكم؟ — `electricity`
+- كيف الكهربا بالكمبوند — `electricity`
+- كل شاليه الو عداد كهربا لحالو؟ — `electricity`
+- الكهربا عندكم من شركة الكهربا ولا مولد؟ — `electricity`
+- شو نوع العداد اللي بالشاليه — `electricity`
+- العدادات مركبة ولا انا بدي اركب؟ — `electricity`
+- الكهرباء عندكم مشتركه ولا كل واحد عداده؟ — `electricity`
+- العداد بتاع الكهربا منفصل ولا ايه النظام؟ — `electricity`
+- الكهربا عندكم وش وضعها؟ عداد خاص؟ — `electricity`
+- هل يوجد عداد كهرباء مستقل لكل شاليه؟ — `electricity`
+- هل الشوارع داخل المجمع مضاءة ليلا؟ — `electricity`
+- el kahraba msta2elle? — `electricity`
+- 3addad kahraba la7alo? — `electricity`
+- shu nizam el kahraba 3ndkom — `electricity`
+- separate electricity meter per chalet? — `electricity`
+- is it three phase power — `electricity`
+- who pays the electricity bill — `electricity`
+- are the streets lit at night — `electricity`
+- الmeter مستقل ولا shared؟ — `electricity`
+- three phase ولا single؟ — `electricity`
+- الكهربا 3 فاز ولا عادي — `electricity`
+- مكيف بكل غرفه وفلتر المسبح، العداد بشيلهم؟ — `electricity`
+- الفاتوره بتجيني انا مباشره؟ — `electricity`
+- انا بالخليج وبدي ادفع الكهربا اونلاين، العداد ع اسمي؟ — `electricity`
+- خايف من فواتير الكهربا المشتركه زي العماره — `electricity`
+- الاستهلاك مقسوم ع المالكين ولا كل حدا بيدفع اللي صرفه — `electricity`
+- الشبكة الكهربائية جوا الكمباوند جديده؟ — `electricity`
+- عدادي لحالي ولا لأ — `electricity`
+- بالشتا بدنا نشغل دفايات كهربا، القدرة كافيه؟ — `electricity`
+- مين مسؤول عن كهربا الشوارع؟ — `electricity`
+- بدي اشغل فرن كهربا ومكيفات مع بعض، العداد ثلاثي؟ — `electricity`
+- power meter for each unit? — `electricity`
+- الكهربا بالكمباوند منيحة؟ ما بدي تقطع وانا بالجاكوزي 😂 — `electricity`
+- كيف الكهربا عندكو؟ — `electricity`
+- عدادات الكهرباء مفصولة؟ — `electricity`
+- في ضو بالشوارع بالليل؟ — `electricity`
+- الكهربا عندكم ع عداد مسبق الدفع ولا فاتورة شهرية؟ — `electricity`
+- ابوي ما بيترك صلاة الجماعة، بيلاقي مكان يصلي فيه هناك؟ — `mosque`
+- يوم الجمعة لازم ننزل ع البلد عشان الصلاة ولا في جوا؟ — `mosque`
+- برمضان بدنا نصلي تراويح قريب، في شي؟ — `mosque`
+- احنا عيلة محافظة ومهم الاشي الديني، وين بنصلي؟ — `mosque`
+- سمعت الاذان من بعيد وانا مارق، في جامع جوا؟ — `mosque`
+- جدي بدو يصلي الفجر جماعة، في مكان قريب من الشاليهات؟ — `mosque`
+- الضيوف بيسألو وين القبلة ووين يصلو، في مكان مخصص؟ — `mosque`
+- بالعيد بدنا نصلي صلاة العيد، في جامع بالكمباوند؟ — `mosque`
+- مسجد؟ — `mosque`
+- والمصلى — `mosque`
+- طب والجامع؟ — `mosque`
+- في مصلى — `mosque`
+- جامع قريب؟ — `mosque`
+- مسجد ولا لا — `mosque`
+- وين نصلي؟ — `mosque`
+- مصلي للنسوان؟ — `mosque`
+- في جامع جوا الكمبوند؟ — `mosque`
+- في مسجد ولا مصلى عندكم — `mosque`
+- المسجد خلص ولا لسا؟ — `mosque`
+- وين اقرب جامع للشاليهات — `mosque`
+- في مكان للصلاه للزوار؟ — `mosque`
+- في مسجد عندكم ولا لازم نطلع؟ — `mosque`
+- فيه مسجد داخل الكمباوند؟ ابي اصلي الجمعه — `mosque`
+- هو في جامع جوه ولا هنصلي فين؟ — `mosque`
+- هل يتوفر مسجد أو مصلى داخل المجمع؟ — `mosque`
+- هل سيتم بناء مسجد في المشروع؟ — `mosque`
+- fi masjed bel compound? — `mosque`
+- wen nsalli 3ndkom — `mosque`
+- fi musalla? — `mosque`
+- is there a mosque inside — `mosque`
+- prayer room available? — `mosque`
+- where can we pray on friday — `mosque`
+- في mosque جوا؟ — `mosque`
+- في prayer area للمالكين؟ — `mosque`
+- المصلي جاهز ولا لسا ع الخطة — `mosque`
+- ابوي سأل اول اشي عن الجامع 😅 — `mosque`
+- بتحكو في مسجد بالتطوير الجاي، متى؟ — `mosque`
+- الحماة بتصلي كل فرض بالمسجد، رح ترتاح عندكم؟ — `mosque`
+- بنات العيلة بدهم مصلى نسائي، متوفر؟ — `mosque`
+- الامام والاذان في عندكم ولا مصلى صغير بس — `mosque`
+- بدي اعرف اذا في مسجد قبل ما اجيب اهلي — `mosque`
+- مكان صلاه للضيوف بالعزيمه؟ — `mosque`
+- بشهر رمضان في اعتكاف او مصلى؟ — `mosque`
+- في جامع بنص الكمباوند — `mosque`
+- المسجد بالكمباوند كبير؟ — `mosque`
+- الصلاه وين بتصير — `mosque`
+- mosque nearby? — `mosque`
+- masjid inside the gates? — `mosque`
+- طب في مسجد؟؟ — `mosque`
+- وين بيصلو الناس بالكمباوند يوم الجمعه — `mosque`
+- مصلى ولا مسجد كامل؟ — `mosque`
+- بيت عبادة جوا المشروع؟ — `mosque`
+- لو بدي اصلي الظهر وانا بالمسبح، وين اروح — `mosque`
+- بتعرفي اذا في جامع قريب من الشاليه؟ — `mosque`
+- اهم اشي عندي الجامع، في؟ — `mosque`
+- اذا خلص الخبز الصبح لازم اطلع ع القسطل؟ — `shop`
+- نسينا الفحم للشوي، في محل جوا نجيب منه؟ — `shop`
+- الولاد بيطلبو شيبس وعصير كل ساعة، في دكانة قريبة؟ — `shop`
+- ما بدي كل ما نقص اشي اسوق ربع ساعة، في محل؟ — `shop`
+- الويكند بنكون هناك يومين، الاغراض بنجيبها معنا ولا في سوبرماركت؟ — `shop`
+- بنص الليل اذا احتجت حليب للبيبي وين بلاقي؟ — `shop`
+- لو بدي انظف اواعي العيد قبل الحفلة، في دراي كلين؟ — `shop`
+- بدي اعمل تعديلات صغيرة وبدي مواد بناء، في مركز قريب؟ — `shop`
+- سوبر ماركت؟ — `shop`
+- في دكانة — `shop`
+- والسوبرماركت — `shop`
+- طب في محل؟ — `shop`
+- ماركت جوا؟ — `shop`
+- بقالة قريبه — `shop`
+- فاست شوب؟ — `shop`
+- في كافيه؟ — `shop`
+- دراي كلين عندكم؟ — `shop`
+- محل مواد بناء — `shop`
+- في سوبر ماركت داخل الكمبوند؟ — `shop`
+- وين بنشتري الاغراض لما نكون بالشاليه — `shop`
+- في محلات جوا ولا لازم نطلع برا البوابه؟ — `shop`
+- الفاست شوب فاتح ولا لسا؟ — `shop`
+- فيه بقالة او سوبرماركت داخل المجمع؟ — `shop`
+- فيه محل نشتري منه اغراض البيت؟ — `shop`
+- فيه سوبر ماركت جوه ولا بنشتري من برا؟ — `shop`
+- هل يوجد متجر للاحتياجات اليومية داخل المشروع؟ — `shop`
+- fi supermarket 3ndkom? — `shop`
+- fi ma7al jowwa? — `shop`
+- wen nishtri aghrad — `shop`
+- is there a grocery store inside — `shop`
+- supermarket in the compound? — `shop`
+- any shop for daily stuff? — `shop`
+- dry cleaning available? — `shop`
+- في mini market جوا؟ — `shop`
+- الcoffee shop وين بالضبط؟ — `shop`
+- في سوبر ماكت قريب من الشاليهات — `shop`
+- المشتريات اليوميه من وين — `shop`
+- الماي والثلج للحفلة بنلاقيهم جوا؟ — `shop`
+- اذا نقصنا اشي وقت العزومه في محل نلحق نجيب منه؟ — `shop`
+- بدي فنجان قهوة الصبح، في كوفي جوا؟ — `shop`
+- عندكم بقاله؟ — `shop`
+- في سوبرماركت ولا ماركت صغير؟ — `shop`
+- محل خضرة وبقالة بالكمباوند؟ — `shop`
+- مرتي بتسأل وين بدها تتسوق 😅 — `shop`
+- grocery? — `shop`
+- store inside the gates — `shop`
+- الاغراض اليومية بنجيبها من جوا الكمباوند؟ — `shop`
+- اسم السوبر ماركت اللي عندكم شو؟ — `shop`
+- في محل بيبيع غاز وفحم؟ — `shop`
+- مغسلة ملابس او دراي كلين جوا؟ — `shop`
+- اشتري مواد صيانة من جوا ولا برا؟ — `shop`
+- ما في محل صغير جنب الشاليهات؟ — `shop`
+- قهوه وسناكس وين — `shop`
+- سوبرماركت قريب ولا بعيد — `shop`
+- اغراض البيت من وين بنجيب؟ — `shop`
+- بحب العب جولف بس مش بعمان، عندكم؟ — `golf`
+- العصريات بدنا اشي هادي نلعبه مع العيلة غير السباحة، في ميني جولف؟ — `golf`
+- ابني بيحب الجولف وبدي اعلمه، في ملعب صغير؟ — `golf`
+- بدنا نعمل مسابقة بين الشباب بالويكند، في ميني غولف؟ — `golf`
+- وقت الغروب بنحب نتمشى ونلعب اشي، الجولف متوفر؟ — `golf`
+- الشاليه بعيد عن المدخل، في عربايات جولف نتنقل فيها؟ — `golf`
+- ابوي ما بيقدر يمشي كتير، في golf cart يوصله؟ — `golf`
+- غولف؟ — `golf`
+- ميني جولف — `golf`
+- والجولف؟ — `golf`
+- طب والميني غولف — `golf`
+- ملعب جولف — `golf`
+- عربات غولف؟ — `golf`
+- في جولف عندكم — `golf`
+- الغولف ببلاش للمالكين؟ — `golf`
+- في ملعب غولف جوا الكمبوند — `golf`
+- الميني جولف وين مكانو — `golf`
+- كم حجم ملعب الجولف — `golf`
+- في عربات جولف للتنقل جوا؟ — `golf`
+- الجولف كامل ولا ميني؟ — `golf`
+- فيه ملعب قولف؟ — `golf`
+- عندكم قولف كارت للتنقل؟ — `golf`
+- فيه ملعب جولف جوه؟ — `golf`
+- هل يوجد ملعب غولف في المجمع؟ — `golf`
+- هل تتوفر عربات غولف داخل المشروع؟ — `golf`
+- fi golf 3ndkom? — `golf`
+- mini golf mawjood? — `golf`
+- fi golf cart? — `golf`
+- is there a golf course — `golf`
+- mini golf in the compound? — `golf`
+- golf carts to move around? — `golf`
+- can kids play mini golf — `golf`
+- الmini golf مفتوح للزوار؟ — `golf`
+- في golf carts؟ — `golf`
+- الجولف بالليل في اضاءة؟ — `golf`
+- لعبة الجولف مناسبة للصغار؟ — `golf`
+- ملعب الغولف قريب من القسم A؟ — `golf`
+- بحب الغلوف 😂 في عندكم؟ — `golf`
+- جولف ولا لأ — `golf`
+- غولف صغير — `golf`
+- golf? — `golf`
+- العيلة بدها نشاط هادي مع الغروب، الجولف حلو لهيك؟ — `golf`
+- ضيوفي اجانب وبيحبو الجولف، في؟ — `golf`
+- في كرات ومضارب جولف ولا بنجيب معنا؟ — `golf`
+- كيف بنتنقل بين البوابه والشاليه، في عربات كهربا زي الجولف؟ — `golf`
+- مسافة بين الشاليهات كبيرة، في كارت؟ — `golf`
+- الجولف عندكم شو نوعه — `golf`
+- في ميني قولف؟ — `golf`
+- ملعب جولف مصغر — `golf`
+- golf course ولا mini؟ — `golf`
+- العب جولف مع اصحابي هناك ممكن؟ — `golf`
+- عربية جولف بتوصلنا للشاليه؟ — `golf`
+- الجولف بيحتاج حجز؟ — `golf`
+- بنتي بتحب الميني غولف بالمولات، عندكم واحد؟ — `golf`
+- الجولف مفتوح كل يوم؟ — `golf`
+- بدي مكان نطلع نتمشى فيه بعد العشا غير الحديقة تبعت الشاليه — `parks`
+- امي بتحب تقعد تحت الشجر العصر، في مساحات خضرا عامة؟ — `parks`
+- الولاد بدهم يركضو بمكان مفتوح اكبر من حديقة البيت، في؟ — `parks`
+- بنحب نفرش ونعمل بيكنك مع الجيران، في حدائق مشتركه؟ — `parks`
+- انا ومرتي بنحب المشي الصبح، في ممرات مشاة وظلال؟ — `parks`
+- شفت بالاعلان حديقة البستان، وين هي؟ — `parks`
+- حديقة الياسمين قريبة من اي بلوك؟ — `parks`
+- حديقة الزهور خلصت ولا لسا بتنبنى؟ — `parks`
+- حدائق عامة؟ — `parks`
+- في بارك؟ — `parks`
+- والحدائق؟ — `parks`
+- طب والجناين العامه — `parks`
+- ممرات مشي — `parks`
+- حديقة البستان — `parks`
+- حديقه الياسمين وين — `parks`
+- في حدايق للعيل؟ — `parks`
+- قديش حديقة عامة عندكم — `parks`
+- في مساحات خضراء مشتركة جوا الكمبوند؟ — `parks`
+- الحدائق العامه مفتوحه للزوار ولا للمالكين بس — `parks`
+- شو اسماء الحدائق اللي بالكمباوند — `parks`
+- في حديقه عامه قريبه من شاليهات N؟ — `parks`
+- فيه حدائق عامة نتمشى فيها؟ — `parks`
+- فيه جناين ومكان نقعد فيه برا البيت؟ — `parks`
+- هل توجد حدائق عامة ومساحات خضراء في المجمع؟ — `parks`
+- ما هي الحدائق الموجودة داخل المشروع؟ — `parks`
+- fi 7ada2e2 3amme? — `parks`
+- fi park bel compound — `parks`
+- wen el 7adi2a el 3amme — `parks`
+- are there public parks inside — `parks`
+- green spaces for families? — `parks`
+- walking paths in the compound? — `parks`
+- where is al bustan garden — `parks`
+- في public garden؟ — `parks`
+- الwalking tracks موجودة؟ — `parks`
+- الحدائق العامة كبيرة؟ في شجر وظل؟ — `parks`
+- حديقة بستان ولا ياسمين احسن؟ — `parks`
+- بدنا نعمل جمعة عيلة بحديقة عامة، مسموح؟ — `parks`
+- الحديقه العامه بعيدة عن الشاليه A؟ — `parks`
+- كم حديقه بالمشروع — `parks`
+- حداءق عامه؟ — `parks`
+- بارك للعائلات — `parks`
+- في مكان اخضر نقعد فيه غير البيت؟ — `parks`
+- الضيوف بدهم يتمشو، في حدائق مفتوحة؟ — `parks`
+- الصبح بحب امشي بين الشجر، في مسار؟ — `parks`
+- parks? — `parks`
+- public gardens list — `parks`
+- الحدائق المشتركه بين الشاليهات وين؟ — `parks`
+- جنينة عامة عندكم؟ — `parks`
+- في حدائق برا الشاليهات؟ — `parks`
+- الحدايق العامه شو فيها — `parks`
+- بدي اتمشى مع البيبي بالعرباية، في حديقة عامة كبيرة؟ — `parks`
+- المساحات المفتوحة بالكمباوند كتيرة؟ — `parks`
+- الزهور والياسمين والبستان شو هدول؟ — `parks`
+- حديقه عامه ؟ — `parks`
+- بنحب القعدات بالطبيعه، في جناين مشتركة؟ — `parks`
+- ابني بيلعب فوتبول كل يوم، في ملعب يلعب فيه؟ — `sports`
+- بنتي بتتمرن تنس، في ملعب جوا؟ — `sports`
+- الشباب بدهم يلعبو باسكت بالويكند، في؟ — `sports`
+- بدنا نعمل دوري كورة بين اولاد الجيران، في ملعب؟ — `sports`
+- انا رياضي وما بقدر اقعد بدون نشاط، شو في رياضة غير الجولف؟ — `sports`
+- اولادي مراهقين وبدهم اشي يفرغو طاقتهم فيه برا البيت — `sports`
+- قبل ما اقنع زوجي، بدي اعرف في ملاعب للاولاد يتحركو فيها — `sports`
+- ملاعب؟ — `sports`
+- ملعب كوره؟ — `sports`
+- تنس؟ — `sports`
+- طب وكرة السله — `sports`
+- والملاعب الرياضية — `sports`
+- ملعب فوتبول — `sports`
+- باسكيت بول؟ — `sports`
+- ملعب تينس — `sports`
+- في ملاعب رياضيه عندكم — `sports`
+- الملاعب خلصت ولا لسا بتنعمل — `sports`
+- متى بيخلص ملعب الكورة؟ — `sports`
+- شو انواع الملاعب اللي بالكمباوند — `sports`
+- في ملعب قدم وسلة؟ — `sports`
+- الملاعب للمالكين بس ولا للضيوف كمان — `sports`
+- فيه ملاعب كورة؟ عيالي يحبون الكوره — `sports`
+- فيه ملعب تنس عندكم؟ — `sports`
+- فيه ملاعب رياضة جوه الكمباوند؟ — `sports`
+- هل تتوفر ملاعب رياضية في المجمع؟ — `sports`
+- هل يوجد ملعب كرة قدم أو سلة أو تنس؟ — `sports`
+- fi mal3ab kora? — `sports`
+- fi mala3eb riyadiye 3ndkom — `sports`
+- tennis court mawjood? — `sports`
+- are there sports courts — `sports`
+- football pitch inside? — `sports`
+- basketball court for the kids? — `sports`
+- is there a tennis court — `sports`
+- في football field جوا؟ — `sports`
+- الcourts جاهزة ولا under construction؟ — `sports`
+- ملاعب للرياضه؟ — `sports`
+- الملعب مزروع ولا ارض صناعي؟ — `sports`
+- بدي العب بادل او تنس، في؟ — `sports`
+- ملعب كوره للكبار كمان؟ — `sports`
+- الرياضه عندكم شو فيها — `sports`
+- ملعب سله ؟ — `sports`
+- في مكان للرياضه الجماعيه؟ — `sports`
+- اصحابي بيجو كل جمعة نلعب كورة، في ملعب نحجزه؟ — `sports`
+- المرافق الرياضيه بدأت ولا لسا حكي — `sports`
+- ولادي بدهم تمرين بالصيف، في ملاعب؟ — `sports`
+- sports? — `sports`
+- sport facilities status — `sports`
+- رياضة خارجية عندكم في؟ — `sports`
+- ملاعب للشباب؟ — `sports`
+- في ملعب خماسي؟ — `sports`
+- ملعب كرة سلة قريب من الشاليهات؟ — `sports`
+- شو الانشطه الرياضية الموجودة هلا — `sports`
+- مالعب رياضيه؟ — `sports`
+- العيال بيزهقو، في ملاعب يلعبو فيها؟ — `sports`
+- انا مدرب تنس وبدي اعرف اذا في كورت — `sports`
+- الولاد بدهم ياخدو البسكليتات معهم، الشوارع امان للركوب؟ — `bikes`
+- بحب اركب بايسكل الصبح، في مكان اركب فيه جوا؟ — `bikes`
+- ما بدي احمل بسكليتات بالسيارة كل مرة، في تأجير؟ — `bikes`
+- مرتي بدها تتعلم ركوب الدراجه، المكان مناسب؟ — `bikes`
+- الصغار بيحبو يلفو بالبسكليت بين البيوت، فيه خطر سيارات؟ — `bikes`
+- بالويكند بدنا جولة عيلة ع الدراجات، متوفرة؟ — `bikes`
+- دراجات؟ — `bikes`
+- بسكليت؟ — `bikes`
+- والبسكليتات — `bikes`
+- طب والبايسكل — `bikes`
+- مركز دراجات — `bikes`
+- دراجه هوائيه — `bikes`
+- في بسكليتات للاجار؟ — `bikes`
+- في دراجات هوائية عندكم — `bikes`
+- مركز الدراجات وين — `bikes`
+- البسكليتات ببلاش ولا بفلوس — `bikes`
+- ممكن نركب بسكليت جوا الكمباوند — `bikes`
+- في بسكليتات للزوار كمان؟ — `bikes`
+- فيه سياكل؟ — `bikes`
+- عندكم دراجات نسوق فيها جوا؟ — `bikes`
+- فيه عجل نركبه جوه الكمباوند؟ — `bikes`
+- هل يوجد مركز للدراجات الهوائية؟ — `bikes`
+- هل يمكن ركوب الدراجات داخل المجمع بأمان؟ — `bikes`
+- fi bisklet 3ndkom? — `bikes`
+- fi markaz darrajat? — `bikes`
+- bike rental? — `bikes`
+- can we ride bicycles inside — `bikes`
+- is there a bike center — `bikes`
+- safe for kids to cycle? — `bikes`
+- في bikes للاجار؟ — `bikes`
+- الcycling جوا امان؟ — `bikes`
+- بسكليتات للاطفال كمان؟ — `bikes`
+- في مسار دراجات؟ — `bikes`
+- ابني عمره ٨ بيركب بسكليت لحاله، بخاف عليه؟ — `bikes`
+- دراجات للكبار؟ — `bikes`
+- بايك؟ — `bikes`
+- bicycles? — `bikes`
+- الدراجات الهواءية بالكمبوند — `bikes`
+- بدي امارس رياضة ركوب الدراجات، المكان بيسمح؟ — `bikes`
+- بسكليت ولا لأ — `bikes`
+- مركز البسكليتات للمالكين بس؟ — `bikes`
+- الشوارع هاديه ونقدر نسوق بسكليت؟ — `bikes`
+- في دراجة اكتريها ساعة؟ — `bikes`
+- بنجيب بسكليتاتنا ولا في هناك؟ — `bikes`
+- في بسكلتات؟ — `bikes`
+- انا من محبين الدراجات، في اشي الي هناك؟ — `bikes`
+- جولة بالبسكليت حول الكمباوند ممكن؟ — `bikes`
+- bike? — `bikes`
+- e-bike or normal bikes available — `bikes`
+- دراجات هوائيه للعيله؟ — `bikes`
+- البسكليت مسموح بالشوارع الداخليه؟ — `bikes`
+- في مكان نصلح فيه البسكليت او نستاجر؟ — `bikes`
+- مركز الدرجات فاتح؟ — `bikes`
+- بسكليتات ولاد صغار متوفرة؟ — `bikes`
+- مركز الدراجات بأي منطقة بالكمباوند؟ — `bikes`
+- بدي اوصل الخميس الاقي الشاليه نضيف وجاهز، مين بيعمل هالشي؟ — `housekeeping`
+- انا عايش بدبي ومش رح اقدر انظف كل ما نيجي، في حدا بنظفلي؟ — `housekeeping`
+- بعد العزيمة بيكون البيت مقلوب، في حدا بيجي يرتب؟ — `housekeeping`
+- ما بدي اجيب عاملة معي، في خدمة جوا؟ — `housekeeping`
+- مرتي تعبت من التنظيف بعد كل ويكند، عندكم حل؟ — `housekeeping`
+- لو اجرت الشاليه، مين بنضف بين ضيف وضيف؟ — `housekeeping`
+- ببداية الصيف بدي تنظيف شامل قبل ما نسكن، في فريق؟ — `housekeeping`
+- اهلي كبار وما بيقدرو ينظفو، بتوفرو حدا؟ — `housekeeping`
+- تنظيف؟ — `housekeeping`
+- هاوس كيبنج؟ — `housekeeping`
+- والتنظيف — `housekeeping`
+- طب والتدبير المنزلي — `housekeeping`
+- عاملة تنظيف — `housekeeping`
+- خدمة تنضيف — `housekeeping`
+- في حدا بنضف — `housekeeping`
+- مين بيرتب الشاليه — `housekeeping`
+- في خدمة تنظيف عندكم؟ — `housekeeping`
+- خدمة الهاوس كيبينغ بالكمبوند — `housekeeping`
+- بتجهزولي الشاليه قبل ما اوصل؟ — `housekeeping`
+- في فريق تدبير منزلي بالموقع؟ — `housekeeping`
+- التنظيف بعد ما نطلع مين بيعمله — `housekeeping`
+- فيه خدمة تنظيف للشاليه؟ — `housekeeping`
+- عندكم عاملات تنظيف يجون للشاليه؟ — `housekeeping`
+- فيه حد بينضف الشاليه وانا مش موجود؟ — `housekeeping`
+- هل تتوفر خدمة التدبير المنزلي؟ — `housekeeping`
+- هل يوجد فريق لتنظيف وتجهيز الشاليهات؟ — `housekeeping`
+- fi 5edmet tanzeef? — `housekeeping`
+- min bnaddef el chalet — `housekeeping`
+- housekeeping 3ndkom? — `housekeeping`
+- is there housekeeping service — `housekeeping`
+- cleaning service for the chalet? — `housekeeping`
+- can someone prepare the chalet before we arrive — `housekeeping`
+- who cleans after guests leave — `housekeeping`
+- في cleaning team؟ — `housekeeping`
+- الhousekeeping جوا الكمباوند؟ — `housekeeping`
+- تنظيف المسبح والبيت مين بيعمله — `housekeeping`
+- بغسلو الشراشف والمناشف؟ — `housekeeping`
+- ترتيب وتنضيف بعد الحفله؟ — `housekeeping`
+- في خدمه تجهيز الشاليه ؟ — `housekeeping`
+- خدمه تنظيف اسبوعيه؟ — `housekeeping`
+- ما بدي اتعب حالي بالجلي والكنس هناك 😅 — `housekeeping`
+- لو بدي تنظيف عميق قبل العيد؟ — `housekeeping`
+- عاملات نظافة متوفرات؟ — `housekeeping`
+- housekeeping? — `housekeeping`
+- daily cleaning possible — `housekeeping`
+- مركز الهاوس كيبنغ وين — `housekeeping`
+- الشاليه بيضل نضيف وانا غايب؟ — `housekeeping`
+- بدي حدا يرتبلي الشاليه كل اسبوع قبل الويكند — `housekeeping`
+- تدبير منزلي ؟ — `housekeeping`
+- تنضيف ولا لا — `housekeeping`
+- الغبره بالصحرا كتير، مين بيمسح البيت؟ — `housekeeping`
+- نظافة الشاليه علي ولا عليكم؟ — `housekeeping`
+- بتوفرو حدا يرتب الاسرة ويجهز الحمامات؟ — `housekeeping`
+- خدمة تجهيز قبل الوصول — `housekeeping`
+- بعد ما نروح مين بيلم الزباله وبنضف؟ — `housekeeping`
+- المكيف خرب نص الصيف، مين بيصلحه؟ — `maintenance`
+- اذا تعطلت مضخة المسبح وانا برا البلد، شو بصير؟ — `maintenance`
+- اشتريت شاليه بمكان تاني وكل عطل كنت ادور ع فني، عندكم كيف؟ — `maintenance`
+- بالشتا انفجرت ماسورة عند صاحبي، عندكم مين بيلحق؟ — `maintenance`
+- الجاكوزي وقف يشتغل، لمين بحكي؟ — `maintenance`
+- بعد ما استلم، اذا بان عيب، بتصلحوه؟ — `maintenance`
+- ما بدي ادور ع سباك كل مرة، في فريق جوا؟ — `maintenance`
+- انا مغترب، مين بيتابع الاعطال بغيابي؟ — `maintenance`
+- صيانة؟ — `maintenance`
+- والصيانه — `maintenance`
+- طب والاعطال — `maintenance`
+- في فني؟ — `maintenance`
+- مركز صيانه — `maintenance`
+- سباك وكهربجي؟ — `maintenance`
+- مين بيصلح — `maintenance`
+- في صيانة جوا الكمبوند؟ — `maintenance`
+- اذا صار خراب مين بيصلحو — `maintenance`
+- في مركز خدمات فنية؟ — `maintenance`
+- الصيانه بتكون سريعه؟ — `maintenance`
+- لمين بطلب صيانه — `maintenance`
+- ضو الحمام خربان، مين بيجي؟ — `maintenance`
+- فيه صيانة لو خرب شي بالشاليه؟ — `maintenance`
+- لو تعطل المكيف من اللي يصلحه؟ — `maintenance`
+- لو حاجة باظت في الشاليه مين يصلحها؟ — `maintenance`
+- هل يوجد مركز صيانة داخل المجمع؟ — `maintenance`
+- من المسؤول عن إصلاح الأعطال في الشاليه؟ — `maintenance`
+- fi siyane 3ndkom? — `maintenance`
+- iza 5irib ishi min bisalle7o — `maintenance`
+- maintenance team mawjood? — `maintenance`
+- who fixes things if something breaks — `maintenance`
+- is there a maintenance center — `maintenance`
+- pool pump broke, who do I call — `maintenance`
+- الmaintenance جوا ولا بجيب من برا؟ — `maintenance`
+- الAC خرب، في technician؟ — `maintenance`
+- السخان مش شغال مين بيصلحه — `maintenance`
+- تسريب مي بالمطبخ، لمين بحكي؟ — `maintenance`
+- عطل كهربا بالشاليه مين بيلحقه — `maintenance`
+- الصيانة الدورية للمسبح مين بيعملها؟ — `maintenance`
+- الصيانه علي ولا عالشركة؟ — `maintenance`
+- لو خرب الباب او القفل مين بيجي — `maintenance`
+- في حدا بيصلح بسرعه لو صار اشي؟ — `maintenance`
+- maintenance? — `maintenance`
+- repairs inside the compound — `maintenance`
+- عطل بالشاليه — `maintenance`
+- الفلتر تبع المسبح خرب 😩 — `maintenance`
+- خايف اشتري وبعدين اتبهدل بالتصليحات — `maintenance`
+- صيانه سريعه ولا بستنى ايام؟ — `maintenance`
+- مركز الصيانة والخدمات الفنيه وين — `maintenance`
+- الدهان تقشر بعد كم سنه، مين بيصلح؟ — `maintenance`
+- طلب صيانة كيف بقدمه — `maintenance`
+- عندكم فنيين؟ — `maintenance`
+- اذا تعطل اشي بنص الليل؟ — `maintenance`
+- الاعطال مين بيتابعها — `maintenance`
+- صيانة الشاليهات بعد التسليم — `maintenance`
+- الحنفيه بتنقط، مين بصلحها — `maintenance`
+- اول ما نوصل ع البوابه لمين بنروح؟ — `reception`
+- بدي استلم المفتاح وانا جاي من المطار، مين بيعطيني؟ — `reception`
+- اذا ضيفي وصل قبلي، في حدا يستقبله؟ — `reception`
+- بدي اسأل سؤال وانا هناك، في مكتب استقبال؟ — `reception`
+- لو نسيت المفتاح جوا الشاليه، لمين بروح؟ — `reception`
+- المستأجرين لما يوصلو بيستلمو المفاتيح من وين؟ — `reception`
+- رحت مرة ع كمباوند وما لقيت حدا يدلني، عندكم كيف؟ — `reception`
+- استقبال؟ — `reception`
+- والريسبشن — `reception`
+- طب والاستقبال — `reception`
+- ريسيبشن؟ — `reception`
+- مكتب استقبال — `reception`
+- وين الاستقبال — `reception`
+- في حدا بالاستقبال — `reception`
+- في استقبال بالكمبوند؟ — `reception`
+- المفاتيح من وين بنستلمها — `reception`
+- مكتب الاستقبال جوا ولا ع البوابة؟ — `reception`
+- الريسبشن بيستقبل الزوار؟ — `reception`
+- لمين بسلم المفتاح لما اطلع — `reception`
+- فيه استقبال او لوبي؟ — `reception`
+- وين نستلم مفتاح الشاليه؟ — `reception`
+- فيه ريسبشن جوه؟ — `reception`
+- هل يوجد مكتب استقبال داخل المجمع؟ — `reception`
+- أين يتم استلام المفاتيح عند الوصول؟ — `reception`
+- fi reception 3ndkom? — `reception`
+- wen bnistlem el mafate7 — `reception`
+- fi 7ada bista2bel? — `reception`
+- is there a reception desk — `reception`
+- where do we pick up the keys — `reception`
+- front desk at the compound? — `reception`
+- who welcomes guests on arrival — `reception`
+- الreception وين بالضبط؟ — `reception`
+- الkeys بنستلمها من الfront desk؟ — `reception`
+- ريسبشن ولا لا — `reception`
+- الاستقبال بالموقع نفسه؟ — `reception`
+- استقبال الزوار وين بيكون — `reception`
+- اول محطه لما نوصل شو؟ — `reception`
+- الاستقبل؟ — `reception`
+- بس نوصل نسأل مين؟ — `reception`
+- reception? — `reception`
+- check in desk — `reception`
+- ضيوفي بدهم حدا يدلهم ع الشاليه لما يوصلو — `reception`
+- في مكتب نسأل فيه اي استفسار جوا الكمباوند؟ — `reception`
+- لو بدي اترك نسخة مفتاح لحدا، في استقبال؟ — `reception`
+- عندكم لوبي او مكتب استقبال؟ — `reception`
+- الاستقبال بيستقبل المستأجرين كمان؟ — `reception`
+- مين بيسلمني المفتاح يوم الزيارة؟ — `reception`
+- ريسبشين جوا الكمباوند؟ — `reception`
+- استلام وتسليم المفاتيح كيف — `reception`
+- وصلنا ومش عارفين وين نروح، في استقبال؟ — `reception`
+- الاستقبال فين؟ — `reception`
+- في موظف استقبال؟ — `reception`
+- مكتب الاستقبال مين فيه — `reception`
+- بدي حدا يستقبل اهلي وانا مسافر — `reception`
+- لما نوصل البوابة في reception؟ — `reception`
+- قبل ما احط مصاري بدي اعرف مين ورا المشروع، اي شركة؟ — `company`
+- ابوي بيقول ما بنشتري الا من شركة معروفة، مين انتو؟ — `company`
+- سمعت عن مشاريع وقفت بنصها، الشركة اللي بتبني هاد شو اسمها؟ — `company`
+- بدي ادور ع المطور بجوجل، شو اسم الشركة بالضبط؟ — `company`
+- انا مغترب وبدي اتأكد انه في شركة مسجلة ورا الشاليهات — `company`
+- اخوي بشتغل بالعقارات وسألني مين المطور، شو احكيله؟ — `company`
+- الشركه عندها شهادات جودة ولا لا؟ — `company`
+- مين بيبني الشاليهات اصلا؟ — `company`
+- الشركة المطورة؟ — `company`
+- مين الشركة — `company`
+- طب والمطور — `company`
+- اسم الشركه؟ — `company`
+- مين المطور؟ — `company`
+- شركة شو — `company`
+- ايزو؟ — `company`
+- مين المطور العقاري للكمبوند — `company`
+- الشركة اللي ورا روح العطاء مين — `company`
+- شو اسم الشركة المالكة للمشروع؟ — `company`
+- الشركه عملت مشاريع قبل هيك؟ — `company`
+- شركة العطاء للتطوير العقاري هي نفسها؟ — `company`
+- المشروع تابع لاي شركه — `company`
+- مين الشركه اللي تطور المشروع؟ — `company`
+- وش اسم المطور العقاري؟ — `company`
+- مين الشركة اللي عاملة المشروع ده؟ — `company`
+- ما هي الشركة المطورة لهذا المشروع؟ — `company`
+- هل الشركة المطورة حاصلة على شهادة ISO؟ — `company`
+- min el shareke el mutawwira? — `company`
+- shu esm el company — `company`
+- min bibni el compound — `company`
+- which company is behind this project — `company`
+- is the developer ISO certified — `company`
+- what's the developer's name — `company`
+- مين الdeveloper تبع المشروع؟ — `company`
+- الcompany المطورة الها projects تانية؟ — `company`
+- شركة تطوير عقاري ولا افراد؟ — `company`
+- الشركه بتطور مدن سكنيه كمان؟ — `company`
+- عطاء للتطوير واعمار المدن صح؟ — `company`
+- مين الجهة المطورة — `company`
+- شو خلفية الشركة؟ — `company`
+- developer? — `company`
+- company name pls — `company`
+- بدي اعرف الشركه قبل ما اوقع — `company`
+- الشركة المطوره موثوقه؟ اسمها شو — `company`
+- مين بيملك المشروع كشركه — `company`
+- الشركة الام؟ — `company`
+- شركه المشروع شو اسمها — `company`
+- المطور اردني؟ شو اسم شركته — `company`
+- تعرفيني ع الشركة اللي بتبني — `company`
+- الشركة المطورة ملتزمة بمعايير جودة؟ — `company`
+- من اي شركه انتو؟ — `company`
+- مين الشركه المطوره؟ — `company`
+- الشاليهات من تطوير مين — `company`
+- شو بتشتغل الشركة غير الشاليهات؟ — `company`
+- بدي شركة حقيقية مش سماسرة، مين المطور؟ — `company`
+- مين صاحب الفكرة كلها؟ — `founder`
+- سمعت انه صاحب المشروع دكتور، مين هو؟ — `founder`
+- بحب اعرف الشخص اللي ورا المشروع قبل ما اثق فيه — `founder`
+- مين الراجل اللي اسس روح العطاء؟ — `founder`
+- ابوي بيعرف ناس بالعقار وسألني مين المؤسس — `founder`
+- شو مبادئ صاحب المشروع؟ — `founder`
+- قريت اقتباس "ابني لكم كما ابني لنفسي"، مين قالها؟ — `founder`
+- مين المؤسس؟ — `founder`
+- المؤسس — `founder`
+- طب وصاحب المشروع — `founder`
+- مين صاحب المشروع؟ — `founder`
+- طارق قازان؟ — `founder`
+- مين د طارق — `founder`
+- مين مأسس روح العطاء — `founder`
+- مين اللي اسس الكمبوند — `founder`
+- صاحب الشركه مين — `founder`
+- مين دكتور طارق قازان — `founder`
+- مؤسس المشروع شو اسمه — `founder`
+- المؤسس شو بيقول عن المشروع؟ — `founder`
+- مين المالك الاساسي للمشروع — `founder`
+- مين مؤسس المشروع؟ — `founder`
+- مين صاحب المشروع؟ ابي اعرف اسمه — `founder`
+- مين اللي أسس المشروع ده؟ — `founder`
+- من هو مؤسس روح العطاء؟ — `founder`
+- ما هي رؤية مؤسس المشروع؟ — `founder`
+- min el mu2asses? — `founder`
+- min sa7eb el mashroo3 — `founder`
+- who is tarek kazan — `founder`
+- who founded the project — `founder`
+- who is the founder of rouh al ataa — `founder`
+- who is the owner behind this — `founder`
+- الfounder مين؟ — `founder`
+- مين الfounder تبع روح العطاء — `founder`
+- د. طارق شو خلفيته — `founder`
+- صاحب الفكره مين — `founder`
+- founder? — `founder`
+- founder name — `founder`
+- المؤسس شخص معروف؟ — `founder`
+- مسؤوليتي لا تنتهي عند البيع، هاي حكي مين؟ — `founder`
+- مين ورا الفكرة شخصيا مش الشركه — `founder`
+- بدي اسم المؤسس — `founder`
+- قازان مين؟ — `founder`
+- المؤسس بيوفي بوعوده؟ شو بيقول — `founder`
+- مين اطلق المشروع؟ — `founder`
+- شو فلسفة المؤسس — `founder`
+- المؤسس دكتور ولا رجل اعمال؟ — `founder`
+- مين بلش روح العطاء من الاول — `founder`
+- مين ابو المشروع 😄 — `founder`
+- الرجل اللي اسس هالكمباوند شو اسمه — `founder`
+- مين المؤسس تبعكم؟ — `founder`
+- اسم صاحب روح العطاء — `founder`
+- مؤسس الكمباوند؟ — `founder`
+- مين مأسسها — `founder`
+- رسالة المؤسس شو هي — `founder`
+- الدكتور طارق مين بالضبط؟ — `founder`
+- بعد ما يسكن الكل، مين بينظم الامور بين المالكين؟ — `owners`
+- بالكمباوندات التانية في فوضى بين الجيران، عندكم في جسم ينظم؟ — `owners`
+- اذا صار خلاف بين المالكين ع المرافق المشتركة، مين بيحله؟ — `owners`
+- بدي يكون الي صوت بقرارات الكمباوند، في اتحاد؟ — `owners`
+- مين بيدير المرافق المشتركة بعد ما الشركة تخلص؟ — `owners`
+- الكمباوند مسجل رسميا ولا لسا؟ — `owners`
+- اتحاد ملاك؟ — `owners`
+- اتحاد المالكين — `owners`
+- طب واتحاد الملاك — `owners`
+- جمعية سكان؟ — `owners`
+- في اتحاد؟ — `owners`
+- مين بيمثل المالكين — `owners`
+- في اتحاد للملاك بالكمبوند؟ — `owners`
+- اتحاد المالكين متاسس ولا لسا — `owners`
+- كيف بنتواصل كملاك مع الادارة — `owners`
+- في جمعية للمالكين؟ — `owners`
+- الاتحاد بيدير الخدمات المشتركه؟ — `owners`
+- مين بدير الكمباوند بعد البيع — `owners`
+- فيه اتحاد ملاك ينظم الامور؟ — `owners`
+- فيه جمعية للملاك عندكم؟ — `owners`
+- فيه اتحاد للملاك ولا الشركة اللي بتدير كل حاجة؟ — `owners`
+- هل يوجد اتحاد مالكين في المجمع؟ — `owners`
+- هل تم تسجيل المجمع وتأسيس اتحاد للمالكين؟ — `owners`
+- fi itti7ad malakeen? — `owners`
+- min bidir el compound ba3d el bee3 — `owners`
+- HOA? — `owners`
+- who manages the shared facilities — `owners`
+- is the compound officially registered — `owners`
+- في owners association؟ — `owners`
+- الHOA مين فيه؟ — `owners`
+- اتحاد ملاك رسمي؟ — `owners`
+- المالكين الهم كلمة؟ — `owners`
+- اتحد المالكين؟ — `owners`
+- ادارة الكمباوند والمالكين كيف العلاقه — `owners`
+- owners union — `owners`
+- مين بيقرر بخصوص الخدمات المشتركه؟ — `owners`
+- اذا الجار عمل ازعاج او خالف، في جهة بنشتكي عندها؟ — `owners`
+- في مركز ادارة للكمباوند بيتابع التشغيل؟ — `owners`
+- الكمباوند مسجل وفي اتحاد؟ — `owners`
+- بدي اشارك باجتماعات الملاك، في؟ — `owners`
+- الاتحاد بيعمل اجتماعات؟ — `owners`
+- تنظيم العلاقة بين الملاك مين — `owners`
+- انا بالسعودية ومش رح اكون موجود، مين بيمثل مصلحتي هناك؟ — `owners`
+- في جسم رسمي للمالكين؟ — `owners`
+- اتحاد سكان — `owners`
+- المالكين منظمين؟ — `owners`
+- شو دور اتحاد المالكين — `owners`
+- الادارة بعد التسليم لمين بتروح — `owners`
+- بدنا نعرف مين المسؤول عن المرافق المشتركة بعد ما نسكن — `owners`
+- الاتحاد بيدير الصيانه الدوريه للمرافق العامه؟ — `owners`
+- اتحاد مالكين ولا لأ — `owners`
+- owners association status — `owners`
+- مين بينظم امور الكمبوند بين الملاك والادارة؟ — `owners`
+- في اتحاد ملاك ولا كل واحد ع راسه؟ 😅 — `owners`
+- عمان بالصيف خنقة، عندكم الجو ارحم؟ — `weather`
+- ابني عنده ربو وبدي مكان هواه نضيف، المنطقة كيف؟ — `weather`
+- بالليل بيبرد هناك ولا بيضل حر؟ — `weather`
+- بدنا مكان نرتاح فيه من زحمة المدينة وغبرتها، كيف الهوا عندكم؟ — `weather`
+- القسطل بالصيف نار؟ خايف ما نقدر نقعد برا — `weather`
+- اهلي كبار وبيتعبو من الرطوبة، المناخ هناك جاف ولا رطب؟ — `weather`
+- بفكر اقضي الصيف كله هناك، الطقس بيتحمل؟ — `weather`
+- كنت بالبحر الميت والحر كان قاتل، عندكم نفس الشي؟ — `weather`
+- الجو؟ — `weather`
+- والطقس — `weather`
+- طب والهوا — `weather`
+- المناخ؟ — `weather`
+- الجو حلو؟ — `weather`
+- الهوى نضيف؟ — `weather`
+- كيف الطقس — `weather`
+- حر ولا معتدل؟ — `weather`
+- كيف الجو عندكم بالصيف — `weather`
+- الجو بالشتا كيف هناك؟ — `weather`
+- في غبرة وعواصف بالمنطقه؟ — `weather`
+- المنطقه هاديه ولا زحمه وتلوث — `weather`
+- الهوا عندكم احسن من عمان؟ — `weather`
+- كيف الاجواء بالكمبوند؟ — `weather`
+- وش الجو عندكم؟ حار مره؟ — `weather`
+- الجو عندكم عامل ايه؟ — `weather`
+- كيف المناخ في منطقة المشروع؟ — `weather`
+- هل الهواء نقي في المنطقة؟ — `weather`
+- shu el jaw 3ndkom — `weather`
+- el jaw 7aar walla mo3tadel? — `weather`
+- kaif el hawa hnak — `weather`
+- how's the weather there — `weather`
+- is it very hot in summer — `weather`
+- is the air clean — `weather`
+- what's the climate like — `weather`
+- الweather هناك كيف؟ — `weather`
+- الclimate معتدل؟ — `weather`
+- الهوا عليل ولا خانق — `weather`
+- بالويكند بدي اقعد ع البرندة، الجو بيساعد؟ — `weather`
+- كيف الجوو 🌤️ — `weather`
+- الحراره هناك قديش بالصيف تقريبا — `weather`
+- في نسمه بالليل؟ — `weather`
+- weather? — `weather`
+- climate pls — `weather`
+- المكان هادي وهواه نضيف؟ — `weather`
+- بدي ابعد عن التلوث، المنطقه كيف؟ — `weather`
+- الجو بيختلف عن عمان؟ — `weather`
+- بالربيع بيكون حلو هناك؟ — `weather`
+- الطقص عندكم كيف — `weather`
+- المناخ مناسب لكبار السن؟ — `weather`
+- الهوا هناك صحي للاطفال؟ — `weather`
+- بالشتا بيصير صقعه؟ — `weather`
+- جو المنطقه بشكل عام — `weather`
+- الجوو هناك؟ — `weather`
+- ريحة الهوا والطبيعة هناك كيف 😍 — `weather`
+- بتكون الدنيا مغبرة كتير؟ — `weather`
+- الجو معتدل ولا قاسي — `weather`
+- بدي اشتري واسكن ع طول، لازم اجيب عفش؟ — `furnished`
+- انا مغترب وما عندي وقت افرش، الشاليه بيجي جاهز بالاثاث؟ — `furnished`
+- ميزانيتي محدودة، هل لازم احسب حساب الفرش فوق السعر؟ — `furnished`
+- بدنا ناخدو للاجار فورا، مفروش ولا فاضي؟ — `furnished`
+- مرتي بدها تختار الكنب بنفسها، الشاليه بيجي فاضي؟ — `furnished`
+- بستلم الشاليه بالكنب والتخوت ولا بس جدران؟ — `furnished`
+- بدي اعرف شو بيجي مع الشاليه من عفش قبل ما اقارن الاسعار — `furnished`
+- والفرش؟ — `furnished`
+- طب والعفش — `furnished`
+- اثاث؟ — `furnished`
+- مفروش ولا لا — `furnished`
+- بالعفش؟ — `furnished`
+- مع الاثاث؟ — `furnished`
+- الشاليه مفروش؟ — `furnished`
+- الشاليه بيجي بالفرش ولا بدون — `furnished`
+- في اثاث بالشاليه ولا فاضي؟ — `furnished`
+- الكنب والتخوت موجودين؟ — `furnished`
+- الشاليه بيجي مفروش ولا انا بفرشه — `furnished`
+- الشاليه مفروش بالكامل؟ — `furnished`
+- يجي الشاليه مؤثث ولا لا؟ — `furnished`
+- الشاليه بيتسلم مفروش ولا فاضي؟ — `furnished`
+- هل يتم تسليم الشاليه مفروشا؟ — `furnished`
+- هل الأثاث مشمول مع الشاليه؟ — `furnished`
+- el chalet mafroush? — `furnished`
+- fi 3afsh bel chalet? — `furnished`
+- is it furnished — `furnished`
+- does the chalet come with furniture — `furnished`
+- fully furnished or empty — `furnished`
+- do I need to buy furniture — `furnished`
+- الشاليه furnished؟ — `furnished`
+- بيجي مع furniture ولا لا — `furnished`
+- مفرووش؟ — `furnished`
+- الاثاث داخل بالسعر؟ — `furnished`
+- التخوت والكنبايات علي؟ — `furnished`
+- الشاليه جاهز للسكن بالعفش؟ — `furnished`
+- فرش الشاليه علي ولا عليكم — `furnished`
+- العفش من عندكم ولا من عندي — `furnished`
+- بيعطوك اياه مفروش؟ — `furnished`
+- furnished? — `furnished`
+- furniture included? — `furnished`
+- الشاليهات مفروشه او شبه مفروشه؟ — `furnished`
+- بنقدر نختار الاثاث ولا مفروض علينا؟ — `furnished`
+- مفروش ولا عضم 😅 — `furnished`
+- الاسرة والكنب والطاولات موجودين؟ — `furnished`
+- لما استلم المفتاح بلاقي اثاث؟ — `furnished`
+- فرش الشاليه شو بيشمل — `furnished`
+- الشالية مفروش؟ — `furnished`
+- اثاث الشاليه — `furnished`
+- بدنا نيجي بشنطنا بس، الشاليه فيه كل الاثاث؟ — `furnished`
+- الصالون والغرف مفروشين؟ — `furnished`
+- مأثث؟ — `furnished`
+- عفش الشاليه كيف — `furnished`
+- اذا بدي الشاليه مفروش في امكانية؟ — `furnished`
+- سؤال: الشاليه مع فرش؟ — `furnished`
+- عنا كلب بالبيت وهو من العيلة، بنقدر نجيبه؟ — `pets`
+- بنتي ما بتطلع بدون قطتها 😅 مسموح؟ — `pets`
+- ما بدي اترك كلبي بفندق كلاب كل ويكند، بقدر اجيبه؟ — `pets`
+- الجيران عندهم حيوانات؟ يعني مسموح بالكمباوند؟ — `pets`
+- بدي اربي كلب حراسة بالحديقة، في مانع؟ — `pets`
+- في حدا بيعتني بالكلب اذا انا مش موجود؟ — `pets`
+- حيوانات؟ — `pets`
+- والكلاب؟ — `pets`
+- طب والقطط — `pets`
+- حيوانات اليفه — `pets`
+- كلب مسموح؟ — `pets`
+- قطه؟ — `pets`
+- بيتس؟ — `pets`
+- مسموح الحيوانات الاليفة؟ — `pets`
+- بقدر اجيب كلبي معي — `pets`
+- في مركز عنايه بالكلاب؟ — `pets`
+- انظمة الحيوانات عندكم كيف — `pets`
+- القطط مسموحه بالشاليه؟ — `pets`
+- في قوانين للحيوانات بالكمبوند؟ — `pets`
+- مسموح الحيوانات الاليفه؟ عندي قطوه — `pets`
+- اقدر اجيب كلبي للشاليه؟ — `pets`
+- ينفع اجيب الكلب بتاعي؟ — `pets`
+- هل يسمح بالحيوانات الأليفة داخل المجمع؟ — `pets`
+- هل توجد خدمات للعناية بالكلاب؟ — `pets`
+- msmoo7 el 7ayawanat? — `pets`
+- ba2dar ajeeb kalbi? — `pets`
+- can I bring my dog — `pets`
+- are cats allowed in the chalet — `pets`
+- is there a dog care center — `pets`
+- الpets مسموحين؟ — `pets`
+- الdog مسموح بالحديقة؟ — `pets`
+- كلبي صغير وهادي، بزبط اجيبه؟ — `pets`
+- العصافير والسلاحف مسموح 😂 — `pets`
+- كلاب كبيره مسموحه؟ — `pets`
+- pet friendly? — `pets`
+- dog? — `pets`
+- مسموح امشي الكلب بالشوارع الداخليه؟ — `pets`
+- عندي قطتين، في مشكلة؟ — `pets`
+- الحيوانات الاليفه ممنوعه؟ — `pets`
+- حيوان اليف بالشاليه — `pets`
+- بدنا نجيب البسة معنا، مسموح؟ — `pets`
+- في بيطري او مركز للكلاب؟ — `pets`
+- اذا جبت حيوان، في شروط؟ — `pets`
+- الكلب بيقدر يسبح بالمسبح الخاص؟ 😅 — `pets`
+- ابني بدو جرو بس بدي اعرف اذا مسموح هناك — `pets`
+- حيونات اليفه؟ — `pets`
+- كلاب ولا ممنوع — `pets`
+- في dog center؟ — `pets`
+- القطه بتيجي معنا كل مره، بزبط؟ — `pets`
+- سياسة الحيوانات الاليفة شو — `pets`
+- مسموح احط بيت كلب بالجنينة؟ — `pets`
+- عندي كلب جيرمن، مسموح؟ — `pets`
+- الحيوانات الأليفه ممكن؟ — `pets`
+- لو سافرت مين بيهتم بكلبي هناك؟ — `pets`
+- ابوي مريض سكري، اذا صار معه اشي في عيادة قريبة؟ — `medical`
+- الولاد بيوقعو ويتعورو كتير، في اسعاف اولي او عيادة؟ — `medical`
+- نسينا دوا الضغط، في صيدلية جوا؟ — `medical`
+- بالليل لو حدا تعب، في طوارئ قريبة بالكمباوند؟ — `medical`
+- امي كبيرة وبدها رعاية، في خدمات طبية؟ — `medical`
+- مرتي حامل وبخاف نكون بعيد، في عيادة جوا؟ — `medical`
+- ابني عنده حساسية، في صيدلية لو احتجنا؟ — `medical`
+- عيادة؟ — `medical`
+- صيدليه؟ — `medical`
+- والطوارئ — `medical`
+- طب والعيادة — `medical`
+- دكتور؟ — `medical`
+- في صيدلية — `medical`
+- مركز طبي — `medical`
+- اسعاف؟ — `medical`
+- في عيادة بالكمبوند؟ — `medical`
+- في صيدليه جوا ولا لازم نطلع — `medical`
+- مركز طوارئ عندكم؟ — `medical`
+- العياده خلصت ولا لسا بالخطه — `medical`
+- متى بتفتح الصيدليه؟ — `medical`
+- في دكتور مقيم بالكمباوند — `medical`
+- فيه عيادة او صيدلية؟ — `medical`
+- فيه مستوصف قريب؟ — `medical`
+- فيه صيدلية جوه؟ — `medical`
+- هل يوجد عيادة طبية أو صيدلية في المجمع؟ — `medical`
+- هل يتوفر مركز طوارئ داخل المشروع؟ — `medical`
+- fi 3iyade? — `medical`
+- fi saydaliyye bel compound — `medical`
+- fi tawari2? — `medical`
+- is there a clinic — `medical`
+- pharmacy inside the compound? — `medical`
+- any emergency center — `medical`
+- doctor on site? — `medical`
+- في clinic جوا؟ — `medical`
+- الpharmacy موجوده؟ — `medical`
+- emergency قريب؟ — `medical`
+- خدمات طبيه؟ — `medical`
+- اسعافات اوليه بالكمباوند؟ — `medical`
+- عياده او صيدليه او طوارء؟ — `medical`
+- مستوصف؟ — `medical`
+- clinic? — `medical`
+- medical services — `medical`
+- الولاد بالمسبح وبخاف، في حدا طبي جوا؟ — `medical`
+- برمضان بنقعد شهر، اذا مرضنا في عياده؟ — `medical`
+- خايفه اكون بعيدة عن الطب مع الصغار — `medical`
+- صيدلية ولا لأ — `medical`
+- العيادة الطبيه ضمن الخطه؟ — `medical`
+- في ممرض او طبيب؟ — `medical`
+- الطوارئ والعيادة متى جاهزين — `medical`
+- الجدة بتاخد ادوية يومية، في صيدلية تجيب منها؟ — `medical`
+- في مكان اسعاف لو صار حادث؟ — `medical`
+- ضربة شمس او جرح، وين بنروح جوا؟ — `medical`
+- عيادة اطفال؟ — `medical`
+- المرافق الطبيه شو فيها — `medical`
+- عيادا؟ — `medical`
+- لو قررنا نسكن هناك ع طول، الولاد وين بيدرسو؟ — `schools`
+- عندي طفل عمره سنتين وبدي حضانة قريبة، في؟ — `schools`
+- بفكر ننتقل نعيش هناك بس المدارس مشكلتي — `schools`
+- انا وزوجي بنشتغل، في مكان نحط فيه البيبي الصبح؟ — `schools`
+- الاولاد بالمدرسة، اذا سكنا بالكمباوند في مدرسة جوا؟ — `schools`
+- في روضة للصغار بدل ما نوديهم ع عمان؟ — `schools`
+- مدارس؟ — `schools`
+- حضانه؟ — `schools`
+- والمدارس — `schools`
+- طب والحضانة — `schools`
+- روضة؟ — `schools`
+- مدرسه جوا؟ — `schools`
+- nursery? — `schools`
+- في مدرسة بالكمبوند؟ — `schools`
+- حضانة اطفال عندكم — `schools`
+- المدارس بالخطة ولا لسا — `schools`
+- متى بتفتح المدرسه؟ — `schools`
+- في روضه او حضانه جوا — `schools`
+- التعليم للاطفال كيف هناك — `schools`
+- فيه مدارس او حضانة؟ — `schools`
+- فيه مدرسة للعيال داخل الكمباوند؟ — `schools`
+- فيه مدارس جوه؟ — `schools`
+- هل يوجد مدارس أو حضانات في المجمع؟ — `schools`
+- هل ستتوفر مدرسة داخل المشروع مستقبلا؟ — `schools`
+- fi madrase? — `schools`
+- fi 7adane lal atfal — `schools`
+- madares 3ndkom? — `schools`
+- are there schools nearby or inside — `schools`
+- is there a nursery — `schools`
+- daycare in the compound? — `schools`
+- kindergarten available? — `schools`
+- في school جوا؟ — `schools`
+- الnursery متى بتفتح؟ — `schools`
+- مدارس او kindergarten؟ — `schools`
+- حضانه اطفال ؟ — `schools`
+- مداس؟ — `schools`
+- مدرسه ولا لا — `schools`
+- schools? — `schools`
+- schools plan — `schools`
+- الاولاد اعمارهم ٤ و٧، في تعليم قريب؟ — `schools`
+- اذا بدنا نسكن دائم، التعليم متوفر؟ — `schools`
+- باص مدرسة او مدرسه جوا الكمباوند؟ — `schools`
+- الحضانه ضمن الخدمات الجايه؟ — `schools`
+- رياض اطفال؟ — `schools`
+- في مدرسه ابتدائي؟ — `schools`
+- كيف بنحل موضوع الدراسة لو انتقلنا؟ — `schools`
+- مراكز تعليمية للاطفال؟ — `schools`
+- بنتي بالروضة، في وحده بالكمبوند؟ — `schools`
+- المدارس والحضانات وين وضعها — `schools`
+- حضانه للبيبي ؟ — `schools`
+- مدرسة جوا البوابات ولا لا — `schools`
+- انا ام لتلات صغار وبدي اعرف عن الحضانة — `schools`
+- مدرسة دولية قريبة؟ — `schools`
+- التعليم ضمن خطة التطوير؟ — `schools`
+- حضانه ولا مدرسه في؟ — `schools`
+- انا متعود اتمرن كل يوم الصبح، لو قعدت عندكم الصيف وين بدي اروح اتمرن — `gym`
+- مرتي بتحب تعمل ساونا ومساج بالويكند، في اشي هيك جوا المشروع — `gym`
+- بنتي بتحب الخيل كتير، في مكان تتعلم ركوب خيل عندكم — `gym`
+- بعد اسبوع شغل متعب بدي مكان استرخي فيه، في سبا او مساج بالكمباوند — `gym`
+- ابوي بحب يمشي ويعمل رياضة خفيفة، في صالة رياضية مجهزة — `gym`
+- انا مدرب لياقة وبدي اعرف اذا في جيم بالمجمع ولا لازم انزل عمان — `gym`
+- بنات العيلة بدهم صالون تجميل قريب وهم بالشاليه، في عندكم — `gym`
+- ابني بلعب حديد وما بقدر يوقف تمرين ولا اسبوع، شو الوضع عندكم — `gym`
+- والجيم؟ — `gym`
+- طب والسبا — `gym`
+- جيم؟ — `gym`
+- في ساونا — `gym`
+- نادي فروسيه؟ — `gym`
+- صالون نسائي — `gym`
+- مساج؟ — `gym`
+- والنادي الرياضي وين — `gym`
+- حمام بخار؟ — `gym`
+- كوافير في — `gym`
+- يوغا؟ — `gym`
+- اسطبل خيل — `gym`
+- في جيم بالكمباونط — `gym`
+- في صالة رياضه بالمشروع ولا لا — `gym`
+- فيه نادي رياضي عندكم — `gym`
+- وش عندكم نوادي رياضية او سبا — `gym`
+- عايز اعرف فيه جيم ولا سبا جوه الكمبوند — `gym`
+- هل يتوفر نادٍ رياضي أو مركز سبا داخل المجمع — `gym`
+- بدي اعرف اذا في نادي خيول تابع الكمباوند — `gym`
+- في بيوتي سنتر للستات بالمجمع — `gym`
+- 3ndkom gym bil compound? — `gym`
+- fi spa aw massage 3ndkom — `gym`
+- fe nadi ri2adi? — `gym`
+- Is there a gym in the compound — `gym`
+- any spa or sauna there? — `gym`
+- do you have a horse riding club — `gym`
+- fitness center available for owners? — `gym`
+- في gym ولا لسا — `gym`
+- Spa في ولا خطة مستقبلية — `gym`
+- بقدر اعمل workout جوا الكمباوند — `gym`
+- الجيمم مفتوح للملاك ولا بس للزوار — `gym`
+- في صالة رياضة للستات منفصلة — `gym`
+- بقدرنحجز جلسة مساج بالسبا — `gym`
+- فيي جاكوزي عام وساونا وستيم — `gym`
+- انا بدي ارفع اثقال كل يوم، في معدات رياضية — `gym`
+- مرتي حامل وحابة يوغا ومساج خفيف، في خدمات هيك — `gym`
+- بدي اطلع ع الشاليه بس ما بدي اوقف تمارين الكارديو، في تريدميل — `gym`
+- الختيار بحب الخيول من زمان، في فروسية قريبة او جوا المجمع — `gym`
+- عيال اخوي متعودين ع نادي، عندكم نادي رياضي للصغار والكبار — `gym`
+- gym w spa bel mashroo3? — `gym`
+- هل فيه مركز لياقة بدنية — `gym`
+- الساونا شغالة ولا لسا ما فتحت — `gym`
+- لو رحنا ع الشاليه ونسينا نجيب اكل، وين بنتعشى — `food`
+- انا ما بحب اطبخ بالاجازة، في مكان ناكل فيه جوا المجمع — `food`
+- الصبح بحب اشرب قهوتي برا، في كافيه قريب من الشاليهات — `food`
+- العيلة كبيرة وما في حدا بدو يطبخ، في مطعم بوصل للشاليه — `food`
+- الولاد بجوعو كل ساعة، في سناك او كافتيريا عند المسبح — `food`
+- بدنا نسهر ونطلب اراجيل وقهوة، في كوفي شوب بالكمباوند — `food`
+- برمضان بدنا نفطر برا، في مطعم جوا المشروع — `food`
+- اذا طلبنا من طلبات او كريم بيوصلوا لعندكم — `food`
+- مطعم؟ — `food`
+- والكافيه — `food`
+- في قهوه — `food`
+- توصيل اكل؟ — `food`
+- وين بناكل — `food`
+- كافتيريا في — `food`
+- مطاعم وكافيهات — `food`
+- والفطور وين — `food`
+- سناك بار؟ — `food`
+- دليفري بيوصل — `food`
+- في مطعم جوا الكمباوند — `food`
+- هل يوجد مطاعم أو مقاهي داخل المجمع — `food`
+- فيه مطعم ولا كافيه عندكم — `food`
+- وش فيه مطاعم حول الكمباوند — `food`
+- فيه مطاعم جوه الكمبوند ولا لازم نطلع برا — `food`
+- في كوفي شوب بالمجمع — `food`
+- اقرب مطعم للشاليهات وين — `food`
+- 3ndkom restaurant? — `food`
+- fi cafe bil compound — `food`
+- wen bnokol hunak — `food`
+- Is there a restaurant inside the compound — `food`
+- any cafe or coffee shop? — `food`
+- can we order food delivery to the chalet — `food`
+- food options in the compound? — `food`
+- في restaurant قريب — `food`
+- في coffee shop جوا — `food`
+- بقدر اعمل order اكل للشاليه — `food`
+- في مطعمم بالكمباند — `food`
+- بدي اشرب كاسة قهوه وين بلاقي — `food`
+- المطاعم حوالين المشروع بعيدة — `food`
+- هل يوجد خدمة توصيل طعام للمجمع — `food`
+- بدنا نطلب شاورما بالليل، بوصل الدليفري لعندكم — `food`
+- في مكان نفطر فيه فول وحمص الصبح — `food`
+- انا وصحابي بدنا كافيه نقعد فيه بعد السباحة — `food`
+- زوجتي بتحب الحلويات والقهوه، في كافيه حلو — `food`
+- في ركن قهوة او كشك بالكمباوند — `food`
+- لو جينا من المطار جوعانين، في مطعم بالمجمع — `food`
+- fi delivery byousal 3l chalet? — `food`
+- بدي اعرف خيارات الاكل جوا المجمع — `food`
+- any restaurants nearby or inside? — `food`
+- وشو في اكل بالمجمع — `food`
+- الكافيه بفتح للصبح — `food`
+- قبل ما اتعب حالي واجي، بدي اشوف المكان بعيني من صور — `gallery`
+- انا عايش برا وما بقدر اجي، في صور حقيقية للشاليهات — `gallery`
+- مرتي ما بتقتنع الا اذا شافت صور، وين بلاقيها — `gallery`
+- بدي ابعت للعيلة يشوفوا شكل الشاليه، في البوم صور — `gallery`
+- اخوي بدو يشوف المسبح والحديقة قبل ما نقرر، في فيديو — `gallery`
+- بدي اتفرج ع الغرف من جوا قبل الزيارة — `gallery`
+- صور؟ — `gallery`
+- والفيديو — `gallery`
+- صور المسبح — `gallery`
+- فيديو للمشروع — `gallery`
+- معرض الصور وين — `gallery`
+- صور من جوا — `gallery`
+- فرجيني — `gallery`
+- بدي اشوف صور للشاليه — `gallery`
+- ابعتيلي صور الكمباوند — `gallery`
+- وين القى صور للمشروع — `gallery`
+- في فيديو جولة للمكان — `gallery`
+- عندكم صور واقعية مش رسومات — `gallery`
+- وش عندكم صور للشاليهات — `gallery`
+- عايز اشوف صور وفيديو للكمبوند — `gallery`
+- أين أجد صوراً ومقاطع فيديو للمشروع — `gallery`
+- فيه فيديو للشاليه من جوه — `gallery`
+- مشكورة بس بدي اشوف صور الحمامات والمطبخ — `gallery`
+- shu fi sowar lal chalet — `gallery`
+- ab3tili sowar please — `gallery`
+- fi video lal compound? — `gallery`
+- can i see photos of the chalets — `gallery`
+- do you have a video of the compound — `gallery`
+- where is the gallery — `gallery`
+- show me pictures — `gallery`
+- send me some photos pls — `gallery`
+- في photos للشاليه — `gallery`
+- عندكم video tour للمشروع — `gallery`
+- الgallery وين بالموقع — `gallery`
+- بدي صورر للشالية من برا — `gallery`
+- في صوور للحديقه والبرجولا — `gallery`
+- وين اشوفصور الشاليهات — `gallery`
+- الصور اللي عالانستا حقيقية ولا تصميم — `gallery`
+- بدي اشوف صور الكمباوند بالليل مع الاضاءة — `gallery`
+- في صور جوية للمشروع بالدرون — `gallery`
+- بدي فيديو قصير ابعته لابوي يشوف المكان — `gallery`
+- بدنا نشوف كيف الجاكوزي شكله بالصور — `gallery`
+- في البوم صور كامل للمشروع — `gallery`
+- اختي بدها تشوف التشطيبات بالصور قبل ما تيجي معنا — `gallery`
+- فيه صور للمسجد والحدائق — `gallery`
+- صورلي المكان لو سمحتي — `gallery`
+- بدي صور قبل ما اقرر — `gallery`
+- pics of the pool? — `gallery`
+- وين صفحة المعرض بالموقع — `gallery`
+- انا ساكن بالسعودية من عشرين سنة وجوازي مصري، بقدر اتملك عندكم — `foreigners`
+- زوجي اردني بس انا سورية، بقدر اسجل الشاليه باسمي — `foreigners`
+- احنا عيلة عراقية مقيمين بعمان، مسموحلنا نشتري — `foreigners`
+- انا مغترب بكندا ومعي جواز كندي بس، بنفع اشتري — `foreigners`
+- صاحبي كويتي حابب ياخذ شاليه بالاردن، في مانع — `foreigners`
+- معي وثيقة فلسطينية مش رقم وطني، بقدر اشتري — `foreigners`
+- انا اجنبي — `foreigners`
+- غير اردني؟ — `foreigners`
+- والاجانب — `foreigners`
+- خليجي بقدر اشتري — `foreigners`
+- مش اردني بنفع — `foreigners`
+- جنسيه ثانيه — `foreigners`
+- المغتربين؟ — `foreigners`
+- والسوري بقدر يتملك — `foreigners`
+- الجنسية بتفرق — `foreigners`
+- هل يحق لغير الأردني تملك شاليه — `foreigners`
+- بقدر اشتري وانا مش اردني — `foreigners`
+- ابي اشتري شاليه وانا سعودي، ممكن — `foreigners`
+- انا مصري ينفع اشتري شاليه عندكم — `foreigners`
+- لو انا مش اردني ينفع اتملك ولا لا — `foreigners`
+- غير الاردنيين بقدروا يسجلوا قوشان باسمهم — `foreigners`
+- الجالية العربية مسموحلها تشتري — `foreigners`
+- ana mosh ordoni, b2dar ashtri? — `foreigners`
+- ana sa3oudi momken ashtri chalet — `foreigners`
+- foreigner y2dar yetmalak? — `foreigners`
+- Can a foreigner buy a chalet — `foreigners`
+- I am not Jordanian, can I own one — `foreigners`
+- can expats buy property in your compound — `foreigners`
+- Is ownership allowed for non-Jordanians — `foreigners`
+- انا foreigner بقدر اشتري — `foreigners`
+- مقيم بالamerica ومعي جواز اجنبي، بنفع — `foreigners`
+- non-Jordanian مسموح — `foreigners`
+- بقدراشتري وانا مش اردنيي — `foreigners`
+- الاجانب مسموحلهم بالتملك عنكم — `foreigners`
+- انا جنسيتي بريطانيه، اقدر اتملك شاليه — `foreigners`
+- انا اماراتي وابي شاليه بالاردن، فيه شروط علينا — `foreigners`
+- اهلي اردنيين بس انا مولود برا ومعي جنسية ثانية بس — `foreigners`
+- لو اشتريت من برا الاردن وانا مش مواطن، في موافقات خاصة — `foreigners`
+- انا لبناني ساكن بدبي، ممكن اكون مالك — `foreigners`
+- انا تركي متزوج اردنية، مين يسجل الشاليه — `foreigners`
+- في قيود على تملك العرب والاجانب — `foreigners`
+- بدي اعرف اذا جواز السفر الاجنبي بكفي للتملك — `foreigners`
+- هل في موافقة وزارة الداخلية للاجنبي اللي بدو يشتري — `foreigners`
+- انا من قطر وابي اشتري شاليه للعطل، مسموح — `foreigners`
+- مغترب عربي وبدي استثمر بشاليه، الجنسية بتأثر — `foreigners`
+- اختي متجنسة امريكية وبطلت اردنية، بتقدر تشتري — `foreigners`
+- انا اردني بس عايش برا ومعي جنسية امريكية، بتفرق — `foreigners`
+- can gulf citizens buy here — `foreigners`
+- يقدر الخليجي يتملك شاليه عندكم — `foreigners`
+- مش اردنيه بقدر اشتري باسمي — `foreigners`
+- الولاد بدهم مول يطلعوا عليه، في اشي قريب منكم — `nearby`
+- لو بدنا نطلع مشوار من الشاليه، شو في حوالين المنطقة نزوره — `nearby`
+- ابني بدرس بجامعة الاسراء، الكمباوند قريب منها — `nearby`
+- بدي اعرف اذا في مستشفى او صيدلية بالمنطقة حواليكم — `nearby`
+- مرتي بتحب ايكيا، قريبة من عندكم — `nearby`
+- بدنا نعمل جولة سياحية، في معالم اثرية جنبكم — `nearby`
+- شو حواليكم — `nearby`
+- شو قريب — `nearby`
+- والمعالم القريبة — `nearby`
+- ايكيا قريبة — `nearby`
+- قصر المشتى جنبكم؟ — `nearby`
+- اقرب مول — `nearby`
+- شو جنب الكمباوند — `nearby`
+- في سوبرماركت قريب برا المجمع — `nearby`
+- الاماكن القريبة من المشروع شو — `nearby`
+- شو في بالمنطقة حوالين الكمباوند — `nearby`
+- وش الاماكن القريبة منكم — `nearby`
+- ايه الحاجات اللي قريبة من الكمبوند — `nearby`
+- ما هي المعالم القريبة من المجمع — `nearby`
+- قريبين من جامعة ولا لا — `nearby`
+- shu 2areeb mnkom — `nearby`
+- fi mall 2areeb? — `nearby`
+- what is near the compound — `nearby`
+- places nearby? — `nearby`
+- any malls or hospitals close to you — `nearby`
+- whats around the area — `nearby`
+- في mall قريب — `nearby`
+- الcompound قريب من شو — `nearby`
+- القرييب منكم شو — `nearby`
+- شو حوالين المشرووع — `nearby`
+- فيه مطعم او محطة بنزين حواليكم — `nearby`
+- الاشياء القريبة منكوم — `nearby`
+- في جامعات قريبة من الشاليهات — `nearby`
+- اقرب سوق خضار لعندكم وين — `nearby`
+- قريبين من طريق المطار والمحلات اللي عليه — `nearby`
+- بالقسطل شو في اماكن ممكن نروحها — `nearby`
+- لو بدي اشتري اغراض بيت من برا، شو اقرب محلات — `nearby`
+- ابوي بدو يصلي الجمعة بمسجد كبير، في جوامع قريبة برا المجمع — `nearby`
+- في محطة وقود قريبة من الكمباوند — `nearby`
+- في اماكن ترفيه للولاد قريبة من المنطقة — `nearby`
+- وين اقرب مستشفى للكمباوند — `nearby`
+- في مدارس او جامعات بالجوار — `nearby`
+- بدي اعرف الجيرة، شو المشاريع او الاماكن اللي جنبكم — `nearby`
+- في اماكن تاريخية بالمنطقة نوديها الضيوف — `nearby`
+- والقريب منكم شو — `nearby`
+- الكمباوند قريب من مطار الملكة علياء ومحلاته — `nearby`
+- شو في جنبكو من خدمات — `nearby`
+- nearby attractions? — `nearby`
+- في مول او كارفور بالطريق — `nearby`
+- بالمنطقة في اشي للولاد يتسلوا فيه برا المجمع — `nearby`
+- دخلت عالموقع بالصدفة ومش فاهم شو فكرته — `what-sell`
+- صاحبي بعتلي الرابط بس ما شرحلي، انتو شو بتعملوا بالزبط — `what-sell`
+- انا شفت اعلانكم عالفيس بس ما فهمت شو المعروض — `what-sell`
+- قبل ما اسأل اسئلة، شو اصلا المنتج اللي بتبيعوه — `what-sell`
+- بدي افهم الفكرة من الاول، شو هاد المشروع — `what-sell`
+- شو بتبيعوا — `what-sell`
+- شو هاد — `what-sell`
+- شو عندكم — `what-sell`
+- شاليهات ولا شقق؟ — `what-sell`
+- انتو شو — `what-sell`
+- شو المعروض — `what-sell`
+- ايش بتبيعو — `what-sell`
+- شو نوع العقار — `what-sell`
+- وش تبيعون انتم — `what-sell`
+- انتو بتبيعوا ايه بالظبط — `what-sell`
+- ما هو المشروع الذي تعرضونه — `what-sell`
+- شو هاد الموقع اصلا — `what-sell`
+- انتو شركة شو، شو بتقدموا — `what-sell`
+- هاد موقع حجوزات ولا بيع — `what-sell`
+- انتو بتبيعو شاليهات للتملك ولا بس ايجار — `what-sell`
+- shu btbe3o? — `what-sell`
+- shu hada el mawqe3 — `what-sell`
+- eh el mashroo3 da — `what-sell`
+- what do you sell — `what-sell`
+- what is this website about — `what-sell`
+- what kind of property is this — `what-sell`
+- what's the project exactly — `what-sell`
+- شو الproject تبعكم — `what-sell`
+- انتو شو بتسوو هون — `what-sell`
+- شو بتبيعوو انتو بالزبط — `what-sell`
+- مش فاهمم شو الفكره — `what-sell`
+- شو هو مشروعكوم — `what-sell`
+- فهمني شو المشروع — `what-sell`
+- بنات خالتي بحكوا عنكم كتير، شو عندكم بالضبط — `what-sell`
+- وصلني مسج منكم، عن شو بالضبط — `what-sell`
+- انا مستثمر وبدي افهم طبيعة المنتج عندكم قبل كل اشي — `what-sell`
+- هل انتو بتبيعوا وحدات سكنية ولا ترفيهية — `what-sell`
+- المعروض عندكم شو، بيوت ولا شاليهات ولا اراضي — `what-sell`
+- مين انتو وشو بتبيعوا باختصار — `what-sell`
+- اختصريلي شو المشروع بجملة — `what-sell`
+- لاول مرة بسمع فيكم، شو هي روح العطاء — `what-sell`
+- شو بقدر اشتري منكم — `what-sell`
+- فكرة المشروع شو — `what-sell`
+- شو هي روح العطاء اصلا — `what-sell`
+- 3n eh el mawqe3 da — `what-sell`
+- انتو بتبيعوا ولا بتأجروا ولا شو القصة — `what-sell`
+- شو المنتج تبعكم — `what-sell`
+- فهموني شو بتبيعو عشان اسال صح — `what-sell`
+- انا مش مهتم بشاليه، بدي شقة سكن بعمان، عندكم — `other-property`
+- معي مبلغ وبدي ارض فاضية ابني عليها براحتي، بتبيعوا اراضي — `other-property`
+- بدنا بيت نسكن فيه طول السنة مش شاليه، في عندكم فلل — `other-property`
+- انا تاجر وبدور على محل تجاري للبيع، عندكم — `other-property`
+- ابني رح يتزوج وبدو شقة صغيرة، في عندكم شقق — `other-property`
+- الشاليه كبير علي، في استوديوهات او شقق صغيرة — `other-property`
+- والشقق؟ — `other-property`
+- اراضي؟ — `other-property`
+- فلل في — `other-property`
+- قطعة ارض لحالها — `other-property`
+- محلات للبيع؟ — `other-property`
+- في مشاريع ثانية — `other-property`
+- بيوت سكنية؟ — `other-property`
+- مكاتب للبيع — `other-property`
+- بس شاليهات؟ — `other-property`
+- هل لديكم شقق أو أراضٍ للبيع — `other-property`
+- بتبيعوا اراضي بالقسطل — `other-property`
+- عندكم فلل للبيع ولا بس شاليهات — `other-property`
+- وش عندكم غير الشاليهات — `other-property`
+- عندكم شقق ولا اراضي غير الشاليهات دي — `other-property`
+- بتبيعو شقق بعمان الغربية — `other-property`
+- في مشاريع سكنية ثانية للشركة — `other-property`
+- 3ndkom sh2a2? — `other-property`
+- fi aradi lal be3? — `other-property`
+- 3ndkom villas? — `other-property`
+- do you have apartments for sale — `other-property`
+- any land plots for sale — `other-property`
+- do you sell villas too — `other-property`
+- other projects besides the chalets? — `other-property`
+- في apartments عندكم — `other-property`
+- بدي land بدون بناء — `other-property`
+- بتبيعو اراضيي فاضيه — `other-property`
+- عندكم شققق — `other-property`
+- في فلل مستقله غير الشاليهات — `other-property`
+- عمارة كاملة بتبيعوها — `other-property`
+- عندكم دوبلكس — `other-property`
+- بس شاليهات ولا في انواع عقارات ثانية — `other-property`
+- بدي ارض زراعية، بتبيعوا هيك اشي — `other-property`
+- بدور ع مزرعة، عندكم — `other-property`
+- بدي فيلا بطابقين مش شاليه طابق واحد، في عندكم — `other-property`
+- في مشروع سكني جاي غير هاد — `other-property`
+- انا بدي استثمر بشقق للايجار مش بشاليهات، عندكم اشي — `other-property`
+- بدي بيت لابوي وامي بعمان، بتبيعو بيوت — `other-property`
+- عندكم مستودعات او عقار تجاري — `other-property`
+- عندكم اشي غير شاليهات — `other-property`
+- any commercial units? — `other-property`
+- بتبيعو قطع اراضي سكنية — `other-property`
+- انا بدور شقة مش شاليه — `other-property`
+- في فلل للبيع عندكم بمكان تاني — `other-property`
+- مش ناوي اشتري، بس بدنا مكان للعيلة نطلع عليه الجمعة — `daily-rental`
+- عيد ميلاد مرتي الاسبوع الجاي وبدي اقضيه معها بشاليه ليلة وحدة — `daily-rental`
+- انا جاي من الخليج اسبوعين بالصيف، بقدر اخذ شاليه طول الفترة — `daily-rental`
+- قبل ما اشتري بدي اجرب انام فيه ليلة، بتأجروا — `daily-rental`
+- بالعيد بدنا شاليه يومين للعيلة كلها، في متاح — `daily-rental`
+- شباب الجامعة بدهم شاليه ليلة الخميس، بتأجروا — `daily-rental`
+- بدنا نقضي ويكند هادي بعيد عن عمان، عندكم شاليه نحجزه — `daily-rental`
+- ايجار يومي؟ — `daily-rental`
+- بالليلة؟ — `daily-rental`
+- للايجار؟ — `daily-rental`
+- ويكند بس — `daily-rental`
+- حجز ليلة — `daily-rental`
+- ليلتين؟ — `daily-rental`
+- بتأجرو — `daily-rental`
+- قديش الليلة — `daily-rental`
+- اجار الويكند — `daily-rental`
+- ممكن احجز شاليه ليوم واحد — `daily-rental`
+- بدي استأجر شاليه كم يوم — `daily-rental`
+- بتأجروا شاليهات بالليلة ولا بس بيع — `daily-rental`
+- ابي استأجر شاليه يومين — `daily-rental`
+- عايز احجز شاليه ليلة واحدة — `daily-rental`
+- هل يمكن استئجار شاليه لعدة أيام — `daily-rental`
+- بدي شاليه ليوم الجمعه مع مسبح — `daily-rental`
+- في حجز يومي للشاليهات عندكم — `daily-rental`
+- ممكن ناخذ شاليه ليلة رأس السنة — `daily-rental`
+- b2dar asta2jer chalet layle? — `daily-rental`
+- fi ejar yawmi? — `daily-rental`
+- bdi chalet lal weekend — `daily-rental`
+- can i rent a chalet for one night — `daily-rental`
+- do you do daily rentals — `daily-rental`
+- weekend booking available? — `daily-rental`
+- how much per night — `daily-rental`
+- بدي chalet ليوم واحد — `daily-rental`
+- في daily rent عندكم — `daily-rental`
+- بقدر اعمل booking لليلتين — `daily-rental`
+- بقدراستاجر شاليه ليله — `daily-rental`
+- في ايجاار يومي للشاليهات — `daily-rental`
+- بدي احجز شاليه للويكيند — `daily-rental`
+- حجزز شاليه لعيلتي يومين — `daily-rental`
+- الشاليهات بتنحجز باليوم — `daily-rental`
+- بدي شاليه لليلة الحنة بس — `daily-rental`
+- بدنا شاليه نام فيه انا وصحابي ليلة السبت — `daily-rental`
+- برمضان بدنا نعمل سحور بشاليه ليلة، بنقدر نستأجر — `daily-rental`
+- بدي اجرب الشاليه ليلة قبل قرار الشرا — `daily-rental`
+- ممكن استاجر لاسبوع بالصيف — `daily-rental`
+- بعطلة المدارس بدنا شاليه كم يوم — `daily-rental`
+- اجرة اليوم الواحد كم — `daily-rental`
+- في شاليه فاضي لبكرا ليلة — `daily-rental`
+- لو بدي بس اطلع يوم وارجع، بتأجروا بالساعات او باليوم — `daily-rental`
+- rent for a weekend only — `daily-rental`
+- بدي اجي اقعد مع حدا من المبيعات وجها لوجه، وين بلاقيكم — `office`
+- انا بعمان، عندكم مكتب هون ولا لازم انزل ع الكمباوند — `office`
+- بدي اوقع العقد شخصيا، وين المكتب — `office`
+- لما اوصل للمشروع لوين اتوجه بالضبط — `office`
+- ابوي بحب يحكي مع الناس وجها لوجه، وين مكتبكم — `office`
+- وين المكتب — `office`
+- مكتب المبيعات — `office`
+- وين بتستقبلوا — `office`
+- وين مقركم — `office`
+- عندكم فرع؟ — `office`
+- وين الشوروم — `office`
+- العنوان تبع المكتب — `office`
+- مكتبكم بعمان؟ — `office`
+- وين اجي — `office`
+- وين مكتب المبيعات بالضبط — `office`
+- وين بتستقبلوا الزوار — `office`
+- وين مكتبكم ابي اجيكم — `office`
+- فين مكتب المبيعات بتاعكم — `office`
+- أين يقع مكتب المبيعات — `office`
+- مكتب المبيعات جوا الكمباوند ولا بعمان — `office`
+- عندكم مكتب بعبدون او الصويفية — `office`
+- وين نقطة الاستقبال اول ما ندخل — `office`
+- wen el maktab? — `office`
+- wen maktab el mabee3at — `office`
+- fi far3 b3amman? — `office`
+- where is your sales office — `office`
+- where do you receive visitors — `office`
+- do you have an office in amman — `office`
+- office address please — `office`
+- وين ال sales office — `office`
+- عندكم showroom — `office`
+- وين مكتبب المبيعات — `office`
+- مكتب المبيعااات وين — `office`
+- وين المكتب تبعكو — `office`
+- بدي عنوان المكتب عشان احطه عالخريطة — `office`
+- وين مكان الادارة اذا بدي اراجع — `office`
+- وين بلاقي موظف مبيعات اذا جيت فجأة — `office`
+- وين بتستقبلونا لما نيجي نشوف — `office`
+- وين مكان الشركه — `office`
+- انا رح امر بكرا، وين تحديدا اروح لموظفينكم — `office`
+- في مكتب ادارة جوا المجمع — `office`
+- مكتب المبيعات بالبوابة ولا جوا — `office`
+- بدي اجي اوقع، المكاتب وين — `office`
+- مكتبكم بنفس مكان المشروع — `office`
+- وين اجي اسأل عن الشاليهات — `office`
+- visiting hours at the office? — `office`
+- وين بستقبلوا الزبائن عندكم — `office`
+- مكتبب البيع وين بالزبط — `office`
+- اذا جيت من غير موعد، وين بلاقي حدا يستقبلني — `office`
+- امي عمرها سبعين وما بتقدر تطلع درج، الشاليه بناسبها — `accessible`
+- ابوي قاعد ع كرسي متحرك وبدنا ناخذه معنا كل ويكند — `accessible`
+- جدتي بتمشي ع عكاز، في درجات كتير بالشاليه — `accessible`
+- اخوي عنده اعاقة حركية، بقدر يتنقل براحة جوا الشاليه — `accessible`
+- بدنا مكان مريح للختيارية بدون طلوع ونزول — `accessible`
+- مرتي عملت عملية بركبتها ودرج ممنوع عليها، الشاليه طابق واحد — `accessible`
+- كرسي متحرك؟ — `accessible`
+- كبار السن؟ — `accessible`
+- في درج؟ — `accessible`
+- مصعد؟ — `accessible`
+- منحدرات؟ — `accessible`
+- للمعاقين؟ — `accessible`
+- مناسب للختيارية — `accessible`
+- في درج بالمدخل — `accessible`
+- الشاليه مناسب لكرسي متحرك — `accessible`
+- وش رايك يناسب كبار السن — `accessible`
+- الشاليه ده مناسب للناس الكبيرة في السن — `accessible`
+- هل الشاليه مهيأ لذوي الاحتياجات الخاصة — `accessible`
+- الابواب عريضة بتوسع كرسي — `accessible`
+- الحمامات مناسبة لكبار السن — `accessible`
+- في درابزين او مسكات بالحمام — `accessible`
+- wheelchair accessible? — `accessible`
+- is it suitable for elderly — `accessible`
+- mn el 7elw lal kbar bel 3omor? — `accessible`
+- fi daraj bel chalet? — `accessible`
+- my dad uses a wheelchair, is the chalet ok — `accessible`
+- good for old people? — `accessible`
+- الchalet مناسب للelderly — `accessible`
+- في ramp للكرسي — `accessible`
+- مناسبب لكبار السن ولا فيه درج — `accessible`
+- الشاليهه فيه درجات كتيير — `accessible`
+- امي بتمشي ع ووكر، بتقدر تتحرك منيح — `accessible`
+- المسبح الو مسكات وسلم سهل لكبار السن — `accessible`
+- ابوي بغسل كلى وتعبان، بدنا مكان سهل عليه الحركة — `accessible`
+- الممرات بالكمباوند مناسبة للكرسي المتحرك — `accessible`
+- بدي اجيب حماتي معنا وهي ما بتطلع درج نهائيا — `accessible`
+- الطابق الواحد مريح للكبار ولا في عتبات — `accessible`
+- بدي شاليه لعمي المقعد، بنفعه — `accessible`
+- الشاليه كله ع مستوى واحد بدون درج — `accessible`
+- العتبات بين الغرف عالية — `accessible`
+- ستي ما بتقدر تمشي كتير، المسافات جوا الشاليه بعيدة — `accessible`
+- حمام بدخلو كرسي متحرك في — `accessible`
+- ابوي عنده جلطة قديمة وبمشي بصعوبة، الشاليه بريحه — `accessible`
+- easy access for disabled people? — `accessible`
+- el chalet monaseb lal kbar w el wheelchair? — `accessible`
+- في عتبة عالية عند المسبح — `accessible`
+- بدي مكان لعمتي الكبيرة تقعد فيه براحتها بدون ما تتعب — `accessible`
+- المدخل من الكراج للبيت فيه درجات — `accessible`
+- جوزي بعد الحادث ع كرسي، بنقدر نعيش هناك عادي — `accessible`
+- بنتي رح تتخطب وبدنا نعمل حفلة صغيرة بالشاليه، مسموح — `events`
+- عيد ميلاد ابني الشهر الجاي وبدي اعزم صحابه ع المسبح — `events`
+- بدنا نعمل لمة العيلة الكبيرة بالعيد، بنقدر نجمع ناس كتير — `events`
+- شغلي بدهم يعملوا يوم ترفيهي للموظفين، بنقدر نعمله عندكم — `events`
+- صاحبي بتزوج وبدنا نعمله سهرة شباب بالشاليه — `events`
+- برمضان بدي اعمل عزومة افطار لخمسين شخص — `events`
+- حفلة؟ — `events`
+- عزومة — `events`
+- عيد ميلاد — `events`
+- قاعة مناسبات؟ — `events`
+- سهرة؟ — `events`
+- حنة بالشاليه — `events`
+- خطوبة؟ — `events`
+- عرس — `events`
+- موسيقى مسموحة؟ — `events`
+- حفلة تخرج — `events`
+- بقدر اعمل حفلة بالشاليه — `events`
+- في قاعة للمناسبات بالكمباوند — `events`
+- مسموح نعمل سهرة للصبح — `events`
+- ابي اسوي حفلة بالشاليه، مسموح — `events`
+- ينفع اعمل حفلة عيد ميلاد في الشاليه — `events`
+- هل يسمح بإقامة المناسبات داخل المجمع — `events`
+- بنقدر نعمل عرس بالكمباوند — `events`
+- قديش عدد الضيوف المسموح فيه — `events`
+- مسموح سماعات ودي جي — `events`
+- b2dar a3mal party bel chalet? — `events`
+- fi 7aflat masmou7? — `events`
+- 3eed milad bel chalet momken? — `events`
+- can i have a party at the chalet — `events`
+- is there an event hall — `events`
+- can we host a wedding in the compound — `events`
+- birthday party allowed? — `events`
+- بدي اعمل party للولاد — `events`
+- في event hall — `events`
+- بنقدر نعمل BBQ party لصحابنا — `events`
+- بقدراعمل حفله بالشاليه — `events`
+- مسمووح الحفلات — `events`
+- في مكان للمناسبات الكبيرة — `events`
+- بدي اعزم ناس كتيير عالشاليه — `events`
+- بدنا نعمل baby shower بالحديقة — `events`
+- تخرج اختي قرب، بدنا نحتفل هناك — `events`
+- سهرة شواء مع اغاني لوقت متاخر، في ازعاج للجيران — `events`
+- لو جبت دي جي وكوشة للخطبة بالحديقة بنفع — `events`
+- ذكرى زواجنا العاشرة وبدي احتفل مع مرتي بشاليه مزين — `events`
+- في قوانين للحفلات والضيوف — `events`
+- جمعة اصحاب كل خميس، الادارة بتسمح — `events`
+- بدنا نعمل عقيقة للمولود ونعزم الاهل — `events`
+- نفسي اعمل حفلة مفاجأة لمرتي بالشاليه، مسموح — `events`
+- any rules for parties? — `events`
+- عزومة غدا للعيلة يوم الجمعة، عادي نعملها هناك — `events`
+- سمعت عن مشاريع كتير نصبت ع الناس، كيف بعرف انكم غير — `trust`
+- خايف ادفع العربون وبعدين تختفوا — `trust`
+- اول مرة بسمع فيكم وبصراحة متردد، مين بضمنكم — `trust`
+- ابوي بقول ما تدفع لحدا قبل ما تتأكد انه مرخص — `trust`
+- تحويشة عمري بدي احطها عندكم، بدي اطمن انه الاشي رسمي — `trust`
+- صاحبي انضحك عليه بمشروع شاليهات قبل، شو بفرقكم — `trust`
+- مضمونين؟ — `trust`
+- نصب؟ — `trust`
+- رسمي؟ — `trust`
+- في ضمان — `trust`
+- موثوقين — `trust`
+- ترخيص؟ — `trust`
+- سجل تجاري — `trust`
+- انتو مرخصين من الحكومة — `trust`
+- الشركة مسجلة رسمي — `trust`
+- كيف بثق فيكم — `trust`
+- وش يضمن لي انكم شركة حقيقية — `trust`
+- انتو شركة موثوقة ولا ايه — `trust`
+- هل الشركة مرخصة ومسجلة رسمياً — `trust`
+- المشروع مرخص من البلدية — `trust`
+- في عقود موثقة رسمي — `trust`
+- شو ضمانتي اذا ما سلمتوني — `trust`
+- entu mrakh5een? — `trust`
+- el sharke mawthoo2a? — `trust`
+- is this company legit — `trust`
+- are you licensed — `trust`
+- how do i know this isn't a scam — `trust`
+- is the project officially approved — `trust`
+- انتو legit ولا لا — `trust`
+- الcompany مرخصة — `trust`
+- مرخصيين انتو — `trust`
+- الشركة موثووقه — `trust`
+- كيف بضمنن حقي — `trust`
+- الموقع حقيقي ولا وهمي — `trust`
+- بدي اشوف الرخص قبل ما احكي باي اشي — `trust`
+- مين الجهة الحكومية اللي بتراقب المشروع — `trust`
+- في موافقات من وزارة السياحة او الاشغال — `trust`
+- فلوسي بتروح بحساب مين ومين بحميها — `trust`
+- في اراء او تجارب لناس اشتروا قبل — `trust`
+- لو صار اشي، بقدر ارفع قضية عليكم، يعني في كيان قانوني — `trust`
+- ليش لازم اصدقكم — `trust`
+- الشركه الها رقم وطني منشأة — `trust`
+- بدي تطمنيني انكم مش وهميين — `trust`
+- are you a real company — `trust`
+- الشركة الها ترخيص ولا لا — `trust`
+- كيف بتأكد انكم مش نصابين — `trust`
+- انا ما بثق بالمشاريع على الورق، شو بضمنلي — `trust`
+- في جهة رسمية بشهدلكم — `trust`
+- بقدر اتحقق منكم بوزارة الصناعة — `trust`
+- انا بشتغل ريموت ولازم اكون اونلاين طول اليوم، بقدر اشتغل من الشاليه — `internet`
+- ولادي ما بقعدوا دقيقة بدون نت، هاد مهم كتير — `internet`
+- بدنا نحضر الماتش ع شاشة كبيرة اونلاين، الشبكة بتتحمل — `internet`
+- عندي اجتماعات زوم كل يوم الصبح، التغطية منيحة هناك — `internet`
+- بنتي بالتوجيهي وبتدرس اونلاين، بدها نت ثابت — `internet`
+- لو قعدنا الصيف كله، بقدر اركب خط فايبر — `internet`
+- النت؟ — `internet`
+- فايبر؟ — `internet`
+- التغطية — `internet`
+- راوتر؟ — `internet`
+- الشبكة بتلقط — `internet`
+- في انترنت — `internet`
+- النت سريع — `internet`
+- زين بتلقط هناك — `internet`
+- اورنج قوية بالمنطقة — `internet`
+- في انترنت بالشاليه — `internet`
+- الشاليه فيه واي فاي — `internet`
+- وش وضع النت عندكم — `internet`
+- فيه واي فاي في الشاليه — `internet`
+- هل يتوفر انترنت في الشاليهات — `internet`
+- الانترنت مجاني ولا باشتراك — `internet`
+- الواي فاي بغطي الحديقة والمسبح — `internet`
+- fi internet? — `internet`
+- fi wifi bel chalet — `internet`
+- el net 2awi hunak? — `internet`
+- is there wifi — `internet`
+- how is the internet speed — `internet`
+- mobile coverage good there? — `internet`
+- can i get fiber at the chalet — `internet`
+- في wifi — `internet`
+- الinternet سريع — `internet`
+- الcoverage منيحة — `internet`
+- فيي انترنت بالشاليه — `internet`
+- الواي فاي قويي — `internet`
+- النتت بيقطع — `internet`
+- في تغطيه للموبايل هناك — `internet`
+- بدي احضر نتفلكس بالليل، النت بيمشي — `internet`
+- في وايرلس بالمسبح — `internet`
+- بقدر اركب كاميرات مراقبة اونلاين، يعني في نت دايم — `internet`
+- الراوتر من عندكم ولا انا بجيب — `internet`
+- نت امنية بتوصل لمنطقة القسطل — `internet`
+- بدي ابث لايف من الشاليه، السرعة بتكفي — `internet`
+- الالعاب اونلاين للولاد بتعلق ولا النت منيح — `internet`
+- wifi included? — `internet`
+- بالشاليه فيه نت ولا لا — `internet`
+- في خط ارضي ونت — `internet`
+- 5G بتلقط عندكم — `internet`
+- النت بالمجمع مشمول بالخدمات — `internet`
+- عيالي بيلعبوا فورتنايت، النت بيكفي — `internet`
+- بدي اعرف قديش رح يكون عندي جيران، المشروع كبير ولا صغير — `chalet-count`
+- بحب الهدوء، لو المكان فيه مية شاليه ما بيناسبني، كم العدد — `chalet-count`
+- قبل ما اقرر بدي افهم حجم المشروع كله — `chalet-count`
+- مستثمر وبهمني اعرف كم وحدة بالمجمل — `chalet-count`
+- كم شاليه؟ — `chalet-count`
+- عدد الشاليهات — `chalet-count`
+- كم وحدة — `chalet-count`
+- كم مرحلة — `chalet-count`
+- كم كمباوند — `chalet-count`
+- قديش كبير المشروع — `chalet-count`
+- المشروع كبير؟ — `chalet-count`
+- كم شاليه بالمشروع كله — `chalet-count`
+- قديش عدد الشاليهات المبنية — `chalet-count`
+- كم كمباوند عندكم — `chalet-count`
+- كم شاليه فيه عندكم — `chalet-count`
+- الكمبوند فيه كام شاليه — `chalet-count`
+- ما عدد الوحدات في المجمع — `chalet-count`
+- عندكم غير هالكمباوند — `chalet-count`
+- كم شاليه بكل مرحلة — `chalet-count`
+- kam chalet 3ndkom — `chalet-count`
+- 3adad el chaletat? — `chalet-count`
+- kam compound fi — `chalet-count`
+- how many chalets are there — `chalet-count`
+- how big is the project — `chalet-count`
+- how many units in total — `chalet-count`
+- number of phases? — `chalet-count`
+- الproject فيه كم chalet — `chalet-count`
+- كمم شاليه عندكم — `chalet-count`
+- عدد الشالهات قديش — `chalet-count`
+- قديش عدد الوحدات بالمشرو — `chalet-count`
+- كم شاليه باقي ما انباع — `chalet-count`
+- المجمع كبير ولا كم بيت — `chalet-count`
+- كم عيلة رح تسكن بالكمباوند — `chalet-count`
+- انا بدور ع مكان مش زحمة، كم وحدة جوا الاسوار — `chalet-count`
+- اخوي بقول المشروع ضخم، صحيح — `chalet-count`
+- المشروع رح يكبر اكثر ولا هاد العدد النهائي — `chalet-count`
+- في مراحل جاية بشاليهات اكتر — `chalet-count`
+- لو كل الشاليهات انباعت، قديش رح يكون الضغط عالمرافق — `chalet-count`
+- كم شاليه مخطط بالمجمل — `chalet-count`
+- عدد الكمباوندات اللي بتديروها — `chalet-count`
+- كم حرف في بالمخطط وكم شاليه بكل حرف — `chalet-count`
+- بدي رقم تقريبي لعدد الشاليهات — `chalet-count`
+- الكمباوند كم دونم وكم شاليه فيه — `chalet-count`
+- total number of chalets? — `chalet-count`
+- قديش وحدة بالكمباوند — `chalet-count`
+- كم شاليه بالمرحلة الاولى — `chalet-count`
+- عندكم كم مشروع زي هاد — `chalet-count`
+- المجمع فيه كم بيت تقريبا — `chalet-count`
+- كم شاليه الحين موجود — `chalet-count`
+- كام وحدة في المشروع كله — `chalet-count`
+- سيارتي واطية وبخاف من الطرق الترابية، الطريق لعندكم كيف — `roads`
+- بالشتا بخاف نعلق بالطين، الطريق معبد للآخر — `roads`
+- مرتي بتسوق لحالها بالليل، الطريق منور وامن — `roads`
+- بدنا نجيب الختيار بالسيارة، الطريق فيه مطبات وحفر — `roads`
+- الشوارع جوا المجمع واسعة بتكفي سيارتين — `roads`
+- الطريق؟ — `roads`
+- معبد؟ — `roads`
+- زفت ولا تراب — `roads`
+- الشوارع الداخلية — `roads`
+- في حفر؟ — `roads`
+- طريق الموقر — `roads`
+- الطريق منيح — `roads`
+- الطريق لعندكم معبد — `roads`
+- كيف الطرق جوا الكمباوند — `roads`
+- الشوارع مزفتة ولا لسا — `roads`
+- وش وضع الطريق للمشروع — `roads`
+- الطريق للكمبوند عامل ازاي — `roads`
+- ما حالة الطرق داخل المجمع وخارجه — `roads`
+- في انارة ع الطريق الرئيسي — `roads`
+- الطريق بيغرق بالمطر — `roads`
+- el tari2 m3abad? — `roads`
+- kef el shaware3 jowa — `roads`
+- el tari2 la3ndkom mnee7? — `roads`
+- are the roads paved — `roads`
+- how is the road to the compound — `roads`
+- are the internal roads lit at night — `roads`
+- is the access road safe — `roads`
+- الroad لعندكم paved — `roads`
+- الشوارع inside منورة — `roads`
+- الطريق معبدد — `roads`
+- الطرق داخل الكمباوند كيفها — `roads`
+- الطريقق فيه حفر كتير — `roads`
+- الشارع ضيق ولا عريض — `roads`
+- بتقدر سيارة صغيرة توصل بسهولة — `roads`
+- في طريق ترابي اخر كم متر — `roads`
+- الباصات والشاحنات بتقدر تفوت جوا — `roads`
+- الطريق بين الشاليهات فيه ارصفة نمشي عليها — `roads`
+- في مطبات تخفيف سرعة جوا المجمع عشان الولاد — `roads`
+- الطريق بالليل معتم ولا في اعمدة — `roads`
+- البنية التحتية للشوارع خالصة — `roads`
+- اذا اجيت بالليل من طريق المطار، الطريق الفرعي منور — `roads`
+- road condition in winter? — `roads`
+- الطريق لعندكم مريح للسيارات العادية — `roads`
+- الشوارع جوا مبلطة ولا اسفلت — `roads`
+- اخر الطريق فيه منعطفات خطرة — `roads`
+- كيف الشوارع — `roads`
+- الطريق الخارجي للمجمع كيف — `roads`
+- بالليل الطرق الداخلية مضوية — `roads`
+- شو وضع الطرق — `roads`
+- انا وزوجتي متقاعدين وبدنا مكان هادي، شو بتختاريلنا — `recommend`
+- عنا اربع ولاد صغار وبدنا اشي يناسبهم، شو بتنصحي — `recommend`
+- محتار بين شاليهين وما عم بعرف اقرر، ساعديني — `recommend`
+- لو انتي مكاني، بتشتري هلأ ولا بتستني — `recommend`
+- بدي رأيك الصريح بدون تسويق، بستاهل — `recommend`
+- اول مرة بشتري عقار وما بفهم، دليني شو الافضل — `recommend`
+- بدي اشتري هدية لامي، شو بتنصحيني اخذ — `recommend`
+- انصحيني — `recommend`
+- شو رأيك؟ — `recommend`
+- اي واحد احسن — `recommend`
+- شو الافضل — `recommend`
+- بستاهل؟ — `recommend`
+- بتنصحيني؟ — `recommend`
+- رايك بالمشروع — `recommend`
+- اي شاليه احسن الي — `recommend`
+- لو بدك تختاري، اي شاليه بتاخذي — `recommend`
+- وش تنصحيني اخذ — `recommend`
+- تنصحيني بايه — `recommend`
+- ما الشاليه الأنسب لعائلة صغيرة — `recommend`
+- اي وحدة بتنصحي فيها للاستثمار — `recommend`
+- شو احسن خيار لعيلة من خمسة — `recommend`
+- bt2nsa7ini b eh? — `recommend`
+- shu ra2yek? — `recommend`
+- ay chalet a7san — `recommend`
+- what do you recommend — `recommend`
+- which chalet is best for me — `recommend`
+- should i buy now — `recommend`
+- is it worth it — `recommend`
+- شو الbest option الي — `recommend`
+- recommend اي شاليه — `recommend`
+- شو بتنصحيني فيييه — `recommend`
+- اي شاليه احسنن — `recommend`
+- راايك اشتري ولا لا — `recommend`
+- شو بتنصحينيي اعمل — `recommend`
+- عرسان جداد وميزانيتنا محدودة، شو بناسبنا — `recommend`
+- بدي اشي بعيد عن الزحمة جوا الكمباوند، شو بتقترحي — `recommend`
+- بحب الخصوصية كتير، اي شاليه بنصحيني فيه — `recommend`
+- للاستثمار ولا للعيلة، شو بتنصحيني اشتري عشانه — `recommend`
+- لو كنتي بنت عمي شو كنتي حكيتيلي — `recommend`
+- اختاريلي انتي وخلصيني — `recommend`
+- بدي توصية منك قبل ما احكي مع المبيعات — `recommend`
+- المشروع حلو ولا في احسن منه — `recommend`
+- which one would you pick — `recommend`
+- انتي شو بتختاري — `recommend`
+- بنصحيني اشتري ولا لا — `recommend`
+- ساعديني اختار — `recommend`
+- شو الانسب الي — `recommend`
+- بعيوني الكل حلو، انتي شو بتفضلي — `recommend`
+- اي شاليه بتحبيه انتي — `recommend`
+- بعد ما استلم بدي اغير شكل المطبخ كله، مسموح — `modify`
+- عيلتنا كبيرة والغرف التلاتة ما بكفوا، بقدر ازيد غرفة — `modify`
+- بفكر ابني طابق تاني فوق للولاد لما يكبروا، بنفع — `modify`
+- مرتي مش عاجبها البلاط، بقدر اغيره ع حسابي — `modify`
+- بدي اعمل ملحق للضيوف بالحديقة — `modify`
+- بدي اكبر المسبح شوي، في قوانين بتمنع — `modify`
+- تعديلات؟ — `modify`
+- ازيد غرفة — `modify`
+- طابق ثاني؟ — `modify`
+- ملحق؟ — `modify`
+- اغير الديكور — `modify`
+- تعديل التصميم — `modify`
+- اوسع الصالون — `modify`
+- اغير البلاط — `modify`
+- بقدر اعدل ع الشاليه — `modify`
+- مسموح ابني غرفة زيادة — `modify`
+- وش التعديلات المسموحة على الشاليه — `modify`
+- ينفع اعدل في الشاليه بعد الاستلام — `modify`
+- هل يسمح بإجراء تعديلات أو إضافات على البناء — `modify`
+- بقدر اغير تقسيمة الغرف — `modify`
+- التعديلات بدها موافقة من الادارة — `modify`
+- مسموح اركب برجولا جديدة — `modify`
+- b2dar a3adel 3al chalet? — `modify`
+- momken azeed ghorfe — `modify`
+- b2dar abni tabe2 tani? — `modify`
+- can i modify the chalet — `modify`
+- can i add another floor — `modify`
+- are renovations allowed — `modify`
+- can i extend the building — `modify`
+- بقدر اعمل renovation — `modify`
+- بدي extension للصالون — `modify`
+- بقدر اعدلل التصميم — `modify`
+- مسموحح ازيد بناء — `modify`
+- بقدر اغيرر المطبخ — `modify`
+- لو بدي اغطي البرجولا واعملها غرفة — `modify`
+- بقدر احط شبابيك اكبر او افتح باب جديد — `modify`
+- بدي اعمل غرفة خادمة، مسموح — `modify`
+- بدنا نسكر جزء من الحديقة ونعمله غرفة العاب — `modify`
+- بقدر ادهن من برا بلون غير — `modify`
+- اذا بدي اهدم حيطة بين غرفتين — `modify`
+- في شروط على شكل الواجهة اذا بدي اعدل — `modify`
+- بدي احط مظلة سيارة، بنفع — `modify`
+- الشاليه بقبل طابق فوقه ولا الاساسات ما بتحمل — `modify`
+- renovation rules? — `modify`
+- بقدر احط تراس فوق السطح — `modify`
+- مسموح اغير الابواب والشبابيك — `modify`
+- بقدر اعدل الحمامات — `modify`
+- تعديلات ع حسابي مسموحة — `modify`
+- بقدر اعمل غرفة زيادة جنب المطبخ — `modify`
+- can i change the layout — `modify`
+- شو سعر الذهب اليوم — `off`
+- كيف الطقس بالعقبة بكرا — `off`
+- قديش سعر الدولار مقابل الدينار — `off`
+- بدي شقة للايجار بالزرقا — `off`
+- في شاليهات بالبحر الميت بتعرفي عنها — `off`
+- كم سعر كيلو اللحمة هالايام — `off`
+- بدي قرض من البنك كيف بطلع — `off`
+- وين بلاقي شغل محاسب بعمان — `off`
+- عندي صداع من الصبح شو اخذ — `off`
+- مين رح يفوز بالدوري — `off`
+- شو رأيك بالحكومة الجديدة — `off`
+- احكيلي نكتة — `off`
+- بدي اعمل رجيم شو بتنصحيني اكل — `off`
+- كيف بعمل منسف — `off`
+- في عروض ع تذاكر الطيران لدبي — `off`
+- قديش سعر لتر البنزين — `off`
+- كيف بجدد جواز السفر — `off`
+- بدي اسجل بالجامعة الاردنية شو الشروط — `off`
+- شو افضل سيارة كهربائية بالسوق — `off`
+- ابني مريض بالحرارة شو اعمل — `off`
+- اعطيني وصفة كيكة — `off`
+- شو عاصمة استراليا — `off`
+- بدي اتعلم انجليزي من وين ابلش — `off`
+- سعر الايفون الجديد قديش — `off`
+- كيف بفتح حساب بنكي — `off`
+- بدي محامي طلاق — `off`
+- مين احسن دكتور اسنان بعمان — `off`
+- في تكسي بوصلني للمطار هلأ — `off`
+- احوال الطرق بالشتا بالبتراء — `off`
+- شو الاخبار بغزة — `off`
+- وين بنقدر نخيم بوادي رم — `off`
+- الامارات احسن ولا السعودية للشغل — `off`
+- ابي فيلا بالرياض كم سعرها — `off`
+- عايز شقة في التجمع الخامس — `off`
+- اسعار الشاليهات بالعقبة قديش — `off`
+- بتعرفي شركة عقارات منيحة بالشميساني — `off`
+- شو رأيك بمشاريع داماك — `off`
+- بدي ابيع ارضي بمادبا مين بشتريها — `off`
+- قديش الفايدة ع قرض السكن — `off`
+- كيف بحسب الضريبة على راتبي — `off`
+- تعرفي حلاق منيح بخلدا — `off`
+- بدي احجز فندق بالبحر الميت — `off`
+- كم سعر البيتكوين — `off`
+- شو احسن شي استثمر فيه، ذهب ولا اسهم — `off`
+- حللي معادلة 2x+5=11 — `off`
+- اكتبيلي ايميل استقالة — `off`
+- ترجميلي هالجملة للالماني — `off`
+- شو معنى كلمة serendipity — `off`
+- بدي اسم لبنتي الجديدة — `off`
+- كيف بنزل وزني بسرعة — `off`
+- اعراض السكري شو — `off`
+- احسن مسلسل رمضان السنة — `off`
+- مين غنى اغنية بحبك يا لبنان — `off`
+- ليش السما زرقا — `off`
+- بدي العب معك لعبة — `off`
+- احكيلي قصة قبل النوم — `off`
+- انتي بتحبي الكورة — `off`
+- شو احسن نادي بالعالم — `off`
+- ريال مدريد ولا برشلونة — `off`
+- متى العطلة الرسمية الجاية — `off`
+- كم الساعة بنيويورك — `off`
+- وين بلاقي صيدلية مناوبة — `off`
+- سعر الحديد والاسمنت اليوم — `off`
+- مين بفصل مطابخ منيحة — `off`
+- بدي سباك يجي يصلح المغسلة — `off`
+- شو احسن شركة انترنت لبيتي بعمان — `off`
+- في عروض ع نت الفايبر من اورنج — `off`
+- بدي اشتري كلب هاسكي — `off`
+- بيبي سيتر بعمان بتعرفي وحدة — `off`
+- كيف بطلع رخصة سواقة — `off`
+- المخالفات تبعتي كيف بشوفها — `off`
+- كيف بقدم ع فيزا شنغن — `off`
+- شو اسعار الشقق بدابوق — `off`
+- بدي اعمل مشروع مطعم شو بتنصحيني — `off`
+- يلا نحكي عن السياسة — `off`
+- انتو ضد ولا مع التطبيع — `off`
+- كم عدد سكان الاردن — `off`
+- مين اول رئيس وزرا بالاردن — `off`
+- اعطيني افكار هدايا لمرتي — `off`
+- شو اطبخ اليوم — `off`
+- بدي برنامج تمارين للجيم تبعي — `off`
+- asdfghjkl — `off`
+- ههههههههههه شو هاد — `off`
+- ززززز — `off`
+- انتي غبية — `off`
+- ما بتفهمي اشي — `off`
+- اشي سخيف — `off`
+- وجع — `off`
+- اسكتي — `off`
+- kkkkkkk — `off`
+- ok google play music — `off`
+- hey siri — `off`
+- فتحيلي يوتيوب — `off`
+- شغليلي اغنية لفيروز — `off`
+- مين ربح بالمباراة امبارح — `off`
+- النشامى رح يتأهلوا ع كاس العالم — `off`
+- سعر الفضة — `off`
+- سعر صرف اليورو — `off`
+- الطقس بعمان — `off`
+- درجة الحرارة بالزرقا هسا — `off`
+- weather in dubai — `off`
+- price of gold today — `off`
+- best pizza in amman — `off`
+- how to cook rice — `off`
+- tell me a joke — `off`
+- who won the champions league — `off`
+- can you help with my homework — `off`
+- what is 15 times 23 — `off`
+- I need a job — `off`
+- how do i get a car loan — `off`
+- write me a poem — `off`
+- what's the capital of japan — `off`
+- recommend a good movie — `off`
+- how to lose weight fast — `off`
+- apartments for rent in abdoun — `off`
+- villas for sale in dubai marina — `off`
+- emaar projects in egypt — `off`
+- shu a5bar el masari — `off`
+- fi shoghol 3ndkom? ana mohandes — `off`
+- bdi 2ard men el bank — `off`
+- mesh 3arif shu a3mal bi 7ayati — `off`
+- ya3tik el 3afye, shu sa3er el dahab — `off`
+- 3ayez a3raf natiget el thanaweya — `off`
+- ezay ashtery 3arabeya ta2seet — `off`
+- فين احسن دكتور جلدية في القاهرة — `off`
+- وش اخبار الهلال اليوم — `off`
+- كم سعر الريال السعودي — `off`
+- وش افضل منتجع بالعلا — `off`
+- ابي شاليه بالكويت للايجار — `off`
+- بتوظفوا؟ معي شهادة تسويق — `off`
+- عندكم وظايف شاغرة — `off`
+- بدي اشتغل عندكم كسيكيوريتي — `off`
+- كيف بعمل تسجيل ع الضمان الاجتماعي — `off`
+- بنتي بدها تدرس طب وين احسن جامعة — `off`
+- ابوي بالمستشفى ادعيلو — `off`
+- انا زعلان ومخنوق اليوم — `off`
+- صحبتي تركتني شو اعمل — `off`
+- ليش الحياة صعبة هيك — `off`
+- بدي اسافر ع تركيا شو بتنصحيني ازور — `off`
+- شو احسن هاتف تحت ٣٠٠ دينار — `off`
+- لابتوب للجامعة بتنصحيني بانو نوع — `off`
+- بدي اعرف نتيجة التوجيهي — `off`
+- مين اقوى، اسد ولا نمر — `off`
+- الدجاجة اول ولا البيضة — `off`
+- بتعرفي تحكي صيني — `off`
+- شو رقم مطعم ريم البوادي — `off`
+- اسعار الذهب بالسعودية عيار ٢١ — `off`
+- مساء النور — `chat`
+- hello — `chat`
+- hi there — `chat`
+- good morning — `chat`
+- salam — `chat`
+- marhaba — `chat`
+- كيف حالك يا ليان — `chat`
+- شو اخبارك — `chat`
+- كيفك اليوم، ان شاء الله منيحة — `chat`
+- عاملة ايه — `chat`
+- وشلونك — `chat`
+- how are you — `chat`
+- kifek — `chat`
+- مشكورة — `chat`
+- يسلمو — `chat`
+- تسلمي — `chat`
+- الله يعطيكي العافية — `chat`
+- thanks — `chat`
+- thank u so much — `chat`
+- merci — `chat`
+- شكرا كتير افدتيني — `chat`
+- جزاكي الله خير — `chat`
+- ممنون الك — `chat`
+- ماشي — `chat`
+- طيب — `chat`
+- فهمت — `chat`
+- اه — `chat`
+- ok — `chat`
+- تمام شكرا — `chat`
+- ولا يهمك — `chat`
+- bye — `chat`
+- see you — `chat`
+- بحكي معك بعدين — `chat`
+- الله معك — `chat`
+- انتي كتير لطيفة — `chat`
+- احسنتي — `chat`
+- برافو عليكي — `chat`
+- ردودك حلوة — `chat`
+- you're amazing — `chat`
+- nice — `chat`
+- ههههه حلو — `chat`
+- 😂😂 — `chat`
+- 👍 — `chat`
+- ❤️ — `chat`
+- ثواني — `chat`
+- لحظة — `chat`
+- خليني افكر — `chat`
+- بفكر وبرجعلك — `chat`
+- استني شوي — `chat`
+- wait a sec — `chat`
+- هممم — `chat`
+- والله مش عارف — `chat`
+- خليني اسأل مرتي وبرجعلك — `chat`
+- بس دقيقة — `chat`

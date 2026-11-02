@@ -59,7 +59,14 @@ export function createEmbedder({ dim, tokens }, vectorsBuf) {
     return v;
   }
 
-  return { embed, tokenize, dim };
+  /** One token's vector (for the classifier, which fine-tunes some of them). */
+  function row(id) {
+    const out = new Float32Array(dim), sc = scales[id], off = id * dim;
+    for (let j = 0; j < dim; j++) out[j] = q[off + j] * sc;
+    return out;
+  }
+
+  return { embed, tokenize, row, dim, size: n };
 }
 
 export const cosine = (a, b) => {
