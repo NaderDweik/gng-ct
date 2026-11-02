@@ -7,7 +7,8 @@ import type { Article } from "@/content/news";
 
 type Locale = "ar" | "en";
 
-export const DEFAULT_OG_IMAGE = "/og/default.jpg";
+/** The site-wide share image (link previews in WhatsApp, Facebook, X…). 16:9, 1200×675. */
+export const DEFAULT_OG_IMAGE = "/og/home.jpg";
 
 /** Absolute URL for a path in a locale (ar has no prefix — `localePrefix: "as-needed"`). */
 export function localeUrl(locale: Locale, path = "") {
@@ -69,7 +70,8 @@ export function buildMetadata({
   const isAr = locale === "ar";
   const brand = isAr ? brandAr : brandEn;
   const fullTitle = absoluteTitle ? title : `${title} | ${brand}`;
-  const images = [{ url: image, width: 1200, height: 630, alt: fullTitle }];
+  const height = image === DEFAULT_OG_IMAGE ? 675 : 630;
+  const images = [{ url: image, width: 1200, height, alt: fullTitle }];
 
   return {
     title: absoluteTitle ? { absolute: title } : title,
