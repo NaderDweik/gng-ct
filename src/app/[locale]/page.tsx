@@ -72,9 +72,9 @@ export default async function HomePage({ params }: Props) {
         ? ""
         : "A down payment you choose, then installments set by the down payment and duration, or 24% off in cash. Financing directly through us.",
       img: "/home/financing-168k.jpg",
-      // Square poster in a portrait card: the sides are trimmed; this keeps the headline,
-      // the price badge and «التمويل من خلالنا» (right of centre, top) in view.
-      pos: "94% 0%",
+      // A square poster with its own text: shown whole at the top of the card (never cropped,
+      // at any card width), over a blurred copy of itself that fills the rest.
+      poster: true,
       icon: "calendar" as UiIconName,
       kickerIcon: "coins" as UiIconName,
       cta: isAr ? "احجز زيارتك" : "Register interest",
@@ -117,13 +117,22 @@ export default async function HomePage({ params }: Props) {
           <div className="brands">
             {destinations.map((d) => (
               <Link key={d.href} href={d.href} className="brand-card group hv">
+                {d.poster && (
+                  <NearImage
+                    src={d.img}
+                    alt=""
+                    aria-hidden
+                    fill
+                    className="brand-card-poster-bg select-none"
+                    sizes="(max-width:1024px) 100vw, 40vw"
+                  />
+                )}
                 <NearImage
                   src={d.img}
                   alt={d.title}
                   fill
-                  className="select-none"
+                  className={d.poster ? "brand-card-poster select-none" : "select-none"}
                   sizes="(max-width:1024px) 100vw, 40vw"
-                  style={d.pos ? { objectPosition: d.pos } : undefined}
                 />
                 <HoverAccent />
                 <div className="body text-start">

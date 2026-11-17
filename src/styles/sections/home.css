@@ -46,6 +46,22 @@
   transform: scale(1.05);
 }
 
+/* A poster with its own text (the financing card): whole, at the top, never cropped; a
+   blurred, darkened copy of it fills the card behind. */
+.brand-card img.brand-card-poster {
+  object-fit: contain;
+  object-position: 50% 0%;
+}
+.brand-card img.brand-card-poster-bg {
+  object-fit: cover;
+  filter: blur(22px) brightness(0.55) saturate(1.1);
+  transform: scale(1.15);
+}
+.brand-card:hover img.brand-card-poster-bg,
+.brand-card.is-active img.brand-card-poster-bg {
+  transform: scale(1.2);
+}
+
 .brand-card::after {
   content: "";
   position: absolute;
