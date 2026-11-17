@@ -256,7 +256,7 @@ html[dir="ltr"] .cb-panel { transform-origin: bottom right; }
 .cb-bar-title { display: inline-flex; align-items: center; gap: 7px; font-weight: 700; font-size: 13px; color: var(--cb-darkest); }
 .cb-bar-cancel { border: 0; background: none; color: var(--cb-muted); font: 500 12px var(--font-cairo), system-ui, sans-serif; cursor: pointer; padding: 2px 4px; }
 .cb-bar-cancel:hover { color: var(--cb-ink); }
-.cb-bar-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; list-style: none; margin: 0; padding: 8px 16px 12px; }
+.cb-bar-steps { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 6px; list-style: none; margin: 0; padding: 8px 16px 12px; }
 .cb-bar-steps li { position: relative; padding-top: 9px; font-size: 11px; color: var(--cb-muted); transition: color 0.3s; }
 .cb-bar-steps li::before {
   content: "";
