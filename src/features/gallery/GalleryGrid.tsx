@@ -56,9 +56,16 @@ function seededShuffle(list: readonly GalleryImage[], seed: number): GalleryImag
 }
 
 /** Kept out of the opening rows: shown after the rest of their tab. */
-const LATER = ["family-walk-compound-t", "compound-a-gate-motorbikes", "compound-j-guard-booth"];
+const LATER = ["basketball-court-site", "football-pitch-site", "int-cafe-site"];
 const isLater = (g: GalleryImage) => LATER.some((name) => g.src.includes(name));
-const laterLast = (list: GalleryImage[]) => [...list.filter((g) => !isLater(g)), ...list.filter(isLater)];
+/** Pinned to the opening rows, in this order (in every tab they appear in). */
+const FIRST = ["giant-chess-pool", "living-room.jpg", "fireplace-horse-sculpture", "resort-a9-garage"];
+const firstRank = (g: GalleryImage) => FIRST.findIndex((name) => g.src.includes(name));
+const laterLast = (list: GalleryImage[]) => {
+  const pinned = list.filter((g) => firstRank(g) >= 0).sort((a, b) => firstRank(a) - firstRank(b));
+  const rest = list.filter((g) => firstRank(g) < 0);
+  return [...pinned, ...rest.filter((g) => !isLater(g)), ...rest.filter(isLater)];
+};
 
 const mixedImages = laterLast(seededShuffle(galleryImages, 23));
 /** Each category tab gets its own fixed shuffle too, so no tab reads as a sequence. */
