@@ -306,6 +306,32 @@ html[dir="ltr"] .cb-panel { transform-origin: bottom right; }
 
 .cb-days { display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 2px; scrollbar-width: none; }
 .cb-days::-webkit-scrollbar { display: none; }
+/* Mouse users: round ‹ › buttons over the ends of the days row (chat-booking.ts scroller). */
+.cb-days-wrap { position: relative; }
+.cb-days-nav {
+  display: none;
+  position: absolute;
+  top: 50%;
+  z-index: 1;
+  width: 34px;
+  height: 34px;
+  margin-top: -17px;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--cb-line);
+  background: #fff;
+  color: var(--cb-darkest);
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.12);
+  cursor: pointer;
+  transition: opacity 0.25s var(--ease), background 0.2s, color 0.2s;
+}
+.cb-days-nav:hover { background: var(--cb-primary); color: #fff; border-color: var(--cb-primary); }
+.cb-days-nav.is-prev { right: -6px; }
+.cb-days-nav.is-next { left: -6px; }
+.cb-days-nav:disabled { opacity: 0; pointer-events: none; }
+@media (hover: hover) and (pointer: fine) {
+  .cb-days-nav { display: grid; }
+}
 .cb-day,
 .cb-hour {
   display: flex;

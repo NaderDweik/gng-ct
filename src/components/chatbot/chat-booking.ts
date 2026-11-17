@@ -225,9 +225,45 @@ export function createBooking(ctx: BookingCtx) {
         });
       row.append(b);
     }
-    card.append(row);
+    card.append(scroller(row));
     log.append(card);
     ctx.scroll();
+  }
+
+  /**
+   * The days row scrolls sideways: phones swipe it; with a mouse (no sideways scrolling), round
+   * ‹ › buttons page through it and the wheel scrolls it sideways. RTL: later days are to the left.
+   */
+  function scroller(row: HTMLElement) {
+    const wrap = el("div", "cb-days-wrap");
+    const arrow = (side: "prev" | "next") => {
+      const b = el("button", `cb-days-nav is-${side}`);
+      b.type = "button";
+      b.setAttribute("aria-label", side === "next" ? "أيام بعدها" : "أيام قبلها");
+      b.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${side === "next" ? "M15 6l-6 6 6 6" : "M9 6l6 6-6 6"}"/></svg>`;
+      b.onclick = () => row.scrollBy({ left: (side === "next" ? -1 : 1) * row.clientWidth * 0.8, behavior: "smooth" });
+      return b;
+    };
+    const prev = arrow("prev");
+    const next = arrow("next");
+    const update = () => {
+      const x = Math.abs(row.scrollLeft);
+      prev.disabled = x < 4;
+      next.disabled = x + row.clientWidth >= row.scrollWidth - 4;
+    };
+    row.addEventListener("scroll", update, { passive: true });
+    row.addEventListener(
+      "wheel",
+      (e) => {
+        if (Math.abs(e.deltaY) <= Math.abs(e.deltaX) || row.scrollWidth <= row.clientWidth) return;
+        e.preventDefault();
+        row.scrollBy({ left: -e.deltaY });
+      },
+      { passive: false },
+    );
+    wrap.append(row, prev, next);
+    requestAnimationFrame(update);
+    return wrap;
   }
 
   function hourPicker() {
