@@ -205,7 +205,9 @@ export function createBrain(kb, { phone, starters, chalets = [], labels = [], tr
    * line; when every topic is done, one closing call offer. Returns the chips and the offer.
    */
   function tail(parts, state, seen, salesy) {
-    if (salesy && !state.lead && !state.noCall) {
+    // Prices and anything that needs an exact answer: always offer the sales team's call, even
+    // after an earlier «no» (the user's rule); only the closing offer respects that «no».
+    if (salesy && !state.lead) {
       parts.push(ASK_CALL);
       return { suggestions: [CALL_CHIP], offer: CALL };
     }
@@ -223,6 +225,8 @@ export function createBrain(kb, { phone, starters, chalets = [], labels = [], tr
     return { suggestions: [], offer: null };
   }
   const SALESY = /فريق المبيعات/;
+  // Asks for an amount or an exact figure (price, down payment, fees, discount…): needs the sales team.
+  const EXACT = /(?:كم|قديش|اديش|أديش|بقديش|بكم|شو قيم[ةه]|قيم[ةه]|نسب[ةه])\s.*(?:دفع|قسط|سعر|رسوم|عمول|كاش|مقدم|عربون|تكلف|كلف|خصم|تمويل|سنوات|مد[ةه])|الدفع[ةه] (?:الاولى|الأولى|الاولي)|دفع[ةه] (?:اولى|أولى)|(?:رسوم|سعر|دفع|قسط|عمول|تكلف)\S*.*(?:كم|قديش|اديش|أديش|بقديش)|عربون|مقدّم|المقدم|مدة التمويل|مدة التقسيط|سعر الكاش|خصم/;
   // Topics offered during the current reply (kept in `state.offered` by reply()).
   let noted = [];
   /** The call request, or (number already left) the promise of a call. */
@@ -294,6 +298,9 @@ export function createBrain(kb, { phone, starters, chalets = [], labels = [], tr
       const norm = (x) => tokens(x).join(" ");
       const fit = specific.length ? d.answers.filter((a) => specific.some((w) => norm(a).includes(w))) : [];
       const pool = fit.length && fit.length < d.answers.length ? fit : d.answers;
+      // Asked for an amount («كم الدفعة الأولى؟»): the wording that sends it to the sales team.
+      const exact = EXACT.test(query) ? d.answers.filter((a) => SALESY.test(a)) : [];
+      if (exact.length) return { body: exact[times % exact.length], own: true };
       return { body: pool[times % pool.length], own: true };
     }
     const body = answerFrom(top, query);
@@ -605,7 +612,10 @@ export function createBrain(kb, { phone, starters, chalets = [], labels = [], tr
     // «وكم سعره؟», «وين مكانه؟», «متاح؟» right after a chalet's card: about that chalet.
     if (!chalet && state.chalet) {
       const aspect = CHALET_ASPECT.find(([, re]) => re.test(t));
-      if (aspect && (IT.test(t) || tokens(t).length <= 2)) return { parts, card: { type: "chalet", id: state.chalet, aspect: aspect[0] } };
+      if (aspect && (IT.test(t) || tokens(t).length <= 2)) {
+        const price = aspect[0] === "price" && !state.lead;
+        return { parts, card: { type: "chalet", id: state.chalet, aspect: aspect[0] }, ...(price && { state: { offer: CALL }, suggestions: [CALL_CHIP] }) };
+      }
     }
     if (chalet?.unknown) {
       parts.push(`ما لقيت شاليه ڤيلا برقم ${chalet.unknown} على مخطط الكمباوند 🤔 ممكن الرقم مكتوب بشكل ثاني؟`);
@@ -698,7 +708,9 @@ export function createBrain(kb, { phone, starters, chalets = [], labels = [], tr
       if (!english && !ON_TOPIC.test(t)) return kindReply(leaning(cls, 0.35) ?? "off", t, state, parts);
       const [first, second] = english ? ENGLISH : UNKNOWN;
       parts.push(pick(first), pick(second));
-      return { parts, suggestions: starters };
+      if (english) return { parts, suggestions: starters };
+      const f = tail(parts, state, seen, true);
+      return { parts, suggestions: [...f.suggestions, ...starters.slice(0, 2)], state: { offer: f.offer } };
     }
     if (top.score < 0.26 && !followUp && !ON_TOPIC.test(t) && !STRONG_TOPIC.test(t)) {
       // Unsure and nothing in it is about us: a short message is small talk, a longer one off-topic.
@@ -748,7 +760,7 @@ export function createBrain(kb, { phone, starters, chalets = [], labels = [], tr
       : own || /^(نعم|لا)/.test(body) ? "" : opener(raw);
     parts.push(lead + body);
 
-    const f = tail(parts, state, seen, SALESY.test(body));
+    const f = tail(parts, state, seen, SALESY.test(body) || EXACT.test(t));
     const related = [...new Set(hits.filter((h) => h.d !== top.d && h.d.q && h.d.kind !== "page").map((h) => label(h.d.q)))]
       .filter((q) => q !== f.offer && q !== label(top.d.q ?? "")).slice(0, 2);
     const suggestions = f.suggestions.length ? [...f.suggestions, ...related.slice(0, 1)] : related;

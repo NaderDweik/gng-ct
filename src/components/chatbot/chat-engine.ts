@@ -32,6 +32,8 @@ export type ChatEls = {
 
 /** Starter chip that opens the in-chat booking (the brain sends «احجز» to it). */
 const BOOK_CHIP = "📅 احجز زيارة";
+/** The call request chip (brain.mjs CALL_CHIP). */
+const CALL_CHIP = "📞 اطلب اتصال من فريق المبيعات";
 
 // Loaded from public/, not bundled: the bundler must leave these imports alone.
 const load = (path: string) => import(/* webpackIgnore: true */ /* turbopackIgnore: true */ `${BASE}${path}`);
@@ -269,17 +271,19 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
       }
       await typeOut(bubble("bot"), parts[i]);
     }
-    if (data.card) await showCard(data.card);
+    if (data.card) await showCard(data.card, data.suggestions);
     if (data.action === "book" || data.action === "call") {
       if (!booking.active) await booking.start(state.chalet, data.action === "call" ? "call" : "visit");
       return;
     }
     // Mid-booking, no side suggestions: the booking picks up right after.
-    if (!booking.active) chips(data.suggestions, data.source ? "قد يهمّك أيضًا" : null);
+    // A chalet follow-up line already showed its own buttons (showCard).
+    const aspect = data.card?.type === "chalet" && data.card.aspect;
+    if (!booking.active && !aspect) chips(data.suggestions, data.source ? "قد يهمّك أيضًا" : null);
   }
 
   /** A chalet's card or the map invite, after a short pause like a person attaching a photo. */
-  async function showCard(card: Card) {
+  async function showCard(card: Card, suggestions?: string[]) {
     const map = await loadMap();
     await map.ready;
     if (disposed) return;
@@ -289,8 +293,11 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
     // A follow-up about one thing of the chalet in focus: answered in a line, its card only for «where».
     if (card.type === "chalet" && card.aspect) {
       await typeOut(bubble("bot"), voice(map.chaletLine(card.id, card.aspect)));
+      // A price needs the sales team: offer their call (the brain set it as the open question).
+      const call = suggestions?.includes(CALL_CHIP);
+      if (call) await say("بتحب يتواصل معك فريق المبيعات هاتفياً؟", true);
       if (card.aspect !== "where") {
-        chips([BOOK_CHIP, `تفاصيل شاليه ڤيلا ${card.id}`], null);
+        chips(call ? [CALL_CHIP, BOOK_CHIP] : [BOOK_CHIP, `تفاصيل شاليه ڤيلا ${card.id}`], null);
         return;
       }
     }

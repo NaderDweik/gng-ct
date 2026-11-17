@@ -273,7 +273,7 @@ export const OFF_TOPIC = [
 // Unknown but probably about the compound: honest, and the team for the rest.
 export const UNKNOWN = [
   ["سامحني، ما عندي جواب أكيد على هاد السؤال 🙏", "هاي المعلومة ما عندي إياها بالزبط 🙏"],
-  ["ممكن تسألني بطريقة ثانية؟ وإذا بتحب، فريق المبيعات بيعطيك الجواب الأكيد 😊"],
+  ["هاي النقطة بدها تأكيد من فريق المبيعات، وما بدي أعطيك معلومة مش دقيقة."],
 ];
 
 // A full message in English that matched nothing: answer in English.
