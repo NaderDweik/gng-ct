@@ -136,7 +136,11 @@ export function createBooking(ctx: BookingCtx) {
       if (i === at && step !== "done") li.setAttribute("aria-current", "step");
       track.append(li);
     });
-    bar.append(top, track);
+    // One child: the bar folds by shrinking its single grid row (a second child would sit in an
+    // extra row that never folds, leaving the steps on screen after a cancel).
+    const inner = el("div", "cb-bar-in");
+    inner.append(top, track);
+    bar.append(inner);
   }
 
   function lock(card: HTMLElement) {
