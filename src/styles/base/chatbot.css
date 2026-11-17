@@ -414,7 +414,16 @@ html[dir="ltr"] .cb-panel { transform-origin: bottom right; }
   .cb { --cb-side: 16px; --cb-bottom: calc(16px + env(safe-area-inset-bottom)); }
   body:has(.action-bar.is-on) .cb { --cb-bottom: calc(5.75rem + env(safe-area-inset-bottom)); }
   .cb-launcher { width: 56px; height: 56px; }
-  .cb-hint { display: none; }
+  /* The greeting beside the smaller button (it fades out after 7 s, as on desktop). */
+  .cb-hint,
+  html[dir="ltr"] .cb-hint {
+    bottom: calc(var(--cb-bottom) + 10px);
+    font-size: 13px;
+    padding: 8px 12px;
+    max-width: calc(100vw - var(--cb-side) * 2 - 66px);
+  }
+  .cb-hint { left: calc(var(--cb-side) + 66px); }
+  html[dir="ltr"] .cb-hint { left: auto; right: calc(var(--cb-side) + 66px); }
   .cb-panel,
   html[dir="ltr"] .cb-panel { left: 8px; right: 8px; width: auto; bottom: calc(var(--cb-bottom) + 68px); height: calc(100dvh - var(--cb-bottom) - 84px); }
 }
