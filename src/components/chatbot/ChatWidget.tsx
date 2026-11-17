@@ -32,6 +32,7 @@ export function ChatWidget() {
   const sendRef = useRef<HTMLButtonElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const barRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLElement>(null);
   const chat = useRef<ReturnType<typeof createChat> | null>(null);
 
   useEffect(() => {
@@ -52,9 +53,51 @@ export function ChatWidget() {
     setHint(false);
     if (next) {
       void chat.current?.start();
-      inputRef.current?.focus();
+      // Phones: no keyboard on open; it comes up when the visitor taps the text box.
+      if (matchMedia("(hover: hover)").matches) inputRef.current?.focus();
     }
   };
+
+  // Phones: the open chat is a full-screen sheet sized to the *visible* viewport, so the text box
+  // sits right on the keyboard and nothing hides behind it; the page underneath is locked so iOS
+  // doesn't scroll it around, and the conversation stays on its latest message as the keyboard
+  // opens and closes.
+  useEffect(() => {
+    if (!open || !matchMedia("(max-width: 767px)").matches) return;
+    const panel = panelRef.current!;
+    const log = logRef.current!;
+    const vv = window.visualViewport;
+    const y = window.scrollY;
+    const body = document.body.style;
+    const before = { position: body.position, top: body.top, left: body.left, right: body.right, overflow: body.overflow };
+    Object.assign(body, { position: "fixed", top: `-${y}px`, left: "0", right: "0", overflow: "hidden" });
+    let frame = 0;
+    const fit = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const atBottom = log.scrollHeight - log.scrollTop - log.clientHeight < 72;
+        const h = vv?.height ?? window.innerHeight;
+        panel.style.setProperty("--cb-vh", `${h}px`);
+        panel.style.setProperty("--cb-vt", `${vv?.offsetTop ?? 0}px`);
+        // Keyboard up: no room kept for the home indicator under the text box.
+        panel.classList.toggle("is-typing", h < window.innerHeight * 0.85);
+        if (atBottom) log.scrollTop = log.scrollHeight;
+      });
+    };
+    fit();
+    vv?.addEventListener("resize", fit);
+    vv?.addEventListener("scroll", fit);
+    window.addEventListener("resize", fit);
+    return () => {
+      cancelAnimationFrame(frame);
+      vv?.removeEventListener("resize", fit);
+      vv?.removeEventListener("scroll", fit);
+      window.removeEventListener("resize", fit);
+      Object.assign(body, before);
+      window.scrollTo(0, y);
+      panel.classList.remove("is-typing");
+    };
+  }, [open]);
 
   return (
     <div className="cb" dir="rtl" lang="ar">
@@ -78,7 +121,7 @@ export function ChatWidget() {
         </svg>
       </button>
 
-      <section id="cb-panel" className={`cb-panel${open ? " is-open" : ""}`} aria-label="مساعد كمباوند شاليهات Giving" aria-hidden={!open} inert={!open}>
+      <section ref={panelRef} id="cb-panel" className={`cb-panel${open ? " is-open" : ""}`} aria-label="مساعد كمباوند شاليهات Giving" aria-hidden={!open} inert={!open}>
         <div className="cb-head">
           <div className="cb-avatar" aria-hidden>
             <span className="cb-avatar-v" />
@@ -93,6 +136,12 @@ export function ChatWidget() {
               <path d="M3 9.5h18M8 2.5v4M16 2.5v4" />
             </svg>
             احجز زيارة
+          </button>
+          {/* Phones: the sheet covers the round button, so it closes from here. */}
+          <button type="button" className="cb-close" aria-label="أغلق المساعد" onClick={toggle}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden>
+              <path d="M18 6 6 18M6 6l12 12" />
+            </svg>
           </button>
         </div>
         <div className="cb-bar" ref={barRef} aria-live="polite" />

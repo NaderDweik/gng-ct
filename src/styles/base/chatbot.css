@@ -119,15 +119,29 @@ html[dir="ltr"] .cb-panel { transform-origin: bottom right; }
 .cb-head small { color: rgb(255 255 255 / 0.65); font-size: 12px; display: flex; align-items: center; gap: 6px; }
 .cb-head small::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--cb-primary); }
 
+.cb-close {
+  display: none;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.1);
+  color: #fff;
+  cursor: pointer;
+}
+
 .cb-log {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 18px 16px;
   display: flex;
   flex-direction: column;
   gap: 12px;
   background: var(--cb-alt);
-  scroll-behavior: smooth;
   overscroll-behavior: contain;
 }
 /* Messages and cards keep their full height; the log scrolls instead. */
@@ -424,8 +438,33 @@ html[dir="ltr"] .cb-panel { transform-origin: bottom right; }
   }
   .cb-hint { left: calc(var(--cb-side) + 66px); }
   html[dir="ltr"] .cb-hint { left: auto; right: calc(var(--cb-side) + 66px); }
+  /* Open chat = a full-screen sheet over the visible viewport (ChatWidget sets --cb-vh/--cb-vt
+     from visualViewport, so it shrinks with the keyboard instead of hiding behind it). Only
+     opacity/transform animate: the height follows the keyboard instantly, without jank. */
   .cb-panel,
-  html[dir="ltr"] .cb-panel { left: 8px; right: 8px; width: auto; bottom: calc(var(--cb-bottom) + 68px); height: calc(100dvh - var(--cb-bottom) - 84px); }
+  html[dir="ltr"] .cb-panel {
+    inset: var(--cb-vt, 0px) 0 auto 0;
+    width: auto;
+    height: var(--cb-vh, 100dvh);
+    border-radius: 0;
+    box-shadow: none;
+    transform: translateY(28px);
+    transition: opacity 0.3s var(--ease), transform 0.4s var(--ease);
+  }
+  .cb-panel.is-open { transform: none; }
+  .cb-head { padding: calc(10px + env(safe-area-inset-top)) 12px 10px 14px; gap: 10px; }
+  .cb-avatar { width: 38px; height: 38px; }
+  .cb-avatar-v { width: 30px; height: 30px; }
+  .cb-head b { font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .cb-book { padding: 7px 10px; font-size: 12px; }
+  .cb-close { display: grid; }
+  /* Room for the home indicator only while the keyboard is down. */
+  .cb-form { padding: 10px 10px calc(10px + env(safe-area-inset-bottom)); }
+  .cb-panel.is-typing .cb-form { padding-bottom: 10px; }
+  .cb-log { padding: 14px 12px; }
+  /* While open, the round button and its greeting step aside (the sheet has its own ×). */
+  body:has(.cb-panel.is-open) .cb-launcher,
+  body:has(.cb-panel.is-open) .cb-hint { opacity: 0; pointer-events: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {

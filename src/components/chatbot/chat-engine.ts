@@ -52,7 +52,17 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
   let progress = 0;
 
   const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
-  const scroll = () => (log.scrollTop = log.scrollHeight);
+  // Follow new messages only while the visitor is at the bottom: reading an older answer, the
+  // log stays put. Sending a message (or a button) jumps back to the bottom.
+  let stick = true;
+  log.addEventListener("scroll", () => (stick = log.scrollHeight - log.scrollTop - log.clientHeight < 72), { passive: true });
+  const scroll = () => {
+    if (stick) log.scrollTop = log.scrollHeight;
+  };
+  const toBottom = () => {
+    stick = true;
+    log.scrollTop = log.scrollHeight;
+  };
 
   async function fetchBytes(url: string, total: number) {
     const res = await fetch(url);
@@ -238,6 +248,7 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
     return run(async () => {
       log.querySelectorAll(".cb-chips").forEach((c) => c.remove());
       bubble("me").textContent = text;
+      toBottom();
       // Mid-booking, the text box answers the current question (name, phone, note).
       const wasBooking = booking.active;
       if (wasBooking && (await booking.onText(text))) return;
