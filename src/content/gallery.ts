@@ -256,7 +256,7 @@ export const dayScenes: Record<DayMode, DayScene[]> = {
     { src: `${P}/compound-walls-sunset.jpg`, time: 1140, titleEn: "The road home", titleAr: "طريق العودة" },
     { src: `${C}/mosque-at-sunset.jpg`, time: 1125, titleEn: "Maghrib at the mosque", titleAr: "المغرب في المسجد", focus: "38% 50%" },
     { src: `${C}/main-entrance-gate-sunset.jpg`, time: 1155, titleEn: "Back through the main gate", titleAr: "العودة عبر البوابة الرئيسية" },
-    { src: `${P}/compound-o-dusk.jpg`, time: 1170, titleEn: "Lights on at Compound O", titleAr: "أضواء كمباوند O" },
+    { src: `${C}/fast-shop-mini-market.jpg`, time: 1170, titleEn: "A last stop at the market", titleAr: "مشوار أخير إلى الماركت" },
     { src: `${R}/fireplace-horse-sculpture.jpg`, time: 1260, titleEn: "Evenings by the fire", titleAr: "سهرة بجانب المدفأة" },
     { src: `${R}/bathroom-jacuzzi-tub.jpg`, time: 1350, titleEn: "A slow soak before bed", titleAr: "استرخاء قبل النوم" },
   ],
