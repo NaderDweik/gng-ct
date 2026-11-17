@@ -14,7 +14,7 @@ export const homeIntro = {
     p1: "Welcome to Giving Compound: the first and largest fully-serviced chalet community in the region, across 500,000 m² in Al Matabba, Sahab.",
     facts: [
       "About 500 m² per chalet",
-      "Zero-interest plans, direct",
+      "Direct financing, through us",
     ],
     cta: "Explore the Plan",
     alt: "A swimmer in the pool beside the waterfall spout at the Giving Royal clubhouse",
@@ -25,7 +25,7 @@ export const homeIntro = {
     p1: "هو أسلوب حياة صُمّم ليجمع الراحة والخصوصية بمكان واحد.",
     facts: [
       "شاليه بمساحة 500 م² تقريبًا",
-      "تقسيط مباشر بدون فوائد",
+      "تمويل مباشر من خلالنا",
     ],
     cta: "استكشف المخطط",
     alt: "سبّاح في المسبح بجانب شلال الماء في نادي Giving Royal",

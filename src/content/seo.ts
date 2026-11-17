@@ -34,7 +34,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "روح العطاء | شاليهات خاصة للبيع في الأردن بمسبح خاص",
     titleEn: "Giving Compound | Private Chalets for Sale in Jordan",
     descAr:
-      "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة قرب عمّان. 367+ شاليه خاص بمساحة 500 م² ومسبح خاص، وتقسيط بدون فوائد.",
+      "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة قرب عمّان. 367+ شاليه خاص بمساحة 500 م² ومسبح خاص، وتمويل مباشر من خلالنا.",
     descEn:
       "The first and largest fully-serviced chalet city in the region, near Amman. 367+ private 500 m² chalets with their own pool and 0% installments.",
   },
@@ -58,7 +58,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "خدماتنا: تطوير، تمويل مباشر وخدمة ما بعد البيع",
     titleEn: "Compound Services & Aftercare in Jordan",
     descAr:
-      "خدمات شركة العطاء للتطوير العقاري لملاك الشاليهات: تطوير وبناء وتشطيب، تمويل مباشر بدون بنك وبدون فوائد، إدارة العقار، ودعم قانوني لنقل الملكية.",
+      "خدمات شركة العطاء للتطوير العقاري لملاك الشاليهات: تطوير وبناء وتشطيب، تمويل مباشر من خلالنا بدون بنك، إدارة العقار، ودعم قانوني لنقل الملكية.",
     descEn:
       "What Al-Ataa does for chalet owners: development and finishing, direct 0% financing with no bank, property management and legal support for the ownership transfer.",
   },
@@ -98,7 +98,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "الأخبار والمقالات: الاستثمار في الشاليهات بالأردن",
     titleEn: "News: Chalet Investment in Jordan",
     descAr:
-      "مقالات وأخبار روح العطاء: الاستثمار العقاري في الشاليهات، خطط الدفع بدون فوائد، جودة البناء ISO، التصميم الإسباني والحياة داخل الكمباوند.",
+      "مقالات وأخبار روح العطاء: الاستثمار العقاري في الشاليهات، التمويل المباشر من خلالنا، جودة البناء ISO، التصميم الإسباني والحياة داخل الكمباوند.",
     descEn:
       "Giving Compound news and guides: chalet investment in Jordan, 0% payment plans, ISO build quality, Spanish design and everyday life in the community.",
   },
@@ -106,7 +106,7 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "الأسئلة الشائعة: السعر، التقسيط والتملك",
     titleEn: "FAQ: Price, Installments & Ownership",
     descAr:
-      "إجابات واضحة قبل الشراء: سعر الشاليه، خطط التقسيط بدون فوائد، مواصفات البناء، الموقع والأمن في روح العطاء.",
+      "إجابات واضحة قبل الشراء: سعر الشاليه، التمويل المباشر من خلالنا، مواصفات البناء، الموقع والأمن في روح العطاء.",
     descEn:
       "Clear answers before you buy: chalet price, 0% installment plans, build specs, location and security at Giving Compound.",
   },
@@ -130,9 +130,9 @@ export const seoPages: Record<SeoRoute, SeoCopy> = {
     titleAr: "الكمباوند: الشاليهات المتاحة للبيع بمسبح خاص",
     titleEn: "The Compound: Chalets With Private Pools",
     descAr:
-      "شاليهات روح العطاء على خريطة الكمباوند: 500 م²، 3 غرف نوم، مسبح خاص وجاكوزي، بسعر 168,000 دينار مع تقسيط بدون فوائد.",
+      "شاليهات روح العطاء على خريطة الكمباوند: 500 م²، 3 غرف نوم، مسبح خاص وجاكوزي، بسعر 168,000 دينار مع تمويل مباشر من خلالنا.",
     descEn:
-      "Find your chalet on the Giving Compound map: 500 m², 3 bedrooms, private pool and jacuzzi, from 168,000 JD at 0% interest.",
+      "Find your chalet on the Giving Compound map: 500 m², 3 bedrooms, private pool and jacuzzi, from 168,000 JD with direct financing through us.",
   },
   "/privacy": {
     titleAr: "سياسة الخصوصية",

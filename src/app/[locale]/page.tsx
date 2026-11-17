@@ -66,11 +66,11 @@ export default async function HomePage({ params }: Props) {
     {
       href: "/register",
       title: isAr ? "التمويل المرن" : "Flexible financing",
-      headline: isAr ? "بدون فوائد، مباشرة مع الشركة" : "Zero interest, direct with us",
+      headline: isAr ? "تمويل مباشر من خلالنا" : "Direct financing, through us",
       // Arabic: no description, the headline stands alone.
       desc: isAr
         ? ""
-        : "A down payment you choose, then installments set by the down payment and duration, or 24% off in cash. Direct financing with zero bank interest.",
+        : "A down payment you choose, then installments set by the down payment and duration, or 24% off in cash. Financing directly through us.",
       img: "/home/financing-installments.jpg",
       // Portrait poster with its title at the top: keep the title in when cropped.
       pos: "50% 15%",
@@ -213,11 +213,11 @@ export default async function HomePage({ params }: Props) {
             { v: `${formatNumber(site.stats.units, locale)}+`, l: t("statsUnits") },
             { v: formatNumber(site.stats.areaSqm, locale), l: t("statsArea") },
             { v: formatNumber(site.stats.unitAreaSqm, locale), l: isAr ? "م² لكل وحدة" : "m² per unit" },
-            // Zero-interest plans direct from the developer: the figure buyers actually weigh.
-            { v: isAr ? `${formatNumber(0, locale)}%` : "0%", l: isAr ? "فوائد على خطط الدفع" : "interest on payment plans" },
+            // The build warranty (the client's figure, Nov 2026; no interest claims any more).
+            { v: formatNumber(10, locale), l: isAr ? "سنوات كفالة على البناء" : "years build warranty" },
           ].map((s) => (
             <div key={s.l} className="stats-band-cell">
-              {/* dir="ltr": keeps "367+" and "0%" in figure order inside Arabic text. */}
+              {/* dir="ltr": keeps "367+" in figure order inside Arabic text. */}
               <p dir="ltr" className="stats-band-figure font-display text-(length:--fs-stat) font-bold tracking-tight">
                 {s.v}
               </p>

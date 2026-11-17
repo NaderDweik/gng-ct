@@ -87,8 +87,8 @@ export function Footer() {
             </Link>
             <p className="text-sm leading-relaxed text-on-dark-muted">
               {isAr
-                ? "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة. شاليهات خاصة داخل كمباوند مسوّر وبتمويل مباشر بدون فوائد."
-                : "The region’s first and largest fully-serviced chalet city. Private resorts inside a gated community with zero-interest direct financing."}
+                ? "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة. شاليهات خاصة داخل كمباوند مسوّر وبتمويل مباشر من خلالنا."
+                : "The region’s first and largest fully-serviced chalet city. Private resorts inside a gated community with direct financing through us."}
             </p>
             <div className="flex justify-center gap-4 md:justify-start">
               {socials.map((s) => (

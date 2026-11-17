@@ -75,8 +75,8 @@ export const heroLayered = {
       mobileFocus: "50% 50%",
       titleAr: ["عالمك الخاص،", "مخدوم بالكامل."],
       titleEn: ["A Private World,", "Fully Serviced."],
-      descAr: "مسابح، أمن، ألياف ضوئية، وخطط بدون فوائد، مباشرة مع الشركة.",
-      descEn: "Pools, security, fiber, and zero-interest plans, directly with the company.",
+      descAr: "مسابح، أمن، ألياف ضوئية، وتمويل مباشر من خلالنا.",
+      descEn: "Pools, security, fiber, and direct financing through us.",
     },
   ] satisfies HeroSlide[],
 } as const;

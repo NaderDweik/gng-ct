@@ -154,8 +154,8 @@ export default async function ArticlePage({ params }: Props) {
                 <p className="article-foot-brand">Giving Compound</p>
                 <p className="article-foot-line">
                   {isAr
-                    ? "كمباوند شاليهات خاصة مخدوم بالكامل، بتمويل مباشر بدون فوائد."
-                    : "A fully serviced city of private resorts, with direct zero-interest financing."}
+                    ? "كمباوند شاليهات خاصة مخدوم بالكامل، بتمويل مباشر من خلالنا."
+                    : "A fully serviced city of private resorts, with direct financing through us."}
                 </p>
               </div>
               <Link href="/register" className="btn btn-primary">
