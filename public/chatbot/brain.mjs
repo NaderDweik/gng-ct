@@ -23,7 +23,10 @@ const OFFER_ORDER = [
   "ما الإجراءات والمستندات", "هل يتم تسجيل الشاليه", "كيف بضمن إنكم شركة", "شو نوع التشطيبات", "كيف يتم توفير الخصوصية", // voice: key
 ];
 // Kept for the whole chat (reply() carries them over).
-const KEEP = ["lead", "noCall", "declined", "offered", "closed"];
+const KEEP = ["lead", "noCall", "declined", "offered", "closed", "askedNumber"];
+// Wanting the number itself, now («بدي اتصل هلأ», «اعطيني الرقم بس»): the user's rule is to give
+// it only then; a first, plain ask gets the call request.
+const INSIST = /هلأ|هلا|هسا|هسه|هلق|الحين|حال[اًا]|فور[اًا]|now|ضروري|مستعجل|بسرع[ةه]|(?:بدي|ابي|أبي|خليني|بحب)\s*(?:ا|أ)?تصل|اتصل انا|أتصل أنا|بتصل انا|(?:بدي|ابي|أبي|اعطيني|عطيني|ابعتلي|ابعثلي)\s*(?:ال)?رقم|الرقم بس|بس الرقم|رقم مباشر/;
 // Any question about the internet gets the internet answer (the user's rule, Nov 2026).
 const NET = /(?:^|[\s،,.؟?])(?:[بو]?ال|[بو])?(?:انترنت|إنترنت|انترنيت|نت|واي ?فاي|وايفاي|wifi|wi-fi|فايبر|ألياف|الياف|internet)(?=$|[\s،,.؟?!])/i;
 const INTERNET = "هل في إنترنت أو واي فاي بالشاليه؟"; // voice: key
@@ -501,6 +504,11 @@ export function createBrain(kb, { phone, starters, chalets = [], labels = [], tr
     if (state.offer && new RegExp(`^(?:(?:${YES})\\s*)+$`, "i").test(short))
       { t = state.offer; followUp = true; }
     else if (state.offer && /^(لا|لأ|مش هلأ|لا شكرا|خلص)/.test(short)) {
+      // «لا، بدي الرقم» after asking for a number: they insist, so give it.
+      if (state.offer === CALL && state.askedNumber && /رقم|اتصل|أتصل|تلفون|هاتف/.test(short)) {
+        parts.push(`أكيد 🌿 ${phoneLine}`);
+        return { parts, kind: "chat-ack", suggestions: [], state: { noCall: true } };
+      }
       // Turned down: never asked again; a closing «no» ends the chat kindly.
       if (state.offer === CALL && state.closed) return { parts: ["أكيد، شكراً لوقتك، ويعطيك العافية 🌿"], kind: "chat-ack", state: { noCall: true } };
       const declined = state.offer === CALL ? state.declined : [...(state.declined ?? []), state.offer];
@@ -657,8 +665,13 @@ export function createBrain(kb, { phone, starters, chalets = [], labels = [], tr
       return { parts, action: "book" };
     }
     if (!elsewhere() && /رقم|تلفون|تلفونات|هاتف|اتصل|يتصل|يرن|واتس|whats|تواصل|موبايل|جوال/i.test(t) && !/رقم (الشاليه|شاليه)/.test(t)) {
-      parts.push(`أكيد 🌿 ${phoneLine}`);
-      return { parts, suggestions: state.lead ? [] : [CALL_CHIP] };
+      if (state.askedNumber || state.lead || INSIST.test(t)) {
+        parts.push(`أكيد 🌿 ${phoneLine}`);
+        return { parts, suggestions: state.lead ? [] : [CALL_CHIP], state: { askedNumber: true } };
+      }
+      parts.push(pick(["أكيد 🌿 فريق المبيعات بيتواصل معك هاتفياً، بس بدي اسمك ورقمك وبسجّلك طلب اتصال من هون.", "ولا يهمك 😊 أسهل إشي فريق المبيعات يتصل فيك، بسجّلك طلب اتصال من هون باسمك ورقمك."]));
+      parts.push(ASK_CALL);
+      return { parts, suggestions: [CALL_CHIP], state: { offer: CALL, askedNumber: true } };
     }
 
     // Internet / Wi-Fi / fibre: always the internet answer (yes, it's available), then the rest

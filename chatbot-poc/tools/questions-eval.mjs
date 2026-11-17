@@ -160,7 +160,7 @@ export function judge(tag, o) {
   else if (/^(chat|off)-/.test(tag)) ok = got === "nosource" && (o.kind === tag || (NEAR_KIND[tag] ?? []).includes(o.kind));
   else if (tag === "persona") ok = got === "nosource" && /ليان|Layan|مساعد[ةه] رقمي|أنا |انا |عمري|جهّزني|اختارلي|بجاوبك/.test(text);
   // Asking for a person opens the call request (the client's rules, Nov 2026); the number is fine too.
-  else if (tag === "contact") ok = o.action === "call" || /062220757|0790029928|962 ?6 ?222|962 ?79/.test(text.replace(/\s/g, " "));
+  else if (tag === "contact") ok = o.action === "call" || o.state?.offer === "@call" || /062220757|0790029928|962 ?6 ?222|962 ?79/.test(text.replace(/\s/g, " "));
   // English: an English reply, or the right answer from the site (in Arabic) for a question about it.
   else if (tag === "english") ok = latin > 20 || !!o.source || !!o.card;
   else if (tag === "map") ok = got === "map";
