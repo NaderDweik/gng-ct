@@ -80,7 +80,7 @@ const P = "/gallery/photos";
  */
 export const servicePhotos: Record<string, string> = {
   "walls-gates": `${C}/main-entrance-gate-sunset.jpg`,
-  security: `${P}/security-cctv-room.jpg`,
+  security: `${P}/security-cctv-room-wide.jpg`,
   planting: `${P}/park-landscaping.jpg`,
   housekeeping: `${P}/housekeeping.jpg`,
   water: `${P}/water-tower.jpg`,
