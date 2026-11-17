@@ -132,7 +132,7 @@ export function loadBrain() {
   const clsWeight = Number(process.env.CLS_WEIGHT ?? 0.3);
   const search = createSearch(kb.docs, embedder, { classifier, clsWeight });
   const env = (k, d) => Number(process.env[k] ?? d);
-  return createBrain(search, { phone: "062220757", starters: kb.starters, chalets, trust: env("TRUST", 0.5), offAt: env("OFF_AT", 0.6), chatAt: env("CHAT_AT", 0.85) });
+  return createBrain(search, { phone: "0790029928", starters: kb.starters, chalets, trust: env("TRUST", 0.5), offAt: env("OFF_AT", 0.6), chatAt: env("CHAT_AT", 0.85) });
 }
 
 /** What the reply did: an answer id, a card, booking, chat, a clarifying question. */

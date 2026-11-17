@@ -10,7 +10,8 @@ import { createBooking, type ComposerMode } from "./chat-booking";
 const BASE = "/chatbot";
 /** How much the trained classifier counts in search (tuned on chatbot-poc/questions-dev.md). */
 const CLS_WEIGHT = 0.3;
-const PHONE = "062220757";
+/** The sales team's number Layan gives when asked (the user's choice; the site shows 06 2220757). */
+const PHONE = "0790029928";
 
 type Card = { type: "chalet"; id: string; aspect?: "price" | "where" | "status" | "area" | "features" } | { type: "map" };
 type Reply = { parts?: string[]; reply?: string; state?: { chalet?: string }; source?: object; suggestions?: string[]; action?: "book" | "call"; card?: Card };

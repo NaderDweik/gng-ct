@@ -21,7 +21,7 @@ const classifier = process.env.NO_CLS ? null : loadClassifier(embedder);
 const search = createSearch(kb.docs, embedder, { classifier, clsWeight: Number(process.env.CLS_WEIGHT ?? 0.3) });
 const units = readFileSync(here("../../src/content/compound-units.ts"), "utf8");
 const chalets = [...units.matchAll(/^\s*\["([A-Z]+\d+\+?)",/gm)].map((m) => m[1]);
-const brain = createBrain(search, { phone: "062220757", starters: kb.starters, chalets });
+const brain = createBrain(search, { phone: "0790029928", starters: kb.starters, chalets });
 
 // Each turn: [visitor message, check]. Checks: "chat" = small talk, must not quote the site;
 // "answer:<word>" = must answer from the site with <word> in the reply; "ask" = asks to clarify;
@@ -89,8 +89,8 @@ const DIALOGS = [
   [["ايش بتبيعو", "answer:شاليهات"], ["احكيلي نكتة", "say:😄"]],
   [["شو الخدمات اللي بتقدموها", "answer:الخدمات"], ["حلو كثير", "chat"], ["اه اكيد احكيلي", "say:زيارة"]],
   [["رقمي 0791234567", "say:اسمك ورقمك"]],
-  [["بدي حدا يتصل فيني", "say:رقمك|062220757"]],
-  [["شو ايميلكم", "say:062220757"]],
+  [["بدي حدا يتصل فيني", "say:رقمك|0790029928"]],
+  [["شو ايميلكم", "say:0790029928"]],
   [["ابعتلي اللوكيشن", "say:«الموقع»"]],
   [["شو الجديد عندكم", "say:البستان"]],
   [["انتو احسن من غيركم؟", "say:بميّزنا"]],

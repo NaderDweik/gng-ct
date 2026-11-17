@@ -182,7 +182,7 @@ export function createBrain(kb, { phone, starters, chalets = [], labels = [], tr
   }
   // Offering a person: Layan takes the visitor's name and number herself (the call request).
   const contact = "بقدر أسجّلك طلب اتصال من فريق المبيعات";
-  const phoneLine = `رقم الشركة ${phone} 📱`;
+  const phoneLine = `رقم فريق المبيعات: ${phone} 📱`;
 
   const offers = new Map();
   /** An offered topic's question label and spoken name, from the start of its question. */
