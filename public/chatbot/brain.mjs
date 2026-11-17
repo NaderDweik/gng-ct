@@ -24,6 +24,9 @@ const OFFER_ORDER = [
 ];
 // Kept for the whole chat (reply() carries them over).
 const KEEP = ["lead", "noCall", "declined", "offered", "closed"];
+// Any question about the internet gets the internet answer (the user's rule, Nov 2026).
+const NET = /(?:^|[\s،,.؟?])(?:[بو]?ال|[بو])?(?:انترنت|إنترنت|انترنيت|نت|واي ?فاي|وايفاي|wifi|wi-fi|فايبر|ألياف|الياف|internet)(?=$|[\s،,.؟?!])/i;
+const INTERNET = "هل في إنترنت أو واي فاي بالشاليه؟"; // voice: key
 
 // Topic docs carry extra search words after the "؟"; show people only the question.
 const label = (q) => (q.includes("؟") ? q.split("؟")[0] + "؟" : q);
@@ -60,7 +63,7 @@ const PERSONA = [
   { re: /(انت|إنت|انتي|إنتي)\s*(مين|شو|ايش|وش)|(شو|ايش|وش)\s*(انت|انتي|إنتي)(?=$|[\s؟?!.،,])|مين معي|مين انت|مين حضرتك|عرفيني (?:عن|على|ع) حالك|عرفيني عليكي|who are you|shu esmek|sho ismik|esmek|ismik/i, ask: true,
     say: () => ["أنا ليان 😊 المساعدة الرقمية لكمباوند شاليهات Giving، بجاوبك عن وحدات شاليه ڤيلا والكمباوند وبحجزلك زيارة كمان.", "وانت شو اسمك؟"] },
   { re: /كم عمرك|قديش عمرك|how old/i, say: () => ["هههه أنا مساعدة رقمية، عمري من عمر الموقع 😄", "بس بعرف كثير عن كمباوند شاليهات Giving، اسألني!"] },
-  { re: /(وين|من وين)\s*(انت|انتي|إنتي|ساكنه|عايشه)|انتي من وين/i, say: () => ["أنا عايشة هون على موقع كمباوند شاليهات Giving 😄", "بس الكمباوند نفسه بالقسطل قرب قصر المشتى، بتحب أحكيلك عن موقعه؟"], offer: "أين يقع كمباوند شاليهات روح العطاء وما أبرز مميزات موقعه؟" }, // voice: key
+  { re: /(وين|من وين)\s*(انت|انتي|إنتي|ساكنه|عايشه)|انتي من وين/i, say: () => ["أنا عايشة هون على موقع كمباوند شاليهات Giving 😄", "بس الكمباوند نفسه عبر طريق القسطل، على بعد 20 دقيقة من جامعة الإسراء. بتحب أحكيلك عن موقعه؟"], offer: "أين يقع كمباوند شاليهات روح العطاء وما أبرز مميزات موقعه؟" }, // voice: key
   { re: /مين (عملك|صممك|برمجك|برمجكي|سواكي|عملكي|سواك|عملك)|who (made|built) you/i, say: () => ["فريق كمباوند شاليهات Giving جهّزني عشان أساعد الزوار 😊", "شو حابب تعرف عن الكمباوند؟"] },
   { re: /(بدي|ممكن|بحب|عايز|ابي|أبي|بدنا)\s*(احكي|أحكي|اتواصل|أتواصل|اكلم|أكلم|نحكي)\s*(مع)?\s*(حد|حدا|موظف|انسان|إنسان|الفريق|المبيعات|مسؤول|المسؤول|خدم[هة] العملاء|المدير)|(حدا|حد|موظف|الفريق)\s*(يتصل|يرن|يكلم|يحكي)|يرن (علي|عليي)|اتصلوا (فيي|علي|عليي)|حوليني|بدي (مدير|مسؤول) (المبيعات|البيع)|بدي اكلمه|بدي احكي معهم|talk to (a )?(human|person|agent)|call me/i, contact: true,
     say: (c) => [`أكيد 🌿 ${c}، وبكونوا مبسوطين يساعدوك.`] },
@@ -205,9 +208,10 @@ export function createBrain(kb, { phone, starters, chalets = [], labels = [], tr
    * line; when every topic is done, one closing call offer. Returns the chips and the offer.
    */
   function tail(parts, state, seen, salesy) {
-    // Prices and anything that needs an exact answer: always offer the sales team's call, even
-    // after an earlier «no» (the user's rule); only the closing offer respects that «no».
-    if (salesy && !state.lead) {
+    // Every answer offers the sales team's call until the visitor has left a number (the
+    // user's rule). After a «no», prices and exact figures still ask; other answers move on to
+    // one next topic and keep the call as a button.
+    if (!state.lead && (!state.noCall || salesy)) {
       parts.push(ASK_CALL);
       return { suggestions: [CALL_CHIP], offer: CALL };
     }
@@ -216,7 +220,7 @@ export function createBrain(kb, { phone, starters, chalets = [], labels = [], tr
     if (next) {
       parts.push(pick([`بتحب أوضحلك ${next.topic}؟`, `بتحب أحكيلك عن ${next.topic}؟`]));
       noted.push(next.q);
-      return { suggestions: [], offer: next.q };
+      return { suggestions: state.lead ? [] : [CALL_CHIP], offer: next.q };
     }
     if (!state.lead && !state.noCall && !state.closed) {
       parts.push(CLOSING);
@@ -655,6 +659,24 @@ export function createBrain(kb, { phone, starters, chalets = [], labels = [], tr
     if (!elsewhere() && /رقم|تلفون|تلفونات|هاتف|اتصل|يتصل|يرن|واتس|whats|تواصل|موبايل|جوال/i.test(t) && !/رقم (الشاليه|شاليه)/.test(t)) {
       parts.push(`أكيد 🌿 ${phoneLine}`);
       return { parts, suggestions: state.lead ? [] : [CALL_CHIP] };
+    }
+
+    // Internet / Wi-Fi / fibre: always the internet answer (yes, it's available), then the rest
+    // of a mixed question («شو وضع الانترنت والكهربا»).
+    if (!followUp && NET.test(t)) {
+      const hit = byLabel(INTERNET);
+      if (hit) {
+        const key = label(hit.d.q);
+        const times = seen[key] ?? 0;
+        seen[key] = times + 1;
+        parts.push(phrase(hit, t, times).body);
+        const rest = t.replace(new RegExp(NET.source, "gi"), " ").replace(/(?:^|\s)(?:و|او|أو|خدم[ةه]|خمة|خدمات|[مويت]?[تي]?توفر[ةه]?|متاح[ةه]?|موجود[ةه]?|في|فيه|هل|شو|وضع|كيف|عندكم|قوي|سريع|بالشاليه|بالكمباوند|الشاليه|الكمباوند)(?=[\s؟?]|$)/g, " ").replace(/[؟?]/g, " ").trim();
+        // Only a real second topic («والكهربا»), never leftovers.
+        const other = tokens(rest).length ? bestOf(kb.search(rest, 6)) : null;
+        if (other && other.score >= 0.35 && other.d !== hit.d && other.d.q) parts.push(pick(["وبالنسبة للشق الثاني:\n", "وكمان:\n"]) + phrase(other, rest, 0).body);
+        const f = tail(parts, state, seen, false);
+        return { parts, source: hit.d, suggestions: f.suggestions, state: { offer: f.offer, ...(f.closed && { closed: true }) }, last: remember(t, hit, [hit]) };
+      }
     }
 
     // 4. Two questions in one message ("كم المساحة وفي جاكوزي؟"): answer each, in order.
