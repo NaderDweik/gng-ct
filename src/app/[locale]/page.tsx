@@ -71,9 +71,10 @@ export default async function HomePage({ params }: Props) {
       desc: isAr
         ? ""
         : "A down payment you choose, then installments set by the down payment and duration, or 24% off in cash. Financing directly through us.",
-      img: "/home/financing-installments.jpg",
-      // Portrait poster with its title at the top: keep the title in when cropped.
-      pos: "50% 15%",
+      img: "/home/financing-168k.jpg",
+      // Square poster in a portrait card: the sides are trimmed; this keeps the headline,
+      // the price badge and «التمويل من خلالنا» (right of centre, top) in view.
+      pos: "94% 0%",
       icon: "calendar" as UiIconName,
       kickerIcon: "coins" as UiIconName,
       cta: isAr ? "احجز زيارتك" : "Register interest",
