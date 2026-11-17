@@ -46,20 +46,26 @@
   transform: scale(1.05);
 }
 
-/* A poster with its own text (the financing card): whole, at the top, never cropped; a
-   blurred, darkened copy of it fills the card behind. */
+/* A poster with its own text (the financing card): whole, at the top, never cropped. Its
+   bottom edge fades into a blurred copy of itself that fills the rest of the card, so there
+   is no hard line between the two. (next/image `fill` sets inline sizes: hence !important.) */
 .brand-card img.brand-card-poster {
-  object-fit: contain;
-  object-position: 50% 0%;
+  height: auto !important;
+  bottom: auto !important;
+  aspect-ratio: 1;
+  object-fit: cover;
+  -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
 }
 .brand-card img.brand-card-poster-bg {
   object-fit: cover;
-  filter: blur(22px) brightness(0.55) saturate(1.1);
-  transform: scale(1.15);
+  object-position: 50% 100%;
+  filter: blur(26px) saturate(1.05);
+  transform: scale(1.2);
 }
 .brand-card:hover img.brand-card-poster-bg,
 .brand-card.is-active img.brand-card-poster-bg {
-  transform: scale(1.2);
+  transform: scale(1.25);
 }
 
 .brand-card::after {
