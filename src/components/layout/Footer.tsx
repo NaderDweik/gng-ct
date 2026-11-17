@@ -1,5 +1,6 @@
 "use client";
 
+import { displayPhone } from "@/lib/format";
 import type { ReactNode } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -58,12 +59,7 @@ function LinkList({ items, isAr }: { items: FooterLink[]; isAr: boolean }) {
   );
 }
 
-function formatPhone(phone: string) {
-  const d = phone.replace(/\D/g, "");
-  return d.startsWith("962") && d.length === 12
-    ? `+${d.slice(0, 3)} ${d.slice(3, 5)} ${d.slice(5, 8)} ${d.slice(8)}`
-    : phone;
-}
+const formatPhone = displayPhone;
 
 export function Footer() {
   const locale = useLocale();

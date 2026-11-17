@@ -1,5 +1,6 @@
 "use client";
 
+import { displayPhone } from "@/lib/format";
 import { StickyBar, StickyPills } from "@/components/ui/StickyBar";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties } from "react";
 import { useLocale, useTranslations } from "next-intl";
@@ -18,12 +19,7 @@ function PlusMinus({ open }: { open: boolean }) {
   );
 }
 
-function formatPhone(phone: string) {
-  const d = phone.replace(/\D/g, "");
-  return d.startsWith("962") && d.length === 12
-    ? `+${d.slice(0, 3)} ${d.slice(3, 5)} ${d.slice(5, 8)} ${d.slice(8)}`
-    : phone;
-}
+const formatPhone = displayPhone;
 
 function normalize(s: string) {
   return s

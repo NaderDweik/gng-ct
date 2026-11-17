@@ -6,11 +6,11 @@ export const site = {
   taglineAr: "أول وأكبر كمباوند شاليهات مخدوم بالكامل في المنطقة",
   taglineEn: "First and largest fully-serviced chalet city in the region",
   /** Shown in the UI (public sales number). */
-  phone: "+962790029928",
+  phone: "+96262220757",
   /** Where calls, WhatsApp buttons and the register form go (the sales number). */
-  phoneAction: "+962790029928",
-  whatsapp: "962790029928",
-  whatsappUrl: "https://wa.me/962790029928",
+  phoneAction: "+96262220757",
+  whatsapp: "96262220757",
+  whatsappUrl: "https://wa.me/96262220757",
   email: "",
   siteUrl: "https://giving-estate.com",
   mapsUrl: "https://www.google.com/maps?q=31.7330683,36.1140802&z=17",

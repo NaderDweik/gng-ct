@@ -4,6 +4,7 @@
  * PostHog analytics); the visible copy names no tools or vendors, by request; have it reviewed by the company's legal counsel before launch, and update
  * `updated` whenever the text changes. No em dashes in the copy.
  */
+import { displayPhone } from "@/lib/format";
 import { site } from "@/content/site";
 
 export type LegalSection = { heading: string; body: string[] };
@@ -11,7 +12,7 @@ export type LegalDoc = { title: string; lead: string; sections: LegalSection[] }
 
 export const legalUpdated = "2026-10-17";
 
-const phone = site.phone.replace(/^\+962(\d{2})(\d{3})(\d{4})$/, "+962 $1 $2 $3");
+const phone = displayPhone(site.phone);
 
 export const privacyPolicy: Record<"ar" | "en", LegalDoc> = {
   en: {

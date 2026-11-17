@@ -1,3 +1,4 @@
+import { displayPhone } from "@/lib/format";
 import { LoopVideo } from "@/components/ui/LoopVideo";
 import { SubpageHeader } from "@/components/ui/SubpageHeader";
 import { getTranslations, setRequestLocale } from "next-intl/server";
@@ -15,12 +16,7 @@ export function generateMetadata({ params }: Props) {
   return routeMetadata(params, "/register");
 }
 
-function formatPhone(phone: string) {
-  const d = phone.replace(/\D/g, "");
-  return d.startsWith("962") && d.length === 12
-    ? `+${d.slice(0, 3)} ${d.slice(3, 5)} ${d.slice(5, 8)} ${d.slice(8)}`
-    : phone;
-}
+const formatPhone = displayPhone;
 
 /* Line icons for the contact card (24px grid, drawn in currentColor). */
 const CONTACT_ICONS = {
