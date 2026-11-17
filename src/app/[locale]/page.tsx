@@ -58,7 +58,7 @@ export default async function HomePage({ params }: Props) {
       desc: isAr
         ? "أمن على مدار الساعة، بنية تحتية، ومساحات خضراء مخدومة لأسلوب حياة متكامل."
         : "24/7 security, infrastructure, and serviced green spaces for a complete lifestyle.",
-      img: "/gallery/photos/v-sculpture-avenue.jpg",
+      img: "/gallery/compoundPics/kids-cycling-community-street.jpg",
       icon: "pool" as UiIconName,
       kickerIcon: "trees" as UiIconName,
       cta: isAr ? "اكتشف المرافق" : "Discover amenities",
