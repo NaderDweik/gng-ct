@@ -78,13 +78,13 @@ export function ChatWidget() {
         </svg>
       </button>
 
-      <section id="cb-panel" className={`cb-panel${open ? " is-open" : ""}`} aria-label="مساعد روح العطاء" aria-hidden={!open} inert={!open}>
+      <section id="cb-panel" className={`cb-panel${open ? " is-open" : ""}`} aria-label="مساعد كمباوند شاليهات Giving" aria-hidden={!open} inert={!open}>
         <div className="cb-head">
           <div className="cb-avatar" aria-hidden>
             <span className="cb-avatar-v" />
           </div>
           <div className="cb-who">
-            <b>ليان · روح العطاء</b>
+            <b>ليان · كمباوند شاليهات Giving</b>
             <small>متصلة الآن · ترد خلال ثوانٍ</small>
           </div>
           <button type="button" className="cb-book" onClick={() => void chat.current?.book()}>

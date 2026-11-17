@@ -5,6 +5,12 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { collectDocs } from "./knowledge.mjs";
 import { homeFaqPreview } from "../src/content/faq.ts";
 
+// The client's rules (Nov 2026): Layan never states the 1% figure or interest, even when quoting
+// the site. Such sentences are dropped from site text (the wording itself is fixed when she speaks).
+const NEVER = /1\s?%|١٪|واحد بالمي[ةه]|فوائد|فائدة|فايدة|سحاب|الحطمي|الدوار السابع/;
+const scrub = (text) =>
+  text.split("\n").map((line) => line.split(/(?<=[.!؟])\s+/).filter((s) => !NEVER.test(s)).join(" ")).filter((l) => l.trim()).join("\n");
+
 const here = (p) => new URL(p, import.meta.url);
 const label = (q) => (q.includes("؟") ? q.split("؟")[0] + "؟" : q);
 
@@ -15,7 +21,7 @@ const answers = JSON.parse(readFileSync(here("answers.json"), "utf8"));
 
 // Layan's own Q&A (qa.json), written from the site's content.
 const qa = JSON.parse(readFileSync(here("qa.json"), "utf8")).entries.map((e) => ({
-  kind: "faq", id: e.id, title: e.title, url: e.url, q: e.q, text: e.answers[0],
+  kind: "faq", id: e.id, title: e.title, url: e.url, q: e.q, text: e.answers[0], match: e.match,
   phrasings: e.phrasings, answers: e.answers, topic: e.topic,
 }));
 const ids = new Set();
@@ -31,6 +37,7 @@ const docs = [...(await collectDocs()), ...qa].map((d) => {
   const topic = d.q && d.kind === "faq" ? topics[label(d.q)] : undefined;
   const own = d.q && d.kind === "faq" ? answers[label(d.q)] : undefined;
   const doc = { ...d, ...(extra && { phrasings: extra }), ...(topic && { topic }), ...(own && { answers: own }) };
+  if (doc.text && !doc.match) doc.text = scrub(doc.text) || doc.title || "";
   return doc;
 });
 

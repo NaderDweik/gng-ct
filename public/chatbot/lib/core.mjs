@@ -134,7 +134,8 @@ export function createSearch(rawDocs, embedder, { semWeight = 0.3, semFloor = 0.
   const docs = rawDocs.map((d) => {
     // Questions and phrasings count three times: they are how people actually ask.
     const asked = [d.q, ...(d.phrasings ?? [])].filter(Boolean).join(" ");
-    const words = d.q ? [...tokens(asked), ...tokens(asked), ...tokens(asked), ...tokens(d.text)] : tokens(`${d.title} ${d.text}`);
+    // `match`: the answer text as first written (qa.json), so rewording an answer doesn't move the search.
+    const words = d.q ? [...tokens(asked), ...tokens(asked), ...tokens(asked), ...tokens(d.match ?? d.text)] : tokens(`${d.title} ${d.text}`);
     return { ...d, tf: count(grams(words)), words: new Set(words), mvecs: d.vecs ? d.vecs.map(unpackVec) : embedder ? embedTexts(d).map(embedder.embed) : [] };
   });
   const df = new Map();

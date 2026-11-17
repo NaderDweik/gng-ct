@@ -113,22 +113,22 @@ export type MapActions = {
 export type ChaletAspect = "price" | "where" | "status" | "area" | "features";
 
 /** A one-message answer about one thing of a chalet («وكم سعره؟» after its card). */
-export function chaletLine(id: string, aspect: ChaletAspect, phone: string) {
+export function chaletLine(id: string, aspect: ChaletAspect) {
   const c = info(id);
-  const name = `الشاليه ${id}`;
+  const name = `شاليه ڤيلا ${id}`;
   switch (aspect) {
     case "price":
       return c.available && c.priceJd
-        ? `قسط ${name} الشهري ${nf.format(c.priceJd)} دينار 👌 وبدون فوائد.\nوللتفاصيل الكاملة والدفعة الأولى، فريق المبيعات بيعطيك الأرقام بدقة على ${phone}.`
-        : `سعر ${name} بيعطيك إياه فريق المبيعات بدقة 🙏 على ${phone} أو واتساب، وكمان في تقسيط بقسط شهري 1% بدون فوائد.`;
+        ? `الدفعة الشهرية ضمن التمويل لـ${name} ${nf.format(c.priceJd)} دينار 👌\nوتفاصيل الأسعار والدفعة الأولى بيوضحها إلك فريق المبيعات.`
+        : `تفاصيل سعر ${name} بيوضحها إلك فريق المبيعات 🙏 والتمويل من خلالنا مباشرة.`;
     case "status":
-      return c.available ? `إيه 😊 ${name} متاح حاليًا ✓` : `${name} مش متاح حاليًا 🔒 بس في شاليهات متاحة قريبة منه، شوفها على الخريطة.`;
+      return c.available ? `إيه 😊 ${name} متاح حاليًا ✓` : `${name} مش متاح حاليًا 🔒 بس في وحدات شاليه ڤيلا متاحة قريبة منه، شوفها على الخريطة.`;
     case "area":
       return c.area ? `أرض ${name} ${nf.format(c.area)} م² 🏡 والبناء 120 م² على طابق واحد.` : `${name} على أرض حوالي 500 م²، والبناء 120 م² على طابق واحد 🏡`;
     case "features":
       return c.features.length
         ? `أبرز إشي بميّز ${name}:\n${c.features.map((f) => `• ${f.ar}`).join("\n")}`
-        : `${name} زي كل شاليهات الكمباوند: مسبح خاص وجاكوزي، 3 غرف ماستر، وحديقة 🌿 وموقعه بكمباوند ${compoundOf(id)}.`;
+        : `${name} زي كل وحدات شاليه ڤيلا بالكمباوند: مسبح خاص وجاكوزي، 3 غرف ماستر، وحديقة 🌿 وموقعه بكمباوند ${compoundOf(id)}.`;
     case "where":
       return `${name} بكمباوند ${compoundOf(id)} 📍 هاي مكانه بالضبط 👇`;
   }
@@ -139,11 +139,11 @@ export function chaletCard(id: string, act: MapActions) {
   const u = unitOf(id);
   const c = info(id);
   const card = el("article", "cb-card cbm-card");
-  card.setAttribute("aria-label", `الشاليه ${id}`);
+  card.setAttribute("aria-label", `شاليه ڤيلا ${id}`);
 
   const open = el("button", "cbm-open");
   open.type = "button";
-  open.setAttribute("aria-label", `افتح خريطة الكمباوند على الشاليه ${id}`);
+  open.setAttribute("aria-label", `افتح خريطة الكمباوند على شاليه ڤيلا ${id}`);
   open.append(planWindow(u, "cbm-win--card"));
   const hint = el("span", "cbm-hint");
   hint.innerHTML = `${ICON.expand}<span>افتح الخريطة</span>`;
@@ -153,16 +153,16 @@ export function chaletCard(id: string, act: MapActions) {
   const body = el("div", "cbm-body");
   const head = el("div", "cbm-head");
   const title = el("h3", "cbm-title");
-  title.innerHTML = `شاليه <span dir="ltr">${id}</span>`;
+  title.innerHTML = `شاليه ڤيلا <span dir="ltr">${id}</span>`;
   head.append(title, status(c));
-  const where = el("p", "cbm-where", `كمباوند ${compoundOf(id)} · روح العطاء`);
+  const where = el("p", "cbm-where", `كمباوند ${compoundOf(id)} · شاليهات Giving`);
   const list = el("ul", "cbm-facts");
   for (const f of facts(c)) list.append(el("li", "", f));
   body.append(head, where, list);
 
   if (c.available && c.priceJd) {
     const price = el("p", "cbm-price");
-    price.innerHTML = `<span>القسط الشهري</span><strong>${nf.format(c.priceJd)} دينار</strong>`;
+    price.innerHTML = `<span>الدفعة الشهرية ضمن التمويل</span><strong>${nf.format(c.priceJd)} دينار</strong>`;
     body.append(price);
   }
   if (c.available && c.features.length) {
@@ -170,16 +170,16 @@ export function chaletCard(id: string, act: MapActions) {
     for (const f of c.features) feats.append(el("li", "", f.ar));
     body.append(feats);
   }
-  const desc = c.available ? c.descAr : "هذا الشاليه مش متاح حاليًا، بس في شاليهات متاحة قريبة منه، شوفها على الخريطة.";
+  const desc = c.available ? c.descAr : "شاليه ڤيلا هذا مش متاح حاليًا، بس في وحدات شاليه ڤيلا متاحة قريبة منه، شوفها على الخريطة.";
   if (desc) body.append(el("p", "cbm-desc", desc));
 
   const actions = el("div", "cbm-actions");
-  const book = el("button", "cbm-btn cbm-btn--main", c.available ? "احجز زيارة لهالشاليه" : "احجز زيارة");
+  const book = el("button", "cbm-btn cbm-btn--main", c.available ? "احجز زيارة لشاليه ڤيلا هذا" : "احجز زيارة");
   book.type = "button";
   book.onclick = () => act.onBook(c.available ? id : undefined);
   const map = el("button", "cbm-btn cbm-btn--ghost");
   map.type = "button";
-  map.innerHTML = `${ICON.map}<span>${c.available ? "شوف حوله" : "الشاليهات المتاحة"}</span>`;
+  map.innerHTML = `${ICON.map}<span>${c.available ? "شوف حوله" : "الوحدات المتاحة"}</span>`;
   map.onclick = () => openViewer(act, c.available ? id : undefined);
   actions.append(book, map);
   body.append(actions);
@@ -204,7 +204,7 @@ export function mapInvite(act: MapActions) {
     plan.append(dot);
   });
   const text = el("span", "cbm-invite-text");
-  text.innerHTML = `<b>خريطة الكمباوند</b><small>${units.length ? `${nf.format(units.length)} شاليه متاح · اضغط وتصفّح` : "اضغط وتصفّح الشاليهات"}</small>`;
+  text.innerHTML = `<b>خريطة الكمباوند</b><small>${units.length ? `${nf.format(units.length)} شاليه متاح · اضغط وتصفّح` : "اضغط وتصفّح وحدات شاليه ڤيلا"}</small>`;
   const go = el("span", "cbm-invite-go");
   go.innerHTML = ICON.arrow;
   const bar = el("span", "cbm-invite-bar");
@@ -229,7 +229,7 @@ export function openViewer(act: MapActions, focusId?: string) {
   const head = el("div", "cbm-v-head");
   const htxt = el("div", "cbm-v-title");
   const units = available();
-  htxt.innerHTML = `<b>خريطة الكمباوند</b><small><i class="cbm-legend"></i>${nf.format(units.length)} شاليه متاح</small>`;
+  htxt.innerHTML = `<b>خريطة الكمباوند</b><small><i class="cbm-legend"></i>${nf.format(units.length)} شاليه ڤيلا متاح</small>`;
   const close = el("button", "cbm-v-close");
   close.type = "button";
   close.setAttribute("aria-label", "إغلاق الخريطة");
@@ -240,7 +240,7 @@ export function openViewer(act: MapActions, focusId?: string) {
   const layer = el("div", "cbm-layer");
   const img = el("img", "cbm-plan");
   img.src = FULL;
-  img.alt = "مخطط كمباوند روح العطاء";
+  img.alt = "مخطط كمباوند شاليهات Giving";
   img.draggable = false;
   img.decoding = "async";
   layer.append(img);
@@ -252,7 +252,7 @@ export function openViewer(act: MapActions, focusId?: string) {
     d.type = "button";
     d.style.left = `${u.x}%`;
     d.style.top = `${u.y}%`;
-    d.setAttribute("aria-label", `الشاليه ${u.id}، متاح`);
+    d.setAttribute("aria-label", `شاليه ڤيلا ${u.id}، متاح`);
     d.onclick = (e) => {
       e.stopPropagation();
       select(u.id, true);
@@ -277,7 +277,7 @@ export function openViewer(act: MapActions, focusId?: string) {
   tool(ICON.plus, "تكبير", () => zoomAt(view.s * 1.8));
   tool(ICON.minus, "تصغير", () => zoomAt(view.s / 1.8));
   tool(ICON.fit, "عرض الخريطة كاملة", () => animate(home()));
-  const hint = el("div", "cbm-v-hint", "اسحب للتنقّل · كبّر بإصبعين · اضغط على أي شاليه");
+  const hint = el("div", "cbm-v-hint", "اسحب للتنقّل · كبّر بإصبعين · اضغط على أي شاليه ڤيلا");
   stage.append(tools, hint);
 
   const sheetEl = el("div", "cbm-v-sheet");
@@ -352,7 +352,7 @@ export function openViewer(act: MapActions, focusId?: string) {
     sheetEl.replaceChildren();
     const top = el("div", "cbm-s-top");
     const t = el("div", "cbm-s-title");
-    t.innerHTML = `<b>شاليه <span dir="ltr">${id}</span></b><small>كمباوند ${compoundOf(id)}</small>`;
+    t.innerHTML = `<b>شاليه ڤيلا <span dir="ltr">${id}</span></b><small>كمباوند ${compoundOf(id)}</small>`;
     top.append(t, status(c));
     const list = el("ul", "cbm-facts");
     for (const f of facts(c)) list.append(el("li", "", f));
@@ -363,7 +363,7 @@ export function openViewer(act: MapActions, focusId?: string) {
       shut();
       act.onDetails(id);
     };
-    const book = el("button", "cbm-btn cbm-btn--main", c.available ? "احجز زيارة" : "شاليه متاح قريب");
+    const book = el("button", "cbm-btn cbm-btn--main", c.available ? "احجز زيارة" : "شاليه ڤيلا متاح قريب");
     book.type = "button";
     book.onclick = () => {
       if (c.available) {

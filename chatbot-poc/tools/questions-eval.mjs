@@ -141,6 +141,7 @@ export function outcome(o) {
   if (o.card?.type === "chalet") return `chalet:${o.card.id}`;
   if (o.card?.type === "map") return /ما لقيت شاليه/.test(text) ? "chalet:?" : "map";
   if (o.action === "book") return "book";
+  if (o.action === "call") return "call";
   if (o.source) return docTag(o.source);
   if (o.state?.offer && /بتسأل عن|قصدك/.test(text)) return "ask";
   return "nosource";
@@ -158,7 +159,8 @@ export function judge(tag, o) {
   // Reply kinds (convo.mjs KINDS): no site answer, and the reply is of that kind (or a near one).
   else if (/^(chat|off)-/.test(tag)) ok = got === "nosource" && (o.kind === tag || (NEAR_KIND[tag] ?? []).includes(o.kind));
   else if (tag === "persona") ok = got === "nosource" && /ليان|Layan|مساعد[ةه] رقمي|أنا |انا |عمري|جهّزني|اختارلي|بجاوبك/.test(text);
-  else if (tag === "contact") ok = /0790029928|962 ?79/.test(text.replace(/\s/g, " "));
+  // Asking for a person opens the call request (the client's rules, Nov 2026); the number is fine too.
+  else if (tag === "contact") ok = o.action === "call" || /0790029928|962 ?79/.test(text.replace(/\s/g, " "));
   // English: an English reply, or the right answer from the site (in Arabic) for a question about it.
   else if (tag === "english") ok = latin > 20 || !!o.source || !!o.card;
   else if (tag === "map") ok = got === "map";

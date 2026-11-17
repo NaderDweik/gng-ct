@@ -67,7 +67,8 @@ export function visitWhatsAppUrl(r: VisitRequest, locale: string) {
     `${isAr ? "الاسم" : "Name"}: ${r.name.trim()}`,
     `${isAr ? "الهاتف" : "Phone"}: ${fullPhone(r)}`,
     r.chalet ? `${isAr ? "الشاليه" : "Chalet"}: ${r.chalet}` : "",
-    `${isAr ? "موعد الزيارة" : "Visit"}: ${isAr ? when : when.replace("،", ",")}`,
+    // A call request from the chat assistant has no visit time.
+    when ? `${isAr ? "موعد الزيارة" : "Visit"}: ${isAr ? when : when.replace("،", ",")}` : "",
     `${isAr ? "المكان" : "Place"}: ${isAr ? "كمباوند شاليهات روح العطاء، عمّان، الأردن" : "Giving Compound chalets, Amman, Jordan"}`,
     r.message.trim() ? `${isAr ? "الرسالة" : "Message"}: ${r.message.trim()}` : "",
   ]

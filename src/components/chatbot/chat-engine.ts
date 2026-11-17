@@ -13,8 +13,10 @@ const CLS_WEIGHT = 0.3;
 const PHONE = "0790029928";
 
 type Card = { type: "chalet"; id: string; aspect?: "price" | "where" | "status" | "area" | "features" } | { type: "map" };
-type Reply = { parts?: string[]; reply?: string; state?: { chalet?: string }; source?: object; suggestions?: string[]; action?: "book"; card?: Card };
+type Reply = { parts?: string[]; reply?: string; state?: { chalet?: string }; source?: object; suggestions?: string[]; action?: "book" | "call"; card?: Card };
 type Brain = { reply: (text: string, state: object) => Reply };
+/** The client's wording (public/chatbot/lib/voice.mjs), once the brain has loaded. */
+let voice = (text: string) => text;
 type Loaded = { brain: Brain; starters: string[] };
 
 export type ChatEls = {
@@ -38,7 +40,8 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
   // The compound map in the chat (chat-map.ts): its own chunk, loaded with the brain.
   let mapMod: Promise<typeof import("./chat-map")> | null = null;
   const loadMap = () => (mapMod ??= import("./chat-map"));
-  let state: { chalet?: string } = {};
+  // `lead`: the visitor left a number (a visit or call request), so Layan may promise a call.
+  let state: { chalet?: string; lead?: boolean } = {};
   let started = false;
   let busy = false;
   let disposed = false;
@@ -66,7 +69,7 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
 
   function loadBrain() {
     return (loading ??= (async () => {
-      const [{ createEmbedder }, { createSearch }, { createBrain }, { createClassifier, createEnsemble }, vocab, kb, map, members] = await Promise.all([
+      const [{ createEmbedder }, { createSearch }, { createBrain, voice: wording }, { createClassifier, createEnsemble }, vocab, kb, map, members] = await Promise.all([
         load("/lib/embed.mjs"),
         load("/lib/core.mjs"),
         load("/brain.mjs"),
@@ -91,7 +94,11 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
       progress = 100;
       const voters = embedder ? (members as [object, ArrayBuffer][]).map(([meta, bin]) => createClassifier(meta, bin, embedder)) : [];
       const classifier = voters.length ? createEnsemble(voters) : null;
-      return { brain: createBrain(createSearch(kb.docs, embedder, { classifier, clsWeight: CLS_WEIGHT }), { phone: PHONE, starters: kb.starters, chalets: map.chaletIds }), starters: kb.starters };
+      voice = wording;
+      // Question labels, so a tapped button (shown in the client's wording) maps back to its question.
+      const labels = (kb.docs as { q?: string }[]).flatMap((d) => (d.q ? [d.q.includes("؟") ? d.q.split("؟")[0] + "؟" : d.q] : []));
+      const brain = createBrain(createSearch(kb.docs, embedder, { classifier, clsWeight: CLS_WEIGHT }), { phone: PHONE, starters: kb.starters, chalets: map.chaletIds, labels });
+      return { brain, starters: kb.starters };
     })());
   }
 
@@ -125,7 +132,8 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
       s.textContent = label;
       box.append(s);
     }
-    for (const q of list) {
+    for (const raw of list) {
+      const q = voice(raw);
       const b = document.createElement("button");
       b.type = "button";
       b.textContent = q;
@@ -170,11 +178,11 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
       const stop = thinking();
       await wait(700);
       stop();
-      await typeOut(bubble("bot"), "أهلين فيك بروح العطاء 👋");
+      await typeOut(bubble("bot"), "أهلين فيك بكمباوند شاليهات Giving 👋");
       const pause = thinking(true);
       await wait(800);
       pause();
-      await typeOut(bubble("bot"), "معك ليان 😊 اسألني عن أي إشي: الشاليهات، الخدمات، الموقع، أو التقسيط. وبقدر أحجزلك زيارة من هون كمان.");
+      await typeOut(bubble("bot"), "معك ليان 😊 اسألني عن أي إشي: وحدات شاليه ڤيلا، الخدمات، الموقع، أو التمويل. وبقدر أحجزلك زيارة من هون كمان.");
     });
     try {
       const { starters } = await ready;
@@ -203,7 +211,7 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
     const pause = thinking(true);
     await wait(quick ? 450 : 750);
     pause();
-    await typeOut(bubble("bot"), text);
+    await typeOut(bubble("bot"), voice(text));
   }
 
   const booking = createBooking({
@@ -216,6 +224,7 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
     scroll,
     run,
     onEnd: () => {},
+    onLead: () => (state = { ...state, lead: true }),
     setMode,
     showCountry,
   });
@@ -261,8 +270,8 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
       await typeOut(bubble("bot"), parts[i]);
     }
     if (data.card) await showCard(data.card);
-    if (data.action === "book") {
-      if (!booking.active) await booking.start(state.chalet);
+    if (data.action === "book" || data.action === "call") {
+      if (!booking.active) await booking.start(state.chalet, data.action === "call" ? "call" : "visit");
       return;
     }
     // Mid-booking, no side suggestions: the booking picks up right after.
@@ -279,16 +288,16 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
     pause();
     // A follow-up about one thing of the chalet in focus: answered in a line, its card only for «where».
     if (card.type === "chalet" && card.aspect) {
-      await typeOut(bubble("bot"), map.chaletLine(card.id, card.aspect, PHONE));
+      await typeOut(bubble("bot"), voice(map.chaletLine(card.id, card.aspect)));
       if (card.aspect !== "where") {
-        chips([BOOK_CHIP, `تفاصيل الشاليه ${card.id}`], null);
+        chips([BOOK_CHIP, `تفاصيل شاليه ڤيلا ${card.id}`], null);
         return;
       }
     }
     const panel = log.closest<HTMLElement>(".cb-panel") ?? log;
     const act = {
       panel,
-      onDetails: (id: string) => void sendQuiet(`تفاصيل الشاليه ${id}`, { type: "chalet", id }),
+      onDetails: (id: string) => void sendQuiet(`تفاصيل شاليه ڤيلا ${id}`, { type: "chalet", id }),
       onBook: (id?: string) => void book(id),
     };
     log.append(card.type === "chalet" ? map.chaletCard(card.id, act) : map.mapInvite(act));
@@ -301,9 +310,9 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
       log.querySelectorAll(".cb-chips").forEach((c) => c.remove());
       bubble("me").textContent = text;
       if (card.type === "chalet") state = { ...state, chalet: card.id };
-      await say(`هاي تفاصيل الشاليه ${card.type === "chalet" ? card.id : ""} 👇`, true);
+      await say(`هاي تفاصيل شاليه ڤيلا ${card.type === "chalet" ? card.id : ""} 👇`, true);
       await showCard(card);
-      chips(["ما المرافق داخل الشاليه؟", BOOK_CHIP], null);
+      chips(["ما المرافق داخل الشاليه؟", BOOK_CHIP], null); // voice: key
     });
   }
 
@@ -313,7 +322,7 @@ export function createChat({ log, input, send: sendBtn, form, bar, setMode, show
     if (booking.active) return;
     await run(async () => {
       log.querySelectorAll(".cb-chips").forEach((c) => c.remove());
-      bubble("me").textContent = chalet ? `بدي أحجز زيارة للشاليه ${chalet}` : "بدي أحجز زيارة";
+      bubble("me").textContent = chalet ? `بدي أحجز زيارة لشاليه ڤيلا ${chalet}` : "بدي أحجز زيارة";
       await booking.start(chalet);
     });
   }
