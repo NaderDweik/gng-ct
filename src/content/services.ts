@@ -71,6 +71,7 @@ export const upcomingServices: UpcomingService[] = [
 ];
 
 const C = "/gallery/compoundPics";
+const P = "/gallery/photos";
 
 /**
  * Photo shown in the /services viewer for each available service. 3-phase
@@ -79,24 +80,24 @@ const C = "/gallery/compoundPics";
  */
 export const servicePhotos: Record<string, string> = {
   "walls-gates": `${C}/main-entrance-gate-sunset.jpg`,
-  security: `${C}/security-guards-patrol-compound-o.jpg`,
-  planting: `${C}/gardeners-landscaping-park.jpg`,
-  housekeeping: `${C}/housekeeping-team.jpg`,
-  water: `${C}/water-tower-billboard.jpg`,
-  maintenance: `${C}/engineers-site-office.jpg`,
-  supermarket: `${C}/fast-shop-mini-market.jpg`,
+  security: `${P}/compound-j-gate.jpg`,
+  planting: `${P}/park-landscaping.jpg`,
+  housekeeping: `${P}/housekeeping.jpg`,
+  water: `${P}/water-tower.jpg`,
+  maintenance: `${P}/service-building-a.jpg`,
+  supermarket: `${P}/fast-shop.jpg`,
   power: `${C}/solar-farm-building-store.jpg`,
-  streets: `${C}/golf-cart-shuttle-street.jpg`,
-  golf: `${C}/mini-golf-putting-green.jpg`,
-  gardens: `${C}/community-park-families.jpg`,
-  bikes: `${C}/kids-cycling-community-street.jpg`,
+  streets: `${P}/golf-cart-shuttle.jpg`,
+  golf: `${P}/mini-golf-lawn.jpg`,
+  gardens: `${P}/park-paths-planting.jpg`,
+  bikes: `${P}/tree-lined-avenue.jpg`,
   reception: `${C}/reception-building.jpg`,
-  prayer: `${C}/mosque-at-sunset.jpg`,
+  prayer: `${P}/mosque.jpg`,
   sidewalks: `${C}/palm-roundabout-flower-bed-hd.jpg`,
-  development: `${C}/construction-crew-building-walls.jpg`,
+  development: `${P}/resorts-under-construction.jpg`,
   "street-lights": `${C}/street-lights-night.jpg`,
-  well: `${C}/water-tower-billboard.jpg`,
-  "dry-clean": `${C}/housekeeping-team.jpg`,
+  well: `${P}/water-tower.jpg`,
+  "dry-clean": `${P}/housekeeping.jpg`,
   "building-materials": `${C}/solar-farm-building-store.jpg`,
 };
 

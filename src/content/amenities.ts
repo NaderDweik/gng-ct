@@ -42,7 +42,7 @@ export const amenityFeatures: AmenityFeature[] = [
       "كل شاليه يتضمن مسبحاً خاصاً ومسبح أطفال. خصوصية كاملة داخل شاليهك، لا مشاركة مع الجيران.",
     descEn:
       "Every resort includes a private main pool and kids’ pool. Full privacy inside your unit, never shared with neighbors.",
-    image: "/gallery/resortsPics/swimmer-pool-waterfall.jpg",
+    image: "/gallery/photos/pool-waterfall.jpg",
   },
   {
     id: "interior",
@@ -57,7 +57,7 @@ export const amenityFeatures: AmenityFeature[] = [
       "غرفة معيشة عصرية، مطبخ مجهز بالكامل، وغرف نوم تطل على المسبح. تشطيبات فاخرة وضوء طبيعي في كل زاوية.",
     descEn:
       "Warm living rooms with a fireplace, a fully fitted kitchen, and bedrooms that open onto the pool. Premium finishes and natural light throughout.",
-    image: "/gallery/resortsPics/family-living-room.jpg",
+    image: "/gallery/photos/living-room.jpg",
   },
   {
     id: "jacuzzi",
@@ -87,7 +87,7 @@ export const amenityFeatures: AmenityFeature[] = [
       "برجولا وشواء خاص وطاولة لثمانية أشخاص بجانب مسبحك، أسلوب حياة راقي وممتع.",
     descEn:
       "Your own pergola, grill and a table for eight beside your pool: outdoor living inside your chalet.",
-    image: "/gallery/resortsPics/father-son-bbq-grill.jpg",
+    image: "/gallery/photos/bbq-stone-dining.jpg",
   },
   {
     id: "kids",
@@ -102,7 +102,7 @@ export const amenityFeatures: AmenityFeature[] = [
       "ملعب عشب ورقعة شطرنج عملاقة داخل شاليهك، يلعب فيها الأطفال وأنت تراهم من المسبح.",
     descEn:
       "A lawn with a slide and a giant chessboard inside your chalet, where the kids play in sight of the pool.",
-    image: "/gallery/resortsPics/foosball-kids-pool.jpg",
+    image: "/gallery/photos/kids-play-garden.jpg",
   },
   {
     id: "green",
@@ -117,7 +117,7 @@ export const amenityFeatures: AmenityFeature[] = [
       "مسطحات خضراء على جانبي البيت بجلسات وأرجوحة، حديقتك أنت داخل حدود الشاليه.",
     descEn:
       "Lawns on both sides of the house with seating and a swing: your own garden, inside the chalet’s boundary.",
-    image: "/gallery/resortsPics/garden-lounge-kids-swing.jpg",
+    image: "/gallery/photos/garden-chairs-swing.jpg",
   },
   {
     id: "walls",
@@ -132,7 +132,7 @@ export const amenityFeatures: AmenityFeature[] = [
       "أسوار بارتفاع 3 أمتار حول كل شاليه: خصوصية بصرية وصوتية تجعل شاليهك عالماً خاصاً بك.",
     descEn:
       "Three-meter walls around every unit: visual and acoustic privacy that makes your resort truly yours.",
-    image: "/gallery/resortsPics/family-entering-resort-front-door.jpg",
+    image: "/gallery/photos/resort-a9-entrance.jpg",
   },
   {
     id: "parking",
@@ -147,6 +147,6 @@ export const amenityFeatures: AmenityFeature[] = [
       "كراج لسيارتين ضمن حدود الشاليه، تصل منه إلى شاليهك مباشرة.",
     descEn:
       "A two-car garage within the chalet’s boundary, behind the privacy walls, straight to your front door.",
-    image: "/gallery/resortsPics/family-arriving-resort-a9-garage.jpg",
+    image: "/gallery/photos/resort-a9-garage.jpg",
   },
 ];

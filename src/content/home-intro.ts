@@ -4,9 +4,9 @@
  * 1672 px gallery original, then resized) so it stays sharp on retina screens.
  */
 export const homeIntro = {
-  image: "/home/intro-swimmer-pool-waterfall.jpg",
-  /** The 3:2 frame trims the 16:9 photo's sides; this keeps the swimmer in. */
-  focus: "80% 50%",
+  image: "/gallery/photos/pool-waterfall.jpg",
+  /** The 3:2 frame trims the 16:9 photo's sides; this keeps the waterfall in. */
+  focus: "35% 50%",
   href: "/chalet",
   en: {
     eyebrow: "About Giving Compound",
