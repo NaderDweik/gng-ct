@@ -67,12 +67,10 @@ export const heroLayered = {
       descEn: "500 m² private resorts with Spanish design.",
     },
     {
-      // Giant chess over the pool at the Giving Royal clubhouse.
-      background: "/hero/giant-chess-poolside-royal-4k.jpg",
-      focus: "50% 60%",
-      // Same scene shot upright (1536 × 2752) for portrait screens; the sign sits high.
-      mobileBackground: "/hero/giant-chess-poolside-royal-mobile-responsive.jpg",
-      mobileFocus: "50% 50%",
+      // Giant chess over the pool at the Giving Royal clubhouse: the real photo (Nov 2026,
+      // 1672 px upscaled to 3840), no people. No upright version: phones crop it around the board.
+      background: "/hero/giant-chess-pool-real-4k.jpg",
+      focus: "52% 60%",
       titleAr: ["عالمك الخاص،", "مخدوم بالكامل."],
       titleEn: ["A Private World,", "Fully Serviced."],
       descAr: "مسابح، أمن، ألياف ضوئية، وتمويل مباشر من خلالنا.",
