@@ -245,11 +245,11 @@ export const dayScenes: Record<DayMode, DayScene[]> = {
   day: [
     { src: `${P}/royal-resort-pool.jpg`, time: 480, titleEn: "Morning by the pool", titleAr: "صباح بجانب المسبح" },
     { src: `${P}/foosball-poolside.jpg`, time: 630, titleEn: "A round of foosball", titleAr: "جولة بيبي فوت" },
-    { src: `${P}/giant-chess-pool.jpg`, time: 600, titleEn: "Chess by the water", titleAr: "شطرنج بجانب الماء", focus: "50% 60%" },
+    { src: `${P}/tree-lined-avenue.jpg`, time: 600, titleEn: "A slow stroll", titleAr: "تمشية هادئة", focus: "42% 55%" },
     { src: `${P}/poolside-dining-bbq.jpg`, time: 780, titleEn: "Lunch by the pool", titleAr: "غداء بجانب المسبح" },
     { src: `${P}/pergola-lounge.jpg`, time: 990, titleEn: "Afternoon under the pergola", titleAr: "عصرية تحت البرجولة" },
     { src: `${P}/pool-tent-pavilion.jpg`, time: 900, titleEn: "Shade in the pavilion", titleAr: "ظل الخيمة" },
-    { src: `${P}/tree-lined-avenue.jpg`, time: 1050, titleEn: "A walk down the avenue", titleAr: "تمشية في الشارع" },
+    { src: `${P}/giant-chess-pool.jpg`, time: 1050, titleEn: "Chess by the water", titleAr: "شطرنج بجانب الماء" },
   ],
   night: [
     { src: `${P}/palm-roundabout-sunset.jpg`, time: 1110, titleEn: "Sunset at the roundabout", titleAr: "الغروب عند الدوّار" },
