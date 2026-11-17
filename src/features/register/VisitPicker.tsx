@@ -26,7 +26,7 @@ export type VisitDay = { key: string; date: Date; booked: number[]; closed: bool
 const pad = (n: number) => String(n).padStart(2, "0");
 const dateKey = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 
-function upcomingDays(): VisitDay[] {
+export function upcomingDays(): VisitDay[] {
   const days: VisitDay[] = [];
   const d = new Date();
   d.setHours(0, 0, 0, 0);

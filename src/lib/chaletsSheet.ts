@@ -127,44 +127,54 @@ function readSheet(text: string): Map<string, Row> {
   return map;
 }
 
+/** The sheet, read once per visit and shared by the map and the chat (null when unreachable). */
+let sheetOnce: Promise<Map<string, Row> | null> | null = null;
+export function loadChaletSheet(): Promise<Map<string, Row> | null> {
+  if (!chaletsSheetCsvUrl) return Promise.resolve(null);
+  const url = chaletsSheetCsvUrl;
+  const load = () =>
+    fetch(url, { cache: "no-store" }).then((r) => (r.ok ? r.text() : Promise.reject(new Error(String(r.status)))));
+  // Google now and then bounces a request to its sign-in page; one retry gets through.
+  return (sheetOnce ??= load()
+    .catch(() => new Promise((ok) => setTimeout(ok, 1500)).then(load))
+    .then(readSheet)
+    .catch(() => {
+      // Sheet unreachable: the built-in data stays. Try again next time it's asked for.
+      sheetOnce = null;
+      return null;
+    }));
+}
+
+/** A chalet's details: built in, overridden by its sheet row when there is one. */
+export function chaletInfo(id: string, sheet: Map<string, Row> | null): ChaletInfo {
+  const base = builtIn(id);
+  const row = sheet?.get(id);
+  if (!row) return base;
+  return {
+    available: row.available ?? base.available,
+    area: row.area ?? base.area,
+    bedrooms: row.bedrooms ?? base.bedrooms,
+    pool: row.pool ?? base.pool,
+    descAr: row.descAr,
+    descEn: row.descEn,
+    priceJd: row.priceJd,
+    features: row.features ?? base.features,
+  };
+}
+
 /** Everything the map needs about a chalet, with the sheet's values once they've loaded. */
 export function useChaletData() {
   const [sheet, setSheet] = useState<Map<string, Row> | null>(null);
 
   useEffect(() => {
-    if (!chaletsSheetCsvUrl) return;
     let alive = true;
-    const load = () =>
-      fetch(chaletsSheetCsvUrl, { cache: "no-store" }).then((r) =>
-        r.ok ? r.text() : Promise.reject(new Error(String(r.status))),
-      );
-    // Google now and then bounces a request to its sign-in page; one retry gets through.
-    load()
-      .catch(() => new Promise((ok) => setTimeout(ok, 1500)).then(load))
-      .then((t) => alive && setSheet(readSheet(t)))
-      .catch(() => {
-        // Sheet unreachable: the built-in data stays.
-      });
+    void loadChaletSheet().then((m) => alive && m && setSheet(m));
     return () => {
       alive = false;
     };
   }, []);
 
-  const info = (id: string): ChaletInfo => {
-    const base = builtIn(id);
-    const row = sheet?.get(id);
-    if (!row) return base;
-    return {
-      available: row.available ?? base.available,
-      area: row.area ?? base.area,
-      bedrooms: row.bedrooms ?? base.bedrooms,
-      pool: row.pool ?? base.pool,
-      descAr: row.descAr,
-      descEn: row.descEn,
-      priceJd: row.priceJd,
-      features: row.features ?? base.features,
-    };
-  };
+  const info = (id: string): ChaletInfo => chaletInfo(id, sheet);
 
   return { info, isAvailable: (id: string) => info(id).available, loaded: sheet !== null };
 }

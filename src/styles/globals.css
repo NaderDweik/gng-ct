@@ -22,6 +22,7 @@
 @import "./base/sticky-bar.css";
 @import "./base/action-bar.css";
 @import "./base/cookie-notice.css";
+@import "./base/chatbot.css";
 @import "./base/smooth-image.css";
 
 @import "./sections/home.css";
